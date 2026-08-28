@@ -87,13 +87,6 @@
             transition: transform 0.2s ease, border-color 0.2s ease;
         }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(14px);
-            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-
         .header-greeting { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4px; }
         .header-sub { color: var(--text-muted); font-size: 14px; margin-bottom: 18px; }
 
@@ -148,7 +141,7 @@
         }
         .btn-action:active { opacity: 0.85; transform: scale(0.97); }
 
-        /* 🏝️ الشريط السفلي الذكي الجديد (3 أزرار متناسقة) */
+        /* 🏝️ شريط التنقل السفلي */
         .bottom-nav-dock {
             position: fixed;
             bottom: 16px;
@@ -187,7 +180,6 @@
         .dock-btn.active { background: var(--primary-light); color: var(--primary); }
         .dock-btn:active { transform: scale(0.95); }
 
-        /* 📑 القائمة المنسدلة للأعلى */
         .dock-menu-popup {
             position: fixed;
             bottom: 85px;
@@ -237,6 +229,7 @@
             border-bottom: 1px solid var(--border);
             font-size: 14px;
             gap: 10px;
+            word-break: break-word;
         }
         .list-row:last-child { border-bottom: none; }
 
@@ -300,18 +293,16 @@
         
         <!-- 🍃 1. الشاشة الرئيسية -->
         <div id="dashboard" class="section active">
-            <div class="reveal">
+            <div>
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <div class="header-greeting" style="margin-bottom:0;">طاب يومك.</div>
-                    </div>
+                    <div class="header-greeting">طاب يومك.</div>
                     <button onclick="toggleTheme()" style="background:var(--surface-subtle); border:1px solid var(--border); width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:16px;">🌙</button>
                 </div>
-                <div class="header-sub" style="margin-top:4px;">بياناتك وتنبيهاتك الشخصية بتزامن فوري</div>
+                <div class="header-sub">بياناتك وتنبيهاتك الشخصية بتزامن فوري</div>
             </div>
 
             <!-- ⏰ شريط التنبيهات الفوري -->
-            <div class="card reveal">
+            <div class="card">
                 <div style="font-size:13px; font-weight:800; color:var(--primary); margin-bottom:10px;">⏰ تنبيه وتذكير سريع</div>
                 
                 <div class="presets-bar">
@@ -332,10 +323,10 @@
             </div>
 
             <!-- التنبيهات المباشرة -->
-            <div id="dashRemindersContainer" class="reveal"></div>
+            <div id="dashRemindersContainer"></div>
 
             <!-- ملخص المصاريف -->
-            <div class="card reveal" style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
                     <div style="font-size:12px; font-weight:700; color:var(--text-muted);">مصاريف الشهر الحالي</div>
                     <div style="font-size:28px; font-weight:900; margin-top:2px;" id="dashSpent">0 <span style="font-size:16px; color:var(--text-muted);">₪</span></div>
@@ -344,7 +335,7 @@
             </div>
 
             <!-- مهام ومصاريف اليوم -->
-            <div class="card reveal">
+            <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <strong style="font-size:15px;">✅ مهام اليوم</strong>
                     <span id="dashTodoCount" style="font-size:12px; color:var(--text-muted);">0 مهام</span>
@@ -356,7 +347,7 @@
                 <div id="dashTodosList"></div>
             </div>
 
-            <div class="card reveal">
+            <div class="card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <strong style="font-size:15px;">💸 صرف اليوم</strong>
                     <span id="dashExpensesTotal" style="font-size:14px; font-weight:800; color:var(--accent-red);">0 ₪</span>
@@ -419,17 +410,32 @@
             <div class="card" id="docsContainer"></div>
         </div>
 
-        <!-- 🔐 6. الخزنة المشفرة -->
+        <!-- 🔐 6. الخزنة المشفرة والملاحظات -->
         <div id="vault-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">🔐 الخزنة المشفرة</h2>
+            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">🔐 الخزنة والملاحظات</h2>
+            
             <div class="card">
+                <strong style="font-size:14px; display:block; margin-bottom:10px;">🔐 حساب جديد بالخزنة</strong>
                 <form onsubmit="saveVaultItem(event)" class="quick-input-row">
                     <input type="text" id="vaultName" placeholder="الحساب / الإيميل" class="app-input" required>
                     <input type="text" id="vaultPassword" placeholder="كلمة المرور" class="app-input" required>
-                    <button type="submit" class="btn-action">حفظ بالخزنة</button>
+                    <button type="submit" class="btn-action">حفظ</button>
                 </form>
+                <div id="vaultContainer" style="margin-top:14px;"></div>
             </div>
-            <div class="card" id="vaultContainer"></div>
+
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <strong style="font-size:14px;">📝 الملاحظات والتسجيلات</strong>
+                    <button onclick="startVoiceRecording()" class="btn-action" style="background:var(--accent-red); padding:6px 12px; font-size:12px;">🎙️ تسجيل</button>
+                </div>
+                <form onsubmit="saveNote(event)" style="display:flex; flex-direction:column; gap:8px;">
+                    <input type="text" id="noteTitle" placeholder="العنوان..." class="app-input">
+                    <textarea id="noteBody" rows="2" placeholder="اكتب ملاحظتك..." class="app-input" required></textarea>
+                    <button type="submit" class="btn-action" style="align-self:flex-start;">حفظ الملاحظة</button>
+                </form>
+                <div id="notesContainer" style="margin-top:14px;"></div>
+            </div>
         </div>
 
         <!-- ⚙️ 7. الإعدادات -->
@@ -437,9 +443,9 @@
             <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">⚙️ الأمان والإعدادات</h2>
             <div class="card">
                 <strong style="font-size:14px; display:block; margin-bottom:10px;">🛡️ النسخ الاحتياطي السحابي</strong>
-                <div style="display:flex; gap:8px;">
-                    <button onclick="exportData()" class="btn-action" style="flex:1;">📥 تصدير ملف النسخة</button>
-                    <button onclick="requestNotificationPermission()" class="btn-action" style="flex:1; background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border);">🔔 إذن الإشعارات</button>
+                <div style="display:flex; gap:8px; flex-direction:column;">
+                    <button onclick="exportData()" class="btn-action" style="width:100%;">📥 تصدير ملف النسخة الاحتياطية</button>
+                    <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); width:100%;">🔔 تفعيل إذن الإشعارات</button>
                 </div>
             </div>
         </div>
@@ -456,7 +462,7 @@
         <button class="menu-item-btn" onclick="startVoiceFromMenu()" style="color:var(--accent-red);">🎙️ تسجيل صوتي</button>
     </div>
 
-    <!-- 🏝️ الشريط السفلي الذكي (3 أزرار متوازنة) -->
+    <!-- 🏝️ الشريط السفلي الذكي -->
     <div class="bottom-nav-dock">
         <button class="dock-btn active" id="btnNavHome" onclick="switchMainTab('dashboard', this)">🏠 الرئيسية</button>
         <button class="dock-btn" id="btnNavMenu" onclick="toggleDockMenu()">📑 الأقسام والمهام</button>
@@ -535,26 +541,14 @@
             const data = snapshot.val();
             if (data) {
                 const normalized = normalizeDB(data);
-                if (JSON.stringify(normalized) !== JSON.stringify(db)) {
-                    db = normalized;
-                    localStorage.setItem('myLifeAppDB', JSON.stringify(db));
-                    updateUI();
-                    showToast('🔄 تم التحديث');
-                }
+                db = normalized;
+                localStorage.setItem('myLifeAppDB', JSON.stringify(db));
+                updateUI();
+                showToast('🔄 تم جلب البيانات');
             }
         });
 
-        // --- 2. محرك التمرير السلس (Scroll-Driven Reveal) ---
-        function initScrollObserver() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                });
-            }, { threshold: 0.08 });
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-        }
-
-        // --- 3. التنقل وشريط الدوك الذكي الجديد ---
+        // --- 2. التنقل وشريط الدوك الذكي ---
         function closeDockMenu() {
             document.getElementById('dockMenuPopup').classList.remove('open');
             document.getElementById('btnNavMenu').classList.remove('active');
@@ -577,7 +571,7 @@
             if(btnEl) btnEl.classList.add('active');
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            setTimeout(initScrollObserver, 50);
+            updateUI();
         }
 
         function openSectionFromMenu(sectionId) {
@@ -589,7 +583,7 @@
             if(target) target.classList.add('active');
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            setTimeout(initScrollObserver, 50);
+            updateUI();
         }
 
         function startVoiceFromMenu() {
@@ -600,12 +594,12 @@
         document.addEventListener('click', (e) => {
             const popup = document.getElementById('dockMenuPopup');
             const btn = document.getElementById('btnNavMenu');
-            if (popup.classList.contains('open') && !popup.contains(e.target) && !btn.contains(e.target)) {
+            if (popup && popup.classList.contains('open') && !popup.contains(e.target) && !btn.contains(e.target)) {
                 closeDockMenu();
             }
         });
 
-        // --- 4. محرك الصوت والتنبيهات الخفيف ---
+        // --- 3. محرك الصوت والتنبيهات الخفيف ---
         let audioCtx = null;
         let alarmTimer = null;
 
@@ -667,7 +661,6 @@
             document.getElementById('manualReminderMinutes').value = '';
             document.getElementById('manualReminderTitle').value = '';
             finalizeAction();
-            renderReminders();
         }
 
         function submitManualReminderFast() {
@@ -681,7 +674,6 @@
             if (confirm('تأكيد إلغاء التنبيه؟')) {
                 db.reminders = db.reminders.filter(r => r.id !== id);
                 finalizeAction();
-                renderReminders();
             }
         }
 
@@ -740,10 +732,10 @@
                     }
                 }
             });
-            if (changed) { finalizeAction(); renderReminders(); }
+            if (changed) { finalizeAction(); }
         }, 1000);
 
-        // --- 5. المهام والمصاريف والعمليات ---
+        // --- 4. عرض وتحديث كافة بيانات السحابة على الشاشات ---
         function updateUI() {
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
@@ -759,6 +751,7 @@
             });
             document.getElementById('dashSpent').innerHTML = `${spentMonth.toLocaleString()} <span style="font-size:16px; color:var(--text-muted);">₪</span>`;
 
+            // مهام ومصاريف اليوم
             const todosToday = db.todos.filter(t => t.date === todayStr);
             document.getElementById('dashTodoCount').innerText = `${todosToday.length} مهام`;
             document.getElementById('dashTodosList').innerHTML = todosToday.map(t => `
@@ -780,6 +773,90 @@
                     <strong style="color:var(--accent-red);">${e.amount} ₪</strong>
                 </div>
             `).join('') || '<p style="color:var(--text-muted); font-size:13px; padding-top:4px;">لم تسجل مصاريف اليوم.</p>';
+
+            // أرشيف المهام الكامل
+            const fullTodosEl = document.getElementById('fullTodosContainer');
+            if(fullTodosEl) {
+                fullTodosEl.innerHTML = db.todos.map(t => `
+                    <div class="list-row">
+                        <div>
+                            <span style="${t.done?'text-decoration:line-through; color:var(--text-muted);':''}">${t.text}</span>
+                            <div style="font-size:11px; color:var(--text-muted);">${t.date}</div>
+                        </div>
+                        <button onclick="deleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted);">لا توجد مهام مؤرشفة.</p>';
+            }
+
+            // أرشيف المصاريف والفواتير
+            let tDay = 0, tWeek = 0, tMonth = 0;
+            const now = new Date();
+            db.expenses.forEach(ex => {
+                const exDate = new Date(ex.date);
+                const diffDays = (now - exDate) / (1000 * 60 * 60 * 24);
+                if(ex.date === todayStr) tDay += parseFloat(ex.amount);
+                if(diffDays <= 7) tWeek += parseFloat(ex.amount);
+                if(exDate.getMonth() === cMonth && exDate.getFullYear() === cYear) tMonth += parseFloat(ex.amount);
+            });
+            document.getElementById('statToday').innerText = tDay + ' ₪';
+            document.getElementById('statWeek').innerText = tWeek + ' ₪';
+            document.getElementById('statMonth').innerText = tMonth + ' ₪';
+
+            const fullExpEl = document.getElementById('fullExpensesArchive');
+            if(fullExpEl) {
+                fullExpEl.innerHTML = db.expenses.map(e => `
+                    <div class="list-row">
+                        <div>
+                            <strong>${e.desc}</strong>
+                            <div style="font-size:11px; color:var(--text-muted);">${e.date}</div>
+                        </div>
+                        <strong style="color:var(--accent-red);">${e.amount} ₪</strong>
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted);">لا توجد مصاريف سابقة.</p>';
+            }
+
+            // الوثائق
+            const docsEl = document.getElementById('docsContainer');
+            if(docsEl) {
+                docsEl.innerHTML = db.documents.map(d => `
+                    <div class="list-row">
+                        <div>
+                            <strong>${d.name}</strong>
+                            <div style="font-size:12px; color:var(--text-muted);">تنتهي: ${d.expiryDate}</div>
+                        </div>
+                        <button onclick="deleteDoc(${d.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted);">لا توجد وثائق مسجلة.</p>';
+            }
+
+            // الخزنة
+            const vaultEl = document.getElementById('vaultContainer');
+            if(vaultEl) {
+                vaultEl.innerHTML = db.vault.map(v => `
+                    <div class="list-row">
+                        <div>
+                            <strong>${v.accountName}</strong>
+                            <div style="font-size:12px; color:var(--accent-red); font-family:monospace;">${v.password}</div>
+                        </div>
+                        <button onclick="deleteVault(${v.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted);">الخزنة فارغة.</p>';
+            }
+
+            // الملاحظات
+            const notesEl = document.getElementById('notesContainer');
+            if(notesEl) {
+                notesEl.innerHTML = db.notes.map(n => `
+                    <div style="background:var(--surface-subtle); padding:12px; border-radius:var(--radius-md); margin-bottom:8px; border:1px solid var(--border);">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <strong>${n.title}</strong>
+                            <button onclick="deleteNote(${n.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
+                        </div>
+                        ${n.body ? `<p style="font-size:13px; color:var(--text-muted); margin-top:4px;">${n.body}</p>` : ''}
+                        ${n.audioData ? `<audio controls src="${n.audioData}" style="width:100%; height:32px; margin-top:8px;"></audio>` : ''}
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted);">لا توجد ملاحظات.</p>';
+            }
 
             renderReminders();
         }
@@ -828,6 +905,10 @@
             document.getElementById('docExpiry').value = '';
             finalizeAction('تم حفظ الوثيقة');
         }
+        function deleteDoc(id) {
+            db.documents = db.documents.filter(x => x.id !== id);
+            finalizeAction();
+        }
 
         function saveVaultItem(e) {
             e.preventDefault();
@@ -835,6 +916,10 @@
             document.getElementById('vaultName').value = '';
             document.getElementById('vaultPassword').value = '';
             finalizeAction('تم الحفظ بالخزنة');
+        }
+        function deleteVault(id) {
+            db.vault = db.vault.filter(x => x.id !== id);
+            finalizeAction();
         }
 
         function saveNote(e) {
@@ -844,8 +929,12 @@
             document.getElementById('noteBody').value = '';
             finalizeAction('تم الحفظ');
         }
+        function deleteNote(id) {
+            db.notes = db.notes.filter(x => x.id !== id);
+            finalizeAction();
+        }
 
-        // --- 🎙️ مسجل الصوت المباشر ---
+        // --- 5. مسجل الصوت المباشر ---
         let mediaRec = null;
         let audioParts = [];
         let recTimer = null;
@@ -919,7 +1008,6 @@
 
         document.body.classList.toggle('dark-mode', !!db.settings.darkMode);
         updateUI();
-        initScrollObserver();
     </script>
 </body>
 </html>
