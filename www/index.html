@@ -527,7 +527,6 @@
             const plugin = getNativePlugin();
             if (plugin) {
                 try {
-                    // إنشاء قناة إشعارات قصوى مع صوت النظام والاهتزاز
                     await plugin.createChannel({
                         id: 'lifeos_alarms_channel',
                         name: 'Life OS التنبيهات الدقيقة',
@@ -645,7 +644,7 @@
             }
         });
 
-        // --- 4. محرك نغمة الكريستال المتناغمة (432Hz Zen Crystal Chime) ---
+        // --- 4. محرك نغمة قطرات الكريستال والماريمبا العصرية (Glass Marimba Chime) ---
         let audioCtx = null;
         let alarmTimer = null;
 
@@ -655,52 +654,47 @@
             return audioCtx;
         }
 
-        // نغمة كريستالية عميقة ومتناغمة تعطي شعور الفخامة والهدوء
         function playPrestigeZenBell() {
             const ctx = getAudioContext();
             const now = ctx.currentTime;
             
-            // ترددات متوافقة هندسياً مستوحاة من الأجراس الكريستالية الفاخرة
-            const harmonics = [432.0, 864.0, 1296.0, 1728.0];
-            const weights = [0.22, 0.12, 0.05, 0.02];
+            const notes = [
+                { f: 739.99, delay: 0.00 },
+                { f: 932.33, delay: 0.07 },
+                { f: 1108.73, delay: 0.14 },
+                { f: 1396.91, delay: 0.21 }
+            ];
 
-            // فلتر تمرير منخفض لإزالة أي حدة رقمية وجعل الصوت دافئاً ومخملياً
-            const lowpass = ctx.createBiquadFilter();
-            lowpass.type = 'lowpass';
-            lowpass.frequency.setValueAtTime(2200, now);
-            lowpass.connect(ctx.destination);
-
-            harmonics.forEach((freq, idx) => {
+            notes.forEach((note) => {
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
-                const startTime = now + (idx * 0.03);
+                const startTime = now + note.delay;
 
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, startTime);
+                osc.frequency.setValueAtTime(note.f, startTime);
 
                 gain.gain.setValueAtTime(0.0001, startTime);
-                gain.gain.linearRampToValueAtTime(weights[idx], startTime + 0.04);
-                // تلاشي هادئ وطبيعي وممتد
-                gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 3.2);
+                gain.gain.linearRampToValueAtTime(0.12, startTime + 0.015);
+                gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.65);
 
                 osc.connect(gain);
-                gain.connect(lowpass);
+                gain.connect(ctx.destination);
 
                 osc.start(startTime);
-                osc.stop(startTime + 3.4);
+                osc.stop(startTime + 0.7);
             });
         }
 
         function testPrestigeAlarm() {
             playPrestigeZenBell();
-            if ("vibrate" in navigator) navigator.vibrate([200, 100, 200]);
+            if ("vibrate" in navigator) navigator.vibrate([150, 80, 150]);
         }
 
         function startAlarm(title) {
             playPrestigeZenBell();
             clearInterval(alarmTimer);
-            alarmTimer = setInterval(playPrestigeZenBell, 3800);
-            if ("vibrate" in navigator) navigator.vibrate([400, 200, 400]);
+            alarmTimer = setInterval(playPrestigeZenBell, 2800);
+            if ("vibrate" in navigator) navigator.vibrate([300, 150, 300]);
             document.getElementById('activeAlarmModalTitle').innerText = title || 'تنبيه موعد';
             document.getElementById('activeAlarmModal').classList.add('active');
         }
