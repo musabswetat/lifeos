@@ -442,10 +442,11 @@
         <div id="settings-section" class="section">
             <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">⚙️ الأمان والإعدادات</h2>
             <div class="card">
-                <strong style="font-size:14px; display:block; margin-bottom:10px;">🛡️ النسخ الاحتياطي وإذن النظام</strong>
+                <strong style="font-size:14px; display:block; margin-bottom:10px;">🛡️ فحص واختبار التنبيه الفاخر</strong>
                 <div style="display:flex; gap:8px; flex-direction:column;">
-                    <button onclick="exportData()" class="btn-action" style="width:100%;">📥 تصدير ملف النسخة الاحتياطية</button>
-                    <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); width:100%;">🔔 تفعيل إذن الإشعارات والنغمة</button>
+                    <button onclick="testPrestigeAlarm()" class="btn-action" style="width:100%;">🎵 تجربة نغمة الكريستال الهادئة</button>
+                    <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); width:100%;">🔔 تفعيل قناة التنبيهات القصوى</button>
+                    <button onclick="exportData()" class="btn-action" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); width:100%;">📥 تصدير ملف النسخة الاحتياطية</button>
                 </div>
             </div>
         </div>
@@ -507,7 +508,7 @@
         firebase.initializeApp(firebaseConfig);
         const dbRef = firebase.database().ref('myLifeData');
 
-        // --- 1. فحص وربط إضافة إشعارات أندرويد الأصلية المباشرة ---
+        // --- 1. فحص وربط إضافة إشعارات أندرويد مع تفعيل الصوت والاهتزاز الكامل للقناة ---
         function getNativePlugin() {
             if (window.Capacitor) {
                 if (window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
@@ -526,12 +527,15 @@
             const plugin = getNativePlugin();
             if (plugin) {
                 try {
+                    // إنشاء قناة إشعارات قصوى مع صوت النظام والاهتزاز
                     await plugin.createChannel({
                         id: 'lifeos_alarms_channel',
-                        name: 'Life OS التنبيهات',
-                        description: 'قناة إشعارات وتنبيهات Life OS',
+                        name: 'Life OS التنبيهات الدقيقة',
+                        description: 'قناة إشعارات وتنبيهات Life OS المسموعة',
                         importance: 5,
                         visibility: 1,
+                        sound: 'default',
+                        lights: true,
                         vibration: true
                     });
 
@@ -641,7 +645,7 @@
             }
         });
 
-        // --- 4. نغمة التنبيه الهادئة والفاخرة (Acoustic Prestige Chime) ---
+        // --- 4. محرك نغمة الكريستال المتناغمة (432Hz Zen Crystal Chime) ---
         let audioCtx = null;
         let alarmTimer = null;
 
@@ -651,35 +655,51 @@
             return audioCtx;
         }
 
-        function playPrestigeZenChord() {
+        // نغمة كريستالية عميقة ومتناغمة تعطي شعور الفخامة والهدوء
+        function playPrestigeZenBell() {
             const ctx = getAudioContext();
-            const chord = [329.63, 493.88, 659.25, 987.77, 1318.51];
             const now = ctx.currentTime;
+            
+            // ترددات متوافقة هندسياً مستوحاة من الأجراس الكريستالية الفاخرة
+            const harmonics = [432.0, 864.0, 1296.0, 1728.0];
+            const weights = [0.22, 0.12, 0.05, 0.02];
 
-            chord.forEach((freq, idx) => {
+            // فلتر تمرير منخفض لإزالة أي حدة رقمية وجعل الصوت دافئاً ومخملياً
+            const lowpass = ctx.createBiquadFilter();
+            lowpass.type = 'lowpass';
+            lowpass.frequency.setValueAtTime(2200, now);
+            lowpass.connect(ctx.destination);
+
+            harmonics.forEach((freq, idx) => {
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
-                const startTime = now + (idx * 0.08);
+                const startTime = now + (idx * 0.03);
 
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(freq, startTime);
 
-                gain.gain.setValueAtTime(0.001, startTime);
-                gain.gain.linearRampToValueAtTime(0.18 / (idx + 1), startTime + 0.04);
-                gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 2.8);
+                gain.gain.setValueAtTime(0.0001, startTime);
+                gain.gain.linearRampToValueAtTime(weights[idx], startTime + 0.04);
+                // تلاشي هادئ وطبيعي وممتد
+                gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 3.2);
 
                 osc.connect(gain);
-                gain.connect(ctx.destination);
+                gain.connect(lowpass);
 
                 osc.start(startTime);
-                osc.stop(startTime + 3.0);
+                osc.stop(startTime + 3.4);
             });
         }
 
+        function testPrestigeAlarm() {
+            playPrestigeZenBell();
+            if ("vibrate" in navigator) navigator.vibrate([200, 100, 200]);
+        }
+
         function startAlarm(title) {
-            playPrestigeZenChord();
+            playPrestigeZenBell();
             clearInterval(alarmTimer);
-            alarmTimer = setInterval(playPrestigeZenChord, 3800);
+            alarmTimer = setInterval(playPrestigeZenBell, 3800);
             if ("vibrate" in navigator) navigator.vibrate([400, 200, 400]);
             document.getElementById('activeAlarmModalTitle').innerText = title || 'تنبيه موعد';
             document.getElementById('activeAlarmModal').classList.add('active');
@@ -698,7 +718,7 @@
             return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
 
-        // جدولة الإشعار مع إيقاظ أندرويد من وضع الخمول (allowWhileIdle)
+        // جدولة الإشعار النظامي المباشر المسموع
         async function scheduleSystemNotification(title, minutes, reminderId) {
             const plugin = getNativePlugin();
             const notifTitle = title ? `⏰ تنبيه: ${title}` : `⏰ انتهى وقت التنبيه (${minutes} دقيقة)!`;
@@ -716,6 +736,7 @@
                                 at: targetDate,
                                 allowWhileIdle: true
                             },
+                            sound: 'default',
                             actionTypeId: 'ALARM_ACTIONS',
                             channelId: 'lifeos_alarms_channel'
                         }]
@@ -1087,20 +1108,20 @@
 
         async function requestNotificationPermission() {
             getAudioContext();
-            playPrestigeZenChord();
+            testPrestigeAlarm();
             const plugin = getNativePlugin();
             if (plugin) {
                 try {
                     const res = await plugin.requestPermissions();
                     if (res.display === 'granted') {
-                        alert('✅ تم تفعيل إشعارات وتنبيهات النظام بنجاح!');
+                        alert('✅ تم تفعيل قناة التنبيهات المسموعة بنجاح!');
                         return;
                     }
                 } catch(e) {}
             }
             if ('Notification' in window) {
                 Notification.requestPermission().then(p => {
-                    if (p === 'granted') alert('✅ تم تفعيل إشعارات النظام بنجاح!');
+                    if (p === 'granted') alert('✅ تم تفعيل الإشعارات بنجاح!');
                 });
             }
         }
