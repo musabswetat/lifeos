@@ -9,12 +9,6 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#F8FAFC" id="themeColorMeta">
 
-    <!-- 🌟 أيقونة Life OS المفتوحة المصدر والذكية (Vector SVG & PWA Ready) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='lifeosGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234F46E5'/%3E%3Cstop offset='50%25' stop-color='%236366F1'/%3E%3Cstop offset='100%25' stop-color='%2306B6D4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23lifeosGrad)'/%3E%3Ccircle cx='256' cy='256' r='180' fill='none' stroke='rgba(255,255,255,0.25)' stroke-width='16' stroke-dasharray='12 8'/%3E%3Cpath d='M256 120 C256 120 160 220 160 300 C160 353.02 202.98 396 256 396 C309.02 396 352 353.02 352 300 C352 220 256 120 256 120 Z' fill='none' stroke='%23FFFFFF' stroke-width='24' stroke-linejoin='round'/%3E%3Cpath d='M256 210 V360 M256 270 C280 250 305 260 315 285 M256 315 C230 300 205 310 195 330' fill='none' stroke='%23FFFFFF' stroke-width='20' stroke-linecap='round'/%3E%3C/svg%3E">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='lifeosGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%234F46E5'/%3E%3Cstop offset='50%25' stop-color='%236366F1'/%3E%3Cstop offset='100%25' stop-color='%2306B6D4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='512' height='512' rx='128' fill='url(%23lifeosGrad)'/%3E%3Ccircle cx='256' cy='256' r='180' fill='none' stroke='rgba(255,255,255,0.25)' stroke-width='16' stroke-dasharray='12 8'/%3E%3Cpath d='M256 120 C256 120 160 220 160 300 C160 353.02 202.98 396 256 396 C309.02 396 352 353.02 352 300 C352 220 256 120 256 120 Z' fill='none' stroke='%23FFFFFF' stroke-width='24' stroke-linejoin='round'/%3E%3Cpath d='M256 210 V360 M256 270 C280 250 305 260 315 285 M256 315 C230 300 205 310 195 330' fill='none' stroke='%23FFFFFF' stroke-width='20' stroke-linecap='round'/%3E%3C/svg%3E">
-    
-    <link rel="manifest" href='data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Life%20OS%22%2C%22short_name%22%3A%22Life%20OS%22%2C%22display%22%3A%22standalone%22%2C%22start_url%22%3A%22.%2F%22%2C%22background_color%22%3A%22%23F8FAFC%22%2C%22theme_color%22%3A%22%234F46E5%22%7D'>
-
     <title>Life OS</title>
     
     <!-- ☁️ مكتبات Firebase السحابية -->
@@ -36,7 +30,7 @@
             --radius-lg: 20px;
             --radius-md: 12px;
             --radius-pill: 9999px;
-            --dock-height: 70px;
+            --dock-height: 64px;
         }
 
         body.dark-mode {
@@ -76,7 +70,7 @@
             width: 100%;
             max-width: 680px;
             margin: 0 auto;
-            padding: 24px 16px calc(var(--dock-height) + 40px) 16px;
+            padding: 24px 16px calc(var(--dock-height) + 45px) 16px;
             box-sizing: border-box;
         }
 
@@ -91,30 +85,17 @@
             margin-bottom: 16px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
             transition: transform 0.2s ease, border-color 0.2s ease;
-            will-change: transform, opacity;
         }
 
         .reveal {
             opacity: 0;
-            transform: translateY(16px);
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(14px);
+            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        .header-greeting {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            margin-bottom: 4px;
-        }
-        .header-sub {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 18px;
-        }
+        .header-greeting { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4px; }
+        .header-sub { color: var(--text-muted); font-size: 14px; margin-bottom: 18px; }
 
         .presets-bar {
             display: flex;
@@ -136,17 +117,9 @@
             flex-shrink: 0;
             transition: all 0.15s ease;
         }
-        .preset-btn:active {
-            background: var(--primary);
-            color: #FFF;
-            transform: scale(0.94);
-        }
+        .preset-btn:active { background: var(--primary); color: #FFF; transform: scale(0.94); }
 
-        .quick-input-row {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .quick-input-row { display: flex; gap: 8px; flex-wrap: wrap; }
         .app-input {
             padding: 12px 14px;
             background: var(--surface-subtle) !important;
@@ -159,10 +132,7 @@
             flex: 1;
             min-width: 110px;
         }
-        .app-input:focus {
-            border-color: var(--primary);
-            background: var(--surface) !important;
-        }
+        .app-input:focus { border-color: var(--primary); background: var(--surface) !important; }
 
         .btn-action {
             background: var(--primary);
@@ -178,6 +148,7 @@
         }
         .btn-action:active { opacity: 0.85; transform: scale(0.97); }
 
+        /* 🏝️ الشريط السفلي الذكي الجديد (3 أزرار متناسقة) */
         .bottom-nav-dock {
             position: fixed;
             bottom: 16px;
@@ -185,41 +156,78 @@
             transform: translateX(-50%);
             background: var(--surface);
             border: 1px solid var(--border);
-            padding: 6px 12px;
+            padding: 6px;
             border-radius: var(--radius-pill);
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 6px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            max-width: 92%;
+            width: calc(100% - 32px);
+            max-width: 420px;
         }
-        .dock-item {
+        .dock-btn {
+            flex: 1;
             background: transparent;
             border: none;
-            padding: 10px 14px;
+            padding: 12px 8px;
             border-radius: var(--radius-pill);
             color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .dock-btn.active { background: var(--primary-light); color: var(--primary); }
+        .dock-btn:active { transform: scale(0.95); }
+
+        /* 📑 القائمة المنسدلة للأعلى */
+        .dock-menu-popup {
+            position: fixed;
+            bottom: 85px;
+            left: 50%;
+            transform: translateX(-50%) translateY(15px) scale(0.95);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            z-index: 999;
+            width: calc(100% - 32px);
+            max-width: 380px;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .dock-menu-popup.open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
+        .menu-item-btn {
+            background: var(--surface-subtle);
+            border: 1px solid var(--border);
+            padding: 12px 10px;
+            border-radius: var(--radius-md);
+            color: var(--text-main);
             font-size: 13px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-            white-space: nowrap;
+            gap: 8px;
+            transition: background 0.15s ease;
         }
-        .dock-item.active {
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-        .dock-item:active { transform: scale(0.92); }
-        .dock-voice {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--accent-red);
-            border-radius: var(--radius-pill);
-            padding: 10px 12px;
-        }
+        .menu-item-btn:active { background: var(--primary-light); color: var(--primary); }
 
         .list-row {
             display: flex;
@@ -292,16 +300,9 @@
         
         <!-- 🍃 1. الشاشة الرئيسية -->
         <div id="dashboard" class="section active">
-            
             <div class="reveal">
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <svg style="width:34px; height:34px;" viewBox="0 0 512 512">
-                            <defs><linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4F46E5"/><stop offset="100%" stop-color="#06B6D4"/></linearGradient></defs>
-                            <rect width="512" height="512" rx="128" fill="url(#brandGrad)"/>
-                            <path d="M256 120 C256 120 160 220 160 300 C160 353.02 202.98 396 256 396 C309.02 396 352 353.02 352 300 C352 220 256 120 256 120 Z" fill="none" stroke="#FFFFFF" stroke-width="26" stroke-linejoin="round"/>
-                            <path d="M256 210 V360 M256 270 C280 250 305 260 315 285 M256 315 C230 300 205 310 195 330" fill="none" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round"/>
-                        </svg>
                         <div class="header-greeting" style="margin-bottom:0;">طاب يومك.</div>
                     </div>
                     <button onclick="toggleTheme()" style="background:var(--surface-subtle); border:1px solid var(--border); width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:16px;">🌙</button>
@@ -405,36 +406,39 @@
             <div class="card" id="fullTodosContainer"></div>
         </div>
 
-        <!-- 📁 5. الخزنة، الوثائق والإعدادات -->
-        <div id="more-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">📁 الخزنة والملاحظات</h2>
-            
+        <!-- 🆔 5. الوثائق -->
+        <div id="documents-section" class="section">
+            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">🆔 الوثائق الرسمية</h2>
             <div class="card">
-                <strong style="font-size:14px; display:block; margin-bottom:10px;">🔐 الخزنة المشفرة</strong>
+                <form onsubmit="saveDocument(event)">
+                    <div style="margin-bottom:10px;"><input type="text" id="docName" placeholder="اسم الوثيقة (جواز سفر، رخصة...)" class="app-input" style="width:100%;" required></div>
+                    <div style="margin-bottom:12px;"><input type="date" id="docExpiry" class="app-input" style="width:100%;" required></div>
+                    <button type="submit" class="btn-action" style="width:100%;">حفظ الوثيقة</button>
+                </form>
+            </div>
+            <div class="card" id="docsContainer"></div>
+        </div>
+
+        <!-- 🔐 6. الخزنة المشفرة -->
+        <div id="vault-section" class="section">
+            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">🔐 الخزنة المشفرة</h2>
+            <div class="card">
                 <form onsubmit="saveVaultItem(event)" class="quick-input-row">
                     <input type="text" id="vaultName" placeholder="الحساب / الإيميل" class="app-input" required>
                     <input type="text" id="vaultPassword" placeholder="كلمة المرور" class="app-input" required>
-                    <button type="submit" class="btn-action">حفظ</button>
+                    <button type="submit" class="btn-action">حفظ بالخزنة</button>
                 </form>
             </div>
+            <div class="card" id="vaultContainer"></div>
+        </div>
 
-            <div class="card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <strong style="font-size:14px;">📝 الملاحظات والتسجيلات</strong>
-                    <button onclick="startVoiceRecording()" class="btn-action" style="background:var(--accent-red); padding:6px 12px; font-size:12px;">🎙️ تسجيل</button>
-                </div>
-                <form onsubmit="saveNote(event)" style="display:flex; flex-direction:column; gap:8px;">
-                    <input type="text" id="noteTitle" placeholder="العنوان..." class="app-input">
-                    <textarea id="noteBody" rows="2" placeholder="اكتب ملاحظتك..." class="app-input" required></textarea>
-                    <button type="submit" class="btn-action" style="align-self:flex-start;">حفظ الملاحظة</button>
-                </form>
-                <div id="notesContainer" style="margin-top:14px;"></div>
-            </div>
-
+        <!-- ⚙️ 7. الإعدادات -->
+        <div id="settings-section" class="section">
+            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">⚙️ الأمان والإعدادات</h2>
             <div class="card">
                 <strong style="font-size:14px; display:block; margin-bottom:10px;">🛡️ النسخ الاحتياطي السحابي</strong>
                 <div style="display:flex; gap:8px;">
-                    <button onclick="exportData()" class="btn-action" style="flex:1;">📥 تصدير</button>
+                    <button onclick="exportData()" class="btn-action" style="flex:1;">📥 تصدير ملف النسخة</button>
                     <button onclick="requestNotificationPermission()" class="btn-action" style="flex:1; background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border);">🔔 إذن الإشعارات</button>
                 </div>
             </div>
@@ -442,14 +446,21 @@
 
     </div>
 
-    <!-- 🏝️ شريط التنقل السفلي الذكي -->
+    <!-- 📑 القائمة المنبثقة للأقسام والمهام -->
+    <div class="dock-menu-popup" id="dockMenuPopup">
+        <button class="menu-item-btn" onclick="openSectionFromMenu('reminders-section')">⏰ التنبيهات</button>
+        <button class="menu-item-btn" onclick="openSectionFromMenu('expenses-section')">📊 المصاريف</button>
+        <button class="menu-item-btn" onclick="openSectionFromMenu('todos-section')">✅ أرشيف المهام</button>
+        <button class="menu-item-btn" onclick="openSectionFromMenu('documents-section')">🆔 الوثائق</button>
+        <button class="menu-item-btn" onclick="openSectionFromMenu('vault-section')">🔐 الخزنة</button>
+        <button class="menu-item-btn" onclick="startVoiceFromMenu()" style="color:var(--accent-red);">🎙️ تسجيل صوتي</button>
+    </div>
+
+    <!-- 🏝️ الشريط السفلي الذكي (3 أزرار متوازنة) -->
     <div class="bottom-nav-dock">
-        <button class="dock-item active" onclick="switchTab('dashboard')">🏠 الرئيسية</button>
-        <button class="dock-item" onclick="switchTab('reminders-section')">⏰ التنبيهات</button>
-        <button class="dock-item" onclick="switchTab('expenses-section')">📊 المصاريف</button>
-        <button class="dock-item" onclick="switchTab('todos-section')">✅ المهام</button>
-        <button class="dock-item" onclick="switchTab('more-section')">📁 المزيد</button>
-        <button class="dock-item dock-voice" onclick="startVoiceRecording()" title="تسجيل صوتي">🎙️</button>
+        <button class="dock-btn active" id="btnNavHome" onclick="switchMainTab('dashboard', this)">🏠 الرئيسية</button>
+        <button class="dock-btn" id="btnNavMenu" onclick="toggleDockMenu()">📑 الأقسام والمهام</button>
+        <button class="dock-btn" id="btnNavSettings" onclick="switchMainTab('settings-section', this)">⚙️ الإعدادات</button>
     </div>
 
     <!-- 🔔 نافذة رنين التنبيه التفاعلية -->
@@ -533,35 +544,68 @@
             }
         });
 
-        // --- 2. محرك التمرير السلس ---
+        // --- 2. محرك التمرير السلس (Scroll-Driven Reveal) ---
         function initScrollObserver() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
                 });
             }, { threshold: 0.08 });
-
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         }
 
-        // --- 3. التنقل الذكي ---
-        function switchTab(sectionId) {
+        // --- 3. التنقل وشريط الدوك الذكي الجديد ---
+        function closeDockMenu() {
+            document.getElementById('dockMenuPopup').classList.remove('open');
+            document.getElementById('btnNavMenu').classList.remove('active');
+        }
+
+        function toggleDockMenu() {
+            const popup = document.getElementById('dockMenuPopup');
+            const btn = document.getElementById('btnNavMenu');
+            popup.classList.toggle('open');
+            btn.classList.toggle('active', popup.classList.contains('open'));
+        }
+
+        function switchMainTab(sectionId, btnEl) {
+            closeDockMenu();
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.dock-item').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
             
             const target = document.getElementById(sectionId);
             if(target) target.classList.add('active');
-
-            const btn = Array.from(document.querySelectorAll('.dock-item')).find(b => b.getAttribute('onclick')?.includes(sectionId));
-            if(btn) btn.classList.add('active');
+            if(btnEl) btnEl.classList.add('active');
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             setTimeout(initScrollObserver, 50);
         }
 
-        // --- 4. محرك الصوت والتنبيهات ---
+        function openSectionFromMenu(sectionId) {
+            closeDockMenu();
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
+            
+            const target = document.getElementById(sectionId);
+            if(target) target.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setTimeout(initScrollObserver, 50);
+        }
+
+        function startVoiceFromMenu() {
+            closeDockMenu();
+            startVoiceRecording();
+        }
+
+        document.addEventListener('click', (e) => {
+            const popup = document.getElementById('dockMenuPopup');
+            const btn = document.getElementById('btnNavMenu');
+            if (popup.classList.contains('open') && !popup.contains(e.target) && !btn.contains(e.target)) {
+                closeDockMenu();
+            }
+        });
+
+        // --- 4. محرك الصوت والتنبيهات الخفيف ---
         let audioCtx = null;
         let alarmTimer = null;
 
@@ -699,7 +743,7 @@
             if (changed) { finalizeAction(); renderReminders(); }
         }, 1000);
 
-        // --- 5. المهام والمصاريف ---
+        // --- 5. المهام والمصاريف والعمليات ---
         function updateUI() {
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
@@ -775,6 +819,14 @@
             db.fixed_bills.push({ id: Date.now(), type: document.getElementById('billType').value, amount: document.getElementById('billAmount').value, date: todayStr });
             document.getElementById('billAmount').value = '';
             finalizeAction('تم حفظ الفاتورة');
+        }
+
+        function saveDocument(e) {
+            e.preventDefault();
+            db.documents.push({ id: Date.now(), name: document.getElementById('docName').value, expiryDate: document.getElementById('docExpiry').value });
+            document.getElementById('docName').value = '';
+            document.getElementById('docExpiry').value = '';
+            finalizeAction('تم حفظ الوثيقة');
         }
 
         function saveVaultItem(e) {
@@ -865,7 +917,6 @@
             }
         }
 
-        // التشغيل المبدئي
         document.body.classList.toggle('dark-mode', !!db.settings.darkMode);
         updateUI();
         initScrollObserver();
