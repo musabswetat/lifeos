@@ -141,7 +141,7 @@
         }
         .btn-action:active { opacity: 0.85; transform: scale(0.97); }
 
-        /* 🏝️ شريط التنقل السفلي */
+        /* 🏝️ الشريط السفلي الذكي */
         .bottom-nav-dock {
             position: fixed;
             bottom: 16px;
@@ -442,10 +442,10 @@
         <div id="settings-section" class="section">
             <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">⚙️ الأمان والإعدادات</h2>
             <div class="card">
-                <strong style="font-size:14px; display:block; margin-bottom:10px;">🛡️ النسخ الاحتياطي السحابي</strong>
+                <strong style="font-size:14px; display:block; margin-bottom:10px;">🛡️ النسخ الاحتياطي وإذن النظام</strong>
                 <div style="display:flex; gap:8px; flex-direction:column;">
                     <button onclick="exportData()" class="btn-action" style="width:100%;">📥 تصدير ملف النسخة الاحتياطية</button>
-                    <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); width:100%;">🔔 تفعيل إذن الإشعارات</button>
+                    <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); width:100%;">🔔 تفعيل إذن الإشعارات والنغمة</button>
                 </div>
             </div>
         </div>
@@ -507,7 +507,33 @@
         firebase.initializeApp(firebaseConfig);
         const dbRef = firebase.database().ref('myLifeData');
 
-        // --- 1. Database Architecture & Optimization ---
+        // --- 1. فحص إضافة إشعارات أندرويد الأصلية وتجهيز أزرار الإجراءات ---
+        const getNativePlugin = () => {
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
+                return window.Capacitor.Plugins.LocalNotifications;
+            }
+            return null;
+        };
+
+        async function initNativeNotifications() {
+            const plugin = getNativePlugin();
+            if (plugin) {
+                try {
+                    await plugin.registerActionTypes({
+                        types: [{
+                            id: 'ALARM_ACTIONS',
+                            actions: [{ id: 'dismiss_alarm', title: '🔕 إيقاف التنبيه', destructive: true }]
+                        }]
+                    });
+                    plugin.addListener('localNotificationActionPerformed', () => {
+                        dismissActiveAlarm();
+                    });
+                } catch(e) {}
+            }
+        }
+        initNativeNotifications();
+
+        // --- 2. Database Architecture & Optimization ---
         function normalizeDB(data) {
             if (!data) data = {};
             const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
@@ -540,15 +566,14 @@
         dbRef.on('value', (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                const normalized = normalizeDB(data);
-                db = normalized;
+                db = normalizeDB(data);
                 localStorage.setItem('myLifeAppDB', JSON.stringify(db));
                 updateUI();
                 showToast('🔄 تم جلب البيانات');
             }
         });
 
-        // --- 2. التنقل وشريط الدوك الذكي ---
+        // --- 3. التنقل وشريط الدوك الذكي ---
         function closeDockMenu() {
             document.getElementById('dockMenuPopup').classList.remove('open');
             document.getElementById('btnNavMenu').classList.remove('active');
@@ -599,7 +624,7 @@
             }
         });
 
-        // --- 3. محرك الصوت والتنبيهات الخفيف ---
+        // --- 4. نغمة التنبيه الهادئة والفاخرة (Acoustic Prestige Chime) ---
         let audioCtx = null;
         let alarmTimer = null;
 
@@ -609,25 +634,36 @@
             return audioCtx;
         }
 
-        function playChime() {
+        // نغمة كلاسيكية مهدئة ومنسجمة (E-Major Ambient Harmony)
+        function playPrestigeZenChord() {
             const ctx = getAudioContext();
-            [523.25, 659.25, 783.99].forEach((freq, i) => {
+            const chord = [329.63, 493.88, 659.25, 987.77, 1318.51]; // E4, B4, E5, B5, E6
+            const now = ctx.currentTime;
+
+            chord.forEach((freq, idx) => {
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
-                osc.frequency.setValueAtTime(freq, ctx.currentTime + (i * 0.09));
-                gain.gain.setValueAtTime(0.2, ctx.currentTime + (i * 0.09));
-                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (i * 0.09) + 1.2);
+                const startTime = now + (idx * 0.08);
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, startTime);
+
+                gain.gain.setValueAtTime(0.001, startTime);
+                gain.gain.linearRampToValueAtTime(0.18 / (idx + 1), startTime + 0.04);
+                gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 2.8);
+
                 osc.connect(gain);
                 gain.connect(ctx.destination);
-                osc.start(ctx.currentTime + (i * 0.09));
-                osc.stop(ctx.currentTime + (i * 0.09) + 1.4);
+
+                osc.start(startTime);
+                osc.stop(startTime + 3.0);
             });
         }
 
         function startAlarm(title) {
-            playChime();
+            playPrestigeZenChord();
             clearInterval(alarmTimer);
-            alarmTimer = setInterval(playChime, 3000);
+            alarmTimer = setInterval(playPrestigeZenChord, 3800);
             if ("vibrate" in navigator) navigator.vibrate([400, 200, 400]);
             document.getElementById('activeAlarmModalTitle').innerText = title || 'تنبيه موعد';
             document.getElementById('activeAlarmModal').classList.add('active');
@@ -646,21 +682,49 @@
             return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
 
+        // جدولة الإشعار النظامي في شريط إشعارات أندرويد
+        async function scheduleSystemNotification(title, minutes, reminderId) {
+            const plugin = getNativePlugin();
+            const notifTitle = title ? `⏰ تنبيه: ${title}` : `⏰ انتهى وقت التنبيه (${minutes} دقيقة)!`;
+            const notifBody = title ? `حان الآن موعد التذكير: ${title}` : `انتهت مدة التنبيه المجدول في Life OS`;
+
+            if (plugin) {
+                try {
+                    await plugin.schedule({
+                        notifications: [{
+                            title: notifTitle,
+                            body: notifBody,
+                            id: Math.abs(Number(reminderId) % 2147483647),
+                            schedule: { at: new Date(Date.now() + minutes * 60 * 1000) },
+                            actionTypeId: 'ALARM_ACTIONS',
+                            channelId: 'lifeos_alarms_channel'
+                        }]
+                    });
+                } catch (err) {}
+            }
+        }
+
         function addReminderFast(mins, title = '') {
             getAudioContext();
             const now = Date.now();
+            const reminderId = Date.now();
+            const cleanTitle = title.trim();
+
             db.reminders.push({
-                id: Date.now(),
-                title: title.trim(),
+                id: reminderId,
+                title: cleanTitle,
                 minutes: mins,
                 createdAt: now,
                 targetTime: now + (mins * 60 * 1000),
                 triggered: false,
-                hasName: !!title.trim()
+                hasName: !!cleanTitle
             });
+
             document.getElementById('manualReminderMinutes').value = '';
             document.getElementById('manualReminderTitle').value = '';
+
             finalizeAction();
+            scheduleSystemNotification(cleanTitle, mins, reminderId);
         }
 
         function submitManualReminderFast() {
@@ -735,7 +799,7 @@
             if (changed) { finalizeAction(); }
         }, 1000);
 
-        // --- 4. عرض وتحديث كافة بيانات السحابة على الشاشات ---
+        // --- 5. تحديث الشاشات والبيانات ---
         function updateUI() {
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
@@ -774,7 +838,7 @@
                 </div>
             `).join('') || '<p style="color:var(--text-muted); font-size:13px; padding-top:4px;">لم تسجل مصاريف اليوم.</p>';
 
-            // أرشيف المهام الكامل
+            // أرشيف المهام
             const fullTodosEl = document.getElementById('fullTodosContainer');
             if(fullTodosEl) {
                 fullTodosEl.innerHTML = db.todos.map(t => `
@@ -788,7 +852,7 @@
                 `).join('') || '<p style="color:var(--text-muted);">لا توجد مهام مؤرشفة.</p>';
             }
 
-            // أرشيف المصاريف والفواتير
+            // أرشيف المصاريف
             let tDay = 0, tWeek = 0, tMonth = 0;
             const now = new Date();
             db.expenses.forEach(ex => {
@@ -934,7 +998,7 @@
             finalizeAction();
         }
 
-        // --- 5. مسجل الصوت المباشر ---
+        // --- 6. مسجل الصوت ---
         let mediaRec = null;
         let audioParts = [];
         let recTimer = null;
@@ -997,8 +1061,19 @@
             dl.click();
         }
 
-        function requestNotificationPermission() {
+        async function requestNotificationPermission() {
             getAudioContext();
+            playPrestigeZenChord();
+            const plugin = getNativePlugin();
+            if (plugin) {
+                try {
+                    const res = await plugin.requestPermissions();
+                    if (res.display === 'granted') {
+                        alert('✅ تم تفعيل إشعارات وتنبيهات النظام بنجاح!');
+                        return;
+                    }
+                } catch(e) {}
+            }
             if ('Notification' in window) {
                 Notification.requestPermission().then(p => {
                     if (p === 'granted') alert('✅ تم تفعيل إشعارات النظام بنجاح!');
