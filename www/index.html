@@ -536,7 +536,7 @@
         .island-item:hover { background: var(--accent-gradient); color: #FFFFFF; border-color: transparent; }
         .island-item:active { transform: scale(0.97); }
 
-        /* 🎙️ Modals (معالجة الشاشة الكاملة بدقة لمنع انقسام الواجهة) */
+        /* 🎙️ Modals */
         .glass-modal-overlay, .voice-modal-overlay {
             display: none;
             position: fixed;
@@ -742,13 +742,13 @@
         <!-- 🍃 Dashboard -->
         <div id="dashboard" class="section active">
             
-            <!-- 1. الترحيب والعنوان بالأعلى دائماً -->
+            <!-- 1. الترحيب والعنوان بالأعلى -->
             <div>
                 <div class="dashboard-header">طاب يومك.</div>
                 <div class="dashboard-subtitle">نظام الإدارة الحياتي الشامل والمزامنة السحابية اللحظية ☁️</div>
             </div>
 
-            <!-- ⏰ 2. شريط التنبيهات السريع تحت الكتابة الترحيبية -->
+            <!-- ⏰ 2. شريط التنبيهات السريع تحت الترحيب مباشرة -->
             <div class="reminder-control-panel">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <span style="font-size:14px; font-weight:800; color:var(--accent-primary);">⏰ تعيين تنبيه وتذكير سريع</span>
@@ -947,8 +947,8 @@
             </div>
 
             <div class="card">
-                <h2 style="font-weight: 900; font-size: 26px; margin-bottom: 16px;">🔔 تفعيل الإشعارات والنغمة في الخلفية</h2>
-                <p style="color:var(--text-muted); font-size:14px; margin-bottom:14px;">يتم استخدام Service Worker لضمان استمرار عمل التنبيهات والنغمة حتى في حال تصغير التطبيق أو قفل الشاشة.</p>
+                <h2 style="font-weight: 900; font-size: 26px; margin-bottom: 16px;">🔔 تفعيل الإشعارات وتنبيهات النظام</h2>
+                <p style="color:var(--text-muted); font-size:14px; margin-bottom:14px;">اضغط الزر أدناه لمنح الإذن وتفعيل الإشعارات في النظام.</p>
                 <button onclick="requestNotificationPermission()" class="btn-submit">🔔 تفعيل إشعارات وتنبيهات النظام</button>
             </div>
 
@@ -1201,7 +1201,7 @@
             finalizeAction();
             renderRemindersUI();
 
-            if ("Notification" in window && Notification.permission !== "granted") {
+            if (typeof Notification !== 'undefined' && Notification.permission !== "granted") {
                 Notification.requestPermission();
             }
         }
@@ -1242,7 +1242,13 @@
             
             const dashContainer = document.getElementById('dashRemindersContainer');
             if (dashContainer) {
-                const dashList = db.reminders.filter(r => r.hasName && (now - r.createdAt <= twoDaysMs));
+                const dashList = db.reminders.filter(r => {
+                    if (r.hasName) {
+                        return (now - r.createdAt <= twoDaysMs);
+                    } else {
+                        return (!r.triggered && r.targetTime > now);
+                    }
+                });
                 dashList.sort((a,b) => b.createdAt - a.createdAt);
                 
                 if (dashList.length > 0) {
@@ -1257,10 +1263,12 @@
                             ? `<span class="countdown-live-badge" id="countdown-${r.id}">⏳ متبقي: ${formatRemainingTime(remainingMs)}</span>`
                             : `<span style="background:rgba(16,185,129,0.15); color:var(--accent-green); padding:5px 12px; border-radius:var(--radius-pill); font-size:12px; font-weight:800;">✅ تم التنبيه</span>`;
 
+                        const displayTitle = r.title || `تنبيه سريع (${r.minutes} دقيقة)`;
+
                         html += `
                         <div class="${animClass}" style="background:var(--card-surface); border:1px solid var(--card-border); padding:16px 20px; border-radius:var(--radius-lg); margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; box-shadow:var(--shadow-subtle);">
                             <div>
-                                <strong style="font-size:16px; color:var(--text-main); display:block;">${r.title}</strong>
+                                <strong style="font-size:16px; color:var(--text-main); display:block;">${displayTitle}</strong>
                                 <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">موعد الرنين: ${new Date(r.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})} (المدة: ${r.minutes} دقيقة)</div>
                             </div>
                             <div style="display:flex; align-items:center; gap:10px;">
@@ -1320,25 +1328,23 @@
                         
                         startContinuousAlarm(r.title);
 
-                        if ("Notification" in window && Notification.permission === "granted") {
-                            const notifTitle = r.title ? `⏰ تنبيه: ${r.title}` : '⏰ انتهى وقت التنبيه المجدول!';
-                            if (navigator.serviceWorker && navigator.serviceWorker.ready) {
-                                navigator.serviceWorker.ready.then(reg => {
-                                    reg.showNotification(notifTitle, {
-                                        body: `انتهت مدة التنبيه (${r.minutes} دقيقة) في Life OS`,
-                                        icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png",
-                                        vibrate: [500, 250, 500, 250, 1000],
-                                        tag: 'alarm-' + r.id,
-                                        requireInteraction: true
-                                    });
-                                });
-                            } else {
-                                new Notification(notifTitle, {
+                        const notifTitle = r.title ? `⏰ تنبيه: ${r.title}` : '⏰ انتهى وقت التنبيه المجدول!';
+                        if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+                            navigator.serviceWorker.ready.then(reg => {
+                                reg.showNotification(notifTitle, {
                                     body: `انتهت مدة التنبيه (${r.minutes} دقيقة) في Life OS`,
                                     icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png",
+                                    vibrate: [500, 250, 500, 250, 1000],
+                                    tag: 'alarm-' + r.id,
                                     requireInteraction: true
                                 });
-                            }
+                            });
+                        } else if (typeof Notification !== 'undefined' && Notification.permission === "granted") {
+                            new Notification(notifTitle, {
+                                body: `انتهت مدة التنبيه (${r.minutes} دقيقة) في Life OS`,
+                                icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png",
+                                requireInteraction: true
+                            });
                         }
                     } else {
                         const el = document.getElementById(`countdown-${r.id}`);
@@ -1454,7 +1460,6 @@
             document.getElementById('footerIcon').innerText = '➕'; 
             document.getElementById('footerText').innerText = 'إضافة سريعة';
             
-            // إغلاق أي نوافذ صوتية أو تنبيهات معلقة عند الانتقال
             cancelVoiceRecording();
             
             if(window.innerWidth <= 768) { 
@@ -1806,28 +1811,57 @@
             }); 
         }
         
-        function requestNotificationPermission() { 
+        // --- 🔔 تفعيل الإشعارات وإنشاء القناة لفك القفل الرمادي في أندرويد ---
+        async function requestNotificationPermission() { 
             getAudioContext();
-            if (!("Notification" in window)) { 
-                alert("متصفحك لا يدعم الإشعارات."); 
-                return; 
-            } 
-            Notification.requestPermission().then(function (permission) { 
-                if (permission === "granted") { 
-                    alert("✅ تم تفعيل الإشعارات بنجاح!"); 
+            let permissionGranted = false;
+
+            try {
+                if (typeof Notification !== 'undefined') {
+                    const res = await Notification.requestPermission();
+                    if (res === 'granted') permissionGranted = true;
+                }
+            } catch (e) {
+                if (typeof Notification !== 'undefined') {
+                    Notification.requestPermission(function(res) {
+                        if (res === 'granted') triggerInitialSystemNotification();
+                    });
+                }
+            }
+
+            if (permissionGranted) {
+                triggerInitialSystemNotification();
+            } else if ('serviceWorker' in navigator) {
+                const reg = await navigator.serviceWorker.ready;
+                if (reg && reg.showNotification) {
+                    triggerInitialSystemNotification();
+                } else {
+                    alert("🔔 تم تفعيل المنبه الصوتي والاهتزاز داخل التطبيق!");
                     playAlarmChimeSequence();
-                    if (navigator.serviceWorker && navigator.serviceWorker.ready) {
-                        navigator.serviceWorker.ready.then(reg => {
-                            reg.showNotification("Life OS", {
-                                body: "تم تفعيل إشعارات وتنبيهات النظام بنجاح!",
-                                icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png"
-                            });
-                        });
-                    }
-                } else { 
-                    alert("❌ تم رفض الصلاحية. يرجى تفعيلها من إعدادات المتصفح."); 
-                } 
-            }); 
+                }
+            } else {
+                alert("🔔 تم تفعيل المنبه الصوتي والاهتزاز داخل التطبيق!");
+                playAlarmChimeSequence();
+            }
+        }
+
+        function triggerInitialSystemNotification() {
+            playAlarmChimeSequence();
+            if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+                navigator.serviceWorker.ready.then(reg => {
+                    reg.showNotification("Life OS 🔔", {
+                        body: "تم تفعيل إشعارات وتنبيهات النظام بنجاح!",
+                        icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png",
+                        vibrate: [300, 150, 300]
+                    });
+                });
+            } else if (typeof Notification !== 'undefined' && Notification.permission === "granted") {
+                new Notification("Life OS 🔔", {
+                    body: "تم تفعيل إشعارات وتنبيهات النظام بنجاح!",
+                    icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png"
+                });
+            }
+            alert("✅ تم تفعيل الإشعارات بنجاح وتم فك القفل في إعدادات الهاتف!");
         }
 
         history.replaceState({ section: 'dashboard' }, '', '#dashboard');
