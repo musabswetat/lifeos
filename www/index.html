@@ -243,10 +243,10 @@
             color: var(--text-muted);
             font-size: 15px;
             font-weight: 500;
-            margin-bottom: 24px;
+            margin-bottom: 22px;
         }
 
-        /* ⏰ Reminders & Timers Bar Component */
+        /* ⏰ Reminders Control Panel */
         .reminder-control-panel {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(6, 182, 212, 0.06) 100%), var(--card-surface);
             border: 1px solid var(--card-border-glow);
@@ -285,10 +285,6 @@
             background: var(--accent-primary);
             color: #FFF;
         }
-        .preset-pill-btn:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-primary);
-        }
 
         .manual-reminder-bar {
             display: flex;
@@ -297,8 +293,7 @@
             flex-wrap: wrap;
         }
         .reminder-minutes-input {
-            flex: 1;
-            min-width: 120px;
+            width: 130px;
             padding: 14px 16px;
             border-radius: var(--radius-md);
             border: 1px solid var(--input-border);
@@ -308,24 +303,18 @@
             font-weight: 700;
             outline: none;
         }
-        .reminder-title-trigger-btn {
-            background: var(--input-fill);
-            border: 1px solid var(--input-border);
-            color: var(--text-main);
+        .reminder-name-input {
+            flex: 1;
+            min-width: 150px;
             padding: 14px 16px;
             border-radius: var(--radius-md);
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-            white-space: nowrap;
+            border: 1px solid var(--input-border);
+            background: var(--input-fill) !important;
+            color: var(--text-main) !important;
+            font-size: 15px;
+            font-weight: 600;
+            outline: none;
         }
-        .reminder-title-trigger-btn:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
-        .reminder-title-trigger-btn.has-title { background: rgba(99, 102, 241, 0.15); border-color: var(--accent-primary); color: var(--accent-primary); }
-
         .btn-set-reminder {
             background: var(--accent-gradient);
             color: #FFFFFF;
@@ -340,6 +329,27 @@
             white-space: nowrap;
         }
         .btn-set-reminder:active { transform: scale(0.96); }
+
+        .reminder-item-animated {
+            animation: slideInDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-16px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .countdown-live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(99, 102, 241, 0.14);
+            color: var(--accent-primary);
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            font-size: 13px;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+        }
 
         /* 💳 Hero Metric Tile */
         .hero-metric-tile {
@@ -384,7 +394,6 @@
             width: 100%;
         }
 
-        /* 🖋️ Inputs */
         .dash-form { display: flex; gap: 10px; margin-bottom: 16px; width: 100%; }
         .dash-input {
             padding: 14px 16px;
@@ -405,7 +414,7 @@
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
         }
 
-        /* 🏝️ Floating Crystal Island */
+        /* 🏝️ Floating Island */
         .floating-island {
             position: fixed;
             bottom: 28px;
@@ -527,11 +536,18 @@
         .island-item:hover { background: var(--accent-gradient); color: #FFFFFF; border-color: transparent; }
         .island-item:active { transform: scale(0.97); }
 
-        /* 🎙️ Modals & Alerts */
-        .glass-modal-overlay {
+        /* 🎙️ Modals (معالجة الشاشة الكاملة بدقة لمنع انقسام الواجهة) */
+        .glass-modal-overlay, .voice-modal-overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
             background: rgba(0, 0, 0, 0.65);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -539,9 +555,13 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            box-sizing: border-box;
         }
-        .glass-modal-overlay.active { display: flex; animation: visionAppear 0.3s ease-out; }
-        .glass-modal-box {
+        .glass-modal-overlay.active, .voice-modal-overlay.active { 
+            display: flex !important; 
+            animation: visionAppear 0.3s ease-out; 
+        }
+        .glass-modal-box, .voice-modal {
             background: var(--card-surface);
             backdrop-filter: var(--blur-strength);
             width: 100%;
@@ -661,6 +681,8 @@
             .dashboard-grid { grid-template-columns: 1fr; }
             .dash-form { flex-direction: column; }
             .hero-metric-tile { padding: 20px; }
+            .manual-reminder-bar { flex-direction: column; align-items: stretch; }
+            .reminder-minutes-input { width: 100%; }
         }
         @media (min-width: 769px) {
             .island-btn[onclick="toggleMobileMenu()"] { display: none; }
@@ -714,48 +736,43 @@
         </div>
     </div>
 
-    <!-- 📱 Main Ambient Surface -->
+    <!-- 📱 Main Container -->
     <div class="main-container">
         
         <!-- 🍃 Dashboard -->
         <div id="dashboard" class="section active">
             
-            <!-- ⏰ 1. شريط التنبيهات المسبقة والإدخال اليدوي أعلى الرئيسية -->
-            <div class="reminder-control-panel">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <span style="font-size:14px; font-weight:800; color:var(--accent-primary);">⏰ تعيين تنبيه وتذكير ذكي</span>
-                    <span id="activeReminderCountBadge" style="font-size:12px; font-weight:700; color:var(--text-muted);"></span>
-                </div>
-                
-                <!-- أزرار التوقيتات المضبوطة مسبقاً (Ergonomic Touch Targets) -->
-                <div class="reminder-presets-wrapper">
-                    <button class="preset-pill-btn" onclick="triggerQuickPreset(15)">15 د</button>
-                    <button class="preset-pill-btn" onclick="triggerQuickPreset(20)">20 د</button>
-                    <button class="preset-pill-btn" onclick="triggerQuickPreset(30)">30 د</button>
-                    <button class="preset-pill-btn" onclick="triggerQuickPreset(45)">45 د</button>
-                    <button class="preset-pill-btn" onclick="triggerQuickPreset(60)">1 س</button>
-                    <button class="preset-pill-btn" onclick="triggerQuickPreset(120)">2 س</button>
-                    <button class="preset-pill-btn" onclick="triggerQuickPreset(180)">3 س</button>
-                </div>
-
-                <!-- الإدخال اليدوي مع زر اسم التنبيه المنبثق -->
-                <div class="manual-reminder-bar">
-                    <input type="number" id="manualReminderMinutes" placeholder="عدد الدقائق..." min="1" class="reminder-minutes-input">
-                    <button type="button" id="reminderTitleBtn" onclick="openReminderTitleModal()" class="reminder-title-trigger-btn">
-                        🏷️ <span id="reminderTitleBtnText">اسم التنبيه</span>
-                    </button>
-                    <button type="button" onclick="submitManualReminder()" class="btn-set-reminder">🔔 تفعيل التنبيه</button>
-                </div>
-            </div>
-
-            <!-- قائمة التنبيهات النشطة على الرئيسية (المسماة والفعالة لآخر يومين) -->
-            <div id="dashRemindersContainer" style="margin-bottom: 20px;"></div>
-
-            <!-- العنوان الرئيسي -->
+            <!-- 1. الترحيب والعنوان بالأعلى دائماً -->
             <div>
                 <div class="dashboard-header">طاب يومك.</div>
                 <div class="dashboard-subtitle">نظام الإدارة الحياتي الشامل والمزامنة السحابية اللحظية ☁️</div>
             </div>
+
+            <!-- ⏰ 2. شريط التنبيهات السريع تحت الكتابة الترحيبية -->
+            <div class="reminder-control-panel">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <span style="font-size:14px; font-weight:800; color:var(--accent-primary);">⏰ تعيين تنبيه وتذكير سريع</span>
+                    <span id="activeReminderCountBadge" style="font-size:12px; font-weight:700; color:var(--text-muted);"></span>
+                </div>
+                
+                <div class="reminder-presets-wrapper">
+                    <button class="preset-pill-btn" onclick="addReminderFast(15, '')">15 د</button>
+                    <button class="preset-pill-btn" onclick="addReminderFast(20, '')">20 د</button>
+                    <button class="preset-pill-btn" onclick="addReminderFast(30, '')">30 د</button>
+                    <button class="preset-pill-btn" onclick="addReminderFast(45, '')">45 د</button>
+                    <button class="preset-pill-btn" onclick="addReminderFast(60, '')">1 س</button>
+                    <button class="preset-pill-btn" onclick="addReminderFast(120, '')">2 س</button>
+                    <button class="preset-pill-btn" onclick="addReminderFast(180, '')">3 س</button>
+                </div>
+
+                <div class="manual-reminder-bar">
+                    <input type="number" id="manualReminderMinutes" placeholder="الدقائق..." min="1" class="reminder-minutes-input">
+                    <input type="text" id="manualReminderTitle" placeholder="اسم أو وصف التنبيه (اختياري)..." class="reminder-name-input">
+                    <button type="button" onclick="submitManualReminderFast()" class="btn-set-reminder">➕ إضافة تنبيه</button>
+                </div>
+            </div>
+
+            <div id="dashRemindersContainer" style="margin-bottom: 20px;"></div>
 
             <!-- Hero Metric -->
             <div class="card hero-metric-tile">
@@ -799,7 +816,7 @@
             </div>
         </div>
 
-        <!-- ⏰ صفحة سجل التنبيهات الشامل (تحفظ لمدة شهر) -->
+        <!-- ⏰ صفحة سجل التنبيهات الشامل -->
         <div id="reminders-section" class="section card">
             <h2 style="font-weight: 900; font-size: 30px; margin-bottom: 8px;">⏰ سجل التنبيهات والمواعيد</h2>
             <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">يتم الاحتفاظ بجميع التنبيهات المسجلة هنا لمدة شهر كامل (30 يوماً).</p>
@@ -930,9 +947,9 @@
             </div>
 
             <div class="card">
-                <h2 style="font-weight: 900; font-size: 26px; margin-bottom: 16px;">🔔 تفعيل الإشعارات والنغمة</h2>
-                <p style="color:var(--text-muted); font-size:14px; margin-bottom:14px;">اضغط الزر لتفعيل إشعارات وتنبيهات النظام والتأكد من عمل الرنين بوضوح.</p>
-                <button onclick="requestNotificationPermission()" class="btn-submit" style="background: var(--accent-gradient);">🔔 تفعيل إشعارات وتنبيهات الهاتف</button>
+                <h2 style="font-weight: 900; font-size: 26px; margin-bottom: 16px;">🔔 تفعيل الإشعارات والنغمة في الخلفية</h2>
+                <p style="color:var(--text-muted); font-size:14px; margin-bottom:14px;">يتم استخدام Service Worker لضمان استمرار عمل التنبيهات والنغمة حتى في حال تصغير التطبيق أو قفل الشاشة.</p>
+                <button onclick="requestNotificationPermission()" class="btn-submit">🔔 تفعيل إشعارات وتنبيهات النظام</button>
             </div>
 
             <div class="card">
@@ -948,19 +965,6 @@
             </div>
         </div>
 
-    </div>
-
-    <!-- 🏷️ النافذة المنبثقة لتعيين اسم التنبيه -->
-    <div class="glass-modal-overlay" id="reminderTitleModal">
-        <div class="glass-modal-box">
-            <h3 style="font-size: 20px; font-weight: 900; margin-bottom: 6px;">🏷️ تعيين اسم للتنبيه</h3>
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 18px;">اكتب وصفاً أو اسماً للتذكير (مثل: موعد طبيب، إخراج الخبز، اتصال...)</p>
-            <input type="text" id="modalReminderTitleInput" placeholder="اكتب اسم التنبيه هنا..." class="dash-input" style="margin-bottom: 20px;">
-            <div style="display: flex; gap: 10px;">
-                <button onclick="confirmReminderTitle()" class="btn-submit" style="background: var(--accent-primary); flex: 1;">موافق</button>
-                <button onclick="closeReminderTitleModal()" class="btn-submit" style="background: var(--input-fill); color: var(--text-main); border: 1px solid var(--input-border); flex: 1; box-shadow:none;">إلغاء</button>
-            </div>
-        </div>
     </div>
 
     <!-- 🔔 النافذة التفاعلية عند رنين التنبيه -->
@@ -979,7 +983,7 @@
             <div class="recording-wave-indicator">🎙️</div>
             <h3 style="font-size: 22px; font-weight: 900; margin-bottom: 6px;">جاري تسجيل الملاحظة...</h3>
             <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 18px;">يتم الآن التقاط صوتك بجودة عالية وتخزينه مباشرة</p>
-            <div class="record-timer-badge" id="recordTimer">00:00</div>
+            <div class="record-timer-badge" id="recordTimer" style="display:inline-block; background:var(--input-fill); border:1px solid var(--input-border); padding:8px 20px; border-radius:var(--radius-pill); font-size:24px; font-weight:900; letter-spacing:0.05em; color:var(--accent-red); margin-bottom:24px;">00:00</div>
             <div style="display: flex; gap: 10px;">
                 <button onclick="stopAndSaveVoiceRecording()" class="btn-submit" style="background: var(--accent-green); flex: 1; padding: 14px;">⏹️ إنهاء وحفظ</button>
                 <button onclick="cancelVoiceRecording()" class="btn-submit" style="background: var(--input-fill); color: var(--text-main); border: 1px solid var(--input-border); flex: 1; padding: 14px; box-shadow:none;">إلغاء</button>
@@ -1031,7 +1035,14 @@
             }
         });
 
-        // --- 1. Database Architecture & Normalizer ---
+        // --- 1. تسجيل ملف Service Worker الحقيقي ---
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('Service Worker Registered Successfully', reg))
+                .catch(err => console.log('Service Worker Registration Error:', err));
+        }
+
+        // --- 2. Database Normalizer ---
         function normalizeDB(data) {
             if (!data) data = {};
             const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
@@ -1048,7 +1059,6 @@
         const todayStr = new Date().toISOString().split('T')[0];
         ['billDate', 'subDate', 'purDate', 'vaultDate', 'docExpiry'].forEach(id => { if(document.getElementById(id)) document.getElementById(id).value = todayStr; });
 
-        // --- ☁️ Real-Time Engine ---
         function showSyncStatus(msg, isError = false) {
             const el = document.getElementById('syncStatus'); 
             if(!el) return;
@@ -1082,7 +1092,6 @@
             }
         });
 
-        // تنظيف البيانات: التنبيهات تحفظ لمدة شهر كامل (30 يوم)
         function cleanupOldData() {
             const now = Date.now();
             db.expenses = db.expenses.filter(ex => ((now - new Date(ex.date).getTime()) / (1000 * 60 * 60 * 24)) <= 120);
@@ -1091,7 +1100,7 @@
             localStorage.setItem('myLifeAppDB', JSON.stringify(db));
         }
 
-        // --- 🎵 Audio Synthesizer: نغمة تنبيه مخصصة طويلة ونقية (Web Audio API) ---
+        // --- 🎵 Audio Synthesizer ---
         let audioCtx = null;
         let alarmIntervalId = null;
 
@@ -1106,7 +1115,7 @@
         }
 
         function playSingleChimeChord(ctx, startOffset = 0) {
-            const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 (أكورد نقي ومبهج)
+            const notes = [523.25, 659.25, 783.99, 1046.50];
             notes.forEach((freq, idx) => {
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
@@ -1115,7 +1124,7 @@
                 osc.frequency.setValueAtTime(freq, ctx.currentTime + startOffset + (idx * 0.08));
                 
                 gain.gain.setValueAtTime(0, ctx.currentTime + startOffset + (idx * 0.08));
-                gain.gain.linearRampToValueAtTime(0.25, ctx.currentTime + startOffset + (idx * 0.08) + 0.04);
+                gain.gain.linearRampToValueAtTime(0.28, ctx.currentTime + startOffset + (idx * 0.08) + 0.04);
                 gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + startOffset + (idx * 0.08) + 1.8);
                 
                 osc.connect(gain);
@@ -1141,12 +1150,10 @@
                 playAlarmChimeSequence();
             }, 3500);
 
-            // تشغيل الاهتزاز
             if ("vibrate" in navigator) {
-                navigator.vibrate([400, 200, 400, 200, 800]);
+                navigator.vibrate([500, 250, 500, 250, 1000]);
             }
 
-            // إظهار نافذة إيقاف الرنين التفاعلية
             document.getElementById('activeAlarmModalTitle').innerText = title || 'تنبيه موعد محدد';
             document.getElementById('activeAlarmModal').classList.add('active');
         }
@@ -1156,37 +1163,24 @@
             document.getElementById('activeAlarmModal').classList.remove('active');
         }
 
-        // --- ⏰ محرك التنبيهات المتقدم (Reminders Engine) ---
-        let stagedReminderTitle = '';
-
-        function openReminderTitleModal() {
-            document.getElementById('modalReminderTitleInput').value = stagedReminderTitle;
-            document.getElementById('reminderTitleModal').classList.add('active');
-            setTimeout(() => document.getElementById('modalReminderTitleInput').focus(), 150);
-        }
-
-        function closeReminderTitleModal() {
-            document.getElementById('reminderTitleModal').classList.remove('active');
-        }
-
-        function confirmReminderTitle() {
-            stagedReminderTitle = document.getElementById('modalReminderTitleInput').value.trim();
-            const btn = document.getElementById('reminderTitleBtn');
-            const text = document.getElementById('reminderTitleBtnText');
-            if (stagedReminderTitle) {
-                btn.classList.add('has-title');
-                text.innerText = stagedReminderTitle;
-            } else {
-                btn.classList.remove('has-title');
-                text.innerText = 'اسم التنبيه';
+        function formatRemainingTime(ms) {
+            if (ms <= 0) return '00:00';
+            const totalSecs = Math.floor(ms / 1000);
+            const hrs = Math.floor(totalSecs / 3600);
+            const mins = Math.floor((totalSecs % 3600) / 60);
+            const secs = totalSecs % 60;
+            
+            if (hrs > 0) {
+                return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             }
-            closeReminderTitleModal();
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
 
-        function createReminder(minutes, customTitle = '') {
+        function addReminderFast(minutes, customTitle = '') {
+            getAudioContext();
             const now = Date.now();
             const targetTime = now + (minutes * 60 * 1000);
-            const title = customTitle || stagedReminderTitle;
+            const title = customTitle.trim();
             
             const newReminder = {
                 id: Date.now(),
@@ -1195,63 +1189,57 @@
                 createdAt: now,
                 targetTime: targetTime,
                 triggered: false,
-                hasName: !!title
+                hasName: !!title,
+                justAdded: true
             };
 
             db.reminders.push(newReminder);
             
-            // إعادة ضبط حقول الإدخال
             document.getElementById('manualReminderMinutes').value = '';
-            stagedReminderTitle = '';
-            document.getElementById('reminderTitleBtn').classList.remove('has-title');
-            document.getElementById('reminderTitleBtnText').innerText = 'اسم التنبيه';
+            document.getElementById('manualReminderTitle').value = '';
 
-            finalizeAction(`✅ تم ضبط التنبيه بعد ${minutes} دقيقة بنجاح!`);
+            finalizeAction();
             renderRemindersUI();
 
-            // ضمان تفعيل إذن الإشعارات
-            if (Notification.permission !== "granted") {
+            if ("Notification" in window && Notification.permission !== "granted") {
                 Notification.requestPermission();
             }
         }
 
-        function triggerQuickPreset(minutes) {
-            createReminder(minutes);
-        }
-
-        function submitManualReminder() {
-            const minutes = parseInt(document.getElementById('manualReminderMinutes').value);
-            if (!minutes || minutes <= 0) {
-                alert('يرجى كتابة عدد دقائق صالح (مثلاً: 10 أو 45).');
+        function submitManualReminderFast() {
+            const mins = parseInt(document.getElementById('manualReminderMinutes').value);
+            const title = document.getElementById('manualReminderTitle').value;
+            if (!mins || mins <= 0) {
+                alert('يرجى إدخال عدد دقائق صالح للتنبيه.');
                 return;
             }
-            createReminder(minutes);
+            addReminderFast(mins, title);
         }
 
-        function deleteReminder(id) {
-            db.reminders = db.reminders.filter(r => r.id !== id);
-            finalizeAction();
-            renderRemindersUI();
-        }
-
-        function editReminder(id) {
-            const r = db.reminders.find(x => x.id === id);
-            if (!r) return;
-            const newTitle = prompt('تعديل اسم التنبيه:', r.title);
-            if (newTitle !== null) {
-                r.title = newTitle.trim();
-                r.hasName = !!r.title;
-                finalizeAction('تم تحديث التنبيه');
+        function deleteReminderWithConfirm(id) {
+            if (confirm('هل أنت متأكد من إلغاء هذا التنبيه؟')) {
+                db.reminders = db.reminders.filter(r => r.id !== id);
+                finalizeAction('تم إلغاء التنبيه بنجاح');
                 renderRemindersUI();
             }
         }
 
-        // دالة عرض وتحديث التنبيهات في الواجهة
+        function editReminderPrompt(id) {
+            const r = db.reminders.find(x => x.id === id);
+            if (!r) return;
+            const newTitle = prompt('تعديل اسم أو وصف التنبيه:', r.title);
+            if (newTitle !== null) {
+                r.title = newTitle.trim();
+                r.hasName = !!r.title;
+                finalizeAction('تم تحديث التنبيه بنجاح');
+                renderRemindersUI();
+            }
+        }
+
         function renderRemindersUI() {
             const now = Date.now();
             const twoDaysMs = 48 * 60 * 60 * 1000;
             
-            // 1. التنبيهات المعروضة على الشاشة الرئيسية (تحتوي على اسم ومضى عليها أقل من يومين)
             const dashContainer = document.getElementById('dashRemindersContainer');
             if (dashContainer) {
                 const dashList = db.reminders.filter(r => r.hasName && (now - r.createdAt <= twoDaysMs));
@@ -1261,21 +1249,24 @@
                     let html = `<div style="margin-bottom:12px; font-weight:800; font-size:15px; color:var(--text-main);">🔔 التنبيهات والمواعيد النشطة</div>`;
                     dashList.forEach(r => {
                         const isPending = !r.triggered && r.targetTime > now;
-                        const diffMins = Math.ceil((r.targetTime - now) / (1000 * 60));
-                        const statusBadge = isPending 
-                            ? `<span style="background:rgba(99,102,241,0.15); color:var(--accent-primary); padding:4px 10px; border-radius:var(--radius-pill); font-size:12px; font-weight:800;">⏳ متبقي ${diffMins} د</span>`
-                            : `<span style="background:rgba(16,185,129,0.15); color:var(--accent-green); padding:4px 10px; border-radius:var(--radius-pill); font-size:12px; font-weight:800;">✅ تم التنبيه</span>`;
-                        
+                        const remainingMs = r.targetTime - now;
+                        const animClass = r.justAdded ? 'reminder-item-animated' : '';
+                        r.justAdded = false;
+
+                        const countdownDisplay = isPending 
+                            ? `<span class="countdown-live-badge" id="countdown-${r.id}">⏳ متبقي: ${formatRemainingTime(remainingMs)}</span>`
+                            : `<span style="background:rgba(16,185,129,0.15); color:var(--accent-green); padding:5px 12px; border-radius:var(--radius-pill); font-size:12px; font-weight:800;">✅ تم التنبيه</span>`;
+
                         html += `
-                        <div style="background:var(--card-surface); border:1px solid var(--card-border); padding:14px 18px; border-radius:var(--radius-md); margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                        <div class="${animClass}" style="background:var(--card-surface); border:1px solid var(--card-border); padding:16px 20px; border-radius:var(--radius-lg); margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; box-shadow:var(--shadow-subtle);">
                             <div>
-                                <strong style="font-size:15px;">${r.title}</strong>
-                                <div style="font-size:12px; color:var(--text-muted); margin-top:3px;">التوقيت: ${new Date(r.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})} (${r.minutes} دقيقة)</div>
+                                <strong style="font-size:16px; color:var(--text-main); display:block;">${r.title}</strong>
+                                <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">موعد الرنين: ${new Date(r.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})} (المدة: ${r.minutes} دقيقة)</div>
                             </div>
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                ${statusBadge}
-                                <button onclick="editReminder(${r.id})" style="background:none; border:none; color:var(--accent-primary); cursor:pointer; font-size:15px;">✏️</button>
-                                <button onclick="deleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer; font-size:15px;">🗑</button>
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                ${countdownDisplay}
+                                <button onclick="editReminderPrompt(${r.id})" title="تعديل" style="background:none; border:none; color:var(--accent-primary); cursor:pointer; font-size:16px;">✏️</button>
+                                <button onclick="deleteReminderWithConfirm(${r.id})" title="إلغاء مع تأكيد" style="background:none; border:none; color:var(--accent-red); cursor:pointer; font-size:16px;">❌</button>
                             </div>
                         </div>`;
                     });
@@ -1285,7 +1276,6 @@
                 }
             }
 
-            // 2. سجل التنبيهات الكامل في صفحة التنبيهات (لحفظ شهر كامل)
             const fullContainer = document.getElementById('fullRemindersArchive');
             if (fullContainer) {
                 fullContainer.innerHTML = '';
@@ -1298,7 +1288,7 @@
                         const dateLabel = new Date(r.createdAt).toLocaleDateString('ar-EG');
                         const timeLabel = new Date(r.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
                         const statusBadge = isPending 
-                            ? `<span style="color:var(--accent-primary); font-weight:800;">قيد الانتظار</span>`
+                            ? `<span style="color:var(--accent-primary); font-weight:800;">قيد الانتظار (${formatRemainingTime(r.targetTime - now)})</span>`
                             : `<span style="color:var(--accent-green); font-weight:800;">مكتمل</span>`;
 
                         fullContainer.innerHTML += `
@@ -1308,8 +1298,8 @@
                                 <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">📅 ${dateLabel} - موعد الرنين: ${timeLabel} (${r.minutes} دقيقة) - ${statusBadge}</div>
                             </div>
                             <div style="display:flex; gap:8px;">
-                                <button onclick="editReminder(${r.id})" style="background:none; border:none; color:var(--accent-primary); cursor:pointer; font-size:16px;">✏️</button>
-                                <button onclick="deleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer; font-size:16px;">🗑</button>
+                                <button onclick="editReminderPrompt(${r.id})" style="background:none; border:none; color:var(--accent-primary); cursor:pointer; font-size:16px;">✏️</button>
+                                <button onclick="deleteReminderWithConfirm(${r.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer; font-size:16px;">❌</button>
                             </div>
                         </div>`;
                     });
@@ -1317,26 +1307,44 @@
             }
         }
 
-        // فحص ومراقبة التنبيهات في الخلفية والأمامية كل ثانية
         setInterval(() => {
             const now = Date.now();
             let stateChanged = false;
 
             db.reminders.forEach(r => {
-                if (!r.triggered && now >= r.targetTime) {
-                    r.triggered = true;
-                    stateChanged = true;
-                    
-                    // إطلاق النغمة والاهتزاز والنافذة
-                    startContinuousAlarm(r.title);
+                if (!r.triggered) {
+                    const diff = r.targetTime - now;
+                    if (diff <= 0) {
+                        r.triggered = true;
+                        stateChanged = true;
+                        
+                        startContinuousAlarm(r.title);
 
-                    // إرسال إشعار النظام
-                    if ("Notification" in window && Notification.permission === "granted") {
-                        new Notification("Life OS ⏰ حان موعد التنبيه!", {
-                            body: r.title ? `تنبيه: ${r.title}` : 'انتهى الوقت المحدد!',
-                            icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png",
-                            requireInteraction: true
-                        });
+                        if ("Notification" in window && Notification.permission === "granted") {
+                            const notifTitle = r.title ? `⏰ تنبيه: ${r.title}` : '⏰ انتهى وقت التنبيه المجدول!';
+                            if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+                                navigator.serviceWorker.ready.then(reg => {
+                                    reg.showNotification(notifTitle, {
+                                        body: `انتهت مدة التنبيه (${r.minutes} دقيقة) في Life OS`,
+                                        icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png",
+                                        vibrate: [500, 250, 500, 250, 1000],
+                                        tag: 'alarm-' + r.id,
+                                        requireInteraction: true
+                                    });
+                                });
+                            } else {
+                                new Notification(notifTitle, {
+                                    body: `انتهت مدة التنبيه (${r.minutes} دقيقة) في Life OS`,
+                                    icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png",
+                                    requireInteraction: true
+                                });
+                            }
+                        }
+                    } else {
+                        const el = document.getElementById(`countdown-${r.id}`);
+                        if (el) {
+                            el.innerText = `⏳ متبقي: ${formatRemainingTime(diff)}`;
+                        }
                     }
                 }
             });
@@ -1347,7 +1355,7 @@
             }
         }, 1000);
 
-        // --- 🎙️ Real Voice Memos Engine (MediaRecorder API) ---
+        // --- 🎙️ Real Voice Memos Engine ---
         let mediaRecorder = null;
         let audioChunks = [];
         let recordInterval = null;
@@ -1407,7 +1415,7 @@
                 }, 1000);
 
             } catch (err) {
-                alert('⚠️ تعذر تشغيل الميكروفون. يرجى التأكد من السماح بصلاحية الوصول للميكروفون في المتصفح.');
+                alert('⚠️ تعذر تشغيل الميكروفون. يرجى التأكد من منح صلاحية الميكروفون في المتصفح.');
             }
         }
 
@@ -1428,7 +1436,6 @@
             }
         }
 
-        // --- Navigation ---
         function updateFooterNavigation(id) { 
             const backBtn = document.getElementById('footerBackBtn'); 
             if(!backBtn) return;
@@ -1446,6 +1453,9 @@
             document.getElementById('footerBtn').classList.remove('active'); 
             document.getElementById('footerIcon').innerText = '➕'; 
             document.getElementById('footerText').innerText = 'إضافة سريعة';
+            
+            // إغلاق أي نوافذ صوتية أو تنبيهات معلقة عند الانتقال
+            cancelVoiceRecording();
             
             if(window.innerWidth <= 768) { 
                 document.getElementById('mainSidebar').classList.remove('open'); 
@@ -1519,7 +1529,6 @@
         }
         applyTheme();
 
-        // --- Core Calculations & Rendering ---
         function updateDashboardZen() {
             let spentThisMonth = 0; 
             const cMonth = new Date().getMonth(); 
@@ -1798,7 +1807,7 @@
         }
         
         function requestNotificationPermission() { 
-            getAudioContext(); // تجهيز محرك الصوت للنغمات
+            getAudioContext();
             if (!("Notification" in window)) { 
                 alert("متصفحك لا يدعم الإشعارات."); 
                 return; 
@@ -1806,22 +1815,20 @@
             Notification.requestPermission().then(function (permission) { 
                 if (permission === "granted") { 
                     alert("✅ تم تفعيل الإشعارات بنجاح!"); 
-                    playAlarmChimeSequence(); // تشغيل تجربة للنغمة
-                    new Notification("Life OS", { body: "تم تفعيل الإشعارات والنغمة بنجاح" }); 
+                    playAlarmChimeSequence();
+                    if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+                        navigator.serviceWorker.ready.then(reg => {
+                            reg.showNotification("Life OS", {
+                                body: "تم تفعيل إشعارات وتنبيهات النظام بنجاح!",
+                                icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png"
+                            });
+                        });
+                    }
                 } else { 
-                    alert("❌ تم رفض الصلاحية."); 
+                    alert("❌ تم رفض الصلاحية. يرجى تفعيلها من إعدادات المتصفح."); 
                 } 
             }); 
         }
-
-        // طلب الإذن المبدئي عند بدء التطبيق
-        window.addEventListener('DOMContentLoaded', () => {
-            if ("Notification" in window && Notification.permission === "default") {
-                setTimeout(() => {
-                    Notification.requestPermission();
-                }, 2000);
-            }
-        });
 
         history.replaceState({ section: 'dashboard' }, '', '#dashboard');
         updateDashboardZen(); 
