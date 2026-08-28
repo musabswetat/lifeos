@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- 🍏 إعدادات Apple PWA وتطبيق الويب الشامل -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -351,7 +350,6 @@
             font-variant-numeric: tabular-nums;
         }
 
-        /* 💳 Hero Metric Tile */
         .hero-metric-tile {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(14, 165, 233, 0.04) 100%), var(--card-surface);
             border: 1px solid var(--card-border-glow);
@@ -488,10 +486,6 @@
             white-space: nowrap;
         }
         .island-action-btn:active { transform: scale(0.96); }
-        .island-action-btn.active {
-            background: linear-gradient(135deg, #EF4444 0%, #F59E0B 100%);
-            box-shadow: 0 10px 25px -5px rgba(239, 68, 68, 0.45);
-        }
 
         .island-popup-menu {
             position: absolute;
@@ -595,7 +589,7 @@
         }
         @keyframes recordPulse {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
-            70% { transform: scale(1.08); box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+            70% { transform: scale(1.08); box-shadow: 0 0 0 20px rgba(239, 68, 68, 0.5); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
 
@@ -1035,11 +1029,19 @@
             }
         });
 
-        // --- 1. تسجيل ملف Service Worker الحقيقي ---
+        // --- 1. فحص محرك الإشعارات الأصلي لبيئة APK/Capacitor ---
+        const getNativeNotificationPlugin = () => {
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
+                return window.Capacitor.Plugins.LocalNotifications;
+            }
+            return null;
+        };
+
+        let swRegistration = null;
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js')
-                .then(reg => console.log('Service Worker Registered Successfully', reg))
-                .catch(err => console.log('Service Worker Registration Error:', err));
+                .then(reg => { swRegistration = reg; })
+                .catch(() => {});
         }
 
         // --- 2. Database Normalizer ---
@@ -1119,17 +1121,13 @@
             notes.forEach((freq, idx) => {
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
-                
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(freq, ctx.currentTime + startOffset + (idx * 0.08));
-                
                 gain.gain.setValueAtTime(0, ctx.currentTime + startOffset + (idx * 0.08));
                 gain.gain.linearRampToValueAtTime(0.28, ctx.currentTime + startOffset + (idx * 0.08) + 0.04);
                 gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + startOffset + (idx * 0.08) + 1.8);
-                
                 osc.connect(gain);
                 gain.connect(ctx.destination);
-                
                 osc.start(ctx.currentTime + startOffset + (idx * 0.08));
                 osc.stop(ctx.currentTime + startOffset + (idx * 0.08) + 2.0);
             });
@@ -1169,11 +1167,31 @@
             const hrs = Math.floor(totalSecs / 3600);
             const mins = Math.floor((totalSecs % 3600) / 60);
             const secs = totalSecs % 60;
-            
             if (hrs > 0) {
                 return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             }
             return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        // جدولة الإشعار عبر Capacitor الأصلي في بيئة APK
+        async function scheduleSystemNotification(title, minutes, reminderId) {
+            const nativePlugin = getNativeNotificationPlugin();
+            if (nativePlugin) {
+                try {
+                    await nativePlugin.schedule({
+                        notifications: [{
+                            title: "Life OS ⏰",
+                            body: title || `حان موعد التنبيه المجدول (${minutes} دقيقة)!`,
+                            id: Math.abs(Number(reminderId) % 2147483647),
+                            schedule: { at: new Date(Date.now() + minutes * 60 * 1000) },
+                            sound: null,
+                            channelId: 'lifeos_alarms_channel'
+                        }]
+                    });
+                } catch (err) {
+                    console.log('Native notification schedule error:', err);
+                }
+            }
         }
 
         function addReminderFast(minutes, customTitle = '') {
@@ -1181,9 +1199,10 @@
             const now = Date.now();
             const targetTime = now + (minutes * 60 * 1000);
             const title = customTitle.trim();
+            const reminderId = Date.now();
             
             const newReminder = {
-                id: Date.now(),
+                id: reminderId,
                 title: title,
                 minutes: minutes,
                 createdAt: now,
@@ -1201,9 +1220,8 @@
             finalizeAction();
             renderRemindersUI();
 
-            if (typeof Notification !== 'undefined' && Notification.permission !== "granted") {
-                Notification.requestPermission();
-            }
+            // جدولة الإشعار في نظام أندرويد
+            scheduleSystemNotification(title, minutes, reminderId);
         }
 
         function submitManualReminderFast() {
@@ -1329,20 +1347,12 @@
                         startContinuousAlarm(r.title);
 
                         const notifTitle = r.title ? `⏰ تنبيه: ${r.title}` : '⏰ انتهى وقت التنبيه المجدول!';
-                        if (navigator.serviceWorker && navigator.serviceWorker.ready) {
-                            navigator.serviceWorker.ready.then(reg => {
-                                reg.showNotification(notifTitle, {
-                                    body: `انتهت مدة التنبيه (${r.minutes} دقيقة) في Life OS`,
-                                    icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png",
-                                    vibrate: [500, 250, 500, 250, 1000],
-                                    tag: 'alarm-' + r.id,
-                                    requireInteraction: true
-                                });
-                            });
-                        } else if (typeof Notification !== 'undefined' && Notification.permission === "granted") {
-                            new Notification(notifTitle, {
+                        if (swRegistration && swRegistration.showNotification) {
+                            swRegistration.showNotification(notifTitle, {
                                 body: `انتهت مدة التنبيه (${r.minutes} دقيقة) في Life OS`,
                                 icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png",
+                                vibrate: [500, 250, 500, 250, 1000],
+                                tag: 'alarm-' + r.id,
                                 requireInteraction: true
                             });
                         }
@@ -1421,7 +1431,7 @@
                 }, 1000);
 
             } catch (err) {
-                alert('⚠️ تعذر تشغيل الميكروفون. يرجى التأكد من منح صلاحية الميكروفون في المتصفح.');
+                alert('⚠️ تعذر تشغيل الميكروفون. يرجى التأكد من منح صلاحية الميكروفون.');
             }
         }
 
@@ -1811,57 +1821,53 @@
             }); 
         }
         
-        // --- 🔔 تفعيل الإشعارات وإنشاء القناة لفك القفل الرمادي في أندرويد ---
+        // --- 🔔 طلب أذونات الإشعارات المباشر لبيئة APK/Capacitor ---
         async function requestNotificationPermission() { 
             getAudioContext();
-            let permissionGranted = false;
-
-            try {
-                if (typeof Notification !== 'undefined') {
-                    const res = await Notification.requestPermission();
-                    if (res === 'granted') permissionGranted = true;
-                }
-            } catch (e) {
-                if (typeof Notification !== 'undefined') {
-                    Notification.requestPermission(function(res) {
-                        if (res === 'granted') triggerInitialSystemNotification();
-                    });
+            
+            // 1. طلب الإذن عبر نظام أندرويد الأصلي إذا كان تطبيق APK
+            const nativePlugin = getNativeNotificationPlugin();
+            if (nativePlugin) {
+                try {
+                    const status = await nativePlugin.requestPermissions();
+                    if (status.display === 'granted') {
+                        playAlarmChimeSequence();
+                        await nativePlugin.schedule({
+                            notifications: [{
+                                title: "Life OS 🔔",
+                                body: "تم تفعيل إشعارات وتنبيهات النظام بنجاح!",
+                                id: 1,
+                                schedule: { at: new Date(Date.now() + 1000) }
+                            }]
+                        });
+                        alert("✅ تم تفعيل إشعارات وتنبيهات النظام في هاتفك بنجاح!");
+                        return;
+                    }
+                } catch (e) {
+                    console.log('Native permission request failed:', e);
                 }
             }
 
-            if (permissionGranted) {
-                triggerInitialSystemNotification();
-            } else if ('serviceWorker' in navigator) {
-                const reg = await navigator.serviceWorker.ready;
-                if (reg && reg.showNotification) {
-                    triggerInitialSystemNotification();
-                } else {
-                    alert("🔔 تم تفعيل المنبه الصوتي والاهتزاز داخل التطبيق!");
-                    playAlarmChimeSequence();
-                }
-            } else {
-                alert("🔔 تم تفعيل المنبه الصوتي والاهتزاز داخل التطبيق!");
-                playAlarmChimeSequence();
+            // 2. طلب الإذن عبر Service Worker / Notification API القياسي
+            if (swRegistration && swRegistration.showNotification) {
+                try {
+                    const perm = await Notification.requestPermission();
+                    if (perm === 'granted') {
+                        playAlarmChimeSequence();
+                        swRegistration.showNotification("Life OS 🔔", {
+                            body: "تم تفعيل إشعارات وتنبيهات النظام بنجاح!",
+                            icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png",
+                            vibrate: [300, 150, 300]
+                        });
+                        alert("✅ تم تفعيل الإشعارات بنجاح!");
+                        return;
+                    }
+                } catch (err) {}
             }
-        }
 
-        function triggerInitialSystemNotification() {
+            // 3. تشغيل المنبه الصوتي كوضع احتياطي
             playAlarmChimeSequence();
-            if (navigator.serviceWorker && navigator.serviceWorker.ready) {
-                navigator.serviceWorker.ready.then(reg => {
-                    reg.showNotification("Life OS 🔔", {
-                        body: "تم تفعيل إشعارات وتنبيهات النظام بنجاح!",
-                        icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png",
-                        vibrate: [300, 150, 300]
-                    });
-                });
-            } else if (typeof Notification !== 'undefined' && Notification.permission === "granted") {
-                new Notification("Life OS 🔔", {
-                    body: "تم تفعيل إشعارات وتنبيهات النظام بنجاح!",
-                    icon: "https://cdn-icons-png.flaticon.com/512/2313/2313436.png"
-                });
-            }
-            alert("✅ تم تفعيل الإشعارات بنجاح وتم فك القفل في إعدادات الهاتف!");
+            alert("🔔 تم تفعيل المنبه الصوتي والاهتزاز بنجاح!");
         }
 
         history.replaceState({ section: 'dashboard' }, '', '#dashboard');
