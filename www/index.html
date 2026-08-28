@@ -507,24 +507,41 @@
         firebase.initializeApp(firebaseConfig);
         const dbRef = firebase.database().ref('myLifeData');
 
-        // --- 1. فحص إضافة إشعارات أندرويد الأصلية وتجهيز أزرار الإجراءات ---
-        const getNativePlugin = () => {
-            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
-                return window.Capacitor.Plugins.LocalNotifications;
+        // --- 1. فحص وربط إضافة إشعارات أندرويد الأصلية المباشرة ---
+        function getNativePlugin() {
+            if (window.Capacitor) {
+                if (window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
+                    return window.Capacitor.Plugins.LocalNotifications;
+                }
+                if (typeof window.Capacitor.registerPlugin === 'function') {
+                    try {
+                        return window.Capacitor.registerPlugin('LocalNotifications');
+                    } catch(e) {}
+                }
             }
             return null;
-        };
+        }
 
         async function initNativeNotifications() {
             const plugin = getNativePlugin();
             if (plugin) {
                 try {
+                    await plugin.createChannel({
+                        id: 'lifeos_alarms_channel',
+                        name: 'Life OS التنبيهات',
+                        description: 'قناة إشعارات وتنبيهات Life OS',
+                        importance: 5,
+                        visibility: 1,
+                        vibration: true
+                    });
+
                     await plugin.registerActionTypes({
                         types: [{
                             id: 'ALARM_ACTIONS',
                             actions: [{ id: 'dismiss_alarm', title: '🔕 إيقاف التنبيه', destructive: true }]
                         }]
                     });
+
                     plugin.addListener('localNotificationActionPerformed', () => {
                         dismissActiveAlarm();
                     });
@@ -634,10 +651,9 @@
             return audioCtx;
         }
 
-        // نغمة كلاسيكية مهدئة ومنسجمة (E-Major Ambient Harmony)
         function playPrestigeZenChord() {
             const ctx = getAudioContext();
-            const chord = [329.63, 493.88, 659.25, 987.77, 1318.51]; // E4, B4, E5, B5, E6
+            const chord = [329.63, 493.88, 659.25, 987.77, 1318.51];
             const now = ctx.currentTime;
 
             chord.forEach((freq, idx) => {
@@ -682,11 +698,12 @@
             return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
 
-        // جدولة الإشعار النظامي في شريط إشعارات أندرويد
+        // جدولة الإشعار مع إيقاظ أندرويد من وضع الخمول (allowWhileIdle)
         async function scheduleSystemNotification(title, minutes, reminderId) {
             const plugin = getNativePlugin();
             const notifTitle = title ? `⏰ تنبيه: ${title}` : `⏰ انتهى وقت التنبيه (${minutes} دقيقة)!`;
             const notifBody = title ? `حان الآن موعد التذكير: ${title}` : `انتهت مدة التنبيه المجدول في Life OS`;
+            const targetDate = new Date(Date.now() + minutes * 60 * 1000);
 
             if (plugin) {
                 try {
@@ -695,7 +712,10 @@
                             title: notifTitle,
                             body: notifBody,
                             id: Math.abs(Number(reminderId) % 2147483647),
-                            schedule: { at: new Date(Date.now() + minutes * 60 * 1000) },
+                            schedule: {
+                                at: targetDate,
+                                allowWhileIdle: true
+                            },
                             actionTypeId: 'ALARM_ACTIONS',
                             channelId: 'lifeos_alarms_channel'
                         }]
@@ -736,6 +756,10 @@
 
         function deleteReminder(id) {
             if (confirm('تأكيد إلغاء التنبيه؟')) {
+                const plugin = getNativePlugin();
+                if (plugin) {
+                    plugin.cancel({ notifications: [{ id: Math.abs(Number(id) % 2147483647) }] }).catch(() => {});
+                }
                 db.reminders = db.reminders.filter(r => r.id !== id);
                 finalizeAction();
             }
