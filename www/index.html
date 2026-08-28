@@ -119,7 +119,6 @@
             z-index: 0;
         }
 
-        /* 🌟 القائمة الجانبية */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -186,7 +185,6 @@
         .sidebar button span.text { opacity: 0; transition: opacity 0.2s ease; }
         .sidebar:hover button span.text { opacity: 1; }
 
-        /* 📱 حاوية المحتوى */
         .main-container {
             flex: 1;
             width: 100%;
@@ -225,9 +223,7 @@
             overflow: hidden;
             transition: all 0.3s ease;
         }
-        .card:hover {
-            border-color: var(--card-border-glow);
-        }
+        .card:hover { border-color: var(--card-border-glow); }
 
         .dashboard-header {
             font-size: 38px;
@@ -245,7 +241,6 @@
             margin-bottom: 22px;
         }
 
-        /* ⏰ Reminders Control Panel */
         .reminder-control-panel {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(6, 182, 212, 0.06) 100%), var(--card-surface);
             border: 1px solid var(--card-border-glow);
@@ -279,11 +274,7 @@
             transition: all 0.2s ease;
             scroll-snap-align: start;
         }
-        .preset-pill-btn:active {
-            transform: scale(0.92);
-            background: var(--accent-primary);
-            color: #FFF;
-        }
+        .preset-pill-btn:active { transform: scale(0.92); background: var(--accent-primary); color: #FFF; }
 
         .manual-reminder-bar {
             display: flex;
@@ -328,14 +319,6 @@
             white-space: nowrap;
         }
         .btn-set-reminder:active { transform: scale(0.96); }
-
-        .reminder-item-animated {
-            animation: slideInDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes slideInDown {
-            from { opacity: 0; transform: translateY(-16px) scale(0.96); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
 
         .countdown-live-badge {
             display: inline-flex;
@@ -412,7 +395,6 @@
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
         }
 
-        /* 🏝️ Floating Island */
         .floating-island {
             position: fixed;
             bottom: 28px;
@@ -448,7 +430,6 @@
             flex-shrink: 0;
         }
         .island-btn:hover { background: var(--card-border); transform: scale(1.05); }
-        .island-btn:active { transform: scale(0.92); }
 
         .island-voice-btn {
             width: 46px;
@@ -466,7 +447,6 @@
             flex-shrink: 0;
         }
         .island-voice-btn:hover { background: var(--accent-red); color: #FFFFFF; transform: scale(1.05); }
-        .island-voice-btn:active { transform: scale(0.92); }
 
         .island-action-btn {
             background: var(--accent-gradient);
@@ -485,7 +465,6 @@
             transition: all 0.25s ease;
             white-space: nowrap;
         }
-        .island-action-btn:active { transform: scale(0.96); }
 
         .island-popup-menu {
             position: absolute;
@@ -507,11 +486,7 @@
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             width: 270px;
         }
-        .island-popup-menu.open {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateX(-50%) scale(1);
-        }
+        .island-popup-menu.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) scale(1); }
         .island-item {
             display: flex;
             align-items: center;
@@ -528,20 +503,13 @@
             transition: all 0.2s ease;
         }
         .island-item:hover { background: var(--accent-gradient); color: #FFFFFF; border-color: transparent; }
-        .island-item:active { transform: scale(0.97); }
 
-        /* 🎙️ Modals */
         .glass-modal-overlay, .voice-modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.65);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -551,10 +519,7 @@
             padding: 20px;
             box-sizing: border-box;
         }
-        .glass-modal-overlay.active, .voice-modal-overlay.active { 
-            display: flex !important; 
-            animation: visionAppear 0.3s ease-out; 
-        }
+        .glass-modal-overlay.active, .voice-modal-overlay.active { display: flex !important; animation: visionAppear 0.3s ease-out; }
         .glass-modal-box, .voice-modal {
             background: var(--card-surface);
             backdrop-filter: var(--blur-strength);
@@ -572,10 +537,7 @@
             border: 2px solid var(--accent-red);
             animation: ringShake 0.6s infinite alternate;
         }
-        @keyframes ringShake {
-            0% { transform: scale(0.99); }
-            100% { transform: scale(1.02); }
-        }
+        @keyframes ringShake { 0% { transform: scale(0.99); } 100% { transform: scale(1.02); } }
 
         .recording-wave-indicator {
             width: 80px; height: 80px;
@@ -942,7 +904,7 @@
 
             <div class="card">
                 <h2 style="font-weight: 900; font-size: 26px; margin-bottom: 16px;">🔔 تفعيل الإشعارات وتنبيهات النظام</h2>
-                <p style="color:var(--text-muted); font-size:14px; margin-bottom:14px;">اضغط الزر أدناه لمنح الإذن وتفعيل الإشعارات في النظام.</p>
+                <p style="color:var(--text-muted); font-size:14px; margin-bottom:14px;">اضغط الزر لتأكيد تفعيل إشعارات وتنبيهات النظام مع زر الإيقاف التفاعلي.</p>
                 <button onclick="requestNotificationPermission()" class="btn-submit">🔔 تفعيل إشعارات وتنبيهات النظام</button>
             </div>
 
@@ -1029,13 +991,43 @@
             }
         });
 
-        // --- 1. فحص محرك الإشعارات الأصلي لبيئة APK/Capacitor ---
-        const getNativeNotificationPlugin = () => {
+        // --- 1. فحص وتهيئة محرك الإشعارات الأصلي مع زر الإيقاف (Action Buttons) ---
+        const getNativePlugin = () => {
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
                 return window.Capacitor.Plugins.LocalNotifications;
             }
             return null;
         };
+
+        // تسجيل أزرار الإجراءات في شريط الإشعارات (إيقاف التنبيه)
+        async function setupNativeActions() {
+            const nativePlugin = getNativePlugin();
+            if (nativePlugin) {
+                try {
+                    await nativePlugin.registerActionTypes({
+                        types: [
+                            {
+                                id: 'ALARM_ACTIONS',
+                                actions: [
+                                    {
+                                        id: 'dismiss_alarm',
+                                        title: '🔕 إيقاف التنبيه',
+                                        destructive: true
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+
+                    nativePlugin.addListener('localNotificationActionPerformed', (notification) => {
+                        dismissActiveAlarm();
+                    });
+                } catch (e) {
+                    console.log('Action types registration:', e);
+                }
+            }
+        }
+        setupNativeActions();
 
         let swRegistration = null;
         if ('serviceWorker' in navigator) {
@@ -1173,23 +1165,26 @@
             return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
 
-        // جدولة الإشعار عبر Capacitor الأصلي في بيئة APK
+        // جدولة الإشعار مع زر الإيقاف (Action Button) وتفاصيل العنوان والوصف
         async function scheduleSystemNotification(title, minutes, reminderId) {
-            const nativePlugin = getNativeNotificationPlugin();
+            const nativePlugin = getNativePlugin();
+            const notifTitle = title ? `⏰ تنبيه: ${title}` : `⏰ انتهى وقت التنبيه (${minutes} دقيقة)!`;
+            const notifBody = title ? `حان الآن موعد التذكير المحدد: ${title}` : `انتهت مدة التنبيه المجدول في Life OS`;
+
             if (nativePlugin) {
                 try {
                     await nativePlugin.schedule({
                         notifications: [{
-                            title: "Life OS ⏰",
-                            body: title || `حان موعد التنبيه المجدول (${minutes} دقيقة)!`,
+                            title: notifTitle,
+                            body: notifBody,
                             id: Math.abs(Number(reminderId) % 2147483647),
                             schedule: { at: new Date(Date.now() + minutes * 60 * 1000) },
-                            sound: null,
+                            actionTypeId: 'ALARM_ACTIONS',
                             channelId: 'lifeos_alarms_channel'
                         }]
                     });
                 } catch (err) {
-                    console.log('Native notification schedule error:', err);
+                    console.log('Native schedule error:', err);
                 }
             }
         }
@@ -1220,7 +1215,6 @@
             finalizeAction();
             renderRemindersUI();
 
-            // جدولة الإشعار في نظام أندرويد
             scheduleSystemNotification(title, minutes, reminderId);
         }
 
@@ -1821,12 +1815,11 @@
             }); 
         }
         
-        // --- 🔔 طلب أذونات الإشعارات المباشر لبيئة APK/Capacitor ---
+        // --- 🔔 تفعيل الإشعارات وتأكيد القناة مع إظهار تفاصيل التنبيه كاملة ---
         async function requestNotificationPermission() { 
             getAudioContext();
-            
-            // 1. طلب الإذن عبر نظام أندرويد الأصلي إذا كان تطبيق APK
-            const nativePlugin = getNativeNotificationPlugin();
+            const nativePlugin = getNativePlugin();
+
             if (nativePlugin) {
                 try {
                     const status = await nativePlugin.requestPermissions();
@@ -1836,11 +1829,13 @@
                             notifications: [{
                                 title: "Life OS 🔔",
                                 body: "تم تفعيل إشعارات وتنبيهات النظام بنجاح!",
-                                id: 1,
-                                schedule: { at: new Date(Date.now() + 1000) }
+                                id: 1001,
+                                schedule: { at: new Date(Date.now() + 1000) },
+                                actionTypeId: 'ALARM_ACTIONS',
+                                channelId: 'lifeos_alarms_channel'
                             }]
                         });
-                        alert("✅ تم تفعيل إشعارات وتنبيهات النظام في هاتفك بنجاح!");
+                        alert("✅ تم تفعيل إشعارات النظام وتأكيد ظهورها بنجاح!");
                         return;
                     }
                 } catch (e) {
@@ -1848,7 +1843,6 @@
                 }
             }
 
-            // 2. طلب الإذن عبر Service Worker / Notification API القياسي
             if (swRegistration && swRegistration.showNotification) {
                 try {
                     const perm = await Notification.requestPermission();
@@ -1865,7 +1859,6 @@
                 } catch (err) {}
             }
 
-            // 3. تشغيل المنبه الصوتي كوضع احتياطي
             playAlarmChimeSequence();
             alert("🔔 تم تفعيل المنبه الصوتي والاهتزاز بنجاح!");
         }
