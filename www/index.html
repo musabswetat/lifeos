@@ -7,7 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#0B0F19" id="themeColorMeta">
+    <meta name="theme-color" content="#090D16" id="themeColorMeta">
 
     <title>Life OS</title>
     
@@ -18,9 +18,8 @@
     <style>
         :root {
             --bg-canvas: #090D16;
-            --surface-card: rgba(18, 24, 38, 0.75);
+            --surface-card: rgba(18, 24, 38, 0.78);
             --surface-hover: rgba(28, 36, 56, 0.9);
-            --surface-elevated: #151C2C;
             --border-subtle: rgba(255, 255, 255, 0.08);
             --border-glow: rgba(99, 102, 241, 0.35);
             
@@ -28,29 +27,31 @@
             --text-secondary: #94A3B8;
             --text-tertiary: #64748B;
             
+            /* بروفايل كروم الديناميكي (يتم ضبطه بالجافاسكريبت تلقائياً) */
             --accent-primary: #6366F1;
-            --accent-cyan: #06B6D4;
+            --accent-secondary: #06B6D4;
+            --gradient-accent: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            --glow-accent: rgba(99, 102, 241, 0.35);
+            --ambient-1: rgba(99, 102, 241, 0.14);
+            --ambient-2: rgba(6, 182, 212, 0.09);
+            
             --accent-emerald: #10B981;
             --accent-amber: #F59E0B;
             --accent-rose: #F43F5E;
             
-            --gradient-accent: linear-gradient(135deg, #6366F1 0%, #06B6D4 100%);
             --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
-            
             --radius-xl: 22px;
             --radius-lg: 16px;
             --radius-md: 12px;
             --radius-pill: 9999px;
-            
             --dock-height: 64px;
             --shadow-bento: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
         }
 
         body.light-mode {
             --bg-canvas: #F4F6FB;
-            --surface-card: rgba(255, 255, 255, 0.85);
+            --surface-card: rgba(255, 255, 255, 0.88);
             --surface-hover: rgba(241, 245, 249, 0.95);
-            --surface-elevated: #FFFFFF;
             --border-subtle: rgba(0, 0, 0, 0.06);
             --border-glow: rgba(99, 102, 241, 0.25);
             --text-primary: #0F172A;
@@ -80,10 +81,10 @@
             flex-direction: column;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, var(--ambient-1) 0px, transparent 55%),
+                radial-gradient(at 100% 100%, var(--ambient-2) 0px, transparent 55%);
             background-attachment: fixed;
-            transition: background 0.3s ease, color 0.3s ease;
+            transition: background 0.4s ease, color 0.3s ease;
         }
 
         .app-container {
@@ -118,11 +119,10 @@
             box-shadow: var(--shadow-bento);
             position: relative;
             overflow: hidden;
-            transition: border-color 0.25s ease, transform 0.2s ease;
+            transition: border-color 0.25s ease;
         }
         .bento-card:hover { border-color: var(--border-glow); }
 
-        /* 🌤️ HUD Widget: Weather & Currency Header */
         .hud-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -141,7 +141,6 @@
         .hud-tile-title { font-size: 11px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px; }
         .hud-tile-value { font-size: 16px; font-weight: 800; color: var(--text-primary); }
 
-        /* Currency Mini-Ticker */
         .currency-ribbon {
             display: flex;
             justify-content: space-between;
@@ -155,7 +154,40 @@
         }
         .currency-item { display: flex; align-items: center; gap: 6px; }
 
-        /* ⏰ Presets Bar */
+        /* 🎨 شريط البروفايل اللوني و كبسولة التثبيت */
+        .theme-palette-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            padding: 8px 14px;
+            border-radius: var(--radius-pill);
+            margin-bottom: 14px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .theme-lock-btn {
+            background: var(--surface-hover);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-primary);
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .theme-lock-btn.pinned {
+            background: var(--gradient-accent);
+            color: #FFFFFF;
+            border-color: transparent;
+            box-shadow: 0 2px 10px var(--glow-accent);
+        }
+
         .presets-bar {
             display: flex;
             gap: 8px;
@@ -207,11 +239,10 @@
             cursor: pointer;
             white-space: nowrap;
             transition: opacity 0.15s ease;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 4px 15px var(--glow-accent);
         }
         .btn-action:active { opacity: 0.85; transform: scale(0.97); }
 
-        /* 🕌 بطاقات التنبيهات ومواقيت الصلاة */
         .reminder-card {
             display: flex;
             justify-content: space-between;
@@ -221,11 +252,10 @@
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-lg);
             margin-bottom: 8px;
-            transition: border-color 0.2s ease;
         }
         .reminder-card.prayer {
             border-right: 4px solid var(--accent-emerald);
-            background: linear-gradient(90deg, rgba(16, 185, 129, 0.06) 0%, transparent 100%), var(--surface-hover);
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.08) 0%, transparent 100%), var(--surface-hover);
         }
         .reminder-card.custom {
             border-right: 4px solid var(--accent-primary);
@@ -246,7 +276,6 @@
             color: var(--accent-emerald);
         }
 
-        /* 🏝️ Floating Dock Navigation */
         .bottom-nav-dock {
             position: fixed;
             bottom: 16px;
@@ -289,7 +318,6 @@
             color: var(--text-primary);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
-        .dock-btn:active { transform: scale(0.95); }
 
         .dock-menu-popup {
             position: fixed;
@@ -330,7 +358,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: background 0.15s ease;
         }
         .menu-item-btn:active { background: rgba(99, 102, 241, 0.2); color: var(--accent-primary); }
 
@@ -382,7 +409,6 @@
             border-radius: var(--radius-pill);
             font-size: 12px;
             font-weight: 800;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 9999;
@@ -400,16 +426,27 @@
         <!-- 🍃 1. الشاشة الرئيسية (Bento Dashboard) -->
         <div id="dashboard" class="section active">
             
-            <!-- Header & Theme Toggle -->
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                 <div>
                     <h1 style="font-size:28px; font-weight:900; letter-spacing:-0.03em;">طاب يومك.</h1>
-                    <div id="weatherStatusSub" style="color:var(--text-secondary); font-size:13px; font-weight:600; margin-top:2px;">جاري جلب الطقس لجنين...</div>
+                    <div id="weatherStatusSub" style="color:var(--text-secondary); font-size:13px; font-weight:600; margin-top:2px;">جاري ضبط الطقس...</div>
                 </div>
-                <button onclick="toggleTheme()" id="themeBtn" style="background:var(--surface-card); border:1px solid var(--border-subtle); width:40px; height:40px; border-radius:50%; cursor:pointer; font-size:18px;">🌙</button>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <button onclick="cycleNextTheme()" title="تبديل بروفايل الألوان" style="background:var(--surface-card); border:1px solid var(--border-subtle); width:40px; height:40px; border-radius:50%; cursor:pointer; font-size:18px;">🎨</button>
+                    <button onclick="toggleTheme()" id="themeBtn" title="الوضع الليلي / النهاري" style="background:var(--surface-card); border:1px solid var(--border-subtle); width:40px; height:40px; border-radius:50%; cursor:pointer; font-size:18px;">🌙</button>
+                </div>
             </div>
 
-            <!-- 🌤️ & 💵 شريط الطقس والعملات الذكي -->
+            <!-- 🎨 شريط البروفايل اللوني وتثبيت الثيم -->
+            <div class="theme-palette-bar">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span id="themeDot" style="width:12px; height:12px; border-radius:50%; background:var(--accent-primary); display:inline-block; box-shadow:0 0 10px var(--accent-primary);"></span>
+                    <span id="themeProfileName" style="color:var(--text-primary);">بروفايل كروم</span>
+                </div>
+                <button onclick="toggleThemePin()" id="themePinBtn" class="theme-lock-btn">📌 تثبيت هذا الثيم</button>
+            </div>
+
+            <!-- 🌤️ & 🕌 بطاقة الطقس والصلاة القادمة -->
             <div class="hud-grid">
                 <div class="hud-tile">
                     <div>
@@ -436,9 +473,7 @@
 
             <!-- ⏰ شريط التنبيهات السريع -->
             <div class="bento-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <span style="font-size:13px; font-weight:800; color:var(--accent-primary);">⏰ ضبط تنبيه سريع</span>
-                </div>
+                <div style="font-size:13px; font-weight:800; color:var(--accent-primary); margin-bottom:10px;">⏰ ضبط تنبيه وتذكير سريع</div>
                 
                 <div class="presets-bar">
                     <button class="preset-pill" onclick="addReminderFast(15, '')">15 د</button>
@@ -460,7 +495,7 @@
             <!-- 📋 قائمة التنبيهات ومواقيت الصلاة المرتبة زمنياً -->
             <div class="bento-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <strong style="font-size:14px; font-weight:800;">🔔 المواعيد والتنبيهات القادمة</strong>
+                    <strong style="font-size:14px; font-weight:800;">🔔 المواعيد والصلوات القادمة</strong>
                     <span style="font-size:11px; color:var(--text-tertiary); font-weight:700;">مرتبة زمنياً تلقائياً</span>
                 </div>
                 <div id="chronologicalTimersList"></div>
@@ -501,7 +536,7 @@
             </div>
         </div>
 
-        <!-- ⏰ 2. سجل التنبيهات التاريخي -->
+        <!-- ⏰ 2. سجل التنبيهات -->
         <div id="reminders-section" class="section">
             <h2 style="font-size:22px; font-weight:900; margin-bottom:6px;">⏰ سجل التنبيهات المكتملة</h2>
             <p style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">أرشيف التنبيهات المحفوظة لشهر كامل (30 يوماً).</p>
@@ -581,6 +616,13 @@
         <!-- ⚙️ 7. الإعدادات -->
         <div id="settings-section" class="section">
             <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">⚙️ الأمان والإعدادات</h2>
+            
+            <div class="bento-card">
+                <strong style="font-size:14px; font-weight:800; display:block; margin-bottom:12px;">🎨 اختيار بروفايل كروم اللوني</strong>
+                <div id="themeSelectionGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;"></div>
+                <button onclick="setThemeModeAuto()" class="btn-action" style="width:100%; background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle);">🔄 استعادة التبديل التلقائي الدوري</button>
+            </div>
+
             <div class="bento-card">
                 <strong style="font-size:14px; font-weight:800; display:block; margin-bottom:10px;">🛡️ فحص واختبار التنبيه</strong>
                 <div style="display:flex; gap:8px; flex-direction:column;">
@@ -648,16 +690,279 @@
         firebase.initializeApp(firebaseConfig);
         const dbRef = firebase.database().ref('myLifeData');
 
-        // --- 1. فحص وربط إضافة إشعارات أندرويد مع تفعيل الصوت والاهتزاز ---
+        // --- 1. بروفايلات كروم اللونية ومحرك الثيمات الديناميكي ---
+        const chromeProfiles = [
+            { id: 'indigo_cyan', name: 'نيلي وسماوي (Indigo)', primary: '#4F46E5', secondary: '#06B6D4', amb1: 'rgba(79, 70, 229, 0.16)', amb2: 'rgba(6, 182, 212, 0.12)' },
+            { id: 'emerald_mint', name: 'زمرد ونعناع (Emerald)', primary: '#059669', secondary: '#10B981', amb1: 'rgba(5, 150, 105, 0.16)', amb2: 'rgba(16, 185, 129, 0.12)' },
+            { id: 'sunset_rose', name: 'غروب كورايل (Sunset)', primary: '#E11D48', secondary: '#F97316', amb1: 'rgba(225, 29, 72, 0.16)', amb2: 'rgba(249, 115, 22, 0.12)' },
+            { id: 'cosmic_violet', name: 'بنفسجي كوني (Violet)', primary: '#7C3AED', secondary: '#EC4899', amb1: 'rgba(124, 58, 237, 0.16)', amb2: 'rgba(236, 72, 153, 0.12)' },
+            { id: 'amber_gold', name: 'عنبر وذهب (Amber)', primary: '#D97706', secondary: '#F59E0B', amb1: 'rgba(217, 119, 6, 0.16)', amb2: 'rgba(245, 158, 11, 0.12)' },
+            { id: 'cyber_sky', name: 'سماء تقنية (Ocean)', primary: '#0284C7', secondary: '#38BDF8', amb1: 'rgba(2, 132, 199, 0.16)', amb2: 'rgba(56, 189, 248, 0.12)' },
+            { id: 'teal_lagoon', name: 'فيروز بحري (Teal)', primary: '#0D9488', secondary: '#2DD4BF', amb1: 'rgba(13, 148, 136, 0.16)', amb2: 'rgba(45, 212, 191, 0.12)' }
+        ];
+
+        let currentActiveTheme = chromeProfiles[0];
+
+        function applyChromeTheme(theme) {
+            currentActiveTheme = theme;
+            const root = document.documentElement;
+            root.style.setProperty('--accent-primary', theme.primary);
+            root.style.setProperty('--accent-secondary', theme.secondary);
+            root.style.setProperty('--glow-accent', `${theme.primary}55`);
+            root.style.setProperty('--ambient-1', theme.amb1);
+            root.style.setProperty('--ambient-2', theme.amb2);
+
+            const nameEl = document.getElementById('themeProfileName');
+            if (nameEl) nameEl.innerText = theme.name;
+
+            const dot = document.getElementById('themeDot');
+            if (dot) {
+                dot.style.background = theme.primary;
+                dot.style.boxShadow = `0 0 10px ${theme.primary}`;
+            }
+
+            const pinBtn = document.getElementById('themePinBtn');
+            if (pinBtn) {
+                const isPinned = (db.settings.pinnedTheme === theme.id);
+                pinBtn.classList.toggle('pinned', isPinned);
+                pinBtn.innerText = isPinned ? '📌 مثبت (انقر للفك)' : '📌 تثبيت هذا الثيم';
+            }
+        }
+
+        function resolveAndApplyTheme() {
+            if (db.settings && db.settings.pinnedTheme) {
+                const found = chromeProfiles.find(t => t.id === db.settings.pinnedTheme);
+                if (found) { applyChromeTheme(found); return; }
+            }
+            // التبديل التلقائي المنسجم (يتغير كل 4 ساعات تلقائياً)
+            const hourSlot = Math.floor(Date.now() / (1000 * 60 * 60 * 4));
+            const idx = hourSlot % chromeProfiles.length;
+            applyChromeTheme(chromeProfiles[idx]);
+        }
+
+        function cycleNextTheme() {
+            const curIdx = chromeProfiles.findIndex(t => t.id === currentActiveTheme.id);
+            const nextIdx = (curIdx + 1) % chromeProfiles.length;
+            const nextTheme = chromeProfiles[nextIdx];
+            db.settings.pinnedTheme = nextTheme.id;
+            finalizeAction();
+            applyChromeTheme(nextTheme);
+        }
+
+        function toggleThemePin() {
+            if (db.settings.pinnedTheme === currentActiveTheme.id) {
+                db.settings.pinnedTheme = null;
+                showToast('🔄 تم تفعيل التبديل التلقائي');
+            } else {
+                db.settings.pinnedTheme = currentActiveTheme.id;
+                showToast(`📌 تم تثبيت ثيم: ${currentActiveTheme.name}`);
+            }
+            finalizeAction();
+            resolveAndApplyTheme();
+        }
+
+        function setThemeModeAuto() {
+            db.settings.pinnedTheme = null;
+            finalizeAction();
+            resolveAndApplyTheme();
+            showToast('🔄 تم تفعيل التبديل التلقائي الدوري');
+        }
+
+        function renderThemeSelectionGrid() {
+            const grid = document.getElementById('themeSelectionGrid');
+            if (!grid) return;
+            grid.innerHTML = chromeProfiles.map(theme => `
+                <button onclick="selectSpecificTheme('${theme.id}')" style="background:var(--surface-hover); border:1px solid ${db.settings.pinnedTheme === theme.id ? theme.primary : 'var(--border-subtle)'}; padding:10px 12px; border-radius:var(--radius-md); color:var(--text-primary); cursor:pointer; font-size:12px; font-weight:800; display:flex; align-items:center; gap:8px;">
+                    <span style="width:14px; height:14px; border-radius:50%; background:linear-gradient(135deg, ${theme.primary}, ${theme.secondary}); display:inline-block;"></span>
+                    <span>${theme.name.split(' ')[0]}</span>
+                </button>
+            `).join('');
+        }
+
+        function selectSpecificTheme(id) {
+            db.settings.pinnedTheme = id;
+            finalizeAction();
+            resolveAndApplyTheme();
+            renderThemeSelectionGrid();
+            showToast('📌 تم اختيار وتثبيت الثيم');
+        }
+
+        // --- 2. Database Architecture & Optimization ---
+        function normalizeDB(data) {
+            if (!data) data = {};
+            const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
+            lists.forEach(key => {
+                if (data[key]) {
+                    if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
+                } else { data[key] = []; }
+            });
+            if (!data.settings) data.settings = { darkMode: true, pinnedTheme: null };
+            return data;
+        }
+
+        let db = normalizeDB(JSON.parse(localStorage.getItem('myLifeAppDB')));
+        const todayStr = new Date().toISOString().split('T')[0];
+        let livePrayersList = [];
+
+        function showToast(msg) {
+            const el = document.getElementById('syncToast');
+            if(!el) return;
+            el.innerText = msg;
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 2000);
+        }
+
+        function saveToCloud() {
+            showToast('☁️ جاري الحفظ...');
+            dbRef.set(db).then(() => showToast('✅ تم الحفظ'))
+                .catch(() => showToast('❌ تعذر الحفظ'));
+        }
+
+        dbRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                db = normalizeDB(data);
+                localStorage.setItem('myLifeAppDB', JSON.stringify(db));
+                resolveAndApplyTheme();
+                updateUI();
+                showToast('🔄 تم جلب البيانات');
+            }
+        });
+
+        // --- 3. محرك الحساب الفلكي الدقيق لمواقيت الصلاة في جنين (الأوقاف الفلسطينية) ---
+        function calculatePalestinePrayerTimes(date = new Date()) {
+            const lat = 32.4646;
+            const lng = 35.2939;
+            const tz = -date.getTimezoneOffset() / 60;
+
+            const start = new Date(date.getFullYear(), 0, 0);
+            const diff = (date - start) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
+            const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+            const gamma = (2 * Math.PI / 365) * (dayOfYear - 1);
+            const eqtime = 229.18 * (0.000075 + 0.001868 * Math.cos(gamma) - 0.032077 * Math.sin(gamma) - 0.014615 * Math.cos(2 * gamma) - 0.040849 * Math.sin(2 * gamma));
+            const decl = 0.006918 - 0.399912 * Math.cos(gamma) + 0.070257 * Math.sin(gamma) - 0.006758 * Math.cos(2 * gamma) + 0.000907 * Math.sin(2 * gamma) - 0.002697 * Math.cos(3 * gamma) + 0.00148 * Math.sin(3 * gamma);
+
+            const degToRad = Math.PI / 180;
+            const radToDeg = 180 / Math.PI;
+            const latRad = lat * degToRad;
+
+            const noon = 12 + tz - (lng / 15) - (eqtime / 60);
+
+            function getHourAngle(angleDeg) {
+                const altRad = -angleDeg * degToRad;
+                const cosHA = (Math.sin(altRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl));
+                if (cosHA > 1 || cosHA < -1) return null;
+                return radToDeg * Math.acos(cosHA) / 15;
+            }
+
+            const asrAlt = Math.atan(1 / (1 + Math.tan(Math.abs(latRad - decl)))) * radToDeg;
+            const asrHA = radToDeg * Math.acos((Math.sin(asrAlt * degToRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl))) / 15;
+
+            const fajrHA = getHourAngle(19.5);
+            const ishaHA = getHourAngle(17.5);
+            const sunHA = getHourAngle(0.833);
+
+            function toDateObj(hoursDecimal) {
+                const d = new Date(date);
+                let h = Math.floor(hoursDecimal);
+                let m = Math.round((hoursDecimal - h) * 60);
+                if (m >= 60) { h += 1; m = 0; }
+                d.setHours(h, m, 0, 0);
+                return d;
+            }
+
+            return [
+                { name: 'صلاة الفجر', targetDate: toDateObj(noon - fajrHA) },
+                { name: 'صلاة الظهر', targetDate: toDateObj(noon + (1.5/60)) },
+                { name: 'صلاة العصر', targetDate: toDateObj(noon + asrHA) },
+                { name: 'صلاة المغرب', targetDate: toDateObj(noon + sunHA + (1.5/60)) },
+                { name: 'صلاة العشاء', targetDate: toDateObj(noon + ishaHA) }
+            ];
+        }
+
+        function loadAccuratePrayers() {
+            const prayers = calculatePalestinePrayerTimes(new Date());
+            livePrayersList = prayers.map((p, idx) => ({
+                id: `prayer_${idx}`,
+                title: `🕌 ${p.name}`,
+                targetTime: p.targetDate.getTime(),
+                isPrayer: true
+            }));
+            renderChronologicalTimers();
+        }
+
+        // --- 4. محرك الطقس التلقائي بالخلفية والمخطط الحراري الأوفلاين ---
+        async function syncWeatherHourlyTimeline() {
+            try {
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&hourly=temperature_2m,weather_code&timezone=auto');
+                const data = await res.json();
+                if (data && data.hourly) {
+                    localStorage.setItem('cachedWeatherTimeline', JSON.stringify({
+                        date: todayStr,
+                        times: data.hourly.time,
+                        temps: data.hourly.temperature_2m,
+                        codes: data.hourly.weather_code
+                    }));
+                }
+            } catch(e) {}
+            
+            try {
+                const res = await fetch('https://open.er-api.com/v6/latest/ILS');
+                const data = await res.json();
+                if (data && data.rates) {
+                    const ratesObj = {
+                        USD: (1 / data.rates.USD).toFixed(2),
+                        JOD: (1 / data.rates.JOD).toFixed(2),
+                        EUR: (1 / data.rates.EUR).toFixed(2)
+                    };
+                    localStorage.setItem('cachedRates', JSON.stringify(ratesObj));
+                }
+            } catch(e) {}
+
+            updateWeatherAndRatesFromCache();
+        }
+
+        function updateWeatherAndRatesFromCache() {
+            const cachedRates = JSON.parse(localStorage.getItem('cachedRates') || 'null');
+            if (cachedRates) {
+                document.getElementById('rateUSD').innerText = `USD: ${cachedRates.USD} ₪`;
+                document.getElementById('rateJOD').innerText = `JOD: ${cachedRates.JOD} ₪`;
+                document.getElementById('rateEUR').innerText = `EUR: ${cachedRates.EUR} ₪`;
+            }
+
+            const cachedWeather = JSON.parse(localStorage.getItem('cachedWeatherTimeline') || 'null');
+            if (cachedWeather && cachedWeather.times) {
+                const now = new Date();
+                const curHourStr = now.toISOString().slice(0, 13);
+                let idx = cachedWeather.times.findIndex(t => t.startsWith(curHourStr));
+                if (idx === -1) idx = now.getHours();
+
+                if (idx >= 0 && cachedWeather.temps[idx] !== undefined) {
+                    const temp = Math.round(cachedWeather.temps[idx]);
+                    const code = cachedWeather.codes[idx];
+                    let desc = "صافٍ";
+                    let icon = "☀️";
+                    if ([1, 2, 3].includes(code)) { desc = "غائم جزئياً"; icon = "⛅"; }
+                    else if ([45, 48].includes(code)) { desc = "ضبابي"; icon = "🌫️"; }
+                    else if ([51, 53, 55, 61, 63, 65].includes(code)) { desc = "ماطر"; icon = "🌧️"; }
+                    else if ([95, 96, 99].includes(code)) { desc = "عواصف رعدية"; icon = "⛈️"; }
+
+                    document.getElementById('weatherTemp').innerText = `${temp}°C`;
+                    document.getElementById('weatherIcon').innerText = icon;
+                    document.getElementById('weatherStatusSub').innerText = `الطقس الآن: ${desc} في جنين (${temp}°C)`;
+                }
+            }
+        }
+
+        // --- 5. فحص وربط إضافة إشعارات أندرويد مع تفعيل الصوت ---
         function getNativePlugin() {
             if (window.Capacitor) {
                 if (window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
                     return window.Capacitor.Plugins.LocalNotifications;
                 }
                 if (typeof window.Capacitor.registerPlugin === 'function') {
-                    try {
-                        return window.Capacitor.registerPlugin('LocalNotifications');
-                    } catch(e) {}
+                    try { return window.Capacitor.registerPlugin('LocalNotifications'); } catch(e) {}
                 }
             }
             return null;
@@ -693,121 +998,7 @@
         }
         initNativeNotifications();
 
-        // --- 2. Database Architecture & Optimization ---
-        function normalizeDB(data) {
-            if (!data) data = {};
-            const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
-            lists.forEach(key => {
-                if (data[key]) {
-                    if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
-                } else { data[key] = []; }
-            });
-            if (!data.settings) data.settings = { darkMode: true };
-            return data;
-        }
-
-        let db = normalizeDB(JSON.parse(localStorage.getItem('myLifeAppDB')));
-        const todayStr = new Date().toISOString().split('T')[0];
-        let livePrayersList = []; // مواقيت الصلاة اليومية لجنين
-
-        function showToast(msg) {
-            const el = document.getElementById('syncToast');
-            if(!el) return;
-            el.innerText = msg;
-            el.classList.add('show');
-            setTimeout(() => el.classList.remove('show'), 2000);
-        }
-
-        function saveToCloud() {
-            showToast('☁️ جاري الحفظ...');
-            dbRef.set(db).then(() => showToast('✅ تم الحفظ'))
-                .catch(() => showToast('❌ تعذر الحفظ'));
-        }
-
-        dbRef.on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                db = normalizeDB(data);
-                localStorage.setItem('myLifeAppDB', JSON.stringify(db));
-                updateUI();
-                showToast('🔄 تم جلب البيانات');
-            }
-        });
-
-        // --- 3. جلب بيانات الطقس، العملات، ومواقيت الصلاة لجنين (فلسطين) ---
-        async function fetchExternalFeeds() {
-            // أ. الطقس المباشر لجنين (Open-Meteo API)
-            try {
-                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&current=temperature_2m,weather_code&timezone=auto');
-                const data = await res.json();
-                if (data && data.current) {
-                    const temp = Math.round(data.current.temperature_2m);
-                    const code = data.current.weather_code;
-                    let desc = "صافٍ";
-                    let icon = "☀️";
-                    if ([1, 2, 3].includes(code)) { desc = "غائم جزئياً"; icon = "⛅"; }
-                    else if ([45, 48].includes(code)) { desc = "ضبابي"; icon = "🌫️"; }
-                    else if ([51, 53, 55, 61, 63, 65].includes(code)) { desc = "ماطر"; icon = "🌧️"; }
-                    else if ([95, 96, 99].includes(code)) { desc = "عواصف رعدية"; icon = "⛈️"; }
-
-                    document.getElementById('weatherTemp').innerText = `${temp}°C`;
-                    document.getElementById('weatherIcon').innerText = icon;
-                    document.getElementById('weatherStatusSub').innerText = `الطقس الآن: ${desc} في جنين (${temp}°C)`;
-                }
-            } catch (e) {
-                document.getElementById('weatherStatusSub').innerText = "بياناتك وتنبيهاتك الشخصية بتزامن فوري";
-            }
-
-            // ب. أسعار صرف العملات مقابل الشيكل (ExchangeRate API)
-            try {
-                const res = await fetch('https://open.er-api.com/v6/latest/ILS');
-                const data = await res.json();
-                if (data && data.rates) {
-                    const usdToIls = (1 / data.rates.USD).toFixed(2);
-                    const jodToIls = (1 / data.rates.JOD).toFixed(2);
-                    const eurToIls = (1 / data.rates.EUR).toFixed(2);
-
-                    document.getElementById('rateUSD').innerText = `USD: ${usdToIls} ₪`;
-                    document.getElementById('rateJOD').innerText = `JOD: ${jodToIls} ₪`;
-                    document.getElementById('rateEUR').innerText = `EUR: ${eurToIls} ₪`;
-                }
-            } catch (e) {}
-
-            // ج. مواقيت الصلاة الخمس لجنين (AlAdhan API)
-            try {
-                const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Jenin&country=Palestine&method=3');
-                const data = await res.json();
-                if (data && data.data && data.data.timings) {
-                    const t = data.data.timings;
-                    const prayers = [
-                        { name: 'صلاة الفجر', time: t.Fajr },
-                        { name: 'صلاة الظهر', time: t.Dhuhr },
-                        { name: 'صلاة العصر', time: t.Asr },
-                        { name: 'صلاة المغرب', time: t.Maghrib },
-                        { name: 'صلاة العشاء', time: t.Isha }
-                    ];
-
-                    const now = new Date();
-                    livePrayersList = prayers.map((p, idx) => {
-                        const [hrs, mins] = p.time.split(':');
-                        const pDate = new Date();
-                        pDate.setHours(parseInt(hrs), parseInt(mins), 0, 0);
-                        return {
-                            id: `prayer_${idx}`,
-                            title: `🕌 ${p.name}`,
-                            targetTime: pDate.getTime(),
-                            timeStr: p.time,
-                            isPrayer: true
-                        };
-                    });
-
-                    renderChronologicalTimers();
-                }
-            } catch (e) {}
-        }
-        fetchExternalFeeds();
-
-        // --- 4. التنقل وقائمة الدوك ---
+        // --- 6. التنقل وقائمة الدوك ---
         function closeDockMenu() {
             document.getElementById('dockMenuPopup').classList.remove('open');
             document.getElementById('btnNavMenu').classList.remove('active');
@@ -830,6 +1021,7 @@
             if(btnEl) btnEl.classList.add('active');
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (sectionId === 'settings-section') renderThemeSelectionGrid();
             updateUI();
         }
 
@@ -858,7 +1050,7 @@
             }
         });
 
-        // --- 5. محرك الصوت المطور (Glass Marimba Chime) ---
+        // --- 7. محرك الصوت (Glass Marimba Chime) ---
         let audioCtx = null;
         let alarmTimer = null;
 
@@ -928,7 +1120,6 @@
             return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
 
-        // جدولة الإشعار النظامي المباشر المسموع
         async function scheduleSystemNotification(title, minutes, reminderId) {
             const plugin = getNativePlugin();
             const notifTitle = title ? `⏰ تنبيه: ${title}` : `⏰ موعد التنبيه (${minutes} دقيقة)!`;
@@ -993,28 +1184,24 @@
             }
         }
 
-        // --- 6. دمج وترتيب التنبيهات ومواقيت الصلاة زمنياً (Chronological Engine) ---
+        // --- 8. الترتيب الزمني الذكي للصلوات والتنبيهات ---
         function renderChronologicalTimers() {
             const now = Date.now();
             const container = document.getElementById('chronologicalTimersList');
             if (!container) return;
 
-            // دمج التنبيهات النشطة فقط مع مواقيت الصلاة
             let activeList = [];
 
-            // 1. إضافة مواقيت الصلاة لليوم
             livePrayersList.forEach(p => {
                 activeList.push({
                     id: p.id,
                     title: p.title,
                     targetTime: p.targetTime,
                     isPrayer: true,
-                    triggered: (p.targetTime <= now),
-                    timeStr: p.timeStr
+                    triggered: (p.targetTime <= now)
                 });
             });
 
-            // 2. إضافة التنبيهات اليدوية غير المنتهية
             db.reminders.forEach(r => {
                 if (!r.triggered && r.targetTime > now) {
                     activeList.push({
@@ -1028,21 +1215,14 @@
                 }
             });
 
-            // فرز القائمة زمنياً تصاعدياً
             activeList.sort((a, b) => a.targetTime - b.targetTime);
 
-            // تحديث HUD للصلاة القادمة
             const nextPrayer = activeList.find(item => item.isPrayer && item.targetTime > now);
             if (nextPrayer) {
                 const diffMs = nextPrayer.targetTime - now;
                 document.getElementById('nextPrayerHud').innerText = `${nextPrayer.title.replace('🕌 ', '')} (${formatTime(diffMs)})`;
             } else {
                 document.getElementById('nextPrayerHud').innerText = "اكتملت الصلوات";
-            }
-
-            if (activeList.length === 0) {
-                container.innerHTML = '<p style="color:var(--text-tertiary); font-size:13px; text-align:center; padding:10px;">لا توجد مواعيد أو تنبيهات نشطة.</p>';
-                return;
             }
 
             let html = '';
@@ -1077,7 +1257,6 @@
 
             container.innerHTML = html;
 
-            // تحديث أرشيف التنبيهات
             const fullArchive = document.getElementById('fullRemindersArchive');
             if(fullArchive) {
                 fullArchive.innerHTML = db.reminders.map(r => `
@@ -1092,7 +1271,6 @@
             }
         }
 
-        // تحديث لحظي للمؤقتات التنازلية
         setInterval(() => {
             const now = Date.now();
             let changed = false;
@@ -1117,10 +1295,12 @@
                 if (el && diff > 0) el.innerText = `⏳ ${formatTime(diff)}`;
             });
 
+            updateWeatherAndRatesFromCache();
+
             if (changed) { finalizeAction(); }
         }, 1000);
 
-        // --- 7. تحديث الشاشات والبيانات ---
+        // --- 9. تحديث الشاشات والبيانات ---
         function updateUI() {
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
@@ -1319,7 +1499,7 @@
             finalizeAction();
         }
 
-        // --- 8. مسجل الصوت المباشر ---
+        // --- 10. مسجل الصوت المباشر ---
         let mediaRec = null;
         let audioParts = [];
         let recTimer = null;
@@ -1405,6 +1585,10 @@
 
         document.body.classList.toggle('light-mode', !db.settings.darkMode);
         document.getElementById('themeBtn').innerText = db.settings.darkMode ? '🌙' : '☀️';
+        
+        resolveAndApplyTheme();
+        loadAccuratePrayers();
+        syncWeatherHourlyTimeline();
         updateUI();
     </script>
 </body>
