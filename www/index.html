@@ -7,7 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#F8FAFC" id="themeColorMeta">
+    <meta name="theme-color" content="#0B0F19" id="themeColorMeta">
 
     <title>Life OS</title>
     
@@ -17,148 +17,255 @@
 
     <style>
         :root {
-            --bg: #F8FAFC;
-            --surface: #FFFFFF;
-            --surface-subtle: #F1F5F9;
-            --border: #E2E8F0;
-            --text-main: #0F172A;
-            --text-muted: #64748B;
-            --primary: #4F46E5;
-            --primary-light: #EEF2FF;
-            --accent-red: #EF4444;
-            --accent-green: #10B981;
-            --radius-lg: 20px;
+            --bg-canvas: #090D16;
+            --surface-card: rgba(18, 24, 38, 0.75);
+            --surface-hover: rgba(28, 36, 56, 0.9);
+            --surface-elevated: #151C2C;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(99, 102, 241, 0.35);
+            
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --text-tertiary: #64748B;
+            
+            --accent-primary: #6366F1;
+            --accent-cyan: #06B6D4;
+            --accent-emerald: #10B981;
+            --accent-amber: #F59E0B;
+            --accent-rose: #F43F5E;
+            
+            --gradient-accent: linear-gradient(135deg, #6366F1 0%, #06B6D4 100%);
+            --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
+            
+            --radius-xl: 22px;
+            --radius-lg: 16px;
             --radius-md: 12px;
             --radius-pill: 9999px;
+            
             --dock-height: 64px;
+            --shadow-bento: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
         }
 
-        body.dark-mode {
-            --bg: #090B10;
-            --surface: #131620;
-            --surface-subtle: #1C202E;
-            --border: #262B3D;
-            --text-main: #F8FAFC;
-            --text-muted: #94A3B8;
-            --primary: #6366F1;
-            --primary-light: rgba(99, 102, 241, 0.15);
-            --input-fill: #181B26;
+        body.light-mode {
+            --bg-canvas: #F4F6FB;
+            --surface-card: rgba(255, 255, 255, 0.85);
+            --surface-hover: rgba(241, 245, 249, 0.95);
+            --surface-elevated: #FFFFFF;
+            --border-subtle: rgba(0, 0, 0, 0.06);
+            --border-glow: rgba(99, 102, 241, 0.25);
+            --text-primary: #0F172A;
+            --text-secondary: #64748B;
+            --text-tertiary: #94A3B8;
+            --gradient-card: linear-gradient(180deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0) 100%);
+            --shadow-bento: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            font-family: system-ui, -apple-system, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
+            letter-spacing: -0.01em;
         }
 
         ::-webkit-scrollbar { display: none !important; }
         * { scrollbar-width: none !important; }
 
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            transition: background 0.25s ease, color 0.25s ease;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .app-container {
             width: 100%;
             max-width: 680px;
             margin: 0 auto;
-            padding: 24px 16px calc(var(--dock-height) + 45px) 16px;
+            padding: 24px 16px calc(var(--dock-height) + 50px) 16px;
             box-sizing: border-box;
         }
 
         .section { display: none; }
-        .section.active { display: block; }
-
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-            transition: transform 0.2s ease, border-color 0.2s ease;
+        .section.active { 
+            display: block; 
+            animation: bentoFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .header-greeting { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4px; }
-        .header-sub { color: var(--text-muted); font-size: 14px; margin-bottom: 18px; }
+        @keyframes bentoFadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
+        /* 🍱 Bento Grid Cards */
+        .bento-card {
+            background: var(--surface-card);
+            background-image: var(--gradient-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 20px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-bento);
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.25s ease, transform 0.2s ease;
+        }
+        .bento-card:hover { border-color: var(--border-glow); }
+
+        /* 🌤️ HUD Widget: Weather & Currency Header */
+        .hud-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .hud-tile {
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .hud-tile-title { font-size: 11px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px; }
+        .hud-tile-value { font-size: 16px; font-weight: 800; color: var(--text-primary); }
+
+        /* Currency Mini-Ticker */
+        .currency-ribbon {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.18);
+            border-radius: var(--radius-lg);
+            padding: 12px 16px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+        .currency-item { display: flex; align-items: center; gap: 6px; }
+
+        /* ⏰ Presets Bar */
         .presets-bar {
             display: flex;
             gap: 8px;
             overflow-x: auto;
-            padding-bottom: 8px;
+            padding-bottom: 6px;
             margin-bottom: 12px;
         }
-        .preset-btn {
-            background: var(--surface-subtle);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 10px 16px;
+        .preset-pill {
+            background: var(--surface-hover);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-primary);
+            padding: 9px 15px;
             border-radius: var(--radius-pill);
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 800;
             cursor: pointer;
             white-space: nowrap;
-            flex-shrink: 0;
             transition: all 0.15s ease;
         }
-        .preset-btn:active { background: var(--primary); color: #FFF; transform: scale(0.94); }
+        .preset-pill:active {
+            background: var(--gradient-accent);
+            color: #FFFFFF;
+            transform: scale(0.94);
+        }
 
         .quick-input-row { display: flex; gap: 8px; flex-wrap: wrap; }
         .app-input {
             padding: 12px 14px;
-            background: var(--surface-subtle) !important;
-            border: 1px solid var(--border);
+            background: var(--surface-hover) !important;
+            border: 1px solid var(--border-subtle);
             border-radius: var(--radius-md);
-            color: var(--text-main) !important;
+            color: var(--text-primary) !important;
             font-size: 14px;
             font-weight: 600;
             outline: none;
             flex: 1;
-            min-width: 110px;
+            min-width: 100px;
         }
-        .app-input:focus { border-color: var(--primary); background: var(--surface) !important; }
+        .app-input:focus { border-color: var(--accent-primary); }
 
         .btn-action {
-            background: var(--primary);
+            background: var(--gradient-accent);
             color: #FFFFFF;
             border: none;
             padding: 12px 18px;
             border-radius: var(--radius-md);
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
             white-space: nowrap;
             transition: opacity 0.15s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
         .btn-action:active { opacity: 0.85; transform: scale(0.97); }
 
-        /* 🏝️ الشريط السفلي الذكي */
+        /* 🕌 بطاقات التنبيهات ومواقيت الصلاة */
+        .reminder-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            background: var(--surface-hover);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            margin-bottom: 8px;
+            transition: border-color 0.2s ease;
+        }
+        .reminder-card.prayer {
+            border-right: 4px solid var(--accent-emerald);
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.06) 0%, transparent 100%), var(--surface-hover);
+        }
+        .reminder-card.custom {
+            border-right: 4px solid var(--accent-primary);
+        }
+
+        .tag-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            font-size: 12px;
+            font-weight: 800;
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--accent-primary);
+        }
+        .tag-badge.emerald {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-emerald);
+        }
+
+        /* 🏝️ Floating Dock Navigation */
         .bottom-nav-dock {
             position: fixed;
             bottom: 16px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background: var(--surface-card);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-subtle);
             padding: 6px;
             border-radius: var(--radius-pill);
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 6px;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
             z-index: 1000;
             width: calc(100% - 32px);
-            max-width: 420px;
+            max-width: 400px;
         }
         .dock-btn {
             flex: 1;
@@ -166,8 +273,8 @@
             border: none;
             padding: 12px 8px;
             border-radius: var(--radius-pill);
-            color: var(--text-muted);
-            font-size: 14px;
+            color: var(--text-secondary);
+            font-size: 13px;
             font-weight: 800;
             cursor: pointer;
             display: flex;
@@ -177,7 +284,11 @@
             transition: all 0.2s ease;
             white-space: nowrap;
         }
-        .dock-btn.active { background: var(--primary-light); color: var(--primary); }
+        .dock-btn.active {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
         .dock-btn:active { transform: scale(0.95); }
 
         .dock-menu-popup {
@@ -185,11 +296,13 @@
             bottom: 85px;
             left: 50%;
             transform: translateX(-50%) translateY(15px) scale(0.95);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
+            background: var(--surface-card);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
             padding: 12px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
@@ -206,49 +319,40 @@
             transform: translateX(-50%) translateY(0) scale(1);
         }
         .menu-item-btn {
-            background: var(--surface-subtle);
-            border: 1px solid var(--border);
-            padding: 12px 10px;
+            background: var(--surface-hover);
+            border: 1px solid var(--border-subtle);
+            padding: 14px 12px;
             border-radius: var(--radius-md);
-            color: var(--text-main);
+            color: var(--text-primary);
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
             transition: background 0.15s ease;
         }
-        .menu-item-btn:active { background: var(--primary-light); color: var(--primary); }
+        .menu-item-btn:active { background: rgba(99, 102, 241, 0.2); color: var(--accent-primary); }
 
         .list-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 12px 0;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid var(--border-subtle);
             font-size: 14px;
             gap: 10px;
             word-break: break-word;
         }
         .list-row:last-child { border-bottom: none; }
 
-        .tag-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 10px;
-            border-radius: var(--radius-pill);
-            font-size: 12px;
-            font-weight: 700;
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 99999;
             align-items: center;
             justify-content: center;
@@ -256,13 +360,14 @@
         }
         .modal-overlay.active { display: flex; }
         .modal-box {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 24px;
+            background: var(--surface-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-xl);
+            padding: 26px;
             width: 100%;
             max-width: 360px;
             text-align: center;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
         }
 
         #syncToast {
@@ -270,13 +375,14 @@
             top: 14px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 6px 14px;
+            background: var(--surface-card);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-subtle);
+            padding: 6px 16px;
             border-radius: var(--radius-pill);
             font-size: 12px;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            font-weight: 800;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 9999;
@@ -291,66 +397,100 @@
 
     <div class="app-container">
         
-        <!-- 🍃 1. الشاشة الرئيسية -->
+        <!-- 🍃 1. الشاشة الرئيسية (Bento Dashboard) -->
         <div id="dashboard" class="section active">
-            <div>
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div class="header-greeting">طاب يومك.</div>
-                    <button onclick="toggleTheme()" style="background:var(--surface-subtle); border:1px solid var(--border); width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:16px;">🌙</button>
+            
+            <!-- Header & Theme Toggle -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <div>
+                    <h1 style="font-size:28px; font-weight:900; letter-spacing:-0.03em;">طاب يومك.</h1>
+                    <div id="weatherStatusSub" style="color:var(--text-secondary); font-size:13px; font-weight:600; margin-top:2px;">جاري جلب الطقس لجنين...</div>
                 </div>
-                <div class="header-sub">بياناتك وتنبيهاتك الشخصية بتزامن فوري</div>
+                <button onclick="toggleTheme()" id="themeBtn" style="background:var(--surface-card); border:1px solid var(--border-subtle); width:40px; height:40px; border-radius:50%; cursor:pointer; font-size:18px;">🌙</button>
             </div>
 
-            <!-- ⏰ شريط التنبيهات الفوري -->
-            <div class="card">
-                <div style="font-size:13px; font-weight:800; color:var(--primary); margin-bottom:10px;">⏰ تنبيه وتذكير سريع</div>
+            <!-- 🌤️ & 💵 شريط الطقس والعملات الذكي -->
+            <div class="hud-grid">
+                <div class="hud-tile">
+                    <div>
+                        <div class="hud-tile-title">📍 جنين، فلسطين</div>
+                        <div class="hud-tile-value" id="weatherTemp">-- °C</div>
+                    </div>
+                    <div style="font-size:24px;" id="weatherIcon">⛅</div>
+                </div>
+                <div class="hud-tile">
+                    <div>
+                        <div class="hud-tile-title">🕌 الصلاة القادمة</div>
+                        <div class="hud-tile-value" id="nextPrayerHud">--:--</div>
+                    </div>
+                    <div style="font-size:24px;">⏳</div>
+                </div>
+            </div>
+
+            <!-- شريط أسعار الصرف مقابل الشيكل -->
+            <div class="currency-ribbon">
+                <div class="currency-item"><span>🇺🇸</span> <span id="rateUSD">USD: -- ₪</span></div>
+                <div class="currency-item"><span>🇯🇴</span> <span id="rateJOD">JOD: -- ₪</span></div>
+                <div class="currency-item"><span>🇪🇺</span> <span id="rateEUR">EUR: -- ₪</span></div>
+            </div>
+
+            <!-- ⏰ شريط التنبيهات السريع -->
+            <div class="bento-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <span style="font-size:13px; font-weight:800; color:var(--accent-primary);">⏰ ضبط تنبيه سريع</span>
+                </div>
                 
                 <div class="presets-bar">
-                    <button class="preset-btn" onclick="addReminderFast(15, '')">15 د</button>
-                    <button class="preset-btn" onclick="addReminderFast(20, '')">20 د</button>
-                    <button class="preset-btn" onclick="addReminderFast(30, '')">30 د</button>
-                    <button class="preset-btn" onclick="addReminderFast(45, '')">45 د</button>
-                    <button class="preset-btn" onclick="addReminderFast(60, '')">1 س</button>
-                    <button class="preset-btn" onclick="addReminderFast(120, '')">2 س</button>
-                    <button class="preset-btn" onclick="addReminderFast(180, '')">3 س</button>
+                    <button class="preset-pill" onclick="addReminderFast(15, '')">15 د</button>
+                    <button class="preset-pill" onclick="addReminderFast(20, '')">20 د</button>
+                    <button class="preset-pill" onclick="addReminderFast(30, '')">30 د</button>
+                    <button class="preset-pill" onclick="addReminderFast(45, '')">45 د</button>
+                    <button class="preset-pill" onclick="addReminderFast(60, '')">1 س</button>
+                    <button class="preset-pill" onclick="addReminderFast(120, '')">2 س</button>
+                    <button class="preset-pill" onclick="addReminderFast(180, '')">3 س</button>
                 </div>
 
                 <div class="quick-input-row">
                     <input type="number" id="manualReminderMinutes" placeholder="الدقائق..." class="app-input" style="max-width:90px;">
-                    <input type="text" id="manualReminderTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
+                    <input type="text" id="manualReminderTitle" placeholder="اسم التنبيه..." class="app-input">
                     <button type="button" onclick="submitManualReminderFast()" class="btn-action">ضبط</button>
                 </div>
             </div>
 
-            <!-- التنبيهات المباشرة -->
-            <div id="dashRemindersContainer"></div>
+            <!-- 📋 قائمة التنبيهات ومواقيت الصلاة المرتبة زمنياً -->
+            <div class="bento-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <strong style="font-size:14px; font-weight:800;">🔔 المواعيد والتنبيهات القادمة</strong>
+                    <span style="font-size:11px; color:var(--text-tertiary); font-weight:700;">مرتبة زمنياً تلقائياً</span>
+                </div>
+                <div id="chronologicalTimersList"></div>
+            </div>
 
-            <!-- ملخص المصاريف -->
-            <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+            <!-- ملخص الصرف ومهام اليوم -->
+            <div class="bento-card" style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <div style="font-size:12px; font-weight:700; color:var(--text-muted);">مصاريف الشهر الحالي</div>
-                    <div style="font-size:28px; font-weight:900; margin-top:2px;" id="dashSpent">0 <span style="font-size:16px; color:var(--text-muted);">₪</span></div>
+                    <div style="font-size:12px; font-weight:700; color:var(--text-secondary);">مصاريف هذا الشهر</div>
+                    <div style="font-size:28px; font-weight:900; margin-top:2px;" id="dashSpent">0 <span style="font-size:16px; color:var(--text-tertiary);">₪</span></div>
                 </div>
                 <div id="dashAlerts" style="font-size:12px; font-weight:700;"></div>
             </div>
 
-            <!-- مهام ومصاريف اليوم -->
-            <div class="card">
+            <div class="bento-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <strong style="font-size:15px;">✅ مهام اليوم</strong>
-                    <span id="dashTodoCount" style="font-size:12px; color:var(--text-muted);">0 مهام</span>
+                    <strong style="font-size:15px; font-weight:800;">✅ مهام اليوم</strong>
+                    <span id="dashTodoCount" style="font-size:12px; color:var(--text-secondary);">0 مهام</span>
                 </div>
                 <form onsubmit="addTodoDash(event)" style="display:flex; gap:8px; margin-bottom:10px;">
-                    <input type="text" id="todoInputDash" placeholder="أضف مهمة سريعة..." class="app-input" required>
+                    <input type="text" id="todoInputDash" placeholder="أضف مهمة لليوم..." class="app-input" required>
                     <button type="submit" class="btn-action">إضافة</button>
                 </form>
                 <div id="dashTodosList"></div>
             </div>
 
-            <div class="card">
+            <div class="bento-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <strong style="font-size:15px;">💸 صرف اليوم</strong>
-                    <span id="dashExpensesTotal" style="font-size:14px; font-weight:800; color:var(--accent-red);">0 ₪</span>
+                    <strong style="font-size:15px; font-weight:800;">💸 صرف اليوم</strong>
+                    <span id="dashExpensesTotal" style="font-size:14px; font-weight:900; color:var(--accent-rose);">0 ₪</span>
                 </div>
                 <form onsubmit="addExpenseDash(event)" class="quick-input-row" style="margin-bottom:10px;">
                     <input type="text" id="expenseDescDash" placeholder="ماذا اشتريت؟" class="app-input" required>
@@ -361,26 +501,26 @@
             </div>
         </div>
 
-        <!-- ⏰ 2. سجل التنبيهات -->
+        <!-- ⏰ 2. سجل التنبيهات التاريخي -->
         <div id="reminders-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:6px;">⏰ سجل التنبيهات</h2>
-            <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">أرشيف التنبيهات المحفوظة لشهر كامل (30 يوماً).</p>
-            <div class="card" id="fullRemindersArchive"></div>
+            <h2 style="font-size:22px; font-weight:900; margin-bottom:6px;">⏰ سجل التنبيهات المكتملة</h2>
+            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">أرشيف التنبيهات المحفوظة لشهر كامل (30 يوماً).</p>
+            <div class="bento-card" id="fullRemindersArchive"></div>
         </div>
 
         <!-- 📊 3. المصاريف والفواتير -->
         <div id="expenses-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">📊 المصاريف والفواتير</h2>
-            <div class="card">
+            <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">📊 المصاريف والفواتير</h2>
+            <div class="bento-card">
                 <div style="display:flex; justify-content:space-between; text-align:center;">
-                    <div><div style="font-size:12px; color:var(--text-muted);">اليوم</div><div style="font-size:18px; font-weight:800; margin-top:2px;" id="statToday">0 ₪</div></div>
-                    <div><div style="font-size:12px; color:var(--text-muted);">آخر 7 أيام</div><div style="font-size:18px; font-weight:800; color:var(--primary); margin-top:2px;" id="statWeek">0 ₪</div></div>
-                    <div><div style="font-size:12px; color:var(--text-muted);">هذا الشهر</div><div style="font-size:18px; font-weight:800; color:var(--accent-red); margin-top:2px;" id="statMonth">0 ₪</div></div>
+                    <div><div style="font-size:12px; color:var(--text-secondary);">اليوم</div><div style="font-size:18px; font-weight:900; margin-top:2px;" id="statToday">0 ₪</div></div>
+                    <div><div style="font-size:12px; color:var(--text-secondary);">آخر 7 أيام</div><div style="font-size:18px; font-weight:900; color:var(--accent-primary); margin-top:2px;" id="statWeek">0 ₪</div></div>
+                    <div><div style="font-size:12px; color:var(--text-secondary);">هذا الشهر</div><div style="font-size:18px; font-weight:900; color:var(--accent-rose); margin-top:2px;" id="statMonth">0 ₪</div></div>
                 </div>
             </div>
 
-            <div class="card">
-                <strong style="display:block; margin-bottom:12px; font-size:14px;">📄 تسجيل فاتورة دورية</strong>
+            <div class="bento-card">
+                <strong style="display:block; margin-bottom:12px; font-size:14px; font-weight:800;">📄 تسجيل فاتورة دورية</strong>
                 <form onsubmit="saveFixedBill(event)" class="quick-input-row">
                     <select id="billType" class="app-input"><option value="كهرباء">كهرباء</option><option value="ماء">ماء</option><option value="إنترنت">إنترنت</option></select>
                     <input type="number" id="billAmount" placeholder="المبلغ" class="app-input" required>
@@ -388,34 +528,34 @@
                 </form>
             </div>
 
-            <div class="card" id="fullExpensesArchive"></div>
+            <div class="bento-card" id="fullExpensesArchive"></div>
         </div>
 
         <!-- ✅ 4. المهام والأرشيف -->
         <div id="todos-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">✅ أرشيف المهام</h2>
-            <div class="card" id="fullTodosContainer"></div>
+            <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">✅ أرشيف المهام</h2>
+            <div class="bento-card" id="fullTodosContainer"></div>
         </div>
 
         <!-- 🆔 5. الوثائق -->
         <div id="documents-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">🆔 الوثائق الرسمية</h2>
-            <div class="card">
+            <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">🆔 الوثائق الرسمية</h2>
+            <div class="bento-card">
                 <form onsubmit="saveDocument(event)">
                     <div style="margin-bottom:10px;"><input type="text" id="docName" placeholder="اسم الوثيقة (جواز سفر، رخصة...)" class="app-input" style="width:100%;" required></div>
                     <div style="margin-bottom:12px;"><input type="date" id="docExpiry" class="app-input" style="width:100%;" required></div>
                     <button type="submit" class="btn-action" style="width:100%;">حفظ الوثيقة</button>
                 </form>
             </div>
-            <div class="card" id="docsContainer"></div>
+            <div class="bento-card" id="docsContainer"></div>
         </div>
 
         <!-- 🔐 6. الخزنة المشفرة والملاحظات -->
         <div id="vault-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">🔐 الخزنة والملاحظات</h2>
+            <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">🔐 الخزنة والملاحظات</h2>
             
-            <div class="card">
-                <strong style="font-size:14px; display:block; margin-bottom:10px;">🔐 حساب جديد بالخزنة</strong>
+            <div class="bento-card">
+                <strong style="font-size:14px; font-weight:800; display:block; margin-bottom:10px;">🔐 حساب جديد بالخزنة</strong>
                 <form onsubmit="saveVaultItem(event)" class="quick-input-row">
                     <input type="text" id="vaultName" placeholder="الحساب / الإيميل" class="app-input" required>
                     <input type="text" id="vaultPassword" placeholder="كلمة المرور" class="app-input" required>
@@ -424,10 +564,10 @@
                 <div id="vaultContainer" style="margin-top:14px;"></div>
             </div>
 
-            <div class="card">
+            <div class="bento-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <strong style="font-size:14px;">📝 الملاحظات والتسجيلات</strong>
-                    <button onclick="startVoiceRecording()" class="btn-action" style="background:var(--accent-red); padding:6px 12px; font-size:12px;">🎙️ تسجيل</button>
+                    <strong style="font-size:14px; font-weight:800;">📝 الملاحظات والتسجيلات</strong>
+                    <button onclick="startVoiceRecording()" class="btn-action" style="background:var(--accent-rose); padding:6px 12px; font-size:12px;">🎙️ تسجيل</button>
                 </div>
                 <form onsubmit="saveNote(event)" style="display:flex; flex-direction:column; gap:8px;">
                     <input type="text" id="noteTitle" placeholder="العنوان..." class="app-input">
@@ -440,55 +580,55 @@
 
         <!-- ⚙️ 7. الإعدادات -->
         <div id="settings-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">⚙️ الأمان والإعدادات</h2>
-            <div class="card">
-                <strong style="font-size:14px; display:block; margin-bottom:10px;">🛡️ فحص واختبار التنبيه الفاخر</strong>
+            <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">⚙️ الأمان والإعدادات</h2>
+            <div class="bento-card">
+                <strong style="font-size:14px; font-weight:800; display:block; margin-bottom:10px;">🛡️ فحص واختبار التنبيه</strong>
                 <div style="display:flex; gap:8px; flex-direction:column;">
-                    <button onclick="testPrestigeAlarm()" class="btn-action" style="width:100%;">🎵 تجربة نغمة الكريستال الهادئة</button>
-                    <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); width:100%;">🔔 تفعيل قناة التنبيهات القصوى</button>
-                    <button onclick="exportData()" class="btn-action" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); width:100%;">📥 تصدير ملف النسخة الاحتياطية</button>
+                    <button onclick="testPrestigeAlarm()" class="btn-action" style="width:100%;">🎵 تجربة نغمة الماريمبا الهادئة</button>
+                    <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle); width:100%;">🔔 تفعيل قناة التنبيهات القصوى</button>
+                    <button onclick="exportData()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle); width:100%;">📥 تصدير نسخة احتياطية</button>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- 📑 القائمة المنبثقة للأقسام والمهام -->
+    <!-- 📑 القائمة المنبثقة للأقسام -->
     <div class="dock-menu-popup" id="dockMenuPopup">
         <button class="menu-item-btn" onclick="openSectionFromMenu('reminders-section')">⏰ التنبيهات</button>
         <button class="menu-item-btn" onclick="openSectionFromMenu('expenses-section')">📊 المصاريف</button>
         <button class="menu-item-btn" onclick="openSectionFromMenu('todos-section')">✅ أرشيف المهام</button>
         <button class="menu-item-btn" onclick="openSectionFromMenu('documents-section')">🆔 الوثائق</button>
         <button class="menu-item-btn" onclick="openSectionFromMenu('vault-section')">🔐 الخزنة</button>
-        <button class="menu-item-btn" onclick="startVoiceFromMenu()" style="color:var(--accent-red);">🎙️ تسجيل صوتي</button>
+        <button class="menu-item-btn" onclick="startVoiceFromMenu()" style="color:var(--accent-rose);">🎙️ تسجيل صوتي</button>
     </div>
 
     <!-- 🏝️ الشريط السفلي الذكي -->
     <div class="bottom-nav-dock">
         <button class="dock-btn active" id="btnNavHome" onclick="switchMainTab('dashboard', this)">🏠 الرئيسية</button>
-        <button class="dock-btn" id="btnNavMenu" onclick="toggleDockMenu()">📑 الأقسام والمهام</button>
+        <button class="dock-btn" id="btnNavMenu" onclick="toggleDockMenu()">📑 الأقسام</button>
         <button class="dock-btn" id="btnNavSettings" onclick="switchMainTab('settings-section', this)">⚙️ الإعدادات</button>
     </div>
 
     <!-- 🔔 نافذة رنين التنبيه التفاعلية -->
     <div class="modal-overlay" id="activeAlarmModal">
-        <div class="modal-box" style="border: 2px solid var(--accent-red);">
-            <div style="font-size: 40px; margin-bottom: 8px;">⏰</div>
-            <h3 style="color:var(--accent-red); font-size:20px; font-weight:800; margin-bottom:4px;">حان وقت التنبيه!</h3>
+        <div class="modal-box">
+            <div style="font-size: 44px; margin-bottom: 8px;">⏰</div>
+            <h3 style="color:var(--accent-rose); font-size:20px; font-weight:900; margin-bottom:4px;">حان وقت التنبيه!</h3>
             <p id="activeAlarmModalTitle" style="font-size:15px; font-weight:700; margin-bottom:18px;">تنبيه موعد</p>
-            <button onclick="dismissActiveAlarm()" class="btn-action" style="background:var(--accent-red); width:100%; padding:14px;">🔕 إيقاف التنبيه</button>
+            <button onclick="dismissActiveAlarm()" class="btn-action" style="background:var(--accent-rose); width:100%; padding:14px;">🔕 إيقاف التنبيه</button>
         </div>
     </div>
 
     <!-- 🎙️ نافذة تسجيل الصوت -->
     <div class="modal-overlay" id="voiceModal">
         <div class="modal-box">
-            <div style="font-size:36px; color:var(--accent-red); margin-bottom:8px;">🎙️</div>
-            <strong style="display:block; font-size:16px; margin-bottom:4px;">جاري التقاط الصوت...</strong>
-            <div id="recordTimer" style="font-size:22px; font-weight:900; color:var(--accent-red); margin:12px 0;">00:00</div>
+            <div style="font-size:36px; color:var(--accent-rose); margin-bottom:8px;">🎙️</div>
+            <strong style="display:block; font-size:16px; margin-bottom:4px;">جاري تسجيل الصوت...</strong>
+            <div id="recordTimer" style="font-size:22px; font-weight:900; color:var(--accent-rose); margin:12px 0;">00:00</div>
             <div style="display:flex; gap:8px;">
-                <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--accent-green); flex:1;">حفظ</button>
-                <button onclick="cancelVoiceRecording()" class="btn-action" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); flex:1;">إلغاء</button>
+                <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--accent-emerald); flex:1;">حفظ</button>
+                <button onclick="cancelVoiceRecording()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle); flex:1;">إلغاء</button>
             </div>
         </div>
     </div>
@@ -508,7 +648,7 @@
         firebase.initializeApp(firebaseConfig);
         const dbRef = firebase.database().ref('myLifeData');
 
-        // --- 1. فحص وربط إضافة إشعارات أندرويد مع تفعيل الصوت والاهتزاز الكامل للقناة ---
+        // --- 1. فحص وربط إضافة إشعارات أندرويد مع تفعيل الصوت والاهتزاز ---
         function getNativePlugin() {
             if (window.Capacitor) {
                 if (window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
@@ -562,12 +702,13 @@
                     if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
                 } else { data[key] = []; }
             });
-            if (!data.settings) data.settings = { darkMode: false };
+            if (!data.settings) data.settings = { darkMode: true };
             return data;
         }
 
         let db = normalizeDB(JSON.parse(localStorage.getItem('myLifeAppDB')));
         const todayStr = new Date().toISOString().split('T')[0];
+        let livePrayersList = []; // مواقيت الصلاة اليومية لجنين
 
         function showToast(msg) {
             const el = document.getElementById('syncToast');
@@ -593,7 +734,80 @@
             }
         });
 
-        // --- 3. التنقل وشريط الدوك الذكي ---
+        // --- 3. جلب بيانات الطقس، العملات، ومواقيت الصلاة لجنين (فلسطين) ---
+        async function fetchExternalFeeds() {
+            // أ. الطقس المباشر لجنين (Open-Meteo API)
+            try {
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&current=temperature_2m,weather_code&timezone=auto');
+                const data = await res.json();
+                if (data && data.current) {
+                    const temp = Math.round(data.current.temperature_2m);
+                    const code = data.current.weather_code;
+                    let desc = "صافٍ";
+                    let icon = "☀️";
+                    if ([1, 2, 3].includes(code)) { desc = "غائم جزئياً"; icon = "⛅"; }
+                    else if ([45, 48].includes(code)) { desc = "ضبابي"; icon = "🌫️"; }
+                    else if ([51, 53, 55, 61, 63, 65].includes(code)) { desc = "ماطر"; icon = "🌧️"; }
+                    else if ([95, 96, 99].includes(code)) { desc = "عواصف رعدية"; icon = "⛈️"; }
+
+                    document.getElementById('weatherTemp').innerText = `${temp}°C`;
+                    document.getElementById('weatherIcon').innerText = icon;
+                    document.getElementById('weatherStatusSub').innerText = `الطقس الآن: ${desc} في جنين (${temp}°C)`;
+                }
+            } catch (e) {
+                document.getElementById('weatherStatusSub').innerText = "بياناتك وتنبيهاتك الشخصية بتزامن فوري";
+            }
+
+            // ب. أسعار صرف العملات مقابل الشيكل (ExchangeRate API)
+            try {
+                const res = await fetch('https://open.er-api.com/v6/latest/ILS');
+                const data = await res.json();
+                if (data && data.rates) {
+                    const usdToIls = (1 / data.rates.USD).toFixed(2);
+                    const jodToIls = (1 / data.rates.JOD).toFixed(2);
+                    const eurToIls = (1 / data.rates.EUR).toFixed(2);
+
+                    document.getElementById('rateUSD').innerText = `USD: ${usdToIls} ₪`;
+                    document.getElementById('rateJOD').innerText = `JOD: ${jodToIls} ₪`;
+                    document.getElementById('rateEUR').innerText = `EUR: ${eurToIls} ₪`;
+                }
+            } catch (e) {}
+
+            // ج. مواقيت الصلاة الخمس لجنين (AlAdhan API)
+            try {
+                const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Jenin&country=Palestine&method=3');
+                const data = await res.json();
+                if (data && data.data && data.data.timings) {
+                    const t = data.data.timings;
+                    const prayers = [
+                        { name: 'صلاة الفجر', time: t.Fajr },
+                        { name: 'صلاة الظهر', time: t.Dhuhr },
+                        { name: 'صلاة العصر', time: t.Asr },
+                        { name: 'صلاة المغرب', time: t.Maghrib },
+                        { name: 'صلاة العشاء', time: t.Isha }
+                    ];
+
+                    const now = new Date();
+                    livePrayersList = prayers.map((p, idx) => {
+                        const [hrs, mins] = p.time.split(':');
+                        const pDate = new Date();
+                        pDate.setHours(parseInt(hrs), parseInt(mins), 0, 0);
+                        return {
+                            id: `prayer_${idx}`,
+                            title: `🕌 ${p.name}`,
+                            targetTime: pDate.getTime(),
+                            timeStr: p.time,
+                            isPrayer: true
+                        };
+                    });
+
+                    renderChronologicalTimers();
+                }
+            } catch (e) {}
+        }
+        fetchExternalFeeds();
+
+        // --- 4. التنقل وقائمة الدوك ---
         function closeDockMenu() {
             document.getElementById('dockMenuPopup').classList.remove('open');
             document.getElementById('btnNavMenu').classList.remove('active');
@@ -644,7 +858,7 @@
             }
         });
 
-        // --- 4. محرك نغمة قطرات الكريستال والماريمبا العصرية (Glass Marimba Chime) ---
+        // --- 5. محرك الصوت المطور (Glass Marimba Chime) ---
         let audioCtx = null;
         let alarmTimer = null;
 
@@ -707,16 +921,18 @@
         function formatTime(ms) {
             if (ms <= 0) return '00:00';
             const s = Math.floor(ms / 1000);
+            const hrs = Math.floor(s / 3600);
             const mins = Math.floor((s % 3600) / 60);
             const secs = s % 60;
+            if (hrs > 0) return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
 
         // جدولة الإشعار النظامي المباشر المسموع
         async function scheduleSystemNotification(title, minutes, reminderId) {
             const plugin = getNativePlugin();
-            const notifTitle = title ? `⏰ تنبيه: ${title}` : `⏰ انتهى وقت التنبيه (${minutes} دقيقة)!`;
-            const notifBody = title ? `حان الآن موعد التذكير: ${title}` : `انتهت مدة التنبيه المجدول في Life OS`;
+            const notifTitle = title ? `⏰ تنبيه: ${title}` : `⏰ موعد التنبيه (${minutes} دقيقة)!`;
+            const notifBody = title ? `حان الآن موعد: ${title}` : `انتهت مدة التنبيه في Life OS`;
             const targetDate = new Date(Date.now() + minutes * 60 * 1000);
 
             if (plugin) {
@@ -726,10 +942,7 @@
                             title: notifTitle,
                             body: notifBody,
                             id: Math.abs(Number(reminderId) % 2147483647),
-                            schedule: {
-                                at: targetDate,
-                                allowWhileIdle: true
-                            },
+                            schedule: { at: targetDate, allowWhileIdle: true },
                             sound: 'default',
                             actionTypeId: 'ALARM_ACTIONS',
                             channelId: 'lifeos_alarms_channel'
@@ -780,48 +993,110 @@
             }
         }
 
-        function renderReminders() {
+        // --- 6. دمج وترتيب التنبيهات ومواقيت الصلاة زمنياً (Chronological Engine) ---
+        function renderChronologicalTimers() {
             const now = Date.now();
-            const dashContainer = document.getElementById('dashRemindersContainer');
-            if (dashContainer) {
-                const list = db.reminders.filter(r => r.hasName ? ((now - r.createdAt) <= 48*60*60*1000) : (!r.triggered && r.targetTime > now));
-                list.sort((a,b) => b.createdAt - a.createdAt);
-                
-                let html = '';
-                list.forEach(r => {
-                    const isPending = !r.triggered && r.targetTime > now;
-                    html += `
-                    <div class="card" style="padding:14px 18px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <strong style="font-size:15px;">${r.title || `تنبيه (${r.minutes} د)`}</strong>
-                            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">موعد الرنين: ${new Date(r.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}</div>
-                        </div>
-                        <div style="display:flex; align-items:center; gap:8px;">
-                            ${isPending ? `<span class="tag-badge" id="cd-${r.id}">⏳ ${formatTime(r.targetTime - now)}</span>` : `<span class="tag-badge" style="background:rgba(16,185,129,0.15); color:var(--accent-green);">✅ مكتمل</span>`}
-                            <button onclick="deleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-red); font-size:16px; cursor:pointer;">❌</button>
-                        </div>
-                    </div>`;
+            const container = document.getElementById('chronologicalTimersList');
+            if (!container) return;
+
+            // دمج التنبيهات النشطة فقط مع مواقيت الصلاة
+            let activeList = [];
+
+            // 1. إضافة مواقيت الصلاة لليوم
+            livePrayersList.forEach(p => {
+                activeList.push({
+                    id: p.id,
+                    title: p.title,
+                    targetTime: p.targetTime,
+                    isPrayer: true,
+                    triggered: (p.targetTime <= now),
+                    timeStr: p.timeStr
                 });
-                dashContainer.innerHTML = html;
+            });
+
+            // 2. إضافة التنبيهات اليدوية غير المنتهية
+            db.reminders.forEach(r => {
+                if (!r.triggered && r.targetTime > now) {
+                    activeList.push({
+                        id: r.id,
+                        title: r.title || `تنبيه (${r.minutes} د)`,
+                        targetTime: r.targetTime,
+                        minutes: r.minutes,
+                        isPrayer: false,
+                        triggered: false
+                    });
+                }
+            });
+
+            // فرز القائمة زمنياً تصاعدياً
+            activeList.sort((a, b) => a.targetTime - b.targetTime);
+
+            // تحديث HUD للصلاة القادمة
+            const nextPrayer = activeList.find(item => item.isPrayer && item.targetTime > now);
+            if (nextPrayer) {
+                const diffMs = nextPrayer.targetTime - now;
+                document.getElementById('nextPrayerHud').innerText = `${nextPrayer.title.replace('🕌 ', '')} (${formatTime(diffMs)})`;
+            } else {
+                document.getElementById('nextPrayerHud').innerText = "اكتملت الصلوات";
             }
 
+            if (activeList.length === 0) {
+                container.innerHTML = '<p style="color:var(--text-tertiary); font-size:13px; text-align:center; padding:10px;">لا توجد مواعيد أو تنبيهات نشطة.</p>';
+                return;
+            }
+
+            let html = '';
+            activeList.forEach(item => {
+                const isPending = item.targetTime > now;
+                const diffMs = item.targetTime - now;
+                const cardTypeClass = item.isPrayer ? 'prayer' : 'custom';
+                const badgeTypeClass = item.isPrayer ? 'emerald' : '';
+
+                const countdownHtml = isPending 
+                    ? `<span class="tag-badge ${badgeTypeClass}" id="timer-${item.id}">⏳ ${formatTime(diffMs)}</span>`
+                    : `<span class="tag-badge emerald">✅ تم</span>`;
+
+                const deleteBtn = !item.isPrayer 
+                    ? `<button onclick="deleteReminder(${item.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer; font-size:16px;">❌</button>`
+                    : '';
+
+                html += `
+                <div class="reminder-card ${cardTypeClass}">
+                    <div>
+                        <strong style="font-size:14px; color:var(--text-primary); display:block;">${item.title}</strong>
+                        <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">
+                            ${new Date(item.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        ${countdownHtml}
+                        ${deleteBtn}
+                    </div>
+                </div>`;
+            });
+
+            container.innerHTML = html;
+
+            // تحديث أرشيف التنبيهات
             const fullArchive = document.getElementById('fullRemindersArchive');
             if(fullArchive) {
                 fullArchive.innerHTML = db.reminders.map(r => `
                     <div class="list-row">
                         <div>
                             <strong>${r.title || 'تنبيه سريع'}</strong>
-                            <div style="font-size:12px; color:var(--text-muted);">${new Date(r.createdAt).toLocaleDateString('ar-EG')} - ${r.minutes} دقيقة</div>
+                            <div style="font-size:12px; color:var(--text-secondary);">${new Date(r.createdAt).toLocaleDateString('ar-EG')} - ${r.minutes} دقيقة</div>
                         </div>
-                        <button onclick="deleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
+                        <button onclick="deleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
                     </div>
-                `).join('') || '<p style="color:var(--text-muted); text-align:center;">السجل فارغ</p>';
+                `).join('') || '<p style="color:var(--text-secondary); text-align:center;">السجل فارغ</p>';
             }
         }
 
+        // تحديث لحظي للمؤقتات التنازلية
         setInterval(() => {
             const now = Date.now();
             let changed = false;
+
             db.reminders.forEach(r => {
                 if (!r.triggered) {
                     const diff = r.targetTime - now;
@@ -830,15 +1105,22 @@
                         changed = true;
                         startAlarm(r.title);
                     } else {
-                        const el = document.getElementById(`cd-${r.id}`);
+                        const el = document.getElementById(`timer-${r.id}`);
                         if (el) el.innerText = `⏳ ${formatTime(diff)}`;
                     }
                 }
             });
+
+            livePrayersList.forEach(p => {
+                const diff = p.targetTime - now;
+                const el = document.getElementById(`timer-${p.id}`);
+                if (el && diff > 0) el.innerText = `⏳ ${formatTime(diff)}`;
+            });
+
             if (changed) { finalizeAction(); }
         }, 1000);
 
-        // --- 5. تحديث الشاشات والبيانات ---
+        // --- 7. تحديث الشاشات والبيانات ---
         function updateUI() {
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
@@ -852,7 +1134,7 @@
                 const d = new Date(b.date);
                 if (d.getMonth() === cMonth && d.getFullYear() === cYear) spentMonth += parseFloat(b.amount);
             });
-            document.getElementById('dashSpent').innerHTML = `${spentMonth.toLocaleString()} <span style="font-size:16px; color:var(--text-muted);">₪</span>`;
+            document.getElementById('dashSpent').innerHTML = `${spentMonth.toLocaleString()} <span style="font-size:16px; color:var(--text-tertiary);">₪</span>`;
 
             // مهام ومصاريف اليوم
             const todosToday = db.todos.filter(t => t.date === todayStr);
@@ -860,12 +1142,12 @@
             document.getElementById('dashTodosList').innerHTML = todosToday.map(t => `
                 <div class="list-row">
                     <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
-                        <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--primary);">
-                        <span style="${t.done?'text-decoration:line-through; color:var(--text-muted);':''}">${t.text}</span>
+                        <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--accent-primary);">
+                        <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text}</span>
                     </label>
-                    <button onclick="deleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">✖</button>
+                    <button onclick="deleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">✖</button>
                 </div>
-            `).join('') || '<p style="color:var(--text-muted); font-size:13px; padding-top:4px;">لا توجد مهام اليوم.</p>';
+            `).join('') || '<p style="color:var(--text-tertiary); font-size:13px; padding-top:4px;">لا توجد مهام اليوم.</p>';
 
             const expToday = db.expenses.filter(e => e.date === todayStr);
             let todayTotal = expToday.reduce((sum, item) => sum + parseFloat(item.amount), 0);
@@ -873,9 +1155,9 @@
             document.getElementById('dashExpensesList').innerHTML = expToday.map(e => `
                 <div class="list-row">
                     <span>${e.desc}</span>
-                    <strong style="color:var(--accent-red);">${e.amount} ₪</strong>
+                    <strong style="color:var(--accent-rose);">${e.amount} ₪</strong>
                 </div>
-            `).join('') || '<p style="color:var(--text-muted); font-size:13px; padding-top:4px;">لم تسجل مصاريف اليوم.</p>';
+            `).join('') || '<p style="color:var(--text-tertiary); font-size:13px; padding-top:4px;">لم تسجل مصاريف اليوم.</p>';
 
             // أرشيف المهام
             const fullTodosEl = document.getElementById('fullTodosContainer');
@@ -883,12 +1165,12 @@
                 fullTodosEl.innerHTML = db.todos.map(t => `
                     <div class="list-row">
                         <div>
-                            <span style="${t.done?'text-decoration:line-through; color:var(--text-muted);':''}">${t.text}</span>
-                            <div style="font-size:11px; color:var(--text-muted);">${t.date}</div>
+                            <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text}</span>
+                            <div style="font-size:11px; color:var(--text-secondary);">${t.date}</div>
                         </div>
-                        <button onclick="deleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
+                        <button onclick="deleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
                     </div>
-                `).join('') || '<p style="color:var(--text-muted);">لا توجد مهام مؤرشفة.</p>';
+                `).join('') || '<p style="color:var(--text-secondary);">لا توجد مهام مؤرشفة.</p>';
             }
 
             // أرشيف المصاريف
@@ -911,11 +1193,11 @@
                     <div class="list-row">
                         <div>
                             <strong>${e.desc}</strong>
-                            <div style="font-size:11px; color:var(--text-muted);">${e.date}</div>
+                            <div style="font-size:11px; color:var(--text-secondary);">${e.date}</div>
                         </div>
-                        <strong style="color:var(--accent-red);">${e.amount} ₪</strong>
+                        <strong style="color:var(--accent-rose);">${e.amount} ₪</strong>
                     </div>
-                `).join('') || '<p style="color:var(--text-muted);">لا توجد مصاريف سابقة.</p>';
+                `).join('') || '<p style="color:var(--text-secondary);">لا توجد مصاريف سابقة.</p>';
             }
 
             // الوثائق
@@ -925,11 +1207,11 @@
                     <div class="list-row">
                         <div>
                             <strong>${d.name}</strong>
-                            <div style="font-size:12px; color:var(--text-muted);">تنتهي: ${d.expiryDate}</div>
+                            <div style="font-size:12px; color:var(--text-secondary);">تنتهي: ${d.expiryDate}</div>
                         </div>
-                        <button onclick="deleteDoc(${d.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
+                        <button onclick="deleteDoc(${d.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
                     </div>
-                `).join('') || '<p style="color:var(--text-muted);">لا توجد وثائق مسجلة.</p>';
+                `).join('') || '<p style="color:var(--text-secondary);">لا توجد وثائق مسجلة.</p>';
             }
 
             // الخزنة
@@ -939,29 +1221,29 @@
                     <div class="list-row">
                         <div>
                             <strong>${v.accountName}</strong>
-                            <div style="font-size:12px; color:var(--accent-red); font-family:monospace;">${v.password}</div>
+                            <div style="font-size:12px; color:var(--accent-rose); font-family:monospace;">${v.password}</div>
                         </div>
-                        <button onclick="deleteVault(${v.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
+                        <button onclick="deleteVault(${v.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
                     </div>
-                `).join('') || '<p style="color:var(--text-muted);">الخزنة فارغة.</p>';
+                `).join('') || '<p style="color:var(--text-secondary);">الخزنة فارغة.</p>';
             }
 
             // الملاحظات
             const notesEl = document.getElementById('notesContainer');
             if(notesEl) {
                 notesEl.innerHTML = db.notes.map(n => `
-                    <div style="background:var(--surface-subtle); padding:12px; border-radius:var(--radius-md); margin-bottom:8px; border:1px solid var(--border);">
+                    <div style="background:var(--surface-hover); padding:12px; border-radius:var(--radius-md); margin-bottom:8px; border:1px solid var(--border-subtle);">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <strong>${n.title}</strong>
-                            <button onclick="deleteNote(${n.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
+                            <button onclick="deleteNote(${n.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
                         </div>
-                        ${n.body ? `<p style="font-size:13px; color:var(--text-muted); margin-top:4px;">${n.body}</p>` : ''}
+                        ${n.body ? `<p style="font-size:13px; color:var(--text-secondary); margin-top:4px;">${n.body}</p>` : ''}
                         ${n.audioData ? `<audio controls src="${n.audioData}" style="width:100%; height:32px; margin-top:8px;"></audio>` : ''}
                     </div>
-                `).join('') || '<p style="color:var(--text-muted);">لا توجد ملاحظات.</p>';
+                `).join('') || '<p style="color:var(--text-secondary);">لا توجد ملاحظات.</p>';
             }
 
-            renderReminders();
+            renderChronologicalTimers();
         }
 
         function finalizeAction(msg=null) {
@@ -1037,7 +1319,7 @@
             finalizeAction();
         }
 
-        // --- 6. مسجل الصوت ---
+        // --- 8. مسجل الصوت المباشر ---
         let mediaRec = null;
         let audioParts = [];
         let recTimer = null;
@@ -1088,8 +1370,9 @@
 
         function toggleTheme() {
             db.settings.darkMode = !db.settings.darkMode;
-            document.body.classList.toggle('dark-mode', db.settings.darkMode);
-            document.getElementById('themeColorMeta').setAttribute('content', db.settings.darkMode ? '#090B10' : '#F8FAFC');
+            document.body.classList.toggle('light-mode', !db.settings.darkMode);
+            document.getElementById('themeBtn').innerText = db.settings.darkMode ? '🌙' : '☀️';
+            document.getElementById('themeColorMeta').setAttribute('content', db.settings.darkMode ? '#090D16' : '#F4F6FB');
             finalizeAction();
         }
 
@@ -1120,7 +1403,8 @@
             }
         }
 
-        document.body.classList.toggle('dark-mode', !!db.settings.darkMode);
+        document.body.classList.toggle('light-mode', !db.settings.darkMode);
+        document.getElementById('themeBtn').innerText = db.settings.darkMode ? '🌙' : '☀️';
         updateUI();
     </script>
 </body>
