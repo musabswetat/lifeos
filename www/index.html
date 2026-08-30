@@ -16,52 +16,53 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
-        /* 📱 Samsung One UI Official Design System */
+        /* 📱 نظام تصميم Samsung One UI الرسمي الدقيق */
         :root {
             --bg-canvas: #121212;
             --surface-card: #1E1E1E;
-            --surface-inner: #262626;
-            --surface-active: #303030;
+            --surface-inner: #282828;
+            --surface-active: #323232;
             --border-subtle: #2C2C2C;
             
             --text-primary: #FFFFFF;
-            --text-secondary: #9E9E9E;
-            --text-tertiary: #6E6E6E;
+            --text-secondary: #8E8E93;
+            --text-tertiary: #636366;
             
-            --oneui-blue: #2A65D9;
-            --oneui-green: #2E7D32;
-            --oneui-red: #D32F2F;
-            --oneui-amber: #E65100;
+            --oneui-blue: #007AFF;
+            --oneui-blue-subtle: rgba(0, 122, 255, 0.15);
+            --oneui-green: #34C759;
+            --oneui-red: #FF3B30;
             
-            --radius-card: 26px;
-            --radius-input: 16px;
+            --radius-card: 24px;
+            --radius-input: 14px;
             --radius-pill: 9999px;
-            --dock-height: 64px;
-            --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.25);
+            --dock-height: 60px;
+            --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.25);
         }
 
         body.light-mode {
-            --bg-canvas: #F4F4F6;
+            --bg-canvas: #F2F2F7;
             --surface-card: #FFFFFF;
-            --surface-inner: #EEEEF2;
-            --surface-active: #E4E4E8;
-            --border-subtle: #E0E0E0;
+            --surface-inner: #E5E5EA;
+            --surface-active: #D1D1D6;
+            --border-subtle: #E5E5EA;
             
-            --text-primary: #1C1C1E;
-            --text-secondary: #757575;
-            --text-tertiary: #9E9E9E;
+            --text-primary: #000000;
+            --text-secondary: #6C6C70;
+            --text-tertiary: #8E8E93;
             
-            --oneui-blue: #1A73E8;
-            --oneui-green: #388E3C;
-            --oneui-red: #C62828;
-            --shadow-subtle: 0 2px 10px rgba(0, 0, 0, 0.04);
+            --oneui-blue: #007AFF;
+            --oneui-blue-subtle: rgba(0, 122, 255, 0.1);
+            --oneui-green: #34C759;
+            --oneui-red: #FF3B30;
+            --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.05);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: system-ui, -apple-system, "Samsung Sans", "Segoe UI", Roboto, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -75,34 +76,62 @@
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            transition: background 0.25s ease, color 0.25s ease;
+            transition: background 0.2s ease, color 0.2s ease;
         }
 
         .app-container {
             width: 100%;
-            max-width: 680px;
+            max-width: 600px;
             margin: 0 auto;
-            padding: 12px 16px calc(var(--dock-height) + 75px) 16px;
+            padding: 16px 18px calc(var(--dock-height) + 85px) 18px;
             box-sizing: border-box;
         }
 
-        /* 🔍 شريط البحث وأدوات سامسونج العلوية */
+        /* 🔍 شريط الإجراءات العلوي ونقاط سامسونج */
         .oneui-top-bar {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 8px 4px;
             position: relative;
         }
-        .search-pill {
-            flex: 1;
+        .top-action-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 20px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s ease;
+        }
+        .top-action-btn:active { background: var(--surface-inner); }
+
+        /* حقل البحث القابل للتوسيع */
+        .expandable-search-bar {
+            display: none;
+            width: 100%;
+            margin-bottom: 12px;
+            animation: fadeInSearch 0.2s ease;
+        }
+        .expandable-search-bar.active { display: block; }
+        @keyframes fadeInSearch {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .search-inner-box {
             display: flex;
             align-items: center;
             background: var(--surface-card);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-pill);
             padding: 10px 16px;
-            gap: 8px;
+            gap: 10px;
             box-shadow: var(--shadow-subtle);
         }
         .search-input {
@@ -111,40 +140,23 @@
             outline: none;
             color: var(--text-primary);
             font-size: 14px;
-            font-weight: 600;
             width: 100%;
         }
-        .top-btn {
-            background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
-            color: var(--text-primary);
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: var(--shadow-subtle);
-            transition: transform 0.15s ease;
-        }
-        .top-btn:active { transform: scale(0.95); background: var(--surface-inner); }
 
-        /* 📑 القائمة المنسدلة من النقاط الثلاث */
+        /* 📑 قائمة الثلاث نقاط الشاملة (One UI Overflow Dropdown) */
         .oneui-dropdown {
             position: absolute;
-            top: 52px;
-            left: 0;
+            top: 50px;
+            left: 4px;
             background: var(--surface-card);
             border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-input);
-            padding: 8px;
-            width: 210px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            border-radius: 18px;
+            padding: 6px;
+            width: 220px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
             z-index: 9999;
             opacity: 0;
             pointer-events: none;
@@ -159,55 +171,50 @@
         .dropdown-item {
             background: transparent;
             border: none;
-            padding: 10px 14px;
-            border-radius: 10px;
+            padding: 11px 14px;
+            border-radius: 12px;
             color: var(--text-primary);
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             text-align: right;
             transition: background 0.15s ease;
         }
         .dropdown-item:active { background: var(--surface-inner); }
 
-        /* 📱 منطقة العناوين الرئيسية والكبسولات */
-        .oneui-header {
-            padding: 8px 4px 14px 4px;
+        /* 📱 عنوان One UI ونصوص التقرير المجردة */
+        .oneui-header-area {
+            padding: 14px 4px 20px 4px;
         }
-        .oneui-title-large {
-            font-size: 32px;
+        .oneui-title-hero {
+            font-size: 34px;
             font-weight: 800;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
+            margin-bottom: 4px;
         }
-        .oneui-chips-row {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-top: 8px;
-        }
-        .oneui-chip {
-            background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
-            padding: 6px 14px;
-            border-radius: var(--radius-pill);
-            font-size: 12px;
-            font-weight: 700;
+        .oneui-sub-text {
+            font-size: 13px;
             color: var(--text-secondary);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            font-weight: 500;
+            line-height: 1.6;
         }
 
-        /* 🪟 بطاقات سامسونج One UI */
+        /* 🪟 بطاقات وتقسيمات One UI النظيفة */
+        .section-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin: 18px 6px 8px 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
         .oneui-card {
             background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
             border-radius: var(--radius-card);
-            padding: 20px;
+            padding: 18px 20px;
             margin-bottom: 12px;
             box-shadow: var(--shadow-subtle);
         }
@@ -217,7 +224,6 @@
             display: block; 
             animation: oneuiFade 0.25s cubic-bezier(0.2, 0, 0, 1);
         }
-
         @keyframes oneuiFade {
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
@@ -237,19 +243,19 @@
         .tag-badge {
             display: inline-flex;
             align-items: center;
-            padding: 5px 12px;
+            padding: 4px 10px;
             border-radius: var(--radius-pill);
             font-size: 12px;
             font-weight: 700;
             background: var(--surface-inner);
             color: var(--oneui-blue);
         }
-        .tag-badge.emerald { color: var(--oneui-green); }
+        .tag-badge.green { color: var(--oneui-green); }
 
         /* 🔘 الزر العائم السريع (FAB) */
         .fab-container {
             position: fixed;
-            bottom: 90px;
+            bottom: 86px;
             left: 20px;
             z-index: 2000;
             display: flex;
@@ -258,16 +264,16 @@
             gap: 8px;
         }
         .fab-main-btn {
-            width: 56px;
-            height: 56px;
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
             background: var(--oneui-blue);
             border: none;
             color: #FFF;
             font-size: 24px;
-            font-weight: 800;
+            font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.35);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -305,47 +311,48 @@
         }
         .fab-action-item:active { transform: scale(0.96); background: var(--surface-inner); }
 
-        /* 🏝️ شريط التنقل السفلي One UI */
-        .bottom-nav-dock {
+        /* 📱 شريط سامسونج السفلي (3 أقسام حصراً ومطابق للمرجع) */
+        .samsung-dock-container {
             position: fixed;
             bottom: 16px;
             left: 50%;
             transform: translateX(-50%);
             background: var(--surface-card);
             border: 1px solid var(--border-subtle);
-            padding: 6px;
             border-radius: var(--radius-pill);
+            padding: 5px 8px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 4px;
+            justify-content: space-around;
+            gap: 6px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             z-index: 1000;
-            width: calc(100% - 32px);
-            max-width: 440px;
+            width: calc(100% - 40px);
+            max-width: 380px;
         }
-        .dock-btn {
+        .samsung-dock-item {
             flex: 1;
             background: transparent;
             border: none;
-            padding: 10px 8px;
+            padding: 6px 12px;
             border-radius: var(--radius-pill);
             color: var(--text-secondary);
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 4px;
+            gap: 2px;
             transition: all 0.15s ease;
-            white-space: nowrap;
         }
-        .dock-btn.active {
+        .samsung-dock-item .dock-icon { font-size: 18px; }
+        .samsung-dock-item.active {
             background: var(--surface-inner);
             color: var(--text-primary);
         }
-        .dock-btn:active { transform: scale(0.96); }
+        .samsung-dock-item:active { transform: scale(0.95); }
 
         .app-input {
             padding: 12px 14px;
@@ -372,7 +379,7 @@
             font-weight: 700;
             cursor: pointer;
             width: 100%;
-            transition: transform 0.15s ease, opacity 0.15s ease;
+            transition: transform 0.15s ease;
         }
         .btn-action:active { transform: scale(0.98); opacity: 0.9; }
 
@@ -434,105 +441,110 @@
 
     <div class="app-container">
         
-        <!-- 🔍 شريط البحث والأدوات العلوي -->
+        <!-- 🔍 شريط سامسونج العلوي: أيقونة البحث + تبديل الوضع + القائمة (⋮) -->
         <div class="oneui-top-bar">
-            <div class="search-pill">
-                <span>🔍</span>
-                <input type="text" id="globalSearchInput" class="search-input" placeholder="بحث في المهام والملاحظات والوثائق..." oninput="handleGlobalSearch(this.value)">
-            </div>
-            <button class="top-btn" onclick="toggleTheme()" id="themeBtn" title="الوضع الليلي">🌙</button>
-            <button class="top-btn" onclick="toggleTopDropdown()" title="القائمة الشاملة">⋮</button>
+            <button class="top-action-btn" onclick="toggleSearchBar()" title="بحث">🔍</button>
+            <button class="top-action-btn" onclick="toggleTheme()" id="themeBtn" title="الوضع الليلي">🌙</button>
+            <button class="top-action-btn" onclick="toggleTopDropdown()" title="القائمة">⋮</button>
 
-            <!-- 📑 القائمة المنسدلة من زر (⋮) -->
+            <!-- 📑 القائمة المنسدلة لجميع الأقسام بدون استثناء -->
             <div class="oneui-dropdown" id="topDropdownMenu">
+                <button class="dropdown-item" onclick="switchNavSection('todos-view')">✅ إدارة المهام</button>
+                <button class="dropdown-item" onclick="switchNavSection('finance-view')">📊 المصاريف والمالية</button>
+                <button class="dropdown-item" onclick="switchNavSection('notes-view')">📝 الملاحظات والتسجيلات</button>
                 <button class="dropdown-item" onclick="switchNavSection('vault-view')">🔐 الخزنة المشفرة</button>
                 <button class="dropdown-item" onclick="switchNavSection('docs-view')">🆔 الوثائق الرسمية</button>
-                <button class="dropdown-item" onclick="switchNavSection('settings-view')">⚙️ الإعدادات</button>
+                <button class="dropdown-item" onclick="switchNavSection('settings-view')">⚙️ الإعدادات العامة</button>
                 <button class="dropdown-item" onclick="startVoiceRecordingFromMenu()" style="color:var(--oneui-red);">🎙️ تسجيل صوتي</button>
                 <button class="dropdown-item" onclick="exportData()">📥 تصدير نسخة احتياطية</button>
             </div>
         </div>
 
-        <!-- 📱 منطقة الرؤية الكبيرة -->
-        <div class="oneui-header">
-            <div class="oneui-title-large">طاب يومك.</div>
-            
-            <div class="oneui-chips-row">
-                <div class="oneui-chip"><span>📍 جنين</span> <span id="chipWeather">--°C ⛅</span></div>
-                <div class="oneui-chip"><span>🇺🇸</span> <span id="rateUSD">-- ₪</span></div>
-                <div class="oneui-chip"><span>🇯🇴</span> <span id="rateJOD">-- ₪</span></div>
-                <div class="oneui-chip"><span>🇪🇺</span> <span id="rateEUR">-- ₪</span></div>
-                <div class="oneui-chip" style="color:var(--oneui-green);"><span>🕌</span> <span id="chipNextPrayer">--</span></div>
+        <!-- حقل البحث القابل للتوسيع عند النقر على 🔍 -->
+        <div class="expandable-search-bar" id="expandableSearchBar">
+            <div class="search-inner-box">
+                <span>🔍</span>
+                <input type="text" id="globalSearchInput" class="search-input" placeholder="بحث في المهام، الملاحظات، الوثائق..." oninput="handleGlobalSearch(this.value)">
+                <button onclick="toggleSearchBar()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:14px;">إلغاء</button>
             </div>
         </div>
 
-        <!-- 🔍 حاوية نتائج البحث -->
-        <div id="searchResultsCard" class="oneui-card" style="display:none;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <strong style="font-size:15px; font-weight:700; color:var(--oneui-blue);">🔍 نتائج البحث</strong>
-                <button onclick="clearGlobalSearch()" style="background:none; border:none; color:var(--text-tertiary); cursor:pointer; font-size:12px;">إغلاق</button>
-            </div>
+        <!-- 🔍 نتائج البحث -->
+        <div id="searchResultsCard" class="oneui-card" style="display:none; margin-bottom:14px;">
             <div id="searchResultsList"></div>
         </div>
 
-        <!-- 🍃 1. تبويب الرئيسية (Dashboard View) -->
+        <!-- 📱 منطقة العنوان والنصوص المجردة (بدون كبسولات) -->
+        <div class="oneui-header-area">
+            <div class="oneui-title-hero">طاب يومك.</div>
+            <div class="oneui-sub-text" id="oneuiSubInfo">
+                📍 جنين <span id="textWeather">--°C</span> · USD <span id="textUSD">--</span> ₪ · JOD <span id="textJOD">--</span> ₪ · EUR <span id="textEUR">--</span> ₪
+            </div>
+        </div>
+
+        <!-- 🏠 1. تبويب الرئيسية (Dashboard View) -->
         <div id="dashboard-view" class="section-view active">
             
+            <!-- قسم 1: الصلاة القادمة -->
+            <div class="section-label">الموعد القادم</div>
             <div class="oneui-card" style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <div style="font-size:12px; font-weight:600; color:var(--text-secondary);">الصلاة القادمة (جنين)</div>
+                    <div style="font-size:12px; color:var(--text-secondary); font-weight:600;">الصلاة القادمة في جنين</div>
                     <div style="font-size:20px; font-weight:800; margin-top:2px;" id="dashNextPrayerName">صلاة العصر</div>
                 </div>
-                <span class="tag-badge emerald" id="dashNextPrayerCountdown" style="font-size:14px;">⏳ --:--</span>
+                <span class="tag-badge green" id="dashNextPrayerCountdown" style="font-size:14px;">⏳ --:--</span>
             </div>
 
+            <!-- قسم 2: ملخص المصاريف -->
+            <div class="section-label">المالية والمصروفات</div>
             <div class="oneui-card" style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <div style="font-size:12px; font-weight:600; color:var(--text-secondary);">صرف هذا الشهر</div>
+                    <div style="font-size:12px; color:var(--text-secondary); font-weight:600;">صرف هذا الشهر</div>
                     <div style="font-size:26px; font-weight:800;" id="dashSpent">0 <span style="font-size:14px; color:var(--text-tertiary);">₪</span></div>
                 </div>
                 <div style="text-align:left;">
-                    <div style="font-size:12px; font-weight:600; color:var(--text-secondary);">صرف اليوم</div>
+                    <div style="font-size:12px; color:var(--text-secondary); font-weight:600;">صرف اليوم</div>
                     <div style="font-size:18px; font-weight:800; color:var(--oneui-red);" id="dashExpensesTotal">0 ₪</div>
                 </div>
             </div>
 
+            <!-- قسم 3: مهام اليوم -->
+            <div class="section-label">مهام اليوم</div>
             <div class="oneui-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <strong style="font-size:15px; font-weight:700;">✅ مهام اليوم</strong>
-                    <button onclick="openFabAction('todo')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ إضافة</button>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <span style="font-size:13px; color:var(--text-secondary);" id="dashTodoCount">0 مهام</span>
+                    <button onclick="openFabAction('todo')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ إضافة مهمة</button>
                 </div>
                 <div id="dashTodosList"></div>
             </div>
 
+            <!-- قسم 4: التنبيهات النشطة -->
+            <div class="section-label">التنبيهات المباشرة</div>
             <div class="oneui-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <strong style="font-size:15px; font-weight:700;">⏰ التنبيهات المباشرة</strong>
-                    <button onclick="openFabAction('alarm')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ ضبط</button>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                    <span style="font-size:13px; color:var(--text-secondary);">المؤقتات القادمة</span>
+                    <button onclick="openFabAction('alarm')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ ضبط تنبيه</button>
                 </div>
                 <div id="dashRemindersPreview"></div>
             </div>
 
         </div>
 
-        <!-- 🕌 2. تبويب الصلوات والمواعيد (Prayers View) -->
+        <!-- 🕌 2. تبويب الصلوات (Prayers View) -->
         <div id="prayers-view" class="section-view">
-            <div class="oneui-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                    <strong style="font-size:16px; font-weight:800;">🕌 مواقيت الصلاة (جنين)</strong>
-                    <span style="font-size:12px; color:var(--oneui-green); font-weight:700;">أوقاف فلسطين</span>
-                </div>
-                <div id="prayersFullList"></div>
-            </div>
-
-            <div class="oneui-card">
-                <strong style="font-size:16px; font-weight:800; display:block; margin-bottom:14px;">⏰ سجل التنبيهات والمواعيد</strong>
-                <div id="remindersFullList"></div>
-            </div>
+            <div class="section-label">مواقيت الصلاة الرسمية لجنين</div>
+            <div class="oneui-card" id="prayersFullList"></div>
         </div>
 
-        <!-- ✅ 3. تبويب المهام (Todos View) -->
+        <!-- ⏰ 3. تبويب التنبيهات (Alarms View) -->
+        <div id="alarms-view" class="section-view">
+            <div class="section-label">سجل التنبيهات والمواعيد</div>
+            <div class="oneui-card" id="remindersFullList"></div>
+        </div>
+
+        <!-- ✅ 4. تبويب المهام (Todos View) -->
         <div id="todos-view" class="section-view">
+            <div class="section-label">إدارة المهام</div>
             <div class="oneui-card">
                 <form onsubmit="handleQuickTodo(event)" style="display:flex; gap:8px; margin-bottom:12px;">
                     <input type="text" id="todoInputTab" placeholder="أضف مهمة جديدة..." class="app-input" style="margin-bottom:0;" required>
@@ -542,8 +554,9 @@
             </div>
         </div>
 
-        <!-- 📊 4. تبويب المصاريف والمالية (Finance View) -->
+        <!-- 📊 5. تبويب المصاريف والمالية (Finance View) -->
         <div id="finance-view" class="section-view">
+            <div class="section-label">ملخص المصاريف</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; text-align:center;">
                     <div><div style="font-size:12px; color:var(--text-secondary);">اليوم</div><div style="font-size:18px; font-weight:800; margin-top:2px;" id="statToday">0 ₪</div></div>
@@ -552,8 +565,8 @@
                 </div>
             </div>
 
+            <div class="section-label">تسجيل مصروف</div>
             <div class="oneui-card">
-                <strong style="font-size:15px; font-weight:700; display:block; margin-bottom:10px;">💸 تسجيل مصروف سريع</strong>
                 <form onsubmit="handleQuickExpense(event)" style="display:flex; gap:8px;">
                     <input type="text" id="expDescTab" placeholder="الوصف..." class="app-input" style="margin-bottom:0;" required>
                     <input type="number" id="expAmountTab" placeholder="المبلغ" class="app-input" style="max-width:90px; margin-bottom:0;" required>
@@ -561,48 +574,41 @@
                 </form>
             </div>
 
-            <div class="oneui-card">
-                <strong style="font-size:15px; font-weight:700; display:block; margin-bottom:10px;">🧾 الفواتير والاشتراكات الدورية</strong>
-                <div id="billsAndSubsList"></div>
-            </div>
+            <div class="section-label">الفواتير والاشتراكات</div>
+            <div class="oneui-card" id="billsAndSubsList"></div>
 
-            <div class="oneui-card">
-                <strong style="font-size:15px; font-weight:700; display:block; margin-bottom:10px;">📜 سجل المصاريف</strong>
-                <div id="expensesFullList"></div>
-            </div>
+            <div class="section-label">سجل العمليات السابقة</div>
+            <div class="oneui-card" id="expensesFullList"></div>
         </div>
 
-        <!-- 📝 5. تبويب الملاحظات (Notes View) -->
+        <!-- 📝 6. تبويب الملاحظات (Notes View) -->
         <div id="notes-view" class="section-view">
+            <div class="section-label">الملاحظات والتسجيلات</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <strong style="font-size:16px; font-weight:800;">📝 الملاحظات والتسجيلات</strong>
+                    <strong style="font-size:15px;">الملاحظات المحفوظة</strong>
                     <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--oneui-red); padding:6px 14px; font-size:12px;">🎙️ تسجيل صوتي</button>
                 </div>
                 <div id="notesFullList"></div>
             </div>
         </div>
 
-        <!-- 🔐 6. تبويب الخزنة (Vault View) -->
+        <!-- 🔐 7. تبويب الخزنة (Vault View) -->
         <div id="vault-view" class="section-view">
-            <div class="oneui-card">
-                <strong style="font-size:15px; font-weight:700; display:block; margin-bottom:10px;">🔐 الحسابات المشفرة</strong>
-                <div id="vaultFullList"></div>
-            </div>
+            <div class="section-label">الحسابات المشفرة</div>
+            <div class="oneui-card" id="vaultFullList"></div>
         </div>
 
-        <!-- 🆔 7. تبويب الوثائق (Docs View) -->
+        <!-- 🆔 8. تبويب الوثائق (Docs View) -->
         <div id="docs-view" class="section-view">
-            <div class="oneui-card">
-                <strong style="font-size:15px; font-weight:700; display:block; margin-bottom:10px;">🆔 الوثائق الرسمية</strong>
-                <div id="docsFullList"></div>
-            </div>
+            <div class="section-label">الوثائق الرسمية</div>
+            <div class="oneui-card" id="docsFullList"></div>
         </div>
 
-        <!-- ⚙️ 8. تبويب الإعدادات (Settings View) -->
+        <!-- ⚙️ 9. تبويب الإعدادات (Settings View) -->
         <div id="settings-view" class="section-view">
+            <div class="section-label">النظام والتنبيهات</div>
             <div class="oneui-card">
-                <strong style="font-size:15px; font-weight:700; display:block; margin-bottom:10px;">🛡️ فحص واختبار التنبيه</strong>
                 <div style="display:flex; gap:8px; flex-direction:column;">
                     <button onclick="testPrestigeAlarm()" class="btn-action">🎵 تجربة نغمة الماريمبا الهادئة</button>
                     <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">🔔 تفعيل قناة التنبيهات المخصصة</button>
@@ -613,13 +619,20 @@
 
     </div>
 
-    <!-- 🏝️ الشريط السفلي One UI -->
-    <div class="bottom-nav-dock">
-        <button class="dock-btn active" id="btnDockHome" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
-        <button class="dock-btn" id="btnDockPrayers" onclick="switchNavSection('prayers-view', this)">🕌 الصلوات</button>
-        <button class="dock-btn" id="btnDockTodos" onclick="switchNavSection('todos-view', this)">✅ المهام</button>
-        <button class="dock-btn" id="btnDockFinance" onclick="switchNavSection('finance-view', this)">📊 المالية</button>
-        <button class="dock-btn" id="btnDockNotes" onclick="switchNavSection('notes-view', this)">📝 الملاحظات</button>
+    <!-- 📱 شريط سامسونج السفلي (الرئيسية · الصلوات · التنبيهات) -->
+    <div class="samsung-dock-container">
+        <button class="samsung-dock-item active" id="btnDockHome" onclick="switchNavSection('dashboard-view', this)">
+            <span class="dock-icon">🏠</span>
+            <span>الرئيسية</span>
+        </button>
+        <button class="samsung-dock-item" id="btnDockPrayers" onclick="switchNavSection('prayers-view', this)">
+            <span class="dock-icon">🕌</span>
+            <span>الصلوات</span>
+        </button>
+        <button class="samsung-dock-item" id="btnDockAlarms" onclick="switchNavSection('alarms-view', this)">
+            <span class="dock-icon">⏰</span>
+            <span>التنبيهات</span>
+        </button>
     </div>
 
     <!-- 🪟 نافذة الإجراءات السريعة (Modal) -->
@@ -775,14 +788,14 @@
             renderPrayersAndReminders();
         }
 
-        // --- 3. محرك الطقس والعملات ---
+        // --- 3. محرك الطقس والعملات (نصوص مجردة) ---
         async function syncFeeds() {
             try {
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&current=temperature_2m,weather_code&timezone=auto');
                 const data = await res.json();
                 if (data && data.current) {
                     const temp = Math.round(data.current.temperature_2m);
-                    document.getElementById('chipWeather').innerText = `${temp}°C ⛅`;
+                    document.getElementById('textWeather').innerText = `${temp}°C`;
                 }
             } catch(e) {}
 
@@ -790,9 +803,9 @@
                 const res = await fetch('https://open.er-api.com/v6/latest/ILS');
                 const data = await res.json();
                 if (data && data.rates) {
-                    document.getElementById('rateUSD').innerText = `${(1 / data.rates.USD).toFixed(2)} ₪`;
-                    document.getElementById('rateJOD').innerText = `${(1 / data.rates.JOD).toFixed(2)} ₪`;
-                    document.getElementById('rateEUR').innerText = `${(1 / data.rates.EUR).toFixed(2)} ₪`;
+                    document.getElementById('textUSD').innerText = (1 / data.rates.USD).toFixed(2);
+                    document.getElementById('textJOD').innerText = (1 / data.rates.JOD).toFixed(2);
+                    document.getElementById('textEUR').innerText = (1 / data.rates.EUR).toFixed(2);
                 }
             } catch(e) {}
         }
@@ -961,11 +974,11 @@
             finalizeAction();
         }
 
-        // --- 5. التنقل والبحث الشامل والقوائم ---
+        // --- 5. التنقل والبحث وأزرار سامسونج ---
         function switchNavSection(viewId, btnEl) {
             closeTopDropdown();
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.samsung-dock-item').forEach(b => b.classList.remove('active'));
             
             const target = document.getElementById(viewId);
             if(target) target.classList.add('active');
@@ -984,9 +997,19 @@
             if (el) el.classList.remove('open');
         }
 
+        function toggleSearchBar() {
+            const bar = document.getElementById('expandableSearchBar');
+            bar.classList.toggle('active');
+            if (bar.classList.contains('active')) {
+                document.getElementById('globalSearchInput').focus();
+            } else {
+                clearGlobalSearch();
+            }
+        }
+
         document.addEventListener('click', (e) => {
             const menu = document.getElementById('topDropdownMenu');
-            if (menu && menu.classList.contains('open') && !menu.contains(e.target) && !e.target.closest('button[title="القائمة الشاملة"]')) {
+            if (menu && menu.classList.contains('open') && !menu.contains(e.target) && !e.target.closest('button[title="القائمة"]')) {
                 closeTopDropdown();
             }
         });
@@ -1024,7 +1047,7 @@
                 if ((n.title && n.title.toLowerCase().includes(q)) || (n.body && n.body.toLowerCase().includes(q))) {
                     results.push(`
                         <div class="list-row">
-                            <div><span class="tag-badge emerald" style="margin-left:6px;">ملاحظة</span> <strong>${n.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${n.body || ''}</div></div>
+                            <div><span class="tag-badge green" style="margin-left:6px;">ملاحظة</span> <strong>${n.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${n.body || ''}</div></div>
                         </div>`);
                 }
             });
@@ -1168,11 +1191,9 @@
             if (nextPrayer) {
                 document.getElementById('dashNextPrayerName').innerText = nextPrayer.title.replace('🕌 ', '');
                 document.getElementById('dashNextPrayerCountdown').innerText = `⏳ ${formatTime(nextPrayer.targetTime - now)}`;
-                document.getElementById('chipNextPrayer').innerText = nextPrayer.title.replace('🕌 ', '');
             } else {
                 document.getElementById('dashNextPrayerName').innerText = 'اكتملت صلوات اليوم';
                 document.getElementById('dashNextPrayerCountdown').innerText = '✅ تم';
-                document.getElementById('chipNextPrayer').innerText = 'اكتملت';
             }
 
             const prayersFullEl = document.getElementById('prayersFullList');
@@ -1185,7 +1206,7 @@
                             <strong>${p.title}</strong>
                             <div style="font-size:12px; color:var(--text-secondary);">${new Date(p.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}</div>
                         </div>
-                        <span class="tag-badge ${isPending ? 'emerald' : ''}">${isPending ? `⏳ ${formatTime(p.targetTime - now)}` : '✅ تم'}</span>
+                        <span class="tag-badge ${isPending ? 'green' : ''}">${isPending ? `⏳ ${formatTime(p.targetTime - now)}` : '✅ تم'}</span>
                     </div>`;
                 }).join('');
             }
@@ -1260,6 +1281,7 @@
 
             // مهام اليوم
             const todosToday = db.todos.filter(t => t.date === todayStr);
+            document.getElementById('dashTodoCount').innerText = `${todosToday.length} مهام معلقة`;
             document.getElementById('dashTodosList').innerHTML = todosToday.map(t => `
                 <div class="list-row">
                     <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
@@ -1268,7 +1290,7 @@
                     </label>
                     <button onclick="deleteTodo(${t.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">✖</button>
                 </div>
-            `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد مهام اليوم.</p>';
+            `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد مهام مسجلة لليوم.</p>';
 
             const todosAllEl = document.getElementById('todosAllList');
             if (todosAllEl) {
@@ -1462,7 +1484,7 @@
             db.settings.darkMode = !db.settings.darkMode;
             document.body.classList.toggle('light-mode', !db.settings.darkMode);
             document.getElementById('themeBtn').innerText = db.settings.darkMode ? '🌙' : '☀️';
-            document.getElementById('themeColorMeta').setAttribute('content', db.settings.darkMode ? '#121212' : '#F4F4F6');
+            document.getElementById('themeColorMeta').setAttribute('content', db.settings.darkMode ? '#121212' : '#F2F2F7');
             finalizeAction();
         }
 
