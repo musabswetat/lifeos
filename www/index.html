@@ -211,16 +211,38 @@
         }
         .dropdown-item:active { background: var(--surface-inner); }
 
-        /* 📱 منطقة العنوان والنصوص المجردة */
+        /* 📱 منطقة العنوان والنصوص المجردة مع زر تعديل الاسم */
         .oneui-header-area {
             padding: 12px 2px 18px 2px;
+        }
+        .oneui-title-hero-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
         }
         .oneui-title-hero {
             font-size: 34px;
             font-weight: 800;
             letter-spacing: -0.03em;
-            margin-bottom: 6px;
+            margin-bottom: 0;
         }
+        .edit-name-inline-btn {
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--oneui-blue);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            box-shadow: var(--shadow-subtle);
+            display: none;
+            transition: background 0.15s ease;
+        }
+        .edit-name-inline-btn:active { background: var(--surface-active); }
+
         .oneui-sub-text {
             font-size: 13px;
             color: var(--text-secondary);
@@ -547,9 +569,12 @@
             <div id="searchResultsList"></div>
         </div>
 
-        <!-- 📱 منطقة العنوان والنصوص المجردة -->
+        <!-- 📱 منطقة العنوان مع اسم الظهور وزر التعديل الفوري -->
         <div class="oneui-header-area">
-            <div class="oneui-title-hero" id="heroGreetingTitle">طاب يومك.</div>
+            <div class="oneui-title-hero-row">
+                <div class="oneui-title-hero" id="heroGreetingTitle">طاب يومك.</div>
+                <button id="editNameBtn" class="edit-name-inline-btn" onclick="promptEditDisplayName()">✏️ تعديل الاسم</button>
+            </div>
             <div class="oneui-sub-text" id="oneuiSubInfo">
                 📍 جنين <span id="textWeather">--°C ⛅</span> · صرف هذا الشهر: <span id="textMonthlySpent">0 ₪</span>
             </div>
@@ -758,7 +783,7 @@
         </div>
     </div>
 
-    <!-- 🪟 نافذة تسجيل الدخول والتحقق الآمن -->
+    <!-- 🪟 نافذة تسجيل الدخول والتحقق الآمن (مع نسيت كلمة المرور وطلب كود التفعيل) -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -766,16 +791,19 @@
                 <button onclick="closeAuthModal()" style="background:none; border:none; color:var(--text-secondary); font-size:18px; cursor:pointer;">✖</button>
             </div>
             <div id="authFormArea">
-                <input type="email" id="authEmail" placeholder="البريد الإلكتروني الحقيقي..." class="app-input" required>
+                <input type="email" id="authEmail" placeholder="البريد الإلكتروني..." class="app-input" required>
                 <input type="password" id="authPassword" placeholder="كلمة المرور (6 خانات فأكثر)..." class="app-input" required>
                 <div style="display:flex; gap:8px; margin-top:4px;">
                     <button onclick="submitUserLogin()" class="btn-action">دخول</button>
                     <button onclick="submitUserSignup()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إنشاء حساب</button>
                 </div>
-                <div style="text-align:center; margin-top:12px;">
-                    <button onclick="resendVerificationEmail()" style="background:none; border:none; color:var(--oneui-blue); font-size:12px; cursor:pointer; font-weight:700;">إعادة إرسال رسالة التفعيل</button>
+                
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; font-size:12px;">
+                    <button onclick="handleForgotPassword()" style="background:none; border:none; color:var(--oneui-blue); cursor:pointer; font-weight:700;">نسيت كلمة المرور؟</button>
+                    <button onclick="resendVerificationEmail()" style="background:none; border:none; color:var(--oneui-blue); cursor:pointer; font-weight:700;">طلب كود التفعيل</button>
                 </div>
-                <p style="font-size:11px; color:var(--text-secondary); text-align:center; margin-top:10px; line-height:1.5;">
+
+                <p style="font-size:11px; color:var(--text-secondary); text-align:center; margin-top:12px; line-height:1.5;">
                     ملاحظة: قد تصل رسالة التحقق إلى <b>البريد غير المرغوب به (Spam)</b>. يجب تفعيل الحساب خلال 24 ساعة وإلا سيتم حذف الحساب تلقائياً.
                 </p>
             </div>
@@ -830,7 +858,7 @@
                     if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
                 } else { data[key] = []; }
             });
-            if (!data.settings) data.settings = { darkMode: false };
+            if (!data.settings) data.settings = { darkMode: false, displayName: '' };
             return data;
         }
 
@@ -888,7 +916,7 @@
                         db = normalizeDB(data);
                         localStorage.setItem('myLifeAppDB', JSON.stringify(db));
                         updateUI();
-                        showToast(`🔄 مرحباً ${user.email.split('@')[0]}`);
+                        showToast(`🔄 مرحباً ${db.settings.displayName || user.email.split('@')[0]}`);
                     } else {
                         saveToCloud();
                     }
@@ -946,18 +974,40 @@
             }
         }
 
+        // --- ميزة استعادة كلمة المرور عبر الإيميل ---
+        async function handleForgotPassword() {
+            const email = document.getElementById('authEmail').value.trim();
+            if (!email) {
+                alert('يرجى كتابة بريدك الإلكتروني في حقل الإيميل أعلاه أولاً.');
+                document.getElementById('authEmail').focus();
+                return;
+            }
+            try {
+                showToast('جاري إرسال رابط الاستعادة...');
+                await firebase.auth().sendPasswordResetEmail(email);
+                alert('✅ تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.\n\n(تحقق من البريد غير المرغوب به Spam).');
+            } catch (err) {
+                alert('فشل الإرسال: ' + err.message);
+            }
+        }
+
+        // --- طلب كود/رابط التفعيل ---
         async function resendVerificationEmail() {
             const email = document.getElementById('authEmail').value.trim();
             const pass = document.getElementById('authPassword').value;
-            if (!email || !pass) return alert('يرجى كتابة بريدك وكلمة المرور أولاً.');
+            if (!email || !pass) {
+                alert('يرجى كتابة البريد وكلمة المرور في الحقول المخصصة أعلاه لطلب كود/رابط التفعيل.');
+                document.getElementById('authEmail').focus();
+                return;
+            }
             try {
-                showToast('جاري الإرسال...');
+                showToast('جاري إرسال رابط التفعيل...');
                 const userCred = await firebase.auth().signInWithEmailAndPassword(email, pass);
                 if (!userCred.user.emailVerified) {
                     await userCred.user.sendEmailVerification();
-                    alert('✅ تم إعادة إرسال رسالة التفعيل.');
+                    alert('✅ تم إعادة إرسال رسالة التفعيل إلى بريدك بنجاح.');
                 } else {
-                    alert('الحساب مفعل مسبقاً!');
+                    alert('هذا الحساب مفعل ومؤكد مسبقاً!');
                 }
                 await firebase.auth().signOut();
             } catch (e) {
@@ -965,23 +1015,45 @@
             }
         }
 
+        // --- تعديل اسم الظهور وحفظه بالسحابة ---
+        async function promptEditDisplayName() {
+            if (!currentUser) return;
+            const currentName = (db.settings && db.settings.displayName) ? db.settings.displayName : (currentUser.displayName || currentUser.email.split('@')[0]);
+            const newName = prompt('أدخل اسم الظهور الجديد:', currentName);
+            if (newName && newName.trim()) {
+                try {
+                    showToast('جاري حفظ الاسم بالسحابة...');
+                    await currentUser.updateProfile({ displayName: newName.trim() });
+                    if (!db.settings) db.settings = {};
+                    db.settings.displayName = newName.trim();
+                    finalizeAction('✅ تم تحديث اسم الظهور وحفظه بنجاح');
+                    updateAuthProfileUI(currentUser);
+                } catch (e) {
+                    alert('تعذر تحديث الاسم: ' + e.message);
+                }
+            }
+        }
+
         function updateAuthProfileUI(user) {
             const nameSpan = document.getElementById('userNameSpan');
             const heroGreeting = document.getElementById('heroGreetingTitle');
+            const editNameBtn = document.getElementById('editNameBtn');
             const settingsName = document.getElementById('settingsAccountName');
             const settingsEmail = document.getElementById('settingsAccountEmail');
             const settingsBtn = document.getElementById('settingsAuthBtn');
 
             if (user) {
-                const shortName = user.email.split('@')[0];
-                if (nameSpan) nameSpan.innerText = shortName;
-                if (heroGreeting) heroGreeting.innerText = `طاب يومك، ${shortName}.`;
-                if (settingsName) settingsName.innerText = shortName + (user.emailVerified ? ' (مؤكد)' : ' (غير مؤكد)');
+                const displayName = (db.settings && db.settings.displayName) ? db.settings.displayName : (user.displayName || user.email.split('@')[0]);
+                if (nameSpan) nameSpan.innerText = displayName;
+                if (heroGreeting) heroGreeting.innerText = `طاب يومك، ${displayName}.`;
+                if (editNameBtn) editNameBtn.style.display = 'inline-block';
+                if (settingsName) settingsName.innerText = displayName + (user.emailVerified ? ' (مؤكد)' : ' (غير مؤكد)');
                 if (settingsEmail) settingsEmail.innerText = user.email;
                 if (settingsBtn) { settingsBtn.innerText = 'تسجيل الخروج'; settingsBtn.style.color = 'var(--oneui-red)'; }
             } else {
                 if (nameSpan) nameSpan.innerText = 'حسابي';
                 if (heroGreeting) heroGreeting.innerText = 'طاب يومك.';
+                if (editNameBtn) editNameBtn.style.display = 'none';
                 if (settingsName) settingsName.innerText = 'غير مسجل الدخول';
                 if (settingsEmail) settingsEmail.innerText = 'البيانات محفوظة محلياً على الهاتف';
                 if (settingsBtn) { settingsBtn.innerText = 'تسجيل الدخول'; settingsBtn.style.color = 'var(--oneui-blue)'; }
@@ -1243,7 +1315,7 @@
                 id: reminderId,
                 title: cleanTitle,
                 minutes: mins,
-            name: cleanTitle,
+                name: cleanTitle,
                 createdAt: now,
                 targetTime: now + (mins * 60 * 1000),
                 triggered: false,
@@ -1275,7 +1347,6 @@
             closeTopDropdown();
             lastSpokenText = '';
 
-            // بدء نظام التعرف على الصوت في الخلفية لاستخراج النص للاقتراحات
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (SpeechRecognition) {
                 speechRecognizer = new SpeechRecognition();
@@ -1309,7 +1380,6 @@
                         });
                         finalizeAction();
                         
-                        // إظهار نافذة الاقتراحات الذكية بناءً على ما تم التفوه به
                         showSmartSuggestions(lastSpokenText);
                     };
                     reader.readAsDataURL(blob);
@@ -1352,23 +1422,23 @@
             const lower = (text || '').toLowerCase();
             const numbers = text.match(/\d+/) ;
 
-            // اقتراح 1: إذا ذكر سعر أو شراء (تسجيل مصروف جديد)
+            // اقتراح 1: تسجيل شراء جديد بالاسم والسعر المذكور
             if (numbers && (lower.includes('اشتريت') || lower.includes('سعر') || lower.includes('بـ') || lower.includes('دفعت') || lower.includes('شيكل'))) {
                 const amount = numbers[0];
                 html += `<button class="btn-action" onclick="executeSmartAction('expense', '${text}', ${amount})" style="background:var(--oneui-red);">💸 تسجيل شراء جديد بمبلغ (${amount} ₪)</button>`;
             }
 
-            // اقتراح 2: تنبيه سريع بعد مدة زمنية
+            // اقتراح 2: إضافة تنبيه سريع بعد مدة زمنية
             const timeMatch = text.match(/(\d+)\s*(دقيقة|دقائق|ساعة|ساعات)/);
             if (timeMatch) {
                 const val = parseInt(timeMatch[1]);
                 const unit = timeMatch[2];
                 const totalMins = unit.includes('ساعة') ? val * 60 : val;
-                html += `<button class="btn-action" onclick="executeSmartAction('alarm', '${text}', ${totalMins})" style="background:var(--oneui-blue);">⏰ إضافة تنبيه سريع بعد ${val} ${unit}</button>`;
+                html += `<button class="btn-action" onclick="executeSmartAction('alarm', '${text}', ${totalMins})" style="background:var(--oneui-blue);">⏰ إضافة تنبيه سريع للشراء بعد ${val} ${unit}</button>`;
             }
 
             // اقتراح 3: تسجيل ملاحظة سريعة للظهور على الرئيسية
-            html += `<button class="btn-action" onclick="executeSmartAction('note', '${text}')" style="background:var(--surface-inner); color:var(--text-primary);">📝 تسجيل ملاحظة سريعة للرئيسية</button>`;
+            html += `<button class="btn-action" onclick="executeSmartAction('note', '${text}')" style="background:var(--surface-inner); color:var(--text-primary);">📝 تسجيل ملاحظة سريعة للظهور على الرئيسية</button>`;
 
             container.innerHTML = html;
             document.getElementById('postRecordingModal').classList.add('active');
@@ -1389,7 +1459,7 @@
                 showToast(`⏰ تم ضبط التنبيه لـ ${param} دقيقة`);
             } else if (type === 'note') {
                 db.todos.push({ id: Date.now(), text: `ملاحظة: ${text}`, done: false, date: todayStr });
-                finalizeAction('✅ تمت إضافة الملاحظة كمهام رئيسية');
+                finalizeAction('✅ تمت إضافة الملاحظة للرئيسية');
             }
         }
 
