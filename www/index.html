@@ -11,7 +11,7 @@
 
     <title>Life OS</title>
     
-    <!-- ☁️ مكتبات Firebase السحابية (قاعدة البيانات + مصادقة Google) -->
+    <!-- ☁️ مكتبات Firebase السحابية -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -36,7 +36,7 @@
             --radius-card: 24px;
             --radius-input: 14px;
             --radius-pill: 9999px;
-            --dock-height: 60px;
+            --dock-height: 56px;
             --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.25);
         }
 
@@ -130,7 +130,7 @@
             gap: 8px;
             background: var(--surface-card);
             border: 1px solid var(--border-subtle);
-            padding: 4px 12px 4px 6px;
+            padding: 5px 12px 5px 6px;
             border-radius: var(--radius-pill);
             cursor: pointer;
             box-shadow: var(--shadow-subtle);
@@ -138,8 +138,8 @@
             font-weight: 700;
         }
         .user-auth-avatar {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             object-fit: cover;
         }
@@ -217,7 +217,7 @@
         }
         .dropdown-item:active { background: var(--surface-inner); }
 
-        /* 📱 منطقة العنوان والنصوص المجردة بدون كبسولات */
+        /* 📱 منطقة العنوان والنصوص المجردة */
         .oneui-header-area {
             padding: 12px 2px 18px 2px;
         }
@@ -335,7 +335,7 @@
             transition: width 0.4s ease;
         }
 
-        /* 🪟 بطاقات وتقسيمات One UI */
+        /* 🪟 بطاقات One UI */
         .section-label {
             font-size: 13px;
             font-weight: 700;
@@ -389,7 +389,7 @@
         .tag-badge:active { background: var(--surface-active); }
         .tag-badge.green { color: var(--oneui-green); }
 
-        /* 📱 شريط سامسونج السفلي (3 أقسام حصراً) */
+        /* 📱 شريط سامسونج السفلي (نصوص فقط وبدون أيقونات) */
         .samsung-dock-container {
             position: fixed;
             bottom: 16px;
@@ -398,39 +398,37 @@
             background: var(--surface-card);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-pill);
-            padding: 5px 8px;
+            padding: 4px 6px;
             display: flex;
             align-items: center;
             justify-content: space-around;
-            gap: 6px;
+            gap: 4px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             z-index: 1000;
             width: calc(100% - 40px);
-            max-width: 380px;
+            max-width: 360px;
         }
         .samsung-dock-item {
             flex: 1;
             background: transparent;
             border: none;
-            padding: 6px 12px;
+            padding: 10px 14px;
             border-radius: var(--radius-pill);
             color: var(--text-secondary);
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 2px;
             transition: all 0.15s ease;
+            white-space: nowrap;
         }
-        .samsung-dock-item .dock-icon { font-size: 18px; }
         .samsung-dock-item.active {
             background: var(--surface-inner);
             color: var(--text-primary);
         }
-        .samsung-dock-item:active { transform: scale(0.95); }
+        .samsung-dock-item:active { transform: scale(0.96); }
 
         .app-input {
             padding: 12px 14px;
@@ -735,20 +733,11 @@
 
     </div>
 
-    <!-- 📱 شريط سامسونج السفلي (الرئيسية · الصلوات · التنبيهات) -->
+    <!-- 📱 شريط سامسونج السفلي (نصوص فقط وبدون أيقونات) -->
     <div class="samsung-dock-container">
-        <button class="samsung-dock-item active" id="btnDockHome" onclick="switchNavSection('dashboard-view', this)">
-            <span class="dock-icon">🏠</span>
-            <span>الرئيسية</span>
-        </button>
-        <button class="samsung-dock-item" id="btnDockPrayers" onclick="switchNavSection('prayers-view', this)">
-            <span class="dock-icon">🕌</span>
-            <span>الصلوات</span>
-        </button>
-        <button class="samsung-dock-item" id="btnDockAlarms" onclick="switchNavSection('alarms-view', this)">
-            <span class="dock-icon">⏰</span>
-            <span>التنبيهات</span>
-        </button>
+        <button class="samsung-dock-item active" id="btnDockHome" onclick="switchNavSection('dashboard-view', this)">الرئيسية</button>
+        <button class="samsung-dock-item" id="btnDockPrayers" onclick="switchNavSection('prayers-view', this)">الصلوات</button>
+        <button class="samsung-dock-item" id="btnDockAlarms" onclick="switchNavSection('alarms-view', this)">التنبيهات</button>
     </div>
 
     <!-- 🪟 نافذة الإجراءات الموحدة -->
@@ -871,11 +860,16 @@
                 }
             } else {
                 const provider = new firebase.auth.GoogleAuthProvider();
+                provider.setCustomParameters({ prompt: 'select_account' });
                 try {
-                    showToast('جاري تسجيل الدخول...');
+                    showToast('جاري الاتصال بـ Google...');
                     await firebase.auth().signInWithPopup(provider);
                 } catch (error) {
-                    alert('فشل تسجيل الدخول: ' + error.message);
+                    try {
+                        await firebase.auth().signInWithRedirect(provider);
+                    } catch (redirectErr) {
+                        alert('تنبيه تسجيل الدخول: ' + error.message);
+                    }
                 }
             }
         }
@@ -1181,7 +1175,7 @@
             finalizeAction();
         }
 
-        // --- 5. التنقل والبحث والقائمة العلوية ---
+        // --- 5. التنقل والبحث وقائمة سامسونج وزر الرجوع المخصص ---
         function switchNavSection(viewId, btnEl) {
             closeTopDropdown();
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
@@ -1224,6 +1218,51 @@
         function startVoiceRecordingFromMenu() {
             closeTopDropdown();
             startVoiceRecording();
+        }
+
+        // معالجة زر وإيماءة الرجوع في أندرويد (Back Gesture / Button Handler)
+        function handleSystemBackButton() {
+            const activeAlarm = document.getElementById('activeAlarmModal');
+            if (activeAlarm && activeAlarm.classList.contains('active')) {
+                dismissActiveAlarm();
+                return true;
+            }
+            const actModal = document.getElementById('actionModal');
+            if (actModal && actModal.classList.contains('active')) {
+                closeModalAction();
+                return true;
+            }
+            const voiceModal = document.getElementById('voiceModal');
+            if (voiceModal && voiceModal.classList.contains('active')) {
+                cancelVoiceRecording();
+                return true;
+            }
+            const dropdown = document.getElementById('topDropdownMenu');
+            if (dropdown && dropdown.classList.contains('open')) {
+                closeTopDropdown();
+                return true;
+            }
+            const searchBar = document.getElementById('expandableSearchBar');
+            if (searchBar && searchBar.classList.contains('active')) {
+                toggleSearchBar();
+                return true;
+            }
+            const currentActive = document.querySelector('.section-view.active');
+            if (currentActive && currentActive.id !== 'dashboard-view') {
+                const homeBtn = document.getElementById('btnDockHome');
+                switchNavSection('dashboard-view', homeBtn);
+                return true;
+            }
+            return false;
+        }
+
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+            window.Capacitor.Plugins.App.addListener('backButton', () => {
+                const handled = handleSystemBackButton();
+                if (!handled) {
+                    window.Capacitor.Plugins.App.exitApp();
+                }
+            });
         }
 
         function handleGlobalSearch(query) {
@@ -1481,6 +1520,7 @@
         function renderPrayersAndReminders() {
             const now = Date.now();
             
+            // الصلاة القادمة للشريط العلوي
             const nextPrayer = livePrayersList.find(p => p.targetTime > now);
             if (nextPrayer) {
                 document.getElementById('topPrayerText').innerText = `${nextPrayer.title.replace('🕌 ', '')} ${formatTime(nextPrayer.targetTime - now)}`;
@@ -1488,6 +1528,7 @@
                 document.getElementById('topPrayerText').innerText = 'اكتملت الصلوات';
             }
 
+            // قائمة الصلوات الكاملة
             const prayersFullEl = document.getElementById('prayersFullList');
             if (prayersFullEl) {
                 prayersFullEl.innerHTML = livePrayersList.map(p => {
@@ -1503,6 +1544,7 @@
                 }).join('');
             }
 
+            // التنبيهات المباشرة + العداد الدائري لأقرب تنبيه
             const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
             activeReminders.sort((a,b) => a.targetTime - b.targetTime);
 
@@ -1841,7 +1883,7 @@
         function toggleTheme() {
             db.settings.darkMode = !db.settings.darkMode;
             document.body.classList.toggle('light-mode', !db.settings.darkMode);
-            document.getElementById('themeBtn').innerText = db.settings.darkMode ? '🌙' : '☀️';
+            document.getElementById('themeBtn').innerText = db.settings.darkMode ? '☀️' : '🌙';
             document.getElementById('themeColorMeta').setAttribute('content', db.settings.darkMode ? '#121212' : '#F2F2F7');
             finalizeAction();
         }
