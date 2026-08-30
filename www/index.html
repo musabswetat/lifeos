@@ -383,7 +383,7 @@
         .tag-badge:active { background: var(--surface-active); }
         .tag-badge.green { color: var(--oneui-green); }
 
-        /* 📱 شريط سامسونج السفلي */
+        /* 📱 شريط سامسونج السفلي (نصوص فقط وبدون أيقونات) */
         .samsung-dock-container {
             position: fixed;
             bottom: 16px;
@@ -749,8 +749,11 @@
                     <button onclick="submitUserSignup()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إنشاء حساب</button>
                 </div>
                 <div style="text-align:center; margin-top:12px;">
-                    <button onclick="resendVerificationEmail()" style="background:none; border:none; color:var(--oneui-blue); font-size:12px; cursor:pointer; font-weight:700;">إرسال رسالة التحقق للإيميل</button>
+                    <button onclick="resendVerificationEmail()" style="background:none; border:none; color:var(--oneui-blue); font-size:12px; cursor:pointer; font-weight:700;">إعادة إرسال رسالة التفعيل</button>
                 </div>
+                <p style="font-size:11px; color:var(--text-secondary); text-align:center; margin-top:10px; line-height:1.5;">
+                    ملاحظة: قد تصل رسالة التحقق إلى <b>البريد غير المرغوب به (Spam)</b>. يجب تفعيل الحساب خلال 24 ساعة وإلا سيتم حذف الحساب تلقائياً.
+                </p>
             </div>
         </div>
     </div>
@@ -790,7 +793,7 @@
     </div>
 
     <script>
-        // --- 0. إعدادات ومصادقة Firebase الرسمية المحدثة ---
+        // --- 0. إعدادات ومصادقة Firebase الرسمية ---
         const firebaseConfig = {
             apiKey: "AIzaSyCxalyr_Xa7IeSuT8enh6MCu2a1h5HvBWY",
             authDomain: "life-8892e.firebaseapp.com",
@@ -841,11 +844,31 @@
             }
         }
 
-        // مراقبة حالة تسجيل الدخول والعزل التام للمسارات
-        firebase.auth().onAuthStateChanged((user) => {
+        // مراقبة حالة تسجيل الدخول مع فحص تفعيل البريد ومهلة 24 ساعة للحذف التلقائي
+        firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
+                if (!user.emailVerified) {
+                    const creationTime = new Date(user.metadata.creationTime).getTime();
+                    const now = Date.now();
+                    const twentyFourHours = 24 * 60 * 60 * 1000;
+
+                    if (now - creationTime > twentyFourHours) {
+                        try {
+                            await user.delete();
+                            alert('⚠️ انتهت مهلة الـ 24 ساعة ولم يتم تفعيل البريد الإلكتروني. تم حذف الحساب نهائياً من النظام.');
+                            firebase.auth().signOut();
+                            return;
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+
+                    alert('⚠️ الرجاء تفعيل الايميل لتسجيل الدخول.\n\n(ملاحظة: تحقق من قسم البريد غير المرغوب به Spam إذا لم تجد الرسالة).');
+                    firebase.auth().signOut();
+                    return;
+                }
+
                 currentUser = user;
-                // مسار مشفر ومعزول خاص بكل مستخدم بـ UID الخاص به
                 userDbRef = firebase.database().ref(`users/${user.uid}/data`);
                 
                 userDbRef.on('value', (snapshot) => {
@@ -904,9 +927,13 @@
                 showToast('جاري إنشاء الحساب...');
                 const userCred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
                 
-                // إرسال رسالة تحقق رسمية للإيميل لمنع الحسابات الوهمية
+                // إرسال رسالة التحقق للإيميل
                 await userCred.user.sendEmailVerification();
-                alert('✅ تم إنشاء الحساب بنجاح! تم إرسال رابط تحقق إلى بريدك الإلكتروني. يرجى تأكيده.');
+                
+                // تسجيل الخروج فوراً لعدم السماح بالدخول قبل التفعيل
+                await firebase.auth().signOut();
+
+                alert('✅ تم إنشاء الحساب بنجاح!\n\nتم إرسال رابط تفعيل إلى بريدك الإلكتروني (تأكد من فحص البريد غير المرغوب به Spam).\n\n⚠️ تنبيه: يجب تفعيل الحساب خلال 24 ساعة وإلا سيتم حذفه تلقائياً.');
                 closeAuthModal();
             } catch (err) {
                 alert('فشل إنشاء الحساب: ' + err.message);
@@ -914,16 +941,22 @@
         }
 
         async function resendVerificationEmail() {
-            const user = firebase.auth().currentUser;
-            if (user) {
-                try {
-                    await user.sendEmailVerification();
-                    alert('✅ تم إعادة إرسال رسالة التحقق إلى بريدك.');
-                } catch (e) {
-                    alert('تعذر الإرسال: ' + e.message);
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPassword').value;
+            if (!email || !pass) return alert('يرجى كتابة بريدك وكلمة المرور أولاً في الحقول المخصصة لإعادة إرسال التفعيل.');
+            
+            try {
+                showToast('جاري إرسال رسالة التفعيل...');
+                const userCred = await firebase.auth().signInWithEmailAndPassword(email, pass);
+                if (!userCred.user.emailVerified) {
+                    await userCred.user.sendEmailVerification();
+                    alert('✅ تم إعادة إرسال رسالة التحقق إلى بريدك بنجاح.');
+                } else {
+                    alert('هذا الحساب مفعل مسبقاً!');
                 }
-            } else {
-                alert('يرجى تسجيل الدخول أولاً.');
+                await firebase.auth().signOut();
+            } catch (e) {
+                alert('تعذر الإرسال: ' + e.message);
             }
         }
 
