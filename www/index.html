@@ -11,8 +11,9 @@
 
     <title>Life OS</title>
     
-    <!-- ☁️ مكتبات Firebase السحابية -->
+    <!-- ☁️ مكتبات Firebase السحابية (قاعدة البيانات + مصادقة Google) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
@@ -122,6 +123,27 @@
         }
         .top-action-btn:active { background: var(--surface-inner); }
 
+        /* كبسولة حساب Google */
+        .user-auth-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            padding: 4px 12px 4px 6px;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            box-shadow: var(--shadow-subtle);
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .user-auth-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
         /* حقل البحث القابل للتوسيع */
         .expandable-search-bar {
             display: none;
@@ -153,7 +175,7 @@
             width: 100%;
         }
 
-        /* 📑 قائمة الثلاث نقاط الشاملة (One UI Dropdown) */
+        /* 📑 قائمة الثلاث نقاط الشاملة */
         .oneui-dropdown {
             position: absolute;
             top: 48px;
@@ -195,7 +217,7 @@
         }
         .dropdown-item:active { background: var(--surface-inner); }
 
-        /* 📱 منطقة العنوان والنصوص المجردة */
+        /* 📱 منطقة العنوان والنصوص المجردة بدون كبسولات */
         .oneui-header-area {
             padding: 12px 2px 18px 2px;
         }
@@ -313,7 +335,7 @@
             transition: width 0.4s ease;
         }
 
-        /* 🪟 بطاقات One UI */
+        /* 🪟 بطاقات وتقسيمات One UI */
         .section-label {
             font-size: 13px;
             font-weight: 700;
@@ -486,13 +508,21 @@
 
     <div class="app-container">
         
-        <!-- 🔍 شريط سامسونج العلوي -->
+        <!-- 🔍 شريط سامسونج العلوي مع حالة حساب Google -->
         <div class="oneui-top-bar">
             <div class="top-prayer-info" id="topPrayerTag">
                 <span>🕌</span> <span id="topPrayerText">الصلاة: --</span>
             </div>
             
             <div class="top-actions-cluster">
+                <!-- كبسولة حساب Google -->
+                <div id="googleAuthContainer" onclick="handleAuthClick()">
+                    <div class="user-auth-pill" id="googleAuthBtn">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="user-auth-avatar" id="userAvatarImg">
+                        <span id="userNameSpan">دخول Google</span>
+                    </div>
+                </div>
+
                 <button class="top-action-btn" onclick="toggleSearchBar()" title="بحث">🔍</button>
                 <button class="top-action-btn" onclick="toggleTheme()" id="themeBtn" title="الوضع الليلي">🌙</button>
                 <button class="top-action-btn" onclick="toggleTopDropdown()" title="القائمة">⋮</button>
@@ -527,7 +557,7 @@
 
         <!-- 📱 منطقة العنوان والنصوص المجردة بدون أعلام -->
         <div class="oneui-header-area">
-            <div class="oneui-title-hero">طاب يومك.</div>
+            <div class="oneui-title-hero" id="heroGreetingTitle">طاب يومك.</div>
             <div class="oneui-sub-text" id="oneuiSubInfo">
                 📍 جنين <span id="textWeather">--°C ⛅</span> · صرف هذا الشهر: <span id="textMonthlySpent">0 ₪</span>
             </div>
@@ -682,6 +712,17 @@
 
         <!-- ⚙️ 9. تبويب الإعدادات -->
         <div id="settings-view" class="section-view">
+            <div class="section-label">الحساب والمزامنة السحابية</div>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <div>
+                        <strong id="settingsAccountName">غير مسجل الدخول</strong>
+                        <div style="font-size:12px; color:var(--text-secondary);" id="settingsAccountEmail">البيانات محفوظة محلياً على الهاتف</div>
+                    </div>
+                    <button onclick="handleAuthClick()" id="settingsAuthBtn" class="tag-badge">تسجيل الدخول</button>
+                </div>
+            </div>
+
             <div class="section-label">النظام والتنبيهات</div>
             <div class="oneui-card">
                 <div style="display:flex; gap:8px; flex-direction:column;">
@@ -745,7 +786,7 @@
     </div>
 
     <script>
-        // --- 0. إعدادات Firebase ---
+        // --- 0. إعدادات ومصادقة Firebase ---
         const firebaseConfig = {
             apiKey: "AIzaSyCXalyz_Xa7IeSuT8enh6MCu2alH5HvBMY",
             authDomain: "life-8892e.firebaseapp.com",
@@ -757,9 +798,11 @@
             measurementId: "G-FTWMK20C8S"
         };
         firebase.initializeApp(firebaseConfig);
-        const dbRef = firebase.database().ref('myLifeData');
+        
+        let currentUser = null;
+        let userDbRef = null;
 
-        // --- 1. هيكلة وتخزين البيانات (الثيم الافتراضي: أبيض) ---
+        // --- 1. هيكلة البيانات المحلية والمزامنة المعزولة بحساب المستخدم ---
         function normalizeDB(data) {
             if (!data) data = {};
             const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
@@ -768,7 +811,7 @@
                     if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
                 } else { data[key] = []; }
             });
-            if (!data.settings) data.settings = { darkMode: false };
+            if (!data.settings) data.settings = { darkMode: false }; // الافتراضي: أبيض
             return data;
         }
 
@@ -785,20 +828,83 @@
         }
 
         function saveToCloud() {
-            showToast('☁️ جاري الحفظ...');
-            dbRef.set(db).then(() => showToast('✅ تم الحفظ'))
-                .catch(() => showToast('❌ تعذر الحفظ'));
+            if (userDbRef) {
+                showToast('☁️ حفظ بالحساب...');
+                userDbRef.set(db).then(() => showToast('✅ تم الحفظ السحابي'))
+                    .catch(() => showToast('❌ تعذر الحفظ'));
+            } else {
+                showToast('💾 حفظ محلياً');
+            }
         }
 
-        dbRef.on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                db = normalizeDB(data);
-                localStorage.setItem('myLifeAppDB', JSON.stringify(db));
-                updateUI();
-                showToast('🔄 تم جلب البيانات');
+        // مراقبة حالة تسجيل دخول المستخدم بحساب Google
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                userDbRef = firebase.database().ref(`users/${user.uid}/data`);
+                
+                userDbRef.on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        db = normalizeDB(data);
+                        localStorage.setItem('myLifeAppDB', JSON.stringify(db));
+                        updateUI();
+                        showToast(`🔄 مرحباً ${user.displayName || ''}`);
+                    } else {
+                        saveToCloud();
+                    }
+                });
+
+                updateAuthProfileUI(user);
+            } else {
+                currentUser = null;
+                userDbRef = null;
+                updateAuthProfileUI(null);
             }
         });
+
+        async function handleAuthClick() {
+            if (currentUser) {
+                if (confirm(`هل تريد تسجيل الخروج من حساب ${currentUser.email}؟`)) {
+                    await firebase.auth().signOut();
+                    showToast('تم تسجيل الخروج');
+                }
+            } else {
+                const provider = new firebase.auth.GoogleAuthProvider();
+                try {
+                    showToast('جاري تسجيل الدخول...');
+                    await firebase.auth().signInWithPopup(provider);
+                } catch (error) {
+                    alert('فشل تسجيل الدخول: ' + error.message);
+                }
+            }
+        }
+
+        function updateAuthProfileUI(user) {
+            const avatarImg = document.getElementById('userAvatarImg');
+            const nameSpan = document.getElementById('userNameSpan');
+            const heroGreeting = document.getElementById('heroGreetingTitle');
+            const settingsName = document.getElementById('settingsAccountName');
+            const settingsEmail = document.getElementById('settingsAccountEmail');
+            const settingsBtn = document.getElementById('settingsAuthBtn');
+
+            if (user) {
+                const firstName = user.displayName ? user.displayName.split(' ')[0] : 'حسابي';
+                if (avatarImg) avatarImg.src = user.photoURL || "https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg";
+                if (nameSpan) nameSpan.innerText = firstName;
+                if (heroGreeting) heroGreeting.innerText = `طاب يومك، ${firstName}.`;
+                if (settingsName) settingsName.innerText = user.displayName || 'مستخدم Google';
+                if (settingsEmail) settingsEmail.innerText = user.email;
+                if (settingsBtn) { settingsBtn.innerText = 'تسجيل الخروج'; settingsBtn.style.color = 'var(--oneui-red)'; }
+            } else {
+                if (avatarImg) avatarImg.src = "https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg";
+                if (nameSpan) nameSpan.innerText = 'دخول Google';
+                if (heroGreeting) heroGreeting.innerText = 'طاب يومك.';
+                if (settingsName) settingsName.innerText = 'غير مسجل الدخول';
+                if (settingsEmail) settingsEmail.innerText = 'البيانات محفوظة محلياً على الهاتف';
+                if (settingsBtn) { settingsBtn.innerText = 'تسجيل الدخول'; settingsBtn.style.color = 'var(--oneui-blue)'; }
+            }
+        }
 
         // --- 2. محرك الحساب الفلكي الدقيق لأوقاف فلسطين (جنين) ---
         function calculatePalestinePrayerTimes(date = new Date()) {
