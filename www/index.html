@@ -123,25 +123,19 @@
         }
         .top-action-btn:active { background: var(--surface-inner); }
 
-        /* كبسولة حساب Google */
+        /* كبسولة حالة الحساب السحابي */
         .user-auth-pill {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             background: var(--surface-card);
             border: 1px solid var(--border-subtle);
-            padding: 5px 12px 5px 6px;
+            padding: 6px 14px;
             border-radius: var(--radius-pill);
             cursor: pointer;
             box-shadow: var(--shadow-subtle);
             font-size: 12px;
             font-weight: 700;
-        }
-        .user-auth-avatar {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            object-fit: cover;
         }
 
         /* حقل البحث القابل للتوسيع */
@@ -389,7 +383,7 @@
         .tag-badge:active { background: var(--surface-active); }
         .tag-badge.green { color: var(--oneui-green); }
 
-        /* 📱 شريط سامسونج السفلي (نصوص فقط وبدون أيقونات) */
+        /* 📱 شريط سامسونج السفلي */
         .samsung-dock-container {
             position: fixed;
             bottom: 16px;
@@ -506,18 +500,18 @@
 
     <div class="app-container">
         
-        <!-- 🔍 شريط سامسونج العلوي مع حالة حساب Google -->
+        <!-- 🔍 شريط سامسونج العلوي -->
         <div class="oneui-top-bar">
             <div class="top-prayer-info" id="topPrayerTag">
                 <span>🕌</span> <span id="topPrayerText">الصلاة: --</span>
             </div>
             
             <div class="top-actions-cluster">
-                <!-- كبسولة حساب Google -->
-                <div id="googleAuthContainer" onclick="handleAuthClick()">
+                <!-- كبسولة حالة الحساب السحابي -->
+                <div id="googleAuthContainer" onclick="openAuthModal()">
                     <div class="user-auth-pill" id="googleAuthBtn">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="user-auth-avatar" id="userAvatarImg">
-                        <span id="userNameSpan">دخول Google</span>
+                        <span>☁️</span>
+                        <span id="userNameSpan">دخول الحساب</span>
                     </div>
                 </div>
 
@@ -553,7 +547,7 @@
             <div id="searchResultsList"></div>
         </div>
 
-        <!-- 📱 منطقة العنوان والنصوص المجردة بدون أعلام -->
+        <!-- 📱 منطقة العنوان والنصوص المجردة -->
         <div class="oneui-header-area">
             <div class="oneui-title-hero" id="heroGreetingTitle">طاب يومك.</div>
             <div class="oneui-sub-text" id="oneuiSubInfo">
@@ -717,7 +711,7 @@
                         <strong id="settingsAccountName">غير مسجل الدخول</strong>
                         <div style="font-size:12px; color:var(--text-secondary);" id="settingsAccountEmail">البيانات محفوظة محلياً على الهاتف</div>
                     </div>
-                    <button onclick="handleAuthClick()" id="settingsAuthBtn" class="tag-badge">تسجيل الدخول</button>
+                    <button onclick="openAuthModal()" id="settingsAuthBtn" class="tag-badge">تسجيل الدخول</button>
                 </div>
             </div>
 
@@ -733,11 +727,29 @@
 
     </div>
 
-    <!-- 📱 شريط سامسونج السفلي (نصوص فقط وبدون أيقونات) -->
+    <!-- 📱 شريط سامسونج السفلي -->
     <div class="samsung-dock-container">
         <button class="samsung-dock-item active" id="btnDockHome" onclick="switchNavSection('dashboard-view', this)">الرئيسية</button>
         <button class="samsung-dock-item" id="btnDockPrayers" onclick="switchNavSection('prayers-view', this)">الصلوات</button>
         <button class="samsung-dock-item" id="btnDockAlarms" onclick="switchNavSection('alarms-view', this)">التنبيهات</button>
+    </div>
+
+    <!-- 🪟 نافذة تسجيل الدخول بالحساب السحابي -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                <strong id="authModalHeaderTitle" style="font-size:16px; font-weight:700;">تسجيل الدخول السحابي</strong>
+                <button onclick="closeAuthModal()" style="background:none; border:none; color:var(--text-secondary); font-size:18px; cursor:pointer;">✖</button>
+            </div>
+            <div id="authFormArea">
+                <input type="email" id="authEmail" placeholder="البريد الإلكتروني..." class="app-input" required>
+                <input type="password" id="authPassword" placeholder="كلمة المرور (6 أحرف فأكثر)..." class="app-input" required>
+                <div style="display:flex; gap:8px; margin-top:4px;">
+                    <button onclick="submitUserLogin()" class="btn-action">دخول</button>
+                    <button onclick="submitUserSignup()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إنشاء حساب</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- 🪟 نافذة الإجراءات الموحدة -->
@@ -784,7 +796,7 @@
             storageBucket: "life-8892e.firebasestorage.app",
             messagingSenderId: "164493970016",
             appId: "1:164493970016:web:96fffd7b5507e86cfb5105",
-            measurementId: "G-FTWMK20CBS"
+            measurementId: "G-FTWWK20CBS"
         };
         firebase.initializeApp(firebaseConfig);
         
@@ -800,7 +812,7 @@
                     if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
                 } else { data[key] = []; }
             });
-            if (!data.settings) data.settings = { darkMode: false };
+            if (!data.settings) data.settings = { darkMode: false }; // الافتراضي: أبيض
             return data;
         }
 
@@ -826,7 +838,7 @@
             }
         }
 
-        // مراقبة حالة تسجيل دخول المستخدم بحساب Google
+        // مراقبة حالة تسجيل دخول المستخدم السحابي
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 currentUser = user;
@@ -838,7 +850,7 @@
                         db = normalizeDB(data);
                         localStorage.setItem('myLifeAppDB', JSON.stringify(db));
                         updateUI();
-                        showToast(`🔄 مرحباً ${user.displayName || ''}`);
+                        showToast(`🔄 مرحباً ${user.email.split('@')[0]}`);
                     } else {
                         saveToCloud();
                     }
@@ -852,30 +864,48 @@
             }
         });
 
-        async function handleAuthClick() {
+        function openAuthModal() {
             if (currentUser) {
                 if (confirm(`هل تريد تسجيل الخروج من حساب ${currentUser.email}؟`)) {
-                    await firebase.auth().signOut();
-                    showToast('تم تسجيل الخروج');
+                    firebase.auth().signOut().then(() => showToast('تم تسجيل الخروج'));
                 }
             } else {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                provider.setCustomParameters({ prompt: 'select_account' });
-                try {
-                    showToast('جاري الاتصال بـ Google...');
-                    await firebase.auth().signInWithPopup(provider);
-                } catch (error) {
-                    try {
-                        await firebase.auth().signInWithRedirect(provider);
-                    } catch (redirectErr) {
-                        alert('تنبيه تسجيل الدخول: ' + error.message);
-                    }
-                }
+                document.getElementById('authModal').classList.add('active');
+            }
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.remove('active');
+        }
+
+        async function submitUserLogin() {
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPassword').value;
+            if (!email || !pass) return alert('يرجى كتابة البريد وكلمة المرور');
+            try {
+                showToast('جاري تسجيل الدخول...');
+                await firebase.auth().signInWithEmailAndPassword(email, pass);
+                closeAuthModal();
+            } catch (err) {
+                alert('فشل الدخول: ' + err.message);
+            }
+        }
+
+        async function submitUserSignup() {
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPassword').value;
+            if (!email || !pass) return alert('يرجى كتابة البريد وكلمة المرور');
+            if (pass.length < 6) return alert('كلمة المرور يجب أن تكون 6 خانات فأكثر');
+            try {
+                showToast('جاري إنشاء الحساب...');
+                await firebase.auth().createUserWithEmailAndPassword(email, pass);
+                closeAuthModal();
+            } catch (err) {
+                alert('فشل إنشاء الحساب: ' + err.message);
             }
         }
 
         function updateAuthProfileUI(user) {
-            const avatarImg = document.getElementById('userAvatarImg');
             const nameSpan = document.getElementById('userNameSpan');
             const heroGreeting = document.getElementById('heroGreetingTitle');
             const settingsName = document.getElementById('settingsAccountName');
@@ -883,16 +913,14 @@
             const settingsBtn = document.getElementById('settingsAuthBtn');
 
             if (user) {
-                const firstName = user.displayName ? user.displayName.split(' ')[0] : 'حسابي';
-                if (avatarImg) avatarImg.src = user.photoURL || "https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg";
-                if (nameSpan) nameSpan.innerText = firstName;
-                if (heroGreeting) heroGreeting.innerText = `طاب يومك، ${firstName}.`;
-                if (settingsName) settingsName.innerText = user.displayName || 'مستخدم Google';
+                const shortName = user.email.split('@')[0];
+                if (nameSpan) nameSpan.innerText = shortName;
+                if (heroGreeting) heroGreeting.innerText = `طاب يومك، ${shortName}.`;
+                if (settingsName) settingsName.innerText = shortName;
                 if (settingsEmail) settingsEmail.innerText = user.email;
                 if (settingsBtn) { settingsBtn.innerText = 'تسجيل الخروج'; settingsBtn.style.color = 'var(--oneui-red)'; }
             } else {
-                if (avatarImg) avatarImg.src = "https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg";
-                if (nameSpan) nameSpan.innerText = 'دخول Google';
+                if (nameSpan) nameSpan.innerText = 'دخول الحساب';
                 if (heroGreeting) heroGreeting.innerText = 'طاب يومك.';
                 if (settingsName) settingsName.innerText = 'غير مسجل الدخول';
                 if (settingsEmail) settingsEmail.innerText = 'البيانات محفوظة محلياً على الهاتف';
@@ -1227,6 +1255,11 @@
                 dismissActiveAlarm();
                 return true;
             }
+            const authM = document.getElementById('authModal');
+            if (authM && authM.classList.contains('active')) {
+                closeAuthModal();
+                return true;
+            }
             const actModal = document.getElementById('actionModal');
             if (actModal && actModal.classList.contains('active')) {
                 closeModalAction();
@@ -1520,7 +1553,6 @@
         function renderPrayersAndReminders() {
             const now = Date.now();
             
-            // الصلاة القادمة للشريط العلوي
             const nextPrayer = livePrayersList.find(p => p.targetTime > now);
             if (nextPrayer) {
                 document.getElementById('topPrayerText').innerText = `${nextPrayer.title.replace('🕌 ', '')} ${formatTime(nextPrayer.targetTime - now)}`;
@@ -1528,7 +1560,6 @@
                 document.getElementById('topPrayerText').innerText = 'اكتملت الصلوات';
             }
 
-            // قائمة الصلوات الكاملة
             const prayersFullEl = document.getElementById('prayersFullList');
             if (prayersFullEl) {
                 prayersFullEl.innerHTML = livePrayersList.map(p => {
@@ -1544,7 +1575,6 @@
                 }).join('');
             }
 
-            // التنبيهات المباشرة + العداد الدائري لأقرب تنبيه
             const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
             activeReminders.sort((a,b) => a.targetTime - b.targetTime);
 
