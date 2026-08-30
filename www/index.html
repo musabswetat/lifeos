@@ -11,7 +11,7 @@
 
     <title>Life OS</title>
     
-    <!-- ☁️ مكتبات Firebase السحابية -->
+    <!-- ☁️ مكتبات Firebase السحابية الرسمية -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -775,16 +775,16 @@
     </div>
 
     <script>
-        // --- 0. إعدادات ومصادقة Firebase ---
+        // --- 0. إعدادات ومصادقة Firebase الرسمية المحدثة ---
         const firebaseConfig = {
-            apiKey: "AIzaSyCXalyz_Xa7IeSuT8enh6MCu2alH5HvBMY",
+            apiKey: "AIzaSyCxalyr_Xa7IeSuT8enh6MCu2a1h5HvBWY",
             authDomain: "life-8892e.firebaseapp.com",
-            databaseURL: "https://life-8892e-default-rtdb.europe-west1.firebasedatabase.app", 
+            databaseURL: "https://life-8892e-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "life-8892e",
             storageBucket: "life-8892e.firebasestorage.app",
-            messagingSenderId: "164493978016",
-            appId: "1:164493978016:web:96fffd7bb507e86cfb5106",
-            measurementId: "G-FTWMK20C8S"
+            messagingSenderId: "164493970016",
+            appId: "1:164493970016:web:96fffd7b5507e86cfb5105",
+            measurementId: "G-FTWMK20CBS"
         };
         firebase.initializeApp(firebaseConfig);
         
@@ -800,7 +800,7 @@
                     if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
                 } else { data[key] = []; }
             });
-            if (!data.settings) data.settings = { darkMode: false }; // الافتراضي: أبيض
+            if (!data.settings) data.settings = { darkMode: false };
             return data;
         }
 
@@ -1175,7 +1175,7 @@
             finalizeAction();
         }
 
-        // --- 5. التنقل والبحث وقائمة سامسونج وزر الرجوع المخصص ---
+        // --- 5. التنقل والبحث وقائمة سامسونج ومعالجة زر الرجوع ---
         function switchNavSection(viewId, btnEl) {
             closeTopDropdown();
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
@@ -1220,7 +1220,7 @@
             startVoiceRecording();
         }
 
-        // معالجة زر وإيماءة الرجوع في أندرويد (Back Gesture / Button Handler)
+        // معالجة زر وإيماءة الرجوع في أندرويد (Back Gesture / Button Navigation)
         function handleSystemBackButton() {
             const activeAlarm = document.getElementById('activeAlarmModal');
             if (activeAlarm && activeAlarm.classList.contains('active')) {
@@ -1883,7 +1883,7 @@
         function toggleTheme() {
             db.settings.darkMode = !db.settings.darkMode;
             document.body.classList.toggle('light-mode', !db.settings.darkMode);
-            document.getElementById('themeBtn').innerText = db.settings.darkMode ? '☀️' : '🌙';
+            document.getElementById('themeBtn').innerText = db.settings.darkMode ? '🌙' : '☀️';
             document.getElementById('themeColorMeta').setAttribute('content', db.settings.darkMode ? '#121212' : '#F2F2F7');
             finalizeAction();
         }
