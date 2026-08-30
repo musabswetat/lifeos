@@ -16,7 +16,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
-        /* 📱 نظام تصميم Samsung One UI الرسمي الدقيق */
+        /* 📱 نظام تصميم Samsung One UI المات النظيف */
         :root {
             --bg-canvas: #121212;
             --surface-card: #1E1E1E;
@@ -85,7 +85,7 @@
             box-sizing: border-box;
         }
 
-        /* 🔍 شريط سامسونج العلوي: الصلاة القادمة يميناً والأدوات يساراً */
+        /* 🔍 شريط سامسونج العلوي */
         .oneui-top-bar {
             display: flex;
             align-items: center;
@@ -153,7 +153,7 @@
             width: 100%;
         }
 
-        /* 📑 قائمة الثلاث نقاط الشاملة (One UI Overflow Dropdown) */
+        /* 📑 قائمة الثلاث نقاط الشاملة (One UI Dropdown) */
         .oneui-dropdown {
             position: absolute;
             top: 48px;
@@ -162,7 +162,7 @@
             border: 1px solid var(--border-subtle);
             border-radius: 18px;
             padding: 6px;
-            width: 220px;
+            width: 230px;
             box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
             display: flex;
             flex-direction: column;
@@ -195,7 +195,7 @@
         }
         .dropdown-item:active { background: var(--surface-inner); }
 
-        /* 📱 عنوان One UI ونصوص التقرير بدون كبسولات */
+        /* 📱 منطقة النصوص المجردة بدون كبسولات */
         .oneui-header-area {
             padding: 12px 2px 18px 2px;
         }
@@ -215,10 +215,10 @@
             font-size: 13px;
             color: var(--text-secondary);
             font-weight: 500;
-            margin-top: 2px;
+            margin-top: 3px;
         }
 
-        /* ⏱️ العداد الدائري لأقرب تنبيه (Circular Countdown Widget) */
+        /* ⏱️ العداد الدائري لأقرب تنبيه */
         .circular-timer-wrapper {
             display: flex;
             flex-direction: column;
@@ -278,7 +278,42 @@
             white-space: nowrap;
         }
 
-        /* 🪟 بطاقات وتقسيمات One UI */
+        /* 📉 خط الاشتراكات المتناقص */
+        .sub-card-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .sub-card-item:last-child { border-bottom: none; }
+        .sub-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .sub-meta-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        .sub-progress-track {
+            width: 100%;
+            height: 6px;
+            background: var(--surface-inner);
+            border-radius: var(--radius-pill);
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .sub-progress-fill {
+            height: 100%;
+            background: var(--oneui-blue);
+            border-radius: var(--radius-pill);
+            transition: width 0.4s ease;
+        }
+
+        /* 🪟 بطاقات One UI */
         .section-label {
             font-size: 13px;
             font-weight: 700;
@@ -328,66 +363,7 @@
         }
         .tag-badge.green { color: var(--oneui-green); }
 
-        /* 🔘 الزر العائم السريع (FAB) */
-        .fab-container {
-            position: fixed;
-            bottom: 86px;
-            left: 20px;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-        .fab-main-btn {
-            width: 54px;
-            height: 54px;
-            border-radius: 50%;
-            background: var(--oneui-blue);
-            border: none;
-            color: #FFF;
-            font-size: 24px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.35);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
-        }
-        .fab-main-btn.open {
-            transform: rotate(45deg);
-            background: var(--oneui-red);
-        }
-        .fab-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(12px) scale(0.92);
-            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
-        }
-        .fab-menu.open {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0) scale(1);
-        }
-        .fab-action-item {
-            background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
-            color: var(--text-primary);
-            padding: 10px 16px;
-            border-radius: var(--radius-pill);
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: var(--shadow-subtle);
-            white-space: nowrap;
-        }
-        .fab-action-item:active { transform: scale(0.96); background: var(--surface-inner); }
-
-        /* 📱 شريط سامسونج السفلي (الرئيسية · الصلوات · التنبيهات) */
+        /* 📱 شريط سامسونج السفلي (3 أقسام حصراً) */
         .samsung-dock-container {
             position: fixed;
             bottom: 16px;
@@ -504,20 +480,9 @@
 
     <div id="syncToast">☁️ مزامنة...</div>
 
-    <!-- 🔘 الزر العائم (FAB) -->
-    <div class="fab-container">
-        <div class="fab-menu" id="fabMenu">
-            <button class="fab-action-item" onclick="openFabAction('alarm')">⏰ تنبيه سريع</button>
-            <button class="fab-action-item" onclick="openFabAction('todo')">✅ مهمة جديدة</button>
-            <button class="fab-action-item" onclick="openFabAction('note')">📝 ملاحظة</button>
-            <button class="fab-action-item" onclick="openFabAction('bill')">🧾 فاتورة / اشتراك</button>
-        </div>
-        <button class="fab-main-btn" id="fabMainBtn" onclick="toggleFabMenu()">＋</button>
-    </div>
-
     <div class="app-container">
         
-        <!-- 🔍 شريط سامسونج العلوي: الصلاة القادمة بجانب البحث والأدوات -->
+        <!-- 🔍 شريط سامسونج العلوي -->
         <div class="oneui-top-bar">
             <div class="top-prayer-info" id="topPrayerTag">
                 <span>🕌</span> <span id="topPrayerText">الصلاة: --</span>
@@ -529,14 +494,14 @@
                 <button class="top-action-btn" onclick="toggleTopDropdown()" title="القائمة">⋮</button>
             </div>
 
-            <!-- 📑 القائمة المنسدلة لجميع الأقسام بدون استثناء -->
+            <!-- 📑 القائمة المنسدلة الشاملة (جميع الأقسام) -->
             <div class="oneui-dropdown" id="topDropdownMenu">
-                <button class="dropdown-item" onclick="switchNavSection('todos-view')">✅ إدارة المهام</button>
-                <button class="dropdown-item" onclick="switchNavSection('finance-view')">📊 المصاريف والمالية</button>
                 <button class="dropdown-item" onclick="switchNavSection('notes-view')">📝 الملاحظات والتسجيلات</button>
+                <button class="dropdown-item" onclick="switchNavSection('finance-view')">🧾 الفواتير والاشتراكات</button>
+                <button class="dropdown-item" onclick="switchNavSection('todos-view')">✅ إدارة كافة المهام</button>
                 <button class="dropdown-item" onclick="switchNavSection('vault-view')">🔐 الخزنة المشفرة</button>
                 <button class="dropdown-item" onclick="switchNavSection('docs-view')">🆔 الوثائق الرسمية</button>
-                <button class="dropdown-item" onclick="switchNavSection('settings-view')">⚙️ الإعدادات العامة</button>
+                <button class="dropdown-item" onclick="switchNavSection('settings-view')">⚙️ الإعدادات</button>
                 <button class="dropdown-item" onclick="startVoiceRecordingFromMenu()" style="color:var(--oneui-red);">🎙️ تسجيل صوتي</button>
                 <button class="dropdown-item" onclick="exportData()">📥 تصدير نسخة احتياطية</button>
             </div>
@@ -551,16 +516,16 @@
             </div>
         </div>
 
-        <!-- 🔍 نتائج البحث -->
+        <!-- 🔍 نتائج البحث اللحظي -->
         <div id="searchResultsCard" class="oneui-card" style="display:none; margin-bottom:14px;">
             <div id="searchResultsList"></div>
         </div>
 
-        <!-- 📱 منطقة العنوان والنصوص المجردة بدون كبسولات -->
+        <!-- 📱 منطقة العنوان والنصوص المجردة -->
         <div class="oneui-header-area">
             <div class="oneui-title-hero">طاب يومك.</div>
             <div class="oneui-sub-text" id="oneuiSubInfo">
-                📍 جنين <span id="textWeather">--°C ⛅</span> · صرف الشهر: <span id="textMonthlySpent">0 ₪</span>
+                📍 جنين <span id="textWeather">--°C ⛅</span> · صرف هذا الشهر: <span id="textMonthlySpent">0 ₪</span>
             </div>
             <div class="oneui-currency-line" id="oneuiCurrencyLine">
                 🇺🇸 USD <span id="textUSD">--</span> ₪ · 🇯🇴 JOD <span id="textJOD">--</span> ₪ · 🇪🇺 EUR <span id="textEUR">--</span> ₪
@@ -570,15 +535,15 @@
         <!-- 🏠 1. تبويب الرئيسية (Dashboard View) -->
         <div id="dashboard-view" class="section-view active">
             
-            <!-- قسم 1: التنبيهات في الأعلى مع العداد الدائري لأقرب تنبيه -->
+            <!-- قسم 1: التنبيهات مع العداد الدائري -->
             <div class="section-label">التنبيهات المباشرة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
                     <span style="font-size:13px; color:var(--text-secondary);" id="activeRemindersCountText">أقرب موعد</span>
-                    <button onclick="openFabAction('alarm')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ ضبط تنبيه</button>
+                    <button onclick="openModalAction('alarm')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ ضبط تنبيه</button>
                 </div>
 
-                <!-- العداد الدائري التفاعلي -->
+                <!-- العداد الدائري لأقرب تنبيه -->
                 <div class="circular-timer-wrapper">
                     <div class="circular-timer-box">
                         <svg class="timer-svg" viewBox="0 0 120 120">
@@ -592,7 +557,6 @@
                     </div>
                 </div>
 
-                <!-- قائمة التنبيهات المتبقية -->
                 <div id="dashRemindersPreview"></div>
             </div>
 
@@ -601,12 +565,12 @@
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                     <span style="font-size:13px; color:var(--text-secondary);" id="dashTodoCount">0 مهام معلقة</span>
-                    <button onclick="openFabAction('todo')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ إضافة مهمة</button>
+                    <button onclick="openModalAction('todo')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ إضافة مهمة</button>
                 </div>
                 <div id="dashTodosList"></div>
             </div>
 
-            <!-- قسم 3: ملخص المصروفات الحديثة -->
+            <!-- قسم 3: المصروفات الحديثة -->
             <div class="section-label">المصروفات الحديثة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
@@ -614,9 +578,19 @@
                         <span style="font-size:12px; color:var(--text-secondary);">صرف اليوم: </span>
                         <strong style="font-size:16px; color:var(--oneui-red);" id="dashExpensesTotal">0 ₪</strong>
                     </div>
-                    <button onclick="openFabAction('bill')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ تسجيل</button>
+                    <button onclick="openModalAction('expense')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ تسجيل مصروف</button>
                 </div>
                 <div id="dashExpensesPreview"></div>
+            </div>
+
+            <!-- قسم 4: الاشتراكات الفعالة مع الخط المتناقص -->
+            <div class="section-label">الاشتراكات الفعالة</div>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <span style="font-size:13px; color:var(--text-secondary);">المدة المتبقية للاشتراك</span>
+                    <button onclick="openModalAction('subscription')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ اشتراك جديد</button>
+                </div>
+                <div id="dashSubscriptionsProgressList"></div>
             </div>
 
         </div>
@@ -633,9 +607,9 @@
             <div class="oneui-card" id="remindersFullList"></div>
         </div>
 
-        <!-- ✅ 4. تبويب المهام (Todos View) -->
+        <!-- ✅ 4. تبويب إدارة كافة المهام -->
         <div id="todos-view" class="section-view">
-            <div class="section-label">إدارة المهام</div>
+            <div class="section-label">إدارة كافة المهام</div>
             <div class="oneui-card">
                 <form onsubmit="handleQuickTodo(event)" style="display:flex; gap:8px; margin-bottom:12px;">
                     <input type="text" id="todoInputTab" placeholder="أضف مهمة جديدة..." class="app-input" style="margin-bottom:0;" required>
@@ -645,7 +619,7 @@
             </div>
         </div>
 
-        <!-- 📊 5. تبويب المصاريف والمالية (Finance View) -->
+        <!-- 📊 5. تبويب المصاريف والفواتير -->
         <div id="finance-view" class="section-view">
             <div class="section-label">ملخص المصاريف</div>
             <div class="oneui-card">
@@ -656,53 +630,59 @@
                 </div>
             </div>
 
-            <div class="section-label">تسجيل مصروف</div>
+            <div class="section-label">الفواتير والاشتراكات الدورية</div>
             <div class="oneui-card">
-                <form onsubmit="handleQuickExpense(event)" style="display:flex; gap:8px;">
-                    <input type="text" id="expDescTab" placeholder="الوصف..." class="app-input" style="margin-bottom:0;" required>
-                    <input type="number" id="expAmountTab" placeholder="المبلغ" class="app-input" style="max-width:90px; margin-bottom:0;" required>
-                    <button type="submit" class="btn-action" style="width:auto;">تسجيل</button>
-                </form>
+                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+                    <button onclick="openModalAction('bill')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ إضافة فاتورة</button>
+                </div>
+                <div id="billsAndSubsList"></div>
             </div>
 
-            <div class="section-label">الفواتير والاشتراكات</div>
-            <div class="oneui-card" id="billsAndSubsList"></div>
-
-            <div class="section-label">سجل العمليات السابقة</div>
+            <div class="section-label">سجل المصاريف السابقة</div>
             <div class="oneui-card" id="expensesFullList"></div>
         </div>
 
-        <!-- 📝 6. تبويب الملاحظات (Notes View) -->
+        <!-- 📝 6. تبويب الملاحظات -->
         <div id="notes-view" class="section-view">
             <div class="section-label">الملاحظات والتسجيلات</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <strong style="font-size:15px;">الملاحظات المحفوظة</strong>
+                    <button onclick="openModalAction('note')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ ملاحظة جديدة</button>
                     <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--oneui-red); padding:6px 14px; font-size:12px;">🎙️ تسجيل صوتي</button>
                 </div>
                 <div id="notesFullList"></div>
             </div>
         </div>
 
-        <!-- 🔐 7. تبويب الخزنة (Vault View) -->
+        <!-- 🔐 7. تبويب الخزنة -->
         <div id="vault-view" class="section-view">
             <div class="section-label">الحسابات المشفرة</div>
-            <div class="oneui-card" id="vaultFullList"></div>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+                    <button onclick="openModalAction('vault')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ حساب جديد</button>
+                </div>
+                <div id="vaultFullList"></div>
+            </div>
         </div>
 
-        <!-- 🆔 8. تبويب الوثائق (Docs View) -->
+        <!-- 🆔 8. تبويب الوثائق -->
         <div id="docs-view" class="section-view">
             <div class="section-label">الوثائق الرسمية</div>
-            <div class="oneui-card" id="docsFullList"></div>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+                    <button onclick="openModalAction('doc')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ وثيقة جديدة</button>
+                </div>
+                <div id="docsFullList"></div>
+            </div>
         </div>
 
-        <!-- ⚙️ 9. تبويب الإعدادات (Settings View) -->
+        <!-- ⚙️ 9. تبويب الإعدادات -->
         <div id="settings-view" class="section-view">
             <div class="section-label">النظام والتنبيهات</div>
             <div class="oneui-card">
                 <div style="display:flex; gap:8px; flex-direction:column;">
-                    <button onclick="testPrestigeAlarm()" class="btn-action">🎵 تجربة نغمة الماريمبا الهادئة</button>
-                    <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">🔔 تفعيل قناة التنبيهات المخصصة</button>
+                    <button onclick="testPrestigeAlarm()" class="btn-action">🎵 تجربة نغمة الماريمبا المخصصة</button>
+                    <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">🔔 تفعيل قناة التنبيهات القصوى</button>
                     <button onclick="exportData()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">📥 تصدير نسخة احتياطية</button>
                 </div>
             </div>
@@ -726,18 +706,18 @@
         </button>
     </div>
 
-    <!-- 🪟 نافذة الإجراءات السريعة (Modal) -->
-    <div class="modal-overlay" id="quickActionModal">
+    <!-- 🪟 نافذة الإجراءات الموحدة (Action Modal) -->
+    <div class="modal-overlay" id="actionModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
                 <strong id="modalTitle" style="font-size:16px; font-weight:700;">إضافة</strong>
-                <button onclick="closeQuickModal()" style="background:none; border:none; color:var(--text-secondary); font-size:18px; cursor:pointer;">✖</button>
+                <button onclick="closeModalAction()" style="background:none; border:none; color:var(--text-secondary); font-size:18px; cursor:pointer;">✖</button>
             </div>
             <div id="modalFormContainer"></div>
         </div>
     </div>
 
-    <!-- 🔔 نافذة رنين التنبيه -->
+    <!-- 🔔 نافذة رنين التنبيه التفاعلية -->
     <div class="modal-overlay" id="activeAlarmModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size: 40px; margin-bottom: 8px;">⏰</div>
@@ -879,7 +859,7 @@
             renderPrayersAndReminders();
         }
 
-        // --- 3. محرك الطقس والعملات (نصوص مجردة) ---
+        // --- 3. محرك الطقس والعملات المجرد ---
         async function syncFeeds() {
             try {
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&current=temperature_2m,weather_code&timezone=auto');
@@ -901,7 +881,7 @@
             } catch(e) {}
         }
 
-        // --- 4. إشعارات أندرويد بالصوت المخصص ---
+        // --- 4. محرك إشعارات أندرويد المعزز للخلفية ---
         function getNativePlugin() {
             if (window.Capacitor) {
                 if (window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
@@ -918,6 +898,7 @@
             const plugin = getNativePlugin();
             if (plugin) {
                 try {
+                    await plugin.requestPermissions();
                     await plugin.createChannel({
                         id: 'lifeos_marimba_channel_v5',
                         name: 'Life OS نغمة مخصصة',
@@ -1065,7 +1046,7 @@
             finalizeAction();
         }
 
-        // --- 5. التنقل والبحث وأزرار سامسونج ---
+        // --- 5. التنقل والبحث والقائمة العلوية ---
         function switchNavSection(viewId, btnEl) {
             closeTopDropdown();
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
@@ -1169,91 +1150,152 @@
             handleGlobalSearch('');
         }
 
-        // --- 6. الزر العائم والنوافذ المنبثقة ---
-        function toggleFabMenu() {
-            document.getElementById('fabMenu').classList.toggle('open');
-            document.getElementById('fabMainBtn').classList.toggle('open');
+        // --- 6. النوافذ المنبثقة الموحدة للإضافة ---
+        function closeModalAction() {
+            document.getElementById('actionModal').classList.remove('active');
         }
 
-        function closeQuickModal() {
-            document.getElementById('quickActionModal').classList.remove('active');
-        }
-
-        function openFabAction(type) {
-            toggleFabMenu();
-            const modal = document.getElementById('quickActionModal');
+        function openModalAction(type) {
+            closeTopDropdown();
+            const modal = document.getElementById('actionModal');
             const title = document.getElementById('modalTitle');
             const container = document.getElementById('modalFormContainer');
 
             if (type === 'alarm') {
                 title.innerText = '⏰ ضبط تنبيه سريع';
                 container.innerHTML = `
-                    <input type="number" id="fabAlarmMins" placeholder="عدد الدقائق..." class="app-input" required>
-                    <input type="text" id="fabAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
-                    <button type="button" onclick="submitFabAlarm()" class="btn-action">ضبط الآن</button>
+                    <input type="number" id="actAlarmMins" placeholder="عدد الدقائق..." class="app-input" required>
+                    <input type="text" id="actAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
+                    <button type="button" onclick="submitActAlarm()" class="btn-action">ضبط الآن</button>
                 `;
             } else if (type === 'todo') {
                 title.innerText = '✅ إضافة مهمة لليوم';
                 container.innerHTML = `
-                    <input type="text" id="fabTodoText" placeholder="اكتب المهمة..." class="app-input" required>
-                    <button type="button" onclick="submitFabTodo()" class="btn-action">حفظ المهمة</button>
+                    <input type="text" id="actTodoText" placeholder="اكتب المهمة..." class="app-input" required>
+                    <button type="button" onclick="submitActTodo()" class="btn-action">حفظ المهمة</button>
                 `;
-            } else if (type === 'note') {
-                title.innerText = '📝 تدوين ملاحظة سريعة';
+            } else if (type === 'expense') {
+                title.innerText = '💸 تسجيل مصروف جديد';
                 container.innerHTML = `
-                    <input type="text" id="fabNoteTitle" placeholder="عنوان الملاحظة..." class="app-input">
-                    <textarea id="fabNoteBody" rows="3" placeholder="نص الملاحظة..." class="app-input" required></textarea>
-                    <button type="button" onclick="submitFabNote()" class="btn-action">حفظ الملاحظة</button>
+                    <input type="text" id="actExpDesc" placeholder="ماذا اشتريت؟" class="app-input" required>
+                    <input type="number" id="actExpAmount" placeholder="المبلغ (₪)" class="app-input" required>
+                    <button type="button" onclick="submitActExpense()" class="btn-action">تسجيل المصروف</button>
+                `;
+            } else if (type === 'subscription') {
+                title.innerText = '🔁 تسجيل اشتراك شهري جديد';
+                container.innerHTML = `
+                    <input type="text" id="actSubName" placeholder="اسم الاشتراك (نتفلكس، جيم...)" class="app-input" required>
+                    <input type="number" id="actSubAmount" placeholder="المبلغ الشهري (₪)" class="app-input" required>
+                    <input type="date" id="actSubRenewal" class="app-input" title="تاريخ التجديد القادم" required>
+                    <button type="button" onclick="submitActSub()" class="btn-action">حفظ الاشتراك</button>
                 `;
             } else if (type === 'bill') {
-                title.innerText = '🧾 فاتورة أو اشتراك جديد';
+                title.innerText = '🧾 تسجيل فاتورة جديدة';
                 container.innerHTML = `
-                    <select id="fabFinanceType" class="app-input"><option value="bill">فاتورة (كهرباء، ماء، نت)</option><option value="sub">اشتراك شهري (جيم، نتفلكس)</option></select>
-                    <input type="text" id="fabFinanceName" placeholder="الاسم / النوع..." class="app-input" required>
-                    <input type="number" id="fabFinanceAmount" placeholder="المبلغ (₪)..." class="app-input" required>
-                    <button type="button" onclick="submitFabFinance()" class="btn-action">حفظ</button>
+                    <select id="actBillType" class="app-input"><option value="كهرباء">كهرباء</option><option value="ماء">ماء</option><option value="إنترنت">إنترنت</option><option value="أخرى">أخرى</option></select>
+                    <input type="number" id="actBillAmount" placeholder="المبلغ (₪)" class="app-input" required>
+                    <button type="button" onclick="submitActBill()" class="btn-action">حفظ الفاتورة</button>
+                `;
+            } else if (type === 'note') {
+                title.innerText = '📝 تدوين ملاحظة جديدة';
+                container.innerHTML = `
+                    <input type="text" id="actNoteTitle" placeholder="عنوان الملاحظة..." class="app-input">
+                    <textarea id="actNoteBody" rows="3" placeholder="نص الملاحظة..." class="app-input" required></textarea>
+                    <button type="button" onclick="submitActNote()" class="btn-action">حفظ الملاحظة</button>
+                `;
+            } else if (type === 'vault') {
+                title.innerText = '🔐 حفظ حساب في الخزنة';
+                container.innerHTML = `
+                    <input type="text" id="actVaultName" placeholder="الحساب / الإيميل" class="app-input" required>
+                    <input type="text" id="actVaultPass" placeholder="كلمة المرور" class="app-input" required>
+                    <button type="button" onclick="submitActVault()" class="btn-action">حفظ بالخزنة</button>
+                `;
+            } else if (type === 'doc') {
+                title.innerText = '🆔 تسجيل وثيقة رسمية';
+                container.innerHTML = `
+                    <input type="text" id="actDocName" placeholder="اسم الوثيقة (جواز، رخصة...)" class="app-input" required>
+                    <input type="date" id="actDocExpiry" class="app-input" required>
+                    <button type="button" onclick="submitActDoc()" class="btn-action">حفظ الوثيقة</button>
                 `;
             }
             modal.classList.add('active');
         }
 
-        function submitFabAlarm() {
-            const mins = parseInt(document.getElementById('fabAlarmMins').value);
-            const title = document.getElementById('fabAlarmTitle').value;
+        function submitActAlarm() {
+            const mins = parseInt(document.getElementById('actAlarmMins').value);
+            const title = document.getElementById('actAlarmTitle').value;
             if (!mins || mins <= 0) return alert('أدخل دقائق صحيحة');
             addReminderFast(mins, title);
-            closeQuickModal();
+            closeModalAction();
         }
 
-        function submitFabTodo() {
-            const text = document.getElementById('fabTodoText').value;
+        function submitActTodo() {
+            const text = document.getElementById('actTodoText').value;
             if (!text.trim()) return alert('اكتب نص المهمة');
             db.todos.push({ id: Date.now(), text: text.trim(), done: false, date: todayStr });
             finalizeAction();
-            closeQuickModal();
+            closeModalAction();
         }
 
-        function submitFabNote() {
-            const body = document.getElementById('fabNoteBody').value;
-            if (!body.trim()) return alert('اكتب نص الملاحظة');
-            db.notes.push({ id: Date.now(), title: document.getElementById('fabNoteTitle').value || 'ملاحظة', body: body });
-            finalizeAction();
-            closeQuickModal();
+        function submitActExpense() {
+            const desc = document.getElementById('actExpDesc').value;
+            const amount = document.getElementById('actExpAmount').value;
+            if (!desc || !amount) return alert('يرجى كتابة الوصف والمبلغ');
+            db.expenses.push({ id: Date.now(), desc: desc.trim(), amount: amount, date: todayStr });
+            finalizeAction('تم تسجيل المصروف بنجاح');
+            closeModalAction();
         }
 
-        function submitFabFinance() {
-            const type = document.getElementById('fabFinanceType').value;
-            const name = document.getElementById('fabFinanceName').value;
-            const amount = document.getElementById('fabFinanceAmount').value;
-            if (!name || !amount) return alert('أدخل البيانات كاملة');
+        function submitActSub() {
+            const name = document.getElementById('actSubName').value;
+            const amount = document.getElementById('actSubAmount').value;
+            const renewal = document.getElementById('actSubRenewal').value;
+            if (!name || !amount || !renewal) return alert('يرجى ملء كافة البيانات وتاريخ التجديد');
             
-            if (type === 'bill') {
-                db.fixed_bills.push({ id: Date.now(), type: name, amount: amount, date: todayStr });
-            } else {
-                db.subscriptions.push({ id: Date.now(), name: name, amount: amount, date: todayStr });
-            }
-            finalizeAction('تم الحفظ بنجاح');
-            closeQuickModal();
+            db.subscriptions.push({
+                id: Date.now(),
+                name: name.trim(),
+                amount: amount,
+                renewalDate: renewal,
+                createdAt: Date.now()
+            });
+            finalizeAction('تم حفظ الاشتراك');
+            closeModalAction();
+        }
+
+        function submitActBill() {
+            const type = document.getElementById('actBillType').value;
+            const amount = document.getElementById('actBillAmount').value;
+            if (!amount) return alert('أدخل المبلغ');
+            db.fixed_bills.push({ id: Date.now(), type: type, amount: amount, date: todayStr });
+            finalizeAction('تم حفظ الفاتورة');
+            closeModalAction();
+        }
+
+        function submitActNote() {
+            const body = document.getElementById('actNoteBody').value;
+            if (!body.trim()) return alert('اكتب نص الملاحظة');
+            db.notes.push({ id: Date.now(), title: document.getElementById('actNoteTitle').value || 'ملاحظة', body: body });
+            finalizeAction('تم حفظ الملاحظة');
+            closeModalAction();
+        }
+
+        function submitActVault() {
+            const name = document.getElementById('actVaultName').value;
+            const pass = document.getElementById('actVaultPass').value;
+            if (!name || !pass) return alert('أدخل البيانات');
+            db.vault.push({ id: Date.now(), accountName: name, password: pass, date: todayStr });
+            finalizeAction('تم الحفظ بالخزنة');
+            closeModalAction();
+        }
+
+        function submitActDoc() {
+            const name = document.getElementById('actDocName').value;
+            const expiry = document.getElementById('actDocExpiry').value;
+            if (!name || !expiry) return alert('أدخل البيانات');
+            db.documents.push({ id: Date.now(), name: name, expiryDate: expiry });
+            finalizeAction('تم حفظ الوثيقة');
+            closeModalAction();
         }
 
         function handleQuickTodo(e) {
@@ -1274,7 +1316,7 @@
             finalizeAction('تم تسجيل المصروف');
         }
 
-        // --- 7. عرض وتحديث بيانات الصلوات والتنبيهات والعداد الدائري ---
+        // --- 7. عرض وتحديث بيانات الصلوات والتنبيهات والاشتراكات ---
         function renderPrayersAndReminders() {
             const now = Date.now();
             
@@ -1324,7 +1366,6 @@
                 if (timeEl) timeEl.innerText = formatTime(remainingMs);
                 if (labelEl) labelEl.innerText = nearest.title || `تنبيه (${nearest.minutes} د)`;
             } else if (nextPrayer) {
-                // إذا لم يوجد تنبيه مخصص، يعرض أقرب صلاة
                 const remainingMs = nextPrayer.targetTime - now;
                 if (circle) circle.style.strokeDashoffset = 0;
                 if (timeEl) timeEl.innerText = formatTime(remainingMs);
@@ -1335,7 +1376,7 @@
                 if (labelEl) labelEl.innerText = "لا توجد تنبيهات";
             }
 
-            // قائمة باقي التنبيهات على الرئيسية (ما بعد التنبيه الأول)
+            // قائمة باقي التنبيهات على الرئيسية
             const dashRemPreview = document.getElementById('dashRemindersPreview');
             if (dashRemPreview) {
                 const restReminders = activeReminders.slice(1, 4);
@@ -1353,7 +1394,7 @@
                 `).join('');
             }
 
-            // سجل التنبيهات في تبويب التنبيهات
+            // سجل التنبيهات الكامل
             const remindersFullEl = document.getElementById('remindersFullList');
             if (remindersFullEl) {
                 remindersFullEl.innerHTML = db.reminders.map(r => `
@@ -1365,6 +1406,37 @@
                         <button onclick="deleteReminder(${r.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary); text-align:center;">السجل فارغ</p>';
+            }
+
+            // 📉 رسم خط الاشتراكات المتناقص على الصفحة الرئيسية
+            const subProgressEl = document.getElementById('dashSubscriptionsProgressList');
+            if (subProgressEl) {
+                if (db.subscriptions.length === 0) {
+                    subProgressEl.innerHTML = '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد اشتراكات مسجلة حالياً.</p>';
+                } else {
+                    subProgressEl.innerHTML = db.subscriptions.map(sub => {
+                        const renewalDate = new Date(sub.renewalDate || sub.date || todayStr);
+                        const diffDays = Math.ceil((renewalDate - new Date(todayStr)) / (1000 * 60 * 60 * 24));
+                        const totalDays = 30;
+                        const remainingDays = Math.max(0, diffDays);
+                        const progressPercent = Math.max(0, Math.min(100, (remainingDays / totalDays) * 100));
+
+                        return `
+                        <div class="sub-card-item">
+                            <div class="sub-header-row">
+                                <span>${sub.name}</span>
+                                <strong style="color:var(--oneui-blue);">${sub.amount} ₪</strong>
+                            </div>
+                            <div class="sub-meta-row">
+                                <span>ينتهي في: ${sub.renewalDate || 'شهري'}</span>
+                                <span style="font-weight:700; color:${remainingDays <= 3 ? 'var(--oneui-red)' : 'var(--text-secondary)'};">متبقي ${remainingDays} يوم</span>
+                            </div>
+                            <div class="sub-progress-track">
+                                <div class="sub-progress-fill" style="width: ${progressPercent}%; background:${remainingDays <= 3 ? 'var(--oneui-red)' : 'var(--oneui-blue)'};"></div>
+                            </div>
+                        </div>`;
+                    }).join('');
+                }
             }
         }
 
@@ -1402,7 +1474,6 @@
                 if (d.getMonth() === cMonth && d.getFullYear() === cYear) spentMonth += parseFloat(b.amount);
             });
 
-            // تحديث نص صرف الشهر تحت العنوان
             document.getElementById('textMonthlySpent').innerText = `${spentMonth.toLocaleString()} ₪`;
 
             // مهام اليوم
@@ -1484,7 +1555,7 @@
                 db.subscriptions.forEach(s => {
                     combined += `
                     <div class="list-row">
-                        <div><strong>${s.name} (اشتراك شهري)</strong><div style="font-size:11px; color:var(--text-secondary);">${s.date}</div></div>
+                        <div><strong>${s.name} (اشتراك)</strong><div style="font-size:11px; color:var(--text-secondary);">تجديد: ${s.renewalDate || 'شهري'}</div></div>
                         <div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--oneui-green);">${s.amount} ₪</strong><button onclick="deleteSub(${s.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button></div>
                     </div>`;
                 });
