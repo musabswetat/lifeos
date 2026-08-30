@@ -211,14 +211,14 @@
         }
         .dropdown-item:active { background: var(--surface-inner); }
 
-        /* 📱 منطقة العنوان والنصوص المجردة مع زر تعديل الاسم */
+        /* 📱 منطقة العنوان مع أيقونة قلم صغيرة */
         .oneui-header-area {
             padding: 12px 2px 18px 2px;
         }
         .oneui-title-hero-row {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
             margin-bottom: 6px;
         }
@@ -228,20 +228,22 @@
             letter-spacing: -0.03em;
             margin-bottom: 0;
         }
-        .edit-name-inline-btn {
+        .edit-name-icon-btn {
             background: var(--surface-card);
             border: 1px solid var(--border-subtle);
             color: var(--oneui-blue);
-            font-size: 12px;
-            font-weight: 700;
-            padding: 5px 12px;
-            border-radius: var(--radius-pill);
+            font-size: 13px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             box-shadow: var(--shadow-subtle);
-            display: none;
             transition: background 0.15s ease;
         }
-        .edit-name-inline-btn:active { background: var(--surface-active); }
+        .edit-name-icon-btn:active { background: var(--surface-active); }
 
         .oneui-sub-text {
             font-size: 13px;
@@ -256,18 +258,52 @@
             margin-top: 3px;
         }
 
+        /* 🎙️ زر التسجيل الصوتي الدائري الهادئ على الرئيسية */
+        .dashboard-voice-widget {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 16px 0 6px 0;
+        }
+        .calm-voice-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--oneui-red);
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-subtle);
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+        .calm-voice-btn:active { transform: scale(0.94); background: var(--surface-inner); }
+        .calm-voice-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-top: 6px;
+            cursor: pointer;
+            transition: color 0.15s ease;
+        }
+        .calm-voice-label:hover { color: var(--oneui-blue); }
+
         /* ⏱️ العداد الدائري لأقرب تنبيه */
         .circular-timer-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 14px 0 8px 0;
+            padding: 10px 0 6px 0;
         }
         .circular-timer-box {
             position: relative;
-            width: 140px;
-            height: 140px;
+            width: 130px;
+            height: 130px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -283,12 +319,12 @@
         .timer-bg-circle {
             fill: none;
             stroke: var(--surface-inner);
-            stroke-width: 8;
+            stroke-width: 7;
         }
         .timer-progress-circle {
             fill: none;
             stroke: var(--oneui-blue);
-            stroke-width: 8;
+            stroke-width: 7;
             stroke-linecap: round;
             stroke-dasharray: 326.72;
             stroke-dashoffset: 0;
@@ -300,7 +336,7 @@
             z-index: 2;
         }
         .timer-time-large {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 800;
             letter-spacing: -0.02em;
             color: var(--text-primary);
@@ -310,7 +346,7 @@
             font-weight: 600;
             color: var(--text-secondary);
             margin-top: 2px;
-            max-width: 100px;
+            max-width: 90px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -569,13 +605,20 @@
             <div id="searchResultsList"></div>
         </div>
 
-        <!-- 📱 منطقة العنوان مع اسم الظهور وزر التعديل الفوري -->
+        <!-- 📱 منطقة العنوان مع أيقونة قلم صغيرة -->
         <div class="oneui-header-area">
             <div class="oneui-title-hero-row">
                 <div class="oneui-title-hero" id="heroGreetingTitle">طاب يومك.</div>
-                <button id="editNameBtn" class="edit-name-inline-btn" onclick="promptEditDisplayName()">✏️ تعديل الاسم</button>
+                <button id="editNameBtn" class="edit-name-icon-btn" onclick="promptEditDisplayName()" title="تعديل الاسم">✏️</button>
             </div>
-            <div class="oneui-sub-text" id="oneuiSubInfo">
+            
+            <!-- 🎙️ زر التسجيل الصوتي الهادئ مع رابط الملاحظات تحته -->
+            <div class="dashboard-voice-widget">
+                <button class="calm-voice-btn" onclick="startVoiceRecording()" title="تسجيل صوتي">🎙️</button>
+                <span class="calm-voice-label" onclick="switchNavSection('notes-view', document.getElementById('btnDockHome'))">الدخول إلى الملاحظات</span>
+            </div>
+
+            <div class="oneui-sub-text" id="oneuiSubInfo" style="margin-top:6px;">
                 📍 جنين <span id="textWeather">--°C ⛅</span> · صرف هذا الشهر: <span id="textMonthlySpent">0 ₪</span>
             </div>
             <div class="oneui-currency-line" id="oneuiCurrencyLine">
@@ -586,7 +629,7 @@
         <!-- 🏠 1. تبويب الرئيسية (Dashboard View) -->
         <div id="dashboard-view" class="section-view active">
             
-            <!-- قسم 1: التنبيهات مع العداد الدائري -->
+            <!-- قسم 1: التنبيهات مع العداد الدائري والاختصارات -->
             <div class="section-label">التنبيهات المباشرة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
@@ -606,6 +649,16 @@
                             <div class="timer-label-sub" id="nearestTimerLabel">لا توجد تنبيهات</div>
                         </div>
                     </div>
+                </div>
+
+                <!-- اقتراحات دقائق سريعة أسفل المؤقت -->
+                <div style="display:flex; gap:5px; justify-content:center; flex-wrap:wrap; margin:10px 0 6px 0;">
+                    <button class="tag-badge" onclick="addReminderFast(15, 'تنبيه 15 دقيقة')">15 د</button>
+                    <button class="tag-badge" onclick="addReminderFast(20, 'تنبيه 20 دقيقة')">20 د</button>
+                    <button class="tag-badge" onclick="addReminderFast(25, 'تنبيه 25 دقيقة')">25 د</button>
+                    <button class="tag-badge" onclick="addReminderFast(30, 'تنبيه 30 دقيقة')">30 د</button>
+                    <button class="tag-badge" onclick="addReminderFast(45, 'تنبيه 45 دقيقة')">45 د</button>
+                    <button class="tag-badge" onclick="addReminderFast(60, 'تنبيه 60 دقيقة')">60 د</button>
                 </div>
 
                 <div id="dashRemindersPreview"></div>
@@ -974,7 +1027,6 @@
             }
         }
 
-        // --- ميزة استعادة كلمة المرور عبر الإيميل ---
         async function handleForgotPassword() {
             const email = document.getElementById('authEmail').value.trim();
             if (!email) {
@@ -991,7 +1043,6 @@
             }
         }
 
-        // --- طلب كود/رابط التفعيل ---
         async function resendVerificationEmail() {
             const email = document.getElementById('authEmail').value.trim();
             const pass = document.getElementById('authPassword').value;
@@ -1015,12 +1066,11 @@
             }
         }
 
-        // --- تعديل اسم الظهور وحفظه بالسحابة ---
         async function promptEditDisplayName() {
             if (!currentUser) return;
             const currentName = (db.settings && db.settings.displayName) ? db.settings.displayName : (currentUser.displayName || currentUser.email.split('@')[0]);
             const newName = prompt('أدخل اسم الظهور الجديد:', currentName);
-            if (newName && newName.trim()) {
+            if (newName !== null && newName.trim()) {
                 try {
                     showToast('جاري حفظ الاسم بالسحابة...');
                     await currentUser.updateProfile({ displayName: newName.trim() });
@@ -1046,7 +1096,7 @@
                 const displayName = (db.settings && db.settings.displayName) ? db.settings.displayName : (user.displayName || user.email.split('@')[0]);
                 if (nameSpan) nameSpan.innerText = displayName;
                 if (heroGreeting) heroGreeting.innerText = `طاب يومك، ${displayName}.`;
-                if (editNameBtn) editNameBtn.style.display = 'inline-block';
+                if (editNameBtn) editNameBtn.style.display = 'flex';
                 if (settingsName) settingsName.innerText = displayName + (user.emailVerified ? ' (مؤكد)' : ' (غير مؤكد)');
                 if (settingsEmail) settingsEmail.innerText = user.email;
                 if (settingsBtn) { settingsBtn.innerText = 'تسجيل الخروج'; settingsBtn.style.color = 'var(--oneui-red)'; }
@@ -1324,16 +1374,29 @@
 
             finalizeAction();
             scheduleSystemNotification(cleanTitle, mins, reminderId);
+            showToast(`⏰ تم ضبط منبه ${mins} دقيقة`);
         }
 
-        function deleteReminder(id) {
-            const numId = Number(id);
-            const plugin = getNativePlugin();
-            if (plugin) {
-                plugin.cancel({ notifications: [{ id: Math.abs(numId % 2147483647) }] }).catch(() => {});
+        function confirmDeleteReminder(id) {
+            if (confirm('هل تريد إلغاء التنبيه الحالي؟')) {
+                const numId = Number(id);
+                const plugin = getNativePlugin();
+                if (plugin) {
+                    plugin.cancel({ notifications: [{ id: Math.abs(numId % 2147483647) }] }).catch(() => {});
+                }
+                db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
+                finalizeAction('🗑️ تم إلغاء التنبيه بنجاح');
             }
-            db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
-            finalizeAction();
+        }
+
+        function renameReminder(id) {
+            const r = db.reminders.find(x => x.id === id);
+            if (!r) return;
+            const newName = prompt('أدخل اسم أو عنوان التنبيه:', r.title || '');
+            if (newName !== null) {
+                r.title = newName.trim() || 'تنبيه';
+                finalizeAction('✅ تم تحديث اسم التنبيه');
+            }
         }
 
         // --- 5. مسجل الصوت الخام المزدوج (تسجيل صوت + تفريغ نصي ذكي في الخلفية للاقتراحات) ---
@@ -1422,13 +1485,11 @@
             const lower = (text || '').toLowerCase();
             const numbers = text.match(/\d+/) ;
 
-            // اقتراح 1: تسجيل شراء جديد بالاسم والسعر المذكور
             if (numbers && (lower.includes('اشتريت') || lower.includes('سعر') || lower.includes('بـ') || lower.includes('دفعت') || lower.includes('شيكل'))) {
                 const amount = numbers[0];
                 html += `<button class="btn-action" onclick="executeSmartAction('expense', '${text}', ${amount})" style="background:var(--oneui-red);">💸 تسجيل شراء جديد بمبلغ (${amount} ₪)</button>`;
             }
 
-            // اقتراح 2: إضافة تنبيه سريع بعد مدة زمنية
             const timeMatch = text.match(/(\d+)\s*(دقيقة|دقائق|ساعة|ساعات)/);
             if (timeMatch) {
                 const val = parseInt(timeMatch[1]);
@@ -1437,7 +1498,6 @@
                 html += `<button class="btn-action" onclick="executeSmartAction('alarm', '${text}', ${totalMins})" style="background:var(--oneui-blue);">⏰ إضافة تنبيه سريع للشراء بعد ${val} ${unit}</button>`;
             }
 
-            // اقتراح 3: تسجيل ملاحظة سريعة للظهور على الرئيسية
             html += `<button class="btn-action" onclick="executeSmartAction('note', '${text}')" style="background:var(--surface-inner); color:var(--text-primary);">📝 تسجيل ملاحظة سريعة للظهور على الرئيسية</button>`;
 
             container.innerHTML = html;
@@ -1456,7 +1516,6 @@
                 finalizeAction('💸 تم تسجيل الشراء والمصروف بنجاح!');
             } else if (type === 'alarm') {
                 addReminderFast(param, text);
-                showToast(`⏰ تم ضبط التنبيه لـ ${param} دقيقة`);
             } else if (type === 'note') {
                 db.todos.push({ id: Date.now(), text: `ملاحظة: ${text}`, done: false, date: todayStr });
                 finalizeAction('✅ تمت إضافة الملاحظة للرئيسية');
@@ -1873,9 +1932,10 @@
                             <strong>${r.title || `تنبيه (${r.minutes} د)`}</strong>
                             <div style="font-size:12px; color:var(--text-secondary);">${new Date(r.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}</div>
                         </div>
-                        <div style="display:flex; align-items:center; gap:8px;">
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <button onclick="renameReminder(${r.id})" class="tag-badge" title="تسمية التنبيه">✏️</button>
                             <span class="tag-badge">⏳ ${formatTime(r.targetTime - now)}</span>
-                            <button onclick="deleteReminder(${r.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer; font-size:16px;">❌</button>
+                            <button onclick="confirmDeleteReminder(${r.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer; font-size:16px;" title="إلغاء التنبيه">✖</button>
                         </div>
                     </div>
                 `).join('');
@@ -1889,7 +1949,10 @@
                             <strong>${r.title || 'تنبيه سريع'}</strong>
                             <div style="font-size:12px; color:var(--text-secondary);">${new Date(r.createdAt).toLocaleDateString('ar-EG')} - ${r.minutes} دقيقة</div>
                         </div>
-                        <button onclick="deleteReminder(${r.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
+                        <div style="display:flex; gap:6px;">
+                            <button onclick="renameReminder(${r.id})" class="tag-badge">✏️</button>
+                            <button onclick="confirmDeleteReminder(${r.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
+                        </div>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary); text-align:center;">السجل فارغ</p>';
             }
@@ -1947,7 +2010,7 @@
             if (changed) finalizeAction();
         }, 1000);
 
-        // --- 8. تحديث الشاشات الشامل ---
+        // --- 8. تحديث الشاشات الشامل مع تأكيد الحذف ---
         function updateUI() {
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
@@ -1972,7 +2035,7 @@
                         <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--oneui-blue); width:18px; height:18px;">
                         <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text}</span>
                     </label>
-                    <button onclick="deleteTodo(${t.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">✖</button>
+                    <button onclick="confirmDeleteTodo(${t.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">✖</button>
                 </div>
             `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد مهام مسجلة لليوم.</p>';
 
@@ -1984,7 +2047,7 @@
                             <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--oneui-blue); width:18px; height:18px;">
                             <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text}</span>
                         </label>
-                        <button onclick="deleteTodo(${t.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
+                        <button onclick="confirmDeleteTodo(${t.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary);">لا توجد مهام مؤرشفة.</p>';
             }
@@ -2021,7 +2084,10 @@
                 fullExpEl.innerHTML = db.expenses.map(e => `
                     <div class="list-row">
                         <div><strong>${e.desc}</strong><div style="font-size:11px; color:var(--text-secondary);">${e.date}</div></div>
-                        <strong style="color:var(--oneui-red);">${e.amount} ₪</strong>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <strong style="color:var(--oneui-red);">${e.amount} ₪</strong>
+                            <button onclick="confirmDeleteExpense(${e.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
+                        </div>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary);">لا توجد مصاريف سابقة.</p>';
             }
@@ -2033,14 +2099,14 @@
                     combined += `
                     <div class="list-row">
                         <div><strong>${b.type} (فاتورة)</strong><div style="font-size:11px; color:var(--text-secondary);">${b.date}</div></div>
-                        <div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--oneui-blue);">${b.amount} ₪</strong><button onclick="deleteBill(${b.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button></div>
+                        <div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--oneui-blue);">${b.amount} ₪</strong><button onclick="confirmDeleteBill(${b.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button></div>
                     </div>`;
                 });
                 db.subscriptions.forEach(s => {
                     combined += `
                     <div class="list-row">
                         <div><strong>${s.name} (اشتراك)</strong><div style="font-size:11px; color:var(--text-secondary);">ينتهي: ${s.endDate || s.renewalDate || 'شهري'}</div></div>
-                        <div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--oneui-green);">${s.amount} ₪</strong><button onclick="deleteSub(${s.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button></div>
+                        <div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--oneui-green);">${s.amount} ₪</strong><button onclick="confirmDeleteSub(${s.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button></div>
                     </div>`;
                 });
                 billsSubsEl.innerHTML = combined || '<p style="color:var(--text-secondary);">لا توجد فواتير أو اشتراكات مسجلة.</p>';
@@ -2052,7 +2118,7 @@
                     <div style="background:var(--surface-inner); padding:14px; border-radius:var(--radius-input); margin-bottom:10px; border:1px solid var(--border-subtle);">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <strong>${n.title}</strong>
-                            <button onclick="deleteNote(${n.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
+                            <button onclick="confirmDeleteNote(${n.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
                         </div>
                         ${n.body ? `<p style="font-size:13px; color:var(--text-secondary); margin-top:6px; line-height:1.6;">${n.body}</p>` : ''}
                         ${n.audioData ? `<audio controls src="${n.audioData}" style="width:100%; height:32px; margin-top:8px;"></audio>` : ''}
@@ -2065,7 +2131,7 @@
                 vaultEl.innerHTML = db.vault.map(v => `
                     <div class="list-row">
                         <div><strong>${v.accountName}</strong><div style="font-size:12px; color:var(--oneui-red); font-family:monospace;">${v.password}</div></div>
-                        <button onclick="deleteVault(${v.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
+                        <button onclick="confirmDeleteVault(${v.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary);">الخزنة فارغة.</p>';
             }
@@ -2075,7 +2141,7 @@
                 docsEl.innerHTML = db.documents.map(d => `
                     <div class="list-row">
                         <div><strong>${d.name}</strong><div style="font-size:12px; color:var(--text-secondary);">تنتهي: ${d.expiryDate}</div></div>
-                        <button onclick="deleteDoc(${d.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
+                        <button onclick="confirmDeleteDoc(${d.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary);">لا توجد وثائق مسجلة.</p>';
             }
@@ -2090,33 +2156,52 @@
             updateUI();
         }
 
+        // دوال التأكيد قبل الحذف
         function toggleTodo(id) {
             const t = db.todos.find(x => x.id === id);
             if(t) { t.done = !t.done; finalizeAction(); }
         }
-        function deleteTodo(id) {
-            db.todos = db.todos.filter(x => x.id !== id);
-            finalizeAction();
+        function confirmDeleteTodo(id) {
+            if(confirm('هل تريد حذف هذه المهمة؟')) {
+                db.todos = db.todos.filter(x => x.id !== id);
+                finalizeAction('🗑️ تم حذف المهمة');
+            }
         }
-        function deleteBill(id) {
-            db.fixed_bills = db.fixed_bills.filter(x => x.id !== id);
-            finalizeAction();
+        function confirmDeleteBill(id) {
+            if(confirm('هل تريد حذف هذه الفاتورة؟')) {
+                db.fixed_bills = db.fixed_bills.filter(x => x.id !== id);
+                finalizeAction('🗑️ تم حذف الفاتورة');
+            }
         }
-        function deleteSub(id) {
-            db.subscriptions = db.subscriptions.filter(x => x.id !== id);
-            finalizeAction();
+        function confirmDeleteSub(id) {
+            if(confirm('هل تريد حذف هذا الاشتراك؟')) {
+                db.subscriptions = db.subscriptions.filter(x => x.id !== id);
+                finalizeAction('🗑️ تم حذف الاشتراك');
+            }
         }
-        function deleteDoc(id) {
-            db.documents = db.documents.filter(x => x.id !== id);
-            finalizeAction();
+        function confirmDeleteDoc(id) {
+            if(confirm('هل تريد حذف هذه الوثيقة؟')) {
+                db.documents = db.documents.filter(x => x.id !== id);
+                finalizeAction('🗑️ تم حذف الوثيقة');
+            }
         }
-        function deleteVault(id) {
-            db.vault = db.vault.filter(x => x.id !== id);
-            finalizeAction();
+        function confirmDeleteVault(id) {
+            if(confirm('هل تريد حذف هذا الحساب من الخزنة؟')) {
+                db.vault = db.vault.filter(x => x.id !== id);
+                finalizeAction('🗑️ تم الحذف من الخزنة');
+            }
         }
-        function deleteNote(id) {
-            db.notes = db.notes.filter(x => x.id !== id);
-            finalizeAction();
+        function confirmDeleteNote(id) {
+            if(confirm('هل تريد حذف هذه الملاحظة؟')) {
+                db.notes = db.notes.filter(x => x.id !== id);
+                finalizeAction('🗑️ تم حذف الملاحظة');
+            }
+        }
+        function confirmDeleteExpense(id) {
+            if(confirm('هل تريد حذف هذا المصروف؟')) {
+                db.expenses = db.expenses.filter(x => x.id !== id);
+                finalizeAction('🗑️ تم حذف المصروف');
+            }
         }
 
         function toggleTheme() {
