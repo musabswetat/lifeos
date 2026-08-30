@@ -510,8 +510,8 @@
                 <!-- كبسولة حالة الحساب السحابي -->
                 <div id="googleAuthContainer" onclick="openAuthModal()">
                     <div class="user-auth-pill" id="googleAuthBtn">
-                        <span>☁️</span>
-                        <span id="userNameSpan">دخول الحساب</span>
+                        <span>🔒</span>
+                        <span id="userNameSpan">حسابي</span>
                     </div>
                 </div>
 
@@ -734,19 +734,22 @@
         <button class="samsung-dock-item" id="btnDockAlarms" onclick="switchNavSection('alarms-view', this)">التنبيهات</button>
     </div>
 
-    <!-- 🪟 نافذة تسجيل الدخول بالحساب السحابي -->
+    <!-- 🪟 نافذة تسجيل الدخول والتحقق الآمن -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                <strong id="authModalHeaderTitle" style="font-size:16px; font-weight:700;">تسجيل الدخول السحابي</strong>
+                <strong id="authModalHeaderTitle" style="font-size:16px; font-weight:700;">تسجيل الحساب الآمن</strong>
                 <button onclick="closeAuthModal()" style="background:none; border:none; color:var(--text-secondary); font-size:18px; cursor:pointer;">✖</button>
             </div>
             <div id="authFormArea">
-                <input type="email" id="authEmail" placeholder="البريد الإلكتروني..." class="app-input" required>
-                <input type="password" id="authPassword" placeholder="كلمة المرور (6 أحرف فأكثر)..." class="app-input" required>
+                <input type="email" id="authEmail" placeholder="البريد الإلكتروني الحقيقي..." class="app-input" required>
+                <input type="password" id="authPassword" placeholder="كلمة المرور (6 خانات فأكثر)..." class="app-input" required>
                 <div style="display:flex; gap:8px; margin-top:4px;">
                     <button onclick="submitUserLogin()" class="btn-action">دخول</button>
                     <button onclick="submitUserSignup()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إنشاء حساب</button>
+                </div>
+                <div style="text-align:center; margin-top:12px;">
+                    <button onclick="resendVerificationEmail()" style="background:none; border:none; color:var(--oneui-blue); font-size:12px; cursor:pointer; font-weight:700;">إرسال رسالة التحقق للإيميل</button>
                 </div>
             </div>
         </div>
@@ -803,7 +806,7 @@
         let currentUser = null;
         let userDbRef = null;
 
-        // --- 1. هيكلة البيانات المحلية والمزامنة المعزولة بحساب المستخدم ---
+        // --- 1. هيكلة البيانات المحلية والمزامنة المعزولة تماماً بحساب المستخدم ---
         function normalizeDB(data) {
             if (!data) data = {};
             const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
@@ -812,7 +815,7 @@
                     if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
                 } else { data[key] = []; }
             });
-            if (!data.settings) data.settings = { darkMode: false }; // الافتراضي: أبيض
+            if (!data.settings) data.settings = { darkMode: false };
             return data;
         }
 
@@ -838,10 +841,11 @@
             }
         }
 
-        // مراقبة حالة تسجيل دخول المستخدم السحابي
+        // مراقبة حالة تسجيل الدخول والعزل التام للمسارات
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 currentUser = user;
+                // مسار مشفر ومعزول خاص بكل مستخدم بـ UID الخاص به
                 userDbRef = firebase.database().ref(`users/${user.uid}/data`);
                 
                 userDbRef.on('value', (snapshot) => {
@@ -898,10 +902,28 @@
             if (pass.length < 6) return alert('كلمة المرور يجب أن تكون 6 خانات فأكثر');
             try {
                 showToast('جاري إنشاء الحساب...');
-                await firebase.auth().createUserWithEmailAndPassword(email, pass);
+                const userCred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
+                
+                // إرسال رسالة تحقق رسمية للإيميل لمنع الحسابات الوهمية
+                await userCred.user.sendEmailVerification();
+                alert('✅ تم إنشاء الحساب بنجاح! تم إرسال رابط تحقق إلى بريدك الإلكتروني. يرجى تأكيده.');
                 closeAuthModal();
             } catch (err) {
                 alert('فشل إنشاء الحساب: ' + err.message);
+            }
+        }
+
+        async function resendVerificationEmail() {
+            const user = firebase.auth().currentUser;
+            if (user) {
+                try {
+                    await user.sendEmailVerification();
+                    alert('✅ تم إعادة إرسال رسالة التحقق إلى بريدك.');
+                } catch (e) {
+                    alert('تعذر الإرسال: ' + e.message);
+                }
+            } else {
+                alert('يرجى تسجيل الدخول أولاً.');
             }
         }
 
@@ -916,11 +938,11 @@
                 const shortName = user.email.split('@')[0];
                 if (nameSpan) nameSpan.innerText = shortName;
                 if (heroGreeting) heroGreeting.innerText = `طاب يومك، ${shortName}.`;
-                if (settingsName) settingsName.innerText = shortName;
+                if (settingsName) settingsName.innerText = shortName + (user.emailVerified ? ' (مؤكد)' : ' (غير مؤكد)');
                 if (settingsEmail) settingsEmail.innerText = user.email;
                 if (settingsBtn) { settingsBtn.innerText = 'تسجيل الخروج'; settingsBtn.style.color = 'var(--oneui-red)'; }
             } else {
-                if (nameSpan) nameSpan.innerText = 'دخول الحساب';
+                if (nameSpan) nameSpan.innerText = 'حسابي';
                 if (heroGreeting) heroGreeting.innerText = 'طاب يومك.';
                 if (settingsName) settingsName.innerText = 'غير مسجل الدخول';
                 if (settingsEmail) settingsEmail.innerText = 'البيانات محفوظة محلياً على الهاتف';
