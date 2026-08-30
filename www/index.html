@@ -7,7 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#090D16" id="themeColorMeta">
+    <meta name="theme-color" content="#07090E" id="themeColorMeta">
 
     <title>Life OS</title>
     
@@ -17,17 +17,16 @@
 
     <style>
         :root {
-            --bg-canvas: #090D16;
-            --surface-card: rgba(18, 24, 38, 0.78);
-            --surface-hover: rgba(28, 36, 56, 0.9);
+            --bg-canvas: #07090E;
+            --surface-card: rgba(15, 20, 32, 0.85);
+            --surface-hover: rgba(24, 32, 50, 0.95);
             --border-subtle: rgba(255, 255, 255, 0.08);
-            --border-glow: rgba(99, 102, 241, 0.35);
+            --border-glow: rgba(99, 102, 241, 0.4);
             
             --text-primary: #F8FAFC;
             --text-secondary: #94A3B8;
             --text-tertiary: #64748B;
             
-            /* بروفايل كروم الديناميكي (يتم ضبطه بالجافاسكريبت تلقائياً) */
             --accent-primary: #6366F1;
             --accent-secondary: #06B6D4;
             --gradient-accent: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
@@ -39,26 +38,24 @@
             --accent-amber: #F59E0B;
             --accent-rose: #F43F5E;
             
-            --gradient-card: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
-            --radius-xl: 22px;
+            --radius-xl: 24px;
             --radius-lg: 16px;
             --radius-md: 12px;
             --radius-pill: 9999px;
             --dock-height: 64px;
-            --shadow-bento: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            --shadow-muzheel: 0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
         }
 
         body.light-mode {
-            --bg-canvas: #F4F6FB;
-            --surface-card: rgba(255, 255, 255, 0.88);
-            --surface-hover: rgba(241, 245, 249, 0.95);
-            --border-subtle: rgba(0, 0, 0, 0.06);
-            --border-glow: rgba(99, 102, 241, 0.25);
+            --bg-canvas: #F5F7FC;
+            --surface-card: rgba(255, 255, 255, 0.9);
+            --surface-hover: rgba(241, 245, 249, 0.98);
+            --border-subtle: rgba(0, 0, 0, 0.07);
+            --border-glow: rgba(99, 102, 241, 0.3);
             --text-primary: #0F172A;
             --text-secondary: #64748B;
             --text-tertiary: #94A3B8;
-            --gradient-card: linear-gradient(180deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0) 100%);
-            --shadow-bento: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
+            --shadow-muzheel: 0 15px 35px -10px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
 
         * {
@@ -67,7 +64,7 @@
             padding: 0;
             font-family: system-ui, -apple-system, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
-            letter-spacing: -0.01em;
+            letter-spacing: -0.015em;
         }
 
         ::-webkit-scrollbar { display: none !important; }
@@ -91,159 +88,84 @@
             width: 100%;
             max-width: 680px;
             margin: 0 auto;
-            padding: 24px 16px calc(var(--dock-height) + 50px) 16px;
+            padding: 24px 16px calc(var(--dock-height) + 75px) 16px;
             box-sizing: border-box;
         }
 
         .section { display: none; }
         .section.active { 
             display: block; 
-            animation: bentoFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: fadeInMuzheel 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes bentoFadeIn {
-            from { opacity: 0; transform: translateY(8px); }
+        @keyframes fadeInMuzheel {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 🍱 Bento Grid Cards */
-        .bento-card {
+        /* 💎 تصميم البطاقات النيومورفيك والزجاجي الفاخر */
+        .muzheel-card {
             background: var(--surface-card);
-            background-image: var(--gradient-card);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-xl);
-            padding: 20px;
-            margin-bottom: 14px;
-            box-shadow: var(--shadow-bento);
-            position: relative;
-            overflow: hidden;
+            padding: 22px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-muzheel);
             transition: border-color 0.25s ease;
         }
-        .bento-card:hover { border-color: var(--border-glow); }
+        .muzheel-card:hover { border-color: var(--border-glow); }
 
-        .hud-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 14px;
+        /* 📜 بطاقة السرد الترحيبي الذكي (Hero Narrative Card) */
+        .hero-narrative-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(6, 182, 212, 0.05) 100%), var(--surface-card);
+            border: 1px solid var(--border-glow);
+            position: relative;
+            overflow: hidden;
         }
-        .hud-tile {
-            background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .hero-narrative-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+            opacity: 0.15;
+            pointer-events: none;
         }
-        .hud-tile-title { font-size: 11px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 4px; }
-        .hud-tile-value { font-size: 16px; font-weight: 800; color: var(--text-primary); }
-
-        .currency-ribbon {
-            display: flex;
-            justify-content: space-between;
-            background: rgba(99, 102, 241, 0.08);
-            border: 1px solid rgba(99, 102, 241, 0.18);
-            border-radius: var(--radius-lg);
-            padding: 12px 16px;
-            margin-bottom: 14px;
-            font-size: 13px;
-            font-weight: 700;
-        }
-        .currency-item { display: flex; align-items: center; gap: 6px; }
-
-        /* 🎨 شريط البروفايل اللوني و كبسولة التثبيت */
-        .theme-palette-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
-            padding: 8px 14px;
-            border-radius: var(--radius-pill);
-            margin-bottom: 14px;
-            font-size: 13px;
-            font-weight: 700;
-        }
-        .theme-lock-btn {
-            background: var(--surface-hover);
-            border: 1px solid var(--border-subtle);
-            color: var(--text-primary);
-            padding: 6px 14px;
-            border-radius: var(--radius-pill);
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-        }
-        .theme-lock-btn.pinned {
-            background: var(--gradient-accent);
-            color: #FFFFFF;
-            border-color: transparent;
-            box-shadow: 0 2px 10px var(--glow-accent);
-        }
-
-        .presets-bar {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 6px;
+        .narrative-title {
+            font-size: 26px;
+            font-weight: 900;
             margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .preset-pill {
-            background: var(--surface-hover);
-            border: 1px solid var(--border-subtle);
+        .narrative-text {
+            font-size: 15px;
+            line-height: 1.8;
             color: var(--text-primary);
-            padding: 9px 15px;
+            font-weight: 500;
+        }
+        .narrative-highlight {
+            font-weight: 800;
+            color: var(--accent-primary);
+            background: rgba(99, 102, 241, 0.12);
+            padding: 2px 8px;
             border-radius: var(--radius-pill);
-            font-size: 13px;
+            display: inline-block;
+        }
+        .narrative-link {
+            color: var(--accent-secondary);
             font-weight: 800;
+            text-decoration: underline;
             cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.15s ease;
-        }
-        .preset-pill:active {
-            background: var(--gradient-accent);
-            color: #FFFFFF;
-            transform: scale(0.94);
         }
 
-        .quick-input-row { display: flex; gap: 8px; flex-wrap: wrap; }
-        .app-input {
-            padding: 12px 14px;
-            background: var(--surface-hover) !important;
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            color: var(--text-primary) !important;
-            font-size: 14px;
-            font-weight: 600;
-            outline: none;
-            flex: 1;
-            min-width: 100px;
-        }
-        .app-input:focus { border-color: var(--accent-primary); }
-
-        .btn-action {
-            background: var(--gradient-accent);
-            color: #FFFFFF;
-            border: none;
-            padding: 12px 18px;
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            font-weight: 800;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: opacity 0.15s ease;
-            box-shadow: 0 4px 15px var(--glow-accent);
-        }
-        .btn-action:active { opacity: 0.85; transform: scale(0.97); }
-
-        .reminder-card {
+        /* ⏰ بطاقات التنبيهات */
+        .reminder-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -253,13 +175,11 @@
             border-radius: var(--radius-lg);
             margin-bottom: 8px;
         }
-        .reminder-card.prayer {
+        .reminder-row.prayer {
             border-right: 4px solid var(--accent-emerald);
             background: linear-gradient(90deg, rgba(16, 185, 129, 0.08) 0%, transparent 100%), var(--surface-hover);
         }
-        .reminder-card.custom {
-            border-right: 4px solid var(--accent-primary);
-        }
+        .reminder-row.custom { border-right: 4px solid var(--accent-primary); }
 
         .tag-badge {
             display: inline-flex;
@@ -276,6 +196,70 @@
             color: var(--accent-emerald);
         }
 
+        /* 🔘 الزر العائم الذكي (FAB Speed Dial) */
+        .fab-container {
+            position: fixed;
+            bottom: 90px;
+            left: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .fab-main-btn {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            border: none;
+            color: #FFF;
+            font-size: 26px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 10px 25px var(--glow-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .fab-main-btn.open {
+            transform: rotate(45deg);
+            background: var(--accent-rose);
+        }
+        .fab-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px) scale(0.85);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fab-menu.open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0) scale(1);
+        }
+        .fab-action-item {
+            background: var(--surface-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glow);
+            color: var(--text-primary);
+            padding: 10px 16px;
+            border-radius: var(--radius-pill);
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+        .fab-action-item:active { transform: scale(0.94); background: var(--surface-hover); }
+
+        /* 🏝️ شريط التنقل السفلي الفاخر */
         .bottom-nav-dock {
             position: fixed;
             bottom: 16px;
@@ -329,7 +313,7 @@
             -webkit-backdrop-filter: blur(24px);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-xl);
-            padding: 12px;
+            padding: 14px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -361,6 +345,37 @@
         }
         .menu-item-btn:active { background: rgba(99, 102, 241, 0.2); color: var(--accent-primary); }
 
+        .app-input {
+            padding: 12px 14px;
+            background: var(--surface-hover) !important;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            color: var(--text-primary) !important;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        .app-input:focus { border-color: var(--accent-primary); }
+
+        .btn-action {
+            background: var(--gradient-accent);
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 18px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: opacity 0.15s ease;
+            box-shadow: 0 4px 15px var(--glow-accent);
+            width: 100%;
+        }
+        .btn-action:active { opacity: 0.85; transform: scale(0.97); }
+
         .list-row {
             display: flex;
             justify-content: space-between;
@@ -390,10 +405,9 @@
             background: var(--surface-card);
             border: 1px solid var(--border-glow);
             border-radius: var(--radius-xl);
-            padding: 26px;
+            padding: 24px;
             width: 100%;
-            max-width: 360px;
-            text-align: center;
+            max-width: 380px;
             box-shadow: 0 25px 60px rgba(0,0,0,0.6);
         }
 
@@ -421,256 +435,206 @@
 
     <div id="syncToast">☁️ مزامنة...</div>
 
+    <!-- 🔘 الزر العائم السريع (FAB Speed Dial) -->
+    <div class="fab-container">
+        <div class="fab-menu" id="fabMenu">
+            <button class="fab-action-item" onclick="openFabAction('alarm')">⏰ تنبيه سريع</button>
+            <button class="fab-action-item" onclick="openFabAction('todo')">✅ مهمة سريعة</button>
+            <button class="fab-action-item" onclick="openFabAction('note')">📝 ملاحظة سريعة</button>
+            <button class="fab-action-item" onclick="openFabAction('sub')">🔁 اشتراك شهري</button>
+            <button class="fab-action-item" onclick="openFabAction('bill')">🧾 فاتورة جديدة</button>
+        </div>
+        <button class="fab-main-btn" id="fabMainBtn" onclick="toggleFabMenu()">＋</button>
+    </div>
+
     <div class="app-container">
         
-        <!-- 🍃 1. الشاشة الرئيسية (Bento Dashboard) -->
+        <!-- 🍃 1. الشاشة الرئيسية السردية (Narrative Hero) -->
         <div id="dashboard" class="section active">
             
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <div>
-                    <h1 style="font-size:28px; font-weight:900; letter-spacing:-0.03em;">طاب يومك.</h1>
-                    <div id="weatherStatusSub" style="color:var(--text-secondary); font-size:13px; font-weight:600; margin-top:2px;">جاري ضبط الطقس...</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span style="width:12px; height:12px; border-radius:50%; background:var(--accent-primary); box-shadow:0 0 10px var(--accent-primary);"></span>
+                    <span id="themeProfileName" style="font-size:13px; font-weight:800;">بروفايل كروم</span>
                 </div>
                 <div style="display:flex; gap:8px; align-items:center;">
-                    <button onclick="cycleNextTheme()" title="تبديل بروفايل الألوان" style="background:var(--surface-card); border:1px solid var(--border-subtle); width:40px; height:40px; border-radius:50%; cursor:pointer; font-size:18px;">🎨</button>
-                    <button onclick="toggleTheme()" id="themeBtn" title="الوضع الليلي / النهاري" style="background:var(--surface-card); border:1px solid var(--border-subtle); width:40px; height:40px; border-radius:50%; cursor:pointer; font-size:18px;">🌙</button>
+                    <button onclick="cycleNextTheme()" title="تبديل بروفايل الألوان" style="background:var(--surface-card); border:1px solid var(--border-subtle); width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:16px;">🎨</button>
+                    <button onclick="toggleTheme()" id="themeBtn" title="الوضع الليلي / النهاري" style="background:var(--surface-card); border:1px solid var(--border-subtle); width:38px; height:38px; border-radius:50%; cursor:pointer; font-size:16px;">🌙</button>
                 </div>
             </div>
 
-            <!-- 🎨 شريط البروفايل اللوني وتثبيت الثيم -->
-            <div class="theme-palette-bar">
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <span id="themeDot" style="width:12px; height:12px; border-radius:50%; background:var(--accent-primary); display:inline-block; box-shadow:0 0 10px var(--accent-primary);"></span>
-                    <span id="themeProfileName" style="color:var(--text-primary);">بروفايل كروم</span>
+            <!-- 📜 بطاقة السرد الترحيبي الذكي -->
+            <div class="muzheel-card hero-narrative-card">
+                <div class="narrative-title">
+                    <span>طاب يومك. ✨</span>
+                    <span id="heroWeatherIcon" style="font-size:28px;">⛅</span>
                 </div>
-                <button onclick="toggleThemePin()" id="themePinBtn" class="theme-lock-btn">📌 تثبيت هذا الثيم</button>
+                <p class="narrative-text" id="heroNarrativeContent">
+                    جاري إعداد تقريرك اليومي الشامل...
+                </p>
             </div>
 
-            <!-- 🌤️ & 🕌 بطاقة الطقس والصلاة القادمة -->
-            <div class="hud-grid">
-                <div class="hud-tile">
-                    <div>
-                        <div class="hud-tile-title">📍 جنين، فلسطين</div>
-                        <div class="hud-tile-value" id="weatherTemp">-- °C</div>
-                    </div>
-                    <div style="font-size:24px;" id="weatherIcon">⛅</div>
-                </div>
-                <div class="hud-tile">
-                    <div>
-                        <div class="hud-tile-title">🕌 الصلاة القادمة</div>
-                        <div class="hud-tile-value" id="nextPrayerHud">--:--</div>
-                    </div>
-                    <div style="font-size:24px;">⏳</div>
-                </div>
-            </div>
-
-            <!-- شريط أسعار الصرف مقابل الشيكل -->
-            <div class="currency-ribbon">
-                <div class="currency-item"><span>🇺🇸</span> <span id="rateUSD">USD: -- ₪</span></div>
-                <div class="currency-item"><span>🇯🇴</span> <span id="rateJOD">JOD: -- ₪</span></div>
-                <div class="currency-item"><span>🇪🇺</span> <span id="rateEUR">EUR: -- ₪</span></div>
-            </div>
-
-            <!-- ⏰ شريط التنبيهات السريع -->
-            <div class="bento-card">
-                <div style="font-size:13px; font-weight:800; color:var(--accent-primary); margin-bottom:10px;">⏰ ضبط تنبيه وتذكير سريع</div>
-                
-                <div class="presets-bar">
-                    <button class="preset-pill" onclick="addReminderFast(15, '')">15 د</button>
-                    <button class="preset-pill" onclick="addReminderFast(20, '')">20 د</button>
-                    <button class="preset-pill" onclick="addReminderFast(30, '')">30 د</button>
-                    <button class="preset-pill" onclick="addReminderFast(45, '')">45 د</button>
-                    <button class="preset-pill" onclick="addReminderFast(60, '')">1 س</button>
-                    <button class="preset-pill" onclick="addReminderFast(120, '')">2 س</button>
-                    <button class="preset-pill" onclick="addReminderFast(180, '')">3 س</button>
-                </div>
-
-                <div class="quick-input-row">
-                    <input type="number" id="manualReminderMinutes" placeholder="الدقائق..." class="app-input" style="max-width:90px;">
-                    <input type="text" id="manualReminderTitle" placeholder="اسم التنبيه..." class="app-input">
-                    <button type="button" onclick="submitManualReminderFast()" class="btn-action">ضبط</button>
-                </div>
-            </div>
-
-            <!-- 📋 قائمة التنبيهات ومواقيت الصلاة المرتبة زمنياً -->
-            <div class="bento-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <strong style="font-size:14px; font-weight:800;">🔔 المواعيد والصلوات القادمة</strong>
-                    <span style="font-size:11px; color:var(--text-tertiary); font-weight:700;">مرتبة زمنياً تلقائياً</span>
+            <!-- 🔔 جدول المواعيد والصلوات القادمة المرتبة زمنياً -->
+            <div class="muzheel-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <strong style="font-size:15px; font-weight:800;">🔔 المواعيد والصلوات القادمة</strong>
+                    <span style="font-size:12px; color:var(--text-tertiary); font-weight:700;">محدث تلقائياً</span>
                 </div>
                 <div id="chronologicalTimersList"></div>
             </div>
 
-            <!-- ملخص الصرف ومهام اليوم -->
-            <div class="bento-card" style="display:flex; justify-content:space-between; align-items:center;">
+            <!-- ملخص الصرف السريع لليوم والشهر -->
+            <div class="muzheel-card" style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
                     <div style="font-size:12px; font-weight:700; color:var(--text-secondary);">مصاريف هذا الشهر</div>
-                    <div style="font-size:28px; font-weight:900; margin-top:2px;" id="dashSpent">0 <span style="font-size:16px; color:var(--text-tertiary);">₪</span></div>
+                    <div style="font-size:26px; font-weight:900; margin-top:2px;" id="dashSpent">0 <span style="font-size:15px; color:var(--text-tertiary);">₪</span></div>
                 </div>
-                <div id="dashAlerts" style="font-size:12px; font-weight:700;"></div>
+                <div style="text-align:left;">
+                    <div style="font-size:12px; font-weight:700; color:var(--text-secondary);">صرف اليوم</div>
+                    <div style="font-size:20px; font-weight:900; color:var(--accent-rose);" id="dashExpensesTotal">0 ₪</div>
+                </div>
             </div>
 
-            <div class="bento-card">
+            <!-- مهام اليوم النشطة -->
+            <div class="muzheel-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <strong style="font-size:15px; font-weight:800;">✅ مهام اليوم</strong>
+                    <strong style="font-size:15px; font-weight:800;">✅ قائمة مهام اليوم</strong>
                     <span id="dashTodoCount" style="font-size:12px; color:var(--text-secondary);">0 مهام</span>
                 </div>
-                <form onsubmit="addTodoDash(event)" style="display:flex; gap:8px; margin-bottom:10px;">
-                    <input type="text" id="todoInputDash" placeholder="أضف مهمة لليوم..." class="app-input" required>
-                    <button type="submit" class="btn-action">إضافة</button>
-                </form>
                 <div id="dashTodosList"></div>
             </div>
 
-            <div class="bento-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <strong style="font-size:15px; font-weight:800;">💸 صرف اليوم</strong>
-                    <span id="dashExpensesTotal" style="font-size:14px; font-weight:900; color:var(--accent-rose);">0 ₪</span>
-                </div>
-                <form onsubmit="addExpenseDash(event)" class="quick-input-row" style="margin-bottom:10px;">
-                    <input type="text" id="expenseDescDash" placeholder="ماذا اشتريت؟" class="app-input" required>
-                    <input type="number" id="expenseAmountDash" placeholder="المبلغ" class="app-input" style="max-width:90px;" required>
-                    <button type="submit" class="btn-action">تسجيل</button>
-                </form>
-                <div id="dashExpensesList"></div>
-            </div>
         </div>
 
         <!-- ⏰ 2. سجل التنبيهات -->
         <div id="reminders-section" class="section">
             <h2 style="font-size:22px; font-weight:900; margin-bottom:6px;">⏰ سجل التنبيهات المكتملة</h2>
             <p style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">أرشيف التنبيهات المحفوظة لشهر كامل (30 يوماً).</p>
-            <div class="bento-card" id="fullRemindersArchive"></div>
+            <div class="muzheel-card" id="fullRemindersArchive"></div>
         </div>
 
-        <!-- 📊 3. المصاريف والفواتير -->
+        <!-- 📊 3. المصاريف -->
         <div id="expenses-section" class="section">
-            <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">📊 المصاريف والفواتير</h2>
-            <div class="bento-card">
+            <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">📊 سجل المصاريف</h2>
+            <div class="muzheel-card">
                 <div style="display:flex; justify-content:space-between; text-align:center;">
                     <div><div style="font-size:12px; color:var(--text-secondary);">اليوم</div><div style="font-size:18px; font-weight:900; margin-top:2px;" id="statToday">0 ₪</div></div>
                     <div><div style="font-size:12px; color:var(--text-secondary);">آخر 7 أيام</div><div style="font-size:18px; font-weight:900; color:var(--accent-primary); margin-top:2px;" id="statWeek">0 ₪</div></div>
                     <div><div style="font-size:12px; color:var(--text-secondary);">هذا الشهر</div><div style="font-size:18px; font-weight:900; color:var(--accent-rose); margin-top:2px;" id="statMonth">0 ₪</div></div>
                 </div>
             </div>
+            <div class="muzheel-card" id="fullExpensesArchive"></div>
+        </div>
 
-            <div class="bento-card">
-                <strong style="display:block; margin-bottom:12px; font-size:14px; font-weight:800;">📄 تسجيل فاتورة دورية</strong>
-                <form onsubmit="saveFixedBill(event)" class="quick-input-row">
-                    <select id="billType" class="app-input"><option value="كهرباء">كهرباء</option><option value="ماء">ماء</option><option value="إنترنت">إنترنت</option></select>
-                    <input type="number" id="billAmount" placeholder="المبلغ" class="app-input" required>
-                    <button type="submit" class="btn-action">حفظ الفاتورة</button>
-                </form>
+        <!-- 🧾 4. الفواتير والاشتراكات -->
+        <div id="bills-section" class="section">
+            <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">🧾 الفواتير والاشتراكات الدورية</h2>
+            <div class="muzheel-card">
+                <strong style="font-size:14px; font-weight:800; display:block; margin-bottom:10px;">الفواتير الثابتة</strong>
+                <div id="fixedBillsContainer"></div>
             </div>
-
-            <div class="bento-card" id="fullExpensesArchive"></div>
+            <div class="muzheel-card">
+                <strong style="font-size:14px; font-weight:800; display:block; margin-bottom:10px;">الاشتراكات الشهرية</strong>
+                <div id="subsContainer"></div>
+            </div>
         </div>
 
-        <!-- ✅ 4. المهام والأرشيف -->
+        <!-- ✅ 5. أرشيف المهام -->
         <div id="todos-section" class="section">
-            <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">✅ أرشيف المهام</h2>
-            <div class="bento-card" id="fullTodosContainer"></div>
+            <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">✅ أرشيف كافة المهام</h2>
+            <div class="muzheel-card" id="fullTodosContainer"></div>
         </div>
 
-        <!-- 🆔 5. الوثائق -->
+        <!-- 📝 6. الملاحظات والتسجيلات -->
+        <div id="notes-section" class="section">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h2 style="font-size:22px; font-weight:900;">📝 الملاحظات والتسجيلات</h2>
+                <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--accent-rose); padding:6px 14px; font-size:12px;">🎙️ تسجيل</button>
+            </div>
+            <div class="muzheel-card" id="notesContainer"></div>
+        </div>
+
+        <!-- 🆔 7. الوثائق الرسمية -->
         <div id="documents-section" class="section">
             <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">🆔 الوثائق الرسمية</h2>
-            <div class="bento-card">
-                <form onsubmit="saveDocument(event)">
-                    <div style="margin-bottom:10px;"><input type="text" id="docName" placeholder="اسم الوثيقة (جواز سفر، رخصة...)" class="app-input" style="width:100%;" required></div>
-                    <div style="margin-bottom:12px;"><input type="date" id="docExpiry" class="app-input" style="width:100%;" required></div>
-                    <button type="submit" class="btn-action" style="width:100%;">حفظ الوثيقة</button>
-                </form>
-            </div>
-            <div class="bento-card" id="docsContainer"></div>
+            <div class="muzheel-card" id="docsContainer"></div>
         </div>
 
-        <!-- 🔐 6. الخزنة المشفرة والملاحظات -->
+        <!-- 🔐 8. الخزنة المشفرة -->
         <div id="vault-section" class="section">
-            <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">🔐 الخزنة والملاحظات</h2>
-            
-            <div class="bento-card">
-                <strong style="font-size:14px; font-weight:800; display:block; margin-bottom:10px;">🔐 حساب جديد بالخزنة</strong>
-                <form onsubmit="saveVaultItem(event)" class="quick-input-row">
-                    <input type="text" id="vaultName" placeholder="الحساب / الإيميل" class="app-input" required>
-                    <input type="text" id="vaultPassword" placeholder="كلمة المرور" class="app-input" required>
-                    <button type="submit" class="btn-action">حفظ</button>
-                </form>
-                <div id="vaultContainer" style="margin-top:14px;"></div>
-            </div>
-
-            <div class="bento-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <strong style="font-size:14px; font-weight:800;">📝 الملاحظات والتسجيلات</strong>
-                    <button onclick="startVoiceRecording()" class="btn-action" style="background:var(--accent-rose); padding:6px 12px; font-size:12px;">🎙️ تسجيل</button>
-                </div>
-                <form onsubmit="saveNote(event)" style="display:flex; flex-direction:column; gap:8px;">
-                    <input type="text" id="noteTitle" placeholder="العنوان..." class="app-input">
-                    <textarea id="noteBody" rows="2" placeholder="اكتب ملاحظتك..." class="app-input" required></textarea>
-                    <button type="submit" class="btn-action" style="align-self:flex-start;">حفظ الملاحظة</button>
-                </form>
-                <div id="notesContainer" style="margin-top:14px;"></div>
-            </div>
+            <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">🔐 الخزنة المشفرة</h2>
+            <div class="muzheel-card" id="vaultContainer"></div>
         </div>
 
-        <!-- ⚙️ 7. الإعدادات -->
+        <!-- ⚙️ 9. الإعدادات -->
         <div id="settings-section" class="section">
             <h2 style="font-size:22px; font-weight:900; margin-bottom:16px;">⚙️ الأمان والإعدادات</h2>
-            
-            <div class="bento-card">
+            <div class="muzheel-card">
                 <strong style="font-size:14px; font-weight:800; display:block; margin-bottom:12px;">🎨 اختيار بروفايل كروم اللوني</strong>
                 <div id="themeSelectionGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;"></div>
-                <button onclick="setThemeModeAuto()" class="btn-action" style="width:100%; background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle);">🔄 استعادة التبديل التلقائي الدوري</button>
+                <button onclick="setThemeModeAuto()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle);">🔄 استعادة التبديل التلقائي الدوري</button>
             </div>
-
-            <div class="bento-card">
+            <div class="muzheel-card">
                 <strong style="font-size:14px; font-weight:800; display:block; margin-bottom:10px;">🛡️ فحص واختبار التنبيه</strong>
                 <div style="display:flex; gap:8px; flex-direction:column;">
-                    <button onclick="testPrestigeAlarm()" class="btn-action" style="width:100%;">🎵 تجربة نغمة الماريمبا الهادئة</button>
-                    <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle); width:100%;">🔔 تفعيل قناة التنبيهات القصوى</button>
-                    <button onclick="exportData()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle); width:100%;">📥 تصدير نسخة احتياطية</button>
+                    <button onclick="testPrestigeAlarm()" class="btn-action">🎵 تجربة نغمة الماريمبا الهادئة</button>
+                    <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle);">🔔 تفعيل قناة التنبيهات القصوى</button>
+                    <button onclick="exportData()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle);">📥 تصدير نسخة احتياطية</button>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- 📑 القائمة المنبثقة للأقسام -->
+    <!-- 📑 قائمة الأقسام الشاملة المركزية (All-Inclusive Hub) -->
     <div class="dock-menu-popup" id="dockMenuPopup">
-        <button class="menu-item-btn" onclick="openSectionFromMenu('reminders-section')">⏰ التنبيهات</button>
-        <button class="menu-item-btn" onclick="openSectionFromMenu('expenses-section')">📊 المصاريف</button>
-        <button class="menu-item-btn" onclick="openSectionFromMenu('todos-section')">✅ أرشيف المهام</button>
-        <button class="menu-item-btn" onclick="openSectionFromMenu('documents-section')">🆔 الوثائق</button>
-        <button class="menu-item-btn" onclick="openSectionFromMenu('vault-section')">🔐 الخزنة</button>
-        <button class="menu-item-btn" onclick="startVoiceFromMenu()" style="color:var(--accent-rose);">🎙️ تسجيل صوتي</button>
+        <button class="menu-item-btn" onclick="openSectionFromMenu('reminders-section')">⏰ التنبيهات والصلوات</button>
+        <button class="menu-item-btn" onclick="openSectionFromMenu('todos-section')">✅ إدارة المهام</button>
+        <button class="menu-item-btn" onclick="openSectionFromMenu('expenses-section')">📊 سجل المصاريف</button>
+        <button class="menu-item-btn" onclick="openSectionFromMenu('bills-section')">🧾 الفواتير والاشتراكات</button>
+        <button class="menu-item-btn" onclick="openSectionFromMenu('notes-section')">📝 الملاحظات</button>
+        <button class="menu-item-btn" onclick="openSectionFromMenu('documents-section')">🆔 الوثائق الرسمية</button>
+        <button class="menu-item-btn" onclick="openSectionFromMenu('vault-section')">🔐 الخزنة المشفرة</button>
+        <button class="menu-item-btn" onclick="startVoiceFromMenu()" style="color:var(--accent-rose);">🎙️ تسجيل صوتي فوري</button>
     </div>
 
     <!-- 🏝️ الشريط السفلي الذكي -->
     <div class="bottom-nav-dock">
         <button class="dock-btn active" id="btnNavHome" onclick="switchMainTab('dashboard', this)">🏠 الرئيسية</button>
-        <button class="dock-btn" id="btnNavMenu" onclick="toggleDockMenu()">📑 الأقسام</button>
+        <button class="dock-btn" id="btnNavMenu" onclick="toggleDockMenu()">📑 كل الأقسام</button>
         <button class="dock-btn" id="btnNavSettings" onclick="switchMainTab('settings-section', this)">⚙️ الإعدادات</button>
+    </div>
+
+    <!-- 🪟 نوافذ الإجراءات السريعة المنبثقة من الزر العائم -->
+    <div class="modal-overlay" id="quickActionModal">
+        <div class="modal-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <strong id="modalTitle" style="font-size:16px; font-weight:800;">إضافة جديدة</strong>
+                <button onclick="closeQuickModal()" style="background:none; border:none; color:var(--text-secondary); font-size:18px; cursor:pointer;">✖</button>
+            </div>
+            <div id="modalFormContainer"></div>
+        </div>
     </div>
 
     <!-- 🔔 نافذة رنين التنبيه التفاعلية -->
     <div class="modal-overlay" id="activeAlarmModal">
-        <div class="modal-box">
+        <div class="modal-box" style="text-align:center;">
             <div style="font-size: 44px; margin-bottom: 8px;">⏰</div>
             <h3 style="color:var(--accent-rose); font-size:20px; font-weight:900; margin-bottom:4px;">حان وقت التنبيه!</h3>
             <p id="activeAlarmModalTitle" style="font-size:15px; font-weight:700; margin-bottom:18px;">تنبيه موعد</p>
-            <button onclick="dismissActiveAlarm()" class="btn-action" style="background:var(--accent-rose); width:100%; padding:14px;">🔕 إيقاف التنبيه</button>
+            <button onclick="dismissActiveAlarm()" class="btn-action" style="background:var(--accent-rose);">🔕 إيقاف التنبيه</button>
         </div>
     </div>
 
     <!-- 🎙️ نافذة تسجيل الصوت -->
     <div class="modal-overlay" id="voiceModal">
-        <div class="modal-box">
+        <div class="modal-box" style="text-align:center;">
             <div style="font-size:36px; color:var(--accent-rose); margin-bottom:8px;">🎙️</div>
             <strong style="display:block; font-size:16px; margin-bottom:4px;">جاري تسجيل الصوت...</strong>
             <div id="recordTimer" style="font-size:22px; font-weight:900; color:var(--accent-rose); margin:12px 0;">00:00</div>
             <div style="display:flex; gap:8px;">
-                <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--accent-emerald); flex:1;">حفظ</button>
-                <button onclick="cancelVoiceRecording()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle); flex:1;">إلغاء</button>
+                <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--accent-emerald);">حفظ</button>
+                <button onclick="cancelVoiceRecording()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle);">إلغاء</button>
             </div>
         </div>
     </div>
@@ -690,15 +654,13 @@
         firebase.initializeApp(firebaseConfig);
         const dbRef = firebase.database().ref('myLifeData');
 
-        // --- 1. بروفايلات كروم اللونية ومحرك الثيمات الديناميكي ---
+        // --- 1. بروفايلات كروم اللونية ---
         const chromeProfiles = [
             { id: 'indigo_cyan', name: 'نيلي وسماوي (Indigo)', primary: '#4F46E5', secondary: '#06B6D4', amb1: 'rgba(79, 70, 229, 0.16)', amb2: 'rgba(6, 182, 212, 0.12)' },
             { id: 'emerald_mint', name: 'زمرد ونعناع (Emerald)', primary: '#059669', secondary: '#10B981', amb1: 'rgba(5, 150, 105, 0.16)', amb2: 'rgba(16, 185, 129, 0.12)' },
             { id: 'sunset_rose', name: 'غروب كورايل (Sunset)', primary: '#E11D48', secondary: '#F97316', amb1: 'rgba(225, 29, 72, 0.16)', amb2: 'rgba(249, 115, 22, 0.12)' },
             { id: 'cosmic_violet', name: 'بنفسجي كوني (Violet)', primary: '#7C3AED', secondary: '#EC4899', amb1: 'rgba(124, 58, 237, 0.16)', amb2: 'rgba(236, 72, 153, 0.12)' },
-            { id: 'amber_gold', name: 'عنبر وذهب (Amber)', primary: '#D97706', secondary: '#F59E0B', amb1: 'rgba(217, 119, 6, 0.16)', amb2: 'rgba(245, 158, 11, 0.12)' },
-            { id: 'cyber_sky', name: 'سماء تقنية (Ocean)', primary: '#0284C7', secondary: '#38BDF8', amb1: 'rgba(2, 132, 199, 0.16)', amb2: 'rgba(56, 189, 248, 0.12)' },
-            { id: 'teal_lagoon', name: 'فيروز بحري (Teal)', primary: '#0D9488', secondary: '#2DD4BF', amb1: 'rgba(13, 148, 136, 0.16)', amb2: 'rgba(45, 212, 191, 0.12)' }
+            { id: 'amber_gold', name: 'عنبر وذهب (Amber)', primary: '#D97706', secondary: '#F59E0B', amb1: 'rgba(217, 119, 6, 0.16)', amb2: 'rgba(245, 158, 11, 0.12)' }
         ];
 
         let currentActiveTheme = chromeProfiles[0];
@@ -714,19 +676,6 @@
 
             const nameEl = document.getElementById('themeProfileName');
             if (nameEl) nameEl.innerText = theme.name;
-
-            const dot = document.getElementById('themeDot');
-            if (dot) {
-                dot.style.background = theme.primary;
-                dot.style.boxShadow = `0 0 10px ${theme.primary}`;
-            }
-
-            const pinBtn = document.getElementById('themePinBtn');
-            if (pinBtn) {
-                const isPinned = (db.settings.pinnedTheme === theme.id);
-                pinBtn.classList.toggle('pinned', isPinned);
-                pinBtn.innerText = isPinned ? '📌 مثبت (انقر للفك)' : '📌 تثبيت هذا الثيم';
-            }
         }
 
         function resolveAndApplyTheme() {
@@ -734,7 +683,6 @@
                 const found = chromeProfiles.find(t => t.id === db.settings.pinnedTheme);
                 if (found) { applyChromeTheme(found); return; }
             }
-            // التبديل التلقائي المنسجم (يتغير كل 4 ساعات تلقائياً)
             const hourSlot = Math.floor(Date.now() / (1000 * 60 * 60 * 4));
             const idx = hourSlot % chromeProfiles.length;
             applyChromeTheme(chromeProfiles[idx]);
@@ -747,18 +695,6 @@
             db.settings.pinnedTheme = nextTheme.id;
             finalizeAction();
             applyChromeTheme(nextTheme);
-        }
-
-        function toggleThemePin() {
-            if (db.settings.pinnedTheme === currentActiveTheme.id) {
-                db.settings.pinnedTheme = null;
-                showToast('🔄 تم تفعيل التبديل التلقائي');
-            } else {
-                db.settings.pinnedTheme = currentActiveTheme.id;
-                showToast(`📌 تم تثبيت ثيم: ${currentActiveTheme.name}`);
-            }
-            finalizeAction();
-            resolveAndApplyTheme();
         }
 
         function setThemeModeAuto() {
@@ -784,10 +720,10 @@
             finalizeAction();
             resolveAndApplyTheme();
             renderThemeSelectionGrid();
-            showToast('📌 تم اختيار وتثبيت الثيم');
+            showToast('📌 تم تثبيت الثيم');
         }
 
-        // --- 2. Database Architecture & Optimization ---
+        // --- 2. هيكلة وتخزين البيانات ---
         function normalizeDB(data) {
             if (!data) data = {};
             const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
@@ -829,7 +765,7 @@
             }
         });
 
-        // --- 3. محرك الحساب الفلكي الدقيق لمواقيت الصلاة في جنين (الأوقاف الفلسطينية) ---
+        // --- 3. محرك الحساب الفلكي الدقيق لأوقاف فلسطين (جنين) ---
         function calculatePalestinePrayerTimes(date = new Date()) {
             const lat = 32.4646;
             const lng = 35.2939;
@@ -892,7 +828,7 @@
             renderChronologicalTimers();
         }
 
-        // --- 4. محرك الطقس التلقائي بالخلفية والمخطط الحراري الأوفلاين ---
+        // --- 4. محرك الطقس والعملات الأوفلاين ---
         async function syncWeatherHourlyTimeline() {
             try {
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&hourly=temperature_2m,weather_code&timezone=auto');
@@ -920,42 +856,159 @@
                 }
             } catch(e) {}
 
-            updateWeatherAndRatesFromCache();
+            updateHeroNarrative();
         }
 
-        function updateWeatherAndRatesFromCache() {
-            const cachedRates = JSON.parse(localStorage.getItem('cachedRates') || 'null');
-            if (cachedRates) {
-                document.getElementById('rateUSD').innerText = `USD: ${cachedRates.USD} ₪`;
-                document.getElementById('rateJOD').innerText = `JOD: ${cachedRates.JOD} ₪`;
-                document.getElementById('rateEUR').innerText = `EUR: ${cachedRates.EUR} ₪`;
-            }
+        // --- 5. صياغة وتحديث البطاقة السردية الترحيبية (Hero Narrative) ---
+        function updateHeroNarrative() {
+            const now = Date.now();
+            let temp = "24";
+            let weatherDesc = "معتدل";
+            let icon = "☀️";
 
             const cachedWeather = JSON.parse(localStorage.getItem('cachedWeatherTimeline') || 'null');
             if (cachedWeather && cachedWeather.times) {
-                const now = new Date();
-                const curHourStr = now.toISOString().slice(0, 13);
+                const curHourStr = new Date().toISOString().slice(0, 13);
                 let idx = cachedWeather.times.findIndex(t => t.startsWith(curHourStr));
-                if (idx === -1) idx = now.getHours();
-
+                if (idx === -1) idx = new Date().getHours();
                 if (idx >= 0 && cachedWeather.temps[idx] !== undefined) {
-                    const temp = Math.round(cachedWeather.temps[idx]);
+                    temp = Math.round(cachedWeather.temps[idx]);
                     const code = cachedWeather.codes[idx];
-                    let desc = "صافٍ";
-                    let icon = "☀️";
-                    if ([1, 2, 3].includes(code)) { desc = "غائم جزئياً"; icon = "⛅"; }
-                    else if ([45, 48].includes(code)) { desc = "ضبابي"; icon = "🌫️"; }
-                    else if ([51, 53, 55, 61, 63, 65].includes(code)) { desc = "ماطر"; icon = "🌧️"; }
-                    else if ([95, 96, 99].includes(code)) { desc = "عواصف رعدية"; icon = "⛈️"; }
-
-                    document.getElementById('weatherTemp').innerText = `${temp}°C`;
-                    document.getElementById('weatherIcon').innerText = icon;
-                    document.getElementById('weatherStatusSub').innerText = `الطقس الآن: ${desc} في جنين (${temp}°C)`;
+                    if ([1, 2, 3].includes(code)) { weatherDesc = "غائم جزئياً"; icon = "⛅"; }
+                    else if ([45, 48].includes(code)) { weatherDesc = "ضبابي"; icon = "🌫️"; }
+                    else if ([51, 53, 55, 61, 63, 65].includes(code)) { weatherDesc = "ماطر"; icon = "🌧️"; }
+                    else if ([95, 96, 99].includes(code)) { weatherDesc = "عاصف"; icon = "⛈️"; }
                 }
             }
+
+            let usd = "3.65", jod = "5.15", eur = "3.95";
+            const cachedRates = JSON.parse(localStorage.getItem('cachedRates') || 'null');
+            if (cachedRates) {
+                usd = cachedRates.USD;
+                jod = cachedRates.JOD;
+                eur = cachedRates.EUR;
+            }
+
+            const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
+            const activeTodos = db.todos.filter(t => t.date === todayStr && !t.done);
+            const nextPrayer = livePrayersList.find(p => p.targetTime > now);
+            const prayerText = nextPrayer 
+                ? `ومتبقي لـ <span class="narrative-highlight">${nextPrayer.title.replace('🕌 ', '')}</span> حوالي <span class="narrative-highlight">${formatTime(nextPrayer.targetTime - now)}</span>` 
+                : `اكتملت صلوات اليوم`;
+
+            const notesCount = db.notes.length;
+            const notesSentence = notesCount > 0 
+                ? `لديك <span class="narrative-highlight">${notesCount} ملاحظات</span> سريعة محفوظة، <span class="narrative-link" onclick="openSectionFromMenu('notes-section')">اضغط هنا للاطلاع عليها</span>.` 
+                : `<span class="narrative-link" onclick="openFabAction('note')">اضغط هنا لتدوين ملاحظة سريعة</span>.`;
+
+            document.getElementById('heroWeatherIcon').innerText = icon;
+            document.getElementById('heroNarrativeContent').innerHTML = `
+                درجة الحرارة اليوم في جنين <span class="narrative-highlight">${temp}°C (${weatherDesc})</span>، 
+                لديك <span class="narrative-highlight">${activeReminders.length} تنبيهات</span> و <span class="narrative-highlight">${activeTodos.length} مهام معلقة</span>. 
+                أسعار الصرف: <span class="narrative-highlight">🇺🇸 $ ${usd} ₪</span> | <span class="narrative-highlight">🇯🇴 د.أ ${jod} ₪</span> | <span class="narrative-highlight">🇪🇺 € ${eur} ₪</span>، 
+                ${prayerText}. ${notesSentence}
+            `;
         }
 
-        // --- 5. فحص وربط إضافة إشعارات أندرويد مع تفعيل الصوت ---
+        // --- 6. الزر العائم الذكي (FAB) وإدارة النوافذ المنبثقة ---
+        function toggleFabMenu() {
+            const menu = document.getElementById('fabMenu');
+            const btn = document.getElementById('fabMainBtn');
+            menu.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+
+        function closeQuickModal() {
+            document.getElementById('quickActionModal').classList.remove('active');
+        }
+
+        function openFabAction(type) {
+            toggleFabMenu();
+            const modal = document.getElementById('quickActionModal');
+            const title = document.getElementById('modalTitle');
+            const container = document.getElementById('modalFormContainer');
+
+            if (type === 'alarm') {
+                title.innerText = '⏰ ضبط تنبيه سريع';
+                container.innerHTML = `
+                    <input type="number" id="fabAlarmMins" placeholder="عدد الدقائق..." class="app-input" required>
+                    <input type="text" id="fabAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
+                    <button type="button" onclick="submitFabAlarm()" class="btn-action">ضبط الآن</button>
+                `;
+            } else if (type === 'todo') {
+                title.innerText = '✅ إضافة مهمة لليوم';
+                container.innerHTML = `
+                    <input type="text" id="fabTodoText" placeholder="اكتب المهمة..." class="app-input" required>
+                    <button type="button" onclick="submitFabTodo()" class="btn-action">حفظ المهمة</button>
+                `;
+            } else if (type === 'note') {
+                title.innerText = '📝 تدوين ملاحظة سريعة';
+                container.innerHTML = `
+                    <input type="text" id="fabNoteTitle" placeholder="عنوان الملاحظة..." class="app-input">
+                    <textarea id="fabNoteBody" rows="3" placeholder="نص الملاحظة..." class="app-input" required></textarea>
+                    <button type="button" onclick="submitFabNote()" class="btn-action">حفظ الملاحظة</button>
+                `;
+            } else if (type === 'sub') {
+                title.innerText = '🔁 تسجيل اشتراك شهري';
+                container.innerHTML = `
+                    <input type="text" id="fabSubName" placeholder="اسم الاشتراك (Netflix, جيم...)" class="app-input" required>
+                    <input type="number" id="fabSubAmount" placeholder="المبلغ الشهري (₪)" class="app-input" required>
+                    <button type="button" onclick="submitFabSub()" class="btn-action">حفظ الاشتراك</button>
+                `;
+            } else if (type === 'bill') {
+                title.innerText = '🧾 تسجيل فاتورة جديدة';
+                container.innerHTML = `
+                    <select id="fabBillType" class="app-input"><option value="كهرباء">كهرباء</option><option value="ماء">ماء</option><option value="إنترنت">إنترنت</option><option value="أخرى">أخرى</option></select>
+                    <input type="number" id="fabBillAmount" placeholder="المبلغ (₪)" class="app-input" required>
+                    <button type="button" onclick="submitFabBill()" class="btn-action">حفظ الفاتورة</button>
+                `;
+            }
+            modal.classList.add('active');
+        }
+
+        function submitFabAlarm() {
+            const mins = parseInt(document.getElementById('fabAlarmMins').value);
+            const title = document.getElementById('fabAlarmTitle').value;
+            if (!mins || mins <= 0) return alert('أدخل دقائق صحيحة');
+            addReminderFast(mins, title);
+            closeQuickModal();
+        }
+
+        function submitFabTodo() {
+            const text = document.getElementById('fabTodoText').value;
+            if (!text.trim()) return alert('اكتب نص المهمة');
+            db.todos.push({ id: Date.now(), text: text.trim(), done: false, date: todayStr });
+            finalizeAction();
+            closeQuickModal();
+        }
+
+        function submitFabNote() {
+            const body = document.getElementById('fabNoteBody').value;
+            if (!body.trim()) return alert('اكتب نص الملاحظة');
+            db.notes.push({ id: Date.now(), title: document.getElementById('fabNoteTitle').value || 'ملاحظة', body: body });
+            finalizeAction();
+            closeQuickModal();
+        }
+
+        function submitFabSub() {
+            const name = document.getElementById('fabSubName').value;
+            const amount = document.getElementById('fabSubAmount').value;
+            if (!name || !amount) return alert('أدخل البيانات كاملة');
+            db.subscriptions.push({ id: Date.now(), name: name, amount: amount, date: todayStr });
+            finalizeAction('تم حفظ الاشتراك');
+            closeQuickModal();
+        }
+
+        function submitFabBill() {
+            const type = document.getElementById('fabBillType').value;
+            const amount = document.getElementById('fabBillAmount').value;
+            if (!amount) return alert('أدخل المبلغ');
+            db.fixed_bills.push({ id: Date.now(), type: type, amount: amount, date: todayStr });
+            finalizeAction('تم حفظ الفاتورة');
+            closeQuickModal();
+        }
+
+        // --- 7. محرك الإشعارات النظامي المخصص والصوت الفاخر ---
         function getNativePlugin() {
             if (window.Capacitor) {
                 if (window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
@@ -972,13 +1025,14 @@
             const plugin = getNativePlugin();
             if (plugin) {
                 try {
+                    // ربط قناة الإشعارات بالصوت المخصص ومجرى صوت الإشعارات والمنبهات (Importance: 5)
                     await plugin.createChannel({
                         id: 'lifeos_alarms_channel',
-                        name: 'Life OS التنبيهات الدقيقة',
+                        name: 'Life OS التنبيهات القصوى',
                         description: 'قناة إشعارات وتنبيهات Life OS المسموعة',
                         importance: 5,
                         visibility: 1,
-                        sound: 'default',
+                        sound: 'marimba', // يستدعي ملف marimba.wav أو marimba.mp3 من res/raw
                         lights: true,
                         vibration: true
                     });
@@ -998,59 +1052,6 @@
         }
         initNativeNotifications();
 
-        // --- 6. التنقل وقائمة الدوك ---
-        function closeDockMenu() {
-            document.getElementById('dockMenuPopup').classList.remove('open');
-            document.getElementById('btnNavMenu').classList.remove('active');
-        }
-
-        function toggleDockMenu() {
-            const popup = document.getElementById('dockMenuPopup');
-            const btn = document.getElementById('btnNavMenu');
-            popup.classList.toggle('open');
-            btn.classList.toggle('active', popup.classList.contains('open'));
-        }
-
-        function switchMainTab(sectionId, btnEl) {
-            closeDockMenu();
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
-            
-            const target = document.getElementById(sectionId);
-            if(target) target.classList.add('active');
-            if(btnEl) btnEl.classList.add('active');
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (sectionId === 'settings-section') renderThemeSelectionGrid();
-            updateUI();
-        }
-
-        function openSectionFromMenu(sectionId) {
-            closeDockMenu();
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
-            
-            const target = document.getElementById(sectionId);
-            if(target) target.classList.add('active');
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            updateUI();
-        }
-
-        function startVoiceFromMenu() {
-            closeDockMenu();
-            startVoiceRecording();
-        }
-
-        document.addEventListener('click', (e) => {
-            const popup = document.getElementById('dockMenuPopup');
-            const btn = document.getElementById('btnNavMenu');
-            if (popup && popup.classList.contains('open') && !popup.contains(e.target) && !btn.contains(e.target)) {
-                closeDockMenu();
-            }
-        });
-
-        // --- 7. محرك الصوت (Glass Marimba Chime) ---
         let audioCtx = null;
         let alarmTimer = null;
 
@@ -1134,7 +1135,7 @@
                             body: notifBody,
                             id: Math.abs(Number(reminderId) % 2147483647),
                             schedule: { at: targetDate, allowWhileIdle: true },
-                            sound: 'default',
+                            sound: 'marimba',
                             actionTypeId: 'ALARM_ACTIONS',
                             channelId: 'lifeos_alarms_channel'
                         }]
@@ -1159,18 +1160,8 @@
                 hasName: !!cleanTitle
             });
 
-            document.getElementById('manualReminderMinutes').value = '';
-            document.getElementById('manualReminderTitle').value = '';
-
             finalizeAction();
             scheduleSystemNotification(cleanTitle, mins, reminderId);
-        }
-
-        function submitManualReminderFast() {
-            const mins = parseInt(document.getElementById('manualReminderMinutes').value);
-            const title = document.getElementById('manualReminderTitle').value;
-            if (!mins || mins <= 0) return alert('أدخل عدد دقائق صالح');
-            addReminderFast(mins, title);
         }
 
         function deleteReminder(id) {
@@ -1217,14 +1208,6 @@
 
             activeList.sort((a, b) => a.targetTime - b.targetTime);
 
-            const nextPrayer = activeList.find(item => item.isPrayer && item.targetTime > now);
-            if (nextPrayer) {
-                const diffMs = nextPrayer.targetTime - now;
-                document.getElementById('nextPrayerHud').innerText = `${nextPrayer.title.replace('🕌 ', '')} (${formatTime(diffMs)})`;
-            } else {
-                document.getElementById('nextPrayerHud').innerText = "اكتملت الصلوات";
-            }
-
             let html = '';
             activeList.forEach(item => {
                 const isPending = item.targetTime > now;
@@ -1241,7 +1224,7 @@
                     : '';
 
                 html += `
-                <div class="reminder-card ${cardTypeClass}">
+                <div class="reminder-row ${cardTypeClass}">
                     <div>
                         <strong style="font-size:14px; color:var(--text-primary); display:block;">${item.title}</strong>
                         <div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">
@@ -1295,12 +1278,63 @@
                 if (el && diff > 0) el.innerText = `⏳ ${formatTime(diff)}`;
             });
 
-            updateWeatherAndRatesFromCache();
+            updateHeroNarrative();
 
             if (changed) { finalizeAction(); }
         }, 1000);
 
-        // --- 9. تحديث الشاشات والبيانات ---
+        // --- 9. التنقل وتحديث واجهات الأقسام ---
+        function closeDockMenu() {
+            document.getElementById('dockMenuPopup').classList.remove('open');
+            document.getElementById('btnNavMenu').classList.remove('active');
+        }
+
+        function toggleDockMenu() {
+            const popup = document.getElementById('dockMenuPopup');
+            const btn = document.getElementById('btnNavMenu');
+            popup.classList.toggle('open');
+            btn.classList.toggle('active', popup.classList.contains('open'));
+        }
+
+        function switchMainTab(sectionId, btnEl) {
+            closeDockMenu();
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
+            
+            const target = document.getElementById(sectionId);
+            if(target) target.classList.add('active');
+            if(btnEl) btnEl.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (sectionId === 'settings-section') renderThemeSelectionGrid();
+            updateUI();
+        }
+
+        function openSectionFromMenu(sectionId) {
+            closeDockMenu();
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
+            
+            const target = document.getElementById(sectionId);
+            if(target) target.classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateUI();
+        }
+
+        function startVoiceFromMenu() {
+            closeDockMenu();
+            startVoiceRecording();
+        }
+
+        document.addEventListener('click', (e) => {
+            const popup = document.getElementById('dockMenuPopup');
+            const btn = document.getElementById('btnNavMenu');
+            if (popup && popup.classList.contains('open') && !popup.contains(e.target) && !btn.contains(e.target)) {
+                closeDockMenu();
+            }
+        });
+
         function updateUI() {
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
@@ -1314,7 +1348,7 @@
                 const d = new Date(b.date);
                 if (d.getMonth() === cMonth && d.getFullYear() === cYear) spentMonth += parseFloat(b.amount);
             });
-            document.getElementById('dashSpent').innerHTML = `${spentMonth.toLocaleString()} <span style="font-size:16px; color:var(--text-tertiary);">₪</span>`;
+            document.getElementById('dashSpent').innerHTML = `${spentMonth.toLocaleString()} <span style="font-size:15px; color:var(--text-tertiary);">₪</span>`;
 
             // مهام ومصاريف اليوم
             const todosToday = db.todos.filter(t => t.date === todayStr);
@@ -1332,12 +1366,6 @@
             const expToday = db.expenses.filter(e => e.date === todayStr);
             let todayTotal = expToday.reduce((sum, item) => sum + parseFloat(item.amount), 0);
             document.getElementById('dashExpensesTotal').innerText = `${todayTotal} ₪`;
-            document.getElementById('dashExpensesList').innerHTML = expToday.map(e => `
-                <div class="list-row">
-                    <span>${e.desc}</span>
-                    <strong style="color:var(--accent-rose);">${e.amount} ₪</strong>
-                </div>
-            `).join('') || '<p style="color:var(--text-tertiary); font-size:13px; padding-top:4px;">لم تسجل مصاريف اليوم.</p>';
 
             // أرشيف المهام
             const fullTodosEl = document.getElementById('fullTodosContainer');
@@ -1377,7 +1405,43 @@
                         </div>
                         <strong style="color:var(--accent-rose);">${e.amount} ₪</strong>
                     </div>
-                `).join('') || '<p style="color:var(--text-secondary);">لا توجد مصاريف سابقة.</p>';
+                `).join('') || '<p style="color:var(--text-secondary);">لا توجد مصاريف مسجلة.</p>';
+            }
+
+            // الفواتير والاشتراكات
+            const billsEl = document.getElementById('fixedBillsContainer');
+            if (billsEl) {
+                billsEl.innerHTML = db.fixed_bills.map(b => `
+                    <div class="list-row">
+                        <div><strong>${b.type}</strong><div style="font-size:11px; color:var(--text-secondary);">${b.date}</div></div>
+                        <div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--accent-primary);">${b.amount} ₪</strong><button onclick="deleteBill(${b.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button></div>
+                    </div>
+                `).join('') || '<p style="color:var(--text-secondary);">لا توجد فواتير مسجلة.</p>';
+            }
+
+            const subsEl = document.getElementById('subsContainer');
+            if (subsEl) {
+                subsEl.innerHTML = db.subscriptions.map(s => `
+                    <div class="list-row">
+                        <div><strong>${s.name}</strong><div style="font-size:11px; color:var(--text-secondary);">شهري</div></div>
+                        <div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--accent-emerald);">${s.amount} ₪</strong><button onclick="deleteSub(${s.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button></div>
+                    </div>
+                `).join('') || '<p style="color:var(--text-secondary);">لا توجد اشتراكات مسجلة.</p>';
+            }
+
+            // الملاحظات
+            const notesEl = document.getElementById('notesContainer');
+            if(notesEl) {
+                notesEl.innerHTML = db.notes.map(n => `
+                    <div style="background:var(--surface-hover); padding:14px; border-radius:var(--radius-md); margin-bottom:10px; border:1px solid var(--border-subtle);">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <strong>${n.title}</strong>
+                            <button onclick="deleteNote(${n.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
+                        </div>
+                        ${n.body ? `<p style="font-size:13px; color:var(--text-secondary); margin-top:6px; line-height:1.6;">${n.body}</p>` : ''}
+                        ${n.audioData ? `<audio controls src="${n.audioData}" style="width:100%; height:32px; margin-top:8px;"></audio>` : ''}
+                    </div>
+                `).join('') || '<p style="color:var(--text-secondary);">لا توجد ملاحظات.</p>';
             }
 
             // الوثائق
@@ -1385,10 +1449,7 @@
             if(docsEl) {
                 docsEl.innerHTML = db.documents.map(d => `
                     <div class="list-row">
-                        <div>
-                            <strong>${d.name}</strong>
-                            <div style="font-size:12px; color:var(--text-secondary);">تنتهي: ${d.expiryDate}</div>
-                        </div>
+                        <div><strong>${d.name}</strong><div style="font-size:12px; color:var(--text-secondary);">تنتهي: ${d.expiryDate}</div></div>
                         <button onclick="deleteDoc(${d.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary);">لا توجد وثائق مسجلة.</p>';
@@ -1399,31 +1460,14 @@
             if(vaultEl) {
                 vaultEl.innerHTML = db.vault.map(v => `
                     <div class="list-row">
-                        <div>
-                            <strong>${v.accountName}</strong>
-                            <div style="font-size:12px; color:var(--accent-rose); font-family:monospace;">${v.password}</div>
-                        </div>
+                        <div><strong>${v.accountName}</strong><div style="font-size:12px; color:var(--accent-rose); font-family:monospace;">${v.password}</div></div>
                         <button onclick="deleteVault(${v.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary);">الخزنة فارغة.</p>';
             }
 
-            // الملاحظات
-            const notesEl = document.getElementById('notesContainer');
-            if(notesEl) {
-                notesEl.innerHTML = db.notes.map(n => `
-                    <div style="background:var(--surface-hover); padding:12px; border-radius:var(--radius-md); margin-bottom:8px; border:1px solid var(--border-subtle);">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <strong>${n.title}</strong>
-                            <button onclick="deleteNote(${n.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
-                        </div>
-                        ${n.body ? `<p style="font-size:13px; color:var(--text-secondary); margin-top:4px;">${n.body}</p>` : ''}
-                        ${n.audioData ? `<audio controls src="${n.audioData}" style="width:100%; height:32px; margin-top:8px;"></audio>` : ''}
-                    </div>
-                `).join('') || '<p style="color:var(--text-secondary);">لا توجد ملاحظات.</p>';
-            }
-
             renderChronologicalTimers();
+            updateHeroNarrative();
         }
 
         function finalizeAction(msg=null) {
@@ -1433,12 +1477,6 @@
             updateUI();
         }
 
-        function addTodoDash(e) {
-            e.preventDefault();
-            db.todos.push({ id: Date.now(), text: document.getElementById('todoInputDash').value, done: false, date: todayStr });
-            document.getElementById('todoInputDash').value = '';
-            finalizeAction();
-        }
         function toggleTodo(id) {
             const t = db.todos.find(x => x.id === id);
             if(t) { t.done = !t.done; finalizeAction(); }
@@ -1447,59 +1485,28 @@
             db.todos = db.todos.filter(x => x.id !== id);
             finalizeAction();
         }
-
-        function addExpenseDash(e) {
-            e.preventDefault();
-            db.expenses.push({ id: Date.now(), desc: document.getElementById('expenseDescDash').value, amount: document.getElementById('expenseAmountDash').value, date: todayStr });
-            document.getElementById('expenseDescDash').value = '';
-            document.getElementById('expenseAmountDash').value = '';
+        function deleteBill(id) {
+            db.fixed_bills = db.fixed_bills.filter(x => x.id !== id);
             finalizeAction();
         }
-
-        function saveFixedBill(e) {
-            e.preventDefault();
-            db.fixed_bills.push({ id: Date.now(), type: document.getElementById('billType').value, amount: document.getElementById('billAmount').value, date: todayStr });
-            document.getElementById('billAmount').value = '';
-            finalizeAction('تم حفظ الفاتورة');
-        }
-
-        function saveDocument(e) {
-            e.preventDefault();
-            db.documents.push({ id: Date.now(), name: document.getElementById('docName').value, expiryDate: document.getElementById('docExpiry').value });
-            document.getElementById('docName').value = '';
-            document.getElementById('docExpiry').value = '';
-            finalizeAction('تم حفظ الوثيقة');
+        function deleteSub(id) {
+            db.subscriptions = db.subscriptions.filter(x => x.id !== id);
+            finalizeAction();
         }
         function deleteDoc(id) {
             db.documents = db.documents.filter(x => x.id !== id);
             finalizeAction();
         }
-
-        function saveVaultItem(e) {
-            e.preventDefault();
-            db.vault.push({ id: Date.now(), accountName: document.getElementById('vaultName').value, password: document.getElementById('vaultPassword').value, date: todayStr });
-            document.getElementById('vaultName').value = '';
-            document.getElementById('vaultPassword').value = '';
-            finalizeAction('تم الحفظ بالخزنة');
-        }
         function deleteVault(id) {
             db.vault = db.vault.filter(x => x.id !== id);
             finalizeAction();
-        }
-
-        function saveNote(e) {
-            e.preventDefault();
-            db.notes.push({ id: Date.now(), title: document.getElementById('noteTitle').value || 'ملاحظة', body: document.getElementById('noteBody').value });
-            document.getElementById('noteTitle').value = '';
-            document.getElementById('noteBody').value = '';
-            finalizeAction('تم الحفظ');
         }
         function deleteNote(id) {
             db.notes = db.notes.filter(x => x.id !== id);
             finalizeAction();
         }
 
-        // --- 10. مسجل الصوت المباشر ---
+        // --- 10. مسجل الصوت ---
         let mediaRec = null;
         let audioParts = [];
         let recTimer = null;
@@ -1552,7 +1559,7 @@
             db.settings.darkMode = !db.settings.darkMode;
             document.body.classList.toggle('light-mode', !db.settings.darkMode);
             document.getElementById('themeBtn').innerText = db.settings.darkMode ? '🌙' : '☀️';
-            document.getElementById('themeColorMeta').setAttribute('content', db.settings.darkMode ? '#090D16' : '#F4F6FB');
+            document.getElementById('themeColorMeta').setAttribute('content', db.settings.darkMode ? '#07090E' : '#F5F7FC');
             finalizeAction();
         }
 
