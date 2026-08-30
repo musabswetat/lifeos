@@ -383,7 +383,7 @@
         .tag-badge:active { background: var(--surface-active); }
         .tag-badge.green { color: var(--oneui-green); }
 
-        /* 📱 شريط سامسونج السفلي (نصوص فقط وبدون أيقونات) */
+        /* 📱 شريط سامسونج السفلي */
         .samsung-dock-container {
             position: fixed;
             bottom: 16px;
@@ -528,7 +528,7 @@
                 <button class="dropdown-item" onclick="switchNavSection('vault-view')">🔐 الخزنة المشفرة</button>
                 <button class="dropdown-item" onclick="switchNavSection('docs-view')">🆔 الوثائق الرسمية</button>
                 <button class="dropdown-item" onclick="switchNavSection('settings-view')">⚙️ الإعدادات</button>
-                <button class="dropdown-item" onclick="startVoiceRecordingFromMenu()" style="color:var(--oneui-red);">🎙️ تسجيل صوتي</button>
+                <button class="dropdown-item" onclick="startVoiceRecording()" style="color:var(--oneui-red);">🎙️ تسجيل صوتي خام</button>
                 <button class="dropdown-item" onclick="exportData()">📥 تصدير نسخة احتياطية</button>
             </div>
         </div>
@@ -674,7 +674,7 @@
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <button onclick="openModalAction('note')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ ملاحظة جديدة</button>
-                    <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--oneui-red); padding:6px 14px; font-size:12px;">🎙️ تسجيل صوتي</button>
+                    <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--oneui-red); padding:6px 14px; font-size:12px;">🎙️ تسجيل صوتي خام</button>
                 </div>
                 <div id="notesFullList"></div>
             </div>
@@ -734,11 +734,35 @@
         <button class="samsung-dock-item" id="btnDockAlarms" onclick="switchNavSection('alarms-view', this)">التنبيهات</button>
     </div>
 
+    <!-- 🪟 نافذة الاقتراحات الذكية بعد حفظ التسجيل الصوتي الخام -->
+    <div class="modal-overlay" id="postRecordingModal">
+        <div class="modal-box" style="text-align:center;">
+            <div style="font-size:38px; margin-bottom:6px;">🎙️</div>
+            <strong style="font-size:16px; display:block; margin-bottom:4px;">تم حفظ التسجيل الصوتي محلياً بنجاح!</strong>
+            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">النص المكتشف: <span id="transcribedVoiceText" style="color:var(--text-primary); font-weight:600;">--</span></p>
+            <div id="smartSuggestionsContainer" style="display:flex; flex-direction:column; gap:8px; margin-top:8px;"></div>
+            <button onclick="closePostRecordingModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary); margin-top:10px;">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- 🪟 نافذة تسجيل الصوت الخام -->
+    <div class="modal-overlay" id="voiceModal">
+        <div class="modal-box" style="text-align:center;">
+            <div style="font-size:36px; color:var(--oneui-red); margin-bottom:8px;">🎙️</div>
+            <strong style="display:block; font-size:16px; margin-bottom:4px;">جاري تسجيل الصوت الخام...</strong>
+            <div id="recordTimer" style="font-size:22px; font-weight:800; color:var(--oneui-red); margin:12px 0;">00:00</div>
+            <div style="display:flex; gap:8px;">
+                <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--oneui-green);">حفظ</button>
+                <button onclick="cancelVoiceRecording()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 🪟 نافذة تسجيل الدخول والتحقق الآمن -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                <strong id="authModalHeaderTitle" style="font-size:16px; font-weight:700;">تسجيل الحساب الآمن</strong>
+                <strong style="font-size:16px; font-weight:700;">تسجيل الحساب الآمن</strong>
                 <button onclick="closeAuthModal()" style="background:none; border:none; color:var(--text-secondary); font-size:18px; cursor:pointer;">✖</button>
             </div>
             <div id="authFormArea">
@@ -779,19 +803,6 @@
         </div>
     </div>
 
-    <!-- 🎙️ نافذة تسجيل الصوت -->
-    <div class="modal-overlay" id="voiceModal">
-        <div class="modal-box" style="text-align:center;">
-            <div style="font-size:36px; color:var(--oneui-red); margin-bottom:8px;">🎙️</div>
-            <strong style="display:block; font-size:16px; margin-bottom:4px;">جاري تسجيل الصوت...</strong>
-            <div id="recordTimer" style="font-size:22px; font-weight:800; color:var(--oneui-red); margin:12px 0;">00:00</div>
-            <div style="display:flex; gap:8px;">
-                <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--oneui-green);">حفظ</button>
-                <button onclick="cancelVoiceRecording()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         // --- 0. إعدادات ومصادقة Firebase الرسمية ---
         const firebaseConfig = {
@@ -808,8 +819,9 @@
         
         let currentUser = null;
         let userDbRef = null;
+        let lastSpokenText = '';
 
-        // --- 1. هيكلة البيانات المحلية والمزامنة المعزولة تماماً بحساب المستخدم ---
+        // --- 1. هيكلة البيانات المحلية وتوفير السحابة (فصل الصوت محلياً) ---
         function normalizeDB(data) {
             if (!data) data = {};
             const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
@@ -837,14 +849,16 @@
         function saveToCloud() {
             if (userDbRef) {
                 showToast('☁️ حفظ بالحساب...');
-                userDbRef.set(db).then(() => showToast('✅ تم الحفظ السحابي'))
+                const cloudPayload = JSON.parse(JSON.stringify(db));
+                cloudPayload.notes.forEach(n => { delete n.audioData; }); // حفظ محلي فقط للصوتيات
+
+                userDbRef.set(cloudPayload).then(() => showToast('✅ تم الحفظ السحابي'))
                     .catch(() => showToast('❌ تعذر الحفظ'));
             } else {
                 showToast('💾 حفظ محلياً');
             }
         }
 
-        // مراقبة حالة تسجيل الدخول مع فحص تفعيل البريد ومهلة 24 ساعة للحذف التلقائي
         firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
                 if (!user.emailVerified) {
@@ -855,15 +869,12 @@
                     if (now - creationTime > twentyFourHours) {
                         try {
                             await user.delete();
-                            alert('⚠️ انتهت مهلة الـ 24 ساعة ولم يتم تفعيل البريد الإلكتروني. تم حذف الحساب نهائياً من النظام.');
+                            alert('⚠️ انتهت مهلة الـ 24 ساعة ولم يتم تفعيل البريد الإلكتروني. تم حذف الحساب.');
                             firebase.auth().signOut();
                             return;
-                        } catch (err) {
-                            console.error(err);
-                        }
+                        } catch (err) {}
                     }
-
-                    alert('⚠️ الرجاء تفعيل الايميل لتسجيل الدخول.\n\n(ملاحظة: تحقق من قسم البريد غير المرغوب به Spam إذا لم تجد الرسالة).');
+                    alert('⚠️ الرجاء تفعيل الايميل لتسجيل الدخول (تحقق من Spam).');
                     firebase.auth().signOut();
                     return;
                 }
@@ -922,18 +933,13 @@
             const email = document.getElementById('authEmail').value.trim();
             const pass = document.getElementById('authPassword').value;
             if (!email || !pass) return alert('يرجى كتابة البريد وكلمة المرور');
-            if (pass.length < 6) return alert('كلمة المرور يجب أن تكون 6 خانات فأكثر');
+            if (pass.length < 6) return alert('كلمة المرور 6 خانات فأكثر');
             try {
                 showToast('جاري إنشاء الحساب...');
                 const userCred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
-                
-                // إرسال رسالة التحقق للإيميل
                 await userCred.user.sendEmailVerification();
-                
-                // تسجيل الخروج فوراً لعدم السماح بالدخول قبل التفعيل
                 await firebase.auth().signOut();
-
-                alert('✅ تم إنشاء الحساب بنجاح!\n\nتم إرسال رابط تفعيل إلى بريدك الإلكتروني (تأكد من فحص البريد غير المرغوب به Spam).\n\n⚠️ تنبيه: يجب تفعيل الحساب خلال 24 ساعة وإلا سيتم حذفه تلقائياً.');
+                alert('✅ تم إنشاء الحساب بنجاح!\n\nتم إرسال رابط تفعيل إلى بريدك الإلكتروني (تحقق من Spam).\n\n⚠️ يجب تفعيل الحساب خلال 24 ساعة وإلا سيحذف تلقائياً.');
                 closeAuthModal();
             } catch (err) {
                 alert('فشل إنشاء الحساب: ' + err.message);
@@ -943,16 +949,15 @@
         async function resendVerificationEmail() {
             const email = document.getElementById('authEmail').value.trim();
             const pass = document.getElementById('authPassword').value;
-            if (!email || !pass) return alert('يرجى كتابة بريدك وكلمة المرور أولاً في الحقول المخصصة لإعادة إرسال التفعيل.');
-            
+            if (!email || !pass) return alert('يرجى كتابة بريدك وكلمة المرور أولاً.');
             try {
-                showToast('جاري إرسال رسالة التفعيل...');
+                showToast('جاري الإرسال...');
                 const userCred = await firebase.auth().signInWithEmailAndPassword(email, pass);
                 if (!userCred.user.emailVerified) {
                     await userCred.user.sendEmailVerification();
-                    alert('✅ تم إعادة إرسال رسالة التحقق إلى بريدك بنجاح.');
+                    alert('✅ تم إعادة إرسال رسالة التفعيل.');
                 } else {
-                    alert('هذا الحساب مفعل مسبقاً!');
+                    alert('الحساب مفعل مسبقاً!');
                 }
                 await firebase.auth().signOut();
             } catch (e) {
@@ -1046,7 +1051,7 @@
             renderPrayersAndReminders();
         }
 
-        // --- 3. محرك الطقس والعملات المجرد بدون أعلام ---
+        // --- 3. محرك الطقس والعملات ---
         async function syncFeeds() {
             try {
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&current=temperature_2m,weather_code&timezone=auto');
@@ -1238,6 +1243,7 @@
                 id: reminderId,
                 title: cleanTitle,
                 minutes: mins,
+            name: cleanTitle,
                 createdAt: now,
                 targetTime: now + (mins * 60 * 1000),
                 triggered: false,
@@ -1258,7 +1264,136 @@
             finalizeAction();
         }
 
-        // --- 5. التنقل والبحث وقائمة سامسونج ومعالجة زر الرجوع ---
+        // --- 5. مسجل الصوت الخام المزدوج (تسجيل صوت + تفريغ نصي ذكي في الخلفية للاقتراحات) ---
+        let mediaRec = null;
+        let audioParts = [];
+        let recTimer = null;
+        let recSec = 0;
+        let speechRecognizer = null;
+
+        async function startVoiceRecording() {
+            closeTopDropdown();
+            lastSpokenText = '';
+
+            // بدء نظام التعرف على الصوت في الخلفية لاستخراج النص للاقتراحات
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (SpeechRecognition) {
+                speechRecognizer = new SpeechRecognition();
+                speechRecognizer.lang = 'ar-SA';
+                speechRecognizer.interimResults = false;
+                speechRecognizer.onresult = (e) => {
+                    lastSpokenText = e.results[0][0].transcript;
+                };
+                try { speechRecognizer.start(); } catch(err) {}
+            }
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioParts = [];
+                recSec = 0;
+                mediaRec = new MediaRecorder(stream);
+                mediaRec.ondataavailable = e => audioParts.push(e.data);
+                mediaRec.onstop = () => {
+                    if (speechRecognizer) { try { speechRecognizer.stop(); } catch(e){} }
+
+                    const blob = new Blob(audioParts, { type: 'audio/webm' });
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        const noteId = Date.now();
+                        db.notes.push({ 
+                            id: noteId, 
+                            title: `🎙️ تسجيل صوتي خام`, 
+                            audioData: reader.result, 
+                            body: lastSpokenText ? `النص: ${lastSpokenText}` : 'تسجيل صوتي خام',
+                            date: todayStr 
+                        });
+                        finalizeAction();
+                        
+                        // إظهار نافذة الاقتراحات الذكية بناءً على ما تم التفوه به
+                        showSmartSuggestions(lastSpokenText);
+                    };
+                    reader.readAsDataURL(blob);
+                    stream.getTracks().forEach(t => t.stop());
+                };
+                mediaRec.start();
+                document.getElementById('voiceModal').classList.add('active');
+                recTimer = setInterval(() => {
+                    recSec++;
+                    const m = String(Math.floor(recSec/60)).padStart(2,'0');
+                    const s = String(recSec%60).padStart(2,'0');
+                    document.getElementById('recordTimer').innerText = `${m}:${s}`;
+                }, 1000);
+            } catch { alert('يرجى منح إذن الميكروفون'); }
+        }
+
+        function stopAndSaveVoiceRecording() {
+            clearInterval(recTimer);
+            document.getElementById('voiceModal').classList.remove('active');
+            if (mediaRec && mediaRec.state !== 'inactive') mediaRec.stop();
+        }
+
+        function cancelVoiceRecording() {
+            clearInterval(recTimer);
+            document.getElementById('voiceModal').classList.remove('active');
+            if (speechRecognizer) { try { speechRecognizer.stop(); } catch(e){} }
+            if (mediaRec && mediaRec.state !== 'inactive') {
+                mediaRec.stream.getTracks().forEach(t => t.stop());
+                mediaRec = null;
+            }
+        }
+
+        function showSmartSuggestions(text) {
+            const textEl = document.getElementById('transcribedVoiceText');
+            const container = document.getElementById('smartSuggestionsContainer');
+            
+            textEl.innerText = text ? `"${text}"` : "لم يتم تمييز كلمات بوضوح";
+            let html = '';
+
+            const lower = (text || '').toLowerCase();
+            const numbers = text.match(/\d+/) ;
+
+            // اقتراح 1: إذا ذكر سعر أو شراء (تسجيل مصروف جديد)
+            if (numbers && (lower.includes('اشتريت') || lower.includes('سعر') || lower.includes('بـ') || lower.includes('دفعت') || lower.includes('شيكل'))) {
+                const amount = numbers[0];
+                html += `<button class="btn-action" onclick="executeSmartAction('expense', '${text}', ${amount})" style="background:var(--oneui-red);">💸 تسجيل شراء جديد بمبلغ (${amount} ₪)</button>`;
+            }
+
+            // اقتراح 2: تنبيه سريع بعد مدة زمنية
+            const timeMatch = text.match(/(\d+)\s*(دقيقة|دقائق|ساعة|ساعات)/);
+            if (timeMatch) {
+                const val = parseInt(timeMatch[1]);
+                const unit = timeMatch[2];
+                const totalMins = unit.includes('ساعة') ? val * 60 : val;
+                html += `<button class="btn-action" onclick="executeSmartAction('alarm', '${text}', ${totalMins})" style="background:var(--oneui-blue);">⏰ إضافة تنبيه سريع بعد ${val} ${unit}</button>`;
+            }
+
+            // اقتراح 3: تسجيل ملاحظة سريعة للظهور على الرئيسية
+            html += `<button class="btn-action" onclick="executeSmartAction('note', '${text}')" style="background:var(--surface-inner); color:var(--text-primary);">📝 تسجيل ملاحظة سريعة للرئيسية</button>`;
+
+            container.innerHTML = html;
+            document.getElementById('postRecordingModal').classList.add('active');
+        }
+
+        function closePostRecordingModal() {
+            document.getElementById('postRecordingModal').classList.remove('active');
+            showToast('✅ تم حفظ التسجيل في الملاحظات');
+        }
+
+        function executeSmartAction(type, text, param = null) {
+            document.getElementById('postRecordingModal').classList.remove('active');
+            if (type === 'expense') {
+                db.expenses.push({ id: Date.now(), desc: text, amount: param, date: todayStr });
+                finalizeAction('💸 تم تسجيل الشراء والمصروف بنجاح!');
+            } else if (type === 'alarm') {
+                addReminderFast(param, text);
+                showToast(`⏰ تم ضبط التنبيه لـ ${param} دقيقة`);
+            } else if (type === 'note') {
+                db.todos.push({ id: Date.now(), text: `ملاحظة: ${text}`, done: false, date: todayStr });
+                finalizeAction('✅ تمت إضافة الملاحظة كمهام رئيسية');
+            }
+        }
+
+        // --- التنقل وزر الرجوع ---
         function switchNavSection(viewId, btnEl) {
             closeTopDropdown();
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
@@ -1298,16 +1433,15 @@
             }
         });
 
-        function startVoiceRecordingFromMenu() {
-            closeTopDropdown();
-            startVoiceRecording();
-        }
-
-        // معالجة زر وإيماءة الرجوع في أندرويد (Back Gesture / Button Navigation)
         function handleSystemBackButton() {
             const activeAlarm = document.getElementById('activeAlarmModal');
             if (activeAlarm && activeAlarm.classList.contains('active')) {
                 dismissActiveAlarm();
+                return true;
+            }
+            const postRecModal = document.getElementById('postRecordingModal');
+            if (postRecModal && postRecModal.classList.contains('active')) {
+                closePostRecordingModal();
                 return true;
             }
             const authM = document.getElementById('authModal');
@@ -1412,7 +1546,6 @@
             handleGlobalSearch('');
         }
 
-        // --- 6. النوافذ المنبثقة الموحدة للإضافة وإدارة الاشتراكات ---
         function closeModalAction() {
             document.getElementById('actionModal').classList.remove('active');
         }
@@ -1914,55 +2047,6 @@
         function deleteNote(id) {
             db.notes = db.notes.filter(x => x.id !== id);
             finalizeAction();
-        }
-
-        // --- 9. مسجل الصوت ---
-        let mediaRec = null;
-        let audioParts = [];
-        let recTimer = null;
-        let recSec = 0;
-
-        async function startVoiceRecording() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                audioParts = [];
-                recSec = 0;
-                mediaRec = new MediaRecorder(stream);
-                mediaRec.ondataavailable = e => audioParts.push(e.data);
-                mediaRec.onstop = () => {
-                    const blob = new Blob(audioParts, { type: 'audio/webm' });
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                        db.notes.push({ id: Date.now(), title: `🎙️ تسجيل صوتي`, audioData: reader.result, date: todayStr });
-                        finalizeAction('تم حفظ التسجيل');
-                    };
-                    reader.readAsDataURL(blob);
-                    stream.getTracks().forEach(t => t.stop());
-                };
-                mediaRec.start();
-                document.getElementById('voiceModal').classList.add('active');
-                recTimer = setInterval(() => {
-                    recSec++;
-                    const m = String(Math.floor(recSec/60)).padStart(2,'0');
-                    const s = String(recSec%60).padStart(2,'0');
-                    document.getElementById('recordTimer').innerText = `${m}:${s}`;
-                }, 1000);
-            } catch { alert('يرجى منح إذن الميكروفون'); }
-        }
-
-        function stopAndSaveVoiceRecording() {
-            clearInterval(recTimer);
-            document.getElementById('voiceModal').classList.remove('active');
-            if (mediaRec && mediaRec.state !== 'inactive') mediaRec.stop();
-        }
-
-        function cancelVoiceRecording() {
-            clearInterval(recTimer);
-            document.getElementById('voiceModal').classList.remove('active');
-            if (mediaRec && mediaRec.state !== 'inactive') {
-                mediaRec.stream.getTracks().forEach(t => t.stop());
-                mediaRec = null;
-            }
         }
 
         function toggleTheme() {
