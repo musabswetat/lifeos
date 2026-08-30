@@ -7,7 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#F8FAFC" id="themeColorMeta">
+    <meta name="theme-color" content="#0A0C14" id="themeColorMeta">
 
     <title>Life OS</title>
     
@@ -17,32 +17,43 @@
 
     <style>
         :root {
-            --bg: #F8FAFC;
-            --surface: #FFFFFF;
-            --surface-subtle: #F1F5F9;
-            --border: #E2E8F0;
-            --text-main: #0F172A;
-            --text-muted: #64748B;
-            --primary: #4F46E5;
-            --primary-light: #EEF2FF;
-            --accent-red: #EF4444;
-            --accent-green: #10B981;
-            --radius-lg: 20px;
+            --bg-canvas: #0A0C14;
+            --surface-card: #141824;
+            --surface-hover: #1C2233;
+            --border-subtle: rgba(255, 255, 255, 0.07);
+            --border-glow: rgba(99, 102, 241, 0.35);
+            
+            --text-primary: #FFFFFF;
+            --text-secondary: #94A3B8;
+            --text-tertiary: #64748B;
+            
+            --accent-primary: #6366F1;
+            --accent-secondary: #06B6D4;
+            --gradient-accent: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            --glow-accent: rgba(99, 102, 241, 0.35);
+            
+            --accent-emerald: #10B981;
+            --accent-amber: #F59E0B;
+            --accent-rose: #F43F5E;
+            
+            --radius-oneui: 24px;
+            --radius-lg: 16px;
             --radius-md: 12px;
             --radius-pill: 9999px;
             --dock-height: 64px;
+            --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
         }
 
-        body.dark-mode {
-            --bg: #090B10;
-            --surface: #131620;
-            --surface-subtle: #1C202E;
-            --border: #262B3D;
-            --text-main: #F8FAFC;
-            --text-muted: #94A3B8;
-            --primary: #6366F1;
-            --primary-light: rgba(99, 102, 241, 0.15);
-            --input-fill: #181B26;
+        body.light-mode {
+            --bg-canvas: #F1F3F9;
+            --surface-card: #FFFFFF;
+            --surface-hover: #F8FAFC;
+            --border-subtle: rgba(0, 0, 0, 0.06);
+            --border-glow: rgba(99, 102, 241, 0.25);
+            --text-primary: #0F172A;
+            --text-secondary: #64748B;
+            --text-tertiary: #94A3B8;
+            --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
         }
 
         * {
@@ -57,184 +68,165 @@
         * { scrollbar-width: none !important; }
 
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
+            background-color: var(--bg-canvas);
+            color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            transition: background 0.25s ease, color 0.25s ease;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .app-container {
             width: 100%;
             max-width: 680px;
             margin: 0 auto;
-            padding: 24px 16px calc(var(--dock-height) + 45px) 16px;
+            padding: 12px 16px calc(var(--dock-height) + 75px) 16px;
             box-sizing: border-box;
         }
 
-        .section { display: none; }
-        .section.active { display: block; }
-
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(14px);
-            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-
-        .header-greeting { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4px; }
-        .header-sub { color: var(--text-muted); font-size: 14px; margin-bottom: 18px; }
-
-        .presets-bar {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
-        }
-        .preset-btn {
-            background: var(--surface-subtle);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 10px 16px;
-            border-radius: var(--radius-pill);
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            white-space: nowrap;
-            flex-shrink: 0;
-            transition: all 0.15s ease;
-        }
-        .preset-btn:active { background: var(--primary); color: #FFF; transform: scale(0.94); }
-
-        .quick-input-row { display: flex; gap: 8px; flex-wrap: wrap; }
-        .app-input {
-            padding: 12px 14px;
-            background: var(--surface-subtle) !important;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            color: var(--text-main) !important;
-            font-size: 14px;
-            font-weight: 600;
-            outline: none;
-            flex: 1;
-            min-width: 110px;
-        }
-        .app-input:focus { border-color: var(--primary); background: var(--surface) !important; }
-
-        .btn-action {
-            background: var(--primary);
-            color: #FFFFFF;
-            border: none;
-            padding: 12px 18px;
-            border-radius: var(--radius-md);
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: opacity 0.15s ease;
-        }
-        .btn-action:active { opacity: 0.85; transform: scale(0.97); }
-
-        /* 🏝️ الشريط السفلي الذكي الجديد (3 أزرار متناسقة) */
-        .bottom-nav-dock {
-            position: fixed;
-            bottom: 16px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 6px;
-            border-radius: var(--radius-pill);
+        /* 🔍 شريط البحث والأدوات العلوي (Samsung One UI Search Bar) */
+        .top-action-bar {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 6px;
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            width: calc(100% - 32px);
-            max-width: 420px;
+            gap: 8px;
+            margin-bottom: 12px;
+            position: relative;
         }
-        .dock-btn {
+        .search-box-pill {
             flex: 1;
+            display: flex;
+            align-items: center;
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-pill);
+            padding: 8px 16px;
+            gap: 8px;
+            box-shadow: var(--shadow-card);
+        }
+        .search-input {
             background: transparent;
             border: none;
-            padding: 12px 8px;
-            border-radius: var(--radius-pill);
-            color: var(--text-muted);
+            outline: none;
+            color: var(--text-primary);
             font-size: 14px;
+            font-weight: 600;
+            width: 100%;
+        }
+        .top-icon-btn {
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.15s ease;
+        }
+        .top-icon-btn:active { transform: scale(0.92); }
+
+        /* 📑 القائمة المنسدلة العلوية (Three Dots Overflow Menu) */
+        .top-dropdown-menu {
+            position: absolute;
+            top: 52px;
+            left: 0;
+            background: var(--surface-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-lg);
+            padding: 10px;
+            width: 220px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-10px) scale(0.95);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .top-dropdown-menu.open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0) scale(1);
+        }
+        .dropdown-item {
+            background: var(--surface-hover);
+            border: 1px solid var(--border-subtle);
+            padding: 10px 14px;
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 13px;
             font-weight: 800;
             cursor: pointer;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }
-        .dock-btn.active { background: var(--primary-light); color: var(--primary); }
-        .dock-btn:active { transform: scale(0.95); }
-
-        /* 📑 القائمة المنسدلة للأعلى */
-        .dock-menu-popup {
-            position: fixed;
-            bottom: 85px;
-            left: 50%;
-            transform: translateX(-50%) translateY(15px) scale(0.95);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 12px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
             gap: 8px;
-            z-index: 999;
-            width: calc(100% - 32px);
-            max-width: 380px;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: right;
         }
-        .dock-menu-popup.open {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateX(-50%) translateY(0) scale(1);
+        .dropdown-item:active { background: rgba(99, 102, 241, 0.2); color: var(--accent-primary); }
+
+        /* 📱 منطقة الرؤية الكبيرة (Samsung One UI Header Area) */
+        .oneui-header {
+            padding: 10px 4px 14px 4px;
         }
-        .menu-item-btn {
-            background: var(--surface-subtle);
-            border: 1px solid var(--border);
-            padding: 12px 10px;
-            border-radius: var(--radius-md);
-            color: var(--text-main);
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
+        .oneui-title-large {
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+        }
+        .oneui-chips-row {
             display: flex;
             align-items: center;
-            gap: 8px;
-            transition: background 0.15s ease;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 8px;
         }
-        .menu-item-btn:active { background: var(--primary-light); color: var(--primary); }
+        .oneui-chip {
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            padding: 5px 12px;
+            border-radius: var(--radius-pill);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* 🪟 البطاقات التفاعلية */
+        .oneui-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-oneui);
+            padding: 20px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .section-view { display: none; }
+        .section-view.active { 
+            display: block; 
+            animation: oneuiFade 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes oneuiFade {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         .list-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
+            padding: 13px 0;
+            border-bottom: 1px solid var(--border-subtle);
             font-size: 14px;
             gap: 10px;
         }
@@ -246,16 +238,151 @@
             padding: 4px 10px;
             border-radius: var(--radius-pill);
             font-size: 12px;
-            font-weight: 700;
-            background: var(--primary-light);
-            color: var(--primary);
+            font-weight: 800;
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--accent-primary);
+        }
+        .tag-badge.emerald {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-emerald);
+        }
+
+        /* 🔘 الزر العائم السريع (FAB) */
+        .fab-container {
+            position: fixed;
+            bottom: 90px;
+            left: 20px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .fab-main-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            border: none;
+            color: #FFF;
+            font-size: 26px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 8px 25px var(--glow-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.25s ease;
+        }
+        .fab-main-btn.open {
+            transform: rotate(45deg);
+            background: var(--accent-rose);
+        }
+        .fab-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(15px) scale(0.9);
+            transition: all 0.25s ease;
+        }
+        .fab-menu.open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0) scale(1);
+        }
+        .fab-action-item {
+            background: var(--surface-card);
+            border: 1px solid var(--border-glow);
+            color: var(--text-primary);
+            padding: 10px 16px;
+            border-radius: var(--radius-pill);
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            white-space: nowrap;
+        }
+
+        /* 🏝️ الشريط السفلي للتنقل بنفس التصميم المطلوب */
+        .bottom-nav-dock {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            padding: 6px;
+            border-radius: var(--radius-pill);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            width: calc(100% - 32px);
+            max-width: 440px;
+            overflow-x: auto;
+        }
+        .dock-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 10px 8px;
+            border-radius: var(--radius-pill);
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .dock-btn.active {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .app-input {
+            padding: 12px 14px;
+            background: var(--surface-hover) !important;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            color: var(--text-primary) !important;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        .app-input:focus { border-color: var(--accent-primary); }
+
+        .btn-action {
+            background: var(--gradient-accent);
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 18px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 4px 15px var(--glow-accent);
         }
 
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 99999;
             align-items: center;
             justify-content: center;
@@ -263,13 +390,12 @@
         }
         .modal-overlay.active { display: flex; }
         .modal-box {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
+            background: var(--surface-card);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-oneui);
             padding: 24px;
             width: 100%;
-            max-width: 360px;
-            text-align: center;
+            max-width: 380px;
         }
 
         #syncToast {
@@ -277,13 +403,12 @@
             top: 14px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 6px 14px;
+            background: var(--surface-card);
+            border: 1px solid var(--border-subtle);
+            padding: 6px 16px;
             border-radius: var(--radius-pill);
             font-size: 12px;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            font-weight: 800;
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 9999;
@@ -296,192 +421,246 @@
 
     <div id="syncToast">☁️ مزامنة...</div>
 
+    <!-- 🔘 الزر العائم السريع (FAB) -->
+    <div class="fab-container">
+        <div class="fab-menu" id="fabMenu">
+            <button class="fab-action-item" onclick="openFabAction('alarm')">⏰ تنبيه سريع</button>
+            <button class="fab-action-item" onclick="openFabAction('todo')">✅ مهمة جديدة</button>
+            <button class="fab-action-item" onclick="openFabAction('note')">📝 ملاحظة</button>
+            <button class="fab-action-item" onclick="openFabAction('bill')">🧾 فاتورة / اشتراك</button>
+        </div>
+        <button class="fab-main-btn" id="fabMainBtn" onclick="toggleFabMenu()">＋</button>
+    </div>
+
     <div class="app-container">
         
-        <!-- 🍃 1. الشاشة الرئيسية -->
-        <div id="dashboard" class="section active">
-            <div class="reveal">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="display:flex; align-items:center; gap:10px;">
-                        <div class="header-greeting" style="margin-bottom:0;">طاب يومك.</div>
-                    </div>
-                    <button onclick="toggleTheme()" style="background:var(--surface-subtle); border:1px solid var(--border); width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:16px;">🌙</button>
-                </div>
-                <div class="header-sub" style="margin-top:4px;">بياناتك وتنبيهاتك الشخصية بتزامن فوري</div>
+        <!-- 🔍 شريط البحث والأدوات (Samsung One UI Search & Action Header) -->
+        <div class="top-action-bar">
+            <div class="search-box-pill">
+                <span>🔍</span>
+                <input type="text" id="globalSearchInput" class="search-input" placeholder="بحث في المهام والملاحظات والوثائق..." oninput="handleGlobalSearch(this.value)">
             </div>
+            <button class="top-icon-btn" onclick="cycleNextTheme()" title="تغيير الثيم">🎨</button>
+            <button class="top-icon-btn" onclick="toggleTheme()" id="themeBtn" title="الوضع الليلي">🌙</button>
+            <button class="top-icon-btn" onclick="toggleTopDropdown()" title="القائمة الشاملة">⋮</button>
 
-            <!-- ⏰ شريط التنبيهات الفوري -->
-            <div class="card reveal">
-                <div style="font-size:13px; font-weight:800; color:var(--primary); margin-bottom:10px;">⏰ تنبيه وتذكير سريع</div>
-                
-                <div class="presets-bar">
-                    <button class="preset-btn" onclick="addReminderFast(15, '')">15 د</button>
-                    <button class="preset-btn" onclick="addReminderFast(20, '')">20 د</button>
-                    <button class="preset-btn" onclick="addReminderFast(30, '')">30 د</button>
-                    <button class="preset-btn" onclick="addReminderFast(45, '')">45 د</button>
-                    <button class="preset-btn" onclick="addReminderFast(60, '')">1 س</button>
-                    <button class="preset-btn" onclick="addReminderFast(120, '')">2 س</button>
-                    <button class="preset-btn" onclick="addReminderFast(180, '')">3 س</button>
-                </div>
-
-                <div class="quick-input-row">
-                    <input type="number" id="manualReminderMinutes" placeholder="الدقائق..." class="app-input" style="max-width:90px;">
-                    <input type="text" id="manualReminderTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
-                    <button type="button" onclick="submitManualReminderFast()" class="btn-action">ضبط</button>
-                </div>
+            <!-- 📑 القائمة المنسدلة من زر الثلاث نقاط (⋮) -->
+            <div class="top-dropdown-menu" id="topDropdownMenu">
+                <button class="dropdown-item" onclick="switchNavSection('vault-view')">🔐 الخزنة المشفرة</button>
+                <button class="dropdown-item" onclick="switchNavSection('docs-view')">🆔 الوثائق الرسمية</button>
+                <button class="dropdown-item" onclick="switchNavSection('settings-view')">⚙️ الإعدادات العامة</button>
+                <button class="dropdown-item" onclick="startVoiceRecordingFromMenu()" style="color:var(--accent-rose);">🎙️ تسجيل صوتي</button>
+                <button class="dropdown-item" onclick="exportData()">📥 تصدير نسخة احتياطية</button>
             </div>
+        </div>
 
-            <!-- التنبيهات المباشرة -->
-            <div id="dashRemindersContainer" class="reveal"></div>
+        <!-- 📱 منطقة الرؤية الكبيرة -->
+        <div class="oneui-header">
+            <div class="oneui-title-large">
+                <span id="oneuiHeaderTitle">طاب يومك.</span>
+            </div>
+            
+            <div class="oneui-chips-row">
+                <div class="oneui-chip"><span>📍 جنين</span> <span id="chipWeather">--°C ⛅</span></div>
+                <div class="oneui-chip"><span>🇺🇸</span> <span id="rateUSD">-- ₪</span></div>
+                <div class="oneui-chip"><span>🇯🇴</span> <span id="rateJOD">-- ₪</span></div>
+                <div class="oneui-chip"><span>🇪🇺</span> <span id="rateEUR">-- ₪</span></div>
+                <div class="oneui-chip" style="color:var(--accent-emerald);"><span>🕌</span> <span id="chipNextPrayer">--</span></div>
+            </div>
+        </div>
 
-            <!-- ملخص المصاريف -->
-            <div class="card reveal" style="display:flex; justify-content:space-between; align-items:center;">
+        <!-- 🔍 حاوية نتائج البحث اللحظي -->
+        <div id="searchResultsCard" class="oneui-card" style="display:none; margin-bottom:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <strong style="font-size:15px; font-weight:800; color:var(--accent-primary);">🔍 نتائج البحث</strong>
+                <button onclick="clearGlobalSearch()" style="background:none; border:none; color:var(--text-tertiary); cursor:pointer; font-size:12px;">إغلاق</button>
+            </div>
+            <div id="searchResultsList"></div>
+        </div>
+
+        <!-- 🍃 1. تبويب الرئيسية (Dashboard View) -->
+        <div id="dashboard-view" class="section-view active">
+            
+            <div class="oneui-card" style="display:flex; justify-content:space-between; align-items:center;">
                 <div>
-                    <div style="font-size:12px; font-weight:700; color:var(--text-muted);">مصاريف الشهر الحالي</div>
-                    <div style="font-size:28px; font-weight:900; margin-top:2px;" id="dashSpent">0 <span style="font-size:16px; color:var(--text-muted);">₪</span></div>
+                    <div style="font-size:12px; font-weight:700; color:var(--text-secondary);">الصلاة القادمة (جنين)</div>
+                    <div style="font-size:20px; font-weight:900; margin-top:2px;" id="dashNextPrayerName">صلاة العصر</div>
                 </div>
-                <div id="dashAlerts" style="font-size:12px; font-weight:700;"></div>
+                <span class="tag-badge emerald" id="dashNextPrayerCountdown" style="font-size:14px; padding:6px 14px;">⏳ --:--</span>
             </div>
 
-            <!-- مهام ومصاريف اليوم -->
-            <div class="card reveal">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <strong style="font-size:15px;">✅ مهام اليوم</strong>
-                    <span id="dashTodoCount" style="font-size:12px; color:var(--text-muted);">0 مهام</span>
+            <div class="oneui-card" style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div style="font-size:12px; font-weight:700; color:var(--text-secondary);">صرف هذا الشهر</div>
+                    <div style="font-size:26px; font-weight:900;" id="dashSpent">0 <span style="font-size:14px; color:var(--text-tertiary);">₪</span></div>
                 </div>
-                <form onsubmit="addTodoDash(event)" style="display:flex; gap:8px; margin-bottom:10px;">
-                    <input type="text" id="todoInputDash" placeholder="أضف مهمة سريعة..." class="app-input" required>
-                    <button type="submit" class="btn-action">إضافة</button>
-                </form>
+                <div style="text-align:left;">
+                    <div style="font-size:12px; font-weight:700; color:var(--text-secondary);">صرف اليوم</div>
+                    <div style="font-size:18px; font-weight:900; color:var(--accent-rose);" id="dashExpensesTotal">0 ₪</div>
+                </div>
+            </div>
+
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <strong style="font-size:15px; font-weight:800;">✅ مهام اليوم</strong>
+                    <button onclick="openFabAction('todo')" style="background:none; border:none; color:var(--accent-primary); font-weight:800; cursor:pointer;">+ إضافة</button>
+                </div>
                 <div id="dashTodosList"></div>
             </div>
 
-            <div class="card reveal">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <strong style="font-size:15px;">💸 صرف اليوم</strong>
-                    <span id="dashExpensesTotal" style="font-size:14px; font-weight:800; color:var(--accent-red);">0 ₪</span>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <strong style="font-size:15px; font-weight:800;">⏰ التنبيهات المباشرة</strong>
+                    <button onclick="openFabAction('alarm')" style="background:none; border:none; color:var(--accent-primary); font-weight:800; cursor:pointer;">+ ضبط</button>
                 </div>
-                <form onsubmit="addExpenseDash(event)" class="quick-input-row" style="margin-bottom:10px;">
-                    <input type="text" id="expenseDescDash" placeholder="ماذا اشتريت؟" class="app-input" required>
-                    <input type="number" id="expenseAmountDash" placeholder="المبلغ" class="app-input" style="max-width:90px;" required>
-                    <button type="submit" class="btn-action">تسجيل</button>
-                </form>
-                <div id="dashExpensesList"></div>
+                <div id="dashRemindersPreview"></div>
+            </div>
+
+        </div>
+
+        <!-- 🕌 2. تبويب الصلوات والمواعيد (Prayers View) -->
+        <div id="prayers-view" class="section-view">
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                    <strong style="font-size:16px; font-weight:800;">🕌 مواقيت الصلاة الدقيقة (جنين)</strong>
+                    <span style="font-size:12px; color:var(--accent-emerald); font-weight:800;">أوقاف فلسطين</span>
+                </div>
+                <div id="prayersFullList"></div>
+            </div>
+
+            <div class="oneui-card">
+                <strong style="font-size:16px; font-weight:800; display:block; margin-bottom:14px;">⏰ سجل التنبيهات والمواعيد</strong>
+                <div id="remindersFullList"></div>
             </div>
         </div>
 
-        <!-- ⏰ 2. سجل التنبيهات -->
-        <div id="reminders-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:6px;">⏰ سجل التنبيهات</h2>
-            <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">أرشيف التنبيهات المحفوظة لشهر كامل (30 يوماً).</p>
-            <div class="card" id="fullRemindersArchive"></div>
+        <!-- ✅ 3. تبويب المهام (Todos View) -->
+        <div id="todos-view" class="section-view">
+            <div class="oneui-card">
+                <form onsubmit="handleQuickTodo(event)" style="display:flex; gap:8px; margin-bottom:12px;">
+                    <input type="text" id="todoInputTab" placeholder="أضف مهمة جديدة..." class="app-input" style="margin-bottom:0;" required>
+                    <button type="submit" class="btn-action" style="width:auto; padding:12px 20px;">إضافة</button>
+                </form>
+                <div id="todosAllList"></div>
+            </div>
         </div>
 
-        <!-- 📊 3. المصاريف والفواتير -->
-        <div id="expenses-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">📊 المصاريف والفواتير</h2>
-            <div class="card">
+        <!-- 📊 4. تبويب المصاريف والمالية (Finance View) -->
+        <div id="finance-view" class="section-view">
+            <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; text-align:center;">
-                    <div><div style="font-size:12px; color:var(--text-muted);">اليوم</div><div style="font-size:18px; font-weight:800; margin-top:2px;" id="statToday">0 ₪</div></div>
-                    <div><div style="font-size:12px; color:var(--text-muted);">آخر 7 أيام</div><div style="font-size:18px; font-weight:800; color:var(--primary); margin-top:2px;" id="statWeek">0 ₪</div></div>
-                    <div><div style="font-size:12px; color:var(--text-muted);">هذا الشهر</div><div style="font-size:18px; font-weight:800; color:var(--accent-red); margin-top:2px;" id="statMonth">0 ₪</div></div>
+                    <div><div style="font-size:12px; color:var(--text-secondary);">اليوم</div><div style="font-size:18px; font-weight:900; margin-top:2px;" id="statToday">0 ₪</div></div>
+                    <div><div style="font-size:12px; color:var(--text-secondary);">آخر 7 أيام</div><div style="font-size:18px; font-weight:900; color:var(--accent-primary); margin-top:2px;" id="statWeek">0 ₪</div></div>
+                    <div><div style="font-size:12px; color:var(--text-secondary);">هذا الشهر</div><div style="font-size:18px; font-weight:900; color:var(--accent-rose); margin-top:2px;" id="statMonth">0 ₪</div></div>
                 </div>
             </div>
 
-            <div class="card">
-                <strong style="display:block; margin-bottom:12px; font-size:14px;">📄 تسجيل فاتورة دورية</strong>
-                <form onsubmit="saveFixedBill(event)" class="quick-input-row">
-                    <select id="billType" class="app-input"><option value="كهرباء">كهرباء</option><option value="ماء">ماء</option><option value="إنترنت">إنترنت</option></select>
-                    <input type="number" id="billAmount" placeholder="المبلغ" class="app-input" required>
-                    <button type="submit" class="btn-action">حفظ الفاتورة</button>
+            <div class="oneui-card">
+                <strong style="font-size:15px; font-weight:800; display:block; margin-bottom:10px;">💸 تسجيل مصروف سريع</strong>
+                <form onsubmit="handleQuickExpense(event)" style="display:flex; gap:8px;">
+                    <input type="text" id="expDescTab" placeholder="الوصف..." class="app-input" style="margin-bottom:0;" required>
+                    <input type="number" id="expAmountTab" placeholder="المبلغ (₪)" class="app-input" style="max-width:100px; margin-bottom:0;" required>
+                    <button type="submit" class="btn-action" style="width:auto;">تسجيل</button>
                 </form>
             </div>
 
-            <div class="card" id="fullExpensesArchive"></div>
-        </div>
-
-        <!-- ✅ 4. المهام والأرشيف -->
-        <div id="todos-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">✅ أرشيف المهام</h2>
-            <div class="card" id="fullTodosContainer"></div>
-        </div>
-
-        <!-- 🆔 5. الوثائق -->
-        <div id="documents-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">🆔 الوثائق الرسمية</h2>
-            <div class="card">
-                <form onsubmit="saveDocument(event)">
-                    <div style="margin-bottom:10px;"><input type="text" id="docName" placeholder="اسم الوثيقة (جواز سفر، رخصة...)" class="app-input" style="width:100%;" required></div>
-                    <div style="margin-bottom:12px;"><input type="date" id="docExpiry" class="app-input" style="width:100%;" required></div>
-                    <button type="submit" class="btn-action" style="width:100%;">حفظ الوثيقة</button>
-                </form>
+            <div class="oneui-card">
+                <strong style="font-size:15px; font-weight:800; display:block; margin-bottom:10px;">🧾 الفواتير والاشتراكات الدورية</strong>
+                <div id="billsAndSubsList"></div>
             </div>
-            <div class="card" id="docsContainer"></div>
-        </div>
 
-        <!-- 🔐 6. الخزنة المشفرة -->
-        <div id="vault-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">🔐 الخزنة المشفرة</h2>
-            <div class="card">
-                <form onsubmit="saveVaultItem(event)" class="quick-input-row">
-                    <input type="text" id="vaultName" placeholder="الحساب / الإيميل" class="app-input" required>
-                    <input type="text" id="vaultPassword" placeholder="كلمة المرور" class="app-input" required>
-                    <button type="submit" class="btn-action">حفظ بالخزنة</button>
-                </form>
+            <div class="oneui-card">
+                <strong style="font-size:15px; font-weight:800; display:block; margin-bottom:10px;">📜 سجل المصاريف</strong>
+                <div id="expensesFullList"></div>
             </div>
-            <div class="card" id="vaultContainer"></div>
         </div>
 
-        <!-- ⚙️ 7. الإعدادات -->
-        <div id="settings-section" class="section">
-            <h2 style="font-size:22px; font-weight:800; margin-bottom:16px;">⚙️ الأمان والإعدادات</h2>
-            <div class="card">
-                <strong style="font-size:14px; display:block; margin-bottom:10px;">🛡️ النسخ الاحتياطي السحابي</strong>
-                <div style="display:flex; gap:8px;">
-                    <button onclick="exportData()" class="btn-action" style="flex:1;">📥 تصدير ملف النسخة</button>
-                    <button onclick="requestNotificationPermission()" class="btn-action" style="flex:1; background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border);">🔔 إذن الإشعارات</button>
+        <!-- 📝 5. تبويب الملاحظات (Notes View) -->
+        <div id="notes-view" class="section-view">
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <strong style="font-size:16px; font-weight:800;">📝 الملاحظات والتسجيلات</strong>
+                    <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--accent-rose); padding:6px 14px; font-size:12px;">🎙️ تسجيل صوتي</button>
+                </div>
+                <div id="notesFullList"></div>
+            </div>
+        </div>
+
+        <!-- 🔐 6. تبويب الخزنة (Vault View) -->
+        <div id="vault-view" class="section-view">
+            <div class="oneui-card">
+                <strong style="font-size:15px; font-weight:800; display:block; margin-bottom:10px;">🔐 الحسابات المشفرة</strong>
+                <div id="vaultFullList"></div>
+            </div>
+        </div>
+
+        <!-- 🆔 7. تبويب الوثائق (Docs View) -->
+        <div id="docs-view" class="section-view">
+            <div class="oneui-card">
+                <strong style="font-size:15px; font-weight:800; display:block; margin-bottom:10px;">🆔 الوثائق الرسمية</strong>
+                <div id="docsFullList"></div>
+            </div>
+        </div>
+
+        <!-- ⚙️ 8. تبويب الإعدادات (Settings View) -->
+        <div id="settings-view" class="section-view">
+            <div class="oneui-card">
+                <strong style="font-size:15px; font-weight:800; display:block; margin-bottom:12px;">🎨 بروفايل كروم اللوني</strong>
+                <div id="themeSelectionGrid" style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;"></div>
+                <button onclick="setThemeModeAuto()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle);">🔄 استعادة التبديل التلقائي</button>
+            </div>
+
+            <div class="oneui-card">
+                <strong style="font-size:15px; font-weight:800; display:block; margin-bottom:10px;">🛡️ فحص واختبار التنبيه</strong>
+                <div style="display:flex; gap:8px; flex-direction:column;">
+                    <button onclick="testPrestigeAlarm()" class="btn-action">🎵 تجربة نغمة الماريمبا الهادئة</button>
+                    <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle);">🔔 تفعيل قناة التنبيهات المخصصة</button>
+                    <button onclick="exportData()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle);">📥 تصدير نسخة احتياطية</button>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- 📑 القائمة المنبثقة للأقسام والمهام -->
-    <div class="dock-menu-popup" id="dockMenuPopup">
-        <button class="menu-item-btn" onclick="openSectionFromMenu('reminders-section')">⏰ التنبيهات</button>
-        <button class="menu-item-btn" onclick="openSectionFromMenu('expenses-section')">📊 المصاريف</button>
-        <button class="menu-item-btn" onclick="openSectionFromMenu('todos-section')">✅ أرشيف المهام</button>
-        <button class="menu-item-btn" onclick="openSectionFromMenu('documents-section')">🆔 الوثائق</button>
-        <button class="menu-item-btn" onclick="openSectionFromMenu('vault-section')">🔐 الخزنة</button>
-        <button class="menu-item-btn" onclick="startVoiceFromMenu()" style="color:var(--accent-red);">🎙️ تسجيل صوتي</button>
-    </div>
-
-    <!-- 🏝️ الشريط السفلي الذكي (3 أزرار متوازنة) -->
+    <!-- 🏝️ الشريط السفلي للتنقل المباشر -->
     <div class="bottom-nav-dock">
-        <button class="dock-btn active" id="btnNavHome" onclick="switchMainTab('dashboard', this)">🏠 الرئيسية</button>
-        <button class="dock-btn" id="btnNavMenu" onclick="toggleDockMenu()">📑 الأقسام والمهام</button>
-        <button class="dock-btn" id="btnNavSettings" onclick="switchMainTab('settings-section', this)">⚙️ الإعدادات</button>
+        <button class="dock-btn active" id="btnDockHome" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
+        <button class="dock-btn" id="btnDockPrayers" onclick="switchNavSection('prayers-view', this)">🕌 الصلوات</button>
+        <button class="dock-btn" id="btnDockTodos" onclick="switchNavSection('todos-view', this)">✅ المهام</button>
+        <button class="dock-btn" id="btnDockFinance" onclick="switchNavSection('finance-view', this)">📊 المالية</button>
+        <button class="dock-btn" id="btnDockNotes" onclick="switchNavSection('notes-view', this)">📝 الملاحظات</button>
+    </div>
+
+    <!-- 🪟 نافذة الإجراءات السريعة المنبثقة من الزر العائم -->
+    <div class="modal-overlay" id="quickActionModal">
+        <div class="modal-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <strong id="modalTitle" style="font-size:16px; font-weight:800;">إضافة</strong>
+                <button onclick="closeQuickModal()" style="background:none; border:none; color:var(--text-secondary); font-size:18px; cursor:pointer;">✖</button>
+            </div>
+            <div id="modalFormContainer"></div>
+        </div>
     </div>
 
     <!-- 🔔 نافذة رنين التنبيه التفاعلية -->
     <div class="modal-overlay" id="activeAlarmModal">
-        <div class="modal-box" style="border: 2px solid var(--accent-red);">
-            <div style="font-size: 40px; margin-bottom: 8px;">⏰</div>
-            <h3 style="color:var(--accent-red); font-size:20px; font-weight:800; margin-bottom:4px;">حان وقت التنبيه!</h3>
+        <div class="modal-box" style="text-align:center;">
+            <div style="font-size: 44px; margin-bottom: 8px;">⏰</div>
+            <h3 style="color:var(--accent-rose); font-size:20px; font-weight:900; margin-bottom:4px;">حان وقت التنبيه!</h3>
             <p id="activeAlarmModalTitle" style="font-size:15px; font-weight:700; margin-bottom:18px;">تنبيه موعد</p>
-            <button onclick="dismissActiveAlarm()" class="btn-action" style="background:var(--accent-red); width:100%; padding:14px;">🔕 إيقاف التنبيه</button>
+            <button onclick="dismissActiveAlarm()" class="btn-action" style="background:var(--accent-rose);">🔕 إيقاف التنبيه</button>
         </div>
     </div>
 
     <!-- 🎙️ نافذة تسجيل الصوت -->
     <div class="modal-overlay" id="voiceModal">
-        <div class="modal-box">
-            <div style="font-size:36px; color:var(--accent-red); margin-bottom:8px;">🎙️</div>
-            <strong style="display:block; font-size:16px; margin-bottom:4px;">جاري التقاط الصوت...</strong>
-            <div id="recordTimer" style="font-size:22px; font-weight:900; color:var(--accent-red); margin:12px 0;">00:00</div>
+        <div class="modal-box" style="text-align:center;">
+            <div style="font-size:36px; color:var(--accent-rose); margin-bottom:8px;">🎙️</div>
+            <strong style="display:block; font-size:16px; margin-bottom:4px;">جاري تسجيل الصوت...</strong>
+            <div id="recordTimer" style="font-size:22px; font-weight:900; color:var(--accent-rose); margin:12px 0;">00:00</div>
             <div style="display:flex; gap:8px;">
-                <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--accent-green); flex:1;">حفظ</button>
-                <button onclick="cancelVoiceRecording()" class="btn-action" style="background:var(--surface-subtle); color:var(--text-main); border:1px solid var(--border); flex:1;">إلغاء</button>
+                <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--accent-emerald);">حفظ</button>
+                <button onclick="cancelVoiceRecording()" class="btn-action" style="background:var(--surface-hover); color:var(--text-primary); border:1px solid var(--border-subtle);">إلغاء</button>
             </div>
         </div>
     </div>
@@ -501,7 +680,71 @@
         firebase.initializeApp(firebaseConfig);
         const dbRef = firebase.database().ref('myLifeData');
 
-        // --- 1. Database Architecture & Optimization ---
+        // --- 1. بروفايلات كروم اللونية ---
+        const chromeProfiles = [
+            { id: 'indigo_cyan', name: 'نيلي وسماوي', primary: '#4F46E5', secondary: '#06B6D4' },
+            { id: 'emerald_mint', name: 'زمرد ونعناع', primary: '#059669', secondary: '#10B981' },
+            { id: 'sunset_rose', name: 'غروب كورايل', primary: '#E11D48', secondary: '#F97316' },
+            { id: 'cosmic_violet', name: 'بنفسجي كوني', primary: '#7C3AED', secondary: '#EC4899' },
+            { id: 'amber_gold', name: 'عنبر وذهب', primary: '#D97706', secondary: '#F59E0B' }
+        ];
+
+        let currentActiveTheme = chromeProfiles[0];
+
+        function applyChromeTheme(theme) {
+            currentActiveTheme = theme;
+            const root = document.documentElement;
+            root.style.setProperty('--accent-primary', theme.primary);
+            root.style.setProperty('--accent-secondary', theme.secondary);
+            root.style.setProperty('--glow-accent', `${theme.primary}55`);
+        }
+
+        function resolveAndApplyTheme() {
+            if (db.settings && db.settings.pinnedTheme) {
+                const found = chromeProfiles.find(t => t.id === db.settings.pinnedTheme);
+                if (found) { applyChromeTheme(found); return; }
+            }
+            const hourSlot = Math.floor(Date.now() / (1000 * 60 * 60 * 4));
+            const idx = hourSlot % chromeProfiles.length;
+            applyChromeTheme(chromeProfiles[idx]);
+        }
+
+        function cycleNextTheme() {
+            const curIdx = chromeProfiles.findIndex(t => t.id === currentActiveTheme.id);
+            const nextIdx = (curIdx + 1) % chromeProfiles.length;
+            const nextTheme = chromeProfiles[nextIdx];
+            db.settings.pinnedTheme = nextTheme.id;
+            finalizeAction();
+            applyChromeTheme(nextTheme);
+        }
+
+        function setThemeModeAuto() {
+            db.settings.pinnedTheme = null;
+            finalizeAction();
+            resolveAndApplyTheme();
+            showToast('🔄 تم تفعيل التبديل التلقائي');
+        }
+
+        function renderThemeSelectionGrid() {
+            const grid = document.getElementById('themeSelectionGrid');
+            if (!grid) return;
+            grid.innerHTML = chromeProfiles.map(theme => `
+                <button onclick="selectSpecificTheme('${theme.id}')" style="background:var(--surface-hover); border:1px solid ${db.settings.pinnedTheme === theme.id ? theme.primary : 'var(--border-subtle)'}; padding:10px 12px; border-radius:var(--radius-md); color:var(--text-primary); cursor:pointer; font-size:12px; font-weight:800; display:flex; align-items:center; gap:8px;">
+                    <span style="width:14px; height:14px; border-radius:50%; background:linear-gradient(135deg, ${theme.primary}, ${theme.secondary}); display:inline-block;"></span>
+                    <span>${theme.name}</span>
+                </button>
+            `).join('');
+        }
+
+        function selectSpecificTheme(id) {
+            db.settings.pinnedTheme = id;
+            finalizeAction();
+            resolveAndApplyTheme();
+            renderThemeSelectionGrid();
+            showToast('📌 تم تثبيت الثيم');
+        }
+
+        // --- 2. هيكلة وتخزين البيانات ---
         function normalizeDB(data) {
             if (!data) data = {};
             const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
@@ -510,12 +753,13 @@
                     if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
                 } else { data[key] = []; }
             });
-            if (!data.settings) data.settings = { darkMode: false };
+            if (!data.settings) data.settings = { darkMode: true, pinnedTheme: null };
             return data;
         }
 
         let db = normalizeDB(JSON.parse(localStorage.getItem('myLifeAppDB')));
         const todayStr = new Date().toISOString().split('T')[0];
+        let livePrayersList = [];
 
         function showToast(msg) {
             const el = document.getElementById('syncToast');
@@ -534,78 +778,142 @@
         dbRef.on('value', (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                const normalized = normalizeDB(data);
-                if (JSON.stringify(normalized) !== JSON.stringify(db)) {
-                    db = normalized;
-                    localStorage.setItem('myLifeAppDB', JSON.stringify(db));
-                    updateUI();
-                    showToast('🔄 تم التحديث');
+                db = normalizeDB(data);
+                localStorage.setItem('myLifeAppDB', JSON.stringify(db));
+                resolveAndApplyTheme();
+                updateUI();
+                showToast('🔄 تم جلب البيانات');
+            }
+        });
+
+        // --- 3. محرك الحساب الفلكي الدقيق لأوقاف فلسطين (جنين) ---
+        function calculatePalestinePrayerTimes(date = new Date()) {
+            const lat = 32.4646;
+            const lng = 35.2939;
+            const tz = -date.getTimezoneOffset() / 60;
+
+            const start = new Date(date.getFullYear(), 0, 0);
+            const diff = (date - start) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
+            const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+            const gamma = (2 * Math.PI / 365) * (dayOfYear - 1);
+            const eqtime = 229.18 * (0.000075 + 0.001868 * Math.cos(gamma) - 0.032077 * Math.sin(gamma) - 0.014615 * Math.cos(2 * gamma) - 0.040849 * Math.sin(2 * gamma));
+            const decl = 0.006918 - 0.399912 * Math.cos(gamma) + 0.070257 * Math.sin(gamma) - 0.006758 * Math.cos(2 * gamma) + 0.000907 * Math.sin(2 * gamma) - 0.002697 * Math.cos(3 * gamma) + 0.00148 * Math.sin(3 * gamma);
+
+            const degToRad = Math.PI / 180;
+            const radToDeg = 180 / Math.PI;
+            const latRad = lat * degToRad;
+
+            const noon = 12 + tz - (lng / 15) - (eqtime / 60);
+
+            function getHourAngle(angleDeg) {
+                const altRad = -angleDeg * degToRad;
+                const cosHA = (Math.sin(altRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl));
+                if (cosHA > 1 || cosHA < -1) return null;
+                return radToDeg * Math.acos(cosHA) / 15;
+            }
+
+            const asrAlt = Math.atan(1 / (1 + Math.tan(Math.abs(latRad - decl)))) * radToDeg;
+            const asrHA = radToDeg * Math.acos((Math.sin(asrAlt * degToRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl))) / 15;
+
+            const fajrHA = getHourAngle(19.5);
+            const ishaHA = getHourAngle(17.5);
+            const sunHA = getHourAngle(0.833);
+
+            function toDateObj(hoursDecimal) {
+                const d = new Date(date);
+                let h = Math.floor(hoursDecimal);
+                let m = Math.round((hoursDecimal - h) * 60);
+                if (m >= 60) { h += 1; m = 0; }
+                d.setHours(h, m, 0, 0);
+                return d;
+            }
+
+            return [
+                { name: 'صلاة الفجر', targetDate: toDateObj(noon - fajrHA) },
+                { name: 'صلاة الظهر', targetDate: toDateObj(noon + (1.5/60)) },
+                { name: 'صلاة العصر', targetDate: toDateObj(noon + asrHA) },
+                { name: 'صلاة المغرب', targetDate: toDateObj(noon + sunHA + (1.5/60)) },
+                { name: 'صلاة العشاء', targetDate: toDateObj(noon + ishaHA) }
+            ];
+        }
+
+        function loadAccuratePrayers() {
+            const prayers = calculatePalestinePrayerTimes(new Date());
+            livePrayersList = prayers.map((p, idx) => ({
+                id: `prayer_${idx}`,
+                title: `🕌 ${p.name}`,
+                targetTime: p.targetDate.getTime(),
+                isPrayer: true
+            }));
+            renderPrayersAndReminders();
+        }
+
+        // --- 4. محرك الطقس والعملات ---
+        async function syncFeeds() {
+            try {
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&current=temperature_2m,weather_code&timezone=auto');
+                const data = await res.json();
+                if (data && data.current) {
+                    const temp = Math.round(data.current.temperature_2m);
+                    document.getElementById('chipWeather').innerText = `${temp}°C ⛅`;
+                }
+            } catch(e) {}
+
+            try {
+                const res = await fetch('https://open.er-api.com/v6/latest/ILS');
+                const data = await res.json();
+                if (data && data.rates) {
+                    document.getElementById('rateUSD').innerText = `${(1 / data.rates.USD).toFixed(2)} ₪`;
+                    document.getElementById('rateJOD').innerText = `${(1 / data.rates.JOD).toFixed(2)} ₪`;
+                    document.getElementById('rateEUR').innerText = `${(1 / data.rates.EUR).toFixed(2)} ₪`;
+                }
+            } catch(e) {}
+        }
+
+        // --- 5. نظام إشعارات أندرويد الصوتي المخصص (Channel Fix: v5) ---
+        function getNativePlugin() {
+            if (window.Capacitor) {
+                if (window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
+                    return window.Capacitor.Plugins.LocalNotifications;
+                }
+                if (typeof window.Capacitor.registerPlugin === 'function') {
+                    try { return window.Capacitor.registerPlugin('LocalNotifications'); } catch(e) {}
                 }
             }
-        });
-
-        // --- 2. محرك التمرير السلس (Scroll-Driven Reveal) ---
-        function initScrollObserver() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                });
-            }, { threshold: 0.08 });
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            return null;
         }
 
-        // --- 3. التنقل وشريط الدوك الذكي الجديد ---
-        function closeDockMenu() {
-            document.getElementById('dockMenuPopup').classList.remove('open');
-            document.getElementById('btnNavMenu').classList.remove('active');
-        }
+        async function initNativeNotifications() {
+            const plugin = getNativePlugin();
+            if (plugin) {
+                try {
+                    await plugin.createChannel({
+                        id: 'lifeos_marimba_channel_v5',
+                        name: 'Life OS نغمة مخصصة',
+                        description: 'قناة إشعارات وتنبيهات Life OS بصوت ماريمبا المخصص',
+                        importance: 5,
+                        visibility: 1,
+                        sound: 'marimba',
+                        lights: true,
+                        vibration: true
+                    });
 
-        function toggleDockMenu() {
-            const popup = document.getElementById('dockMenuPopup');
-            const btn = document.getElementById('btnNavMenu');
-            popup.classList.toggle('open');
-            btn.classList.toggle('active', popup.classList.contains('open'));
-        }
+                    await plugin.registerActionTypes({
+                        types: [{
+                            id: 'ALARM_ACTIONS',
+                            actions: [{ id: 'dismiss_alarm', title: '🔕 إيقاف التنبيه', destructive: true }]
+                        }]
+                    });
 
-        function switchMainTab(sectionId, btnEl) {
-            closeDockMenu();
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
-            
-            const target = document.getElementById(sectionId);
-            if(target) target.classList.add('active');
-            if(btnEl) btnEl.classList.add('active');
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            setTimeout(initScrollObserver, 50);
-        }
-
-        function openSectionFromMenu(sectionId) {
-            closeDockMenu();
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
-            
-            const target = document.getElementById(sectionId);
-            if(target) target.classList.add('active');
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            setTimeout(initScrollObserver, 50);
-        }
-
-        function startVoiceFromMenu() {
-            closeDockMenu();
-            startVoiceRecording();
-        }
-
-        document.addEventListener('click', (e) => {
-            const popup = document.getElementById('dockMenuPopup');
-            const btn = document.getElementById('btnNavMenu');
-            if (popup.classList.contains('open') && !popup.contains(e.target) && !btn.contains(e.target)) {
-                closeDockMenu();
+                    plugin.addListener('localNotificationActionPerformed', () => {
+                        dismissActiveAlarm();
+                    });
+                } catch(e) {}
             }
-        });
+        }
+        initNativeNotifications();
 
-        // --- 4. محرك الصوت والتنبيهات الخفيف ---
         let audioCtx = null;
         let alarmTimer = null;
 
@@ -615,26 +923,47 @@
             return audioCtx;
         }
 
-        function playChime() {
+        function playPrestigeZenBell() {
             const ctx = getAudioContext();
-            [523.25, 659.25, 783.99].forEach((freq, i) => {
+            const now = ctx.currentTime;
+            
+            const notes = [
+                { f: 739.99, delay: 0.00 },
+                { f: 932.33, delay: 0.07 },
+                { f: 1108.73, delay: 0.14 },
+                { f: 1396.91, delay: 0.21 }
+            ];
+
+            notes.forEach((note) => {
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
-                osc.frequency.setValueAtTime(freq, ctx.currentTime + (i * 0.09));
-                gain.gain.setValueAtTime(0.2, ctx.currentTime + (i * 0.09));
-                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (i * 0.09) + 1.2);
+                const startTime = now + note.delay;
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(note.f, startTime);
+
+                gain.gain.setValueAtTime(0.0001, startTime);
+                gain.gain.linearRampToValueAtTime(0.12, startTime + 0.015);
+                gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.65);
+
                 osc.connect(gain);
                 gain.connect(ctx.destination);
-                osc.start(ctx.currentTime + (i * 0.09));
-                osc.stop(ctx.currentTime + (i * 0.09) + 1.4);
+
+                osc.start(startTime);
+                osc.stop(startTime + 0.7);
             });
         }
 
+        function testPrestigeAlarm() {
+            playPrestigeZenBell();
+            if ("vibrate" in navigator) navigator.vibrate([150, 80, 150]);
+        }
+
         function startAlarm(title) {
-            playChime();
+            playPrestigeZenBell();
             clearInterval(alarmTimer);
-            alarmTimer = setInterval(playChime, 3000);
-            if ("vibrate" in navigator) navigator.vibrate([400, 200, 400]);
+            alarmTimer = setInterval(playPrestigeZenBell, 2800);
+            if ("vibrate" in navigator) navigator.vibrate([300, 150, 300]);
             document.getElementById('activeAlarmModalTitle').innerText = title || 'تنبيه موعد';
             document.getElementById('activeAlarmModal').classList.add('active');
         }
@@ -647,86 +976,338 @@
         function formatTime(ms) {
             if (ms <= 0) return '00:00';
             const s = Math.floor(ms / 1000);
+            const hrs = Math.floor(s / 3600);
             const mins = Math.floor((s % 3600) / 60);
             const secs = s % 60;
+            if (hrs > 0) return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        async function scheduleSystemNotification(title, minutes, reminderId) {
+            const plugin = getNativePlugin();
+            const notifTitle = title ? `⏰ تنبيه: ${title}` : `⏰ موعد التنبيه (${minutes} دقيقة)!`;
+            const notifBody = title ? `حان الآن موعد: ${title}` : `انتهت مدة التنبيه في Life OS`;
+            const targetDate = new Date(Date.now() + minutes * 60 * 1000);
+
+            if (plugin) {
+                try {
+                    await plugin.schedule({
+                        notifications: [{
+                            title: notifTitle,
+                            body: notifBody,
+                            id: Math.abs(Number(reminderId) % 2147483647),
+                            schedule: { at: targetDate, allowWhileIdle: true },
+                            sound: 'marimba',
+                            actionTypeId: 'ALARM_ACTIONS',
+                            channelId: 'lifeos_marimba_channel_v5'
+                        }]
+                    });
+                } catch (err) {}
+            }
         }
 
         function addReminderFast(mins, title = '') {
             getAudioContext();
             const now = Date.now();
+            const reminderId = Date.now();
+            const cleanTitle = title.trim();
+
             db.reminders.push({
-                id: Date.now(),
-                title: title.trim(),
+                id: reminderId,
+                title: cleanTitle,
                 minutes: mins,
                 createdAt: now,
                 targetTime: now + (mins * 60 * 1000),
                 triggered: false,
-                hasName: !!title.trim()
+                hasName: !!cleanTitle
             });
-            document.getElementById('manualReminderMinutes').value = '';
-            document.getElementById('manualReminderTitle').value = '';
-            finalizeAction();
-            renderReminders();
-        }
 
-        function submitManualReminderFast() {
-            const mins = parseInt(document.getElementById('manualReminderMinutes').value);
-            const title = document.getElementById('manualReminderTitle').value;
-            if (!mins || mins <= 0) return alert('أدخل عدد دقائق صالح');
-            addReminderFast(mins, title);
+            finalizeAction();
+            scheduleSystemNotification(cleanTitle, mins, reminderId);
         }
 
         function deleteReminder(id) {
-            if (confirm('تأكيد إلغاء التنبيه؟')) {
-                db.reminders = db.reminders.filter(r => r.id !== id);
-                finalizeAction();
-                renderReminders();
+            const numId = Number(id);
+            const plugin = getNativePlugin();
+            if (plugin) {
+                plugin.cancel({ notifications: [{ id: Math.abs(numId % 2147483647) }] }).catch(() => {});
             }
+            db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
+            finalizeAction();
         }
 
-        function renderReminders() {
-            const now = Date.now();
-            const dashContainer = document.getElementById('dashRemindersContainer');
-            if (dashContainer) {
-                const list = db.reminders.filter(r => r.hasName ? ((now - r.createdAt) <= 48*60*60*1000) : (!r.triggered && r.targetTime > now));
-                list.sort((a,b) => b.createdAt - a.createdAt);
-                
-                let html = '';
-                list.forEach(r => {
-                    const isPending = !r.triggered && r.targetTime > now;
-                    html += `
-                    <div class="card" style="padding:14px 18px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <strong style="font-size:15px;">${r.title || `تنبيه (${r.minutes} د)`}</strong>
-                            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;">موعد الرنين: ${new Date(r.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}</div>
-                        </div>
-                        <div style="display:flex; align-items:center; gap:8px;">
-                            ${isPending ? `<span class="tag-badge" id="cd-${r.id}">⏳ ${formatTime(r.targetTime - now)}</span>` : `<span class="tag-badge" style="background:rgba(16,185,129,0.15); color:var(--accent-green);">✅ مكتمل</span>`}
-                            <button onclick="deleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-red); font-size:16px; cursor:pointer;">❌</button>
-                        </div>
-                    </div>`;
-                });
-                dashContainer.innerHTML = html;
+        // --- 6. التنقل بالشريط السفلي والقائمة المنسدلة العلوية ---
+        function switchNavSection(viewId, btnEl) {
+            closeTopDropdown();
+            document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
+            
+            const target = document.getElementById(viewId);
+            if(target) target.classList.add('active');
+            if(btnEl) btnEl.classList.add('active');
+
+            if (viewId === 'settings-view') renderThemeSelectionGrid();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateUI();
+        }
+
+        function toggleTopDropdown() {
+            document.getElementById('topDropdownMenu').classList.toggle('open');
+        }
+
+        function closeTopDropdown() {
+            const el = document.getElementById('topDropdownMenu');
+            if (el) el.classList.remove('open');
+        }
+
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('topDropdownMenu');
+            if (menu && menu.classList.contains('open') && !menu.contains(e.target) && !e.target.closest('button[title="القائمة الشاملة"]')) {
+                closeTopDropdown();
+            }
+        });
+
+        function startVoiceRecordingFromMenu() {
+            closeTopDropdown();
+            startVoiceRecording();
+        }
+
+        // --- 7. محرك البحث الشامل (Global Search Engine) ---
+        function handleGlobalSearch(query) {
+            const card = document.getElementById('searchResultsCard');
+            const list = document.getElementById('searchResultsList');
+            const q = query.trim().toLowerCase();
+
+            if (!q) {
+                card.style.display = 'none';
+                list.innerHTML = '';
+                return;
             }
 
-            const fullArchive = document.getElementById('fullRemindersArchive');
-            if(fullArchive) {
-                fullArchive.innerHTML = db.reminders.map(r => `
+            card.style.display = 'block';
+            let results = [];
+
+            // بحث بالمهام
+            db.todos.forEach(t => {
+                if (t.text.toLowerCase().includes(q)) {
+                    results.push(`
+                        <div class="list-row">
+                            <div><span class="tag-badge" style="margin-left:6px;">مهمة</span> <span>${t.text}</span></div>
+                            <button onclick="toggleTodo(${t.id})" style="background:none; border:none; color:var(--accent-primary); cursor:pointer;">${t.done?'✅ مكتملة':'⭕ إكمال'}</button>
+                        </div>`);
+                }
+            });
+
+            // بحث بالملاحظات
+            db.notes.forEach(n => {
+                if ((n.title && n.title.toLowerCase().includes(q)) || (n.body && n.body.toLowerCase().includes(q))) {
+                    results.push(`
+                        <div class="list-row">
+                            <div><span class="tag-badge emerald" style="margin-left:6px;">ملاحظة</span> <strong>${n.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${n.body || ''}</div></div>
+                        </div>`);
+                }
+            });
+
+            // بحث بالوثائق
+            db.documents.forEach(d => {
+                if (d.name.toLowerCase().includes(q)) {
+                    results.push(`
+                        <div class="list-row">
+                            <div><span class="tag-badge" style="margin-left:6px;">وثيقة</span> <strong>${d.name}</strong><div style="font-size:12px; color:var(--text-secondary);">تنتهي: ${d.expiryDate}</div></div>
+                        </div>`);
+                }
+            });
+
+            // بحث بالخزنة
+            db.vault.forEach(v => {
+                if (v.accountName.toLowerCase().includes(q)) {
+                    results.push(`
+                        <div class="list-row">
+                            <div><span class="tag-badge" style="margin-left:6px; background:rgba(244,63,94,0.15); color:var(--accent-rose);">خزنة</span> <strong>${v.accountName}</strong><div style="font-size:12px; color:var(--accent-rose); font-family:monospace;">${v.password}</div></div>
+                        </div>`);
+                }
+            });
+
+            list.innerHTML = results.join('') || '<p style="color:var(--text-tertiary); font-size:13px; text-align:center; padding:10px;">لا توجد نتائج مطابقة لـ "' + q + '".</p>';
+        }
+
+        function clearGlobalSearch() {
+            document.getElementById('globalSearchInput').value = '';
+            handleGlobalSearch('');
+        }
+
+        // --- 8. الزر العائم والنوافذ المنبثقة السريعة ---
+        function toggleFabMenu() {
+            document.getElementById('fabMenu').classList.toggle('open');
+            document.getElementById('fabMainBtn').classList.toggle('open');
+        }
+
+        function closeQuickModal() {
+            document.getElementById('quickActionModal').classList.remove('active');
+        }
+
+        function openFabAction(type) {
+            toggleFabMenu();
+            const modal = document.getElementById('quickActionModal');
+            const title = document.getElementById('modalTitle');
+            const container = document.getElementById('modalFormContainer');
+
+            if (type === 'alarm') {
+                title.innerText = '⏰ ضبط تنبيه سريع';
+                container.innerHTML = `
+                    <input type="number" id="fabAlarmMins" placeholder="عدد الدقائق..." class="app-input" required>
+                    <input type="text" id="fabAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
+                    <button type="button" onclick="submitFabAlarm()" class="btn-action">ضبط الآن</button>
+                `;
+            } else if (type === 'todo') {
+                title.innerText = '✅ إضافة مهمة لليوم';
+                container.innerHTML = `
+                    <input type="text" id="fabTodoText" placeholder="اكتب المهمة..." class="app-input" required>
+                    <button type="button" onclick="submitFabTodo()" class="btn-action">حفظ المهمة</button>
+                `;
+            } else if (type === 'note') {
+                title.innerText = '📝 تدوين ملاحظة سريعة';
+                container.innerHTML = `
+                    <input type="text" id="fabNoteTitle" placeholder="عنوان الملاحظة..." class="app-input">
+                    <textarea id="fabNoteBody" rows="3" placeholder="نص الملاحظة..." class="app-input" required></textarea>
+                    <button type="button" onclick="submitFabNote()" class="btn-action">حفظ الملاحظة</button>
+                `;
+            } else if (type === 'bill') {
+                title.innerText = '🧾 فاتورة أو اشتراك جديد';
+                container.innerHTML = `
+                    <select id="fabFinanceType" class="app-input"><option value="bill">فاتورة (كهرباء، ماء، نت)</option><option value="sub">اشتراك شهري (جيم، نتفلكس)</option></select>
+                    <input type="text" id="fabFinanceName" placeholder="الاسم / النوع..." class="app-input" required>
+                    <input type="number" id="fabFinanceAmount" placeholder="المبلغ (₪)..." class="app-input" required>
+                    <button type="button" onclick="submitFabFinance()" class="btn-action">حفظ</button>
+                `;
+            }
+            modal.classList.add('active');
+        }
+
+        function submitFabAlarm() {
+            const mins = parseInt(document.getElementById('fabAlarmMins').value);
+            const title = document.getElementById('fabAlarmTitle').value;
+            if (!mins || mins <= 0) return alert('أدخل دقائق صحيحة');
+            addReminderFast(mins, title);
+            closeQuickModal();
+        }
+
+        function submitFabTodo() {
+            const text = document.getElementById('fabTodoText').value;
+            if (!text.trim()) return alert('اكتب نص المهمة');
+            db.todos.push({ id: Date.now(), text: text.trim(), done: false, date: todayStr });
+            finalizeAction();
+            closeQuickModal();
+        }
+
+        function submitFabNote() {
+            const body = document.getElementById('fabNoteBody').value;
+            if (!body.trim()) return alert('اكتب نص الملاحظة');
+            db.notes.push({ id: Date.now(), title: document.getElementById('fabNoteTitle').value || 'ملاحظة', body: body });
+            finalizeAction();
+            closeQuickModal();
+        }
+
+        function submitFabFinance() {
+            const type = document.getElementById('fabFinanceType').value;
+            const name = document.getElementById('fabFinanceName').value;
+            const amount = document.getElementById('fabFinanceAmount').value;
+            if (!name || !amount) return alert('أدخل البيانات كاملة');
+            
+            if (type === 'bill') {
+                db.fixed_bills.push({ id: Date.now(), type: name, amount: amount, date: todayStr });
+            } else {
+                db.subscriptions.push({ id: Date.now(), name: name, amount: amount, date: todayStr });
+            }
+            finalizeAction('تم الحفظ بنجاح');
+            closeQuickModal();
+        }
+
+        function handleQuickTodo(e) {
+            e.preventDefault();
+            const input = document.getElementById('todoInputTab');
+            db.todos.push({ id: Date.now(), text: input.value.trim(), done: false, date: todayStr });
+            input.value = '';
+            finalizeAction();
+        }
+
+        function handleQuickExpense(e) {
+            e.preventDefault();
+            const desc = document.getElementById('expDescTab').value;
+            const amount = document.getElementById('expAmountTab').value;
+            db.expenses.push({ id: Date.now(), desc: desc, amount: amount, date: todayStr });
+            document.getElementById('expDescTab').value = '';
+            document.getElementById('expAmountTab').value = '';
+            finalizeAction('تم تسجيل المصروف');
+        }
+
+        // --- 9. عرض وتحديث بيانات الصلوات والتنبيهات ---
+        function renderPrayersAndReminders() {
+            const now = Date.now();
+            
+            const nextPrayer = livePrayersList.find(p => p.targetTime > now);
+            if (nextPrayer) {
+                document.getElementById('dashNextPrayerName').innerText = nextPrayer.title.replace('🕌 ', '');
+                document.getElementById('dashNextPrayerCountdown').innerText = `⏳ ${formatTime(nextPrayer.targetTime - now)}`;
+                document.getElementById('chipNextPrayer').innerText = nextPrayer.title.replace('🕌 ', '');
+            } else {
+                document.getElementById('dashNextPrayerName').innerText = 'اكتملت صلوات اليوم';
+                document.getElementById('dashNextPrayerCountdown').innerText = '✅ تم';
+                document.getElementById('chipNextPrayer').innerText = 'اكتملت';
+            }
+
+            const prayersFullEl = document.getElementById('prayersFullList');
+            if (prayersFullEl) {
+                prayersFullEl.innerHTML = livePrayersList.map(p => {
+                    const isPending = p.targetTime > now;
+                    return `
+                    <div class="list-row">
+                        <div>
+                            <strong>${p.title}</strong>
+                            <div style="font-size:12px; color:var(--text-secondary);">${new Date(p.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}</div>
+                        </div>
+                        <span class="tag-badge ${isPending ? 'emerald' : ''}">${isPending ? `⏳ ${formatTime(p.targetTime - now)}` : '✅ تم'}</span>
+                    </div>`;
+                }).join('');
+            }
+
+            const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
+            activeReminders.sort((a,b) => a.targetTime - b.targetTime);
+
+            const dashRemPreview = document.getElementById('dashRemindersPreview');
+            if (dashRemPreview) {
+                dashRemPreview.innerHTML = activeReminders.slice(0, 3).map(r => `
+                    <div class="list-row">
+                        <div>
+                            <strong>${r.title || `تنبيه (${r.minutes} د)`}</strong>
+                            <div style="font-size:12px; color:var(--text-secondary);">${new Date(r.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}</div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span class="tag-badge">⏳ ${formatTime(r.targetTime - now)}</span>
+                            <button onclick="deleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer; font-size:16px;">❌</button>
+                        </div>
+                    </div>
+                `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد تنبيهات نشطة حالياً.</p>';
+            }
+
+            const remindersFullEl = document.getElementById('remindersFullList');
+            if (remindersFullEl) {
+                remindersFullEl.innerHTML = db.reminders.map(r => `
                     <div class="list-row">
                         <div>
                             <strong>${r.title || 'تنبيه سريع'}</strong>
-                            <div style="font-size:12px; color:var(--text-muted);">${new Date(r.createdAt).toLocaleDateString('ar-EG')} - ${r.minutes} دقيقة</div>
+                            <div style="font-size:12px; color:var(--text-secondary);">${new Date(r.createdAt).toLocaleDateString('ar-EG')} - ${r.minutes} دقيقة</div>
                         </div>
-                        <button onclick="deleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
+                        <button onclick="deleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
                     </div>
-                `).join('') || '<p style="color:var(--text-muted); text-align:center;">السجل فارغ</p>';
+                `).join('') || '<p style="color:var(--text-secondary); text-align:center;">السجل فارغ</p>';
             }
         }
 
         setInterval(() => {
             const now = Date.now();
             let changed = false;
+
             db.reminders.forEach(r => {
                 if (!r.triggered) {
                     const diff = r.targetTime - now;
@@ -734,16 +1315,15 @@
                         r.triggered = true;
                         changed = true;
                         startAlarm(r.title);
-                    } else {
-                        const el = document.getElementById(`cd-${r.id}`);
-                        if (el) el.innerText = `⏳ ${formatTime(diff)}`;
                     }
                 }
             });
-            if (changed) { finalizeAction(); renderReminders(); }
+
+            renderPrayersAndReminders();
+            if (changed) finalizeAction();
         }, 1000);
 
-        // --- 5. المهام والمصاريف والعمليات ---
+        // --- 10. تحديث الشاشات الشامل ---
         function updateUI() {
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
@@ -757,31 +1337,121 @@
                 const d = new Date(b.date);
                 if (d.getMonth() === cMonth && d.getFullYear() === cYear) spentMonth += parseFloat(b.amount);
             });
-            document.getElementById('dashSpent').innerHTML = `${spentMonth.toLocaleString()} <span style="font-size:16px; color:var(--text-muted);">₪</span>`;
+            document.getElementById('dashSpent').innerHTML = `${spentMonth.toLocaleString()} <span style="font-size:14px; color:var(--text-tertiary);">₪</span>`;
 
+            // مهام اليوم
             const todosToday = db.todos.filter(t => t.date === todayStr);
-            document.getElementById('dashTodoCount').innerText = `${todosToday.length} مهام`;
             document.getElementById('dashTodosList').innerHTML = todosToday.map(t => `
                 <div class="list-row">
                     <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
-                        <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--primary);">
-                        <span style="${t.done?'text-decoration:line-through; color:var(--text-muted);':''}">${t.text}</span>
+                        <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--accent-primary); width:18px; height:18px;">
+                        <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text}</span>
                     </label>
-                    <button onclick="deleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">✖</button>
+                    <button onclick="deleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">✖</button>
                 </div>
-            `).join('') || '<p style="color:var(--text-muted); font-size:13px; padding-top:4px;">لا توجد مهام اليوم.</p>';
+            `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد مهام اليوم.</p>';
 
+            const todosAllEl = document.getElementById('todosAllList');
+            if (todosAllEl) {
+                todosAllEl.innerHTML = db.todos.map(t => `
+                    <div class="list-row">
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
+                            <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--accent-primary); width:18px; height:18px;">
+                            <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text}</span>
+                        </label>
+                        <button onclick="deleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
+                    </div>
+                `).join('') || '<p style="color:var(--text-secondary);">لا توجد مهام مؤرشفة.</p>';
+            }
+
+            // مصاريف اليوم
             const expToday = db.expenses.filter(e => e.date === todayStr);
             let todayTotal = expToday.reduce((sum, item) => sum + parseFloat(item.amount), 0);
             document.getElementById('dashExpensesTotal').innerText = `${todayTotal} ₪`;
-            document.getElementById('dashExpensesList').innerHTML = expToday.map(e => `
-                <div class="list-row">
-                    <span>${e.desc}</span>
-                    <strong style="color:var(--accent-red);">${e.amount} ₪</strong>
-                </div>
-            `).join('') || '<p style="color:var(--text-muted); font-size:13px; padding-top:4px;">لم تسجل مصاريف اليوم.</p>';
 
-            renderReminders();
+            // المالية
+            let tDay = 0, tWeek = 0, tMonth = 0;
+            const now = new Date();
+            db.expenses.forEach(ex => {
+                const exDate = new Date(ex.date);
+                const diffDays = (now - exDate) / (1000 * 60 * 60 * 24);
+                if(ex.date === todayStr) tDay += parseFloat(ex.amount);
+                if(diffDays <= 7) tWeek += parseFloat(ex.amount);
+                if(exDate.getMonth() === cMonth && exDate.getFullYear() === cYear) tMonth += parseFloat(ex.amount);
+            });
+            document.getElementById('statToday').innerText = tDay + ' ₪';
+            document.getElementById('statWeek').innerText = tWeek + ' ₪';
+            document.getElementById('statMonth').innerText = tMonth + ' ₪';
+
+            const fullExpEl = document.getElementById('expensesFullList');
+            if(fullExpEl) {
+                fullExpEl.innerHTML = db.expenses.map(e => `
+                    <div class="list-row">
+                        <div><strong>${e.desc}</strong><div style="font-size:11px; color:var(--text-secondary);">${e.date}</div></div>
+                        <strong style="color:var(--accent-rose);">${e.amount} ₪</strong>
+                    </div>
+                `).join('') || '<p style="color:var(--text-secondary);">لا توجد مصاريف سابقة.</p>';
+            }
+
+            // فواتير واشتراكات
+            const billsSubsEl = document.getElementById('billsAndSubsList');
+            if (billsSubsEl) {
+                let combined = '';
+                db.fixed_bills.forEach(b => {
+                    combined += `
+                    <div class="list-row">
+                        <div><strong>${b.type} (فاتورة)</strong><div style="font-size:11px; color:var(--text-secondary);">${b.date}</div></div>
+                        <div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--accent-primary);">${b.amount} ₪</strong><button onclick="deleteBill(${b.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button></div>
+                    </div>`;
+                });
+                db.subscriptions.forEach(s => {
+                    combined += `
+                    <div class="list-row">
+                        <div><strong>${s.name} (اشتراك شهري)</strong><div style="font-size:11px; color:var(--text-secondary);">${s.date}</div></div>
+                        <div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--accent-emerald);">${s.amount} ₪</strong><button onclick="deleteSub(${s.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button></div>
+                    </div>`;
+                });
+                billsSubsEl.innerHTML = combined || '<p style="color:var(--text-secondary);">لا توجد فواتير أو اشتراكات مسجلة.</p>';
+            }
+
+            // الملاحظات
+            const notesEl = document.getElementById('notesFullList');
+            if(notesEl) {
+                notesEl.innerHTML = db.notes.map(n => `
+                    <div style="background:var(--surface-hover); padding:14px; border-radius:var(--radius-md); margin-bottom:10px; border:1px solid var(--border-subtle);">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <strong>${n.title}</strong>
+                            <button onclick="deleteNote(${n.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
+                        </div>
+                        ${n.body ? `<p style="font-size:13px; color:var(--text-secondary); margin-top:6px; line-height:1.6;">${n.body}</p>` : ''}
+                        ${n.audioData ? `<audio controls src="${n.audioData}" style="width:100%; height:32px; margin-top:8px;"></audio>` : ''}
+                    </div>
+                `).join('') || '<p style="color:var(--text-secondary);">لا توجد ملاحظات.</p>';
+            }
+
+            // الخزنة
+            const vaultEl = document.getElementById('vaultFullList');
+            if(vaultEl) {
+                vaultEl.innerHTML = db.vault.map(v => `
+                    <div class="list-row">
+                        <div><strong>${v.accountName}</strong><div style="font-size:12px; color:var(--accent-rose); font-family:monospace;">${v.password}</div></div>
+                        <button onclick="deleteVault(${v.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
+                    </div>
+                `).join('') || '<p style="color:var(--text-secondary);">الخزنة فارغة.</p>';
+            }
+
+            // الوثائق
+            const docsEl = document.getElementById('docsFullList');
+            if(docsEl) {
+                docsEl.innerHTML = db.documents.map(d => `
+                    <div class="list-row">
+                        <div><strong>${d.name}</strong><div style="font-size:12px; color:var(--text-secondary);">تنتهي: ${d.expiryDate}</div></div>
+                        <button onclick="deleteDoc(${d.id})" style="background:none; border:none; color:var(--accent-rose); cursor:pointer;">🗑</button>
+                    </div>
+                `).join('') || '<p style="color:var(--text-secondary);">لا توجد وثائق مسجلة.</p>';
+            }
+
+            renderPrayersAndReminders();
         }
 
         function finalizeAction(msg=null) {
@@ -791,12 +1461,6 @@
             updateUI();
         }
 
-        function addTodoDash(e) {
-            e.preventDefault();
-            db.todos.push({ id: Date.now(), text: document.getElementById('todoInputDash').value, done: false, date: todayStr });
-            document.getElementById('todoInputDash').value = '';
-            finalizeAction();
-        }
         function toggleTodo(id) {
             const t = db.todos.find(x => x.id === id);
             if(t) { t.done = !t.done; finalizeAction(); }
@@ -805,47 +1469,28 @@
             db.todos = db.todos.filter(x => x.id !== id);
             finalizeAction();
         }
-
-        function addExpenseDash(e) {
-            e.preventDefault();
-            db.expenses.push({ id: Date.now(), desc: document.getElementById('expenseDescDash').value, amount: document.getElementById('expenseAmountDash').value, date: todayStr });
-            document.getElementById('expenseDescDash').value = '';
-            document.getElementById('expenseAmountDash').value = '';
+        function deleteBill(id) {
+            db.fixed_bills = db.fixed_bills.filter(x => x.id !== id);
+            finalizeAction();
+        }
+        function deleteSub(id) {
+            db.subscriptions = db.subscriptions.filter(x => x.id !== id);
+            finalizeAction();
+        }
+        function deleteDoc(id) {
+            db.documents = db.documents.filter(x => x.id !== id);
+            finalizeAction();
+        }
+        function deleteVault(id) {
+            db.vault = db.vault.filter(x => x.id !== id);
+            finalizeAction();
+        }
+        function deleteNote(id) {
+            db.notes = db.notes.filter(x => x.id !== id);
             finalizeAction();
         }
 
-        function saveFixedBill(e) {
-            e.preventDefault();
-            db.fixed_bills.push({ id: Date.now(), type: document.getElementById('billType').value, amount: document.getElementById('billAmount').value, date: todayStr });
-            document.getElementById('billAmount').value = '';
-            finalizeAction('تم حفظ الفاتورة');
-        }
-
-        function saveDocument(e) {
-            e.preventDefault();
-            db.documents.push({ id: Date.now(), name: document.getElementById('docName').value, expiryDate: document.getElementById('docExpiry').value });
-            document.getElementById('docName').value = '';
-            document.getElementById('docExpiry').value = '';
-            finalizeAction('تم حفظ الوثيقة');
-        }
-
-        function saveVaultItem(e) {
-            e.preventDefault();
-            db.vault.push({ id: Date.now(), accountName: document.getElementById('vaultName').value, password: document.getElementById('vaultPassword').value, date: todayStr });
-            document.getElementById('vaultName').value = '';
-            document.getElementById('vaultPassword').value = '';
-            finalizeAction('تم الحفظ بالخزنة');
-        }
-
-        function saveNote(e) {
-            e.preventDefault();
-            db.notes.push({ id: Date.now(), title: document.getElementById('noteTitle').value || 'ملاحظة', body: document.getElementById('noteBody').value });
-            document.getElementById('noteTitle').value = '';
-            document.getElementById('noteBody').value = '';
-            finalizeAction('تم الحفظ');
-        }
-
-        // --- 🎙️ مسجل الصوت المباشر ---
+        // --- 11. مسجل الصوت ---
         let mediaRec = null;
         let audioParts = [];
         let recTimer = null;
@@ -896,8 +1541,9 @@
 
         function toggleTheme() {
             db.settings.darkMode = !db.settings.darkMode;
-            document.body.classList.toggle('dark-mode', db.settings.darkMode);
-            document.getElementById('themeColorMeta').setAttribute('content', db.settings.darkMode ? '#090B10' : '#F8FAFC');
+            document.body.classList.toggle('light-mode', !db.settings.darkMode);
+            document.getElementById('themeBtn').innerText = db.settings.darkMode ? '🌙' : '☀️';
+            document.getElementById('themeColorMeta').setAttribute('content', db.settings.darkMode ? '#0A0C14' : '#F1F3F9');
             finalizeAction();
         }
 
@@ -908,18 +1554,33 @@
             dl.click();
         }
 
-        function requestNotificationPermission() {
+        async function requestNotificationPermission() {
             getAudioContext();
+            testPrestigeAlarm();
+            const plugin = getNativePlugin();
+            if (plugin) {
+                try {
+                    const res = await plugin.requestPermissions();
+                    if (res.display === 'granted') {
+                        alert('✅ تم تفعيل قناة التنبيهات المسموعة بنجاح!');
+                        return;
+                    }
+                } catch(e) {}
+            }
             if ('Notification' in window) {
                 Notification.requestPermission().then(p => {
-                    if (p === 'granted') alert('✅ تم تفعيل إشعارات النظام بنجاح!');
+                    if (p === 'granted') alert('✅ تم تفعيل الإشعارات بنجاح!');
                 });
             }
         }
 
-        document.body.classList.toggle('dark-mode', !!db.settings.darkMode);
+        document.body.classList.toggle('light-mode', !db.settings.darkMode);
+        document.getElementById('themeBtn').innerText = db.settings.darkMode ? '🌙' : '☀️';
+        
+        resolveAndApplyTheme();
+        loadAccuratePrayers();
+        syncFeeds();
         updateUI();
-        initScrollObserver();
     </script>
 </body>
 </html>
