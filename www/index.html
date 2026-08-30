@@ -29,7 +29,6 @@
             --text-tertiary: #636366;
             
             --oneui-blue: #007AFF;
-            --oneui-blue-subtle: rgba(0, 122, 255, 0.15);
             --oneui-green: #34C759;
             --oneui-red: #FF3B30;
             
@@ -52,7 +51,6 @@
             --text-tertiary: #8E8E93;
             
             --oneui-blue: #007AFF;
-            --oneui-blue-subtle: rgba(0, 122, 255, 0.1);
             --oneui-green: #34C759;
             --oneui-red: #FF3B30;
             --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.05);
@@ -83,27 +81,39 @@
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
-            padding: 16px 18px calc(var(--dock-height) + 85px) 18px;
+            padding: 12px 18px calc(var(--dock-height) + 85px) 18px;
             box-sizing: border-box;
         }
 
-        /* 🔍 شريط الإجراءات العلوي ونقاط سامسونج */
+        /* 🔍 شريط سامسونج العلوي: الصلاة القادمة يميناً والأدوات يساراً */
         .oneui-top-bar {
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            gap: 12px;
-            padding: 8px 4px;
+            justify-content: space-between;
+            padding: 6px 2px;
             position: relative;
+        }
+        .top-prayer-info {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--oneui-green);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .top-actions-cluster {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         .top-action-btn {
             background: transparent;
             border: none;
             color: var(--text-primary);
-            font-size: 20px;
+            font-size: 19px;
             cursor: pointer;
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -146,7 +156,7 @@
         /* 📑 قائمة الثلاث نقاط الشاملة (One UI Overflow Dropdown) */
         .oneui-dropdown {
             position: absolute;
-            top: 50px;
+            top: 48px;
             left: 4px;
             background: var(--surface-card);
             border: 1px solid var(--border-subtle);
@@ -185,15 +195,15 @@
         }
         .dropdown-item:active { background: var(--surface-inner); }
 
-        /* 📱 عنوان One UI ونصوص التقرير المجردة */
+        /* 📱 عنوان One UI ونصوص التقرير بدون كبسولات */
         .oneui-header-area {
-            padding: 14px 4px 20px 4px;
+            padding: 12px 2px 18px 2px;
         }
         .oneui-title-hero {
             font-size: 34px;
             font-weight: 800;
             letter-spacing: -0.03em;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
         .oneui-sub-text {
             font-size: 13px;
@@ -201,13 +211,79 @@
             font-weight: 500;
             line-height: 1.6;
         }
+        .oneui-currency-line {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-top: 2px;
+        }
 
-        /* 🪟 بطاقات وتقسيمات One UI النظيفة */
+        /* ⏱️ العداد الدائري لأقرب تنبيه (Circular Countdown Widget) */
+        .circular-timer-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 0 8px 0;
+        }
+        .circular-timer-box {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .timer-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        .timer-bg-circle {
+            fill: none;
+            stroke: var(--surface-inner);
+            stroke-width: 8;
+        }
+        .timer-progress-circle {
+            fill: none;
+            stroke: var(--oneui-blue);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 326.72;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+        .timer-text-content {
+            position: relative;
+            text-align: center;
+            z-index: 2;
+        }
+        .timer-time-large {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+        .timer-label-sub {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-top: 2px;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* 🪟 بطاقات وتقسيمات One UI */
         .section-label {
             font-size: 13px;
             font-weight: 700;
             color: var(--text-secondary);
-            margin: 18px 6px 8px 6px;
+            margin: 16px 4px 8px 4px;
             text-transform: uppercase;
             letter-spacing: 0.02em;
         }
@@ -311,7 +387,7 @@
         }
         .fab-action-item:active { transform: scale(0.96); background: var(--surface-inner); }
 
-        /* 📱 شريط سامسونج السفلي (3 أقسام حصراً ومطابق للمرجع) */
+        /* 📱 شريط سامسونج السفلي (الرئيسية · الصلوات · التنبيهات) */
         .samsung-dock-container {
             position: fixed;
             bottom: 16px;
@@ -441,11 +517,17 @@
 
     <div class="app-container">
         
-        <!-- 🔍 شريط سامسونج العلوي: أيقونة البحث + تبديل الوضع + القائمة (⋮) -->
+        <!-- 🔍 شريط سامسونج العلوي: الصلاة القادمة بجانب البحث والأدوات -->
         <div class="oneui-top-bar">
-            <button class="top-action-btn" onclick="toggleSearchBar()" title="بحث">🔍</button>
-            <button class="top-action-btn" onclick="toggleTheme()" id="themeBtn" title="الوضع الليلي">🌙</button>
-            <button class="top-action-btn" onclick="toggleTopDropdown()" title="القائمة">⋮</button>
+            <div class="top-prayer-info" id="topPrayerTag">
+                <span>🕌</span> <span id="topPrayerText">الصلاة: --</span>
+            </div>
+            
+            <div class="top-actions-cluster">
+                <button class="top-action-btn" onclick="toggleSearchBar()" title="بحث">🔍</button>
+                <button class="top-action-btn" onclick="toggleTheme()" id="themeBtn" title="الوضع الليلي">🌙</button>
+                <button class="top-action-btn" onclick="toggleTopDropdown()" title="القائمة">⋮</button>
+            </div>
 
             <!-- 📑 القائمة المنسدلة لجميع الأقسام بدون استثناء -->
             <div class="oneui-dropdown" id="topDropdownMenu">
@@ -460,7 +542,7 @@
             </div>
         </div>
 
-        <!-- حقل البحث القابل للتوسيع عند النقر على 🔍 -->
+        <!-- حقل البحث القابل للتوسيع -->
         <div class="expandable-search-bar" id="expandableSearchBar">
             <div class="search-inner-box">
                 <span>🔍</span>
@@ -474,58 +556,67 @@
             <div id="searchResultsList"></div>
         </div>
 
-        <!-- 📱 منطقة العنوان والنصوص المجردة (بدون كبسولات) -->
+        <!-- 📱 منطقة العنوان والنصوص المجردة بدون كبسولات -->
         <div class="oneui-header-area">
             <div class="oneui-title-hero">طاب يومك.</div>
             <div class="oneui-sub-text" id="oneuiSubInfo">
-                📍 جنين <span id="textWeather">--°C</span> · USD <span id="textUSD">--</span> ₪ · JOD <span id="textJOD">--</span> ₪ · EUR <span id="textEUR">--</span> ₪
+                📍 جنين <span id="textWeather">--°C ⛅</span> · صرف الشهر: <span id="textMonthlySpent">0 ₪</span>
+            </div>
+            <div class="oneui-currency-line" id="oneuiCurrencyLine">
+                🇺🇸 USD <span id="textUSD">--</span> ₪ · 🇯🇴 JOD <span id="textJOD">--</span> ₪ · 🇪🇺 EUR <span id="textEUR">--</span> ₪
             </div>
         </div>
 
         <!-- 🏠 1. تبويب الرئيسية (Dashboard View) -->
         <div id="dashboard-view" class="section-view active">
             
-            <!-- قسم 1: الصلاة القادمة -->
-            <div class="section-label">الموعد القادم</div>
-            <div class="oneui-card" style="display:flex; justify-content:space-between; align-items:center;">
-                <div>
-                    <div style="font-size:12px; color:var(--text-secondary); font-weight:600;">الصلاة القادمة في جنين</div>
-                    <div style="font-size:20px; font-weight:800; margin-top:2px;" id="dashNextPrayerName">صلاة العصر</div>
+            <!-- قسم 1: التنبيهات في الأعلى مع العداد الدائري لأقرب تنبيه -->
+            <div class="section-label">التنبيهات المباشرة</div>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                    <span style="font-size:13px; color:var(--text-secondary);" id="activeRemindersCountText">أقرب موعد</span>
+                    <button onclick="openFabAction('alarm')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ ضبط تنبيه</button>
                 </div>
-                <span class="tag-badge green" id="dashNextPrayerCountdown" style="font-size:14px;">⏳ --:--</span>
+
+                <!-- العداد الدائري التفاعلي -->
+                <div class="circular-timer-wrapper">
+                    <div class="circular-timer-box">
+                        <svg class="timer-svg" viewBox="0 0 120 120">
+                            <circle class="timer-bg-circle" cx="60" cy="60" r="52" />
+                            <circle class="timer-progress-circle" id="timerProgressCircle" cx="60" cy="60" r="52" />
+                        </svg>
+                        <div class="timer-text-content">
+                            <div class="timer-time-large" id="nearestTimerTime">--:--</div>
+                            <div class="timer-label-sub" id="nearestTimerLabel">لا توجد تنبيهات</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- قائمة التنبيهات المتبقية -->
+                <div id="dashRemindersPreview"></div>
             </div>
 
-            <!-- قسم 2: ملخص المصاريف -->
-            <div class="section-label">المالية والمصروفات</div>
-            <div class="oneui-card" style="display:flex; justify-content:space-between; align-items:center;">
-                <div>
-                    <div style="font-size:12px; color:var(--text-secondary); font-weight:600;">صرف هذا الشهر</div>
-                    <div style="font-size:26px; font-weight:800;" id="dashSpent">0 <span style="font-size:14px; color:var(--text-tertiary);">₪</span></div>
-                </div>
-                <div style="text-align:left;">
-                    <div style="font-size:12px; color:var(--text-secondary); font-weight:600;">صرف اليوم</div>
-                    <div style="font-size:18px; font-weight:800; color:var(--oneui-red);" id="dashExpensesTotal">0 ₪</div>
-                </div>
-            </div>
-
-            <!-- قسم 3: مهام اليوم -->
+            <!-- قسم 2: مهام اليوم -->
             <div class="section-label">مهام اليوم</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                    <span style="font-size:13px; color:var(--text-secondary);" id="dashTodoCount">0 مهام</span>
+                    <span style="font-size:13px; color:var(--text-secondary);" id="dashTodoCount">0 مهام معلقة</span>
                     <button onclick="openFabAction('todo')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ إضافة مهمة</button>
                 </div>
                 <div id="dashTodosList"></div>
             </div>
 
-            <!-- قسم 4: التنبيهات النشطة -->
-            <div class="section-label">التنبيهات المباشرة</div>
+            <!-- قسم 3: ملخص المصروفات الحديثة -->
+            <div class="section-label">المصروفات الحديثة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                    <span style="font-size:13px; color:var(--text-secondary);">المؤقتات القادمة</span>
-                    <button onclick="openFabAction('alarm')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ ضبط تنبيه</button>
+                    <div>
+                        <span style="font-size:12px; color:var(--text-secondary);">صرف اليوم: </span>
+                        <strong style="font-size:16px; color:var(--oneui-red);" id="dashExpensesTotal">0 ₪</strong>
+                    </div>
+                    <button onclick="openFabAction('bill')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ تسجيل</button>
                 </div>
-                <div id="dashRemindersPreview"></div>
+                <div id="dashExpensesPreview"></div>
             </div>
 
         </div>
@@ -795,7 +886,7 @@
                 const data = await res.json();
                 if (data && data.current) {
                     const temp = Math.round(data.current.temperature_2m);
-                    document.getElementById('textWeather').innerText = `${temp}°C`;
+                    document.getElementById('textWeather').innerText = `${temp}°C ⛅`;
                 }
             } catch(e) {}
 
@@ -1183,19 +1274,19 @@
             finalizeAction('تم تسجيل المصروف');
         }
 
-        // --- 7. عرض وتحديث بيانات الصلوات والتنبيهات ---
+        // --- 7. عرض وتحديث بيانات الصلوات والتنبيهات والعداد الدائري ---
         function renderPrayersAndReminders() {
             const now = Date.now();
             
+            // الصلاة القادمة للشريط العلوي
             const nextPrayer = livePrayersList.find(p => p.targetTime > now);
             if (nextPrayer) {
-                document.getElementById('dashNextPrayerName').innerText = nextPrayer.title.replace('🕌 ', '');
-                document.getElementById('dashNextPrayerCountdown').innerText = `⏳ ${formatTime(nextPrayer.targetTime - now)}`;
+                document.getElementById('topPrayerText').innerText = `${nextPrayer.title.replace('🕌 ', '')} ${formatTime(nextPrayer.targetTime - now)}`;
             } else {
-                document.getElementById('dashNextPrayerName').innerText = 'اكتملت صلوات اليوم';
-                document.getElementById('dashNextPrayerCountdown').innerText = '✅ تم';
+                document.getElementById('topPrayerText').innerText = 'اكتملت الصلوات';
             }
 
+            // قائمة الصلوات الكاملة
             const prayersFullEl = document.getElementById('prayersFullList');
             if (prayersFullEl) {
                 prayersFullEl.innerHTML = livePrayersList.map(p => {
@@ -1211,12 +1302,44 @@
                 }).join('');
             }
 
+            // التنبيهات المباشرة + العداد الدائري لأقرب تنبيه
             const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
             activeReminders.sort((a,b) => a.targetTime - b.targetTime);
 
+            const countText = document.getElementById('activeRemindersCountText');
+            if (countText) countText.innerText = `${activeReminders.length} تنبيهات نشطة`;
+
+            const nearest = activeReminders[0];
+            const circle = document.getElementById('timerProgressCircle');
+            const timeEl = document.getElementById('nearestTimerTime');
+            const labelEl = document.getElementById('nearestTimerLabel');
+
+            if (nearest) {
+                const remainingMs = nearest.targetTime - now;
+                const totalDuration = (nearest.minutes * 60 * 1000) || (nearest.targetTime - nearest.createdAt) || remainingMs;
+                const fraction = Math.max(0, Math.min(1, remainingMs / totalDuration));
+                const strokeTotal = 326.72;
+                
+                if (circle) circle.style.strokeDashoffset = strokeTotal * (1 - fraction);
+                if (timeEl) timeEl.innerText = formatTime(remainingMs);
+                if (labelEl) labelEl.innerText = nearest.title || `تنبيه (${nearest.minutes} د)`;
+            } else if (nextPrayer) {
+                // إذا لم يوجد تنبيه مخصص، يعرض أقرب صلاة
+                const remainingMs = nextPrayer.targetTime - now;
+                if (circle) circle.style.strokeDashoffset = 0;
+                if (timeEl) timeEl.innerText = formatTime(remainingMs);
+                if (labelEl) labelEl.innerText = nextPrayer.title.replace('🕌 ', '');
+            } else {
+                if (circle) circle.style.strokeDashoffset = 326.72;
+                if (timeEl) timeEl.innerText = "--:--";
+                if (labelEl) labelEl.innerText = "لا توجد تنبيهات";
+            }
+
+            // قائمة باقي التنبيهات على الرئيسية (ما بعد التنبيه الأول)
             const dashRemPreview = document.getElementById('dashRemindersPreview');
             if (dashRemPreview) {
-                dashRemPreview.innerHTML = activeReminders.slice(0, 3).map(r => `
+                const restReminders = activeReminders.slice(1, 4);
+                dashRemPreview.innerHTML = restReminders.map(r => `
                     <div class="list-row">
                         <div>
                             <strong>${r.title || `تنبيه (${r.minutes} د)`}</strong>
@@ -1227,9 +1350,10 @@
                             <button onclick="deleteReminder(${r.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer; font-size:16px;">❌</button>
                         </div>
                     </div>
-                `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد تنبيهات نشطة حالياً.</p>';
+                `).join('');
             }
 
+            // سجل التنبيهات في تبويب التنبيهات
             const remindersFullEl = document.getElementById('remindersFullList');
             if (remindersFullEl) {
                 remindersFullEl.innerHTML = db.reminders.map(r => `
@@ -1277,7 +1401,9 @@
                 const d = new Date(b.date);
                 if (d.getMonth() === cMonth && d.getFullYear() === cYear) spentMonth += parseFloat(b.amount);
             });
-            document.getElementById('dashSpent').innerHTML = `${spentMonth.toLocaleString()} <span style="font-size:14px; color:var(--text-tertiary);">₪</span>`;
+
+            // تحديث نص صرف الشهر تحت العنوان
+            document.getElementById('textMonthlySpent').innerText = `${spentMonth.toLocaleString()} ₪`;
 
             // مهام اليوم
             const todosToday = db.todos.filter(t => t.date === todayStr);
@@ -1309,6 +1435,16 @@
             const expToday = db.expenses.filter(e => e.date === todayStr);
             let todayTotal = expToday.reduce((sum, item) => sum + parseFloat(item.amount), 0);
             document.getElementById('dashExpensesTotal').innerText = `${todayTotal} ₪`;
+
+            const dashExpPreview = document.getElementById('dashExpensesPreview');
+            if (dashExpPreview) {
+                dashExpPreview.innerHTML = expToday.slice(0, 3).map(e => `
+                    <div class="list-row">
+                        <span>${e.desc}</span>
+                        <strong style="color:var(--oneui-red);">${e.amount} ₪</strong>
+                    </div>
+                `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لم تسجل مصاريف اليوم بعد.</p>';
+            }
 
             // المالية
             let tDay = 0, tWeek = 0, tMonth = 0;
