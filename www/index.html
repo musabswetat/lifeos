@@ -100,7 +100,7 @@
             color: var(--oneui-green);
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
         .top-actions-cluster {
             display: flex;
@@ -111,7 +111,6 @@
             background: transparent;
             border: none;
             color: var(--text-primary);
-            font-size: 19px;
             cursor: pointer;
             width: 38px;
             height: 38px;
@@ -122,6 +121,11 @@
             transition: background 0.15s ease;
         }
         .top-action-btn:active { background: var(--surface-inner); }
+        .top-action-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
 
         /* كبسولة حالة الحساب السحابي */
         .user-auth-pill {
@@ -407,7 +411,7 @@
         .tag-badge:active { background: var(--surface-active); }
         .tag-badge.green { color: var(--oneui-green); }
 
-        /* 📱 شريط سامسونج السفلي (الرئيسية · زر تسجيل · الصلوات والتنبيهات) */
+        /* 📱 شريط سامسونج السفلي (الرئيسية .. زر تسجيل .. الصلوات والتنبيهات) */
         .samsung-dock-container {
             position: fixed;
             bottom: 16px;
@@ -416,7 +420,7 @@
             background: var(--surface-card);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-pill);
-            padding: 6px 12px;
+            padding: 5px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -524,24 +528,31 @@
 
     <div class="app-container">
         
-        <!-- 🔍 شريط سامسونج العلوي -->
+        <!-- 🔍 شريط سامسونج العلوي مع أيقونات SVG -->
         <div class="oneui-top-bar">
             <div class="top-prayer-info" id="topPrayerTag">
-                <span>🕌</span> <span id="topPrayerText">الصلاة: --</span>
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.07 2.75z"/></svg>
+                <span id="topPrayerText">الصلاة: --</span>
             </div>
             
             <div class="top-actions-cluster">
                 <!-- كبسولة حالة الحساب السحابي -->
                 <div id="googleAuthContainer" onclick="openAuthModal()">
                     <div class="user-auth-pill" id="googleAuthBtn">
-                        <span>🔒</span>
+                        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;margin-left:2px;"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
                         <span id="userNameSpan">حسابي</span>
                     </div>
                 </div>
 
-                <button class="top-action-btn" onclick="toggleSearchBar()" title="بحث">🔍</button>
-                <button class="top-action-btn" onclick="toggleTheme()" id="themeBtn" title="الوضع الليلي">🌙</button>
-                <button class="top-action-btn" onclick="toggleTopDropdown()" title="القائمة">⋮</button>
+                <button class="top-action-btn" onclick="toggleSearchBar()" title="بحث">
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                </button>
+                <button class="top-action-btn" onclick="toggleTheme()" id="themeBtn" title="الوضع الليلي">
+                    <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.39 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.39-.44-.06-.9-.1-1.36-.1z"/></svg>
+                </button>
+                <button class="top-action-btn" onclick="toggleTopDropdown()" title="القائمة">
+                    <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                </button>
             </div>
 
             <!-- 📑 القائمة المنسدلة الشاملة -->
@@ -552,7 +563,6 @@
                 <button class="dropdown-item" onclick="switchNavSection('vault-view')">🔐 الخزنة المشفرة</button>
                 <button class="dropdown-item" onclick="switchNavSection('docs-view')">🆔 الوثائق الرسمية</button>
                 <button class="dropdown-item" onclick="switchNavSection('settings-view')">⚙️ الإعدادات</button>
-                <button class="dropdown-item" onclick="startVoiceRecording()" style="color:var(--oneui-red);">🎙️ تسجيل صوتي خام</button>
                 <button class="dropdown-item" onclick="exportData()">📥 تصدير نسخة احتياطية</button>
             </div>
         </div>
@@ -560,7 +570,7 @@
         <!-- حقل البحث القابل للتوسيع -->
         <div class="expandable-search-bar" id="expandableSearchBar">
             <div class="search-inner-box">
-                <span>🔍</span>
+                <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:var(--text-secondary);"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                 <input type="text" id="globalSearchInput" class="search-input" placeholder="بحث في المهام، الملاحظات، الوثائق..." oninput="handleGlobalSearch(this.value)">
                 <button onclick="toggleSearchBar()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:14px;">إلغاء</button>
             </div>
@@ -571,11 +581,13 @@
             <div id="searchResultsList"></div>
         </div>
 
-        <!-- 📱 منطقة العنوان مع أيقونة قلم صغيرة -->
+        <!-- 📱 منطقة العنوان مع أيقونة قلم صغيرة دقيقة -->
         <div class="oneui-header-area">
             <div class="oneui-title-hero-row">
                 <div class="oneui-title-hero" id="heroGreetingTitle">طاب يومك.</div>
-                <button id="editNameBtn" class="edit-name-icon-btn" onclick="promptEditDisplayName()" title="تعديل الاسم">✏️</button>
+                <button id="editNameBtn" class="edit-name-icon-btn" onclick="promptEditDisplayName()" title="تعديل الاسم">
+                    <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                </button>
             </div>
             
             <div class="oneui-sub-text" id="oneuiSubInfo" style="margin-top:6px;">
@@ -612,7 +624,7 @@
                 </div>
 
                 <!-- اقتراحات دقائق سريعة أسفل المؤقت (15/20/25/30/45/60) -->
-                <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin:10px 0 6px 0;">
+                <div style="display:flex; gap:5px; justify-content:center; flex-wrap:wrap; margin:10px 0 6px 0;">
                     <button class="tag-badge" onclick="addReminderFast(15, 'تنبيه 15 دقيقة')">15 د</button>
                     <button class="tag-badge" onclick="addReminderFast(20, 'تنبيه 20 دقيقة')">20 د</button>
                     <button class="tag-badge" onclick="addReminderFast(25, 'تنبيه 25 دقيقة')">25 د</button>
@@ -700,19 +712,19 @@
             <div class="oneui-card" id="expensesFullList"></div>
         </div>
 
-        <!-- 📝 5. تبويب الملاحظات -->
+        <!-- 📝 5. تبويب الملاحظات والتسجيلات الصوتية -->
         <div id="notes-view" class="section-view">
-            <div class="section-label">الملاحظات والتسجيلات</div>
+            <div class="section-label">الملاحظات والتسجيلات الصوتية</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <button onclick="openModalAction('note')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ ملاحظة جديدة</button>
-                    <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--oneui-red); padding:6px 14px; font-size:12px;">🎙️ تسجيل صوتي خام</button>
+                    <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--oneui-red); padding:6px 14px; font-size:12px;">🎙️ تسجيل جديد</button>
                 </div>
                 <div id="notesFullList"></div>
             </div>
         </div>
 
-        <!-- 🔐 6. تبويب الخزنة -->
+        <!-- 🔐 6. تبويب الخزنة المحدثة (تدعم الحسابات مع ملاحظات إضافية) -->
         <div id="vault-view" class="section-view">
             <div class="section-label">الحسابات المشفرة</div>
             <div class="oneui-card">
@@ -759,10 +771,10 @@
 
     </div>
 
-    <!-- 📱 شريط سامسونج السفلي (الرئيسية · زر تسجيل · الصلوات والتنبيهات) -->
+    <!-- 📱 شريط سامسونج السفلي المحدث (الرئيسية .. زر تسجيل مباشر .. الصلوات والتنبيهات) -->
     <div class="samsung-dock-container">
         <button class="samsung-dock-item active" id="btnDockHome" onclick="switchNavSection('dashboard-view', this)">الرئيسية</button>
-        <button class="samsung-dock-item" onclick="handleDockMicClick(this)" style="flex:0 0 44px; height:44px; border-radius:50%; background:var(--surface-inner); color:var(--oneui-red); font-size:20px; display:flex; align-items:center; justify-content:center; padding:0;" title="تسجيل صوتي">🎙️</button>
+        <button class="samsung-dock-item" onclick="handleDockMicClick(this)" style="flex:0 0 46px; height:46px; border-radius:50%; background:var(--surface-inner); color:var(--oneui-red); font-size:20px; display:flex; align-items:center; justify-content:center; padding:0;" title="تسجيل صوتي">🎙️</button>
         <button class="samsung-dock-item" id="btnDockPrayersAlarms" onclick="switchNavSection('prayers-alarms-view', this)">الصلوات والتنبيهات</button>
     </div>
 
@@ -856,7 +868,7 @@
         let userDbRef = null;
         let lastSpokenText = '';
 
-        // --- 1. هيكلة البيانات المحلية وتوفير السحابة (فصل الصوت محلياً) ---
+        // --- 1. هيكلة البيانات المحلية والتنفيذ الفوري (Offline-First) ---
         function normalizeDB(data) {
             if (!data) data = {};
             const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
@@ -869,7 +881,8 @@
             return data;
         }
 
-        let db = normalizeDB(JSON.parse(localStorage.getItem('myLifeAppDB')));
+        // تحميل فوري من الذاكرة المحلية لمنع الشاشة البيضاء عند الإقلاع
+        let db = normalizeDB(JSON.parse(localStorage.getItem('myLifeAppDB') || '{}'));
         const todayStr = new Date().toISOString().split('T')[0];
         let livePrayersList = [];
 
@@ -885,7 +898,7 @@
             if (userDbRef) {
                 showToast('☁️ حفظ بالحساب...');
                 const cloudPayload = JSON.parse(JSON.stringify(db));
-                cloudPayload.notes.forEach(n => { delete n.audioData; }); // حفظ محلي فقط للصوتيات
+                cloudPayload.notes.forEach(n => { delete n.audioData; }); // حفظ الصوتيات محلياً فقط
 
                 userDbRef.set(cloudPayload).then(() => showToast('✅ تم الحفظ السحابي'))
                     .catch(() => showToast('❌ تعذر الحفظ'));
@@ -897,7 +910,11 @@
         function applyThemeUI() {
             document.body.classList.toggle('light-mode', !db.settings.darkMode);
             const themeBtn = document.getElementById('themeBtn');
-            if (themeBtn) themeBtn.innerText = db.settings.darkMode ? '🌙' : '☀️';
+            if (themeBtn) {
+                themeBtn.innerHTML = db.settings.darkMode ? 
+                    '<svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.39 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.39-.44-.06-.9-.1-1.36-.1z"/></svg>' :
+                    '<svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1z"/></svg>';
+            }
             const meta = document.getElementById('themeColorMeta');
             if (meta) meta.setAttribute('content', db.settings.darkMode ? '#121212' : '#F2F2F7');
         }
@@ -932,7 +949,6 @@
                         localStorage.setItem('myLifeAppDB', JSON.stringify(db));
                         applyThemeUI();
                         updateUI();
-                        showToast(`🔄 مرحباً ${db.settings.displayName || user.email.split('@')[0]}`);
                     } else {
                         saveToCloud();
                     }
@@ -1073,7 +1089,7 @@
             }
         }
 
-        // --- 2. محرك الحساب الفلكي الدقيق لأوقاف فلسطين (جنين) ---
+        // --- 2. مواقيت الصلاة لجنين ---
         function calculatePalestinePrayerTimes(date = new Date()) {
             const lat = 32.4646;
             const lng = 35.2939;
@@ -1137,29 +1153,31 @@
             renderPrayersAndReminders();
         }
 
-        // --- 3. محرك الطقس والعملات ---
+        // --- 3. محرك الطقس والعملات (Async غير معطل للإقلاع) ---
         async function syncFeeds() {
-            try {
-                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&current=temperature_2m,weather_code&timezone=auto');
-                const data = await res.json();
-                if (data && data.current) {
-                    const temp = Math.round(data.current.temperature_2m);
-                    document.getElementById('textWeather').innerText = `${temp}°C ⛅`;
-                }
-            } catch(e) {}
+            setTimeout(async () => {
+                try {
+                    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&current=temperature_2m,weather_code&timezone=auto');
+                    const data = await res.json();
+                    if (data && data.current) {
+                        const temp = Math.round(data.current.temperature_2m);
+                        document.getElementById('textWeather').innerText = `${temp}°C ⛅`;
+                    }
+                } catch(e) {}
 
-            try {
-                const res = await fetch('https://open.er-api.com/v6/latest/ILS');
-                const data = await res.json();
-                if (data && data.rates) {
-                    document.getElementById('textUSD').innerText = (1 / data.rates.USD).toFixed(2);
-                    document.getElementById('textJOD').innerText = (1 / data.rates.JOD).toFixed(2);
-                    document.getElementById('textEUR').innerText = (1 / data.rates.EUR).toFixed(2);
-                }
-            } catch(e) {}
+                try {
+                    const res = await fetch('https://open.er-api.com/v6/latest/ILS');
+                    const data = await res.json();
+                    if (data && data.rates) {
+                        document.getElementById('textUSD').innerText = (1 / data.rates.USD).toFixed(2);
+                        document.getElementById('textJOD').innerText = (1 / data.rates.JOD).toFixed(2);
+                        document.getElementById('textEUR').innerText = (1 / data.rates.EUR).toFixed(2);
+                    }
+                } catch(e) {}
+            }, 500);
         }
 
-        // --- 4. محرك الإشعارات المعزز للخلفية والمنبهات الدقيقة ---
+        // --- 4. محرك الإشعارات والمنبهات ---
         function getNativePlugin() {
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
                 return window.Capacitor.Plugins.LocalNotifications;
@@ -1185,29 +1203,10 @@
                     lights: true
                 });
 
-                await plugin.createChannel({
-                    id: 'lifeos_fallback_channel',
-                    name: 'تنبيهات Life OS العامة',
-                    description: 'قناة التنبيهات العامة الاحتياطية',
-                    importance: 5,
-                    visibility: 1,
-                    sound: 'default',
-                    vibration: true
-                });
-
-                await plugin.registerActionTypes({
-                    types: [{
-                        id: 'ALARM_ACTIONS',
-                        actions: [{ id: 'dismiss_alarm', title: '🔕 إيقاف التنبيه', destructive: true }]
-                    }]
-                });
-
                 plugin.addListener('localNotificationActionPerformed', () => {
                     dismissActiveAlarm();
                 });
-            } catch (e) {
-                console.error("فشل تهيئة قنوات الإشعارات:", e);
-            }
+            } catch (e) {}
         }
         initNativeNotifications();
 
@@ -1228,27 +1227,10 @@
                         id: safeId,
                         schedule: { at: targetDate, allowWhileIdle: true },
                         sound: 'marimba',
-                        actionTypeId: 'ALARM_ACTIONS',
                         channelId: 'lifeos_marimba_channel_v5'
                     }]
                 });
-            } catch (err) {
-                try {
-                    await plugin.schedule({
-                        notifications: [{
-                            title: notifTitle,
-                            body: notifBody,
-                            id: safeId,
-                            schedule: { at: targetDate, allowWhileIdle: true },
-                            sound: 'default',
-                            actionTypeId: 'ALARM_ACTIONS',
-                            channelId: 'lifeos_fallback_channel'
-                        }]
-                    });
-                } catch (fallbackErr) {
-                    alert('تعذر جدولة الإشعار في نظام أندرويد. تأكد من تفعيل إذن الإشعارات للتطبيق.');
-                }
-            }
+            } catch (err) {}
         }
 
         let audioCtx = null;
@@ -1363,13 +1345,12 @@
             }
         }
 
-        // --- 5. زر التسجيل في الشريط السفلي (ينتقل للملاحظات ويبدأ التسجيل فوراً) ---
+        // --- 5. زر التسجيل في الشريط السفلي (يبدأ التسجيل فورا ويحولك للملاحظات) ---
         function handleDockMicClick(btnEl) {
             switchNavSection('notes-view', btnEl);
             startVoiceRecording();
         }
 
-        // --- مسجل الصوت الخام والاقتراحات الذكية ---
         let mediaRec = null;
         let audioParts = [];
         let recTimer = null;
@@ -1380,16 +1361,18 @@
             closeTopDropdown();
             lastSpokenText = '';
 
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (SpeechRecognition) {
-                speechRecognizer = new SpeechRecognition();
-                speechRecognizer.lang = 'ar-SA';
-                speechRecognizer.interimResults = false;
-                speechRecognizer.onresult = (e) => {
-                    lastSpokenText = e.results[0][0].transcript;
-                };
-                try { speechRecognizer.start(); } catch(err) {}
-            }
+            try {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (SpeechRecognition) {
+                    speechRecognizer = new SpeechRecognition();
+                    speechRecognizer.lang = 'ar-SA';
+                    speechRecognizer.interimResults = false;
+                    speechRecognizer.onresult = (e) => {
+                        lastSpokenText = e.results[0][0].transcript;
+                    };
+                    try { speechRecognizer.start(); } catch(err) {}
+                }
+            } catch(e) {}
 
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -1426,7 +1409,9 @@
                     const s = String(recSec%60).padStart(2,'0');
                     document.getElementById('recordTimer').innerText = `${m}:${s}`;
                 }, 1000);
-            } catch { alert('يرجى منح إذن الميكروفون'); }
+            } catch (err) {
+                alert('تعذر الوصول إلى الميكروفون. تأكد من منح الأذن.');
+            }
         }
 
         function stopAndSaveVoiceRecording() {
@@ -1476,23 +1461,22 @@
 
         function closePostRecordingModal() {
             document.getElementById('postRecordingModal').classList.remove('active');
-            showToast('✅ تم حفظ التسجيل في الملاحظات');
         }
 
         function executeSmartAction(type, text, param = null) {
             document.getElementById('postRecordingModal').classList.remove('active');
             if (type === 'expense') {
                 db.expenses.push({ id: Date.now(), desc: text, amount: param, date: todayStr });
-                finalizeAction('💸 تم تسجيل الشراء والمصروف بنجاح!');
+                finalizeAction();
             } else if (type === 'alarm') {
                 addReminderFast(param, text);
             } else if (type === 'note') {
                 db.todos.push({ id: Date.now(), text: `ملاحظة: ${text}`, done: false, date: todayStr });
-                finalizeAction('✅ تمت إضافة الملاحظة للرئيسية');
+                finalizeAction();
             }
         }
 
-        // --- التنقل وزر الرجوع ---
+        // --- التنقل وزر الرجوع الآمن لنظام أندرويد ---
         function switchNavSection(viewId, btnEl) {
             closeTopDropdown();
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
@@ -1578,12 +1562,14 @@
         }
 
         if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-            window.Capacitor.Plugins.App.addListener('backButton', () => {
-                const handled = handleSystemBackButton();
-                if (!handled) {
-                    window.Capacitor.Plugins.App.exitApp();
-                }
-            });
+            window.Capacitor.Plugins.App.removeAllListeners('backButton').then(() => {
+                window.Capacitor.Plugins.App.addListener('backButton', () => {
+                    const handled = handleSystemBackButton();
+                    if (!handled) {
+                        window.Capacitor.Plugins.App.exitApp();
+                    }
+                });
+            }).catch(() => {});
         }
 
         function handleGlobalSearch(query) {
@@ -1723,8 +1709,10 @@
             } else if (type === 'vault') {
                 title.innerText = '🔐 حفظ حساب في الخزنة';
                 container.innerHTML = `
-                    <input type="text" id="actVaultName" placeholder="الحساب / الإيميل" class="app-input" required>
+                    <input type="text" id="actVaultName" placeholder="اسم الحساب / الموقع" class="app-input" required>
+                    <input type="text" id="actVaultUser" placeholder="اسم المستخدم / الإيميل" class="app-input" required>
                     <input type="text" id="actVaultPass" placeholder="كلمة المرور" class="app-input" required>
+                    <textarea id="actVaultNote" rows="2" placeholder="ملاحظات أو تفاصيل إضافية..." class="app-input"></textarea>
                     <button type="button" onclick="submitActVault()" class="btn-action">حفظ بالخزنة</button>
                 `;
             } else if (type === 'doc') {
@@ -1802,9 +1790,11 @@
 
         function submitActVault() {
             const name = document.getElementById('actVaultName').value;
+            const username = document.getElementById('actVaultUser').value;
             const pass = document.getElementById('actVaultPass').value;
-            if (!name || !pass) return alert('أدخل البيانات');
-            db.vault.push({ id: Date.now(), accountName: name, password: pass, date: todayStr });
+            const note = document.getElementById('actVaultNote').value;
+            if (!name || !pass) return alert('أدخل اسم الحساب وكلمة المرور');
+            db.vault.push({ id: Date.now(), accountName: name, username: username, password: pass, note: note, date: todayStr });
             finalizeAction();
             closeModalAction();
         }
@@ -2084,7 +2074,12 @@
             if(vaultEl) {
                 vaultEl.innerHTML = db.vault.map(v => `
                     <div class="list-row">
-                        <div><strong>${v.accountName}</strong><div style="font-size:12px; color:var(--oneui-red); font-family:monospace;">${v.password}</div></div>
+                        <div>
+                            <strong>${v.accountName}</strong>
+                            ${v.username ? `<div style="font-size:12px; color:var(--text-secondary);">${v.username}</div>` : ''}
+                            <div style="font-size:12px; color:var(--oneui-red); font-family:monospace;">${v.password}</div>
+                            ${v.note ? `<div style="font-size:11px; color:var(--text-tertiary); margin-top:2px;">ملاحظة: ${v.note}</div>` : ''}
+                        </div>
                         <button onclick="confirmDeleteVault(${v.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary);">الخزنة فارغة.</p>';
@@ -2109,7 +2104,7 @@
             updateUI();
         }
 
-        // دوال التأكيد قبل الحذف (بدون إزعاج إضافي بـ ok متكرر)
+        // دوال التأكيد قبل الحذف (مرة واحدة فقط بدون نوافذ نجاح مزعجة)
         function toggleTodo(id) {
             const t = db.todos.find(x => x.id === id);
             if(t) { t.done = !t.done; finalizeAction(); }
@@ -2190,7 +2185,7 @@
             }
         }
 
-        // تطبيق الثيم
+        // تطبيق الثيم الفوري عند الإقلاع
         applyThemeUI();
         
         loadAccuratePrayers();
