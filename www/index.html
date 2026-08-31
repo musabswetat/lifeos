@@ -17,7 +17,10 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
-        /* 📱 أنظمة الثيمات المتعددة المتطابقة مع واجهات الهواتف */
+        /* =========================================================
+           📱 نظام الثيمات الجذري المتطابق مع هويات أنظمة الهواتف (نهاري وليلي)
+           ========================================================= */
+        
         :root {
             --bg-canvas: #121212;
             --surface-card: #1E1E1E;
@@ -30,109 +33,202 @@
             --accent-color: #007AFF;
             --accent-green: #34C759;
             --accent-red: #FF3B30;
-            --radius-card: 24px;
+            --radius-card: 26px;
             --radius-input: 14px;
             --radius-pill: 9999px;
+            --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             --dock-height: 56px;
             --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.25);
+            --card-backdrop: none;
+            --terminal-prefix: "";
         }
 
-        /* الثيم الافتراضي الفاتح */
-        body.light-mode {
+        /* 1. ثيم سامسونج (Samsung One UI 6) */
+        body.theme-oneui {
+            --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --radius-card: 26px;
+            --radius-input: 14px;
+            --accent-color: #007AFF;
+            --bg-canvas: #121212;
+            --surface-card: #1E1E1E;
+            --surface-inner: #282828;
+            --border-subtle: #2C2C2C;
+            --text-primary: #FFFFFF;
+            --text-secondary: #8E8E93;
+        }
+        body.theme-oneui.light-mode {
             --bg-canvas: #F2F2F7;
             --surface-card: #FFFFFF;
             --surface-inner: #E5E5EA;
-            --surface-active: #D1D1D6;
             --border-subtle: #E5E5EA;
             --text-primary: #000000;
             --text-secondary: #6C6C70;
-            --text-tertiary: #8E8E93;
-            --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.05);
+            --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
 
-        /* 🍎 ثيم آيفون (iOS Style) */
+        /* 2. ثيم آبل آيفون (Apple iOS / Glassmorphism) */
         body.theme-iphone {
-            --bg-canvas: #000000;
-            --surface-card: #1C1C1E;
-            --surface-inner: #2C2C2E;
-            --surface-active: #3A3A3C;
-            --border-subtle: #38383A;
-            --text-primary: #FFFFFF;
-            --text-secondary: #EBEBF5;
+            --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
+            --radius-card: 22px;
+            --radius-input: 12px;
             --accent-color: #0A84FF;
-            --radius-card: 20px;
+            --bg-canvas: #000000;
+            --surface-card: rgba(28, 28, 30, 0.85);
+            --surface-inner: rgba(44, 44, 46, 0.8);
+            --border-subtle: rgba(255, 255, 255, 0.12);
+            --text-primary: #FFFFFF;
+            --text-secondary: #98989D;
+            --card-backdrop: blur(25px);
+            --shadow-subtle: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        body.theme-iphone.light-mode {
+            --bg-canvas: #F2F2F6;
+            --surface-card: rgba(255, 255, 255, 0.85);
+            --surface-inner: rgba(230, 230, 235, 0.7);
+            --border-subtle: rgba(0, 0, 0, 0.08);
+            --text-primary: #000000;
+            --text-secondary: #8E8E93;
+            --card-backdrop: blur(25px);
+            --shadow-subtle: 0 8px 24px rgba(0,0,0,0.06);
         }
 
-        /* 🐧 ثيم أوبونتو (Ubuntu Style) */
-        body.theme-ubuntu {
-            --bg-canvas: #1E1B18;
-            --surface-card: #2C2D2A;
-            --surface-inner: #3D3E3A;
-            --surface-active: #4D4E4A;
-            --border-subtle: #454743;
-            --text-primary: #F7F7F8;
-            --text-secondary: #D0CFCE;
-            --accent-color: #E95420;
-            --radius-card: 12px;
-        }
-
-        /* 💻 ثيم لينكس (Linux Terminal Style) */
-        body.theme-linux {
-            --bg-canvas: #0A0F0D;
-            --surface-card: #121A16;
-            --surface-inner: #1A2621;
-            --surface-active: #22332C;
-            --border-subtle: #243830;
-            --text-primary: #00FF66;
-            --text-secondary: #88C0D0;
-            --accent-color: #A3BE8C;
-            --radius-card: 8px;
-        }
-
-        /* ⚡ ثيم إنفنيكس (Infinix XOS) */
-        body.theme-infinix {
-            --bg-canvas: #0D1117;
-            --surface-card: #161B22;
-            --surface-inner: #21262D;
-            --surface-active: #30363D;
-            --border-subtle: #30363D;
-            --text-primary: #C9D1D9;
-            --text-secondary: #8B949E;
-            --accent-color: #0064FF;
-            --radius-card: 18px;
-        }
-
-        /* 📱 ثيم بكسل (Pixel XL Material You) */
+        /* 3. ثيم جوجل بكسل (Google Pixel Material You) */
         body.theme-pixel {
-            --bg-canvas: #121316;
-            --surface-card: #1B1D22;
-            --surface-inner: #262930;
-            --surface-active: #31353E;
-            --border-subtle: #353842;
+            --font-family: "Google Sans", system-ui, Roboto, sans-serif;
+            --radius-card: 32px;
+            --radius-input: 20px;
+            --accent-color: #A8C7FA;
+            --bg-canvas: #131314;
+            --surface-card: #1F1F23;
+            --surface-inner: #2B2B30;
+            --border-subtle: #34343A;
             --text-primary: #E3E2E6;
             --text-secondary: #C4C6D0;
-            --accent-color: #D0BCFF;
-            --radius-card: 28px;
+            --shadow-subtle: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        body.theme-pixel.light-mode {
+            --bg-canvas: #FDF8FD;
+            --surface-card: #F3EDF7;
+            --surface-inner: #E8DEF8;
+            --border-subtle: #CAC4D0;
+            --text-primary: #1D1B20;
+            --text-secondary: #49454F;
+            --accent-color: #6750A4;
+            --shadow-subtle: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        /* 🔷 ثيم شاومي (MIUI / HyperOS) */
-        body.theme-mi {
-            --bg-canvas: #F5F6F8;
-            --surface-card: #FFFFFF;
-            --surface-inner: #F0F2F5;
-            --surface-active: #E4E7EC;
-            --border-subtle: #E4E7EC;
-            --text-primary: #1F2329;
-            --text-secondary: #646A73;
-            --accent-color: #FF6900;
-            --radius-card: 16px;
+        /* 4. ثيم أوبونتو (Ubuntu Yaru) */
+        body.theme-ubuntu {
+            --font-family: "Ubuntu", "DejaVu Sans", system-ui, sans-serif;
+            --radius-card: 10px;
+            --radius-input: 8px;
+            --accent-color: #E95420;
+            --bg-canvas: #1B1817;
+            --surface-card: #2D2A28;
+            --surface-inner: #3C3835;
+            --border-subtle: #4D4744;
+            --text-primary: #FFFFFF;
+            --text-secondary: #AEA79F;
+            --shadow-subtle: 0 4px 14px rgba(0,0,0,0.35);
         }
+        body.theme-ubuntu.light-mode {
+            --bg-canvas: #F7F7F7;
+            --surface-card: #FFFFFF;
+            --surface-inner: #ECEBEA;
+            --border-subtle: #D5D3D1;
+            --text-primary: #111111;
+            --text-secondary: #5E5C5B;
+            --accent-color: #E95420;
+            --shadow-subtle: 0 2px 10px rgba(0,0,0,0.06);
+        }
+
+        /* 5. ثيم لينكس موجه الأوامر (Linux Terminal Hacker) */
+        body.theme-linux {
+            --font-family: "Courier New", "Lucida Console", monospace;
+            --radius-card: 4px;
+            --radius-input: 2px;
+            --accent-color: #00FF66;
+            --accent-green: #00FF66;
+            --accent-red: #FF3333;
+            --bg-canvas: #0A0D0B;
+            --surface-card: #101712;
+            --surface-inner: #18221B;
+            --border-subtle: #00FF66;
+            --text-primary: #00FF66;
+            --text-secondary: #55AA77;
+            --terminal-prefix: "> ";
+            --shadow-subtle: 0 0 10px rgba(0, 255, 102, 0.15);
+        }
+        body.theme-linux.light-mode {
+            --bg-canvas: #EDEDED;
+            --surface-card: #FFFFFF;
+            --surface-inner: #D8E0D9;
+            --border-subtle: #117733;
+            --text-primary: #0A5522;
+            --text-secondary: #2E6641;
+            --accent-color: #117733;
+            --shadow-subtle: 0 0 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 6. ثيم إنفنيكس (Infinix XOS) */
+        body.theme-infinix {
+            --font-family: system-ui, -apple-system, sans-serif;
+            --radius-card: 18px;
+            --radius-input: 12px;
+            --accent-color: #00FF9D;
+            --bg-canvas: #090C10;
+            --surface-card: #121820;
+            --surface-inner: #1B2430;
+            --border-subtle: #243040;
+            --text-primary: #00FF9D;
+            --text-secondary: #7A8B9E;
+            --shadow-subtle: 0 4px 18px rgba(0, 255, 157, 0.12);
+        }
+        body.theme-infinix.light-mode {
+            --bg-canvas: #F4F7FB;
+            --surface-card: #FFFFFF;
+            --surface-inner: #E3E9F2;
+            --border-subtle: #D0D9E6;
+            --text-primary: #0C1E36;
+            --text-secondary: #5A6D84;
+            --accent-color: #00B36B;
+            --shadow-subtle: 0 4px 14px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 7. ثيم شاومي (Xiaomi HyperOS) */
+        body.theme-mi {
+            --font-family: "MiSans", system-ui, sans-serif;
+            --radius-card: 20px;
+            --radius-input: 14px;
+            --accent-color: #FF6900;
+            --bg-canvas: #0F1012;
+            --surface-card: #1B1C20;
+            --surface-inner: #26282E;
+            --border-subtle: #30333B;
+            --text-primary: #FFFFFF;
+            --text-secondary: #8E929B;
+            --shadow-subtle: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        body.theme-mi.light-mode {
+            --bg-canvas: #F7F8FA;
+            --surface-card: #FFFFFF;
+            --surface-inner: #EDEDF2;
+            --border-subtle: #E2E4EB;
+            --text-primary: #1C1E21;
+            --text-secondary: #6B707B;
+            --accent-color: #FF6900;
+            --shadow-subtle: 0 4px 16px rgba(0,0,0,0.05);
+        }
+
+        /* =========================================================
+           القواعد العامة والتصميم التجاوبي
+           ========================================================= */
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: var(--font-family);
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -146,7 +242,7 @@
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            transition: background 0.2s ease, color 0.2s ease;
+            transition: background 0.25s ease, color 0.25s ease;
         }
 
         .app-container {
@@ -157,7 +253,6 @@
             box-sizing: border-box;
         }
 
-        /* 🔍 شريط سامسونج العلوي */
         .oneui-top-bar {
             display: flex;
             align-items: center;
@@ -198,7 +293,6 @@
             fill: currentColor;
         }
 
-        /* كبسولة حالة الحساب السحابي */
         .user-auth-pill {
             display: flex;
             align-items: center;
@@ -211,9 +305,9 @@
             box-shadow: var(--shadow-subtle);
             font-size: 12px;
             font-weight: 700;
+            backdrop-filter: var(--card-backdrop);
         }
 
-        /* حقل البحث القابل للتوسيع */
         .expandable-search-bar {
             display: none;
             width: 100%;
@@ -234,6 +328,7 @@
             padding: 10px 16px;
             gap: 10px;
             box-shadow: var(--shadow-subtle);
+            backdrop-filter: var(--card-backdrop);
         }
         .search-input {
             background: transparent;
@@ -244,14 +339,13 @@
             width: 100%;
         }
 
-        /* 📑 قائمة الثلاث نقاط الشاملة */
         .oneui-dropdown {
             position: absolute;
             top: 48px;
             left: 4px;
             background: var(--surface-card);
             border: 1px solid var(--border-subtle);
-            border-radius: 18px;
+            border-radius: var(--radius-card);
             padding: 6px;
             width: 230px;
             box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
@@ -263,6 +357,7 @@
             pointer-events: none;
             transform: translateY(-8px) scale(0.96);
             transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+            backdrop-filter: var(--card-backdrop);
         }
         .oneui-dropdown.open {
             opacity: 1;
@@ -273,7 +368,7 @@
             background: transparent;
             border: none;
             padding: 11px 14px;
-            border-radius: 12px;
+            border-radius: var(--radius-input);
             color: var(--text-primary);
             font-size: 14px;
             font-weight: 600;
@@ -286,7 +381,6 @@
         }
         .dropdown-item:active { background: var(--surface-inner); }
 
-        /* 📱 منطقة العنوان مع أيقونة قلم صغيرة */
         .oneui-header-area {
             padding: 12px 2px 18px 2px;
         }
@@ -333,7 +427,6 @@
             margin-top: 3px;
         }
 
-        /* ⏱️ العداد الدائري لأقرب تنبيه (قابل للنقر للتعديل أو الحذف) */
         .circular-timer-wrapper {
             display: flex;
             flex-direction: column;
@@ -349,7 +442,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.15s ease;
         }
+        .circular-timer-box:active { transform: scale(0.96); }
         .timer-svg {
             position: absolute;
             top: 0;
@@ -394,7 +489,6 @@
             white-space: nowrap;
         }
 
-        /* 📉 خط الاشتراكات المتناقص */
         .sub-card-item {
             padding: 12px 0;
             border-bottom: 1px solid var(--border-subtle);
@@ -429,7 +523,6 @@
             transition: width 0.4s ease;
         }
 
-        /* 🪟 بطاقات One UI */
         .section-label {
             font-size: 13px;
             font-weight: 700;
@@ -441,9 +534,12 @@
         .oneui-card {
             background: var(--surface-card);
             border-radius: var(--radius-card);
+            border: 1px solid var(--border-subtle);
             padding: 18px 20px;
             margin-bottom: 12px;
             box-shadow: var(--shadow-subtle);
+            backdrop-filter: var(--card-backdrop);
+            transition: all 0.2s ease;
         }
 
         .section-view { display: none; }
@@ -483,7 +579,6 @@
         .tag-badge:active { background: var(--surface-active); }
         .tag-badge.green { color: var(--accent-green, #34C759); }
 
-        /* 📱 شريط سامسونج السفلي */
         .samsung-dock-container {
             position: fixed;
             bottom: 16px;
@@ -501,6 +596,7 @@
             z-index: 1000;
             width: calc(100% - 40px);
             max-width: 380px;
+            backdrop-filter: var(--card-backdrop);
         }
         .samsung-dock-item {
             flex: 1;
@@ -573,6 +669,7 @@
             padding: 24px;
             width: 100%;
             max-width: 380px;
+            backdrop-filter: var(--card-backdrop);
         }
 
         #syncToast {
@@ -590,6 +687,7 @@
             transition: opacity 0.25s ease;
             z-index: 9999;
             pointer-events: none;
+            backdrop-filter: var(--card-backdrop);
         }
         #syncToast.show { opacity: 1; }
     </style>
@@ -600,7 +698,7 @@
 
     <div class="app-container">
         
-        <!-- 🔍 شريط سامسونج العلوي مع أيقونات SVG -->
+        <!-- 🔍 شريط سامسونج العلوي مع أيقونات SVG النظيفة -->
         <div class="oneui-top-bar">
             <div class="top-prayer-info" id="topPrayerTag">
                 <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.07 2.75z"/></svg>
@@ -608,7 +706,6 @@
             </div>
             
             <div class="top-actions-cluster">
-                <!-- كبسولة حالة الحساب السحابي -->
                 <div id="googleAuthContainer" onclick="openAuthModal()">
                     <div class="user-auth-pill" id="googleAuthBtn">
                         <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;margin-left:2px;"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
@@ -627,7 +724,6 @@
                 </button>
             </div>
 
-            <!-- 📑 القائمة المنسدلة الشاملة -->
             <div class="oneui-dropdown" id="topDropdownMenu">
                 <button class="dropdown-item" onclick="switchNavSection('notes-view')">📝 الملاحظات والتسجيلات</button>
                 <button class="dropdown-item" onclick="switchNavSection('finance-view')">🧾 الفواتير والاشتراكات</button>
@@ -639,7 +735,6 @@
             </div>
         </div>
 
-        <!-- حقل البحث القابل للتوسيع -->
         <div class="expandable-search-bar" id="expandableSearchBar">
             <div class="search-inner-box">
                 <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:var(--text-secondary);"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
@@ -648,12 +743,10 @@
             </div>
         </div>
 
-        <!-- 🔍 نتائج البحث اللحظي -->
         <div id="searchResultsCard" class="oneui-card" style="display:none; margin-bottom:14px;">
             <div id="searchResultsList"></div>
         </div>
 
-        <!-- 📱 منطقة العنوان مع أيقونة قلم صغيرة -->
         <div class="oneui-header-area">
             <div class="oneui-title-hero-row">
                 <div class="oneui-title-hero" id="heroGreetingTitle">طاب يومك.</div>
@@ -681,8 +774,8 @@
                     <button onclick="openModalAction('alarm')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ ضبط تنبيه</button>
                 </div>
 
-                <!-- العداد الدائري لأقرب تنبيه (عند النقر يعطيك خيارات تعديل أو حذف المؤقت الفعال) -->
-                <div class="circular-timer-wrapper" onclick="manageActiveTimer()">
+                <!-- العداد الدائري لأقرب تنبيه (عند النقر تظهر نافذة إدارة وتعديل المؤقت) -->
+                <div class="circular-timer-wrapper" onclick="openManageActiveTimerModal()">
                     <div class="circular-timer-box">
                         <svg class="timer-svg" viewBox="0 0 120 120">
                             <circle class="timer-bg-circle" cx="60" cy="60" r="52" />
@@ -695,7 +788,7 @@
                     </div>
                 </div>
 
-                <!-- اختصارات الدقائق السريعة (بدون 60 دقيقة) -->
+                <!-- اختصارات الدقائق السريعة (15/20/25/30/45) -->
                 <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin:10px 0 6px 0;">
                     <button class="tag-badge" onclick="addReminderFast(15, 'تنبيه 15 دقيقة')">15 د</button>
                     <button class="tag-badge" onclick="addReminderFast(20, 'تنبيه 20 دقيقة')">20 د</button>
@@ -730,7 +823,7 @@
                 <div id="dashExpensesPreview"></div>
             </div>
 
-            <!-- قسم 4: الاشتراكات الفعالة مع الخط المتناقص -->
+            <!-- قسم 4: الاشتراكات الفعالة -->
             <div class="section-label">الاشتراكات الفعالة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -795,7 +888,7 @@
             </div>
         </div>
 
-        <!-- 🔐 6. تبويب الخزنة (مع ملاحظات وتفاصيل إضافية) -->
+        <!-- 🔐 6. تبويب الخزنة -->
         <div id="vault-view" class="section-view">
             <div class="section-label">الحسابات المشفرة</div>
             <div class="oneui-card">
@@ -817,7 +910,7 @@
             </div>
         </div>
 
-        <!-- ⚙️ 8. تبويب الإعدادات (مع نظام الثيمات المنسدلة) -->
+        <!-- ⚙️ 8. تبويب الإعدادات (نظام الثيمات الشامل) -->
         <div id="settings-view" class="section-view">
             <div class="section-label">الحساب والمزامنة السحابية</div>
             <div class="oneui-card">
@@ -830,17 +923,17 @@
                 </div>
             </div>
 
-            <div class="section-label">مظهر واجهة التطبيق (الثيمات)</div>
+            <div class="section-label">هوية ومظهر واجهة التطبيق (الثيمات الجذرية)</div>
             <div class="oneui-card">
-                <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">اختر ثيم الهاتف المفضل:</label>
+                <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">اختر ثيم النظام المطابق لهاتفك:</label>
                 <select id="themeSelector" class="app-input" onchange="changeAppTheme(this.value)">
-                    <option value="oneui">One UI (سامسونج)</option>
-                    <option value="iphone">iPhone (آبل iOS)</option>
-                    <option value="ubuntu">Ubuntu (أوبونتو)</option>
-                    <option value="linux">Linux (لينكس)</option>
-                    <option value="infinix">Infinix (إنفنيكس)</option>
-                    <option value="pixel">Pixel XL (جوجل بكسل)</option>
-                    <option value="mi">Mi (شاومي HyperOS)</option>
+                    <option value="oneui">Samsung One UI (سامسونج)</option>
+                    <option value="iphone">Apple iOS / iPhone (آيفون زجاجي)</option>
+                    <option value="pixel">Google Pixel (ماتيريال يو)</option>
+                    <option value="ubuntu">Ubuntu Yaru (أوبونتو)</option>
+                    <option value="linux">Linux Terminal (لينكس موجه الأوامر)</option>
+                    <option value="infinix">Infinix XOS (إنفنيكس نيون)</option>
+                    <option value="mi">Xiaomi HyperOS (شاومي)</option>
                 </select>
             </div>
 
@@ -856,11 +949,25 @@
 
     </div>
 
-    <!-- 📱 شريط سامسونج السفلي المحدث -->
+    <!-- 📱 شريط سامسونج السفلي -->
     <div class="samsung-dock-container">
         <button class="samsung-dock-item active" id="btnDockHome" onclick="switchNavSection('dashboard-view', this)">الرئيسية</button>
         <button class="samsung-dock-item" onclick="handleDockMicClick(this)" style="flex:0 0 46px; height:46px; border-radius:50%; background:var(--surface-inner); color:var(--accent-red, #FF3B30); font-size:20px; display:flex; align-items:center; justify-content:center; padding:0;" title="تسجيل صوتي">🎙️</button>
         <button class="samsung-dock-item" id="btnDockPrayersAlarms" onclick="switchNavSection('prayers-alarms-view', this)">الصلوات والتنبيهات</button>
+    </div>
+
+    <!-- 🪟 نافذة منبثقة تفاعلية لإدارة التنبيه الفعال -->
+    <div class="modal-overlay" id="timerManageModal">
+        <div class="modal-box" style="text-align:center;">
+            <div style="font-size:36px; margin-bottom:6px;">⏱️</div>
+            <strong id="manageTimerTitle" style="font-size:16px; display:block; margin-bottom:4px;">إدارة التنبيه الفعال</strong>
+            <p id="manageTimerSub" style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">المتبقي: 00:00</p>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                <button onclick="editActiveTimerTitle()" class="btn-action">✏️ تعديل اسم التنبيه</button>
+                <button onclick="deleteActiveTimer()" class="btn-action" style="background:var(--accent-red, #FF3B30);">🗑️ إلغاء وحذف التنبيه</button>
+                <button onclick="closeManageTimerModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إلغاء</button>
+            </div>
+        </div>
     </div>
 
     <!-- 🪟 نافذة الاقتراحات الذكية بعد حفظ التسجيل الصوتي الخام -->
@@ -914,7 +1021,7 @@
         </div>
     </div>
 
-    <!-- 🪟 نافذة الإجراءات الموحدة (مع نظام تحديد الوقت بدقة الساعات والدقائق وخيارات التكرار) -->
+    <!-- 🪟 نافذة الإجراءات الموحدة -->
     <div class="modal-overlay" id="actionModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
@@ -952,8 +1059,9 @@
         let currentUser = null;
         let userDbRef = null;
         let lastSpokenText = '';
+        let currentActiveTimerObj = null;
 
-        // --- 1. هيكلة البيانات المحلية والتنفيذ الفوري (Offline-First) ---
+        // --- 1. هيكلة البيانات المحلية والتنفيذ الفوري ---
         function normalizeDB(data) {
             if (!data) data = {};
             const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
@@ -966,7 +1074,6 @@
             return data;
         }
 
-        // تحميل فوري من الذاكرة المحلية لمنع الشاشة البيضاء عند الإقلاع
         let db = normalizeDB(JSON.parse(localStorage.getItem('myLifeAppDB') || '{}'));
         const todayStr = new Date().toISOString().split('T')[0];
         let livePrayersList = [];
@@ -983,7 +1090,7 @@
             if (userDbRef) {
                 showToast('☁️ حفظ بالحساب...');
                 const cloudPayload = JSON.parse(JSON.stringify(db));
-                cloudPayload.notes.forEach(n => { delete n.audioData; }); // حفظ محلي فقط للصوتيات
+                cloudPayload.notes.forEach(n => { delete n.audioData; });
 
                 userDbRef.set(cloudPayload).then(() => showToast('✅ تم الحفظ السحابي'))
                     .catch(() => showToast('❌ تعذر الحفظ'));
@@ -994,14 +1101,9 @@
 
         function applyThemeUI() {
             const theme = (db.settings && db.settings.theme) ? db.settings.theme : 'oneui';
-            document.body.className = ''; // إزالة كل الثيمات السابقة
-            
-            if (theme === 'oneui') {
-                document.body.classList.toggle('light-mode', !db.settings.darkMode);
-            } else {
-                document.body.classList.add(`theme-${theme}`);
-                if (!db.settings.darkMode) document.body.classList.add('light-mode');
-            }
+            document.body.className = '';
+            document.body.classList.add(`theme-${theme}`);
+            if (!db.settings.darkMode) document.body.classList.add('light-mode');
 
             const themeBtn = document.getElementById('themeBtn');
             if (themeBtn) {
@@ -1021,7 +1123,7 @@
             db.settings.theme = themeName;
             applyThemeUI();
             finalizeAction();
-            showToast('🎨 تم تغيير ثيم التطبيق وحفظه');
+            showToast('🎨 تم تغيير ثيم التطبيق وحفظه بالسحابة');
         }
 
         firebase.auth().onAuthStateChanged(async (user) => {
@@ -1194,24 +1296,48 @@
             }
         }
 
-        // --- إدارة التنبيه الفعال عند النقر على الدائرة ---
-        function manageActiveTimer() {
+        // --- نافذة إدارة التنبيه الفعال المنبثقة التفاعلية ---
+        function openManageActiveTimerModal() {
             const now = Date.now();
             const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
             activeReminders.sort((a,b) => a.targetTime - b.targetTime);
-            const nearest = activeReminders[0];
+            currentActiveTimerObj = activeReminders[0];
 
-            if (!nearest) {
-                alert('لا توجد تنبيهات نشطة حالياً. يمكنك إضافة تنبيه جديد من زر "+ ضبط تنبيه".');
+            if (!currentActiveTimerObj) {
+                alert('لا توجد تنبيهات نشطة حالياً. يمكنك ضبط تنبيه جديد من زر "+ ضبط تنبيه".');
                 return;
             }
 
-            const choice = prompt(`المؤقت الحالي: "${nearest.title || 'تنبيه'}"\nالمتبقي: ${formatTime(nearest.targetTime - now)}\n\nاختر الإجراء المطلوبة:\n1. تعديل اسم التنبيه\n2. حذف التنبيه`, '1');
-            if (choice === '1') {
-                renameReminder(nearest.id);
-            } else if (choice === '2') {
-                confirmDeleteReminder(nearest.id);
+            document.getElementById('manageTimerTitle').innerText = currentActiveTimerObj.title || 'تنبيه موعد';
+            document.getElementById('manageTimerSub').innerText = `المتبقي: ${formatTime(currentActiveTimerObj.targetTime - now)}`;
+            document.getElementById('timerManageModal').classList.add('active');
+        }
+
+        function closeManageTimerModal() {
+            document.getElementById('timerManageModal').classList.remove('active');
+            currentActiveTimerObj = null;
+        }
+
+        function editActiveTimerTitle() {
+            if (!currentActiveTimerObj) return;
+            const newName = prompt('أدخل اسم أو عنوان التنبيه الجديد:', currentActiveTimerObj.title || '');
+            if (newName !== null) {
+                currentActiveTimerObj.title = newName.trim() || 'تنبيه';
+                finalizeAction();
+                closeManageTimerModal();
             }
+        }
+
+        function deleteActiveTimer() {
+            if (!currentActiveTimerObj) return;
+            const numId = Number(currentActiveTimerObj.id);
+            const plugin = getNativePlugin();
+            if (plugin) {
+                plugin.cancel({ notifications: [{ id: Math.abs(numId % 2147483647) }] }).catch(() => {});
+            }
+            db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
+            finalizeAction();
+            closeManageTimerModal();
         }
 
         // --- 2. مواقيت الصلاة لجنين ---
@@ -1278,7 +1404,7 @@
             renderPrayersAndReminders();
         }
 
-        // --- 3. محرك الطقس الدقيق والتحديث كل 20 دقيقة ---
+        // --- 3. محرك الطقس الدقيق والتحديث التلقائي كل 20 دقيقة ---
         async function syncFeeds() {
             const fetchWeather = async () => {
                 try {
@@ -1305,8 +1431,6 @@
 
             fetchWeather();
             fetchCurrencies();
-            
-            // تحديث دوري للطقس كل 20 دقيقة بالضبط
             setInterval(fetchWeather, 20 * 60 * 1000);
         }
 
@@ -1324,7 +1448,6 @@
 
             try {
                 await plugin.requestPermissions();
-                
                 await plugin.createChannel({
                     id: 'lifeos_marimba_channel_v5',
                     name: 'تنبيهات Life OS المخصصة',
@@ -1478,7 +1601,7 @@
             }
         }
 
-        // --- 5. زر التسجيل في الشريط السفلي (يبدأ التسجيل فورا ويحولك للملاحظات) ---
+        // --- 5. زر التسجيل في الشريط السفلي ---
         function handleDockMicClick(btnEl) {
             switchNavSection('notes-view', btnEl);
             startVoiceRecording();
@@ -1528,7 +1651,6 @@
                             date: todayStr 
                         });
                         finalizeAction();
-                        
                         showSmartSuggestions(lastSpokenText);
                     };
                     reader.readAsDataURL(blob);
@@ -1655,6 +1777,11 @@
                 dismissActiveAlarm();
                 return true;
             }
+            const timerManage = document.getElementById('timerManageModal');
+            if (timerManage && timerManage.classList.contains('active')) {
+                closeManageTimerModal();
+                return true;
+            }
             const postRecModal = document.getElementById('postRecordingModal');
             if (postRecModal && postRecModal.classList.contains('active')) {
                 closePostRecordingModal();
@@ -1775,7 +1902,7 @@
             document.getElementById('actSubEndDate').value = d.toISOString().split('T')[0];
         }
 
-        // --- نظام ضبط المنبه المتقدم (بالساعة والدقيقة المحددة مثل الهاتف + خيارات التكرار) ---
+        // --- نظام ضبط المنبه المتقدم ---
         function openModalAction(type) {
             closeTopDropdown();
             const modal = document.getElementById('actionModal');
@@ -1898,7 +2025,7 @@
             target.setHours(hours, mins, 0, 0);
 
             if (target <= now) {
-                target.setDate(target.getDate() + 1); // إذا كان الوقت قد مضى اليوم، يُضبط للغد
+                target.setDate(target.getDate() + 1);
             }
 
             const diffMins = Math.round((target - now) / (1000 * 60));
@@ -2278,7 +2405,7 @@
             updateUI();
         }
 
-        // دوال التأكيد مرة واحدة قبل الحذف
+        // دوال الحذف بتأكيد مفرد
         function toggleTodo(id) {
             const t = db.todos.find(x => x.id === id);
             if(t) { t.done = !t.done; finalizeAction(); }
@@ -2359,9 +2486,8 @@
             }
         }
 
-        // تطبيق الثيم الفوري عند الإقلاع
+        // تطبيق الثيم الفوري
         applyThemeUI();
-        
         loadAccuratePrayers();
         syncFeeds();
         updateUI();
