@@ -17,22 +17,19 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
-        /* 📱 نظام تصميم Samsung One UI المات النظيف */
+        /* 📱 أنظمة الثيمات المتعددة المتطابقة مع واجهات الهواتف */
         :root {
             --bg-canvas: #121212;
             --surface-card: #1E1E1E;
             --surface-inner: #282828;
             --surface-active: #323232;
             --border-subtle: #2C2C2C;
-            
             --text-primary: #FFFFFF;
             --text-secondary: #8E8E93;
             --text-tertiary: #636366;
-            
-            --oneui-blue: #007AFF;
-            --oneui-green: #34C759;
-            --oneui-red: #FF3B30;
-            
+            --accent-color: #007AFF;
+            --accent-green: #34C759;
+            --accent-red: #FF3B30;
             --radius-card: 24px;
             --radius-input: 14px;
             --radius-pill: 9999px;
@@ -40,21 +37,95 @@
             --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.25);
         }
 
+        /* الثيم الافتراضي الفاتح */
         body.light-mode {
             --bg-canvas: #F2F2F7;
             --surface-card: #FFFFFF;
             --surface-inner: #E5E5EA;
             --surface-active: #D1D1D6;
             --border-subtle: #E5E5EA;
-            
             --text-primary: #000000;
             --text-secondary: #6C6C70;
             --text-tertiary: #8E8E93;
-            
-            --oneui-blue: #007AFF;
-            --oneui-green: #34C759;
-            --oneui-red: #FF3B30;
             --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 🍎 ثيم آيفون (iOS Style) */
+        body.theme-iphone {
+            --bg-canvas: #000000;
+            --surface-card: #1C1C1E;
+            --surface-inner: #2C2C2E;
+            --surface-active: #3A3A3C;
+            --border-subtle: #38383A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #EBEBF5;
+            --accent-color: #0A84FF;
+            --radius-card: 20px;
+        }
+
+        /* 🐧 ثيم أوبونتو (Ubuntu Style) */
+        body.theme-ubuntu {
+            --bg-canvas: #1E1B18;
+            --surface-card: #2C2D2A;
+            --surface-inner: #3D3E3A;
+            --surface-active: #4D4E4A;
+            --border-subtle: #454743;
+            --text-primary: #F7F7F8;
+            --text-secondary: #D0CFCE;
+            --accent-color: #E95420;
+            --radius-card: 12px;
+        }
+
+        /* 💻 ثيم لينكس (Linux Terminal Style) */
+        body.theme-linux {
+            --bg-canvas: #0A0F0D;
+            --surface-card: #121A16;
+            --surface-inner: #1A2621;
+            --surface-active: #22332C;
+            --border-subtle: #243830;
+            --text-primary: #00FF66;
+            --text-secondary: #88C0D0;
+            --accent-color: #A3BE8C;
+            --radius-card: 8px;
+        }
+
+        /* ⚡ ثيم إنفنيكس (Infinix XOS) */
+        body.theme-infinix {
+            --bg-canvas: #0D1117;
+            --surface-card: #161B22;
+            --surface-inner: #21262D;
+            --surface-active: #30363D;
+            --border-subtle: #30363D;
+            --text-primary: #C9D1D9;
+            --text-secondary: #8B949E;
+            --accent-color: #0064FF;
+            --radius-card: 18px;
+        }
+
+        /* 📱 ثيم بكسل (Pixel XL Material You) */
+        body.theme-pixel {
+            --bg-canvas: #121316;
+            --surface-card: #1B1D22;
+            --surface-inner: #262930;
+            --surface-active: #31353E;
+            --border-subtle: #353842;
+            --text-primary: #E3E2E6;
+            --text-secondary: #C4C6D0;
+            --accent-color: #D0BCFF;
+            --radius-card: 28px;
+        }
+
+        /* 🔷 ثيم شاومي (MIUI / HyperOS) */
+        body.theme-mi {
+            --bg-canvas: #F5F6F8;
+            --surface-card: #FFFFFF;
+            --surface-inner: #F0F2F5;
+            --surface-active: #E4E7EC;
+            --border-subtle: #E4E7EC;
+            --text-primary: #1F2329;
+            --text-secondary: #646A73;
+            --accent-color: #FF6900;
+            --radius-card: 16px;
         }
 
         * {
@@ -97,7 +168,7 @@
         .top-prayer-info {
             font-size: 13px;
             font-weight: 600;
-            color: var(--oneui-green);
+            color: var(--accent-green, #34C759);
             display: flex;
             align-items: center;
             gap: 6px;
@@ -235,7 +306,7 @@
         .edit-name-icon-btn {
             background: var(--surface-card);
             border: 1px solid var(--border-subtle);
-            color: var(--oneui-blue);
+            color: var(--accent-color);
             font-size: 12px;
             width: 30px;
             height: 30px;
@@ -262,13 +333,14 @@
             margin-top: 3px;
         }
 
-        /* ⏱️ العداد الدائري لأقرب تنبيه */
+        /* ⏱️ العداد الدائري لأقرب تنبيه (قابل للنقر للتعديل أو الحذف) */
         .circular-timer-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 10px 0 6px 0;
+            cursor: pointer;
         }
         .circular-timer-box {
             position: relative;
@@ -293,7 +365,7 @@
         }
         .timer-progress-circle {
             fill: none;
-            stroke: var(--oneui-blue);
+            stroke: var(--accent-color);
             stroke-width: 7;
             stroke-linecap: round;
             stroke-dasharray: 326.72;
@@ -352,7 +424,7 @@
         }
         .sub-progress-fill {
             height: 100%;
-            background: var(--oneui-blue);
+            background: var(--accent-color);
             border-radius: var(--radius-pill);
             transition: width 0.4s ease;
         }
@@ -403,15 +475,15 @@
             font-size: 12px;
             font-weight: 700;
             background: var(--surface-inner);
-            color: var(--oneui-blue);
+            color: var(--accent-color);
             border: 1px solid var(--border-subtle);
             cursor: pointer;
             transition: background 0.15s ease;
         }
         .tag-badge:active { background: var(--surface-active); }
-        .tag-badge.green { color: var(--oneui-green); }
+        .tag-badge.green { color: var(--accent-green, #34C759); }
 
-        /* 📱 شريط سامسونج السفلي (الرئيسية .. زر تسجيل .. الصلوات والتنبيهات) */
+        /* 📱 شريط سامسونج السفلي */
         .samsung-dock-container {
             position: fixed;
             bottom: 16px;
@@ -465,10 +537,10 @@
             box-sizing: border-box;
             margin-bottom: 10px;
         }
-        .app-input:focus { border-color: var(--oneui-blue); }
+        .app-input:focus { border-color: var(--accent-color); }
 
         .btn-action {
-            background: var(--oneui-blue);
+            background: var(--accent-color);
             color: #FFFFFF;
             border: none;
             padding: 13px 18px;
@@ -581,7 +653,7 @@
             <div id="searchResultsList"></div>
         </div>
 
-        <!-- 📱 منطقة العنوان مع أيقونة قلم صغيرة دقيقة -->
+        <!-- 📱 منطقة العنوان مع أيقونة قلم صغيرة -->
         <div class="oneui-header-area">
             <div class="oneui-title-hero-row">
                 <div class="oneui-title-hero" id="heroGreetingTitle">طاب يومك.</div>
@@ -601,16 +673,16 @@
         <!-- 🏠 1. تبويب الرئيسية (Dashboard View) -->
         <div id="dashboard-view" class="section-view active">
             
-            <!-- قسم 1: التنبيهات مع العداد الدائري والاختصارات -->
+            <!-- قسم 1: التنبيهات مع العداد الدائري (قابل للنقر لإدارة المؤقت الفعال) -->
             <div class="section-label">التنبيهات المباشرة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
                     <span style="font-size:13px; color:var(--text-secondary);" id="activeRemindersCountText">أقرب موعد</span>
-                    <button onclick="openModalAction('alarm')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ ضبط تنبيه</button>
+                    <button onclick="openModalAction('alarm')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ ضبط تنبيه</button>
                 </div>
 
-                <!-- العداد الدائري لأقرب تنبيه -->
-                <div class="circular-timer-wrapper">
+                <!-- العداد الدائري لأقرب تنبيه (عند النقر يعطيك خيارات تعديل أو حذف المؤقت الفعال) -->
+                <div class="circular-timer-wrapper" onclick="manageActiveTimer()">
                     <div class="circular-timer-box">
                         <svg class="timer-svg" viewBox="0 0 120 120">
                             <circle class="timer-bg-circle" cx="60" cy="60" r="52" />
@@ -623,14 +695,13 @@
                     </div>
                 </div>
 
-                <!-- اقتراحات دقائق سريعة أسفل المؤقت (15/20/25/30/45/60) -->
-                <div style="display:flex; gap:5px; justify-content:center; flex-wrap:wrap; margin:10px 0 6px 0;">
+                <!-- اختصارات الدقائق السريعة (بدون 60 دقيقة) -->
+                <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin:10px 0 6px 0;">
                     <button class="tag-badge" onclick="addReminderFast(15, 'تنبيه 15 دقيقة')">15 د</button>
                     <button class="tag-badge" onclick="addReminderFast(20, 'تنبيه 20 دقيقة')">20 د</button>
                     <button class="tag-badge" onclick="addReminderFast(25, 'تنبيه 25 دقيقة')">25 د</button>
                     <button class="tag-badge" onclick="addReminderFast(30, 'تنبيه 30 دقيقة')">30 د</button>
                     <button class="tag-badge" onclick="addReminderFast(45, 'تنبيه 45 دقيقة')">45 د</button>
-                    <button class="tag-badge" onclick="addReminderFast(60, 'تنبيه 60 دقيقة')">60 د</button>
                 </div>
 
                 <div id="dashRemindersPreview"></div>
@@ -641,7 +712,7 @@
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                     <span style="font-size:13px; color:var(--text-secondary);" id="dashTodoCount">0 مهام معلقة</span>
-                    <button onclick="openModalAction('todo')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ إضافة مهمة</button>
+                    <button onclick="openModalAction('todo')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ إضافة مهمة</button>
                 </div>
                 <div id="dashTodosList"></div>
             </div>
@@ -652,9 +723,9 @@
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                     <div>
                         <span style="font-size:12px; color:var(--text-secondary);">صرف اليوم: </span>
-                        <strong style="font-size:16px; color:var(--oneui-red);" id="dashExpensesTotal">0 ₪</strong>
+                        <strong style="font-size:16px; color:var(--accent-red, #FF3B30);" id="dashExpensesTotal">0 ₪</strong>
                     </div>
-                    <button onclick="openModalAction('expense')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ تسجيل مصروف</button>
+                    <button onclick="openModalAction('expense')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ تسجيل مصروف</button>
                 </div>
                 <div id="dashExpensesPreview"></div>
             </div>
@@ -664,7 +735,7 @@
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                     <span style="font-size:13px; color:var(--text-secondary);">المدة المتبقية للاشتراك</span>
-                    <button onclick="openModalAction('subscription')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ اشتراك جديد</button>
+                    <button onclick="openModalAction('subscription')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ اشتراك جديد</button>
                 </div>
                 <div id="dashSubscriptionsProgressList"></div>
             </div>
@@ -695,15 +766,15 @@
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; text-align:center;">
                     <div><div style="font-size:12px; color:var(--text-secondary);">اليوم</div><div style="font-size:18px; font-weight:800; margin-top:2px;" id="statToday">0 ₪</div></div>
-                    <div><div style="font-size:12px; color:var(--text-secondary);">آخر 7 أيام</div><div style="font-size:18px; font-weight:800; color:var(--oneui-blue); margin-top:2px;" id="statWeek">0 ₪</div></div>
-                    <div><div style="font-size:12px; color:var(--text-secondary);">هذا الشهر</div><div style="font-size:18px; font-weight:800; color:var(--oneui-red); margin-top:2px;" id="statMonth">0 ₪</div></div>
+                    <div><div style="font-size:12px; color:var(--text-secondary);">آخر 7 أيام</div><div style="font-size:18px; font-weight:800; color:var(--accent-color); margin-top:2px;" id="statWeek">0 ₪</div></div>
+                    <div><div style="font-size:12px; color:var(--text-secondary);">هذا الشهر</div><div style="font-size:18px; font-weight:800; color:var(--accent-red, #FF3B30); margin-top:2px;" id="statMonth">0 ₪</div></div>
                 </div>
             </div>
 
             <div class="section-label">الفواتير والاشتراكات الدورية</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
-                    <button onclick="openModalAction('bill')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ إضافة فاتورة</button>
+                    <button onclick="openModalAction('bill')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ إضافة فاتورة</button>
                 </div>
                 <div id="billsAndSubsList"></div>
             </div>
@@ -717,19 +788,19 @@
             <div class="section-label">الملاحظات والتسجيلات الصوتية</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <button onclick="openModalAction('note')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ ملاحظة جديدة</button>
-                    <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--oneui-red); padding:6px 14px; font-size:12px;">🎙️ تسجيل جديد</button>
+                    <button onclick="openModalAction('note')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ ملاحظة جديدة</button>
+                    <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--accent-red, #FF3B30); padding:6px 14px; font-size:12px;">🎙️ تسجيل جديد</button>
                 </div>
                 <div id="notesFullList"></div>
             </div>
         </div>
 
-        <!-- 🔐 6. تبويب الخزنة المحدثة (تدعم الحسابات مع ملاحظات إضافية) -->
+        <!-- 🔐 6. تبويب الخزنة (مع ملاحظات وتفاصيل إضافية) -->
         <div id="vault-view" class="section-view">
             <div class="section-label">الحسابات المشفرة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
-                    <button onclick="openModalAction('vault')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ حساب جديد</button>
+                    <button onclick="openModalAction('vault')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ حساب جديد</button>
                 </div>
                 <div id="vaultFullList"></div>
             </div>
@@ -740,13 +811,13 @@
             <div class="section-label">الوثائق الرسمية</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
-                    <button onclick="openModalAction('doc')" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">+ وثيقة جديدة</button>
+                    <button onclick="openModalAction('doc')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ وثيقة جديدة</button>
                 </div>
                 <div id="docsFullList"></div>
             </div>
         </div>
 
-        <!-- ⚙️ 8. تبويب الإعدادات -->
+        <!-- ⚙️ 8. تبويب الإعدادات (مع نظام الثيمات المنسدلة) -->
         <div id="settings-view" class="section-view">
             <div class="section-label">الحساب والمزامنة السحابية</div>
             <div class="oneui-card">
@@ -757,6 +828,20 @@
                     </div>
                     <button onclick="openAuthModal()" id="settingsAuthBtn" class="tag-badge">تسجيل الدخول</button>
                 </div>
+            </div>
+
+            <div class="section-label">مظهر واجهة التطبيق (الثيمات)</div>
+            <div class="oneui-card">
+                <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">اختر ثيم الهاتف المفضل:</label>
+                <select id="themeSelector" class="app-input" onchange="changeAppTheme(this.value)">
+                    <option value="oneui">One UI (سامسونج)</option>
+                    <option value="iphone">iPhone (آبل iOS)</option>
+                    <option value="ubuntu">Ubuntu (أوبونتو)</option>
+                    <option value="linux">Linux (لينكس)</option>
+                    <option value="infinix">Infinix (إنفنيكس)</option>
+                    <option value="pixel">Pixel XL (جوجل بكسل)</option>
+                    <option value="mi">Mi (شاومي HyperOS)</option>
+                </select>
             </div>
 
             <div class="section-label">النظام والتنبيهات</div>
@@ -771,10 +856,10 @@
 
     </div>
 
-    <!-- 📱 شريط سامسونج السفلي المحدث (الرئيسية .. زر تسجيل مباشر .. الصلوات والتنبيهات) -->
+    <!-- 📱 شريط سامسونج السفلي المحدث -->
     <div class="samsung-dock-container">
         <button class="samsung-dock-item active" id="btnDockHome" onclick="switchNavSection('dashboard-view', this)">الرئيسية</button>
-        <button class="samsung-dock-item" onclick="handleDockMicClick(this)" style="flex:0 0 46px; height:46px; border-radius:50%; background:var(--surface-inner); color:var(--oneui-red); font-size:20px; display:flex; align-items:center; justify-content:center; padding:0;" title="تسجيل صوتي">🎙️</button>
+        <button class="samsung-dock-item" onclick="handleDockMicClick(this)" style="flex:0 0 46px; height:46px; border-radius:50%; background:var(--surface-inner); color:var(--accent-red, #FF3B30); font-size:20px; display:flex; align-items:center; justify-content:center; padding:0;" title="تسجيل صوتي">🎙️</button>
         <button class="samsung-dock-item" id="btnDockPrayersAlarms" onclick="switchNavSection('prayers-alarms-view', this)">الصلوات والتنبيهات</button>
     </div>
 
@@ -792,11 +877,11 @@
     <!-- 🪟 نافذة تسجيل الصوت الخام -->
     <div class="modal-overlay" id="voiceModal">
         <div class="modal-box" style="text-align:center;">
-            <div style="font-size:36px; color:var(--oneui-red); margin-bottom:8px;">🎙️</div>
+            <div style="font-size:36px; color:var(--accent-red, #FF3B30); margin-bottom:8px;">🎙️</div>
             <strong style="display:block; font-size:16px; margin-bottom:4px;">جاري تسجيل الصوت الخام...</strong>
-            <div id="recordTimer" style="font-size:22px; font-weight:800; color:var(--oneui-red); margin:12px 0;">00:00</div>
+            <div id="recordTimer" style="font-size:22px; font-weight:800; color:var(--accent-red, #FF3B30); margin:12px 0;">00:00</div>
             <div style="display:flex; gap:8px;">
-                <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--oneui-green);">حفظ</button>
+                <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--accent-green, #34C759);">حفظ</button>
                 <button onclick="cancelVoiceRecording()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إلغاء</button>
             </div>
         </div>
@@ -818,8 +903,8 @@
                 </div>
                 
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; font-size:12px;">
-                    <button onclick="handleForgotPassword()" style="background:none; border:none; color:var(--oneui-blue); cursor:pointer; font-weight:700;">نسيت كلمة المرور؟</button>
-                    <button onclick="resendVerificationEmail()" style="background:none; border:none; color:var(--oneui-blue); cursor:pointer; font-weight:700;">طلب كود التفعيل</button>
+                    <button onclick="handleForgotPassword()" style="background:none; border:none; color:var(--accent-color); cursor:pointer; font-weight:700;">نسيت كلمة المرور؟</button>
+                    <button onclick="resendVerificationEmail()" style="background:none; border:none; color:var(--accent-color); cursor:pointer; font-weight:700;">طلب كود التفعيل</button>
                 </div>
 
                 <p style="font-size:11px; color:var(--text-secondary); text-align:center; margin-top:12px; line-height:1.5;">
@@ -829,7 +914,7 @@
         </div>
     </div>
 
-    <!-- 🪟 نافذة الإجراءات الموحدة -->
+    <!-- 🪟 نافذة الإجراءات الموحدة (مع نظام تحديد الوقت بدقة الساعات والدقائق وخيارات التكرار) -->
     <div class="modal-overlay" id="actionModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
@@ -844,9 +929,9 @@
     <div class="modal-overlay" id="activeAlarmModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size: 40px; margin-bottom: 8px;">⏰</div>
-            <h3 style="color:var(--oneui-red); font-size:20px; font-weight:800; margin-bottom:4px;">حان وقت التنبيه!</h3>
+            <h3 style="color:var(--accent-red, #FF3B30); font-size:20px; font-weight:800; margin-bottom:4px;">حان وقت التنبيه!</h3>
             <p id="activeAlarmModalTitle" style="font-size:15px; font-weight:600; margin-bottom:18px;">تنبيه موعد</p>
-            <button onclick="dismissActiveAlarm()" class="btn-action" style="background:var(--oneui-red);">🔕 إيقاف التنبيه</button>
+            <button onclick="dismissActiveAlarm()" class="btn-action" style="background:var(--accent-red, #FF3B30);">🔕 إيقاف التنبيه</button>
         </div>
     </div>
 
@@ -877,7 +962,7 @@
                     if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
                 } else { data[key] = []; }
             });
-            if (!data.settings) data.settings = { darkMode: false, displayName: '' };
+            if (!data.settings) data.settings = { darkMode: false, displayName: '', theme: 'oneui' };
             return data;
         }
 
@@ -898,7 +983,7 @@
             if (userDbRef) {
                 showToast('☁️ حفظ بالحساب...');
                 const cloudPayload = JSON.parse(JSON.stringify(db));
-                cloudPayload.notes.forEach(n => { delete n.audioData; }); // حفظ الصوتيات محلياً فقط
+                cloudPayload.notes.forEach(n => { delete n.audioData; }); // حفظ محلي فقط للصوتيات
 
                 userDbRef.set(cloudPayload).then(() => showToast('✅ تم الحفظ السحابي'))
                     .catch(() => showToast('❌ تعذر الحفظ'));
@@ -908,7 +993,16 @@
         }
 
         function applyThemeUI() {
-            document.body.classList.toggle('light-mode', !db.settings.darkMode);
+            const theme = (db.settings && db.settings.theme) ? db.settings.theme : 'oneui';
+            document.body.className = ''; // إزالة كل الثيمات السابقة
+            
+            if (theme === 'oneui') {
+                document.body.classList.toggle('light-mode', !db.settings.darkMode);
+            } else {
+                document.body.classList.add(`theme-${theme}`);
+                if (!db.settings.darkMode) document.body.classList.add('light-mode');
+            }
+
             const themeBtn = document.getElementById('themeBtn');
             if (themeBtn) {
                 themeBtn.innerHTML = db.settings.darkMode ? 
@@ -917,6 +1011,17 @@
             }
             const meta = document.getElementById('themeColorMeta');
             if (meta) meta.setAttribute('content', db.settings.darkMode ? '#121212' : '#F2F2F7');
+
+            const selector = document.getElementById('themeSelector');
+            if (selector) selector.value = theme;
+        }
+
+        function changeAppTheme(themeName) {
+            if (!db.settings) db.settings = {};
+            db.settings.theme = themeName;
+            applyThemeUI();
+            finalizeAction();
+            showToast('🎨 تم تغيير ثيم التطبيق وحفظه');
         }
 
         firebase.auth().onAuthStateChanged(async (user) => {
@@ -1078,14 +1183,34 @@
                 if (editNameBtn) editNameBtn.style.display = 'flex';
                 if (settingsName) settingsName.innerText = displayName + (user.emailVerified ? ' (مؤكد)' : ' (غير مؤكد)');
                 if (settingsEmail) settingsEmail.innerText = user.email;
-                if (settingsBtn) { settingsBtn.innerText = 'تسجيل الخروج'; settingsBtn.style.color = 'var(--oneui-red)'; }
+                if (settingsBtn) { settingsBtn.innerText = 'تسجيل الخروج'; settingsBtn.style.color = 'var(--accent-red, #FF3B30)'; }
             } else {
                 if (nameSpan) nameSpan.innerText = 'حسابي';
                 if (heroGreeting) heroGreeting.innerText = 'طاب يومك.';
                 if (editNameBtn) editNameBtn.style.display = 'none';
                 if (settingsName) settingsName.innerText = 'غير مسجل الدخول';
                 if (settingsEmail) settingsEmail.innerText = 'البيانات محفوظة محلياً على الهاتف';
-                if (settingsBtn) { settingsBtn.innerText = 'تسجيل الدخول'; settingsBtn.style.color = 'var(--oneui-blue)'; }
+                if (settingsBtn) { settingsBtn.innerText = 'تسجيل الدخول'; settingsBtn.style.color = 'var(--accent-color)'; }
+            }
+        }
+
+        // --- إدارة التنبيه الفعال عند النقر على الدائرة ---
+        function manageActiveTimer() {
+            const now = Date.now();
+            const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
+            activeReminders.sort((a,b) => a.targetTime - b.targetTime);
+            const nearest = activeReminders[0];
+
+            if (!nearest) {
+                alert('لا توجد تنبيهات نشطة حالياً. يمكنك إضافة تنبيه جديد من زر "+ ضبط تنبيه".');
+                return;
+            }
+
+            const choice = prompt(`المؤقت الحالي: "${nearest.title || 'تنبيه'}"\nالمتبقي: ${formatTime(nearest.targetTime - now)}\n\nاختر الإجراء المطلوبة:\n1. تعديل اسم التنبيه\n2. حذف التنبيه`, '1');
+            if (choice === '1') {
+                renameReminder(nearest.id);
+            } else if (choice === '2') {
+                confirmDeleteReminder(nearest.id);
             }
         }
 
@@ -1153,9 +1278,9 @@
             renderPrayersAndReminders();
         }
 
-        // --- 3. محرك الطقس والعملات (Async غير معطل للإقلاع) ---
+        // --- 3. محرك الطقس الدقيق والتحديث كل 20 دقيقة ---
         async function syncFeeds() {
-            setTimeout(async () => {
+            const fetchWeather = async () => {
                 try {
                     const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&current=temperature_2m,weather_code&timezone=auto');
                     const data = await res.json();
@@ -1164,7 +1289,9 @@
                         document.getElementById('textWeather').innerText = `${temp}°C ⛅`;
                     }
                 } catch(e) {}
+            };
 
+            const fetchCurrencies = async () => {
                 try {
                     const res = await fetch('https://open.er-api.com/v6/latest/ILS');
                     const data = await res.json();
@@ -1174,7 +1301,13 @@
                         document.getElementById('textEUR').innerText = (1 / data.rates.EUR).toFixed(2);
                     }
                 } catch(e) {}
-            }, 500);
+            };
+
+            fetchWeather();
+            fetchCurrencies();
+            
+            // تحديث دوري للطقس كل 20 دقيقة بالضبط
+            setInterval(fetchWeather, 20 * 60 * 1000);
         }
 
         // --- 4. محرك الإشعارات والمنبهات ---
@@ -1442,7 +1575,7 @@
 
             if (numbers && (lower.includes('اشتريت') || lower.includes('سعر') || lower.includes('بـ') || lower.includes('دفعت') || lower.includes('شيكل'))) {
                 const amount = numbers[0];
-                html += `<button class="btn-action" onclick="executeSmartAction('expense', '${text}', ${amount})" style="background:var(--oneui-red);">💸 تسجيل شراء جديد بمبلغ (${amount} ₪)</button>`;
+                html += `<button class="btn-action" onclick="executeSmartAction('expense', '${text}', ${amount})" style="background:var(--accent-red, #FF3B30);">💸 تسجيل شراء جديد بمبلغ (${amount} ₪)</button>`;
             }
 
             const timeMatch = text.match(/(\d+)\s*(دقيقة|دقائق|ساعة|ساعات)/);
@@ -1450,7 +1583,7 @@
                 const val = parseInt(timeMatch[1]);
                 const unit = timeMatch[2];
                 const totalMins = unit.includes('ساعة') ? val * 60 : val;
-                html += `<button class="btn-action" onclick="executeSmartAction('alarm', '${text}', ${totalMins})" style="background:var(--oneui-blue);">⏰ إضافة تنبيه سريع للشراء بعد ${val} ${unit}</button>`;
+                html += `<button class="btn-action" onclick="executeSmartAction('alarm', '${text}', ${totalMins})" style="background:var(--accent-color);">⏰ إضافة تنبيه سريع للشراء بعد ${val} ${unit}</button>`;
             }
 
             html += `<button class="btn-action" onclick="executeSmartAction('note', '${text}')" style="background:var(--surface-inner); color:var(--text-primary);">📝 تسجيل ملاحظة سريعة للظهور على الرئيسية</button>`;
@@ -1591,7 +1724,7 @@
                     results.push(`
                         <div class="list-row">
                             <div><span class="tag-badge" style="margin-left:6px;">مهمة</span> <span>${t.text}</span></div>
-                            <button onclick="toggleTodo(${t.id})" style="background:none; border:none; color:var(--oneui-blue); font-weight:700; cursor:pointer;">${t.done?'✅ مكتملة':'⭕ إكمال'}</button>
+                            <button onclick="toggleTodo(${t.id})" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">${t.done?'✅ مكتملة':'⭕ إكمال'}</button>
                         </div>`);
                 }
             });
@@ -1618,7 +1751,7 @@
                 if (v.accountName.toLowerCase().includes(q)) {
                     results.push(`
                         <div class="list-row">
-                            <div><span class="tag-badge" style="margin-left:6px; color:var(--oneui-red);">خزنة</span> <strong>${v.accountName}</strong><div style="font-size:12px; color:var(--oneui-red); font-family:monospace;">${v.password}</div></div>
+                            <div><span class="tag-badge" style="margin-left:6px; color:var(--accent-red, #FF3B30);">خزنة</span> <strong>${v.accountName}</strong><div style="font-size:12px; color:var(--accent-red, #FF3B30); font-family:monospace;">${v.password}</div></div>
                         </div>`);
                 }
             });
@@ -1642,6 +1775,7 @@
             document.getElementById('actSubEndDate').value = d.toISOString().split('T')[0];
         }
 
+        // --- نظام ضبط المنبه المتقدم (بالساعة والدقيقة المحددة مثل الهاتف + خيارات التكرار) ---
         function openModalAction(type) {
             closeTopDropdown();
             const modal = document.getElementById('actionModal');
@@ -1649,11 +1783,25 @@
             const container = document.getElementById('modalFormContainer');
 
             if (type === 'alarm') {
-                title.innerText = '⏰ ضبط تنبيه سريع';
+                title.innerText = '⏰ ضبط تنبيه الساعة والدقيقة';
+                const nowTime = new Date();
+                nowTime.setMinutes(nowTime.getMinutes() + 15);
+                const timeStr = nowTime.toTimeString().substring(0, 5);
+
                 container.innerHTML = `
-                    <input type="number" id="actAlarmMins" placeholder="عدد الدقائق..." class="app-input" required>
                     <input type="text" id="actAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
-                    <button type="button" onclick="submitActAlarm()" class="btn-action">ضبط الآن</button>
+                    <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">وقت المنبه (ساعة ودقيقة):</label>
+                    <input type="time" id="actAlarmClockTime" value="${timeStr}" class="app-input" style="font-size:18px; text-align:center; font-weight:700;" required>
+                    
+                    <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">خيارات التكرار:</label>
+                    <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px;">
+                        <button type="button" class="tag-badge" onclick="selectRepeatOption(this, 'مرة واحدة')" style="background:var(--accent-color); color:#FFF;">مرة واحدة</button>
+                        <button type="button" class="tag-badge" onclick="selectRepeatOption(this, 'كل يوم')">كل يوم</button>
+                        <button type="button" class="tag-badge" onclick="selectRepeatOption(this, 'أيام العمل')">أيام العمل</button>
+                    </div>
+                    <input type="hidden" id="actAlarmRepeatVal" value="مرة واحدة">
+
+                    <button type="button" onclick="submitActAlarmAdvanced()" class="btn-action">ضبط التنبيه</button>
                 `;
             } else if (type === 'todo') {
                 title.innerText = '✅ إضافة مهمة لليوم';
@@ -1726,11 +1874,37 @@
             modal.classList.add('active');
         }
 
-        function submitActAlarm() {
-            const mins = parseInt(document.getElementById('actAlarmMins').value);
-            const title = document.getElementById('actAlarmTitle').value;
-            if (!mins || mins <= 0) return alert('أدخل دقائق صحيحة');
-            addReminderFast(mins, title);
+        function selectRepeatOption(btnEl, val) {
+            const parent = btnEl.parentElement;
+            parent.querySelectorAll('.tag-badge').forEach(b => {
+                b.style.background = 'var(--surface-inner)';
+                b.style.color = 'var(--accent-color)';
+            });
+            btnEl.style.background = 'var(--accent-color)';
+            btnEl.style.color = '#FFF';
+            document.getElementById('actAlarmRepeatVal').value = val;
+        }
+
+        function submitActAlarmAdvanced() {
+            const timeVal = document.getElementById('actAlarmClockTime').value;
+            const titleVal = document.getElementById('actAlarmTitle').value;
+            const repeatVal = document.getElementById('actAlarmRepeatVal').value;
+
+            if (!timeVal) return alert('يرجى تحديد وقت المنبه');
+
+            const [hours, mins] = timeVal.split(':').map(Number);
+            const now = new Date();
+            const target = new Date();
+            target.setHours(hours, mins, 0, 0);
+
+            if (target <= now) {
+                target.setDate(target.getDate() + 1); // إذا كان الوقت قد مضى اليوم، يُضبط للغد
+            }
+
+            const diffMins = Math.round((target - now) / (1000 * 60));
+            const cleanTitle = (titleVal ? titleVal.trim() : `منبه ${timeVal}`) + ` (${repeatVal})`;
+
+            addReminderFast(diffMins, cleanTitle);
             closeModalAction();
         }
 
@@ -1866,7 +2040,7 @@
                         <div style="display:flex; align-items:center; gap:6px;">
                             <button onclick="renameReminder(${item.id})" class="tag-badge" title="تسمية">✏️</button>
                             <span class="tag-badge">⏳ ${formatTime(item.targetTime - now)}</span>
-                            <button onclick="confirmDeleteReminder(${item.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer; font-size:16px;" title="إلغاء">✖</button>
+                            <button onclick="confirmDeleteReminder(${item.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer; font-size:16px;" title="إلغاء">✖</button>
                         </div>
                     </div>`;
                 }
@@ -1926,7 +2100,7 @@
                         <div style="display:flex; align-items:center; gap:6px;">
                             <button onclick="renameReminder(${r.id})" class="tag-badge" title="تسمية">✏️</button>
                             <span class="tag-badge">⏳ ${formatTime(r.targetTime - now)}</span>
-                            <button onclick="confirmDeleteReminder(${r.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer; font-size:16px;" title="إلغاء">✖</button>
+                            <button onclick="confirmDeleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer; font-size:16px;" title="إلغاء">✖</button>
                         </div>
                     </div>
                 `).join('');
@@ -1976,10 +2150,10 @@
             document.getElementById('dashTodosList').innerHTML = todosToday.map(t => `
                 <div class="list-row">
                     <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
-                        <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--oneui-blue); width:18px; height:18px;">
+                        <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--accent-color); width:18px; height:18px;">
                         <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text}</span>
                     </label>
-                    <button onclick="confirmDeleteTodo(${t.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">✖</button>
+                    <button onclick="confirmDeleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer;">✖</button>
                 </div>
             `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد مهام مسجلة لليوم.</p>';
 
@@ -1988,10 +2162,10 @@
                 todosAllEl.innerHTML = db.todos.map(t => `
                     <div class="list-row">
                         <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
-                            <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--oneui-blue); width:18px; height:18px;">
+                            <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--accent-color); width:18px; height:18px;">
                             <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text}</span>
                         </label>
-                        <button onclick="confirmDeleteTodo(${t.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
+                        <button onclick="confirmDeleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer;">🗑</button>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary);">لا توجد مهام مؤرشفة.</p>';
             }
@@ -2005,7 +2179,7 @@
                 dashExpPreview.innerHTML = expToday.slice(0, 3).map(e => `
                     <div class="list-row">
                         <span>${e.desc}</span>
-                        <strong style="color:var(--oneui-red);">${e.amount} ₪</strong>
+                        <strong style="color:var(--accent-red, #FF3B30);">${e.amount} ₪</strong>
                     </div>
                 `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لم تسجل مصاريف اليوم بعد.</p>';
             }
@@ -2029,8 +2203,8 @@
                     <div class="list-row">
                         <div><strong>${e.desc}</strong><div style="font-size:11px; color:var(--text-secondary);">${e.date}</div></div>
                         <div style="display:flex; gap:8px; align-items:center;">
-                            <strong style="color:var(--oneui-red);">${e.amount} ₪</strong>
-                            <button onclick="confirmDeleteExpense(${e.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
+                            <strong style="color:var(--accent-red, #FF3B30);">${e.amount} ₪</strong>
+                            <button onclick="confirmDeleteExpense(${e.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer;">🗑</button>
                         </div>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary);">لا توجد مصاريف سابقة.</p>';
@@ -2043,14 +2217,14 @@
                     combined += `
                     <div class="list-row">
                         <div><strong>${b.type} (فاتورة)</strong><div style="font-size:11px; color:var(--text-secondary);">${b.date}</div></div>
-                        <div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--oneui-blue);">${b.amount} ₪</strong><button onclick="confirmDeleteBill(${b.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button></div>
+                        <div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--accent-color);">${b.amount} ₪</strong><button onclick="confirmDeleteBill(${b.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer;">🗑</button></div>
                     </div>`;
                 });
                 db.subscriptions.forEach(s => {
                     combined += `
                     <div class="list-row">
                         <div><strong>${s.name} (اشتراك)</strong><div style="font-size:11px; color:var(--text-secondary);">ينتهي: ${s.endDate || s.renewalDate || 'شهري'}</div></div>
-                        <div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--oneui-green);">${s.amount} ₪</strong><button onclick="confirmDeleteSub(${s.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button></div>
+                        <div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--accent-green, #34C759);">${s.amount} ₪</strong><button onclick="confirmDeleteSub(${s.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer;">🗑</button></div>
                     </div>`;
                 });
                 billsSubsEl.innerHTML = combined || '<p style="color:var(--text-secondary);">لا توجد فواتير أو اشتراكات مسجلة.</p>';
@@ -2062,7 +2236,7 @@
                     <div style="background:var(--surface-inner); padding:14px; border-radius:var(--radius-input); margin-bottom:10px; border:1px solid var(--border-subtle);">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <strong>${n.title}</strong>
-                            <button onclick="confirmDeleteNote(${n.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
+                            <button onclick="confirmDeleteNote(${n.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer;">🗑</button>
                         </div>
                         ${n.body ? `<p style="font-size:13px; color:var(--text-secondary); margin-top:6px; line-height:1.6;">${n.body}</p>` : ''}
                         ${n.audioData ? `<audio controls src="${n.audioData}" style="width:100%; height:32px; margin-top:8px;"></audio>` : ''}
@@ -2077,10 +2251,10 @@
                         <div>
                             <strong>${v.accountName}</strong>
                             ${v.username ? `<div style="font-size:12px; color:var(--text-secondary);">${v.username}</div>` : ''}
-                            <div style="font-size:12px; color:var(--oneui-red); font-family:monospace;">${v.password}</div>
+                            <div style="font-size:12px; color:var(--accent-red, #FF3B30); font-family:monospace;">${v.password}</div>
                             ${v.note ? `<div style="font-size:11px; color:var(--text-tertiary); margin-top:2px;">ملاحظة: ${v.note}</div>` : ''}
                         </div>
-                        <button onclick="confirmDeleteVault(${v.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
+                        <button onclick="confirmDeleteVault(${v.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer;">🗑</button>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary);">الخزنة فارغة.</p>';
             }
@@ -2090,7 +2264,7 @@
                 docsEl.innerHTML = db.documents.map(d => `
                     <div class="list-row">
                         <div><strong>${d.name}</strong><div style="font-size:12px; color:var(--text-secondary);">تنتهي: ${d.expiryDate}</div></div>
-                        <button onclick="confirmDeleteDoc(${d.id})" style="background:none; border:none; color:var(--oneui-red); cursor:pointer;">🗑</button>
+                        <button onclick="confirmDeleteDoc(${d.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer;">🗑</button>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary);">لا توجد وثائق مسجلة.</p>';
             }
@@ -2104,7 +2278,7 @@
             updateUI();
         }
 
-        // دوال التأكيد قبل الحذف (مرة واحدة فقط بدون نوافذ نجاح مزعجة)
+        // دوال التأكيد مرة واحدة قبل الحذف
         function toggleTodo(id) {
             const t = db.todos.find(x => x.id === id);
             if(t) { t.done = !t.done; finalizeAction(); }
