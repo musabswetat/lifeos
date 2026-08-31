@@ -17,10 +17,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
-        /* =========================================================
-           📱 نظام الثيمات الجذري المتطابق مع هويات أنظمة الهواتف (نهاري وليلي)
-           ========================================================= */
-        
+        /* 📱 نظام الثيمات الجذري الشامل */
         :root {
             --bg-canvas: #121212;
             --surface-card: #1E1E1E;
@@ -40,10 +37,9 @@
             --dock-height: 56px;
             --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.25);
             --card-backdrop: none;
-            --terminal-prefix: "";
         }
 
-        /* 1. ثيم سامسونج (Samsung One UI 6) */
+        /* 1. ثيم سامسونج One UI */
         body.theme-oneui {
             --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             --radius-card: 26px;
@@ -66,7 +62,7 @@
             --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
 
-        /* 2. ثيم آبل آيفون (Apple iOS / Glassmorphism) */
+        /* 2. ثيم آبل آيفون iOS */
         body.theme-iphone {
             --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
             --radius-card: 22px;
@@ -92,7 +88,7 @@
             --shadow-subtle: 0 8px 24px rgba(0,0,0,0.06);
         }
 
-        /* 3. ثيم جوجل بكسل (Google Pixel Material You) */
+        /* 3. ثيم جوجل بكسل Pixel */
         body.theme-pixel {
             --font-family: "Google Sans", system-ui, Roboto, sans-serif;
             --radius-card: 32px;
@@ -117,9 +113,9 @@
             --shadow-subtle: 0 2px 8px rgba(0,0,0,0.05);
         }
 
-        /* 4. ثيم أوبونتو (Ubuntu Yaru) */
+        /* 4. ثيم أوبونتو Ubuntu */
         body.theme-ubuntu {
-            --font-family: "Ubuntu", "DejaVu Sans", system-ui, sans-serif;
+            --font-family: "Ubuntu", system-ui, sans-serif;
             --radius-card: 10px;
             --radius-input: 8px;
             --accent-color: #E95420;
@@ -142,9 +138,9 @@
             --shadow-subtle: 0 2px 10px rgba(0,0,0,0.06);
         }
 
-        /* 5. ثيم لينكس موجه الأوامر (Linux Terminal Hacker) */
+        /* 5. ثيم لينكس Linux */
         body.theme-linux {
-            --font-family: "Courier New", "Lucida Console", monospace;
+            --font-family: "Courier New", monospace;
             --radius-card: 4px;
             --radius-input: 2px;
             --accent-color: #00FF66;
@@ -156,7 +152,6 @@
             --border-subtle: #00FF66;
             --text-primary: #00FF66;
             --text-secondary: #55AA77;
-            --terminal-prefix: "> ";
             --shadow-subtle: 0 0 10px rgba(0, 255, 102, 0.15);
         }
         body.theme-linux.light-mode {
@@ -170,9 +165,9 @@
             --shadow-subtle: 0 0 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* 6. ثيم إنفنيكس (Infinix XOS) */
+        /* 6. ثيم إنفنيكس Infinix */
         body.theme-infinix {
-            --font-family: system-ui, -apple-system, sans-serif;
+            --font-family: system-ui, sans-serif;
             --radius-card: 18px;
             --radius-input: 12px;
             --accent-color: #00FF9D;
@@ -195,9 +190,9 @@
             --shadow-subtle: 0 4px 14px rgba(0, 0, 0, 0.05);
         }
 
-        /* 7. ثيم شاومي (Xiaomi HyperOS) */
+        /* 7. ثيم شاومي Mi */
         body.theme-mi {
-            --font-family: "MiSans", system-ui, sans-serif;
+            --font-family: system-ui, sans-serif;
             --radius-card: 20px;
             --radius-input: 14px;
             --accent-color: #FF6900;
@@ -219,10 +214,6 @@
             --accent-color: #FF6900;
             --shadow-subtle: 0 4px 16px rgba(0,0,0,0.05);
         }
-
-        /* =========================================================
-           القواعد العامة والتصميم التجاوبي
-           ========================================================= */
 
         * {
             box-sizing: border-box;
@@ -698,7 +689,7 @@
 
     <div class="app-container">
         
-        <!-- 🔍 شريط سامسونج العلوي مع أيقونات SVG النظيفة -->
+        <!-- 🔍 شريط سامسونج العلوي -->
         <div class="oneui-top-bar">
             <div class="top-prayer-info" id="topPrayerTag">
                 <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.07 2.75z"/></svg>
@@ -766,7 +757,7 @@
         <!-- 🏠 1. تبويب الرئيسية (Dashboard View) -->
         <div id="dashboard-view" class="section-view active">
             
-            <!-- قسم 1: التنبيهات مع العداد الدائري (قابل للنقر لإدارة المؤقت الفعال) -->
+            <!-- قسم 1: التنبيهات المباشرة مع المؤقت الدائري الموثوق -->
             <div class="section-label">التنبيهات المباشرة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
@@ -774,7 +765,6 @@
                     <button onclick="openModalAction('alarm')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ ضبط تنبيه</button>
                 </div>
 
-                <!-- العداد الدائري لأقرب تنبيه (عند النقر تظهر نافذة إدارة وتعديل المؤقت) -->
                 <div class="circular-timer-wrapper" onclick="openManageActiveTimerModal()">
                     <div class="circular-timer-box">
                         <svg class="timer-svg" viewBox="0 0 120 120">
@@ -956,7 +946,7 @@
         <button class="samsung-dock-item" id="btnDockPrayersAlarms" onclick="switchNavSection('prayers-alarms-view', this)">الصلوات والتنبيهات</button>
     </div>
 
-    <!-- 🪟 نافذة منبثقة تفاعلية لإدارة التنبيه الفعال -->
+    <!-- 🪟 نافذة إدارة التنبيه الفعال المنبثقة -->
     <div class="modal-overlay" id="timerManageModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size:36px; margin-bottom:6px;">⏱️</div>
@@ -1296,7 +1286,7 @@
             }
         }
 
-        // --- نافذة إدارة التنبيه الفعال المنبثقة التفاعلية ---
+        // --- نافذة إدارة التنبيه الفعال ---
         function openManageActiveTimerModal() {
             const now = Date.now();
             const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
@@ -1434,7 +1424,10 @@
             setInterval(fetchWeather, 20 * 60 * 1000);
         }
 
-        // --- 4. محرك الإشعارات والمنبهات ---
+        // =========================================================================
+        // --- 4. محرك الإشعارات والتنبيهات الأصلي المتين المعتمد للخلفية التامة ---
+        // =========================================================================
+        
         function getNativePlugin() {
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
                 return window.Capacitor.Plugins.LocalNotifications;
@@ -1448,6 +1441,7 @@
 
             try {
                 await plugin.requestPermissions();
+                
                 await plugin.createChannel({
                     id: 'lifeos_marimba_channel_v5',
                     name: 'تنبيهات Life OS المخصصة',
@@ -1459,10 +1453,29 @@
                     lights: true
                 });
 
+                await plugin.createChannel({
+                    id: 'lifeos_fallback_channel',
+                    name: 'تنبيهات Life OS العامة',
+                    description: 'قناة التنبيهات العامة الاحتياطية',
+                    importance: 5,
+                    visibility: 1,
+                    sound: 'default',
+                    vibration: true
+                });
+
+                await plugin.registerActionTypes({
+                    types: [{
+                        id: 'ALARM_ACTIONS',
+                        actions: [{ id: 'dismiss_alarm', title: '🔕 إيقاف التنبيه', destructive: true }]
+                    }]
+                });
+
                 plugin.addListener('localNotificationActionPerformed', () => {
                     dismissActiveAlarm();
                 });
-            } catch (e) {}
+            } catch (e) {
+                console.error("فشل تهيئة قنوات الإشعارات:", e);
+            }
         }
         initNativeNotifications();
 
@@ -1483,10 +1496,27 @@
                         id: safeId,
                         schedule: { at: targetDate, allowWhileIdle: true },
                         sound: 'marimba',
+                        actionTypeId: 'ALARM_ACTIONS',
                         channelId: 'lifeos_marimba_channel_v5'
                     }]
                 });
-            } catch (err) {}
+            } catch (err) {
+                try {
+                    await plugin.schedule({
+                        notifications: [{
+                            title: notifTitle,
+                            body: notifBody,
+                            id: safeId,
+                            schedule: { at: targetDate, allowWhileIdle: true },
+                            sound: 'default',
+                            actionTypeId: 'ALARM_ACTIONS',
+                            channelId: 'lifeos_fallback_channel'
+                        }]
+                    });
+                } catch (fallbackErr) {
+                    alert('تعذر جدولة الإشعار في نظام أندرويد. تأكد من تفعيل إذن الإشعارات للتطبيق.');
+                }
+            }
         }
 
         let audioCtx = null;
@@ -1567,7 +1597,6 @@
                 id: reminderId,
                 title: cleanTitle,
                 minutes: mins,
-                name: cleanTitle,
                 createdAt: now,
                 targetTime: now + (mins * 60 * 1000),
                 triggered: false,
@@ -1902,7 +1931,7 @@
             document.getElementById('actSubEndDate').value = d.toISOString().split('T')[0];
         }
 
-        // --- نظام ضبط المنبه المتقدم ---
+        // --- النوافذ المنبثقة للإضافة (العودة إلى نظام الدقائق السريع والموثوق) ---
         function openModalAction(type) {
             closeTopDropdown();
             const modal = document.getElementById('actionModal');
@@ -1910,25 +1939,11 @@
             const container = document.getElementById('modalFormContainer');
 
             if (type === 'alarm') {
-                title.innerText = '⏰ ضبط تنبيه الساعة والدقيقة';
-                const nowTime = new Date();
-                nowTime.setMinutes(nowTime.getMinutes() + 15);
-                const timeStr = nowTime.toTimeString().substring(0, 5);
-
+                title.innerText = '⏰ ضبط تنبيه سريع';
                 container.innerHTML = `
+                    <input type="number" id="actAlarmMins" placeholder="عدد الدقائق..." class="app-input" required>
                     <input type="text" id="actAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
-                    <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">وقت المنبه (ساعة ودقيقة):</label>
-                    <input type="time" id="actAlarmClockTime" value="${timeStr}" class="app-input" style="font-size:18px; text-align:center; font-weight:700;" required>
-                    
-                    <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">خيارات التكرار:</label>
-                    <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px;">
-                        <button type="button" class="tag-badge" onclick="selectRepeatOption(this, 'مرة واحدة')" style="background:var(--accent-color); color:#FFF;">مرة واحدة</button>
-                        <button type="button" class="tag-badge" onclick="selectRepeatOption(this, 'كل يوم')">كل يوم</button>
-                        <button type="button" class="tag-badge" onclick="selectRepeatOption(this, 'أيام العمل')">أيام العمل</button>
-                    </div>
-                    <input type="hidden" id="actAlarmRepeatVal" value="مرة واحدة">
-
-                    <button type="button" onclick="submitActAlarmAdvanced()" class="btn-action">ضبط التنبيه</button>
+                    <button type="button" onclick="submitActAlarm()" class="btn-action">ضبط الآن</button>
                 `;
             } else if (type === 'todo') {
                 title.innerText = '✅ إضافة مهمة لليوم';
@@ -2001,37 +2016,11 @@
             modal.classList.add('active');
         }
 
-        function selectRepeatOption(btnEl, val) {
-            const parent = btnEl.parentElement;
-            parent.querySelectorAll('.tag-badge').forEach(b => {
-                b.style.background = 'var(--surface-inner)';
-                b.style.color = 'var(--accent-color)';
-            });
-            btnEl.style.background = 'var(--accent-color)';
-            btnEl.style.color = '#FFF';
-            document.getElementById('actAlarmRepeatVal').value = val;
-        }
-
-        function submitActAlarmAdvanced() {
-            const timeVal = document.getElementById('actAlarmClockTime').value;
-            const titleVal = document.getElementById('actAlarmTitle').value;
-            const repeatVal = document.getElementById('actAlarmRepeatVal').value;
-
-            if (!timeVal) return alert('يرجى تحديد وقت المنبه');
-
-            const [hours, mins] = timeVal.split(':').map(Number);
-            const now = new Date();
-            const target = new Date();
-            target.setHours(hours, mins, 0, 0);
-
-            if (target <= now) {
-                target.setDate(target.getDate() + 1);
-            }
-
-            const diffMins = Math.round((target - now) / (1000 * 60));
-            const cleanTitle = (titleVal ? titleVal.trim() : `منبه ${timeVal}`) + ` (${repeatVal})`;
-
-            addReminderFast(diffMins, cleanTitle);
+        function submitActAlarm() {
+            const mins = parseInt(document.getElementById('actAlarmMins').value);
+            const title = document.getElementById('actAlarmTitle').value;
+            if (!mins || mins <= 0) return alert('أدخل دقائق صحيحة');
+            addReminderFast(mins, title);
             closeModalAction();
         }
 
@@ -2405,7 +2394,7 @@
             updateUI();
         }
 
-        // دوال الحذف بتأكيد مفرد
+        // دوال التأكيد مرة واحدة قبل الحذف
         function toggleTodo(id) {
             const t = db.todos.find(x => x.id === id);
             if(t) { t.done = !t.done; finalizeAction(); }
