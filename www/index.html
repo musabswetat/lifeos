@@ -164,7 +164,7 @@
         .timer-time-large { font-size: 22px; font-weight: 800; color: var(--text-primary); text-align: center; }
         .timer-label-sub { font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-top: 2px; text-align: center; }
 
-        /* عناصر القوائم (المهام، المصاريف الخ) */
+        /* عناصر القوائم */
         .list-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-subtle); font-size: 14px; gap: 10px; }
         .list-row:last-child { border-bottom: none; }
         .tag-badge { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 700; background: var(--surface-inner); color: var(--accent-color); border: 1px solid var(--border-subtle); cursor: pointer; }
@@ -244,7 +244,7 @@
             </div>
         </div>
 
-        <!-- 🏠 1. تبويب الرئيسية (بكامل أقسامه) -->
+        <!-- 🏠 1. تبويب الرئيسية (تم استعادة الأقسام بالكامل) -->
         <div id="dashboard-view" class="section-view active">
             
             <div class="section-label">التنبيهات المباشرة</div>
@@ -268,11 +268,11 @@
                 </div>
 
                 <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin:10px 0 6px 0;">
-                    <button class="tag-badge" onclick="addReminderFast(15)">15 د</button>
-                    <button class="tag-badge" onclick="addReminderFast(20)">20 د</button>
-                    <button class="tag-badge" onclick="addReminderFast(25)">25 د</button>
-                    <button class="tag-badge" onclick="addReminderFast(30)">30 د</button>
-                    <button class="tag-badge" onclick="addReminderFast(45)">45 د</button>
+                    <button class="tag-badge" onclick="addReminderFast(15, 'تنبيه 15 دقيقة')">15 د</button>
+                    <button class="tag-badge" onclick="addReminderFast(20, 'تنبيه 20 دقيقة')">20 د</button>
+                    <button class="tag-badge" onclick="addReminderFast(25, 'تنبيه 25 دقيقة')">25 د</button>
+                    <button class="tag-badge" onclick="addReminderFast(30, 'تنبيه 30 دقيقة')">30 د</button>
+                    <button class="tag-badge" onclick="addReminderFast(45, 'تنبيه 45 دقيقة')">45 د</button>
                 </div>
 
                 <div id="dashRemindersPreview"></div>
@@ -308,6 +308,7 @@
                 </div>
                 <div id="dashSubscriptionsProgressList"></div>
             </div>
+
         </div>
 
         <!-- 🕌⏰ 2. تبويب الصلوات والتنبيهات الموحد -->
@@ -316,7 +317,7 @@
             <div class="oneui-card" id="prayersAlarmsFullList"></div>
         </div>
 
-        <!-- ✅ 3. تبويب المهام -->
+        <!-- ✅ 3. تبويب إدارة كافة المهام -->
         <div id="todos-view" class="section-view">
             <div class="section-label">إدارة كافة المهام</div>
             <div class="oneui-card">
@@ -338,6 +339,7 @@
                     <div><div style="font-size:12px; color:var(--text-secondary);">هذا الشهر</div><div style="font-size:18px; font-weight:800; color:var(--accent-red); margin-top:2px;" id="statMonth">0 ₪</div></div>
                 </div>
             </div>
+
             <div class="section-label">الفواتير والاشتراكات الدورية</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
@@ -345,11 +347,12 @@
                 </div>
                 <div id="billsAndSubsList"></div>
             </div>
+
             <div class="section-label">سجل المصاريف السابقة</div>
             <div class="oneui-card" id="expensesFullList"></div>
         </div>
 
-        <!-- 📝 5. تبويب الملاحظات -->
+        <!-- 📝 5. تبويب الملاحظات والتسجيلات الصوتية -->
         <div id="notes-view" class="section-view">
             <div class="section-label">الملاحظات والتسجيلات الصوتية</div>
             <div class="oneui-card">
@@ -361,7 +364,7 @@
             </div>
         </div>
 
-        <!-- 🔐 6. تبويب الخزنة (بالتفاصيل الكاملة) -->
+        <!-- 🔐 6. تبويب الخزنة -->
         <div id="vault-view" class="section-view">
             <div class="section-label">الحسابات المشفرة</div>
             <div class="oneui-card">
@@ -383,7 +386,7 @@
             </div>
         </div>
 
-        <!-- ⚙️ 8. تبويب الإعدادات (نقلت إعدادات البطارية إلى هنا) -->
+        <!-- ⚙️ 8. تبويب الإعدادات -->
         <div id="settings-view" class="section-view">
             <div class="section-label">الحساب والمزامنة السحابية</div>
             <div class="oneui-card">
@@ -410,12 +413,13 @@
                 </select>
             </div>
 
-            <div class="section-label">إعدادات النظام والتنبيهات القصوى</div>
+            <div class="section-label">النظام والتنبيهات القصوى</div>
             <div class="oneui-card">
                 <div style="display:flex; gap:8px; flex-direction:column;">
                     <button onclick="requestBatteryOptimizationExemption()" class="btn-action" style="background:var(--surface-inner); color:var(--accent-color); border:1px solid var(--border-subtle);">
-                        ⚡ منح إذن العمل التام بالخلفية (تجاوز توفير البطارية)
+                        ⚡ إذن العمل بالخلفية (تجاوز توفير البطارية)
                     </button>
+                    <button onclick="exportData()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">📥 تصدير كنسخة احتياطية</button>
                 </div>
             </div>
         </div>
@@ -538,7 +542,7 @@
         function saveToCloud() {
             if (userDbRef) {
                 const cloudPayload = JSON.parse(JSON.stringify(db));
-                cloudPayload.notes.forEach(n => { delete n.audioData; }); // حفظ الصوتيات محلياً فقط
+                cloudPayload.notes.forEach(n => { delete n.audioData; });
                 userDbRef.set(cloudPayload);
             }
         }
@@ -609,8 +613,63 @@
             }
         }
 
-        // --- 🛡️ محرك التنبيهات المعتمد لأندرويد الأصلي فقط ---
-        // (لا يوجد أي صوت ويب أو نافذة منبثقة للرنين، أندرويد يتكفل بالإشعار بالكامل)
+        async function submitUserLogin() {
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPassword').value;
+            if (!email || !pass) return alert('يرجى كتابة البريد وكلمة المرور');
+            try { showToast('جاري تسجيل الدخول...'); await firebase.auth().signInWithEmailAndPassword(email, pass); closeAuthModal(); } 
+            catch (err) { alert('فشل الدخول: ' + err.message); }
+        }
+
+        async function submitUserSignup() {
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPassword').value;
+            if (!email || !pass) return alert('يرجى كتابة البريد وكلمة المرور');
+            if (pass.length < 6) return alert('كلمة المرور 6 خانات فأكثر');
+            try {
+                showToast('جاري إنشاء الحساب...');
+                const userCred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
+                await userCred.user.sendEmailVerification();
+                await firebase.auth().signOut();
+                alert('✅ تم إنشاء الحساب بنجاح!\n\nتم إرسال رابط تفعيل إلى بريدك (تحقق من Spam).');
+                closeAuthModal();
+            } catch (err) { alert('فشل إنشاء الحساب: ' + err.message); }
+        }
+
+        async function handleForgotPassword() {
+            const email = document.getElementById('authEmail').value.trim();
+            if (!email) { alert('اكتب بريدك في حقل الإيميل أولاً.'); document.getElementById('authEmail').focus(); return; }
+            try { await firebase.auth().sendPasswordResetEmail(email); alert('تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك.'); } 
+            catch (err) { alert('فشل الإرسال: ' + err.message); }
+        }
+
+        async function resendVerificationEmail() {
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPassword').value;
+            if (!email || !pass) { alert('اكتب البريد وكلمة المرور أولاً.'); return; }
+            try {
+                const userCred = await firebase.auth().signInWithEmailAndPassword(email, pass);
+                if (!userCred.user.emailVerified) { await userCred.user.sendEmailVerification(); alert('تم إعادة إرسال التفعيل.'); }
+                else { alert('هذا الحساب مفعل مسبقاً!'); }
+                await firebase.auth().signOut();
+            } catch (e) { alert('تعذر الإرسال: ' + e.message); }
+        }
+
+        async function promptEditDisplayName() {
+            if (!currentUser) return;
+            const currentName = db.settings.displayName || currentUser.displayName || currentUser.email.split('@')[0];
+            const newName = prompt('أدخل اسم الظهور الجديد:', currentName);
+            if (newName !== null && newName.trim()) {
+                try {
+                    await currentUser.updateProfile({ displayName: newName.trim() });
+                    db.settings.displayName = newName.trim();
+                    finalizeAction();
+                    updateAuthProfileUI(currentUser);
+                } catch (e) { alert('تعذر تحديث الاسم: ' + e.message); }
+            }
+        }
+
+        // --- 🛡️ محرك التنبيهات لأندرويد الأصلي فقط ---
         function getNativePlugin() {
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
                 return window.Capacitor.Plugins.LocalNotifications;
@@ -670,12 +729,93 @@
             showToast(`⏰ تم ضبط منبه ${mins} دقيقة`);
         }
 
+        function confirmDeleteReminder(id) {
+            const numId = Number(id);
+            const plugin = getNativePlugin();
+            if (plugin) { plugin.cancel({ notifications: [{ id: Math.abs(numId % 2147483647) }] }).catch(() => {}); }
+            db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
+            finalizeAction();
+        }
+
+        function renameReminder(id) {
+            const r = db.reminders.find(x => x.id === id);
+            if (!r) return;
+            const newName = prompt('أدخل اسم المنبه:', r.title || '');
+            if (newName !== null) { r.title = newName.trim(); finalizeAction(); }
+        }
+
+        // --- محرك الطقس الدقيق كل 20 دقيقة ---
+        async function syncFeeds() {
+            const fetchWeather = async () => {
+                try {
+                    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&current=temperature_2m,weather_code&timezone=auto');
+                    const data = await res.json();
+                    if (data && data.current) {
+                        const temp = Math.round(data.current.temperature_2m);
+                        document.getElementById('textWeather').innerText = `${temp}°C ⛅`;
+                    }
+                } catch(e) { console.error("Weather error:", e); }
+            };
+
+            const fetchCurrencies = async () => {
+                try {
+                    const res = await fetch('https://open.er-api.com/v6/latest/ILS');
+                    const data = await res.json();
+                    if (data && data.rates) {
+                        document.getElementById('textUSD').innerText = (1 / data.rates.USD).toFixed(2);
+                        document.getElementById('textJOD').innerText = (1 / data.rates.JOD).toFixed(2);
+                        document.getElementById('textEUR').innerText = (1 / data.rates.EUR).toFixed(2);
+                    }
+                } catch(e) { console.error("Currency error:", e); }
+            };
+
+            fetchWeather();
+            fetchCurrencies();
+            setInterval(fetchWeather, 20 * 60 * 1000);
+        }
+
+        // --- مواقيت الصلاة لجنين ---
+        function calculatePalestinePrayerTimes(date = new Date()) {
+            const lat = 32.4646; const lng = 35.2939; const tz = -date.getTimezoneOffset() / 60;
+            const start = new Date(date.getFullYear(), 0, 0); const diff = (date - start) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
+            const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const gamma = (2 * Math.PI / 365) * (dayOfYear - 1);
+            const eqtime = 229.18 * (0.000075 + 0.001868 * Math.cos(gamma) - 0.032077 * Math.sin(gamma) - 0.014615 * Math.cos(2 * gamma) - 0.040849 * Math.sin(2 * gamma));
+            const decl = 0.006918 - 0.399912 * Math.cos(gamma) + 0.070257 * Math.sin(gamma) - 0.006758 * Math.cos(2 * gamma) + 0.000907 * Math.sin(2 * gamma) - 0.002697 * Math.cos(3 * gamma) + 0.00148 * Math.sin(3 * gamma);
+            const degToRad = Math.PI / 180; const radToDeg = 180 / Math.PI; const latRad = lat * degToRad;
+            const noon = 12 + tz - (lng / 15) - (eqtime / 60);
+
+            function getHourAngle(angleDeg) {
+                const altRad = -angleDeg * degToRad;
+                const cosHA = (Math.sin(altRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl));
+                if (cosHA > 1 || cosHA < -1) return null;
+                return radToDeg * Math.acos(cosHA) / 15;
+            }
+
+            const asrAlt = Math.atan(1 / (1 + Math.tan(Math.abs(latRad - decl)))) * radToDeg;
+            const asrHA = radToDeg * Math.acos((Math.sin(asrAlt * degToRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl))) / 15;
+            const fajrHA = getHourAngle(19.5); const ishaHA = getHourAngle(17.5); const sunHA = getHourAngle(0.833);
+
+            function toDateObj(hoursDecimal) { const d = new Date(date); let h = Math.floor(hoursDecimal); let m = Math.round((hoursDecimal - h) * 60); if (m >= 60) { h += 1; m = 0; } d.setHours(h, m, 0, 0); return d; }
+
+            return [
+                { name: 'صلاة الفجر', targetDate: toDateObj(noon - fajrHA) },
+                { name: 'صلاة الظهر', targetDate: toDateObj(noon + (1.5/60)) },
+                { name: 'صلاة العصر', targetDate: toDateObj(noon + asrHA) },
+                { name: 'صلاة المغرب', targetDate: toDateObj(noon + sunHA + (1.5/60)) },
+                { name: 'صلاة العشاء', targetDate: toDateObj(noon + ishaHA) }
+            ];
+        }
+
+        function loadAccuratePrayers() {
+            livePrayersList = calculatePalestinePrayerTimes(new Date()).map((p, idx) => ({ id: `prayer_${idx}`, title: `🕌 ${p.name}`, targetTime: p.targetDate.getTime(), isPrayer: true }));
+            renderPrayersAndAlarmsCombined();
+            renderPrayersAndReminders();
+        }
+
         function formatTime(ms) {
             if (ms <= 0) return '00:00';
-            const s = Math.floor(ms / 1000);
-            const hrs = Math.floor(s / 3600);
-            const mins = Math.floor((s % 3600) / 60);
-            const secs = s % 60;
+            const s = Math.floor(ms / 1000); const hrs = Math.floor(s / 3600); const mins = Math.floor((s % 3600) / 60); const secs = s % 60;
             if (hrs > 0) return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
@@ -787,13 +927,12 @@
             renderPrayersAndAlarmsCombined();
         }
 
-        // تحديث كل ثانية للعداد، وبمجرد انتهاء التنبيه، يُعتبر أنه (Triggered) ليختفي من التطبيق (الرنين يتكفل به نظام الهاتف)
         setInterval(() => {
             const now = Date.now();
             let changed = false;
             db.reminders.forEach(r => {
                 if (!r.triggered && r.targetTime <= now) {
-                    r.triggered = true;
+                    r.triggered = true; // النظام الخارجي يتكفل بالرنين
                     changed = true;
                 }
             });
@@ -801,7 +940,7 @@
             if (changed) finalizeAction();
         }, 1000);
 
-        // --- تحديث الواجهة الشامل لجميع الأقسام المستعادة ---
+        // --- تحديث الواجهة الشامل لجميع الأقسام ---
         function updateUI() {
             // تحديث المهام
             const todosToday = db.todos.filter(t => t.date === todayStr);
@@ -1037,6 +1176,8 @@
         }
 
         applyThemeUI();
+        syncFeeds();
+        loadAccuratePrayers();
         updateUI();
     </script>
 </body>
