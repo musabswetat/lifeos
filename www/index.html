@@ -39,6 +39,16 @@
             --card-backdrop: none;
         }
 
+        body.theme-oneui.light-mode {
+            --bg-canvas: #F2F2F7;
+            --surface-card: #FFFFFF;
+            --surface-inner: #E5E5EA;
+            --border-subtle: #E5E5EA;
+            --text-primary: #000000;
+            --text-secondary: #6C6C70;
+            --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.04);
+        }
+
         /* 1. ثيم سامسونج One UI */
         body.theme-oneui {
             --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -51,15 +61,6 @@
             --border-subtle: #2C2C2C;
             --text-primary: #FFFFFF;
             --text-secondary: #8E8E93;
-        }
-        body.theme-oneui.light-mode {
-            --bg-canvas: #F2F2F7;
-            --surface-card: #FFFFFF;
-            --surface-inner: #E5E5EA;
-            --border-subtle: #E5E5EA;
-            --text-primary: #000000;
-            --text-secondary: #6C6C70;
-            --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
 
         /* 2. ثيم آبل آيفون iOS */
@@ -244,101 +245,41 @@
             box-sizing: border-box;
         }
 
-        .oneui-top-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 6px 2px;
-            position: relative;
-        }
-        .top-prayer-info {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--accent-green, #34C759);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .top-actions-cluster {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .top-action-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            cursor: pointer;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.15s ease;
-        }
+        .oneui-top-bar { display: flex; align-items: center; justify-content: space-between; padding: 6px 2px; position: relative; }
+        .top-prayer-info { font-size: 13px; font-weight: 600; color: var(--accent-green); display: flex; align-items: center; gap: 6px; }
+        .top-actions-cluster { display: flex; align-items: center; gap: 6px; }
+        .top-action-btn { background: transparent; border: none; color: var(--text-primary); cursor: pointer; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: background 0.15s ease; }
         .top-action-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
-        .user-auth-pill {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
-            padding: 6px 14px;
-            border-radius: var(--radius-pill);
-            cursor: pointer;
-            box-shadow: var(--shadow-subtle);
-            font-size: 12px;
-            font-weight: 700;
-        }
+        .user-auth-pill { display: flex; align-items: center; gap: 6px; background: var(--surface-card); border: 1px solid var(--border-subtle); padding: 6px 14px; border-radius: var(--radius-pill); cursor: pointer; box-shadow: var(--shadow-subtle); font-size: 12px; font-weight: 700; backdrop-filter: var(--card-backdrop); }
 
         .expandable-search-bar { display: none; width: 100%; margin-bottom: 12px; animation: fadeInSearch 0.2s ease; }
         .expandable-search-bar.active { display: block; }
         @keyframes fadeInSearch { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
-        .search-inner-box {
-            display: flex; align-items: center; background: var(--surface-card); border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-pill); padding: 10px 16px; gap: 10px; box-shadow: var(--shadow-subtle);
-        }
+        .search-inner-box { display: flex; align-items: center; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-pill); padding: 10px 16px; gap: 10px; box-shadow: var(--shadow-subtle); backdrop-filter: var(--card-backdrop); }
         .search-input { background: transparent; border: none; outline: none; color: var(--text-primary); font-size: 14px; width: 100%; }
 
-        .oneui-dropdown {
-            position: absolute; top: 48px; left: 4px; background: var(--surface-card); border: 1px solid var(--border-subtle);
-            border-radius: 18px; padding: 6px; width: 230px; box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35); display: flex;
-            flex-direction: column; gap: 2px; z-index: 9999; opacity: 0; pointer-events: none; transform: translateY(-8px) scale(0.96);
-            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
-        }
+        .oneui-dropdown { position: absolute; top: 48px; left: 4px; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-card); padding: 6px; width: 230px; box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35); display: flex; flex-direction: column; gap: 2px; z-index: 9999; opacity: 0; pointer-events: none; transform: translateY(-8px) scale(0.96); transition: all 0.2s cubic-bezier(0.2, 0, 0, 1); backdrop-filter: var(--card-backdrop); }
         .oneui-dropdown.open { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
-        .dropdown-item {
-            background: transparent; border: none; padding: 11px 14px; border-radius: 12px; color: var(--text-primary);
-            font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; text-align: right;
-        }
+        .dropdown-item { background: transparent; border: none; padding: 11px 14px; border-radius: var(--radius-input); color: var(--text-primary); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; text-align: right; transition: background 0.15s ease; }
+        .dropdown-item:active { background: var(--surface-inner); }
 
         .oneui-header-area { padding: 12px 2px 18px 2px; }
         .oneui-title-hero-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
         .oneui-title-hero { font-size: 34px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0; }
-        .edit-name-icon-btn {
-            background: var(--surface-card); border: 1px solid var(--border-subtle); color: var(--accent-color); font-size: 12px;
-            width: 30px; height: 30px; border-radius: 50%; display: none; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: var(--shadow-subtle);
-        }
+        .edit-name-icon-btn { background: var(--surface-card); border: 1px solid var(--border-subtle); color: var(--accent-color); font-size: 12px; width: 30px; height: 30px; border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; box-shadow: var(--shadow-subtle); transition: background 0.15s ease; }
+        .edit-name-icon-btn:active { background: var(--surface-active); }
         .oneui-sub-text { font-size: 13px; color: var(--text-secondary); font-weight: 500; line-height: 1.6; }
         .oneui-currency-line { font-size: 13px; color: var(--text-secondary); font-weight: 500; margin-top: 3px; }
 
-        .circular-timer-wrapper {
-            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 0 6px 0; cursor: pointer;
-        }
-        .circular-timer-box {
-            position: relative; width: 130px; height: 130px; display: flex; align-items: center; justify-content: center; transition: transform 0.15s ease;
-        }
+        .circular-timer-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px 0 6px 0; cursor: pointer; }
+        .circular-timer-box { position: relative; width: 130px; height: 130px; display: flex; align-items: center; justify-content: center; transition: transform 0.15s ease; }
+        .circular-timer-box:active { transform: scale(0.96); }
         .timer-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
         .timer-bg-circle { fill: none; stroke: var(--surface-inner); stroke-width: 7; }
-        .timer-progress-circle {
-            fill: none; stroke: var(--accent-color); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 326.72;
-            stroke-dashoffset: 0; transition: stroke-dashoffset 0.5s ease;
-        }
+        .timer-progress-circle { fill: none; stroke: var(--accent-color); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 326.72; stroke-dashoffset: 0; transition: stroke-dashoffset 0.5s ease; }
         .timer-text-content { position: relative; text-align: center; z-index: 2; }
-        .timer-time-large { font-size: 20px; font-weight: 800; color: var(--text-primary); }
+        .timer-time-large { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; color: var(--text-primary); }
         .timer-label-sub { font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-top: 2px; max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
         .sub-card-item { padding: 12px 0; border-bottom: 1px solid var(--border-subtle); }
@@ -348,62 +289,36 @@
         .sub-progress-track { width: 100%; height: 6px; background: var(--surface-inner); border-radius: var(--radius-pill); overflow: hidden; margin-top: 8px; }
         .sub-progress-fill { height: 100%; background: var(--accent-color); border-radius: var(--radius-pill); transition: width 0.4s ease; }
 
-        .section-label { font-size: 13px; font-weight: 700; color: var(--text-secondary); margin: 16px 4px 8px 4px; text-transform: uppercase; }
-        .oneui-card {
-            background: var(--surface-card); border-radius: var(--radius-card); border: 1px solid var(--border-subtle);
-            padding: 18px 20px; margin-bottom: 12px; box-shadow: var(--shadow-subtle);
-        }
+        .section-label { font-size: 13px; font-weight: 700; color: var(--text-secondary); margin: 16px 4px 8px 4px; text-transform: uppercase; letter-spacing: 0.02em; }
+        .oneui-card { background: var(--surface-card); border-radius: var(--radius-card); border: 1px solid var(--border-subtle); padding: 18px 20px; margin-bottom: 12px; box-shadow: var(--shadow-subtle); backdrop-filter: var(--card-backdrop); transition: all 0.2s ease; }
 
         .section-view { display: none; }
-        .section-view.active { display: block; animation: oneuiFade 0.25s ease; }
+        .section-view.active { display: block; animation: oneuiFade 0.25s cubic-bezier(0.2, 0, 0, 1); }
         @keyframes oneuiFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
         .list-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 0; border-bottom: 1px solid var(--border-subtle); font-size: 14px; gap: 10px; }
         .list-row:last-child { border-bottom: none; }
 
-        .tag-badge {
-            display: inline-flex; align-items: center; padding: 6px 12px; border-radius: var(--radius-pill); font-size: 12px;
-            font-weight: 700; background: var(--surface-inner); color: var(--accent-color); border: 1px solid var(--border-subtle); cursor: pointer;
-        }
+        .tag-badge { display: inline-flex; align-items: center; padding: 6px 12px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 700; background: var(--surface-inner); color: var(--accent-color); border: 1px solid var(--border-subtle); cursor: pointer; transition: background 0.15s ease; }
+        .tag-badge:active { background: var(--surface-active); }
+        .tag-badge.green { color: var(--accent-green); }
 
-        /* 📱 شريط سامسونج السفلي (الرئيسية .. زر تسجيل .. الصلوات والتنبيهات) */
-        .samsung-dock-container {
-            position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--surface-card);
-            border: 1px solid var(--border-subtle); border-radius: var(--radius-pill); padding: 5px 12px; display: flex;
-            align-items: center; justify-content: space-between; gap: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            z-index: 1000; width: calc(100% - 40px); max-width: 380px; backdrop-filter: var(--card-backdrop);
-        }
-        .samsung-dock-item {
-            flex: 1; background: transparent; border: none; padding: 10px 12px; border-radius: var(--radius-pill);
-            color: var(--text-secondary); font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center;
-        }
+        .samsung-dock-container { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-pill); padding: 5px 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); z-index: 1000; width: calc(100% - 40px); max-width: 380px; backdrop-filter: var(--card-backdrop); }
+        .samsung-dock-item { flex: 1; background: transparent; border: none; padding: 10px 12px; border-radius: var(--radius-pill); color: var(--text-secondary); font-size: 13px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; white-space: nowrap; }
         .samsung-dock-item.active { background: var(--surface-inner); color: var(--text-primary); }
+        .samsung-dock-item:active { transform: scale(0.96); }
 
-        .app-input {
-            padding: 12px 14px; background: var(--surface-inner) !important; border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-input); color: var(--text-primary) !important; font-size: 14px; font-weight: 600;
-            outline: none; width: 100%; box-sizing: border-box; margin-bottom: 10px;
-        }
-        .btn-action {
-            background: var(--accent-color); color: #FFFFFF; border: none; padding: 13px 18px; border-radius: var(--radius-input);
-            font-size: 14px; font-weight: 700; cursor: pointer; width: 100%;
-        }
+        .app-input { padding: 12px 14px; background: var(--surface-inner) !important; border: 1px solid var(--border-subtle); border-radius: var(--radius-input); color: var(--text-primary) !important; font-size: 14px; font-weight: 600; outline: none; width: 100%; box-sizing: border-box; margin-bottom: 10px; }
+        .app-input:focus { border-color: var(--accent-color); }
 
-        .modal-overlay {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
-            z-index: 99999; align-items: center; justify-content: center; padding: 20px;
-        }
+        .btn-action { background: var(--accent-color); color: #FFFFFF; border: none; padding: 13px 18px; border-radius: var(--radius-input); font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; transition: transform 0.15s ease; }
+        .btn-action:active { transform: scale(0.98); opacity: 0.9; }
+
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 99999; align-items: center; justify-content: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
-        .modal-box {
-            background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-card);
-            padding: 24px; width: 100%; max-width: 380px;
-        }
+        .modal-box { background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-card); padding: 24px; width: 100%; max-width: 380px; backdrop-filter: var(--card-backdrop); }
 
-        #syncToast {
-            position: fixed; top: 14px; left: 50%; transform: translateX(-50%); background: var(--surface-card);
-            border: 1px solid var(--border-subtle); padding: 6px 16px; border-radius: var(--radius-pill); font-size: 12px;
-            font-weight: 700; opacity: 0; transition: opacity 0.25s ease; z-index: 9999; pointer-events: none;
-        }
+        #syncToast { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); background: var(--surface-card); border: 1px solid var(--border-subtle); padding: 6px 16px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 700; opacity: 0; transition: opacity 0.25s ease; z-index: 9999; pointer-events: none; backdrop-filter: var(--card-backdrop); }
         #syncToast.show { opacity: 1; }
     </style>
 </head>
@@ -413,6 +328,7 @@
 
     <div class="app-container">
         
+        <!-- 🔍 شريط سامسونج العلوي -->
         <div class="oneui-top-bar">
             <div class="top-prayer-info" id="topPrayerTag">
                 <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.07 2.75z"/></svg>
@@ -426,10 +342,38 @@
                         <span id="userNameSpan">حسابي</span>
                     </div>
                 </div>
+                <button class="top-action-btn" onclick="toggleSearchBar()" title="بحث">
+                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                </button>
                 <button class="top-action-btn" onclick="toggleTheme()" id="themeBtn" title="الوضع الليلي">
                     <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.39 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.39-.44-.06-.9-.1-1.36-.1z"/></svg>
                 </button>
+                <button class="top-action-btn" onclick="toggleTopDropdown()" title="القائمة">
+                    <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                </button>
             </div>
+
+            <div class="oneui-dropdown" id="topDropdownMenu">
+                <button class="dropdown-item" onclick="switchNavSection('notes-view')">📝 الملاحظات والتسجيلات</button>
+                <button class="dropdown-item" onclick="switchNavSection('finance-view')">🧾 الفواتير والاشتراكات</button>
+                <button class="dropdown-item" onclick="switchNavSection('todos-view')">✅ إدارة كافة المهام</button>
+                <button class="dropdown-item" onclick="switchNavSection('vault-view')">🔐 الخزنة المشفرة</button>
+                <button class="dropdown-item" onclick="switchNavSection('docs-view')">🆔 الوثائق الرسمية</button>
+                <button class="dropdown-item" onclick="switchNavSection('settings-view')">⚙️ الإعدادات</button>
+                <button class="dropdown-item" onclick="exportData()">📥 تصدير نسخة احتياطية</button>
+            </div>
+        </div>
+
+        <div class="expandable-search-bar" id="expandableSearchBar">
+            <div class="search-inner-box">
+                <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:var(--text-secondary);"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <input type="text" id="globalSearchInput" class="search-input" placeholder="بحث في المهام، الملاحظات، الوثائق..." oninput="handleGlobalSearch(this.value)">
+                <button onclick="toggleSearchBar()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:14px;">إلغاء</button>
+            </div>
+        </div>
+
+        <div id="searchResultsCard" class="oneui-card" style="display:none; margin-bottom:14px;">
+            <div id="searchResultsList"></div>
         </div>
 
         <div class="oneui-header-area">
@@ -448,7 +392,7 @@
             </div>
         </div>
 
-        <!-- 🏠 1. تبويب الرئيسية (مستعاد بالكامل) -->
+        <!-- 🏠 1. تبويب الرئيسية (تم استعادة الأقسام بالكامل) -->
         <div id="dashboard-view" class="section-view active">
             
             <div class="section-label">التنبيهات المباشرة</div>
@@ -458,7 +402,6 @@
                     <button onclick="openModalAction('alarm')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ ضبط تنبيه</button>
                 </div>
 
-                <!-- العداد الدائري لأقرب تنبيه (يفتح نافذة الإدارة) -->
                 <div class="circular-timer-wrapper" onclick="openManageActiveTimerModal()">
                     <div class="circular-timer-box">
                         <svg class="timer-svg" viewBox="0 0 120 120">
@@ -472,7 +415,6 @@
                     </div>
                 </div>
 
-                <!-- اختصارات الدقائق السريعة -->
                 <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin:10px 0 6px 0;">
                     <button class="tag-badge" onclick="addReminderFast(15, 'تنبيه 15 دقيقة')">15 د</button>
                     <button class="tag-badge" onclick="addReminderFast(20, 'تنبيه 20 دقيقة')">20 د</button>
@@ -484,6 +426,7 @@
                 <div id="dashRemindersPreview"></div>
             </div>
 
+            <!-- الأقسام المستعادة -->
             <div class="section-label">مهام اليوم</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
@@ -498,7 +441,7 @@
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                     <div>
                         <span style="font-size:12px; color:var(--text-secondary);">صرف اليوم: </span>
-                        <strong style="font-size:16px; color:var(--accent-red, #FF3B30);" id="dashExpensesTotal">0 ₪</strong>
+                        <strong style="font-size:16px; color:var(--accent-red);" id="dashExpensesTotal">0 ₪</strong>
                     </div>
                     <button onclick="openModalAction('expense')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ تسجيل مصروف</button>
                 </div>
@@ -516,13 +459,82 @@
 
         </div>
 
-        <!-- 🕌⏰ 2. تبويب الصلوات والتنبيهات -->
+        <!-- 🕌⏰ 2. تبويب الصلوات والتنبيهات الموحد -->
         <div id="prayers-alarms-view" class="section-view">
             <div class="section-label">مواقيت الصلاة والتنبيهات النشطة</div>
             <div class="oneui-card" id="prayersAlarmsFullList"></div>
         </div>
 
-        <!-- ⚙️ 3. تبويب الإعدادات والثيمات وتجاوز البطارية -->
+        <!-- ✅ 3. تبويب إدارة كافة المهام -->
+        <div id="todos-view" class="section-view">
+            <div class="section-label">إدارة كافة المهام</div>
+            <div class="oneui-card">
+                <form onsubmit="handleQuickTodo(event)" style="display:flex; gap:8px; margin-bottom:12px;">
+                    <input type="text" id="todoInputTab" placeholder="أضف مهمة جديدة..." class="app-input" style="margin-bottom:0;" required>
+                    <button type="submit" class="btn-action" style="width:auto; padding:12px 20px;">إضافة</button>
+                </form>
+                <div id="todosAllList"></div>
+            </div>
+        </div>
+
+        <!-- 📊 4. تبويب المصاريف والفواتير -->
+        <div id="finance-view" class="section-view">
+            <div class="section-label">ملخص المصاريف</div>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:space-between; text-align:center;">
+                    <div><div style="font-size:12px; color:var(--text-secondary);">اليوم</div><div style="font-size:18px; font-weight:800; margin-top:2px;" id="statToday">0 ₪</div></div>
+                    <div><div style="font-size:12px; color:var(--text-secondary);">آخر 7 أيام</div><div style="font-size:18px; font-weight:800; color:var(--accent-color); margin-top:2px;" id="statWeek">0 ₪</div></div>
+                    <div><div style="font-size:12px; color:var(--text-secondary);">هذا الشهر</div><div style="font-size:18px; font-weight:800; color:var(--accent-red); margin-top:2px;" id="statMonth">0 ₪</div></div>
+                </div>
+            </div>
+
+            <div class="section-label">الفواتير والاشتراكات الدورية</div>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+                    <button onclick="openModalAction('bill')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ إضافة فاتورة</button>
+                </div>
+                <div id="billsAndSubsList"></div>
+            </div>
+
+            <div class="section-label">سجل المصاريف السابقة</div>
+            <div class="oneui-card" id="expensesFullList"></div>
+        </div>
+
+        <!-- 📝 5. تبويب الملاحظات والتسجيلات الصوتية -->
+        <div id="notes-view" class="section-view">
+            <div class="section-label">الملاحظات والتسجيلات الصوتية</div>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <button onclick="openModalAction('note')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ ملاحظة جديدة</button>
+                    <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--accent-red); padding:6px 14px; font-size:12px;">🎙️ تسجيل جديد</button>
+                </div>
+                <div id="notesFullList"></div>
+            </div>
+        </div>
+
+        <!-- 🔐 6. تبويب الخزنة -->
+        <div id="vault-view" class="section-view">
+            <div class="section-label">الحسابات المشفرة</div>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+                    <button onclick="openModalAction('vault')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ حساب جديد</button>
+                </div>
+                <div id="vaultFullList"></div>
+            </div>
+        </div>
+
+        <!-- 🆔 7. تبويب الوثائق -->
+        <div id="docs-view" class="section-view">
+            <div class="section-label">الوثائق الرسمية</div>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+                    <button onclick="openModalAction('doc')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ وثيقة جديدة</button>
+                </div>
+                <div id="docsFullList"></div>
+            </div>
+        </div>
+
+        <!-- ⚙️ 8. تبويب الإعدادات (نظام الثيمات + البطارية) -->
         <div id="settings-view" class="section-view">
             <div class="section-label">الحساب والمزامنة السحابية</div>
             <div class="oneui-card">
@@ -540,101 +552,38 @@
                 <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">اختر ثيم النظام المطابق لهاتفك:</label>
                 <select id="themeSelector" class="app-input" onchange="changeAppTheme(this.value)">
                     <option value="oneui">Samsung One UI (سامسونج)</option>
-                    <option value="iphone">Apple iOS / iPhone (آيفون زجاجي)</option>
+                    <option value="iphone">Apple iOS / iPhone (آيفون)</option>
                     <option value="pixel">Google Pixel (ماتيريال يو)</option>
                     <option value="ubuntu">Ubuntu Yaru (أوبونتو)</option>
-                    <option value="linux">Linux Terminal (لينكس موجه الأوامر)</option>
-                    <option value="infinix">Infinix XOS (إنفنيكس نيون)</option>
+                    <option value="linux">Linux Terminal (لينكس)</option>
+                    <option value="infinix">Infinix XOS (إنفنيكس)</option>
                     <option value="mi">Xiaomi HyperOS (شاومي)</option>
                 </select>
             </div>
 
-            <div class="section-label">النظام والتنبيهات</div>
+            <!-- إعدادات التنبيه والبطارية نُقلت هنا -->
+            <div class="section-label">النظام والتنبيهات القصوى</div>
             <div class="oneui-card">
                 <div style="display:flex; gap:8px; flex-direction:column;">
-                    <button onclick="requestBatteryOptimizationExemption()" class="btn-action" style="background:var(--surface-inner); color:var(--accent-color); border:1px solid var(--border-subtle);">⚡ منح إذن العمل التام في الخلفية (تجاوز توفير البطارية)</button>
-                    <button onclick="testPrestigeAlarm()" class="btn-action">🎵 تجربة نغمة التنبيه المخصصة</button>
+                    <button onclick="requestBatteryOptimizationExemption()" class="btn-action" style="background:var(--surface-inner); color:var(--accent-color); border:1px solid var(--border-subtle);">
+                        ⚡ إذن العمل بالخلفية (تجاوز توفير البطارية)
+                    </button>
                     <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">🔔 تفعيل قناة التنبيهات القصوى</button>
                     <button onclick="exportData()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">📥 تصدير نسخة احتياطية</button>
                 </div>
             </div>
         </div>
 
-        <!-- باقي التبويبات المعتادة للوظائف المخفية ضمن القائمة المنسدلة -->
-        <div id="todos-view" class="section-view">
-            <div class="section-label">إدارة كافة المهام</div>
-            <div class="oneui-card">
-                <form onsubmit="handleQuickTodo(event)" style="display:flex; gap:8px; margin-bottom:12px;">
-                    <input type="text" id="todoInputTab" placeholder="أضف مهمة جديدة..." class="app-input" style="margin-bottom:0;" required>
-                    <button type="submit" class="btn-action" style="width:auto; padding:12px 20px;">إضافة</button>
-                </form>
-                <div id="todosAllList"></div>
-            </div>
-        </div>
-
-        <div id="finance-view" class="section-view">
-            <div class="section-label">ملخص المصاريف</div>
-            <div class="oneui-card">
-                <div style="display:flex; justify-content:space-between; text-align:center;">
-                    <div><div style="font-size:12px; color:var(--text-secondary);">اليوم</div><div style="font-size:18px; font-weight:800; margin-top:2px;" id="statToday">0 ₪</div></div>
-                    <div><div style="font-size:12px; color:var(--text-secondary);">آخر 7 أيام</div><div style="font-size:18px; font-weight:800; color:var(--accent-color); margin-top:2px;" id="statWeek">0 ₪</div></div>
-                    <div><div style="font-size:12px; color:var(--text-secondary);">هذا الشهر</div><div style="font-size:18px; font-weight:800; color:var(--accent-red, #FF3B30); margin-top:2px;" id="statMonth">0 ₪</div></div>
-                </div>
-            </div>
-            <div class="section-label">الفواتير والاشتراكات الدورية</div>
-            <div class="oneui-card">
-                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
-                    <button onclick="openModalAction('bill')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ إضافة فاتورة</button>
-                </div>
-                <div id="billsAndSubsList"></div>
-            </div>
-            <div class="section-label">سجل المصاريف السابقة</div>
-            <div class="oneui-card" id="expensesFullList"></div>
-        </div>
-
-        <div id="notes-view" class="section-view">
-            <div class="section-label">الملاحظات والتسجيلات الصوتية</div>
-            <div class="oneui-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <button onclick="openModalAction('note')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ ملاحظة جديدة</button>
-                    <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--accent-red, #FF3B30); padding:6px 14px; font-size:12px;">🎙️ تسجيل جديد</button>
-                </div>
-                <div id="notesFullList"></div>
-            </div>
-        </div>
-
-        <div id="vault-view" class="section-view">
-            <div class="section-label">الحسابات المشفرة</div>
-            <div class="oneui-card">
-                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
-                    <button onclick="openModalAction('vault')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ حساب جديد</button>
-                </div>
-                <div id="vaultFullList"></div>
-            </div>
-        </div>
-
-        <div id="docs-view" class="section-view">
-            <div class="section-label">الوثائق الرسمية</div>
-            <div class="oneui-card">
-                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
-                    <button onclick="openModalAction('doc')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ وثيقة جديدة</button>
-                </div>
-                <div id="docsFullList"></div>
-            </div>
-        </div>
-
     </div>
 
-    <!-- 📱 شريط سامسونج السفلي (أزرار الثلاثة المطلوبة) -->
+    <!-- 📱 شريط سامسونج السفلي -->
     <div class="samsung-dock-container">
         <button class="samsung-dock-item active" id="btnDockHome" onclick="switchNavSection('dashboard-view', this)">الرئيسية</button>
-        <button class="samsung-dock-item" onclick="handleDockMicClick(this)" style="flex:0 0 46px; height:46px; border-radius:50%; background:var(--surface-inner); color:var(--accent-red, #FF3B30); font-size:20px; display:flex; align-items:center; justify-content:center; padding:0;" title="تسجيل صوتي">🎙️</button>
+        <button class="samsung-dock-item" onclick="handleDockMicClick(this)" style="flex:0 0 46px; height:46px; border-radius:50%; background:var(--surface-inner); color:var(--accent-red); font-size:20px; display:flex; align-items:center; justify-content:center; padding:0;" title="تسجيل صوتي">🎙️</button>
         <button class="samsung-dock-item" id="btnDockPrayersAlarms" onclick="switchNavSection('prayers-alarms-view', this)">الصلوات والتنبيهات</button>
     </div>
 
-    <!-- 🪟 النوافذ المنبثقة التفاعلية -->
-    
-    <!-- نافذة إدارة التنبيه الفعال -->
+    <!-- 🪟 نافذة إدارة التنبيه الفعال المنبثقة -->
     <div class="modal-overlay" id="timerManageModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size:36px; margin-bottom:6px;">⏱️</div>
@@ -642,57 +591,37 @@
             <p id="manageTimerSub" style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">المتبقي: 00:00</p>
             <div style="display:flex; flex-direction:column; gap:8px;">
                 <button onclick="editActiveTimerTitle()" class="btn-action">✏️ تعديل اسم التنبيه</button>
-                <button onclick="deleteActiveTimer()" class="btn-action" style="background:var(--accent-red, #FF3B30);">🗑️ إلغاء وحذف التنبيه</button>
-                <button onclick="closeManageTimerModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إلغاء</button>
+                <button onclick="deleteActiveTimer()" class="btn-action" style="background:var(--accent-red);">🗑️ إلغاء التنبيه</button>
+                <button onclick="closeManageTimerModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إغلاق</button>
             </div>
         </div>
     </div>
 
-    <!-- نافذة تسجيل الصوت واقتراحاته -->
-    <div class="modal-overlay" id="voiceModal">
-        <div class="modal-box" style="text-align:center;">
-            <div style="font-size:36px; color:var(--accent-red, #FF3B30); margin-bottom:8px;">🎙️</div>
-            <strong style="display:block; font-size:16px; margin-bottom:4px;">جاري الاستماع والتسجيل...</strong>
-            <div id="recordTimer" style="font-size:22px; font-weight:800; color:var(--accent-red, #FF3B30); margin:12px 0;">00:00</div>
-            <div style="display:flex; gap:8px;">
-                <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--accent-green, #34C759);">حفظ</button>
-                <button onclick="cancelVoiceRecording()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
+    <!-- 🪟 نافذة الاقتراحات الذكية بعد حفظ التسجيل الصوتي الخام -->
     <div class="modal-overlay" id="postRecordingModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size:38px; margin-bottom:6px;">🎙️</div>
-            <strong style="font-size:16px; display:block; margin-bottom:4px;">تم حفظ التسجيل!</strong>
+            <strong style="font-size:16px; display:block; margin-bottom:4px;">تم حفظ التسجيل الصوتي محلياً بنجاح!</strong>
             <p style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">النص المكتشف: <span id="transcribedVoiceText" style="color:var(--text-primary); font-weight:600;">--</span></p>
             <div id="smartSuggestionsContainer" style="display:flex; flex-direction:column; gap:8px; margin-top:8px;"></div>
             <button onclick="closePostRecordingModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary); margin-top:10px;">إغلاق</button>
         </div>
     </div>
 
-    <!-- 🔔 النافذة الأصلية لرنين المنبه داخل التطبيق (مستعادة) -->
-    <div class="modal-overlay" id="activeAlarmModal">
+    <!-- 🪟 نافذة تسجيل الصوت الخام -->
+    <div class="modal-overlay" id="voiceModal">
         <div class="modal-box" style="text-align:center;">
-            <div style="font-size: 40px; margin-bottom: 8px;">⏰</div>
-            <h3 style="color:var(--accent-red, #FF3B30); font-size:20px; font-weight:800; margin-bottom:4px;">حان وقت التنبيه!</h3>
-            <p id="activeAlarmModalTitle" style="font-size:15px; font-weight:600; margin-bottom:18px;">تنبيه موعد</p>
-            <button onclick="dismissActiveAlarm()" class="btn-action" style="background:var(--accent-red, #FF3B30);">🔕 إيقاف التنبيه</button>
-        </div>
-    </div>
-
-    <!-- نافذة الإضافة الموحدة (المهام، التنبيه المتقدم، إلخ) -->
-    <div class="modal-overlay" id="actionModal">
-        <div class="modal-box">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-                <strong id="modalTitle" style="font-size:16px; font-weight:700;">إضافة</strong>
-                <button onclick="closeModalAction()" style="background:none; border:none; color:var(--text-secondary); font-size:18px; cursor:pointer;">✖</button>
+            <div style="font-size:36px; color:var(--accent-red); margin-bottom:8px;">🎙️</div>
+            <strong style="display:block; font-size:16px; margin-bottom:4px;">جاري تسجيل الصوت الخام...</strong>
+            <div id="recordTimer" style="font-size:22px; font-weight:800; color:var(--accent-red); margin:12px 0;">00:00</div>
+            <div style="display:flex; gap:8px;">
+                <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--accent-green);">حفظ</button>
+                <button onclick="cancelVoiceRecording()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إلغاء</button>
             </div>
-            <div id="modalFormContainer"></div>
         </div>
     </div>
 
-    <!-- نافذة الحساب -->
+    <!-- 🪟 نافذة تسجيل الدخول والتحقق الآمن -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -711,6 +640,17 @@
                     <button onclick="resendVerificationEmail()" style="background:none; border:none; color:var(--accent-color); cursor:pointer; font-weight:700;">طلب كود التفعيل</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- 🪟 نافذة الإجراءات الموحدة -->
+    <div class="modal-overlay" id="actionModal">
+        <div class="modal-box">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <strong id="modalTitle" style="font-size:16px; font-weight:700;">إضافة</strong>
+                <button onclick="closeModalAction()" style="background:none; border:none; color:var(--text-secondary); font-size:18px; cursor:pointer;">✖</button>
+            </div>
+            <div id="modalFormContainer"></div>
         </div>
     </div>
 
@@ -762,8 +702,6 @@
                 const cloudPayload = JSON.parse(JSON.stringify(db));
                 cloudPayload.notes.forEach(n => { delete n.audioData; });
                 userDbRef.set(cloudPayload);
-            } else {
-                showToast('💾 حفظ محلياً');
             }
         }
 
@@ -843,7 +781,7 @@
             }
         }
 
-        // --- التنبيه المزدوج (متصفح وإشعارات) المُستعاد ---
+        // --- 🛡️ محرك التنبيهات المعتمد لأندرويد (رنين النظام فقط) ---
         function getNativePlugin() {
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
                 return window.Capacitor.Plugins.LocalNotifications;
@@ -868,59 +806,6 @@
             } catch (err) {}
         }
 
-        let audioCtx = null;
-        let alarmTimer = null;
-
-        function getAudioContext() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            return audioCtx;
-        }
-
-        function playPrestigeZenBell() {
-            const ctx = getAudioContext();
-            const now = ctx.currentTime;
-            const notes = [
-                { f: 739.99, delay: 0.00 },
-                { f: 932.33, delay: 0.07 },
-                { f: 1108.73, delay: 0.14 },
-                { f: 1396.91, delay: 0.21 }
-            ];
-
-            notes.forEach((note) => {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                const startTime = now + note.delay;
-
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(note.f, startTime);
-
-                gain.gain.setValueAtTime(0.0001, startTime);
-                gain.gain.linearRampToValueAtTime(0.12, startTime + 0.015);
-                gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.65);
-
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-
-                osc.start(startTime);
-                osc.stop(startTime + 0.7);
-            });
-        }
-
-        function startAlarm(title) {
-            playPrestigeZenBell();
-            clearInterval(alarmTimer);
-            alarmTimer = setInterval(playPrestigeZenBell, 2800);
-            if ("vibrate" in navigator) navigator.vibrate([300, 150, 300]);
-            document.getElementById('activeAlarmModalTitle').innerText = title || 'تنبيه موعد';
-            document.getElementById('activeAlarmModal').classList.add('active');
-        }
-
-        function dismissActiveAlarm() {
-            clearInterval(alarmTimer);
-            document.getElementById('activeAlarmModal').classList.remove('active');
-        }
-
         function requestBatteryOptimizationExemption() {
             alert('لضمان عمل المنبه بدقة متناهية والتطبيق مغلق:\n\n1. اذهب لإعدادات البطارية بالهاتف واختر تطبيق LifeOS.\n2. اختر "غير مقيد" (Unrestricted).\n3. تأكد من تفعيل "التشغيل التلقائي" (Autostart) من الإعدادات.');
         }
@@ -936,7 +821,6 @@
         }
 
         function addReminderFast(mins, title = '') {
-            getAudioContext();
             const now = Date.now();
             const reminderId = Date.now();
             const cleanTitle = title.trim();
@@ -945,7 +829,6 @@
                 id: reminderId,
                 title: cleanTitle,
                 minutes: mins,
-                name: cleanTitle,
                 createdAt: now,
                 targetTime: now + (mins * 60 * 1000),
                 triggered: false,
@@ -954,26 +837,25 @@
 
             finalizeAction();
             scheduleSystemNotification(cleanTitle, mins, reminderId);
+            showToast(`⏰ تم ضبط منبه ${mins} دقيقة`);
         }
 
         function confirmDeleteReminder(id) {
-            if (confirm('هل تريد إلغاء التنبيه الحالي؟')) {
-                const numId = Number(id);
-                const plugin = getNativePlugin();
-                if (plugin) {
-                    plugin.cancel({ notifications: [{ id: Math.abs(numId % 2147483647) }] }).catch(() => {});
-                }
-                db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
-                finalizeAction();
+            const numId = Number(id);
+            const plugin = getNativePlugin();
+            if (plugin) {
+                plugin.cancel({ notifications: [{ id: Math.abs(numId % 2147483647) }] }).catch(() => {});
             }
+            db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
+            finalizeAction();
         }
 
         function renameReminder(id) {
             const r = db.reminders.find(x => x.id === id);
             if (!r) return;
-            const newName = prompt('أدخل اسم أو عنوان التنبيه:', r.title || '');
+            const newName = prompt('أدخل اسم المنبه:', r.title || '');
             if (newName !== null) {
-                r.title = newName.trim() || 'تنبيه';
+                r.title = newName.trim() || 'منبه';
                 finalizeAction();
             }
         }
@@ -1013,158 +895,14 @@
         function deleteActiveTimer() {
             if (!currentActiveTimerObj) return;
             const numId = Number(currentActiveTimerObj.id);
+            const plugin = getNativePlugin();
+            if (plugin) plugin.cancel({ notifications: [{ id: Math.abs(numId % 2147483647) }] }).catch(() => {});
             db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
             finalizeAction();
             closeManageTimerModal();
         }
 
-        // --- 5. مسجل الصوت والاقتراحات ---
-        let mediaRec = null;
-        let audioParts = [];
-        let recTimer = null;
-        let recSec = 0;
-        let speechRecognizer = null;
-
-        function handleDockMicClick(btnEl) {
-            switchNavSection('notes-view', btnEl);
-            startVoiceRecording();
-        }
-
-        async function startVoiceRecording() {
-            closeTopDropdown();
-            lastSpokenText = '';
-
-            try {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (SpeechRecognition) {
-                    speechRecognizer = new SpeechRecognition();
-                    speechRecognizer.lang = 'ar-SA';
-                    speechRecognizer.interimResults = false;
-                    speechRecognizer.onresult = (e) => {
-                        lastSpokenText = e.results[0][0].transcript;
-                    };
-                    try { speechRecognizer.start(); } catch(err) {}
-                }
-            } catch(e) {}
-
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                audioParts = [];
-                recSec = 0;
-                mediaRec = new MediaRecorder(stream);
-                mediaRec.ondataavailable = e => audioParts.push(e.data);
-                mediaRec.onstop = () => {
-                    if (speechRecognizer) { try { speechRecognizer.stop(); } catch(e){} }
-                    const blob = new Blob(audioParts, { type: 'audio/webm' });
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                        db.notes.push({ 
-                            id: Date.now(), 
-                            title: `🎙️ تسجيل صوتي خام`, 
-                            audioData: reader.result, 
-                            body: lastSpokenText ? `النص: ${lastSpokenText}` : 'تسجيل صوتي خام',
-                            date: todayStr 
-                        });
-                        finalizeAction();
-                        showSmartSuggestions(lastSpokenText);
-                    };
-                    reader.readAsDataURL(blob);
-                    stream.getTracks().forEach(t => t.stop());
-                };
-                mediaRec.start();
-                document.getElementById('voiceModal').classList.add('active');
-                recTimer = setInterval(() => {
-                    recSec++;
-                    const m = String(Math.floor(recSec/60)).padStart(2,'0');
-                    const s = String(recSec%60).padStart(2,'0');
-                    document.getElementById('recordTimer').innerText = `${m}:${s}`;
-                }, 1000);
-            } catch (err) {
-                alert('تعذر الوصول إلى الميكروفون.');
-            }
-        }
-
-        function stopAndSaveVoiceRecording() {
-            clearInterval(recTimer);
-            document.getElementById('voiceModal').classList.remove('active');
-            if (mediaRec && mediaRec.state !== 'inactive') mediaRec.stop();
-        }
-
-        function cancelVoiceRecording() {
-            clearInterval(recTimer);
-            document.getElementById('voiceModal').classList.remove('active');
-            if (speechRecognizer) { try { speechRecognizer.stop(); } catch(e){} }
-            if (mediaRec && mediaRec.state !== 'inactive') {
-                mediaRec.stream.getTracks().forEach(t => t.stop());
-                mediaRec = null;
-            }
-        }
-
-        function showSmartSuggestions(text) {
-            const textEl = document.getElementById('transcribedVoiceText');
-            const container = document.getElementById('smartSuggestionsContainer');
-            textEl.innerText = text ? `"${text}"` : "لم يتم تمييز كلمات بوضوح";
-            let html = '';
-            const lower = (text || '').toLowerCase();
-            const numbers = text.match(/\d+/) ;
-
-            if (numbers && (lower.includes('اشتريت') || lower.includes('سعر') || lower.includes('بـ') || lower.includes('دفعت') || lower.includes('شيكل'))) {
-                html += `<button class="btn-action" onclick="executeSmartAction('expense', '${text}', ${numbers[0]})" style="background:var(--accent-red);">💸 تسجيل شراء جديد بمبلغ (${numbers[0]} ₪)</button>`;
-            }
-            const timeMatch = text.match(/(\d+)\s*(دقيقة|دقائق|ساعة|ساعات)/);
-            if (timeMatch) {
-                const totalMins = timeMatch[2].includes('ساعة') ? parseInt(timeMatch[1]) * 60 : parseInt(timeMatch[1]);
-                html += `<button class="btn-action" onclick="executeSmartAction('alarm', '${text}', ${totalMins})" style="background:var(--accent-color);">⏰ إضافة تنبيه سريع للشراء بعد ${timeMatch[1]} ${timeMatch[2]}</button>`;
-            }
-            html += `<button class="btn-action" onclick="executeSmartAction('note', '${text}')" style="background:var(--surface-inner); color:var(--text-primary);">📝 تسجيل ملاحظة سريعة للظهور على الرئيسية</button>`;
-
-            container.innerHTML = html;
-            document.getElementById('postRecordingModal').classList.add('active');
-        }
-
-        function closePostRecordingModal() {
-            document.getElementById('postRecordingModal').classList.remove('active');
-        }
-
-        function executeSmartAction(type, text, param = null) {
-            document.getElementById('postRecordingModal').classList.remove('active');
-            if (type === 'expense') {
-                db.expenses.push({ id: Date.now(), desc: text, amount: param, date: todayStr });
-                finalizeAction();
-            } else if (type === 'alarm') {
-                addReminderFast(param, text);
-            } else if (type === 'note') {
-                db.todos.push({ id: Date.now(), text: `ملاحظة: ${text}`, done: false, date: todayStr });
-                finalizeAction();
-            }
-        }
-
-        // --- 7. التحديث اللحظي للواجهة والمؤقتات وبرمجة استدعاء رنين الويب ---
-        function renderPrayersAndAlarmsCombined() {
-            const now = Date.now();
-            const container = document.getElementById('prayersAlarmsFullList');
-            if (!container) return;
-
-            const combined = [];
-            livePrayersList.forEach(p => { combined.push({ title: p.title, targetTime: p.targetTime, isPrayer: true }); });
-            db.reminders.forEach(r => {
-                if (!r.triggered && r.targetTime > now) {
-                    combined.push({ id: r.id, title: `⏰ ${r.title || `تنبيه (${r.minutes} د)`}`, targetTime: r.targetTime, isPrayer: false });
-                }
-            });
-
-            combined.sort((a, b) => a.targetTime - b.targetTime);
-            container.innerHTML = combined.map(item => {
-                const isPending = item.targetTime > now;
-                const timeStr = new Date(item.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
-                if (item.isPrayer) {
-                    return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><span class="tag-badge ${isPending ? 'green' : ''}">${isPending ? `⏳ ${formatTime(item.targetTime - now)}` : '✅ تم'}</span></div>`;
-                } else {
-                    return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><div style="display:flex; align-items:center; gap:6px;"><button onclick="renameReminder(${item.id})" class="tag-badge" title="تسمية">✏️</button><span class="tag-badge">⏳ ${formatTime(item.targetTime - now)}</span><button onclick="confirmDeleteReminder(${item.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer; font-size:16px;" title="إلغاء">✖</button></div></div>`;
-                }
-            }).join('') || '<p style="color:var(--text-secondary); text-align:center;">لا توجد صلوات أو تنبيهات قادمة</p>';
-        }
-
+        // --- تحديث الواجهة اللحظي ---
         function renderPrayersAndReminders() {
             const now = Date.now();
             const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
@@ -1196,57 +934,34 @@
                 dashRemPreview.innerHTML = activeReminders.slice(1, 3).map(r => `
                     <div class="list-row">
                         <div>
-                            <strong>${r.title || `تنبيه (${r.minutes} د)`}</strong>
+                            <strong>${r.title || `منبه (${r.minutes} د)`}</strong>
                             <div style="font-size:12px; color:var(--text-secondary);">${new Date(r.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}</div>
                         </div>
                         <div style="display:flex; align-items:center; gap:6px;">
-                            <button onclick="renameReminder(${r.id})" class="tag-badge" title="تسمية">✏️</button>
+                            <button onclick="renameReminder(${r.id})" class="tag-badge">✏️</button>
                             <span class="tag-badge">⏳ ${formatTime(r.targetTime - now)}</span>
-                            <button onclick="confirmDeleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer; font-size:16px;" title="إلغاء">✖</button>
+                            <button onclick="confirmDeleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">✖</button>
                         </div>
                     </div>
                 `).join('');
             }
-            renderPrayersAndAlarmsCombined();
         }
 
-        // هذه الدالة الموقوتة تستدعي الرنين الداخلي وتظهر النافذة إذا انتهى وقت التنبيه (كما طلبت بحذافيره)
+        // تم حذف استدعاء الرنين والنافذة من هنا، أندرويد يتولى المهمة
         setInterval(() => {
             const now = Date.now();
             let changed = false;
-
             db.reminders.forEach(r => {
-                if (!r.triggered) {
-                    const diff = r.targetTime - now;
-                    if (diff <= 0) {
-                        r.triggered = true;
-                        changed = true;
-                        startAlarm(r.title); // استدعاء واجهة الرنين داخل التطبيق
-                    }
+                if (!r.triggered && r.targetTime <= now) {
+                    r.triggered = true;
+                    changed = true;
                 }
             });
-
             renderPrayersAndReminders();
             if (changed) finalizeAction();
         }, 1000);
 
-        // --- دوال وتحديثات الواجهة ---
         function updateUI() {
-            let spentMonth = 0;
-            const cMonth = new Date().getMonth();
-            const cYear = new Date().getFullYear();
-
-            db.expenses.forEach(ex => {
-                const d = new Date(ex.date);
-                if (d.getMonth() === cMonth && d.getFullYear() === cYear) spentMonth += parseFloat(ex.amount);
-            });
-            db.fixed_bills.forEach(b => {
-                const d = new Date(b.date);
-                if (d.getMonth() === cMonth && d.getFullYear() === cYear) spentMonth += parseFloat(b.amount);
-            });
-
-            document.getElementById('textMonthlySpent').innerText = `${spentMonth.toLocaleString()} ₪`;
-
             const todosToday = db.todos.filter(t => t.date === todayStr);
             document.getElementById('dashTodoCount').innerText = `${todosToday.length} مهام معلقة`;
             document.getElementById('dashTodosList').innerHTML = todosToday.map(t => `
@@ -1259,97 +974,25 @@
                 </div>
             `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد مهام مسجلة لليوم.</p>';
 
-            const todosAllEl = document.getElementById('todosAllList');
-            if (todosAllEl) {
-                todosAllEl.innerHTML = db.todos.map(t => `
-                    <div class="list-row">
-                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
-                            <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--accent-color); width:18px; height:18px;">
-                            <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text}</span>
-                        </label>
-                        <button onclick="confirmDeleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
-                    </div>
-                `).join('') || '<p style="color:var(--text-secondary);">لا توجد مهام مؤرشفة.</p>';
-            }
-
             const expToday = db.expenses.filter(e => e.date === todayStr);
             let todayTotal = expToday.reduce((sum, item) => sum + parseFloat(item.amount), 0);
             document.getElementById('dashExpensesTotal').innerText = `${todayTotal} ₪`;
+            document.getElementById('dashExpensesPreview').innerHTML = expToday.slice(0, 3).map(e => `
+                <div class="list-row"><span>${e.desc}</span><strong style="color:var(--accent-red);">${e.amount} ₪</strong></div>
+            `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لم تسجل مصاريف اليوم بعد.</p>';
 
-            const dashExpPreview = document.getElementById('dashExpensesPreview');
-            if (dashExpPreview) {
-                dashExpPreview.innerHTML = expToday.slice(0, 3).map(e => `
-                    <div class="list-row">
-                        <span>${e.desc}</span>
-                        <strong style="color:var(--accent-red);">${e.amount} ₪</strong>
-                    </div>
-                `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لم تسجل مصاريف اليوم بعد.</p>';
+            const subProgressEl = document.getElementById('dashSubscriptionsProgressList');
+            if (subProgressEl) {
+                subProgressEl.innerHTML = db.subscriptions.map(sub => {
+                    const start = new Date(sub.startDate || todayStr);
+                    const end = new Date(sub.endDate || todayStr);
+                    const today = new Date(todayStr);
+                    const totalDays = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)));
+                    const remainingDays = Math.max(0, Math.ceil((end - today) / (1000 * 60 * 60 * 24)));
+                    const progressPercent = Math.max(0, Math.min(100, (remainingDays / totalDays) * 100));
+                    return `<div class="sub-card-item"><div class="sub-header-row"><span>${sub.name}</span><strong style="color:var(--accent-color);">${sub.amount} ₪</strong></div><div class="sub-meta-row"><span>ينتهي: ${sub.endDate}</span><span style="font-weight:700; color:${remainingDays <= 3 ? 'var(--accent-red)' : 'var(--text-secondary)'};">متبقي ${remainingDays} يوم</span></div><div class="sub-progress-track"><div class="sub-progress-fill" style="width: ${progressPercent}%; background:${remainingDays <= 3 ? 'var(--accent-red)' : 'var(--accent-color)'};"></div></div></div>`;
+                }).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد اشتراكات مسجلة حالياً.</p>';
             }
-
-            const fullExpEl = document.getElementById('expensesFullList');
-            if(fullExpEl) {
-                fullExpEl.innerHTML = db.expenses.map(e => `
-                    <div class="list-row">
-                        <div><strong>${e.desc}</strong><div style="font-size:11px; color:var(--text-secondary);">${e.date}</div></div>
-                        <div style="display:flex; gap:8px; align-items:center;">
-                            <strong style="color:var(--accent-red);">${e.amount} ₪</strong>
-                            <button onclick="confirmDeleteExpense(${e.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
-                        </div>
-                    </div>
-                `).join('') || '<p style="color:var(--text-secondary);">لا توجد مصاريف سابقة.</p>';
-            }
-
-            const billsSubsEl = document.getElementById('billsAndSubsList');
-            if (billsSubsEl) {
-                let combined = '';
-                db.fixed_bills.forEach(b => {
-                    combined += `<div class="list-row"><div><strong>${b.type} (فاتورة)</strong><div style="font-size:11px; color:var(--text-secondary);">${b.date}</div></div><div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--accent-color);">${b.amount} ₪</strong><button onclick="confirmDeleteBill(${b.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button></div></div>`;
-                });
-                db.subscriptions.forEach(s => {
-                    combined += `<div class="list-row"><div><strong>${s.name} (اشتراك)</strong><div style="font-size:11px; color:var(--text-secondary);">ينتهي: ${s.endDate || s.renewalDate || 'شهري'}</div></div><div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--accent-green);">${s.amount} ₪</strong><button onclick="confirmDeleteSub(${s.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button></div></div>`;
-                });
-                billsSubsEl.innerHTML = combined || '<p style="color:var(--text-secondary);">لا توجد فواتير أو اشتراكات مسجلة.</p>';
-            }
-
-            const notesEl = document.getElementById('notesFullList');
-            if(notesEl) {
-                notesEl.innerHTML = db.notes.map(n => `
-                    <div style="background:var(--surface-inner); padding:14px; border-radius:var(--radius-input); margin-bottom:10px; border:1px solid var(--border-subtle);">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <strong>${n.title}</strong>
-                            <button onclick="confirmDeleteNote(${n.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
-                        </div>
-                        ${n.body ? `<p style="font-size:13px; color:var(--text-secondary); margin-top:6px; line-height:1.6;">${n.body}</p>` : ''}
-                        ${n.audioData ? `<audio controls src="${n.audioData}" style="width:100%; height:32px; margin-top:8px;"></audio>` : ''}
-                    </div>
-                `).join('') || '<p style="color:var(--text-secondary);">لا توجد ملاحظات.</p>';
-            }
-
-            const vaultEl = document.getElementById('vaultFullList');
-            if(vaultEl) {
-                vaultEl.innerHTML = db.vault.map(v => `
-                    <div class="list-row">
-                        <div>
-                            <strong>${v.accountName}</strong>
-                            ${v.username ? `<div style="font-size:12px; color:var(--text-secondary);">${v.username}</div>` : ''}
-                            <div style="font-size:12px; color:var(--accent-red); font-family:monospace;">${v.password}</div>
-                            ${v.note ? `<div style="font-size:11px; color:var(--text-tertiary); margin-top:2px;">ملاحظة: ${v.note}</div>` : ''}
-                        </div>
-                        <button onclick="confirmDeleteVault(${v.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
-                    </div>
-                `).join('') || '<p style="color:var(--text-secondary);">الخزنة فارغة.</p>';
-            }
-
-            const docsEl = document.getElementById('docsFullList');
-            if(docsEl) {
-                docsEl.innerHTML = db.documents.map(d => `
-                    <div class="list-row">
-                        <div><strong>${d.name}</strong><div style="font-size:12px; color:var(--text-secondary);">تنتهي: ${d.expiryDate}</div></div>
-                        <button onclick="confirmDeleteDoc(${d.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
-                    </div>
-                `).join('') || '<p style="color:var(--text-secondary);">لا توجد وثائق مسجلة.</p>';
-            }
-
             renderPrayersAndReminders();
         }
 
@@ -1359,27 +1002,57 @@
             updateUI();
         }
 
+        // دوال الإضافة
+        function openModalAction(type) {
+            const modal = document.getElementById('actionModal');
+            const container = document.getElementById('modalFormContainer');
+            if (type === 'todo') {
+                container.innerHTML = `<input type="text" id="actTodoText" placeholder="اكتب المهمة..." class="app-input" required><button type="button" onclick="submitActTodo()" class="btn-action">حفظ المهمة</button>`;
+            } else if (type === 'expense') {
+                container.innerHTML = `<input type="text" id="actExpDesc" placeholder="ماذا اشتريت؟" class="app-input" required><input type="number" id="actExpAmount" placeholder="المبلغ (₪)" class="app-input" required><button type="button" onclick="submitActExpense()" class="btn-action">تسجيل المصروف</button>`;
+            } else if (type === 'subscription') {
+                container.innerHTML = `<input type="text" id="actSubName" placeholder="اسم الاشتراك..." class="app-input" required><input type="number" id="actSubAmount" placeholder="المبلغ (₪)" class="app-input" required><label style="font-size:12px; display:block; margin-bottom:4px;">بدء الاشتراك:</label><input type="date" id="actSubStartDate" value="${todayStr}" class="app-input"><label style="font-size:12px; display:block; margin-bottom:4px;">انتهاء الاشتراك:</label><input type="date" id="actSubEndDate" class="app-input" required><button type="button" onclick="submitActSub()" class="btn-action">حفظ الاشتراك</button>`;
+            } else if (type === 'alarm') {
+                const nowTime = new Date(); nowTime.setMinutes(nowTime.getMinutes() + 15); const timeStr = nowTime.toTimeString().substring(0, 5);
+                container.innerHTML = `<input type="text" id="actAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input"><label style="font-size:12px; display:block; margin-bottom:4px;">وقت المنبه (ساعة ودقيقة):</label><input type="time" id="actAlarmClockTime" value="${timeStr}" class="app-input" style="font-size:18px; text-align:center; font-weight:700;" required><button type="button" onclick="submitActAlarmAdvanced()" class="btn-action">ضبط التنبيه</button>`;
+            }
+            modal.classList.add('active');
+        }
+
+        function closeModalAction() { document.getElementById('actionModal').classList.remove('active'); }
+        function submitActTodo() { const text = document.getElementById('actTodoText').value; if (!text.trim()) return; db.todos.push({ id: Date.now(), text: text.trim(), done: false, date: todayStr }); finalizeAction(); closeModalAction(); }
+        function submitActExpense() { const desc = document.getElementById('actExpDesc').value; const amount = document.getElementById('actExpAmount').value; if (!desc || !amount) return; db.expenses.push({ id: Date.now(), desc: desc.trim(), amount: amount, date: todayStr }); finalizeAction(); closeModalAction(); }
+        function submitActSub() { const name = document.getElementById('actSubName').value; const amount = document.getElementById('actSubAmount').value; const s = document.getElementById('actSubStartDate').value; const e = document.getElementById('actSubEndDate').value; if (!name || !amount || !e) return; db.subscriptions.push({ id: Date.now(), name: name.trim(), amount: amount, startDate: s, endDate: e }); finalizeAction(); closeModalAction(); }
+        function submitActAlarmAdvanced() { const timeVal = document.getElementById('actAlarmClockTime').value; const titleVal = document.getElementById('actAlarmTitle').value; if (!timeVal) return; const [hours, mins] = timeVal.split(':').map(Number); const now = new Date(); const target = new Date(); target.setHours(hours, mins, 0, 0); if (target <= now) target.setDate(target.getDate() + 1); const diffMins = Math.round((target - now) / (1000 * 60)); addReminderFast(diffMins, titleVal ? titleVal.trim() : `منبه ${timeVal}`); closeModalAction(); }
         function toggleTodo(id) { const t = db.todos.find(x => x.id === id); if(t) { t.done = !t.done; finalizeAction(); } }
-        function confirmDeleteTodo(id) { if(confirm('هل تريد حذف هذه المهمة؟')) { db.todos = db.todos.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteBill(id) { if(confirm('هل تريد حذف هذه الفاتورة؟')) { db.fixed_bills = db.fixed_bills.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteSub(id) { if(confirm('هل تريد حذف هذا الاشتراك؟')) { db.subscriptions = db.subscriptions.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteDoc(id) { if(confirm('هل تريد حذف هذه الوثيقة؟')) { db.documents = db.documents.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteVault(id) { if(confirm('هل تريد حذف هذا الحساب من الخزنة؟')) { db.vault = db.vault.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteNote(id) { if(confirm('هل تريد حذف هذه الملاحظة؟')) { db.notes = db.notes.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteExpense(id) { if(confirm('هل تريد حذف هذا المصروف؟')) { db.expenses = db.expenses.filter(x => x.id !== id); finalizeAction(); } }
+        function confirmDeleteTodo(id) { db.todos = db.todos.filter(x => x.id !== id); finalizeAction(); }
 
-        function toggleTheme() {
-            db.settings.darkMode = !db.settings.darkMode;
-            applyThemeUI();
-            finalizeAction();
+        // --- 5. مسجل الصوت ---
+        let mediaRec = null; let audioParts = []; let recTimer = null; let recSec = 0; let speechRecognizer = null;
+        function handleDockMicClick(btnEl) { switchNavSection('notes-view', btnEl); startVoiceRecording(); }
+        async function startVoiceRecording() {
+            closeTopDropdown(); lastSpokenText = '';
+            try { const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition; if (SpeechRecognition) { speechRecognizer = new SpeechRecognition(); speechRecognizer.lang = 'ar-SA'; speechRecognizer.onresult = (e) => { lastSpokenText = e.results[0][0].transcript; }; try { speechRecognizer.start(); } catch(err) {} } } catch(e) {}
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioParts = []; recSec = 0; mediaRec = new MediaRecorder(stream);
+                mediaRec.ondataavailable = e => audioParts.push(e.data);
+                mediaRec.onstop = () => {
+                    if (speechRecognizer) { try { speechRecognizer.stop(); } catch(e){} }
+                    const reader = new FileReader();
+                    reader.onloadend = () => { db.notes.push({ id: Date.now(), title: `🎙️ تسجيل صوتي خام`, audioData: reader.result, body: lastSpokenText ? `النص: ${lastSpokenText}` : 'تسجيل صوتي خام', date: todayStr }); finalizeAction(); showSmartSuggestions(lastSpokenText); };
+                    reader.readAsDataURL(new Blob(audioParts, { type: 'audio/webm' }));
+                    stream.getTracks().forEach(t => t.stop());
+                };
+                mediaRec.start();
+                document.getElementById('voiceModal').classList.add('active');
+                recTimer = setInterval(() => { recSec++; document.getElementById('recordTimer').innerText = `${String(Math.floor(recSec/60)).padStart(2,'0')}:${String(recSec%60).padStart(2,'0')}`; }, 1000);
+            } catch (err) { alert('تعذر الوصول إلى الميكروفون.'); }
         }
-
-        function exportData() {
-            const dl = document.createElement('a');
-            dl.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
-            dl.download = `LifeOS_Backup.json`;
-            dl.click();
-        }
+        function stopAndSaveVoiceRecording() { clearInterval(recTimer); document.getElementById('voiceModal').classList.remove('active'); if (mediaRec && mediaRec.state !== 'inactive') mediaRec.stop(); }
+        function cancelVoiceRecording() { clearInterval(recTimer); document.getElementById('voiceModal').classList.remove('active'); if (speechRecognizer) { try { speechRecognizer.stop(); } catch(e){} } if (mediaRec && mediaRec.state !== 'inactive') { mediaRec.stream.getTracks().forEach(t => t.stop()); mediaRec = null; } }
+        function showSmartSuggestions(text) { document.getElementById('postRecordingModal').classList.add('active'); }
+        function closePostRecordingModal() { document.getElementById('postRecordingModal').classList.remove('active'); }
 
         function switchNavSection(viewId, btnEl) {
             closeTopDropdown();
@@ -1394,192 +1067,9 @@
 
         function toggleTopDropdown() { document.getElementById('topDropdownMenu').classList.toggle('open'); }
         function closeTopDropdown() { const el = document.getElementById('topDropdownMenu'); if (el) el.classList.remove('open'); }
-        function toggleSearchBar() { const bar = document.getElementById('expandableSearchBar'); bar.classList.toggle('active'); if (bar.classList.contains('active')) { document.getElementById('globalSearchInput').focus(); } else { clearGlobalSearch(); } }
-
-        document.addEventListener('click', (e) => {
-            const menu = document.getElementById('topDropdownMenu');
-            if (menu && menu.classList.contains('open') && !menu.contains(e.target) && !e.target.closest('button[title="القائمة"]')) {
-                closeTopDropdown();
-            }
-        });
-
-        function handleSystemBackButton() {
-            const activeAlarm = document.getElementById('activeAlarmModal');
-            if (activeAlarm && activeAlarm.classList.contains('active')) { dismissActiveAlarm(); return true; }
-            const timerManage = document.getElementById('timerManageModal');
-            if (timerManage && timerManage.classList.contains('active')) { closeManageTimerModal(); return true; }
-            const postRecModal = document.getElementById('postRecordingModal');
-            if (postRecModal && postRecModal.classList.contains('active')) { closePostRecordingModal(); return true; }
-            const authM = document.getElementById('authModal');
-            if (authM && authM.classList.contains('active')) { closeAuthModal(); return true; }
-            const actModal = document.getElementById('actionModal');
-            if (actModal && actModal.classList.contains('active')) { closeModalAction(); return true; }
-            const voiceModal = document.getElementById('voiceModal');
-            if (voiceModal && voiceModal.classList.contains('active')) { cancelVoiceRecording(); return true; }
-            const dropdown = document.getElementById('topDropdownMenu');
-            if (dropdown && dropdown.classList.contains('open')) { closeTopDropdown(); return true; }
-            const searchBar = document.getElementById('expandableSearchBar');
-            if (searchBar && searchBar.classList.contains('active')) { toggleSearchBar(); return true; }
-            
-            const currentActive = document.querySelector('.section-view.active');
-            if (currentActive && currentActive.id !== 'dashboard-view') {
-                const homeBtn = document.getElementById('btnDockHome');
-                switchNavSection('dashboard-view', homeBtn);
-                return true;
-            }
-            return false;
-        }
-
-        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-            window.Capacitor.Plugins.App.removeAllListeners('backButton').then(() => {
-                window.Capacitor.Plugins.App.addListener('backButton', () => {
-                    const handled = handleSystemBackButton();
-                    if (!handled) {
-                        window.Capacitor.Plugins.App.exitApp();
-                    }
-                });
-            }).catch(() => {});
-        }
-
-        function handleGlobalSearch(query) {
-            const card = document.getElementById('searchResultsCard');
-            const list = document.getElementById('searchResultsList');
-            const q = query.trim().toLowerCase();
-            if (!q) { card.style.display = 'none'; list.innerHTML = ''; return; }
-            card.style.display = 'block';
-            let results = [];
-            db.todos.forEach(t => { if (t.text.toLowerCase().includes(q)) results.push(`<div class="list-row"><div><span class="tag-badge">مهمة</span> <span>${t.text}</span></div><button onclick="toggleTodo(${t.id})" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">${t.done?'✅':'⭕'}</button></div>`); });
-            db.notes.forEach(n => { if ((n.title && n.title.toLowerCase().includes(q)) || (n.body && n.body.toLowerCase().includes(q))) results.push(`<div class="list-row"><div><span class="tag-badge green">ملاحظة</span> <strong>${n.title}</strong></div></div>`); });
-            list.innerHTML = results.join('') || '<p style="color:var(--text-tertiary); font-size:13px; text-align:center; padding:10px;">لا توجد نتائج</p>';
-        }
-        function clearGlobalSearch() { document.getElementById('globalSearchInput').value = ''; handleGlobalSearch(''); }
-
-        function openModalAction(type) {
-            closeTopDropdown();
-            const modal = document.getElementById('actionModal');
-            const title = document.getElementById('modalTitle');
-            const container = document.getElementById('modalFormContainer');
-
-            if (type === 'alarm') {
-                title.innerText = '⏰ ضبط تنبيه الساعة والدقيقة';
-                const nowTime = new Date();
-                nowTime.setMinutes(nowTime.getMinutes() + 15);
-                const timeStr = nowTime.toTimeString().substring(0, 5);
-                container.innerHTML = `
-                    <input type="text" id="actAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
-                    <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">وقت المنبه (ساعة ودقيقة):</label>
-                    <input type="time" id="actAlarmClockTime" value="${timeStr}" class="app-input" style="font-size:18px; text-align:center; font-weight:700;" required>
-                    <button type="button" onclick="submitActAlarmAdvanced()" class="btn-action">ضبط التنبيه</button>
-                `;
-            } else if (type === 'todo') {
-                title.innerText = '✅ إضافة مهمة لليوم';
-                container.innerHTML = `<input type="text" id="actTodoText" placeholder="اكتب المهمة..." class="app-input" required><button type="button" onclick="submitActTodo()" class="btn-action">حفظ المهمة</button>`;
-            } else if (type === 'expense') {
-                title.innerText = '💸 تسجيل مصروف جديد';
-                container.innerHTML = `<input type="text" id="actExpDesc" placeholder="ماذا اشتريت؟" class="app-input" required><input type="number" id="actExpAmount" placeholder="المبلغ (₪)" class="app-input" required><button type="button" onclick="submitActExpense()" class="btn-action">تسجيل المصروف</button>`;
-            } else if (type === 'subscription') {
-                title.innerText = '🔁 تسجيل اشتراك جديد';
-                container.innerHTML = `<input type="text" id="actSubName" placeholder="اسم الاشتراك..." class="app-input" required><input type="number" id="actSubAmount" placeholder="المبلغ (₪)" class="app-input" required><label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">تاريخ بدء الاشتراك:</label><input type="date" id="actSubStartDate" value="${todayStr}" class="app-input"><label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">تاريخ انتهاء الاشتراك:</label><input type="date" id="actSubEndDate" class="app-input" required><button type="button" onclick="submitActSub()" class="btn-action">حفظ الاشتراك</button>`;
-            } else if (type === 'bill') {
-                title.innerText = '🧾 تسجيل فاتورة جديدة';
-                container.innerHTML = `<select id="actBillType" class="app-input"><option value="كهرباء">كهرباء</option><option value="ماء">ماء</option><option value="إنترنت">إنترنت</option><option value="أخرى">أخرى</option></select><input type="number" id="actBillAmount" placeholder="المبلغ (₪)" class="app-input" required><button type="button" onclick="submitActBill()" class="btn-action">حفظ الفاتورة</button>`;
-            } else if (type === 'note') {
-                title.innerText = '📝 تدوين ملاحظة جديدة';
-                container.innerHTML = `<input type="text" id="actNoteTitle" placeholder="عنوان الملاحظة..." class="app-input"><textarea id="actNoteBody" rows="3" placeholder="نص الملاحظة..." class="app-input" required></textarea><button type="button" onclick="submitActNote()" class="btn-action">حفظ الملاحظة</button>`;
-            } else if (type === 'vault') {
-                title.innerText = '🔐 حفظ حساب في الخزنة';
-                container.innerHTML = `<input type="text" id="actVaultName" placeholder="اسم الحساب / الموقع" class="app-input" required><input type="text" id="actVaultUser" placeholder="اسم المستخدم / الإيميل" class="app-input" required><input type="password" id="actVaultPass" placeholder="كلمة المرور" class="app-input" required><textarea id="actVaultNote" rows="2" placeholder="ملاحظات أو تفاصيل إضافية..." class="app-input"></textarea><button type="button" onclick="submitActVault()" class="btn-action">حفظ بالخزنة</button>`;
-            } else if (type === 'doc') {
-                title.innerText = '🆔 تسجيل وثيقة رسمية';
-                container.innerHTML = `<input type="text" id="actDocName" placeholder="اسم الوثيقة..." class="app-input" required><input type="date" id="actDocExpiry" class="app-input" required><button type="button" onclick="submitActDoc()" class="btn-action">حفظ الوثيقة</button>`;
-            }
-            modal.classList.add('active');
-        }
-
-        function closeModalAction() { document.getElementById('actionModal').classList.remove('active'); }
-
-        function submitActAlarmAdvanced() {
-            const timeVal = document.getElementById('actAlarmClockTime').value;
-            const titleVal = document.getElementById('actAlarmTitle').value;
-            if (!timeVal) return alert('يرجى تحديد وقت المنبه');
-            const [hours, mins] = timeVal.split(':').map(Number);
-            const now = new Date();
-            const target = new Date();
-            target.setHours(hours, mins, 0, 0);
-            if (target <= now) target.setDate(target.getDate() + 1);
-            const diffMins = Math.round((target - now) / (1000 * 60));
-            const cleanTitle = titleVal ? titleVal.trim() : `منبه ${timeVal}`;
-            addReminderFast(diffMins, cleanTitle);
-            closeModalAction();
-        }
-
-        function submitActTodo() {
-            const text = document.getElementById('actTodoText').value;
-            if (!text.trim()) return alert('اكتب نص المهمة');
-            db.todos.push({ id: Date.now(), text: text.trim(), done: false, date: todayStr });
-            finalizeAction(); closeModalAction();
-        }
-
-        function submitActExpense() {
-            const desc = document.getElementById('actExpDesc').value;
-            const amount = document.getElementById('actExpAmount').value;
-            if (!desc || !amount) return alert('يرجى كتابة الوصف والمبلغ');
-            db.expenses.push({ id: Date.now(), desc: desc.trim(), amount: amount, date: todayStr });
-            finalizeAction(); closeModalAction();
-        }
-
-        function submitActSub() {
-            const name = document.getElementById('actSubName').value;
-            const amount = document.getElementById('actSubAmount').value;
-            const startDate = document.getElementById('actSubStartDate').value || todayStr;
-            const endDate = document.getElementById('actSubEndDate').value;
-            if (!name || !amount || !endDate) return alert('يرجى ملء كافة البيانات');
-            db.subscriptions.push({ id: Date.now(), name: name.trim(), amount: amount, startDate: startDate, endDate: endDate, renewalDate: endDate, createdAt: Date.now() });
-            finalizeAction(); closeModalAction();
-        }
-
-        function submitActBill() {
-            const type = document.getElementById('actBillType').value;
-            const amount = document.getElementById('actBillAmount').value;
-            if (!amount) return alert('أدخل المبلغ');
-            db.fixed_bills.push({ id: Date.now(), type: type, amount: amount, date: todayStr });
-            finalizeAction(); closeModalAction();
-        }
-
-        function submitActNote() {
-            const body = document.getElementById('actNoteBody').value;
-            if (!body.trim()) return alert('اكتب نص الملاحظة');
-            db.notes.push({ id: Date.now(), title: document.getElementById('actNoteTitle').value || 'ملاحظة', body: body });
-            finalizeAction(); closeModalAction();
-        }
-
-        function submitActVault() {
-            const name = document.getElementById('actVaultName').value;
-            const username = document.getElementById('actVaultUser').value;
-            const pass = document.getElementById('actVaultPass').value;
-            const note = document.getElementById('actVaultNote').value;
-            if (!name || !pass) return alert('أدخل اسم الحساب وكلمة المرور');
-            db.vault.push({ id: Date.now(), accountName: name, username: username, password: pass, note: note, date: todayStr });
-            finalizeAction(); closeModalAction();
-        }
-
-        function submitActDoc() {
-            const name = document.getElementById('actDocName').value;
-            const expiry = document.getElementById('actDocExpiry').value;
-            if (!name || !expiry) return alert('أدخل البيانات');
-            db.documents.push({ id: Date.now(), name: name, expiryDate: expiry });
-            finalizeAction(); closeModalAction();
-        }
-
-        function handleQuickTodo(e) {
-            e.preventDefault();
-            const input = document.getElementById('todoInputTab');
-            db.todos.push({ id: Date.now(), text: input.value.trim(), done: false, date: todayStr });
-            input.value = ''; finalizeAction();
-        }
+        function toggleSearchBar() { const bar = document.getElementById('expandableSearchBar'); bar.classList.toggle('active'); }
 
         applyThemeUI();
-        loadAccuratePrayers();
         updateUI();
     </script>
 </body>
