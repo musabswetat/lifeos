@@ -466,7 +466,7 @@
             </div>
         </div>
 
-        <!-- 🏠 1. تبويب الرئيسية -->
+        <!-- 🏠 1. تبويب الرئيسية الشامل -->
         <div id="dashboard-view" class="section-view active">
             
             <div class="section-label">التنبيهات المباشرة</div>
@@ -500,6 +500,7 @@
                 <div id="dashRemindersPreview"></div>
             </div>
 
+            <!-- أقسام الإدارة السريعة -->
             <div class="section-label">مهام اليوم</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
@@ -726,7 +727,7 @@
 
     <script>
         // =========================================================================
-        // --- 1. البيانات والحساب والمزامنة السحابية ---
+        // --- 1. بنية البيانات المحلية والمزامنة الذكية بدون فقدان (Offline Reconciliation) ---
         // =========================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCxalyr_Xa7IeSuT8enh6MCu2a1h5HvBWY",
@@ -781,12 +782,44 @@
             setTimeout(() => el.classList.remove('show'), 2000);
         }
 
+        // دمج السحابة مع الأوفلاين بذكاء لمنع مسح البيانات الجديدة
+        function mergeCloudWithLocal(cloudData) {
+            const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
+            const normalizedCloud = normalizeDB(cloudData);
+
+            lists.forEach(key => {
+                const cloudArr = normalizedCloud[key] || [];
+                const localArr = db[key] || [];
+
+                // إنشاء خريطة بالمعرفات للحفاظ على أي عنصر أضيف محلياً أثناء انقطاع النت
+                const map = new Map();
+                cloudArr.forEach(item => { if (item && item.id) map.set(item.id, item); });
+                localArr.forEach(item => { if (item && item.id) map.set(item.id, item); });
+
+                db[key] = Array.from(map.values());
+            });
+
+            // الحفاظ على الثيم والاسم المحلي إذا تم تعديله بالأوفلاين
+            if (db.settings.displayName) {
+                normalizedCloud.settings.displayName = db.settings.displayName;
+            }
+            db.settings = { ...normalizedCloud.settings, ...db.settings };
+        }
+
         function saveToCloud() {
+            db._hasPendingSync = true;
+            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
+
             if (userDbRef && navigator.onLine) {
                 const cloudPayload = JSON.parse(JSON.stringify(db));
                 cloudPayload.notes.forEach(n => { delete n.audioData; });
                 delete cloudPayload.cachedFeeds;
-                userDbRef.set(cloudPayload).catch(() => {});
+                delete cloudPayload._hasPendingSync;
+
+                userDbRef.set(cloudPayload).then(() => {
+                    db._hasPendingSync = false;
+                    try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
+                }).catch(() => {});
             }
         }
 
@@ -815,7 +848,7 @@
             finalizeAction();
         }
 
-        // تهيئة Firebase الآمنة مع استبقاء الجلسة
+        // تهيئة Firebase الآمنة مع استبقاء الجلسة بالأوفلاين
         try {
             if (typeof firebase !== 'undefined') {
                 if (!firebase.apps || !firebase.apps.length) {
@@ -835,9 +868,15 @@
                         userDbRef.on('value', (snapshot) => {
                             const data = snapshot.val();
                             if (data) {
-                                const feeds = db.cachedFeeds;
-                                db = normalizeDB(data);
-                                db.cachedFeeds = feeds; 
+                                if (db._hasPendingSync) {
+                                    // إذا كان هناك بيانات أوفلاين معلقة، ادمجها فوراً وادفع النتيجة للسحابة
+                                    mergeCloudWithLocal(data);
+                                    saveToCloud();
+                                } else {
+                                    const feeds = db.cachedFeeds;
+                                    db = normalizeDB(data);
+                                    db.cachedFeeds = feeds;
+                                }
                                 try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
                                 applyThemeUI(); 
                                 updateUI();
@@ -847,7 +886,7 @@
                         });
                         updateAuthProfileUI(user);
                     } else {
-                        if (!navigator.onLine && db.cachedFeeds.cachedUser) {
+                        if (!navigator.onLine && db.cachedFeeds && db.cachedFeeds.cachedUser) {
                             updateAuthProfileUI(db.cachedFeeds.cachedUser);
                         } else {
                             currentUser = null; 
@@ -868,8 +907,10 @@
             const settingsName = document.getElementById('settingsAccountName');
             const settingsBtn = document.getElementById('settingsAuthBtn');
 
-            if (user) {
-                const displayName = db.settings.displayName || user.displayName || user.email.split('@')[0];
+            const currentDisplayName = db.settings.displayName || (user ? (user.displayName || user.email.split('@')[0]) : '');
+
+            if (user || currentDisplayName) {
+                const displayName = currentDisplayName || 'مستخدم';
                 if (nameSpan) nameSpan.innerText = displayName;
                 if (heroGreeting) heroGreeting.innerText = `طاب يومك، ${displayName}.`;
                 if (editNameBtn) editNameBtn.style.display = 'flex';
@@ -933,16 +974,19 @@
             } catch (e) { alert('تعذر الإرسال: ' + e.message); }
         }
 
+        // تعديل اسم الظهور بالأوفلاين فوراً ومزامنته لاحقاً مع السحابة
         async function promptEditDisplayName() {
             const currentName = db.settings.displayName || (currentUser ? currentUser.displayName : '') || 'مستخدم';
             const newName = prompt('أدخل اسم الظهور الجديد:', currentName);
             if (newName !== null && newName.trim()) {
-                try {
-                    if (currentUser) await currentUser.updateProfile({ displayName: newName.trim() });
-                    db.settings.displayName = newName.trim();
-                    finalizeAction();
-                    updateAuthProfileUI(currentUser || db.cachedFeeds.cachedUser);
-                } catch (e) { alert('تعذر تحديث الاسم: ' + e.message); }
+                const cleanName = newName.trim();
+                db.settings.displayName = cleanName;
+                finalizeAction();
+                updateAuthProfileUI(currentUser || (db.cachedFeeds ? db.cachedFeeds.cachedUser : null));
+
+                if (navigator.onLine && currentUser) {
+                    try { await currentUser.updateProfile({ displayName: cleanName }); } catch (e) {}
+                }
             }
         }
 
@@ -975,9 +1019,7 @@
                     vibration: true,
                     lights: true
                 });
-            } catch (e) {
-                console.error("Channel error:", e);
-            }
+            } catch (e) {}
         }
 
         async function scheduleSystemNotification(title, minutes, reminderId) {
@@ -1107,7 +1149,7 @@
         }
 
         // =========================================================================
-        // --- 3. محرك الطقس التنبؤي بالساعات والعملات ---
+        // --- 3. محرك الطقس التنبؤي بالساعات والعملات (كاش دائم بالأوفلاين) ---
         // =========================================================================
         function getWeatherIcon(code) {
             if (code === 0) return '☀️ مشمس';
@@ -1196,6 +1238,9 @@
         window.addEventListener('online', () => {
             syncFeeds();
             saveToCloud();
+            if (currentUser && db.settings.displayName) {
+                currentUser.updateProfile({ displayName: db.settings.displayName }).catch(() => {});
+            }
         });
 
         // =========================================================================
@@ -1509,7 +1554,6 @@
             finalizeAction();
         }
 
-        // ضبط التنبيهات الكلاسيكي (دقائق واسم اختياري فقط)
         function openModalAction(type) {
             closeTopDropdown();
             const modal = document.getElementById('actionModal');
@@ -1620,7 +1664,7 @@
             else if (type === 'note') { db.todos.push({ id: Date.now(), text: `ملاحظة: ${text}`, done: false, date: todayStr }); finalizeAction(); }
         }
 
-        // --- إغلاق وزر الرجوع والتنقل ---
+        // --- التنقل وزر الرجوع لنظام أندرويد ---
         function switchNavSection(viewId, btnEl) {
             closeTopDropdown(); 
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
