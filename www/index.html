@@ -11,7 +11,6 @@
 
     <title>Life OS</title>
     
-    <!-- ☁️ مكتبات Firebase السحابية الرسمية -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -411,6 +410,29 @@
             cursor: pointer;
             text-align: right;
         }
+
+        /* تنسيق بطاقات معالج البطارية الصارم */
+        .shield-step-card {
+            background: var(--surface-inner);
+            border-radius: var(--radius-input);
+            padding: 14px;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-subtle);
+        }
+        .shield-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .shield-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body class="theme-oneui">
@@ -455,7 +477,7 @@
             <div class="oneui-title-hero-row">
                 <div class="oneui-title-hero" id="heroGreetingTitle">طاب يومك.</div>
                 <button id="editNameBtn" class="edit-name-icon-btn" onclick="promptEditDisplayName()">
-                    <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                    <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
                 </button>
             </div>
             <div class="oneui-sub-text" id="oneuiSubInfo">
@@ -466,7 +488,7 @@
             </div>
         </div>
 
-        <!-- 🏠 1. تبويب الرئيسية الشامل -->
+        <!-- 🏠 1. تبويب الرئيسية -->
         <div id="dashboard-view" class="section-view active">
             
             <div class="section-label">التنبيهات المباشرة</div>
@@ -500,7 +522,7 @@
                 <div id="dashRemindersPreview"></div>
             </div>
 
-            <!-- أقسام الإدارة السريعة -->
+            <!-- مهام اليوم -->
             <div class="section-label">مهام اليوم</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
@@ -510,6 +532,7 @@
                 <div id="dashTodosList"></div>
             </div>
 
+            <!-- المصروفات الحديثة -->
             <div class="section-label">المصروفات الحديثة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
@@ -522,6 +545,7 @@
                 <div id="dashExpensesPreview"></div>
             </div>
 
+            <!-- الاشتراكات الفعالة -->
             <div class="section-label">الاشتراكات الفعالة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -606,7 +630,7 @@
             </div>
         </div>
 
-        <!-- ⚙️ 8. تبويب الإعدادات -->
+        <!-- ⚙️ 8. تبويب الإعدادات (معالج إلغاء قيود البطارية خطوة بخطوة) -->
         <div id="settings-view" class="section-view">
             <div class="section-label">الحساب والمزامنة السحابية</div>
             <div class="oneui-card">
@@ -616,6 +640,60 @@
                         <div style="font-size:12px; color:var(--text-secondary);" id="settingsAccountEmail">البيانات محفوظة محلياً على الهاتف</div>
                     </div>
                     <button onclick="openAuthModal()" id="settingsAuthBtn" class="tag-badge">تسجيل الدخول</button>
+                </div>
+            </div>
+
+            <!-- المعالج المخصص لحماية المنبه في الخلفية -->
+            <div class="section-label">معالج تحصين المنبه في الخلفية (خطوة بخطوة)</div>
+            <div class="oneui-card">
+                <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px; line-height:1.5;">
+                    لتخطي وضع النوم العميق وقتل التطبيق في أندرويد وشاومي وسامسونج، قم بتنفيذ الخطوات التالية لضمان الرنين والتطبيق مقفل تماماً:
+                </p>
+
+                <!-- خطوة 1: استثناء توفير البطارية -->
+                <div class="shield-step-card">
+                    <div class="shield-header">
+                        <span>الخطوة 1: إلغاء قيود البطارية (No Restrictions)</span>
+                        <span id="badgeBatteryStatus" style="font-size:11px; font-weight:800;">فحص...</span>
+                    </div>
+                    <div class="shield-desc">يمنع المعالج من إيقاف المنبه عندما تقفل الشاشة أو ينام الهاتف.</div>
+                    <button onclick="triggerNativeBatteryExemption()" class="btn-action" style="padding:10px; font-size:12px;">
+                        فتح صفحة استثناء البطارية المباشرة ⚡
+                    </button>
+                </div>
+
+                <!-- خطوة 2: أذونات التنبيه الدقيق -->
+                <div class="shield-step-card">
+                    <div class="shield-header">
+                        <span>الخطوة 2: أذونات التنبيه الدقيق (Exact Alarms)</span>
+                        <span id="badgeExactStatus" style="font-size:11px; font-weight:800;">فحص...</span>
+                    </div>
+                    <div class="shield-desc">يسمح للهاتف بإطلاق المنبه بالثانية المحددة حتى في وضع Doze Mode.</div>
+                    <button onclick="triggerNativeExactAlarm()" class="btn-action" style="padding:10px; font-size:12px; background:var(--surface-active); color:var(--text-primary);">
+                        السماح بالمنبهات والمذكرات ⏰
+                    </button>
+                </div>
+
+                <!-- خطوة 3: التشغيل التلقائي (خاص بشاومي، بوكو، سامسونج) -->
+                <div class="shield-step-card">
+                    <div class="shield-header">
+                        <span>الخطوة 3: التشغيل التلقائي (Autostart)</span>
+                    </div>
+                    <div class="shield-desc">ضروري جداً لهواتف شاومي وريدمي لمنع النظام من مسح المنبه عند إغلاق التطبيق.</div>
+                    <button onclick="triggerNativeAutostart()" class="btn-action" style="padding:10px; font-size:12px; background:var(--surface-active); color:var(--text-primary);">
+                        فتح إعدادات التشغيل التلقائي للهاتف 🚀
+                    </button>
+                </div>
+
+                <!-- خطوة 4: شاشة القفل والإشعارات -->
+                <div class="shield-step-card">
+                    <div class="shield-header">
+                        <span>الخطوة 4: الظهور فوق شاشة القفل</span>
+                    </div>
+                    <div class="shield-desc">تأكد من تفعيل "عرض على شاشة القفل" و "إظهار النوافذ المنبثقة أثناء العمل بالخلفية".</div>
+                    <button onclick="triggerNativeAppSettings()" class="btn-action" style="padding:10px; font-size:12px; background:var(--surface-active); color:var(--text-primary);">
+                        إدارة أذونات التطبيق 📱
+                    </button>
                 </div>
             </div>
 
@@ -631,15 +709,6 @@
                     <option value="infinix">Infinix XOS (إنفنيكس)</option>
                     <option value="mi">Xiaomi HyperOS (شاومي)</option>
                 </select>
-            </div>
-
-            <div class="section-label">النظام والتنبيهات القصوى</div>
-            <div class="oneui-card">
-                <div style="display:flex; gap:8px; flex-direction:column;">
-                    <button onclick="requestBatteryOptimizationExemption()" class="btn-action" style="background:var(--surface-inner); color:var(--accent-color); border:1px solid var(--border-subtle);">
-                        ⚡ إذن العمل بالخلفية (تجاوز توفير البطارية)
-                    </button>
-                </div>
             </div>
         </div>
 
@@ -727,1003 +796,104 @@
 
     <script>
         // =========================================================================
-        // --- 1. بنية البيانات المحلية والمزامنة الذكية بدون فقدان (Offline Reconciliation) ---
+        // --- 6. الجسر البرمجي للأندرويد: التحكم بإعدادات البطارية وفحصها لحظياً ---
         // =========================================================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyCxalyr_Xa7IeSuT8enh6MCu2a1h5HvBWY",
-            authDomain: "life-8892e.firebaseapp.com",
-            databaseURL: "https://life-8892e-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "life-8892e",
-            storageBucket: "life-8892e.firebasestorage.app",
-            messagingSenderId: "164493970016",
-            appId: "1:164493970016:web:96fffd7b5507e86cfb5105"
-        };
-
-        let currentUser = null;
-        let userDbRef = null;
-        let lastSpokenText = '';
-        let currentActiveTimerObj = null;
-
-        function normalizeDB(data) {
-            if (!data || typeof data !== 'object') data = {};
-            const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
-            lists.forEach(key => { 
-                if (data[key]) { 
-                    if (!Array.isArray(data[key])) { 
-                        data[key] = Object.values(data[key]).filter(i => i !== null); 
-                    } 
-                } else { 
-                    data[key] = []; 
-                } 
-            });
-            if (!data.settings) data.settings = { darkMode: false, displayName: '', theme: 'oneui' };
-            if (!data.cachedFeeds) data.cachedFeeds = {
-                weatherHourly: null,
-                weatherLastFetch: 0,
-                rates: { USD: "3.65", JOD: "5.15", EUR: "3.95" },
-                ratesLastFetch: 0,
-                cachedUser: null
-            };
-            return data;
-        }
-
-        let localRaw = '{}';
-        try { localRaw = localStorage.getItem('myLifeAppDB') || '{}'; } catch(e) {}
-        let db;
-        try { db = normalizeDB(JSON.parse(localRaw)); } catch(e) { db = normalizeDB({}); }
-        const todayStr = new Date().toISOString().split('T')[0];
-        let livePrayersList = [];
-
-        function showToast(msg) {
-            const el = document.getElementById('syncToast');
-            if(!el) return; 
-            el.innerText = msg; 
-            el.classList.add('show');
-            setTimeout(() => el.classList.remove('show'), 2000);
-        }
-
-        // دمج السحابة مع الأوفلاين بذكاء لمنع مسح البيانات الجديدة
-        function mergeCloudWithLocal(cloudData) {
-            const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
-            const normalizedCloud = normalizeDB(cloudData);
-
-            lists.forEach(key => {
-                const cloudArr = normalizedCloud[key] || [];
-                const localArr = db[key] || [];
-
-                // إنشاء خريطة بالمعرفات للحفاظ على أي عنصر أضيف محلياً أثناء انقطاع النت
-                const map = new Map();
-                cloudArr.forEach(item => { if (item && item.id) map.set(item.id, item); });
-                localArr.forEach(item => { if (item && item.id) map.set(item.id, item); });
-
-                db[key] = Array.from(map.values());
-            });
-
-            // الحفاظ على الثيم والاسم المحلي إذا تم تعديله بالأوفلاين
-            if (db.settings.displayName) {
-                normalizedCloud.settings.displayName = db.settings.displayName;
-            }
-            db.settings = { ...normalizedCloud.settings, ...db.settings };
-        }
-
-        function saveToCloud() {
-            db._hasPendingSync = true;
-            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
-
-            if (userDbRef && navigator.onLine) {
-                const cloudPayload = JSON.parse(JSON.stringify(db));
-                cloudPayload.notes.forEach(n => { delete n.audioData; });
-                delete cloudPayload.cachedFeeds;
-                delete cloudPayload._hasPendingSync;
-
-                userDbRef.set(cloudPayload).then(() => {
-                    db._hasPendingSync = false;
-                    try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
-                }).catch(() => {});
-            }
-        }
-
-        function applyThemeUI() {
-            const theme = (db.settings && db.settings.theme) ? db.settings.theme : 'oneui';
-            document.body.className = '';
-            document.body.classList.add(`theme-${theme}`);
-            if (!db.settings.darkMode) document.body.classList.add('light-mode');
-
-            const themeBtn = document.getElementById('themeBtn');
-            if (themeBtn) {
-                themeBtn.innerHTML = db.settings.darkMode ? 
-                    '<svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.39 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.39-.44-.06-.9-.1-1.36-.1z"/></svg>' :
-                    '<svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1z"/></svg>';
-            }
-            const meta = document.getElementById('themeColorMeta');
-            if (meta) meta.setAttribute('content', db.settings.darkMode ? '#121212' : '#F2F2F7');
-
-            const selector = document.getElementById('themeSelector');
-            if (selector) selector.value = theme;
-        }
-
-        function changeAppTheme(themeName) {
-            db.settings.theme = themeName;
-            applyThemeUI();
-            finalizeAction();
-        }
-
-        // تهيئة Firebase الآمنة مع استبقاء الجلسة بالأوفلاين
-        try {
-            if (typeof firebase !== 'undefined') {
-                if (!firebase.apps || !firebase.apps.length) {
-                    firebase.initializeApp(firebaseConfig);
-                }
-                firebase.auth().onAuthStateChanged(async (user) => {
-                    if (user) {
-                        if (!user.emailVerified) { 
-                            try { await firebase.auth().signOut(); } catch(e){}
-                            return; 
-                        }
-                        currentUser = user;
-                        db.cachedFeeds.cachedUser = { uid: user.uid, email: user.email, displayName: user.displayName };
-                        finalizeAction();
-
-                        userDbRef = firebase.database().ref(`users/${user.uid}/data`);
-                        userDbRef.on('value', (snapshot) => {
-                            const data = snapshot.val();
-                            if (data) {
-                                if (db._hasPendingSync) {
-                                    // إذا كان هناك بيانات أوفلاين معلقة، ادمجها فوراً وادفع النتيجة للسحابة
-                                    mergeCloudWithLocal(data);
-                                    saveToCloud();
-                                } else {
-                                    const feeds = db.cachedFeeds;
-                                    db = normalizeDB(data);
-                                    db.cachedFeeds = feeds;
-                                }
-                                try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
-                                applyThemeUI(); 
-                                updateUI();
-                            } else { 
-                                saveToCloud(); 
-                            }
-                        });
-                        updateAuthProfileUI(user);
-                    } else {
-                        if (!navigator.onLine && db.cachedFeeds && db.cachedFeeds.cachedUser) {
-                            updateAuthProfileUI(db.cachedFeeds.cachedUser);
-                        } else {
-                            currentUser = null; 
-                            userDbRef = null; 
-                            updateAuthProfileUI(null);
-                        }
-                    }
-                });
-            }
-        } catch(e) {
-            console.warn("Firebase Notice:", e);
-        }
-
-        function updateAuthProfileUI(user) {
-            const nameSpan = document.getElementById('userNameSpan');
-            const heroGreeting = document.getElementById('heroGreetingTitle');
-            const editNameBtn = document.getElementById('editNameBtn');
-            const settingsName = document.getElementById('settingsAccountName');
-            const settingsBtn = document.getElementById('settingsAuthBtn');
-
-            const currentDisplayName = db.settings.displayName || (user ? (user.displayName || user.email.split('@')[0]) : '');
-
-            if (user || currentDisplayName) {
-                const displayName = currentDisplayName || 'مستخدم';
-                if (nameSpan) nameSpan.innerText = displayName;
-                if (heroGreeting) heroGreeting.innerText = `طاب يومك، ${displayName}.`;
-                if (editNameBtn) editNameBtn.style.display = 'flex';
-                if (settingsName) settingsName.innerText = displayName;
-                if (settingsBtn) { settingsBtn.innerText = 'تسجيل الخروج'; settingsBtn.style.color = 'var(--accent-red)'; }
-            } else {
-                if (nameSpan) nameSpan.innerText = 'حسابي';
-                if (heroGreeting) heroGreeting.innerText = 'طاب يومك.';
-                if (editNameBtn) editNameBtn.style.display = 'none';
-                if (settingsName) settingsName.innerText = 'غير مسجل الدخول';
-                if (settingsBtn) { settingsBtn.innerText = 'تسجيل الدخول'; settingsBtn.style.color = 'var(--accent-color)'; }
-            }
-        }
-
-        async function submitUserLogin() {
-            if (!navigator.onLine) return alert('يجب توفر اتصال بالإنترنت لتسجيل الدخول.');
-            const email = document.getElementById('authEmail').value.trim();
-            const pass = document.getElementById('authPassword').value;
-            if (!email || !pass) return alert('يرجى كتابة البريد وكلمة المرور');
-            try { 
-                showToast('جاري تسجيل الدخول...'); 
-                await firebase.auth().signInWithEmailAndPassword(email, pass); 
-                closeAuthModal(); 
-            } catch (err) { alert('فشل الدخول: ' + err.message); }
-        }
-
-        async function submitUserSignup() {
-            if (!navigator.onLine) return alert('يجب توفر اتصال بالإنترنت لإنشاء الحساب.');
-            const email = document.getElementById('authEmail').value.trim();
-            const pass = document.getElementById('authPassword').value;
-            if (!email || !pass) return alert('يرجى كتابة البريد وكلمة المرور');
-            if (pass.length < 6) return alert('كلمة المرور 6 خانات فأكثر');
-            try {
-                showToast('جاري إنشاء الحساب...');
-                const userCred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
-                await userCred.user.sendEmailVerification();
-                await firebase.auth().signOut();
-                alert('✅ تم إنشاء الحساب بنجاح!\n\nتم إرسال رابط تفعيل إلى بريدك (تحقق من Spam).');
-                closeAuthModal();
-            } catch (err) { alert('فشل إنشاء الحساب: ' + err.message); }
-        }
-
-        async function handleForgotPassword() {
-            if (!navigator.onLine) return alert('يجب توفر اتصال بالإنترنت لاستعادة كلمة المرور.');
-            const email = document.getElementById('authEmail').value.trim();
-            if (!email) { alert('اكتب بريدك أولاً.'); document.getElementById('authEmail').focus(); return; }
-            try { await firebase.auth().sendPasswordResetEmail(email); alert('تم إرسال رابط إعادة تعيين كلمة المرور.'); } 
-            catch (err) { alert('فشل الإرسال: ' + err.message); }
-        }
-
-        async function resendVerificationEmail() {
-            if (!navigator.onLine) return alert('يجب توفر اتصال بالإنترنت.');
-            const email = document.getElementById('authEmail').value.trim();
-            const pass = document.getElementById('authPassword').value;
-            if (!email || !pass) { alert('اكتب البريد وكلمة المرور أولاً.'); return; }
-            try {
-                const userCred = await firebase.auth().signInWithEmailAndPassword(email, pass);
-                if (!userCred.user.emailVerified) { await userCred.user.sendEmailVerification(); alert('تم إعادة إرسال رابط التفعيل.'); }
-                else { alert('الحساب مفعل بالفعل!'); }
-                await firebase.auth().signOut();
-            } catch (e) { alert('تعذر الإرسال: ' + e.message); }
-        }
-
-        // تعديل اسم الظهور بالأوفلاين فوراً ومزامنته لاحقاً مع السحابة
-        async function promptEditDisplayName() {
-            const currentName = db.settings.displayName || (currentUser ? currentUser.displayName : '') || 'مستخدم';
-            const newName = prompt('أدخل اسم الظهور الجديد:', currentName);
-            if (newName !== null && newName.trim()) {
-                const cleanName = newName.trim();
-                db.settings.displayName = cleanName;
-                finalizeAction();
-                updateAuthProfileUI(currentUser || (db.cachedFeeds ? db.cachedFeeds.cachedUser : null));
-
-                if (navigator.onLine && currentUser) {
-                    try { await currentUser.updateProfile({ displayName: cleanName }); } catch (e) {}
-                }
-            }
-        }
-
-        // =========================================================================
-        // --- 2. محرك التنبيهات المعتمد الأصلي لأندرويد في الخلفية ---
-        // =========================================================================
-        function getNativePlugin() {
-            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
-                return window.Capacitor.Plugins.LocalNotifications;
+        function getAlarmOptimizerPlugin() {
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AlarmOptimizer) {
+                return window.Capacitor.Plugins.AlarmOptimizer;
             }
             return null;
         }
 
-        async function initNativeNotifications() {
-            const plugin = getNativePlugin();
+        async function checkNativeOptimizationStatus() {
+            const plugin = getAlarmOptimizerPlugin();
             if (!plugin) return;
+
             try {
-                const perm = await plugin.checkPermissions();
-                if (perm.display !== 'granted') {
-                    await plugin.requestPermissions();
+                const status = await plugin.checkStatus();
+                const batBadge = document.getElementById('badgeBatteryStatus');
+                const exactBadge = document.getElementById('badgeExactStatus');
+
+                if (batBadge) {
+                    if (status.batteryIgnored) {
+                        batBadge.innerText = '✅ غير مقيد (مستثنى)';
+                        batBadge.style.color = 'var(--accent-green)';
+                    } else {
+                        batBadge.innerText = '⚠️ خاضع لقيود البطارية';
+                        batBadge.style.color = 'var(--accent-red)';
+                    }
                 }
 
-                await plugin.createChannel({
-                    id: 'lifeos_exact_alarm_channel_v1',
-                    name: 'منبهات Life OS الفائقة',
-                    description: 'قناة المنبهات الرسمية ذات الأولوية القصوى والصوت العالي',
-                    importance: 5,
-                    visibility: 1,
-                    sound: 'marimba',
-                    vibration: true,
-                    lights: true
-                });
+                if (exactBadge) {
+                    if (status.canExactAlarm) {
+                        exactBadge.innerText = '✅ مفعّل بالثانية';
+                        exactBadge.style.color = 'var(--accent-green)';
+                    } else {
+                        exactBadge.innerText = '⚠️ غير مفعّل';
+                        exactBadge.style.color = 'var(--accent-red)';
+                    }
+                }
             } catch (e) {}
         }
 
-        async function scheduleSystemNotification(title, minutes, reminderId) {
-            const plugin = getNativePlugin();
-            if (!plugin) return;
-            const targetDate = new Date(Date.now() + minutes * 60 * 1000);
-            const safeId = Math.abs(parseInt(reminderId, 10) % 2147483647);
-
-            try {
-                const perm = await plugin.checkPermissions();
-                if (perm.display !== 'granted') {
-                    await plugin.requestPermissions();
-                }
-
-                await plugin.schedule({
-                    notifications: [{
-                        title: `⏰ منبه: ${title || 'موعد التنبيه'}`,
-                        body: `حان الآن موعد: ${title || 'التنبيه المحدد'}`,
-                        id: safeId,
-                        schedule: { at: targetDate, allowWhileIdle: true },
-                        sound: 'marimba',
-                        channelId: 'lifeos_exact_alarm_channel_v1'
-                    }]
-                });
-            } catch (err) {
-                try {
-                    await plugin.schedule({
-                        notifications: [{
-                            title: `⏰ منبه: ${title || 'موعد التنبيه'}`,
-                            body: `حان الآن موعد: ${title || 'التنبيه المحدد'}`,
-                            id: safeId,
-                            schedule: { at: targetDate, allowWhileIdle: true },
-                            sound: 'default'
-                        }]
-                    });
-                } catch (fallbackErr) {}
+        async function triggerNativeBatteryExemption() {
+            const plugin = getAlarmOptimizerPlugin();
+            if (plugin) {
+                await plugin.requestIgnoreBattery();
+                showToast('قم باختيار "بدون قيود" (No restrictions)');
+            } else {
+                alert('افتح إعدادات الهاتف > التطبيقات > Life OS > البطارية > اختر "بدون قيود".');
             }
         }
 
-        function requestBatteryOptimizationExemption() {
-            alert('لضمان عمل المنبه بدقة متناهية والتطبيق مغلق:\n\n1. اذهب لإعدادات البطارية بالهاتف واختر تطبيق LifeOS.\n2. اختر "غير مقيد" (Unrestricted).\n3. تأكد من تفعيل "التشغيل التلقائي" (Autostart) إن وجد.');
-        }
-
-        function formatTime(ms) {
-            if (ms <= 0) return '00:00';
-            const s = Math.floor(ms / 1000);
-            const hrs = Math.floor(s / 3600);
-            const mins = Math.floor((s % 3600) / 60);
-            const secs = s % 60;
-            if (hrs > 0) return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-        }
-
-        function addReminderFast(mins, title = '') {
-            const now = Date.now();
-            const reminderId = Date.now();
-            const cleanTitle = title.trim();
-
-            db.reminders.push({ 
-                id: reminderId, 
-                title: cleanTitle, 
-                minutes: mins, 
-                createdAt: now, 
-                targetTime: now + (mins * 60 * 1000), 
-                triggered: false 
-            });
-
-            finalizeAction();
-            scheduleSystemNotification(cleanTitle, mins, reminderId);
-            showToast(`⏰ تم ضبط منبه ${mins} دقيقة`);
-        }
-
-        function confirmDeleteReminder(id) {
-            const numId = Number(id);
-            const plugin = getNativePlugin();
-            if (plugin) { 
-                plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {}); 
-            }
-            db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
-            finalizeAction();
-        }
-
-        function renameReminder(id) {
-            const r = db.reminders.find(x => x.id === id);
-            if (!r) return;
-            const newName = prompt('أدخل اسم المنبه:', r.title || '');
-            if (newName !== null) { 
-                r.title = newName.trim(); 
-                finalizeAction(); 
+        async function triggerNativeExactAlarm() {
+            const plugin = getAlarmOptimizerPlugin();
+            if (plugin) {
+                await plugin.requestExactAlarmPermission();
+                showToast('قم بالسماح بضبط التنبيهات والمذكرات');
+            } else {
+                alert('افتح إعدادات الهاتف > التطبيقات > Life OS > التنبيهات الدقيقة > تفعيل.');
             }
         }
 
-        function openManageActiveTimerModal() {
-            const now = Date.now();
-            const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
-            activeReminders.sort((a,b) => a.targetTime - b.targetTime);
-            currentActiveTimerObj = activeReminders[0];
-
-            if (!currentActiveTimerObj) return;
-
-            document.getElementById('manageTimerTitle').innerText = currentActiveTimerObj.title || `تنبيه (${currentActiveTimerObj.minutes} د)`;
-            document.getElementById('timerManageModal').classList.add('active');
-        }
-
-        function closeManageTimerModal() { 
-            document.getElementById('timerManageModal').classList.remove('active'); 
-        }
-
-        function editActiveTimerTitle() {
-            if (!currentActiveTimerObj) return;
-            const newName = prompt('أدخل اسم أو عنوان التنبيه الجديد:', currentActiveTimerObj.title || '');
-            if (newName !== null) {
-                currentActiveTimerObj.title = newName.trim();
-                finalizeAction();
-                closeManageTimerModal();
+        async function triggerNativeAutostart() {
+            const plugin = getAlarmOptimizerPlugin();
+            if (plugin) {
+                await plugin.openAutostartSettings();
+                showToast('تأكد من تفعيل زر التشغيل التلقائي للتطبيق');
+            } else {
+                alert('افتح إعدادات الأمان بهاتفك وفعل "التشغيل التلقائي" (Autostart) لتطبيق Life OS.');
             }
         }
 
-        function deleteActiveTimer() {
-            if (!currentActiveTimerObj) return;
-            const numId = Number(currentActiveTimerObj.id);
-            const plugin = getNativePlugin();
-            if (plugin) plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {});
-            db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
-            finalizeAction();
-            closeManageTimerModal();
-        }
-
-        // =========================================================================
-        // --- 3. محرك الطقس التنبؤي بالساعات والعملات (كاش دائم بالأوفلاين) ---
-        // =========================================================================
-        function getWeatherIcon(code) {
-            if (code === 0) return '☀️ مشمس';
-            if (code <= 3) return '⛅ غائم جزئياً';
-            if (code <= 48) return '🌫️ ضباب';
-            if (code <= 67) return '🌧️ ممطر';
-            if (code <= 77) return '❄️ مثلج';
-            if (code <= 82) return '🌦️ زخات مطر';
-            return '⛈️ عاصف';
-        }
-
-        function updateWeatherFromCache() {
-            const el = document.getElementById('textWeather');
-            if (!el) return;
-
-            if (db.cachedFeeds && db.cachedFeeds.weatherHourly) {
-                const now = new Date();
-                const currentHourISO = now.toISOString().slice(0, 13) + ':00';
-                const times = db.cachedFeeds.weatherHourly.time || [];
-                const temps = db.cachedFeeds.weatherHourly.temperature_2m || [];
-                const codes = db.cachedFeeds.weatherHourly.weather_code || [];
-
-                let index = times.findIndex(t => t.startsWith(currentHourISO));
-                if (index === -1) index = 0;
-
-                if (temps[index] !== undefined) {
-                    const temp = Math.round(temps[index]);
-                    const icon = getWeatherIcon(codes[index] || 0);
-                    el.innerText = `${temp}°C ${icon}`;
-                    return;
-                }
+        async function triggerNativeAppSettings() {
+            const plugin = getAlarmOptimizerPlugin();
+            if (plugin) {
+                await plugin.openAppSettings();
+            } else {
+                alert('افتح إعدادات التطبيقات وأعطِ التطبيق كافة الأذونات المطلوبة.');
             }
         }
 
-        function renderCurrenciesUI() {
-            const rates = (db.cachedFeeds && db.cachedFeeds.rates) ? db.cachedFeeds.rates : { USD: "3.65", JOD: "5.15", EUR: "3.95" };
-            const usd = document.getElementById('textUSD');
-            const jod = document.getElementById('textJOD');
-            const eur = document.getElementById('textEUR');
-            if (usd) usd.innerText = rates.USD;
-            if (jod) jod.innerText = rates.JOD;
-            if (eur) eur.innerText = rates.EUR;
-        }
-
-        async function syncFeeds() {
-            renderCurrenciesUI();
-            updateWeatherFromCache();
-
-            if (!navigator.onLine) return;
-
-            const now = Date.now();
-            const oneHour = 60 * 60 * 1000;
-            const oneDay = 24 * 60 * 60 * 1000;
-
-            if (now - (db.cachedFeeds.weatherLastFetch || 0) > oneHour || !db.cachedFeeds.weatherHourly) {
-                try {
-                    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&hourly=temperature_2m,weather_code&forecast_days=2&timezone=auto');
-                    const data = await res.json();
-                    if (data && data.hourly) {
-                        db.cachedFeeds.weatherHourly = data.hourly;
-                        db.cachedFeeds.weatherLastFetch = now;
-                        finalizeAction();
-                        updateWeatherFromCache();
-                    }
-                } catch(e) {}
-            }
-
-            if (now - (db.cachedFeeds.ratesLastFetch || 0) > oneDay) {
-                try {
-                    const res = await fetch('https://open.er-api.com/v6/latest/ILS');
-                    const data = await res.json();
-                    if (data && data.rates) {
-                        db.cachedFeeds.rates = {
-                            USD: (1 / data.rates.USD).toFixed(2),
-                            JOD: (1 / data.rates.JOD).toFixed(2),
-                            EUR: (1 / data.rates.EUR).toFixed(2)
-                        };
-                        db.cachedFeeds.ratesLastFetch = now;
-                        finalizeAction();
-                        renderCurrenciesUI();
-                    }
-                } catch(e) {}
-            }
-        }
-
-        window.addEventListener('online', () => {
-            syncFeeds();
-            saveToCloud();
-            if (currentUser && db.settings.displayName) {
-                currentUser.updateProfile({ displayName: db.settings.displayName }).catch(() => {});
+        // فحص تلقائي للحالة فور الرجوع للتطبيق من شاشة الإعدادات
+        window.addEventListener('focus', () => {
+            checkNativeOptimizationStatus();
+        });
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                checkNativeOptimizationStatus();
             }
         });
 
         // =========================================================================
-        // --- 4. الحساب الفلكي الرياضي لجنين (مستقل وبدون نت 100%) ---
-        // =========================================================================
-        function calculatePalestinePrayerTimes(date = new Date()) {
-            const lat = 32.4646; const lng = 35.2939; const tz = -date.getTimezoneOffset() / 60;
-            const start = new Date(date.getFullYear(), 0, 0); 
-            const diff = (date - start) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
-            const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const gamma = (2 * Math.PI / 365) * (dayOfYear - 1);
-            const eqtime = 229.18 * (0.000075 + 0.001868 * Math.cos(gamma) - 0.032077 * Math.sin(gamma) - 0.014615 * Math.cos(2 * gamma) - 0.040849 * Math.sin(2 * gamma));
-            const decl = 0.006918 - 0.399912 * Math.cos(gamma) + 0.070257 * Math.sin(gamma) - 0.006758 * Math.cos(2 * gamma) + 0.000907 * Math.sin(2 * gamma) - 0.002697 * Math.cos(3 * gamma) + 0.00148 * Math.sin(3 * gamma);
-            const degToRad = Math.PI / 180; const radToDeg = 180 / Math.PI; const latRad = lat * degToRad;
-            const noon = 12 + tz - (lng / 15) - (eqtime / 60);
-
-            function getHourAngle(angleDeg) {
-                const altRad = -angleDeg * degToRad;
-                const cosHA = (Math.sin(altRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl));
-                if (cosHA > 1 || cosHA < -1) return 0;
-                return radToDeg * Math.acos(cosHA) / 15;
-            }
-
-            const asrAlt = Math.atan(1 / (1 + Math.tan(Math.abs(latRad - decl)))) * radToDeg;
-            const asrHA = radToDeg * Math.acos(Math.max(-1, Math.min(1, (Math.sin(asrAlt * degToRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl))))) / 15;
-            const fajrHA = getHourAngle(19.5); const ishaHA = getHourAngle(17.5);
-
-            function toDateObj(hoursDecimal) { 
-                const d = new Date(date); 
-                let h = Math.floor(hoursDecimal); 
-                let m = Math.round((hoursDecimal - h) * 60); 
-                if (m >= 60) { h += 1; m = 0; } 
-                d.setHours(h, m, 0, 0); 
-                return d; 
-            }
-
-            return [
-                { name: 'صلاة الفجر', targetDate: toDateObj(noon - fajrHA) },
-                { name: 'صلاة الظهر', targetDate: toDateObj(noon + (1.5/60)) },
-                { name: 'صلاة العصر', targetDate: toDateObj(noon + asrHA) },
-                { name: 'صلاة المغرب', targetDate: toDateObj(noon + getHourAngle(0.833) + (1.5/60)) },
-                { name: 'صلاة العشاء', targetDate: toDateObj(noon + ishaHA) }
-            ];
-        }
-
-        function loadAccuratePrayers() {
-            livePrayersList = calculatePalestinePrayerTimes(new Date()).map((p, idx) => ({ 
-                id: `prayer_${idx}`, title: `🕌 ${p.name}`, targetTime: p.targetDate.getTime(), isPrayer: true 
-            }));
-            renderPrayersAndAlarmsCombined();
-            renderPrayersAndReminders();
-        }
-
-        function renderPrayersAndAlarmsCombined() {
-            const now = Date.now();
-            const container = document.getElementById('prayersAlarmsFullList');
-            if (!container) return;
-
-            const combined = [];
-            livePrayersList.forEach(p => { combined.push({ title: p.title, targetTime: p.targetTime, isPrayer: true }); });
-            db.reminders.forEach(r => {
-                if (!r.triggered && r.targetTime > now) {
-                    combined.push({ id: r.id, title: `⏰ ${r.title || `تنبيه (${r.minutes} د)`}`, targetTime: r.targetTime, isPrayer: false });
-                }
-            });
-
-            combined.sort((a, b) => a.targetTime - b.targetTime);
-            container.innerHTML = combined.map(item => {
-                const isPending = item.targetTime > now;
-                const timeStr = new Date(item.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
-                if (item.isPrayer) {
-                    return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><span class="tag-badge ${isPending ? 'green' : ''}">${isPending ? `⏳ ${formatTime(item.targetTime - now)}` : '✅ تم'}</span></div>`;
-                } else {
-                    return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><span class="tag-badge">⏳ ${formatTime(item.targetTime - now)}</span></div>`;
-                }
-            }).join('') || '<p style="color:var(--text-secondary); text-align:center;">لا توجد صلوات أو تنبيهات قادمة</p>';
-        }
-
-        function renderPrayersAndReminders() {
-            const now = Date.now();
-            const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
-            activeReminders.sort((a,b) => a.targetTime - b.targetTime);
-
-            const countText = document.getElementById('activeRemindersCountText');
-            if (countText) countText.innerText = `${activeReminders.length} تنبيهات نشطة`;
-
-            const nearest = activeReminders[0];
-            const nextPrayer = livePrayersList.find(p => p.targetTime > now);
-            
-            const topPrayerTag = document.getElementById('topPrayerText');
-            if (topPrayerTag) {
-                if (nextPrayer) {
-                    topPrayerTag.innerText = `${nextPrayer.title.replace('🕌 ', '')} ${formatTime(nextPrayer.targetTime - now)}`;
-                } else {
-                    topPrayerTag.innerText = 'اكتملت الصلوات';
-                }
-            }
-
-            const circle = document.getElementById('timerProgressCircle');
-            const timeEl = document.getElementById('nearestTimerTime');
-            const labelEl = document.getElementById('nearestTimerLabel');
-            const manageSub = document.getElementById('manageTimerSub');
-
-            if (nearest) {
-                const remainingMs = nearest.targetTime - now;
-                const totalDuration = (nearest.minutes * 60 * 1000) || remainingMs;
-                const fraction = Math.max(0, Math.min(1, remainingMs / totalDuration));
-                if (circle) circle.style.strokeDashoffset = 326.72 * (1 - fraction);
-                if (timeEl) timeEl.innerText = formatTime(remainingMs);
-                if (labelEl) labelEl.innerText = nearest.title || `تنبيه (${nearest.minutes} د)`;
-                if (manageSub && document.getElementById('timerManageModal').classList.contains('active')) {
-                    manageSub.innerText = `المتبقي: ${formatTime(remainingMs)}`;
-                }
-            } else if (nextPrayer) {
-                const remainingMs = nextPrayer.targetTime - now;
-                if (circle) circle.style.strokeDashoffset = 0;
-                if (timeEl) timeEl.innerText = formatTime(remainingMs);
-                if (labelEl) labelEl.innerText = nextPrayer.title.replace('🕌 ', '');
-            } else {
-                if (circle) circle.style.strokeDashoffset = 326.72;
-                if (timeEl) timeEl.innerText = "--:--";
-                if (labelEl) labelEl.innerText = "لا توجد تنبيهات";
-                if (document.getElementById('timerManageModal').classList.contains('active')) { closeManageTimerModal(); }
-            }
-
-            const dashRemPreview = document.getElementById('dashRemindersPreview');
-            if (dashRemPreview) {
-                dashRemPreview.innerHTML = activeReminders.slice(1, 3).map(r => `
-                    <div class="list-row">
-                        <div>
-                            <strong>${r.title || `تنبيه (${r.minutes} د)`}</strong>
-                            <div style="font-size:12px; color:var(--text-secondary);">${new Date(r.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}</div>
-                        </div>
-                        <span class="tag-badge">⏳ ${formatTime(r.targetTime - now)}</span>
-                    </div>
-                `).join('');
-            }
-            renderPrayersAndAlarmsCombined();
-        }
-
-        let secCounter = 0;
-        setInterval(() => {
-            const now = Date.now();
-            let changed = false;
-            db.reminders.forEach(r => {
-                if (!r.triggered && r.targetTime <= now) {
-                    r.triggered = true; 
-                    changed = true;
-                }
-            });
-            renderPrayersAndReminders();
-            if (changed) finalizeAction();
-
-            secCounter++;
-            if (secCounter % 60 === 0) {
-                updateWeatherFromCache();
-            }
-        }, 1000);
-
-        // =========================================================================
-        // --- 5. تحديث كافة الشاشات والقوائم ---
-        // =========================================================================
-        function updateUI() {
-            const todosToday = db.todos.filter(t => t.date === todayStr);
-            const dashTodoCount = document.getElementById('dashTodoCount');
-            if (dashTodoCount) dashTodoCount.innerText = `${todosToday.length} مهام معلقة`;
-            
-            const dashTodosList = document.getElementById('dashTodosList');
-            if (dashTodosList) {
-                dashTodosList.innerHTML = todosToday.map(t => `
-                    <div class="list-row">
-                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
-                            <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--accent-color); width:18px; height:18px;">
-                            <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text}</span>
-                        </label>
-                        <button onclick="confirmDeleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">✖</button>
-                    </div>
-                `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد مهام مسجلة لليوم.</p>';
-            }
-
-            const todosAllList = document.getElementById('todosAllList');
-            if (todosAllList) {
-                todosAllList.innerHTML = db.todos.map(t => `
-                    <div class="list-row">
-                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
-                            <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--accent-color); width:18px; height:18px;">
-                            <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text}</span>
-                        </label>
-                        <button onclick="confirmDeleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
-                    </div>
-                `).join('') || '<p style="color:var(--text-secondary);">لا توجد مهام مؤرشفة.</p>';
-            }
-
-            const expToday = db.expenses.filter(e => e.date === todayStr);
-            let todayTotal = expToday.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0);
-            
-            const dashExpTotal = document.getElementById('dashExpensesTotal');
-            if (dashExpTotal) dashExpTotal.innerText = `${todayTotal} ₪`;
-            
-            const dashExpPreview = document.getElementById('dashExpensesPreview');
-            if (dashExpPreview) {
-                dashExpPreview.innerHTML = expToday.slice(0, 3).map(e => `
-                    <div class="list-row"><span>${e.desc}</span><strong style="color:var(--accent-red);">${e.amount} ₪</strong></div>
-                `).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لم تسجل مصاريف اليوم بعد.</p>';
-            }
-
-            let tDay = 0, tWeek = 0, tMonth = 0;
-            const now = new Date();
-            const cMonth = now.getMonth(), cYear = now.getFullYear();
-            db.expenses.forEach(ex => {
-                const exDate = new Date(ex.date);
-                const diffDays = (now - exDate) / (1000 * 60 * 60 * 24);
-                const amt = parseFloat(ex.amount || 0);
-                if(ex.date === todayStr) tDay += amt;
-                if(diffDays <= 7) tWeek += amt;
-                if(exDate.getMonth() === cMonth && exDate.getFullYear() === cYear) tMonth += amt;
-            });
-            
-            const statToday = document.getElementById('statToday');
-            const statWeek = document.getElementById('statWeek');
-            const statMonth = document.getElementById('statMonth');
-            const textMonthlySpent = document.getElementById('textMonthlySpent');
-
-            if (statToday) statToday.innerText = tDay + ' ₪';
-            if (statWeek) statWeek.innerText = tWeek + ' ₪';
-            if (statMonth) statMonth.innerText = tMonth + ' ₪';
-            if (textMonthlySpent) textMonthlySpent.innerText = `${tMonth.toLocaleString()} ₪`;
-
-            const expensesFullList = document.getElementById('expensesFullList');
-            if (expensesFullList) {
-                expensesFullList.innerHTML = db.expenses.map(e => `
-                    <div class="list-row"><div><strong>${e.desc}</strong><div style="font-size:11px; color:var(--text-secondary);">${e.date}</div></div><div style="display:flex; gap:8px; align-items:center;"><strong style="color:var(--accent-red);">${e.amount} ₪</strong><button onclick="confirmDeleteExpense(${e.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button></div></div>
-                `).join('') || '<p style="color:var(--text-secondary);">لا توجد مصاريف سابقة.</p>';
-            }
-
-            const subProgressEl = document.getElementById('dashSubscriptionsProgressList');
-            if (subProgressEl) {
-                subProgressEl.innerHTML = db.subscriptions.map(sub => {
-                    const start = new Date(sub.startDate || todayStr);
-                    const end = new Date(sub.endDate || todayStr);
-                    const today = new Date(todayStr);
-                    const totalDays = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)));
-                    const remainingDays = Math.max(0, Math.ceil((end - today) / (1000 * 60 * 60 * 24)));
-                    const progressPercent = Math.max(0, Math.min(100, (remainingDays / totalDays) * 100));
-                    return `<div class="sub-card-item"><div class="sub-header-row"><span>${sub.name}</span><strong style="color:var(--accent-color);">${sub.amount} ₪</strong></div><div class="sub-meta-row"><span>ينتهي: ${sub.endDate}</span><span style="font-weight:700; color:${remainingDays <= 3 ? 'var(--accent-red)' : 'var(--text-secondary)'};">متبقي ${remainingDays} يوم</span></div><div class="sub-progress-track"><div class="sub-progress-fill" style="width: ${progressPercent}%; background:${remainingDays <= 3 ? 'var(--accent-red)' : 'var(--accent-color)'};"></div></div></div>`;
-                }).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد اشتراكات مسجلة حالياً.</p>';
-            }
-
-            const billsAndSubsList = document.getElementById('billsAndSubsList');
-            if (billsAndSubsList) {
-                let combinedBills = '';
-                db.fixed_bills.forEach(b => { combinedBills += `<div class="list-row"><div><strong>${b.type} (فاتورة)</strong><div style="font-size:11px; color:var(--text-secondary);">${b.date}</div></div><div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--accent-color);">${b.amount} ₪</strong><button onclick="confirmDeleteBill(${b.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button></div></div>`; });
-                db.subscriptions.forEach(s => { combinedBills += `<div class="list-row"><div><strong>${s.name} (اشتراك)</strong><div style="font-size:11px; color:var(--text-secondary);">ينتهي: ${s.endDate || s.renewalDate || 'شهري'}</div></div><div style="display:flex; align-items:center; gap:8px;"><strong style="color:var(--accent-green);">${s.amount} ₪</strong><button onclick="confirmDeleteSub(${s.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button></div></div>`; });
-                billsAndSubsList.innerHTML = combinedBills || '<p style="color:var(--text-secondary);">لا توجد فواتير أو اشتراكات مسجلة.</p>';
-            }
-
-            const notesFullList = document.getElementById('notesFullList');
-            if (notesFullList) {
-                notesFullList.innerHTML = db.notes.map(n => `
-                    <div style="background:var(--surface-inner); padding:14px; border-radius:var(--radius-input); margin-bottom:10px; border:1px solid var(--border-subtle);">
-                        <div style="display:flex; justify-content:space-between; align-items:center;"><strong>${n.title}</strong><button onclick="confirmDeleteNote(${n.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button></div>
-                        ${n.body ? `<p style="font-size:13px; color:var(--text-secondary); margin-top:6px; line-height:1.6;">${n.body}</p>` : ''}
-                        ${n.audioData ? `<audio controls src="${n.audioData}" style="width:100%; height:32px; margin-top:8px;"></audio>` : ''}
-                    </div>
-                `).join('') || '<p style="color:var(--text-secondary);">لا توجد ملاحظات.</p>';
-            }
-
-            const vaultFullList = document.getElementById('vaultFullList');
-            if (vaultFullList) {
-                vaultFullList.innerHTML = db.vault.map(v => `
-                    <div class="list-row" style="align-items:flex-start;">
-                        <div>
-                            <strong>${v.accountName}</strong>
-                            ${v.username ? `<div style="font-size:12px; color:var(--text-secondary); margin-top:2px;">المستخدم: ${v.username}</div>` : ''}
-                            <div style="font-size:12px; color:var(--accent-red); font-family:monospace; margin-top:2px;">الرقم: ${v.password}</div>
-                            ${v.note ? `<div style="font-size:11px; color:var(--text-tertiary); margin-top:4px;">ملاحظة: ${v.note}</div>` : ''}
-                        </div>
-                        <button onclick="confirmDeleteVault(${v.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
-                    </div>
-                `).join('') || '<p style="color:var(--text-secondary);">الخزنة فارغة.</p>';
-            }
-
-            const docsFullList = document.getElementById('docsFullList');
-            if (docsFullList) {
-                docsFullList.innerHTML = db.documents.map(d => `
-                    <div class="list-row"><div><strong>${d.name}</strong><div style="font-size:12px; color:var(--text-secondary);">تنتهي: ${d.expiryDate}</div></div><button onclick="confirmDeleteDoc(${d.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button></div>
-                `).join('') || '<p style="color:var(--text-secondary);">لا توجد وثائق مسجلة.</p>';
-            }
-
-            renderPrayersAndReminders();
-        }
-
-        function finalizeAction() {
-            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
-            saveToCloud();
-            updateUI();
-        }
-
-        function toggleTodo(id) { const t = db.todos.find(x => x.id === id); if(t) { t.done = !t.done; finalizeAction(); } }
-        function confirmDeleteTodo(id) { if(confirm('هل تريد حذف هذه المهمة؟')) { db.todos = db.todos.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteBill(id) { if(confirm('هل تريد حذف الفاتورة؟')) { db.fixed_bills = db.fixed_bills.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteSub(id) { if(confirm('هل تريد حذف الاشتراك؟')) { db.subscriptions = db.subscriptions.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteDoc(id) { if(confirm('هل تريد حذف الوثيقة؟')) { db.documents = db.documents.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteVault(id) { if(confirm('هل تريد الحذف من الخزنة؟')) { db.vault = db.vault.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteNote(id) { if(confirm('هل تريد حذف الملاحظة؟')) { db.notes = db.notes.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteExpense(id) { if(confirm('هل تريد حذف المصروف؟')) { db.expenses = db.expenses.filter(x => x.id !== id); finalizeAction(); } }
-
-        function toggleTheme() {
-            db.settings.darkMode = !db.settings.darkMode;
-            applyThemeUI();
-            finalizeAction();
-        }
-
-        function openModalAction(type) {
-            closeTopDropdown();
-            const modal = document.getElementById('actionModal');
-            const container = document.getElementById('modalFormContainer');
-
-            if (type === 'alarm') {
-                container.innerHTML = `
-                    <input type="number" id="actAlarmMins" placeholder="عدد الدقائق (مثال: 15)..." class="app-input" required>
-                    <input type="text" id="actAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
-                    <button type="button" onclick="submitActAlarm()" class="btn-action">ضبط التنبيه</button>
-                `;
-            } else if (type === 'todo') {
-                container.innerHTML = `<input type="text" id="actTodoText" placeholder="اكتب المهمة..." class="app-input" required><button type="button" onclick="submitActTodo()" class="btn-action">حفظ المهمة</button>`;
-            } else if (type === 'expense') {
-                container.innerHTML = `<input type="text" id="actExpDesc" placeholder="ماذا اشتريت؟" class="app-input" required><input type="number" id="actExpAmount" placeholder="المبلغ (₪)" class="app-input" required><button type="button" onclick="submitActExpense()" class="btn-action">تسجيل المصروف</button>`;
-            } else if (type === 'subscription') {
-                container.innerHTML = `<input type="text" id="actSubName" placeholder="اسم الاشتراك..." class="app-input" required><input type="number" id="actSubAmount" placeholder="المبلغ (₪)" class="app-input" required><label style="font-size:12px; display:block; margin-bottom:4px;">تاريخ بدء الاشتراك:</label><input type="date" id="actSubStartDate" value="${todayStr}" class="app-input"><label style="font-size:12px; display:block; margin-bottom:4px;">تاريخ انتهاء الاشتراك:</label><input type="date" id="actSubEndDate" class="app-input" required><button type="button" onclick="submitActSub()" class="btn-action">حفظ الاشتراك</button>`;
-            } else if (type === 'bill') {
-                container.innerHTML = `<select id="actBillType" class="app-input"><option value="كهرباء">كهرباء</option><option value="ماء">ماء</option><option value="إنترنت">إنترنت</option><option value="أخرى">أخرى</option></select><input type="number" id="actBillAmount" placeholder="المبلغ (₪)" class="app-input" required><button type="button" onclick="submitActBill()" class="btn-action">حفظ الفاتورة</button>`;
-            } else if (type === 'note') {
-                container.innerHTML = `<input type="text" id="actNoteTitle" placeholder="عنوان الملاحظة..." class="app-input"><textarea id="actNoteBody" rows="3" placeholder="نص الملاحظة..." class="app-input" required></textarea><button type="button" onclick="submitActNote()" class="btn-action">حفظ الملاحظة</button>`;
-            } else if (type === 'vault') {
-                container.innerHTML = `<input type="text" id="actVaultName" placeholder="اسم الحساب / الموقع" class="app-input" required><input type="text" id="actVaultUser" placeholder="اسم المستخدم / الإيميل" class="app-input"><input type="password" id="actVaultPass" placeholder="كلمة المرور" class="app-input" required><textarea id="actVaultNote" rows="2" placeholder="ملاحظات وتفاصيل إضافية..." class="app-input"></textarea><button type="button" onclick="submitActVault()" class="btn-action">حفظ بالخزنة</button>`;
-            } else if (type === 'doc') {
-                container.innerHTML = `<input type="text" id="actDocName" placeholder="اسم الوثيقة..." class="app-input" required><input type="date" id="actDocExpiry" class="app-input" required><button type="button" onclick="submitActDoc()" class="btn-action">حفظ الوثيقة</button>`;
-            }
-            modal.classList.add('active');
-        }
-
-        function closeModalAction() { document.getElementById('actionModal').classList.remove('active'); }
-        function submitActAlarm() { const mins = document.getElementById('actAlarmMins').value; const title = document.getElementById('actAlarmTitle').value; if (!mins) return; addReminderFast(parseInt(mins), title); closeModalAction(); }
-        function submitActTodo() { const text = document.getElementById('actTodoText').value; if (!text.trim()) return; db.todos.push({ id: Date.now(), text: text.trim(), done: false, date: todayStr }); finalizeAction(); closeModalAction(); }
-        function submitActExpense() { const desc = document.getElementById('actExpDesc').value; const amount = document.getElementById('actExpAmount').value; if (!desc || !amount) return; db.expenses.push({ id: Date.now(), desc: desc.trim(), amount: amount, date: todayStr }); finalizeAction(); closeModalAction(); }
-        function submitActSub() { const name = document.getElementById('actSubName').value; const amount = document.getElementById('actSubAmount').value; const s = document.getElementById('actSubStartDate').value; const e = document.getElementById('actSubEndDate').value; if (!name || !amount || !e) return; db.subscriptions.push({ id: Date.now(), name: name.trim(), amount: amount, startDate: s, endDate: e }); finalizeAction(); closeModalAction(); }
-        function submitActBill() { const type = document.getElementById('actBillType').value; const amount = document.getElementById('actBillAmount').value; if (!amount) return; db.fixed_bills.push({ id: Date.now(), type: type, amount: amount, date: todayStr }); finalizeAction(); closeModalAction(); }
-        function submitActNote() { const body = document.getElementById('actNoteBody').value; if (!body.trim()) return; db.notes.push({ id: Date.now(), title: document.getElementById('actNoteTitle').value || 'ملاحظة', body: body }); finalizeAction(); closeModalAction(); }
-        function submitActVault() { const name = document.getElementById('actVaultName').value; const user = document.getElementById('actVaultUser').value; const pass = document.getElementById('actVaultPass').value; const note = document.getElementById('actVaultNote').value; if (!name || !pass) return; db.vault.push({ id: Date.now(), accountName: name, username: user, password: pass, note: note }); finalizeAction(); closeModalAction(); }
-        function submitActDoc() { const name = document.getElementById('actDocName').value; const exp = document.getElementById('actDocExpiry').value; if (!name || !exp) return; db.documents.push({ id: Date.now(), name: name, expiryDate: exp }); finalizeAction(); closeModalAction(); }
-        function handleQuickTodo(e) { e.preventDefault(); const input = document.getElementById('todoInputTab'); if(!input.value.trim()) return; db.todos.push({ id: Date.now(), text: input.value.trim(), done: false, date: todayStr }); input.value = ''; finalizeAction(); }
-
-        // --- 6. مسجل الصوت والاقتراحات الذكية ---
-        let mediaRec = null; let audioParts = []; let recTimer = null; let recSec = 0; let speechRecognizer = null;
-        function handleDockMicClick(btnEl) { switchNavSection('notes-view', btnEl); startVoiceRecording(); }
-        
-        async function startVoiceRecording() {
-            closeTopDropdown(); lastSpokenText = '';
-            try { 
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition; 
-                if (SpeechRecognition) { 
-                    speechRecognizer = new SpeechRecognition(); 
-                    speechRecognizer.lang = 'ar-SA'; 
-                    speechRecognizer.onresult = (e) => { lastSpokenText = e.results[0][0].transcript; }; 
-                    try { speechRecognizer.start(); } catch(err) {} 
-                } 
-            } catch(e) {}
-
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                audioParts = []; recSec = 0; mediaRec = new MediaRecorder(stream);
-                mediaRec.ondataavailable = e => audioParts.push(e.data);
-                mediaRec.onstop = () => {
-                    if (speechRecognizer) { try { speechRecognizer.stop(); } catch(e){} }
-                    const reader = new FileReader();
-                    reader.onloadend = () => { 
-                        db.notes.push({ id: Date.now(), title: `🎙️ تسجيل صوتي خام`, audioData: reader.result, body: lastSpokenText ? `النص: ${lastSpokenText}` : 'تسجيل صوتي خام', date: todayStr }); 
-                        finalizeAction(); 
-                        showSmartSuggestions(lastSpokenText); 
-                    };
-                    reader.readAsDataURL(new Blob(audioParts, { type: 'audio/webm' }));
-                    stream.getTracks().forEach(t => t.stop());
-                };
-                mediaRec.start(); 
-                document.getElementById('voiceModal').classList.add('active');
-                recTimer = setInterval(() => { 
-                    recSec++; 
-                    document.getElementById('recordTimer').innerText = `${String(Math.floor(recSec/60)).padStart(2,'0')}:${String(recSec%60).padStart(2,'0')}`; 
-                }, 1000);
-            } catch (err) { alert('تعذر الوصول إلى الميكروفون.'); }
-        }
-
-        function stopAndSaveVoiceRecording() { clearInterval(recTimer); document.getElementById('voiceModal').classList.remove('active'); if (mediaRec && mediaRec.state !== 'inactive') mediaRec.stop(); }
-        function cancelVoiceRecording() { clearInterval(recTimer); document.getElementById('voiceModal').classList.remove('active'); if (speechRecognizer) { try { speechRecognizer.stop(); } catch(e){} } if (mediaRec && mediaRec.state !== 'inactive') { mediaRec.stream.getTracks().forEach(t => t.stop()); mediaRec = null; } }
-        
-        function showSmartSuggestions(text) {
-            const textEl = document.getElementById('transcribedVoiceText');
-            const container = document.getElementById('smartSuggestionsContainer');
-            textEl.innerText = text ? `"${text}"` : "لم يتم تمييز كلمات بوضوح";
-            let html = '';
-            const lower = (text || '').toLowerCase();
-            const numbers = text.match(/\d+/) ;
-            if (numbers && (lower.includes('اشتريت') || lower.includes('سعر') || lower.includes('بـ') || lower.includes('دفعت') || lower.includes('شيكل'))) {
-                html += `<button class="btn-action" onclick="executeSmartAction('expense', '${text}', ${numbers[0]})" style="background:var(--accent-red);">💸 تسجيل شراء جديد بمبلغ (${numbers[0]} ₪)</button>`;
-            }
-            const timeMatch = text.match(/(\d+)\s*(دقيقة|دقائق|ساعة|ساعات)/);
-            if (timeMatch) {
-                const totalMins = timeMatch[2].includes('ساعة') ? parseInt(timeMatch[1]) * 60 : parseInt(timeMatch[1]);
-                html += `<button class="btn-action" onclick="executeSmartAction('alarm', '${text}', ${totalMins})" style="background:var(--accent-color);">⏰ إضافة تنبيه سريع للشراء بعد ${timeMatch[1]} ${timeMatch[2]}</button>`;
-            }
-            html += `<button class="btn-action" onclick="executeSmartAction('note', '${text}')" style="background:var(--surface-inner); color:var(--text-primary);">📝 تسجيل ملاحظة سريعة</button>`;
-            container.innerHTML = html;
-            document.getElementById('postRecordingModal').classList.add('active');
-        }
-        function closePostRecordingModal() { document.getElementById('postRecordingModal').classList.remove('active'); }
-        function executeSmartAction(type, text, param = null) {
-            document.getElementById('postRecordingModal').classList.remove('active');
-            if (type === 'expense') { db.expenses.push({ id: Date.now(), desc: text, amount: param, date: todayStr }); finalizeAction(); } 
-            else if (type === 'alarm') { addReminderFast(param, text); } 
-            else if (type === 'note') { db.todos.push({ id: Date.now(), text: `ملاحظة: ${text}`, done: false, date: todayStr }); finalizeAction(); }
-        }
-
-        // --- التنقل وزر الرجوع لنظام أندرويد ---
-        function switchNavSection(viewId, btnEl) {
-            closeTopDropdown(); 
-            document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.samsung-dock-item').forEach(b => b.classList.remove('active'));
-            const target = document.getElementById(viewId); 
-            if(target) target.classList.add('active');
-            if(btnEl) btnEl.classList.add('active'); 
-            window.scrollTo({ top: 0, behavior: 'smooth' }); 
-            updateUI();
-        }
-
-        function openAuthModal() {
-            if (currentUser) {
-                if (confirm(`تسجيل الخروج من ${currentUser.email}؟`)) {
-                    firebase.auth().signOut().then(() => {
-                        db.cachedFeeds.cachedUser = null;
-                        finalizeAction();
-                        showToast('تم تسجيل الخروج');
-                    });
-                }
-            } else {
-                document.getElementById('authModal').classList.add('active');
-            }
-        }
-
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.remove('active');
-        }
-
-        function toggleTopDropdown() { document.getElementById('topDropdownMenu').classList.toggle('open'); }
-        function closeTopDropdown() { const el = document.getElementById('topDropdownMenu'); if (el) el.classList.remove('open'); }
-
-        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
-            window.Capacitor.Plugins.App.removeAllListeners('backButton').then(() => {
-                window.Capacitor.Plugins.App.addListener('backButton', () => {
-                    if (document.getElementById('timerManageModal').classList.contains('active')) { closeManageTimerModal(); return; }
-                    if (document.getElementById('postRecordingModal').classList.contains('active')) { closePostRecordingModal(); return; }
-                    if (document.getElementById('authModal').classList.contains('active')) { closeAuthModal(); return; }
-                    if (document.getElementById('actionModal').classList.contains('active')) { closeModalAction(); return; }
-                    if (document.getElementById('voiceModal').classList.contains('active')) { cancelVoiceRecording(); return; }
-                    if (document.getElementById('topDropdownMenu').classList.contains('open')) { closeTopDropdown(); return; }
-                    const currentActive = document.querySelector('.section-view.active');
-                    if (currentActive && currentActive.id !== 'dashboard-view') { 
-                        switchNavSection('dashboard-view', document.getElementById('btnDockHome')); 
-                        return; 
-                    }
-                    window.Capacitor.Plugins.App.exitApp();
-                });
-            }).catch(() => {});
-        }
-
-        // =========================================================================
-        // --- 6. الإقلاع الفوري المستقر للواجهة ---
+        // --- 7. الإقلاع الفوري المستقر للواجهة ---
         // =========================================================================
         applyThemeUI();
         initNativeNotifications();
         loadAccuratePrayers();
         syncFeeds();
         updateUI();
+        checkNativeOptimizationStatus();
     </script>
 </body>
 </html>
