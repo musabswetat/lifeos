@@ -17,9 +17,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
-        /* =========================================================
-           📱 نظام الثيمات الجذري المتطابق مع هويات أنظمة الهواتف
-           ========================================================= */
         :root {
             --bg-canvas: #121212;
             --surface-card: #1E1E1E;
@@ -41,7 +38,6 @@
             --card-backdrop: none;
         }
 
-        /* 1. ثيم سامسونج One UI */
         body.theme-oneui {
             --radius-card: 26px; --radius-input: 14px; --accent-color: #007AFF;
             --bg-canvas: #121212; --surface-card: #1E1E1E; --surface-inner: #282828;
@@ -53,7 +49,6 @@
             --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
 
-        /* 2. ثيم آبل آيفون iOS */
         body.theme-iphone {
             --radius-card: 22px; --radius-input: 12px; --accent-color: #0A84FF;
             --bg-canvas: #000000; --surface-card: rgba(28, 28, 30, 0.85); --surface-inner: rgba(44, 44, 46, 0.8);
@@ -66,7 +61,6 @@
             --shadow-subtle: 0 8px 24px rgba(0,0,0,0.06);
         }
 
-        /* 3. ثيم جوجل بكسل */
         body.theme-pixel {
             --radius-card: 32px; --radius-input: 20px; --accent-color: #A8C7FA;
             --bg-canvas: #131314; --surface-card: #1F1F23; --surface-inner: #2B2B30;
@@ -77,7 +71,6 @@
             --border-subtle: #CAC4D0; --text-primary: #1D1B20; --text-secondary: #49454F; --accent-color: #6750A4;
         }
 
-        /* 4. ثيم أوبونتو */
         body.theme-ubuntu {
             --radius-card: 10px; --radius-input: 8px; --accent-color: #E95420;
             --bg-canvas: #1B1817; --surface-card: #2D2A28; --surface-inner: #3C3835;
@@ -88,7 +81,6 @@
             --border-subtle: #D5D3D1; --text-primary: #111111; --text-secondary: #5E5C5B; --accent-color: #E95420;
         }
 
-        /* 5. ثيم لينكس */
         body.theme-linux {
             --font-family: "Courier New", monospace; --radius-card: 4px; --radius-input: 2px;
             --accent-color: #00FF66; --accent-green: #00FF66; --accent-red: #FF3333;
@@ -100,7 +92,6 @@
             --border-subtle: #117733; --text-primary: #0A5522; --text-secondary: #2E6641; --accent-color: #117733;
         }
 
-        /* 6. ثيم إنفنيكس */
         body.theme-infinix {
             --radius-card: 18px; --radius-input: 12px; --accent-color: #00FF9D;
             --bg-canvas: #090C10; --surface-card: #121820; --surface-inner: #1B2430;
@@ -111,7 +102,6 @@
             --border-subtle: #D0D9E6; --text-primary: #0C1E36; --text-secondary: #5A6D84; --accent-color: #00B36B;
         }
 
-        /* 7. ثيم شاومي HyperOS */
         body.theme-mi {
             --radius-card: 20px; --radius-input: 14px; --accent-color: #FF6900;
             --bg-canvas: #0F1012; --surface-card: #1B1C20; --surface-inner: #26282E;
@@ -144,7 +134,6 @@
             box-sizing: border-box;
         }
 
-        /* الشريط العلوي */
         .oneui-top-bar {
             display: flex;
             align-items: center;
@@ -160,11 +149,7 @@
             align-items: center;
             gap: 6px;
         }
-        .top-actions-cluster {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .top-actions-cluster { display: flex; align-items: center; gap: 8px; }
         .top-action-btn {
             background: transparent;
             border: none;
@@ -211,7 +196,6 @@
         .oneui-sub-text { font-size: 13px; color: var(--text-secondary); font-weight: 500; margin-top:4px; }
         .oneui-currency-line { font-size: 13px; color: var(--text-secondary); font-weight: 500; margin-top: 3px; }
 
-        /* البطاقات والتبويبات */
         .section-label {
             font-size: 13px;
             font-weight: 700;
@@ -233,7 +217,6 @@
         .section-view.active { display: block; animation: oneuiFade 0.25s ease; }
         @keyframes oneuiFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* العداد الدائري */
         .circular-timer-wrapper {
             display: flex;
             flex-direction: column;
@@ -266,7 +249,6 @@
         .timer-time-large { font-size: 22px; font-weight: 800; color: var(--text-primary); text-align: center; }
         .timer-label-sub { font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-top: 2px; text-align: center; }
 
-        /* عناصر القوائم */
         .list-row {
             display: flex;
             justify-content: space-between;
@@ -298,7 +280,6 @@
         .sub-progress-track { width: 100%; height: 6px; background: var(--surface-inner); border-radius: var(--radius-pill); overflow: hidden; margin-top: 8px; }
         .sub-progress-fill { height: 100%; background: var(--accent-color); border-radius: var(--radius-pill); transition: width 0.4s ease; }
 
-        /* شريط التنقل السفلي */
         .samsung-dock-container {
             position: fixed;
             bottom: 16px;
@@ -333,7 +314,6 @@
         }
         .samsung-dock-item.active { background: var(--surface-inner); color: var(--text-primary); }
 
-        /* المدخلات والنوافذ */
         .app-input {
             padding: 12px 14px;
             background: var(--surface-inner) !important;
@@ -475,7 +455,7 @@
             <div class="oneui-title-hero-row">
                 <div class="oneui-title-hero" id="heroGreetingTitle">طاب يومك.</div>
                 <button id="editNameBtn" class="edit-name-icon-btn" onclick="promptEditDisplayName()">
-                    <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
                 </button>
             </div>
             <div class="oneui-sub-text" id="oneuiSubInfo">
@@ -486,7 +466,7 @@
             </div>
         </div>
 
-        <!-- 🏠 1. تبويب الرئيسية الشامل -->
+        <!-- 🏠 1. تبويب الرئيسية -->
         <div id="dashboard-view" class="section-view active">
             
             <div class="section-label">التنبيهات المباشرة</div>
@@ -520,7 +500,6 @@
                 <div id="dashRemindersPreview"></div>
             </div>
 
-            <!-- أقسام الإدارة السريعة -->
             <div class="section-label">مهام اليوم</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
@@ -734,7 +713,7 @@
         </div>
     </div>
 
-    <!-- نافذة الإضافة الموحدة (نظام الدقائق واسم التنبيه فقط) -->
+    <!-- نافذة الإضافة الموحدة (دقائق واسم فقط) -->
     <div class="modal-overlay" id="actionModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
@@ -747,7 +726,7 @@
 
     <script>
         // =========================================================================
-        // --- 1. إعدادات وتجهيز البيانات المحلية و Firebase المقاومة لانقطاع النت ---
+        // --- 1. البيانات والحساب والمزامنة السحابية ---
         // =========================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCxalyr_Xa7IeSuT8enh6MCu2a1h5HvBWY",
@@ -777,11 +756,10 @@
                 } 
             });
             if (!data.settings) data.settings = { darkMode: false, displayName: '', theme: 'oneui' };
-            // ذاكرة التخزين المؤقت للبيانات السحابية للطقس والعملات والحساب
             if (!data.cachedFeeds) data.cachedFeeds = {
                 weatherHourly: null,
                 weatherLastFetch: 0,
-                rates: { USD: 3.65, JOD: 5.15, EUR: 3.95 },
+                rates: { USD: "3.65", JOD: "5.15", EUR: "3.95" },
                 ratesLastFetch: 0,
                 cachedUser: null
             };
@@ -790,7 +768,8 @@
 
         let localRaw = '{}';
         try { localRaw = localStorage.getItem('myLifeAppDB') || '{}'; } catch(e) {}
-        let db = normalizeDB(JSON.parse(localRaw));
+        let db;
+        try { db = normalizeDB(JSON.parse(localRaw)); } catch(e) { db = normalizeDB({}); }
         const todayStr = new Date().toISOString().split('T')[0];
         let livePrayersList = [];
 
@@ -806,7 +785,7 @@
             if (userDbRef && navigator.onLine) {
                 const cloudPayload = JSON.parse(JSON.stringify(db));
                 cloudPayload.notes.forEach(n => { delete n.audioData; });
-                delete cloudPayload.cachedFeeds; // لا حاجة لرفع كاش الفيد للسحابة
+                delete cloudPayload.cachedFeeds;
                 userDbRef.set(cloudPayload).catch(() => {});
             }
         }
@@ -836,55 +815,50 @@
             finalizeAction();
         }
 
-        // تثبيت جلسة الحساب في التخزين المحلي فوراً بدون تسجيل خروج تلقائي
-        function initFirebase() {
+        // تهيئة Firebase الآمنة مع استبقاء الجلسة
+        try {
             if (typeof firebase !== 'undefined') {
-                try {
-                    if (!firebase.apps || !firebase.apps.length) {
-                        firebase.initializeApp(firebaseConfig);
-                    }
-                    // تثبيت جلسة المستخدم دائماً
-                    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(()=>{});
-
-                    firebase.auth().onAuthStateChanged(async (user) => {
-                        if (user) {
-                            if (!user.emailVerified) { 
-                                try { await firebase.auth().signOut(); } catch(e){}
-                                return; 
-                            }
-                            currentUser = user;
-                            db.cachedFeeds.cachedUser = { uid: user.uid, email: user.email, displayName: user.displayName };
-                            finalizeAction();
-
-                            userDbRef = firebase.database().ref(`users/${user.uid}/data`);
-                            userDbRef.on('value', (snapshot) => {
-                                const data = snapshot.val();
-                                if (data) {
-                                    const feeds = db.cachedFeeds;
-                                    db = normalizeDB(data);
-                                    db.cachedFeeds = feeds; 
-                                    try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
-                                    applyThemeUI(); 
-                                    updateUI();
-                                } else { 
-                                    saveToCloud(); 
-                                }
-                            });
-                            updateAuthProfileUI(user);
-                        } else {
-                            if (!navigator.onLine && db.cachedFeeds.cachedUser) {
-                                updateAuthProfileUI(db.cachedFeeds.cachedUser);
-                            } else {
-                                currentUser = null; 
-                                userDbRef = null; 
-                                updateAuthProfileUI(null);
-                            }
-                        }
-                    });
-                } catch(e) {
-                    console.warn("Firebase Notice:", e);
+                if (!firebase.apps || !firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
                 }
+                firebase.auth().onAuthStateChanged(async (user) => {
+                    if (user) {
+                        if (!user.emailVerified) { 
+                            try { await firebase.auth().signOut(); } catch(e){}
+                            return; 
+                        }
+                        currentUser = user;
+                        db.cachedFeeds.cachedUser = { uid: user.uid, email: user.email, displayName: user.displayName };
+                        finalizeAction();
+
+                        userDbRef = firebase.database().ref(`users/${user.uid}/data`);
+                        userDbRef.on('value', (snapshot) => {
+                            const data = snapshot.val();
+                            if (data) {
+                                const feeds = db.cachedFeeds;
+                                db = normalizeDB(data);
+                                db.cachedFeeds = feeds; 
+                                try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
+                                applyThemeUI(); 
+                                updateUI();
+                            } else { 
+                                saveToCloud(); 
+                            }
+                        });
+                        updateAuthProfileUI(user);
+                    } else {
+                        if (!navigator.onLine && db.cachedFeeds.cachedUser) {
+                            updateAuthProfileUI(db.cachedFeeds.cachedUser);
+                        } else {
+                            currentUser = null; 
+                            userDbRef = null; 
+                            updateAuthProfileUI(null);
+                        }
+                    }
+                });
             }
+        } catch(e) {
+            console.warn("Firebase Notice:", e);
         }
 
         function updateAuthProfileUI(user) {
@@ -911,7 +885,7 @@
         }
 
         async function submitUserLogin() {
-            if (!navigator.onLine) return alert('يجب توفر اتصال بالإنترنت لتسجيل الدخول لأول مرة.');
+            if (!navigator.onLine) return alert('يجب توفر اتصال بالإنترنت لتسجيل الدخول.');
             const email = document.getElementById('authEmail').value.trim();
             const pass = document.getElementById('authPassword').value;
             if (!email || !pass) return alert('يرجى كتابة البريد وكلمة المرور');
@@ -941,20 +915,20 @@
         async function handleForgotPassword() {
             if (!navigator.onLine) return alert('يجب توفر اتصال بالإنترنت لاستعادة كلمة المرور.');
             const email = document.getElementById('authEmail').value.trim();
-            if (!email) { alert('اكتب بريدك في حقل الإيميل أولاً.'); document.getElementById('authEmail').focus(); return; }
-            try { await firebase.auth().sendPasswordResetEmail(email); alert('تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك.'); } 
+            if (!email) { alert('اكتب بريدك أولاً.'); document.getElementById('authEmail').focus(); return; }
+            try { await firebase.auth().sendPasswordResetEmail(email); alert('تم إرسال رابط إعادة تعيين كلمة المرور.'); } 
             catch (err) { alert('فشل الإرسال: ' + err.message); }
         }
 
         async function resendVerificationEmail() {
-            if (!navigator.onLine) return alert('يجب توفر اتصال بالإنترنت لطلب رابط التفعيل.');
+            if (!navigator.onLine) return alert('يجب توفر اتصال بالإنترنت.');
             const email = document.getElementById('authEmail').value.trim();
             const pass = document.getElementById('authPassword').value;
             if (!email || !pass) { alert('اكتب البريد وكلمة المرور أولاً.'); return; }
             try {
                 const userCred = await firebase.auth().signInWithEmailAndPassword(email, pass);
-                if (!userCred.user.emailVerified) { await userCred.user.sendEmailVerification(); alert('تم إعادة إرسال التفعيل.'); }
-                else { alert('هذا الحساب مفعل مسبقاً!'); }
+                if (!userCred.user.emailVerified) { await userCred.user.sendEmailVerification(); alert('تم إعادة إرسال رابط التفعيل.'); }
+                else { alert('الحساب مفعل بالفعل!'); }
                 await firebase.auth().signOut();
             } catch (e) { alert('تعذر الإرسال: ' + e.message); }
         }
@@ -973,7 +947,7 @@
         }
 
         // =========================================================================
-        // --- 🛡️ 2. محرك التنبيهات المعتمد لأندرويد في الخلفية التامة ---
+        // --- 2. محرك التنبيهات المعتمد الأصلي لأندرويد في الخلفية ---
         // =========================================================================
         function getNativePlugin() {
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
@@ -1002,7 +976,7 @@
                     lights: true
                 });
             } catch (e) {
-                console.error("Notification channel error:", e);
+                console.error("Channel error:", e);
             }
         }
 
@@ -1045,6 +1019,16 @@
 
         function requestBatteryOptimizationExemption() {
             alert('لضمان عمل المنبه بدقة متناهية والتطبيق مغلق:\n\n1. اذهب لإعدادات البطارية بالهاتف واختر تطبيق LifeOS.\n2. اختر "غير مقيد" (Unrestricted).\n3. تأكد من تفعيل "التشغيل التلقائي" (Autostart) إن وجد.');
+        }
+
+        function formatTime(ms) {
+            if (ms <= 0) return '00:00';
+            const s = Math.floor(ms / 1000);
+            const hrs = Math.floor(s / 3600);
+            const mins = Math.floor((s % 3600) / 60);
+            const secs = s % 60;
+            if (hrs > 0) return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
 
         function addReminderFast(mins, title = '') {
@@ -1123,10 +1107,8 @@
         }
 
         // =========================================================================
-        // --- 3. محرك الطقس المتكامل بالساعات والعملات (Offline-First مع كاش محلي) ---
+        // --- 3. محرك الطقس التنبؤي بالساعات والعملات ---
         // =========================================================================
-        
-        // رموز الطقس حسب المعيار العالمي WMO
         function getWeatherIcon(code) {
             if (code === 0) return '☀️ مشمس';
             if (code <= 3) return '⛅ غائم جزئياً';
@@ -1137,30 +1119,31 @@
             return '⛈️ عاصف';
         }
 
-        // فحص الطقس محلياً حسب الساعة الحالية من المخطط المخزن
         function updateWeatherFromCache() {
             const el = document.getElementById('textWeather');
-            if (!el || !db.cachedFeeds || !db.cachedFeeds.weatherHourly) return;
+            if (!el) return;
 
-            const now = new Date();
-            const currentHourISO = now.toISOString().slice(0, 13) + ':00'; // صيغة YYYY-MM-DDTHH:00
+            if (db.cachedFeeds && db.cachedFeeds.weatherHourly) {
+                const now = new Date();
+                const currentHourISO = now.toISOString().slice(0, 13) + ':00';
+                const times = db.cachedFeeds.weatherHourly.time || [];
+                const temps = db.cachedFeeds.weatherHourly.temperature_2m || [];
+                const codes = db.cachedFeeds.weatherHourly.weather_code || [];
 
-            const times = db.cachedFeeds.weatherHourly.time || [];
-            const temps = db.cachedFeeds.weatherHourly.temperature_2m || [];
-            const codes = db.cachedFeeds.weatherHourly.weather_code || [];
+                let index = times.findIndex(t => t.startsWith(currentHourISO));
+                if (index === -1) index = 0;
 
-            let index = times.findIndex(t => t.startsWith(currentHourISO));
-            if (index === -1) index = 0; // البديل التلقائي
-
-            if (temps[index] !== undefined) {
-                const temp = Math.round(temps[index]);
-                const icon = getWeatherIcon(codes[index] || 0);
-                el.innerText = `${temp}°C ${icon}`;
+                if (temps[index] !== undefined) {
+                    const temp = Math.round(temps[index]);
+                    const icon = getWeatherIcon(codes[index] || 0);
+                    el.innerText = `${temp}°C ${icon}`;
+                    return;
+                }
             }
         }
 
         function renderCurrenciesUI() {
-            const rates = db.cachedFeeds.rates || { USD: 3.65, JOD: 5.15, EUR: 3.95 };
+            const rates = (db.cachedFeeds && db.cachedFeeds.rates) ? db.cachedFeeds.rates : { USD: "3.65", JOD: "5.15", EUR: "3.95" };
             const usd = document.getElementById('textUSD');
             const jod = document.getElementById('textJOD');
             const eur = document.getElementById('textEUR');
@@ -1169,18 +1152,16 @@
             if (eur) eur.innerText = rates.EUR;
         }
 
-        // مزامنة صامتة دون مسح البيانات الحالية
         async function syncFeeds() {
             renderCurrenciesUI();
             updateWeatherFromCache();
 
-            if (!navigator.onLine) return; // لا إنترنت = الاعتماد التام على الكاش السابق
+            if (!navigator.onLine) return;
 
             const now = Date.now();
             const oneHour = 60 * 60 * 1000;
             const oneDay = 24 * 60 * 60 * 1000;
 
-            // 1. جلب مخطط الطقس بالساعات (48 ساعة للأمام من أفضل نموذج DWD / Open-Meteo)
             if (now - (db.cachedFeeds.weatherLastFetch || 0) > oneHour || !db.cachedFeeds.weatherHourly) {
                 try {
                     const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&hourly=temperature_2m,weather_code&forecast_days=2&timezone=auto');
@@ -1194,7 +1175,6 @@
                 } catch(e) {}
             }
 
-            // 2. جلب أسعار العملات (مرة واحدة باليوم فقط من ExchangeRate-API الرسمي)
             if (now - (db.cachedFeeds.ratesLastFetch || 0) > oneDay) {
                 try {
                     const res = await fetch('https://open.er-api.com/v6/latest/ILS');
@@ -1213,14 +1193,13 @@
             }
         }
 
-        // مستمع لعودة الإنترنت للمزامنة السلسة تلقائياً
         window.addEventListener('online', () => {
             syncFeeds();
             saveToCloud();
         });
 
         // =========================================================================
-        // --- 4. الحساب الفلكي الرياضي المستقل للصلوات لجنين (يعمل بدون إنترنت 100%) ---
+        // --- 4. الحساب الفلكي الرياضي لجنين (مستقل وبدون نت 100%) ---
         // =========================================================================
         function calculatePalestinePrayerTimes(date = new Date()) {
             const lat = 32.4646; const lng = 35.2939; const tz = -date.getTimezoneOffset() / 60;
@@ -1290,7 +1269,7 @@
                 if (item.isPrayer) {
                     return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><span class="tag-badge ${isPending ? 'green' : ''}">${isPending ? `⏳ ${formatTime(item.targetTime - now)}` : '✅ تم'}</span></div>`;
                 } else {
-                    return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><div style="display:flex; align-items:center; gap:6px;"><button onclick="renameReminder(${item.id})" class="tag-badge" title="تسمية">✏️</button><span class="tag-badge">⏳ ${formatTime(item.targetTime - now)}</span><button onclick="confirmDeleteReminder(${item.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer; font-size:16px;" title="إلغاء">✖</button></div></div>`;
+                    return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><span class="tag-badge">⏳ ${formatTime(item.targetTime - now)}</span></div>`;
                 }
             }).join('') || '<p style="color:var(--text-secondary); text-align:center;">لا توجد صلوات أو تنبيهات قادمة</p>';
         }
@@ -1357,7 +1336,6 @@
             renderPrayersAndAlarmsCombined();
         }
 
-        // تحديث كل ثانية للمؤقتات، وتحديث فحص الطقس بالساعة الحالية من الكاش كل دقيقة
         let secCounter = 0;
         setInterval(() => {
             const now = Date.now();
@@ -1373,15 +1351,14 @@
 
             secCounter++;
             if (secCounter % 60 === 0) {
-                updateWeatherFromCache(); // تبديل درجة الحرارة أوتوماتيكياً مع تغير الساعة بدون إنترنت
+                updateWeatherFromCache();
             }
         }, 1000);
 
         // =========================================================================
-        // --- 5. تحديث الواجهة الشامل لجميع الأقسام ---
+        // --- 5. تحديث كافة الشاشات والقوائم ---
         // =========================================================================
         function updateUI() {
-            // المهام
             const todosToday = db.todos.filter(t => t.date === todayStr);
             const dashTodoCount = document.getElementById('dashTodoCount');
             if (dashTodoCount) dashTodoCount.innerText = `${todosToday.length} مهام معلقة`;
@@ -1412,7 +1389,6 @@
                 `).join('') || '<p style="color:var(--text-secondary);">لا توجد مهام مؤرشفة.</p>';
             }
 
-            // المصاريف
             const expToday = db.expenses.filter(e => e.date === todayStr);
             let todayTotal = expToday.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0);
             
@@ -1455,7 +1431,6 @@
                 `).join('') || '<p style="color:var(--text-secondary);">لا توجد مصاريف سابقة.</p>';
             }
 
-            // الاشتراكات والفواتير
             const subProgressEl = document.getElementById('dashSubscriptionsProgressList');
             if (subProgressEl) {
                 subProgressEl.innerHTML = db.subscriptions.map(sub => {
@@ -1477,7 +1452,6 @@
                 billsAndSubsList.innerHTML = combinedBills || '<p style="color:var(--text-secondary);">لا توجد فواتير أو اشتراكات مسجلة.</p>';
             }
 
-            // الملاحظات
             const notesFullList = document.getElementById('notesFullList');
             if (notesFullList) {
                 notesFullList.innerHTML = db.notes.map(n => `
@@ -1489,7 +1463,6 @@
                 `).join('') || '<p style="color:var(--text-secondary);">لا توجد ملاحظات.</p>';
             }
 
-            // الخزنة والوثائق
             const vaultFullList = document.getElementById('vaultFullList');
             if (vaultFullList) {
                 vaultFullList.innerHTML = db.vault.map(v => `
@@ -1521,7 +1494,6 @@
             updateUI();
         }
 
-        // دوال الحذف
         function toggleTodo(id) { const t = db.todos.find(x => x.id === id); if(t) { t.done = !t.done; finalizeAction(); } }
         function confirmDeleteTodo(id) { if(confirm('هل تريد حذف هذه المهمة؟')) { db.todos = db.todos.filter(x => x.id !== id); finalizeAction(); } }
         function confirmDeleteBill(id) { if(confirm('هل تريد حذف الفاتورة؟')) { db.fixed_bills = db.fixed_bills.filter(x => x.id !== id); finalizeAction(); } }
@@ -1537,20 +1509,24 @@
             finalizeAction();
         }
 
-        // دوال النوافذ الموحدة (نظام الدقائق واسم التنبيه فقط)
+        // ضبط التنبيهات الكلاسيكي (دقائق واسم اختياري فقط)
         function openModalAction(type) {
             closeTopDropdown();
             const modal = document.getElementById('actionModal');
             const container = document.getElementById('modalFormContainer');
 
-            if (type === 'todo') {
+            if (type === 'alarm') {
+                container.innerHTML = `
+                    <input type="number" id="actAlarmMins" placeholder="عدد الدقائق (مثال: 15)..." class="app-input" required>
+                    <input type="text" id="actAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
+                    <button type="button" onclick="submitActAlarm()" class="btn-action">ضبط التنبيه</button>
+                `;
+            } else if (type === 'todo') {
                 container.innerHTML = `<input type="text" id="actTodoText" placeholder="اكتب المهمة..." class="app-input" required><button type="button" onclick="submitActTodo()" class="btn-action">حفظ المهمة</button>`;
             } else if (type === 'expense') {
                 container.innerHTML = `<input type="text" id="actExpDesc" placeholder="ماذا اشتريت؟" class="app-input" required><input type="number" id="actExpAmount" placeholder="المبلغ (₪)" class="app-input" required><button type="button" onclick="submitActExpense()" class="btn-action">تسجيل المصروف</button>`;
             } else if (type === 'subscription') {
                 container.innerHTML = `<input type="text" id="actSubName" placeholder="اسم الاشتراك..." class="app-input" required><input type="number" id="actSubAmount" placeholder="المبلغ (₪)" class="app-input" required><label style="font-size:12px; display:block; margin-bottom:4px;">تاريخ بدء الاشتراك:</label><input type="date" id="actSubStartDate" value="${todayStr}" class="app-input"><label style="font-size:12px; display:block; margin-bottom:4px;">تاريخ انتهاء الاشتراك:</label><input type="date" id="actSubEndDate" class="app-input" required><button type="button" onclick="submitActSub()" class="btn-action">حفظ الاشتراك</button>`;
-            } else if (type === 'alarm') {
-                container.innerHTML = `<input type="number" id="actAlarmMins" placeholder="عدد الدقائق (مثال: 15)..." class="app-input" required><input type="text" id="actAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input"><button type="button" onclick="submitActAlarm()" class="btn-action">ضبط التنبيه</button>`;
             } else if (type === 'bill') {
                 container.innerHTML = `<select id="actBillType" class="app-input"><option value="كهرباء">كهرباء</option><option value="ماء">ماء</option><option value="إنترنت">إنترنت</option><option value="أخرى">أخرى</option></select><input type="number" id="actBillAmount" placeholder="المبلغ (₪)" class="app-input" required><button type="button" onclick="submitActBill()" class="btn-action">حفظ الفاتورة</button>`;
             } else if (type === 'note') {
@@ -1564,10 +1540,10 @@
         }
 
         function closeModalAction() { document.getElementById('actionModal').classList.remove('active'); }
+        function submitActAlarm() { const mins = document.getElementById('actAlarmMins').value; const title = document.getElementById('actAlarmTitle').value; if (!mins) return; addReminderFast(parseInt(mins), title); closeModalAction(); }
         function submitActTodo() { const text = document.getElementById('actTodoText').value; if (!text.trim()) return; db.todos.push({ id: Date.now(), text: text.trim(), done: false, date: todayStr }); finalizeAction(); closeModalAction(); }
         function submitActExpense() { const desc = document.getElementById('actExpDesc').value; const amount = document.getElementById('actExpAmount').value; if (!desc || !amount) return; db.expenses.push({ id: Date.now(), desc: desc.trim(), amount: amount, date: todayStr }); finalizeAction(); closeModalAction(); }
         function submitActSub() { const name = document.getElementById('actSubName').value; const amount = document.getElementById('actSubAmount').value; const s = document.getElementById('actSubStartDate').value; const e = document.getElementById('actSubEndDate').value; if (!name || !amount || !e) return; db.subscriptions.push({ id: Date.now(), name: name.trim(), amount: amount, startDate: s, endDate: e }); finalizeAction(); closeModalAction(); }
-        function submitActAlarm() { const mins = document.getElementById('actAlarmMins').value; const title = document.getElementById('actAlarmTitle').value; if (!mins) return; addReminderFast(parseInt(mins), title); closeModalAction(); }
         function submitActBill() { const type = document.getElementById('actBillType').value; const amount = document.getElementById('actBillAmount').value; if (!amount) return; db.fixed_bills.push({ id: Date.now(), type: type, amount: amount, date: todayStr }); finalizeAction(); closeModalAction(); }
         function submitActNote() { const body = document.getElementById('actNoteBody').value; if (!body.trim()) return; db.notes.push({ id: Date.now(), title: document.getElementById('actNoteTitle').value || 'ملاحظة', body: body }); finalizeAction(); closeModalAction(); }
         function submitActVault() { const name = document.getElementById('actVaultName').value; const user = document.getElementById('actVaultUser').value; const pass = document.getElementById('actVaultPass').value; const note = document.getElementById('actVaultNote').value; if (!name || !pass) return; db.vault.push({ id: Date.now(), accountName: name, username: user, password: pass, note: note }); finalizeAction(); closeModalAction(); }
@@ -1697,10 +1673,9 @@
         }
 
         // =========================================================================
-        // --- 7. الإقلاع الفوري المستقل (Offline-First) ---
+        // --- 6. الإقلاع الفوري المستقر للواجهة ---
         // =========================================================================
         applyThemeUI();
-        initFirebase();
         initNativeNotifications();
         loadAccuratePrayers();
         syncFeeds();
