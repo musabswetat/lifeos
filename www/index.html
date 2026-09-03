@@ -734,7 +734,7 @@
         </div>
     </div>
 
-    <!-- نافذة الإضافة الموحدة (المهام، المصاريف، ضبط التنبيه بدقائق واسم فقط) -->
+    <!-- نافذة الإضافة الموحدة (نظام الدقائق واسم التنبيه فقط) -->
     <div class="modal-overlay" id="actionModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
@@ -747,7 +747,7 @@
 
     <script>
         // =========================================================================
-        // --- 1. إعدادات وتجهيز البيانات المحلية و Firebase ---
+        // --- 1. إعدادات وتجهيز البيانات المحلية و Firebase المقاومة لانقطاع النت ---
         // =========================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCxalyr_Xa7IeSuT8enh6MCu2a1h5HvBWY",
@@ -777,6 +777,14 @@
                 } 
             });
             if (!data.settings) data.settings = { darkMode: false, displayName: '', theme: 'oneui' };
+            // ذاكرة التخزين المؤقت للبيانات السحابية للطقس والعملات والحساب
+            if (!data.cachedFeeds) data.cachedFeeds = {
+                weatherHourly: null,
+                weatherLastFetch: 0,
+                rates: { USD: 3.65, JOD: 5.15, EUR: 3.95 },
+                ratesLastFetch: 0,
+                cachedUser: null
+            };
             return data;
         }
 
@@ -795,9 +803,10 @@
         }
 
         function saveToCloud() {
-            if (userDbRef) {
+            if (userDbRef && navigator.onLine) {
                 const cloudPayload = JSON.parse(JSON.stringify(db));
                 cloudPayload.notes.forEach(n => { delete n.audioData; });
+                delete cloudPayload.cachedFeeds; // لا حاجة لرفع كاش الفيد للسحابة
                 userDbRef.set(cloudPayload).catch(() => {});
             }
         }
@@ -827,12 +836,16 @@
             finalizeAction();
         }
 
+        // تثبيت جلسة الحساب في التخزين المحلي فوراً بدون تسجيل خروج تلقائي
         function initFirebase() {
             if (typeof firebase !== 'undefined') {
                 try {
                     if (!firebase.apps || !firebase.apps.length) {
                         firebase.initializeApp(firebaseConfig);
                     }
+                    // تثبيت جلسة المستخدم دائماً
+                    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(()=>{});
+
                     firebase.auth().onAuthStateChanged(async (user) => {
                         if (user) {
                             if (!user.emailVerified) { 
@@ -840,11 +853,16 @@
                                 return; 
                             }
                             currentUser = user;
+                            db.cachedFeeds.cachedUser = { uid: user.uid, email: user.email, displayName: user.displayName };
+                            finalizeAction();
+
                             userDbRef = firebase.database().ref(`users/${user.uid}/data`);
                             userDbRef.on('value', (snapshot) => {
                                 const data = snapshot.val();
                                 if (data) {
-                                    db = normalizeDB(data); 
+                                    const feeds = db.cachedFeeds;
+                                    db = normalizeDB(data);
+                                    db.cachedFeeds = feeds; 
                                     try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
                                     applyThemeUI(); 
                                     updateUI();
@@ -854,9 +872,13 @@
                             });
                             updateAuthProfileUI(user);
                         } else {
-                            currentUser = null; 
-                            userDbRef = null; 
-                            updateAuthProfileUI(null);
+                            if (!navigator.onLine && db.cachedFeeds.cachedUser) {
+                                updateAuthProfileUI(db.cachedFeeds.cachedUser);
+                            } else {
+                                currentUser = null; 
+                                userDbRef = null; 
+                                updateAuthProfileUI(null);
+                            }
                         }
                     });
                 } catch(e) {
@@ -873,7 +895,7 @@
             const settingsBtn = document.getElementById('settingsAuthBtn');
 
             if (user) {
-                const displayName = db.settings.displayName || user.email.split('@')[0];
+                const displayName = db.settings.displayName || user.displayName || user.email.split('@')[0];
                 if (nameSpan) nameSpan.innerText = displayName;
                 if (heroGreeting) heroGreeting.innerText = `طاب يومك، ${displayName}.`;
                 if (editNameBtn) editNameBtn.style.display = 'flex';
@@ -889,7 +911,7 @@
         }
 
         async function submitUserLogin() {
-            if (typeof firebase === 'undefined') return alert('الرجاء التأكد من الاتصال بالإنترنت.');
+            if (!navigator.onLine) return alert('يجب توفر اتصال بالإنترنت لتسجيل الدخول لأول مرة.');
             const email = document.getElementById('authEmail').value.trim();
             const pass = document.getElementById('authPassword').value;
             if (!email || !pass) return alert('يرجى كتابة البريد وكلمة المرور');
@@ -901,7 +923,7 @@
         }
 
         async function submitUserSignup() {
-            if (typeof firebase === 'undefined') return alert('الرجاء التأكد من الاتصال بالإنترنت.');
+            if (!navigator.onLine) return alert('يجب توفر اتصال بالإنترنت لإنشاء الحساب.');
             const email = document.getElementById('authEmail').value.trim();
             const pass = document.getElementById('authPassword').value;
             if (!email || !pass) return alert('يرجى كتابة البريد وكلمة المرور');
@@ -917,7 +939,7 @@
         }
 
         async function handleForgotPassword() {
-            if (typeof firebase === 'undefined') return alert('الرجاء التأكد من الاتصال بالإنترنت.');
+            if (!navigator.onLine) return alert('يجب توفر اتصال بالإنترنت لاستعادة كلمة المرور.');
             const email = document.getElementById('authEmail').value.trim();
             if (!email) { alert('اكتب بريدك في حقل الإيميل أولاً.'); document.getElementById('authEmail').focus(); return; }
             try { await firebase.auth().sendPasswordResetEmail(email); alert('تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك.'); } 
@@ -925,7 +947,7 @@
         }
 
         async function resendVerificationEmail() {
-            if (typeof firebase === 'undefined') return alert('الرجاء التأكد من الاتصال بالإنترنت.');
+            if (!navigator.onLine) return alert('يجب توفر اتصال بالإنترنت لطلب رابط التفعيل.');
             const email = document.getElementById('authEmail').value.trim();
             const pass = document.getElementById('authPassword').value;
             if (!email || !pass) { alert('اكتب البريد وكلمة المرور أولاً.'); return; }
@@ -938,15 +960,14 @@
         }
 
         async function promptEditDisplayName() {
-            if (!currentUser) return;
-            const currentName = db.settings.displayName || currentUser.displayName || currentUser.email.split('@')[0];
+            const currentName = db.settings.displayName || (currentUser ? currentUser.displayName : '') || 'مستخدم';
             const newName = prompt('أدخل اسم الظهور الجديد:', currentName);
             if (newName !== null && newName.trim()) {
                 try {
-                    await currentUser.updateProfile({ displayName: newName.trim() });
+                    if (currentUser) await currentUser.updateProfile({ displayName: newName.trim() });
                     db.settings.displayName = newName.trim();
                     finalizeAction();
-                    updateAuthProfileUI(currentUser);
+                    updateAuthProfileUI(currentUser || db.cachedFeeds.cachedUser);
                 } catch (e) { alert('تعذر تحديث الاسم: ' + e.message); }
             }
         }
@@ -1026,16 +1047,6 @@
             alert('لضمان عمل المنبه بدقة متناهية والتطبيق مغلق:\n\n1. اذهب لإعدادات البطارية بالهاتف واختر تطبيق LifeOS.\n2. اختر "غير مقيد" (Unrestricted).\n3. تأكد من تفعيل "التشغيل التلقائي" (Autostart) إن وجد.');
         }
 
-        function formatTime(ms) {
-            if (ms <= 0) return '00:00';
-            const s = Math.floor(ms / 1000);
-            const hrs = Math.floor(s / 3600);
-            const mins = Math.floor((s % 3600) / 60);
-            const secs = s % 60;
-            if (hrs > 0) return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-        }
-
         function addReminderFast(mins, title = '') {
             const now = Date.now();
             const reminderId = Date.now();
@@ -1112,41 +1123,105 @@
         }
 
         // =========================================================================
-        // --- 3. محرك الطقس الدقيق والتحديث التلقائي ومواقيت الصلاة ---
+        // --- 3. محرك الطقس المتكامل بالساعات والعملات (Offline-First مع كاش محلي) ---
         // =========================================================================
+        
+        // رموز الطقس حسب المعيار العالمي WMO
+        function getWeatherIcon(code) {
+            if (code === 0) return '☀️ مشمس';
+            if (code <= 3) return '⛅ غائم جزئياً';
+            if (code <= 48) return '🌫️ ضباب';
+            if (code <= 67) return '🌧️ ممطر';
+            if (code <= 77) return '❄️ مثلج';
+            if (code <= 82) return '🌦️ زخات مطر';
+            return '⛈️ عاصف';
+        }
+
+        // فحص الطقس محلياً حسب الساعة الحالية من المخطط المخزن
+        function updateWeatherFromCache() {
+            const el = document.getElementById('textWeather');
+            if (!el || !db.cachedFeeds || !db.cachedFeeds.weatherHourly) return;
+
+            const now = new Date();
+            const currentHourISO = now.toISOString().slice(0, 13) + ':00'; // صيغة YYYY-MM-DDTHH:00
+
+            const times = db.cachedFeeds.weatherHourly.time || [];
+            const temps = db.cachedFeeds.weatherHourly.temperature_2m || [];
+            const codes = db.cachedFeeds.weatherHourly.weather_code || [];
+
+            let index = times.findIndex(t => t.startsWith(currentHourISO));
+            if (index === -1) index = 0; // البديل التلقائي
+
+            if (temps[index] !== undefined) {
+                const temp = Math.round(temps[index]);
+                const icon = getWeatherIcon(codes[index] || 0);
+                el.innerText = `${temp}°C ${icon}`;
+            }
+        }
+
+        function renderCurrenciesUI() {
+            const rates = db.cachedFeeds.rates || { USD: 3.65, JOD: 5.15, EUR: 3.95 };
+            const usd = document.getElementById('textUSD');
+            const jod = document.getElementById('textJOD');
+            const eur = document.getElementById('textEUR');
+            if (usd) usd.innerText = rates.USD;
+            if (jod) jod.innerText = rates.JOD;
+            if (eur) eur.innerText = rates.EUR;
+        }
+
+        // مزامنة صامتة دون مسح البيانات الحالية
         async function syncFeeds() {
-            const fetchWeather = async () => {
+            renderCurrenciesUI();
+            updateWeatherFromCache();
+
+            if (!navigator.onLine) return; // لا إنترنت = الاعتماد التام على الكاش السابق
+
+            const now = Date.now();
+            const oneHour = 60 * 60 * 1000;
+            const oneDay = 24 * 60 * 60 * 1000;
+
+            // 1. جلب مخطط الطقس بالساعات (48 ساعة للأمام من أفضل نموذج DWD / Open-Meteo)
+            if (now - (db.cachedFeeds.weatherLastFetch || 0) > oneHour || !db.cachedFeeds.weatherHourly) {
                 try {
-                    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&current=temperature_2m,weather_code&timezone=auto');
+                    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&hourly=temperature_2m,weather_code&forecast_days=2&timezone=auto');
                     const data = await res.json();
-                    if (data && data.current) {
-                        const temp = Math.round(data.current.temperature_2m);
-                        const el = document.getElementById('textWeather');
-                        if (el) el.innerText = `${temp}°C ⛅`;
+                    if (data && data.hourly) {
+                        db.cachedFeeds.weatherHourly = data.hourly;
+                        db.cachedFeeds.weatherLastFetch = now;
+                        finalizeAction();
+                        updateWeatherFromCache();
                     }
                 } catch(e) {}
-            };
+            }
 
-            const fetchCurrencies = async () => {
+            // 2. جلب أسعار العملات (مرة واحدة باليوم فقط من ExchangeRate-API الرسمي)
+            if (now - (db.cachedFeeds.ratesLastFetch || 0) > oneDay) {
                 try {
                     const res = await fetch('https://open.er-api.com/v6/latest/ILS');
                     const data = await res.json();
                     if (data && data.rates) {
-                        const usd = document.getElementById('textUSD');
-                        const jod = document.getElementById('textJOD');
-                        const eur = document.getElementById('textEUR');
-                        if (usd) usd.innerText = (1 / data.rates.USD).toFixed(2);
-                        if (jod) jod.innerText = (1 / data.rates.JOD).toFixed(2);
-                        if (eur) eur.innerText = (1 / data.rates.EUR).toFixed(2);
+                        db.cachedFeeds.rates = {
+                            USD: (1 / data.rates.USD).toFixed(2),
+                            JOD: (1 / data.rates.JOD).toFixed(2),
+                            EUR: (1 / data.rates.EUR).toFixed(2)
+                        };
+                        db.cachedFeeds.ratesLastFetch = now;
+                        finalizeAction();
+                        renderCurrenciesUI();
                     }
                 } catch(e) {}
-            };
-
-            fetchWeather();
-            fetchCurrencies();
-            setInterval(fetchWeather, 20 * 60 * 1000);
+            }
         }
 
+        // مستمع لعودة الإنترنت للمزامنة السلسة تلقائياً
+        window.addEventListener('online', () => {
+            syncFeeds();
+            saveToCloud();
+        });
+
+        // =========================================================================
+        // --- 4. الحساب الفلكي الرياضي المستقل للصلوات لجنين (يعمل بدون إنترنت 100%) ---
+        // =========================================================================
         function calculatePalestinePrayerTimes(date = new Date()) {
             const lat = 32.4646; const lng = 35.2939; const tz = -date.getTimezoneOffset() / 60;
             const start = new Date(date.getFullYear(), 0, 0); 
@@ -1215,7 +1290,7 @@
                 if (item.isPrayer) {
                     return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><span class="tag-badge ${isPending ? 'green' : ''}">${isPending ? `⏳ ${formatTime(item.targetTime - now)}` : '✅ تم'}</span></div>`;
                 } else {
-                    return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><span class="tag-badge">⏳ ${formatTime(item.targetTime - now)}</span></div>`;
+                    return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><div style="display:flex; align-items:center; gap:6px;"><button onclick="renameReminder(${item.id})" class="tag-badge" title="تسمية">✏️</button><span class="tag-badge">⏳ ${formatTime(item.targetTime - now)}</span><button onclick="confirmDeleteReminder(${item.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer; font-size:16px;" title="إلغاء">✖</button></div></div>`;
                 }
             }).join('') || '<p style="color:var(--text-secondary); text-align:center;">لا توجد صلوات أو تنبيهات قادمة</p>';
         }
@@ -1282,6 +1357,8 @@
             renderPrayersAndAlarmsCombined();
         }
 
+        // تحديث كل ثانية للمؤقتات، وتحديث فحص الطقس بالساعة الحالية من الكاش كل دقيقة
+        let secCounter = 0;
         setInterval(() => {
             const now = Date.now();
             let changed = false;
@@ -1293,10 +1370,15 @@
             });
             renderPrayersAndReminders();
             if (changed) finalizeAction();
+
+            secCounter++;
+            if (secCounter % 60 === 0) {
+                updateWeatherFromCache(); // تبديل درجة الحرارة أوتوماتيكياً مع تغير الساعة بدون إنترنت
+            }
         }, 1000);
 
         // =========================================================================
-        // --- 4. تحديث الواجهة الشامل لجميع الأقسام ---
+        // --- 5. تحديث الواجهة الشامل لجميع الأقسام ---
         // =========================================================================
         function updateUI() {
             // المهام
@@ -1439,6 +1521,7 @@
             updateUI();
         }
 
+        // دوال الحذف
         function toggleTodo(id) { const t = db.todos.find(x => x.id === id); if(t) { t.done = !t.done; finalizeAction(); } }
         function confirmDeleteTodo(id) { if(confirm('هل تريد حذف هذه المهمة؟')) { db.todos = db.todos.filter(x => x.id !== id); finalizeAction(); } }
         function confirmDeleteBill(id) { if(confirm('هل تريد حذف الفاتورة؟')) { db.fixed_bills = db.fixed_bills.filter(x => x.id !== id); finalizeAction(); } }
@@ -1454,7 +1537,7 @@
             finalizeAction();
         }
 
-        // --- 5. النوافذ الموحدة للإضافة (نظام الدقائق واسم التنبيه فقط) ---
+        // دوال النوافذ الموحدة (نظام الدقائق واسم التنبيه فقط)
         function openModalAction(type) {
             closeTopDropdown();
             const modal = document.getElementById('actionModal');
@@ -1553,7 +1636,6 @@
             container.innerHTML = html;
             document.getElementById('postRecordingModal').classList.add('active');
         }
-
         function closePostRecordingModal() { document.getElementById('postRecordingModal').classList.remove('active'); }
         function executeSmartAction(type, text, param = null) {
             document.getElementById('postRecordingModal').classList.remove('active');
@@ -1577,7 +1659,11 @@
         function openAuthModal() {
             if (currentUser) {
                 if (confirm(`تسجيل الخروج من ${currentUser.email}؟`)) {
-                    firebase.auth().signOut().then(() => showToast('تم تسجيل الخروج'));
+                    firebase.auth().signOut().then(() => {
+                        db.cachedFeeds.cachedUser = null;
+                        finalizeAction();
+                        showToast('تم تسجيل الخروج');
+                    });
                 }
             } else {
                 document.getElementById('authModal').classList.add('active');
@@ -1611,13 +1697,13 @@
         }
 
         // =========================================================================
-        // --- 6. الإقلاع المباشر للواجهة ومحركات البيانات ---
+        // --- 7. الإقلاع الفوري المستقل (Offline-First) ---
         // =========================================================================
         applyThemeUI();
         initFirebase();
         initNativeNotifications();
-        syncFeeds();
         loadAccuratePrayers();
+        syncFeeds();
         updateUI();
     </script>
 </body>
