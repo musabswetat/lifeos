@@ -7,7 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#F2F2F7" id="themeColorMeta">
+    <meta name="theme-color" content="#121212" id="themeColorMeta">
 
     <title>Life OS</title>
     
@@ -36,187 +36,86 @@
             --dock-height: 56px;
             --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.25);
             --card-backdrop: none;
-            --terminal-prefix: "";
         }
 
         body.theme-oneui {
-            --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --radius-card: 26px;
-            --radius-input: 14px;
-            --accent-color: #007AFF;
-            --bg-canvas: #121212;
-            --surface-card: #1E1E1E;
-            --surface-inner: #282828;
-            --border-subtle: #2C2C2C;
-            --text-primary: #FFFFFF;
-            --text-secondary: #8E8E93;
+            --radius-card: 26px; --radius-input: 14px; --accent-color: #007AFF;
+            --bg-canvas: #121212; --surface-card: #1E1E1E; --surface-inner: #282828;
+            --border-subtle: #2C2C2C; --text-primary: #FFFFFF; --text-secondary: #8E8E93;
         }
         body.theme-oneui.light-mode {
-            --bg-canvas: #F2F2F7;
-            --surface-card: #FFFFFF;
-            --surface-inner: #E5E5EA;
-            --border-subtle: #E5E5EA;
-            --text-primary: #000000;
-            --text-secondary: #6C6C70;
+            --bg-canvas: #F2F2F7; --surface-card: #FFFFFF; --surface-inner: #E5E5EA;
+            --border-subtle: #E5E5EA; --text-primary: #000000; --text-secondary: #6C6C70;
             --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
 
         body.theme-iphone {
-            --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
-            --radius-card: 22px;
-            --radius-input: 12px;
-            --accent-color: #0A84FF;
-            --bg-canvas: #000000;
-            --surface-card: rgba(28, 28, 30, 0.85);
-            --surface-inner: rgba(44, 44, 46, 0.8);
-            --border-subtle: rgba(255, 255, 255, 0.12);
-            --text-primary: #FFFFFF;
-            --text-secondary: #98989D;
+            --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            --radius-card: 22px; --radius-input: 12px; --accent-color: #0A84FF;
+            --bg-canvas: #000000; --surface-card: rgba(28, 28, 30, 0.85); --surface-inner: rgba(44, 44, 46, 0.8);
+            --border-subtle: rgba(255, 255, 255, 0.12); --text-primary: #FFFFFF; --text-secondary: #98989D;
             --card-backdrop: blur(25px);
-            --shadow-subtle: 0 10px 30px rgba(0,0,0,0.4);
         }
         body.theme-iphone.light-mode {
-            --bg-canvas: #F2F2F6;
-            --surface-card: rgba(255, 255, 255, 0.85);
-            --surface-inner: rgba(230, 230, 235, 0.7);
-            --border-subtle: rgba(0, 0, 0, 0.08);
-            --text-primary: #000000;
-            --text-secondary: #8E8E93;
+            --bg-canvas: #F2F2F6; --surface-card: rgba(255, 255, 255, 0.85); --surface-inner: rgba(230, 230, 235, 0.7);
+            --border-subtle: rgba(0, 0, 0, 0.08); --text-primary: #000000; --text-secondary: #8E8E93;
             --card-backdrop: blur(25px);
-            --shadow-subtle: 0 8px 24px rgba(0,0,0,0.06);
         }
 
         body.theme-pixel {
-            --font-family: "Google Sans", system-ui, Roboto, sans-serif;
-            --radius-card: 32px;
-            --radius-input: 20px;
-            --accent-color: #A8C7FA;
-            --bg-canvas: #131314;
-            --surface-card: #1F1F23;
-            --surface-inner: #2B2B30;
-            --border-subtle: #34343A;
-            --text-primary: #E3E2E6;
-            --text-secondary: #C4C6D0;
-            --shadow-subtle: 0 2px 10px rgba(0,0,0,0.2);
+            --font-family: "Google Sans", system-ui, sans-serif;
+            --radius-card: 32px; --radius-input: 20px; --accent-color: #A8C7FA;
+            --bg-canvas: #131314; --surface-card: #1F1F23; --surface-inner: #2B2B30;
+            --border-subtle: #34343A; --text-primary: #E3E2E6; --text-secondary: #C4C6D0;
         }
         body.theme-pixel.light-mode {
-            --bg-canvas: #FDF8FD;
-            --surface-card: #F3EDF7;
-            --surface-inner: #E8DEF8;
-            --border-subtle: #CAC4D0;
-            --text-primary: #1D1B20;
-            --text-secondary: #49454F;
-            --accent-color: #6750A4;
-            --shadow-subtle: 0 2px 8px rgba(0,0,0,0.05);
+            --bg-canvas: #FDF8FD; --surface-card: #F3EDF7; --surface-inner: #E8DEF8;
+            --border-subtle: #CAC4D0; --text-primary: #1D1B20; --text-secondary: #49454F; --accent-color: #6750A4;
         }
 
         body.theme-ubuntu {
-            --font-family: "Ubuntu", "DejaVu Sans", system-ui, sans-serif;
-            --radius-card: 10px;
-            --radius-input: 8px;
-            --accent-color: #E95420;
-            --bg-canvas: #1B1817;
-            --surface-card: #2D2A28;
-            --surface-inner: #3C3835;
-            --border-subtle: #4D4744;
-            --text-primary: #FFFFFF;
-            --text-secondary: #AEA79F;
-            --shadow-subtle: 0 4px 14px rgba(0,0,0,0.35);
+            --font-family: "Ubuntu", system-ui, sans-serif;
+            --radius-card: 10px; --radius-input: 8px; --accent-color: #E95420;
+            --bg-canvas: #1B1817; --surface-card: #2D2A28; --surface-inner: #3C3835;
+            --border-subtle: #4D4744; --text-primary: #FFFFFF; --text-secondary: #AEA79F;
         }
         body.theme-ubuntu.light-mode {
-            --bg-canvas: #F7F7F7;
-            --surface-card: #FFFFFF;
-            --surface-inner: #ECEBEA;
-            --border-subtle: #D5D3D1;
-            --text-primary: #111111;
-            --text-secondary: #5E5C5B;
-            --accent-color: #E95420;
-            --shadow-subtle: 0 2px 10px rgba(0,0,0,0.06);
+            --bg-canvas: #F7F7F7; --surface-card: #FFFFFF; --surface-inner: #ECEBEA;
+            --border-subtle: #D5D3D1; --text-primary: #111111; --text-secondary: #5E5C5B; --accent-color: #E95420;
         }
 
         body.theme-linux {
-            --font-family: "Courier New", "Lucida Console", monospace;
-            --radius-card: 4px;
-            --radius-input: 2px;
-            --accent-color: #00FF66;
-            --accent-green: #00FF66;
-            --accent-red: #FF3333;
-            --bg-canvas: #0A0D0B;
-            --surface-card: #101712;
-            --surface-inner: #18221B;
-            --border-subtle: #00FF66;
-            --text-primary: #00FF66;
-            --text-secondary: #55AA77;
-            --terminal-prefix: "> ";
-            --shadow-subtle: 0 0 10px rgba(0, 255, 102, 0.15);
+            --font-family: "Courier New", monospace; --radius-card: 4px; --radius-input: 2px;
+            --accent-color: #00FF66; --accent-green: #00FF66; --accent-red: #FF3333;
+            --bg-canvas: #0A0D0B; --surface-card: #101712; --surface-inner: #18221B;
+            --border-subtle: #00FF66; --text-primary: #00FF66; --text-secondary: #55AA77;
         }
         body.theme-linux.light-mode {
-            --bg-canvas: #EDEDED;
-            --surface-card: #FFFFFF;
-            --surface-inner: #D8E0D9;
-            --border-subtle: #117733;
-            --text-primary: #0A5522;
-            --text-secondary: #2E6641;
-            --accent-color: #117733;
-            --shadow-subtle: 0 0 8px rgba(0, 0, 0, 0.1);
+            --bg-canvas: #EDEDED; --surface-card: #FFFFFF; --surface-inner: #D8E0D9;
+            --border-subtle: #117733; --text-primary: #0A5522; --text-secondary: #2E6641; --accent-color: #117733;
         }
 
         body.theme-infinix {
-            --font-family: system-ui, -apple-system, sans-serif;
-            --radius-card: 18px;
-            --radius-input: 12px;
-            --accent-color: #00FF9D;
-            --bg-canvas: #090C10;
-            --surface-card: #121820;
-            --surface-inner: #1B2430;
-            --border-subtle: #243040;
-            --text-primary: #00FF9D;
-            --text-secondary: #7A8B9E;
-            --shadow-subtle: 0 4px 18px rgba(0, 255, 157, 0.12);
+            --radius-card: 18px; --radius-input: 12px; --accent-color: #00FF9D;
+            --bg-canvas: #090C10; --surface-card: #121820; --surface-inner: #1B2430;
+            --border-subtle: #243040; --text-primary: #00FF9D; --text-secondary: #7A8B9E;
         }
         body.theme-infinix.light-mode {
-            --bg-canvas: #F4F7FB;
-            --surface-card: #FFFFFF;
-            --surface-inner: #E3E9F2;
-            --border-subtle: #D0D9E6;
-            --text-primary: #0C1E36;
-            --text-secondary: #5A6D84;
-            --accent-color: #00B36B;
-            --shadow-subtle: 0 4px 14px rgba(0, 0, 0, 0.05);
+            --bg-canvas: #F4F7FB; --surface-card: #FFFFFF; --surface-inner: #E3E9F2;
+            --border-subtle: #D0D9E6; --text-primary: #0C1E36; --text-secondary: #5A6D84; --accent-color: #00B36B;
         }
 
         body.theme-mi {
-            --font-family: "MiSans", system-ui, sans-serif;
-            --radius-card: 20px;
-            --radius-input: 14px;
-            --accent-color: #FF6900;
-            --bg-canvas: #0F1012;
-            --surface-card: #1B1C20;
-            --surface-inner: #26282E;
-            --border-subtle: #30333B;
-            --text-primary: #FFFFFF;
-            --text-secondary: #8E929B;
-            --shadow-subtle: 0 6px 20px rgba(0,0,0,0.3);
+            --radius-card: 20px; --radius-input: 14px; --accent-color: #FF6900;
+            --bg-canvas: #0F1012; --surface-card: #1B1C20; --surface-inner: #26282E;
+            --border-subtle: #30333B; --text-primary: #FFFFFF; --text-secondary: #8E929B;
         }
         body.theme-mi.light-mode {
-            --bg-canvas: #F7F8FA;
-            --surface-card: #FFFFFF;
-            --surface-inner: #EDEDF2;
-            --border-subtle: #E2E4EB;
-            --text-primary: #1C1E21;
-            --text-secondary: #6B707B;
-            --accent-color: #FF6900;
-            --shadow-subtle: 0 4px 16px rgba(0,0,0,0.05);
+            --bg-canvas: #F7F8FA; --surface-card: #FFFFFF; --surface-inner: #EDEDF2;
+            --border-subtle: #E2E4EB; --text-primary: #1C1E21; --text-secondary: #6B707B; --accent-color: #FF6900;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-family);
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-family); -webkit-tap-highlight-color: transparent; }
         ::-webkit-scrollbar { display: none !important; }
         * { scrollbar-width: none !important; }
 
@@ -253,11 +152,7 @@
             align-items: center;
             gap: 6px;
         }
-        .top-actions-cluster {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+        .top-actions-cluster { display: flex; align-items: center; gap: 6px; }
         .top-action-btn {
             background: transparent;
             border: none;
@@ -272,11 +167,7 @@
             transition: background 0.15s ease;
         }
         .top-action-btn:active { background: var(--surface-inner); }
-        .top-action-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
+        .top-action-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
         .user-auth-pill {
             display: flex;
@@ -293,386 +184,141 @@
             backdrop-filter: var(--card-backdrop);
         }
 
-        .expandable-search-bar {
-            display: none;
-            width: 100%;
-            margin-bottom: 12px;
-            animation: fadeInSearch 0.2s ease;
-        }
+        .expandable-search-bar { display: none; width: 100%; margin-bottom: 12px; animation: fadeInSearch 0.2s ease; }
         .expandable-search-bar.active { display: block; }
-        @keyframes fadeInSearch {
-            from { opacity: 0; transform: translateY(-6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeInSearch { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
         .search-inner-box {
-            display: flex;
-            align-items: center;
-            background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-pill);
-            padding: 10px 16px;
-            gap: 10px;
-            box-shadow: var(--shadow-subtle);
+            display: flex; align-items: center; background: var(--surface-card); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-pill); padding: 10px 16px; gap: 10px; box-shadow: var(--shadow-subtle);
             backdrop-filter: var(--card-backdrop);
         }
-        .search-input {
-            background: transparent;
-            border: none;
-            outline: none;
-            color: var(--text-primary);
-            font-size: 14px;
-            width: 100%;
-        }
+        .search-input { background: transparent; border: none; outline: none; color: var(--text-primary); font-size: 14px; width: 100%; }
 
         .oneui-dropdown {
-            position: absolute;
-            top: 48px;
-            left: 4px;
-            background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-card);
-            padding: 6px;
-            width: 230px;
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            z-index: 9999;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(-8px) scale(0.96);
-            transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+            position: absolute; top: 48px; left: 4px; background: var(--surface-card); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-card); padding: 6px; width: 230px; box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+            display: flex; flex-direction: column; gap: 2px; z-index: 9999; opacity: 0; pointer-events: none;
+            transform: translateY(-8px) scale(0.96); transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
             backdrop-filter: var(--card-backdrop);
         }
-        .oneui-dropdown.open {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0) scale(1);
-        }
+        .oneui-dropdown.open { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
         .dropdown-item {
-            background: transparent;
-            border: none;
-            padding: 11px 14px;
-            border-radius: var(--radius-input);
-            color: var(--text-primary);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-align: right;
-            transition: background 0.15s ease;
+            background: transparent; border: none; padding: 11px 14px; border-radius: var(--radius-input);
+            color: var(--text-primary); font-size: 14px; font-weight: 600; cursor: pointer; display: flex;
+            align-items: center; gap: 10px; text-align: right; transition: background 0.15s ease;
         }
         .dropdown-item:active { background: var(--surface-inner); }
 
-        .oneui-header-area {
-            padding: 12px 2px 18px 2px;
-        }
-        .oneui-title-hero-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 6px;
-        }
-        .oneui-title-hero {
-            font-size: 34px;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            margin-bottom: 0;
-        }
+        .oneui-header-area { padding: 12px 2px 18px 2px; }
+        .oneui-title-hero-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
+        .oneui-title-hero { font-size: 34px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0; }
         .edit-name-icon-btn {
-            background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
-            color: var(--accent-color);
-            font-size: 12px;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: var(--shadow-subtle);
-            transition: background 0.15s ease;
+            background: var(--surface-card); border: 1px solid var(--border-subtle); color: var(--accent-color);
+            font-size: 12px; width: 30px; height: 30px; border-radius: 50%; display: none; align-items: center;
+            justify-content: center; cursor: pointer; box-shadow: var(--shadow-subtle);
         }
-        .edit-name-icon-btn:active { background: var(--surface-active); }
-
-        .oneui-sub-text {
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            line-height: 1.6;
-        }
-        .oneui-currency-line {
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin-top: 3px;
-        }
+        .oneui-sub-text { font-size: 13px; color: var(--text-secondary); font-weight: 500; line-height: 1.6; }
+        .oneui-currency-line { font-size: 13px; color: var(--text-secondary); font-weight: 500; margin-top: 3px; }
 
         .circular-timer-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 0 6px 0;
-            cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 10px 0 6px 0; cursor: pointer;
         }
         .circular-timer-box {
-            position: relative;
-            width: 130px;
-            height: 130px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.15s ease;
+            position: relative; width: 130px; height: 130px; display: flex; align-items: center;
+            justify-content: center; transition: transform 0.15s ease;
         }
         .circular-timer-box:active { transform: scale(0.96); }
-        .timer-svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
-        }
-        .timer-bg-circle {
-            fill: none;
-            stroke: var(--surface-inner);
-            stroke-width: 7;
-        }
+        .timer-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+        .timer-bg-circle { fill: none; stroke: var(--surface-inner); stroke-width: 7; }
         .timer-progress-circle {
-            fill: none;
-            stroke: var(--accent-color);
-            stroke-width: 7;
-            stroke-linecap: round;
-            stroke-dasharray: 326.72;
-            stroke-dashoffset: 0;
-            transition: stroke-dashoffset 0.5s ease;
+            fill: none; stroke: var(--accent-color); stroke-width: 7; stroke-linecap: round;
+            stroke-dasharray: 326.72; stroke-dashoffset: 0; transition: stroke-dashoffset 0.5s ease;
         }
-        .timer-text-content {
-            position: relative;
-            text-align: center;
-            z-index: 2;
-        }
-        .timer-time-large {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            color: var(--text-primary);
-        }
+        .timer-text-content { position: relative; text-align: center; z-index: 2; }
+        .timer-time-large { font-size: 20px; font-weight: 800; color: var(--text-primary); }
         .timer-label-sub {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-top: 2px;
-            max-width: 90px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-top: 2px;
+            max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
 
-        .sub-card-item {
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border-subtle);
-        }
+        .sub-card-item { padding: 12px 0; border-bottom: 1px solid var(--border-subtle); }
         .sub-card-item:last-child { border-bottom: none; }
-        .sub-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            font-weight: 700;
-        }
-        .sub-meta-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-        .sub-progress-track {
-            width: 100%;
-            height: 6px;
-            background: var(--surface-inner);
-            border-radius: var(--radius-pill);
-            overflow: hidden;
-            margin-top: 8px;
-        }
-        .sub-progress-fill {
-            height: 100%;
-            background: var(--accent-color);
-            border-radius: var(--radius-pill);
-            transition: width 0.4s ease;
-        }
+        .sub-header-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 700; }
+        .sub-meta-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+        .sub-progress-track { width: 100%; height: 6px; background: var(--surface-inner); border-radius: var(--radius-pill); overflow: hidden; margin-top: 8px; }
+        .sub-progress-fill { height: 100%; background: var(--accent-color); border-radius: var(--radius-pill); transition: width 0.4s ease; }
 
         .section-label {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            margin: 16px 4px 8px 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
+            font-size: 13px; font-weight: 700; color: var(--text-secondary);
+            margin: 16px 4px 8px 4px; text-transform: uppercase; letter-spacing: 0.02em;
         }
         .oneui-card {
-            background: var(--surface-card);
-            border-radius: var(--radius-card);
-            border: 1px solid var(--border-subtle);
-            padding: 18px 20px;
-            margin-bottom: 12px;
-            box-shadow: var(--shadow-subtle);
-            backdrop-filter: var(--card-backdrop);
-            transition: all 0.2s ease;
+            background: var(--surface-card); border-radius: var(--radius-card); border: 1px solid var(--border-subtle);
+            padding: 18px 20px; margin-bottom: 12px; box-shadow: var(--shadow-subtle); backdrop-filter: var(--card-backdrop);
         }
 
         .section-view { display: none; }
-        .section-view.active { 
-            display: block; 
-            animation: oneuiFade 0.25s cubic-bezier(0.2, 0, 0, 1);
-        }
-        @keyframes oneuiFade {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .section-view.active { display: block; animation: oneuiFade 0.25s cubic-bezier(0.2, 0, 0, 1); }
+        @keyframes oneuiFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
         .list-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 13px 0;
-            border-bottom: 1px solid var(--border-subtle);
-            font-size: 14px;
-            gap: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 13px 0; border-bottom: 1px solid var(--border-subtle); font-size: 14px; gap: 10px;
         }
         .list-row:last-child { border-bottom: none; }
 
         .tag-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 12px;
-            border-radius: var(--radius-pill);
-            font-size: 12px;
-            font-weight: 700;
-            background: var(--surface-inner);
-            color: var(--accent-color);
-            border: 1px solid var(--border-subtle);
-            cursor: pointer;
-            transition: background 0.15s ease;
+            display: inline-flex; align-items: center; padding: 6px 12px; border-radius: var(--radius-pill);
+            font-size: 12px; font-weight: 700; background: var(--surface-inner); color: var(--accent-color);
+            border: 1px solid var(--border-subtle); cursor: pointer; transition: background 0.15s ease;
         }
         .tag-badge:active { background: var(--surface-active); }
         .tag-badge.green { color: var(--accent-green, #34C759); }
 
         .samsung-dock-container {
-            position: fixed;
-            bottom: 16px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-pill);
-            padding: 5px 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            width: calc(100% - 40px);
-            max-width: 380px;
+            position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+            background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
+            padding: 5px 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); z-index: 1000; width: calc(100% - 40px); max-width: 380px;
             backdrop-filter: var(--card-backdrop);
         }
         .samsung-dock-item {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 10px 12px;
-            border-radius: var(--radius-pill);
-            color: var(--text-secondary);
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.15s ease;
-            white-space: nowrap;
+            flex: 1; background: transparent; border: none; padding: 10px 12px; border-radius: var(--radius-pill);
+            color: var(--text-secondary); font-size: 13px; font-weight: 700; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; transition: all 0.15s ease; white-space: nowrap;
         }
-        .samsung-dock-item.active {
-            background: var(--surface-inner);
-            color: var(--text-primary);
-        }
+        .samsung-dock-item.active { background: var(--surface-inner); color: var(--text-primary); }
         .samsung-dock-item:active { transform: scale(0.96); }
 
         .app-input {
-            padding: 12px 14px;
-            background: var(--surface-inner) !important;
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-input);
-            color: var(--text-primary) !important;
-            font-size: 14px;
-            font-weight: 600;
-            outline: none;
-            width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 10px;
+            padding: 12px 14px; background: var(--surface-inner) !important; border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-input); color: var(--text-primary) !important; font-size: 14px; font-weight: 600;
+            outline: none; width: 100%; box-sizing: border-box; margin-bottom: 10px;
         }
         .app-input:focus { border-color: var(--accent-color); }
 
         .btn-action {
-            background: var(--accent-color);
-            color: #FFFFFF;
-            border: none;
-            padding: 13px 18px;
-            border-radius: var(--radius-input);
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
+            background: var(--accent-color); color: #FFFFFF; border: none; padding: 13px 18px;
+            border-radius: var(--radius-input); font-size: 14px; font-weight: 700; cursor: pointer; width: 100%;
             transition: transform 0.15s ease;
         }
         .btn-action:active { transform: scale(0.98); opacity: 0.9; }
 
         .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 99999;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
+            z-index: 99999; align-items: center; justify-content: center; padding: 20px;
         }
         .modal-overlay.active { display: flex; }
         .modal-box {
-            background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-card);
-            padding: 24px;
-            width: 100%;
-            max-width: 380px;
-            backdrop-filter: var(--card-backdrop);
+            background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-card);
+            padding: 24px; width: 100%; max-width: 380px; backdrop-filter: var(--card-backdrop);
         }
 
         #syncToast {
-            position: fixed;
-            top: 14px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
-            padding: 6px 16px;
-            border-radius: var(--radius-pill);
-            font-size: 12px;
-            font-weight: 700;
-            opacity: 0;
-            transition: opacity 0.25s ease;
-            z-index: 9999;
-            pointer-events: none;
-            backdrop-filter: var(--card-backdrop);
+            position: fixed; top: 14px; left: 50%; transform: translateX(-50%); background: var(--surface-card);
+            border: 1px solid var(--border-subtle); padding: 6px 16px; border-radius: var(--radius-pill);
+            font-size: 12px; font-weight: 700; opacity: 0; transition: opacity 0.25s ease; z-index: 9999; pointer-events: none;
         }
         #syncToast.show { opacity: 1; }
     </style>
@@ -925,7 +571,9 @@
             <div class="oneui-card">
                 <div style="display:flex; gap:8px; flex-direction:column;">
                     <button onclick="testPrestigeAlarm()" class="btn-action">🎵 تجربة نغمة التنبيه</button>
-                    <button onclick="requestNotificationPermission()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">🔔 إعادة ضبط أذونات الإشعارات</button>
+                    <button onclick="requestBatteryOptimizationExemption()" class="btn-action" style="background:var(--surface-inner); color:var(--accent-color); border:1px solid var(--border-subtle);">
+                        ⚡ إذن العمل بالخلفية (تجاوز توفير البطارية)
+                    </button>
                     <button onclick="exportData()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">📥 تصدير نسخة احتياطية</button>
                 </div>
             </div>
@@ -933,14 +581,14 @@
 
     </div>
 
-    <!-- 📱 شريط التنقل السفلي -->
+    <!-- شريط التنقل السفلي -->
     <div class="samsung-dock-container">
         <button class="samsung-dock-item active" id="btnDockHome" onclick="switchNavSection('dashboard-view', this)">الرئيسية</button>
         <button class="samsung-dock-item" onclick="handleDockMicClick(this)" style="flex:0 0 46px; height:46px; border-radius:50%; background:var(--surface-inner); color:var(--accent-red, #FF3B30); font-size:20px; display:flex; align-items:center; justify-content:center; padding:0;" title="تسجيل صوتي">🎙️</button>
         <button class="samsung-dock-item" id="btnDockPrayersAlarms" onclick="switchNavSection('prayers-alarms-view', this)">الصلوات والتنبيهات</button>
     </div>
 
-    <!-- 🪟 نافذة منبثقة تفاعلية لإدارة التنبيه الفعال -->
+    <!-- نافذة إدارة التنبيه الفعال -->
     <div class="modal-overlay" id="timerManageModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size:36px; margin-bottom:6px;">⏱️</div>
@@ -954,7 +602,7 @@
         </div>
     </div>
 
-    <!-- 🪟 نافذة الاقتراحات الذكية بعد حفظ التسجيل الصوتي الخام -->
+    <!-- نافذة الاقتراحات الذكية للصوت -->
     <div class="modal-overlay" id="postRecordingModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size:38px; margin-bottom:6px;">🎙️</div>
@@ -965,7 +613,7 @@
         </div>
     </div>
 
-    <!-- 🪟 نافذة تسجيل الصوت الخام -->
+    <!-- نافذة تسجيل الصوت الخام -->
     <div class="modal-overlay" id="voiceModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size:36px; color:var(--accent-red, #FF3B30); margin-bottom:8px;">🎙️</div>
@@ -978,7 +626,7 @@
         </div>
     </div>
 
-    <!-- 🪟 نافذة تسجيل الدخول والتحقق الآمن -->
+    <!-- نافذة تسجيل الدخول -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -1005,7 +653,7 @@
         </div>
     </div>
 
-    <!-- 🪟 نافذة الإجراءات الموحدة (دقائق واسم اختياري فقط) -->
+    <!-- نافذة الإضافة الموحدة -->
     <div class="modal-overlay" id="actionModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
@@ -1016,7 +664,7 @@
         </div>
     </div>
 
-    <!-- 🔔 نافذة رنين التنبيه أثناء فتح التطبيق -->
+    <!-- نافذة رنين التنبيه المباشر -->
     <div class="modal-overlay" id="activeAlarmModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size: 40px; margin-bottom: 8px;">⏰</div>
@@ -1055,12 +703,20 @@
                 } else { data[key] = []; }
             });
             if (!data.settings) data.settings = { darkMode: false, displayName: '', theme: 'oneui' };
+            if (!data.cachedFeeds) data.cachedFeeds = {
+                weatherHourly: null,
+                weatherLastFetch: 0,
+                rates: { USD: "3.65", JOD: "5.15", EUR: "3.95" },
+                ratesLastFetch: 0,
+                cachedUser: null
+            };
             return data;
         }
 
         let localRaw = '{}';
         try { localRaw = localStorage.getItem('myLifeAppDB') || '{}'; } catch(e) {}
-        let db = normalizeDB(JSON.parse(localRaw));
+        let db;
+        try { db = normalizeDB(JSON.parse(localRaw)); } catch(e) { db = normalizeDB({}); }
         const todayStr = new Date().toISOString().split('T')[0];
         let livePrayersList = [];
 
@@ -1081,6 +737,7 @@
                 const cloudPayload = JSON.parse(JSON.stringify(db));
                 cloudPayload.notes.forEach(n => { delete n.audioData; });
                 delete cloudPayload._hasLocalChanges;
+                delete cloudPayload.cachedFeeds;
 
                 userDbRef.set(cloudPayload).then(() => {
                     db._hasLocalChanges = false;
@@ -1119,7 +776,6 @@
             showToast('🎨 تم تغيير ثيم التطبيق وحفظه');
         }
 
-        // تهيئة Firebase الآمنة مع دمج ذكي للبيانات لمنع ضياع أي تعديل بالأوفلاين
         try {
             if (typeof firebase !== 'undefined') {
                 if (!firebase.apps || !firebase.apps.length) {
@@ -1139,10 +795,11 @@
                             const data = snapshot.val();
                             if (data) {
                                 if (db._hasLocalChanges) {
-                                    // إذا تم تعديل بيانات بالأوفلاين، لا نمسحها بل نرفع نسختنا المحلية الأحدث للسحابة
                                     saveToCloud();
                                 } else {
+                                    const feeds = db.cachedFeeds;
                                     db = normalizeDB(data);
+                                    db.cachedFeeds = feeds;
                                     try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
                                     applyThemeUI();
                                     updateUI();
@@ -1199,7 +856,7 @@
                 const userCred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
                 await userCred.user.sendEmailVerification();
                 await firebase.auth().signOut();
-                alert('✅ تم إنشاء الحساب بنجاح!\n\nتم إرسال رابط تفعيل إلى بريدك الإلكتروني (تحقق من Spam).\n\n⚠️ يجب تفعيل الحساب خلال 24 ساعة وإلا سيحذف تلقائياً.');
+                alert('✅ تم إنشاء الحساب بنجاح!\n\nتم إرسال رابط تفعيل إلى بريدك الإلكتروني (تحقق من Spam).');
                 closeAuthModal();
             } catch (err) {
                 alert('فشل إنشاء الحساب: ' + err.message);
@@ -1216,7 +873,7 @@
             try {
                 showToast('جاري إرسال رابط الاستعادة...');
                 await firebase.auth().sendPasswordResetEmail(email);
-                alert('✅ تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.\n\n(تحقق من البريد غير المرغوب به Spam).');
+                alert('✅ تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.');
             } catch (err) {
                 alert('فشل الإرسال: ' + err.message);
             }
@@ -1309,13 +966,12 @@
                     await plugin.requestPermissions();
                 }
 
-                // قناة إشعارات فائقة الأولوية لاختراق الصامت والسكون وقفل الشاشة
                 await plugin.createChannel({
                     id: 'lifeos_ultra_alarm_v4',
                     name: 'منبهات Life OS الفائقة',
                     description: 'قناة المنبهات الرسمية ذات الأولوية القصوى',
-                    importance: 5, // MAX IMPORTANCE
-                    visibility: 1, // PUBLIC (تظهر فوق شاشة القفل)
+                    importance: 5,
+                    visibility: 1,
                     sound: 'marimba',
                     vibration: true,
                     lights: true
@@ -1324,12 +980,9 @@
                 plugin.addListener('localNotificationActionPerformed', () => {
                     dismissActiveAlarm();
                 });
-            } catch (e) {
-                console.warn("Notifications init:", e);
-            }
+            } catch (e) {}
         }
 
-        // جدولة المنبه الصارم بنظام allowWhileIdle
         async function scheduleSystemNotification(title, minutes, reminderId) {
             const plugin = getNativePlugin();
             if (!plugin) return;
@@ -1350,7 +1003,7 @@
                         title: notifTitle,
                         body: notifBody,
                         id: safeId,
-                        schedule: { at: targetDate, allowWhileIdle: true }, // تشغيل إجباري في السكون العميق
+                        schedule: { at: targetDate, allowWhileIdle: true },
                         sound: 'marimba',
                         channelId: 'lifeos_ultra_alarm_v4'
                     }]
@@ -1440,7 +1093,6 @@
             return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
 
-        // ضبط سريع ومباشر (دقائق + اسم اختياري)
         function addReminderFast(mins, title = '') {
             getAudioContext();
             const now = Date.now();
@@ -1529,7 +1181,7 @@
         }
 
         // =========================================================================
-        // --- 2. مواقيت الصلاة لجنين والطقس السريع المستقر ---
+        // --- 2. مواقيت الصلاة والطقس التنبؤي والعملات ---
         // =========================================================================
         function calculatePalestinePrayerTimes(date = new Date()) {
             const lat = 32.4646;
@@ -1624,6 +1276,10 @@
             fetchWeather();
             fetchCurrencies();
             setInterval(fetchWeather, 20 * 60 * 1000);
+        }
+
+        function requestBatteryOptimizationExemption() {
+            alert('لضمان عمل المنبه بدقة متناهية والتطبيق مغلق:\n\n1. اذهب لإعدادات البطارية بالهاتف واختر تطبيق LifeOS.\n2. اختر "غير مقيد" (Unrestricted).\n3. تأكد من تفعيل "التشغيل التلقائي" (Autostart) إن وجد.');
         }
 
         // =========================================================================
@@ -1921,14 +1577,19 @@
             document.getElementById('actionModal').classList.remove('active');
         }
 
+        // دالة ضبط مدة الاشتراك السريعة بالأشهر
         function setSubDuration(months) {
-            const startVal = document.getElementById('actSubStartDate').value || todayStr;
+            const startInput = document.getElementById('actSubStartDate');
+            const endInput = document.getElementById('actSubEndDate');
+            if (!startInput || !endInput) return;
+            const startVal = startInput.value || todayStr;
             const d = new Date(startVal);
+            if (isNaN(d.getTime())) return;
             d.setMonth(d.getMonth() + months);
-            document.getElementById('actSubEndDate').value = d.toISOString().split('T')[0];
+            endInput.value = d.toISOString().split('T')[0];
         }
 
-        // نافذة الإضافة: دقائق واسم فقط للتنبيه كما طلبت بحذافيره
+        // نافذة الإضافة الموحدة النظيفة بدون تكرار
         function openModalAction(type) {
             closeTopDropdown();
             const modal = document.getElementById('actionModal');
@@ -1957,12 +1618,16 @@
                 `;
             } else if (type === 'subscription') {
                 title.innerText = '🔁 تسجيل اشتراك جديد';
+                const d = new Date();
+                d.setMonth(d.getMonth() + 1);
+                const defaultEnd = d.toISOString().split('T')[0];
+
                 container.innerHTML = `
                     <input type="text" id="actSubName" placeholder="اسم الاشتراك (نتفلكس، جيم...)" class="app-input" required>
                     <input type="number" id="actSubAmount" placeholder="المبلغ (₪)" class="app-input" required>
                     
                     <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">تاريخ بدء الاشتراك:</label>
-                    <input type="date" id="actSubStartDate" value="${todayStr}" class="app-input">
+                    <input type="date" id="actSubStartDate" value="${todayStr}" class="app-input" onchange="setSubDuration(1)">
                     
                     <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">مدة الاشتراك السريعة:</label>
                     <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
@@ -1974,11 +1639,10 @@
                     </div>
 
                     <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">تاريخ انتهاء الاشتراك:</label>
-                    <input type="date" id="actSubEndDate" class="app-input" required>
+                    <input type="date" id="actSubEndDate" value="${defaultEnd}" class="app-input" required>
                     
                     <button type="button" onclick="submitActSub()" class="btn-action">حفظ الاشتراك</button>
                 `;
-                setTimeout(() => setSubDuration(1), 50);
             } else if (type === 'bill') {
                 title.innerText = '🧾 تسجيل فاتورة جديدة';
                 container.innerHTML = `
@@ -1998,8 +1662,8 @@
                 container.innerHTML = `
                     <input type="text" id="actVaultName" placeholder="اسم الحساب / الموقع" class="app-input" required>
                     <input type="text" id="actVaultUser" placeholder="اسم المستخدم / الإيميل" class="app-input" required>
-                    <input type="text" id="actVaultPass" placeholder="كلمة المرور" class="app-input" required>
-                    <textarea id="actVaultNote" rows="2" placeholder="ملاحظات أو تفاصيل إضافية..." class="app-input"></textarea>
+                    <input type="password" id="actVaultPass" placeholder="كلمة المرور" class="app-input" required>
+                    <textarea id="actVaultNote" rows="2" placeholder="ملاحظات وتفاصيل إضافية..." class="app-input"></textarea>
                     <button type="button" onclick="submitActVault()" class="btn-action">حفظ بالخزنة</button>
                 `;
             } else if (type === 'doc') {
@@ -2014,83 +1678,115 @@
         }
 
         function submitActAlarmFast() {
-            const mins = parseInt(document.getElementById('actAlarmMins').value, 10);
-            const title = document.getElementById('actAlarmTitle').value;
+            const minsInput = document.getElementById('actAlarmMins');
+            const titleInput = document.getElementById('actAlarmTitle');
+            if (!minsInput) return;
+            const mins = parseInt(minsInput.value, 10);
+            const title = titleInput ? titleInput.value : '';
             if (!mins || mins <= 0) return alert('أدخل عدد دقائق صحيح');
             addReminderFast(mins, title);
             closeModalAction();
         }
 
         function submitActTodo() {
-            const text = document.getElementById('actTodoText').value;
-            if (!text.trim()) return alert('اكتب نص المهمة');
-            db.todos.push({ id: Date.now(), text: text.trim(), done: false, date: todayStr });
+            const textEl = document.getElementById('actTodoText');
+            if (!textEl || !textEl.value.trim()) return alert('اكتب نص المهمة');
+            db.todos.push({ id: Date.now(), text: textEl.value.trim(), done: false, date: todayStr });
             finalizeAction();
             closeModalAction();
         }
 
         function submitActExpense() {
-            const desc = document.getElementById('actExpDesc').value;
-            const amount = document.getElementById('actExpAmount').value;
+            const descEl = document.getElementById('actExpDesc');
+            const amountEl = document.getElementById('actExpAmount');
+            if (!descEl || !amountEl) return;
+            const desc = descEl.value.trim();
+            const amount = amountEl.value;
             if (!desc || !amount) return alert('يرجى كتابة الوصف والمبلغ');
-            db.expenses.push({ id: Date.now(), desc: desc.trim(), amount: amount, date: todayStr });
+            db.expenses.push({ id: Date.now(), desc: desc, amount: amount, date: todayStr });
             finalizeAction();
             closeModalAction();
         }
 
         function submitActSub() {
-            const name = document.getElementById('actSubName').value;
-            const amount = document.getElementById('actSubAmount').value;
-            const startDate = document.getElementById('actSubStartDate').value || todayStr;
-            const endDate = document.getElementById('actSubEndDate').value;
-            if (!name || !amount || !endDate) return alert('يرجى ملء كافة البيانات');
-            
+            const nameEl = document.getElementById('actSubName');
+            const amountEl = document.getElementById('actSubAmount');
+            const startEl = document.getElementById('actSubStartDate');
+            const endEl = document.getElementById('actSubEndDate');
+            if (!nameEl || !amountEl) return;
+
+            const name = nameEl.value.trim();
+            const amount = amountEl.value;
+            const startDate = (startEl && startEl.value) ? startEl.value : todayStr;
+            let endDate = endEl ? endEl.value : '';
+
+            if (!name || !amount) {
+                alert('يرجى كتابة اسم الاشتراك والمبلغ');
+                return;
+            }
+
+            if (!endDate) {
+                const d = new Date(startDate);
+                d.setMonth(d.getMonth() + 1);
+                endDate = d.toISOString().split('T')[0];
+            }
+
             db.subscriptions.push({
                 id: Date.now(),
-                name: name.trim(),
+                name: name,
                 amount: amount,
                 startDate: startDate,
                 endDate: endDate,
                 renewalDate: endDate,
                 createdAt: Date.now()
             });
+
             finalizeAction();
             closeModalAction();
+            showToast('✅ تم حفظ الاشتراك بنجاح');
         }
 
         function submitActBill() {
-            const type = document.getElementById('actBillType').value;
-            const amount = document.getElementById('actBillAmount').value;
-            if (!amount) return alert('أدخل المبلغ');
-            db.fixed_bills.push({ id: Date.now(), type: type, amount: amount, date: todayStr });
+            const typeEl = document.getElementById('actBillType');
+            const amountEl = document.getElementById('actBillAmount');
+            if (!amountEl || !amountEl.value) return alert('أدخل المبلغ');
+            db.fixed_bills.push({ id: Date.now(), type: typeEl.value, amount: amountEl.value, date: todayStr });
             finalizeAction();
             closeModalAction();
         }
 
         function submitActNote() {
-            const body = document.getElementById('actNoteBody').value;
-            if (!body.trim()) return alert('اكتب نص الملاحظة');
-            db.notes.push({ id: Date.now(), title: document.getElementById('actNoteTitle').value || 'ملاحظة', body: body });
+            const bodyEl = document.getElementById('actNoteBody');
+            const titleEl = document.getElementById('actNoteTitle');
+            if (!bodyEl || !bodyEl.value.trim()) return alert('اكتب نص الملاحظة');
+            db.notes.push({ id: Date.now(), title: (titleEl && titleEl.value) ? titleEl.value : 'ملاحظة', body: bodyEl.value });
             finalizeAction();
             closeModalAction();
         }
 
         function submitActVault() {
-            const name = document.getElementById('actVaultName').value;
-            const username = document.getElementById('actVaultUser').value;
-            const pass = document.getElementById('actVaultPass').value;
-            const note = document.getElementById('actVaultNote').value;
-            if (!name || !pass) return alert('أدخل اسم الحساب وكلمة المرور');
-            db.vault.push({ id: Date.now(), accountName: name, username: username, password: pass, note: note, date: todayStr });
+            const nameEl = document.getElementById('actVaultName');
+            const userEl = document.getElementById('actVaultUser');
+            const passEl = document.getElementById('actVaultPass');
+            const noteEl = document.getElementById('actVaultNote');
+            if (!nameEl || !passEl || !nameEl.value || !passEl.value) return alert('أدخل اسم الحساب وكلمة المرور');
+            db.vault.push({
+                id: Date.now(),
+                accountName: nameEl.value,
+                username: userEl ? userEl.value : '',
+                password: passEl.value,
+                note: noteEl ? noteEl.value : '',
+                date: todayStr
+            });
             finalizeAction();
             closeModalAction();
         }
 
         function submitActDoc() {
-            const name = document.getElementById('actDocName').value;
-            const expiry = document.getElementById('actDocExpiry').value;
-            if (!name || !expiry) return alert('أدخل البيانات');
-            db.documents.push({ id: Date.now(), name: name, expiryDate: expiry });
+            const nameEl = document.getElementById('actDocName');
+            const expEl = document.getElementById('actDocExpiry');
+            if (!nameEl || !expEl || !nameEl.value || !expEl.value) return alert('أدخل البيانات المطلوبة');
+            db.documents.push({ id: Date.now(), name: nameEl.value, expiryDate: expEl.value });
             finalizeAction();
             closeModalAction();
         }
@@ -2098,7 +1794,7 @@
         function handleQuickTodo(e) {
             e.preventDefault();
             const input = document.getElementById('todoInputTab');
-            if (!input.value.trim()) return;
+            if (!input || !input.value.trim()) return;
             db.todos.push({ id: Date.now(), text: input.value.trim(), done: false, date: todayStr });
             input.value = '';
             finalizeAction();
@@ -2107,146 +1803,6 @@
         // =========================================================================
         // --- 4. تحديث الواجهة الشامل لجميع الأقسام وقوائم البيانات ---
         // =========================================================================
-        function renderPrayersAndAlarmsCombined() {
-            const now = Date.now();
-            const container = document.getElementById('prayersAlarmsFullList');
-            if (!container) return;
-
-            const combined = [];
-            livePrayersList.forEach(p => {
-                combined.push({
-                    title: p.title,
-                    targetTime: p.targetTime,
-                    isPrayer: true
-                });
-            });
-
-            db.reminders.forEach(r => {
-                if (!r.triggered && r.targetTime > now) {
-                    combined.push({
-                        id: r.id,
-                        title: `⏰ ${r.title || `تنبيه (${r.minutes} د)`}`,
-                        targetTime: r.targetTime,
-                        isPrayer: false
-                    });
-                }
-            });
-
-            combined.sort((a, b) => a.targetTime - b.targetTime);
-
-            container.innerHTML = combined.map(item => {
-                const isPending = item.targetTime > now;
-                const timeStr = new Date(item.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
-                if (item.isPrayer) {
-                    return `
-                    <div class="list-row">
-                        <div>
-                            <strong>${item.title}</strong>
-                            <div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div>
-                        </div>
-                        <span class="tag-badge ${isPending ? 'green' : ''}">${isPending ? `⏳ ${formatTime(item.targetTime - now)}` : '✅ تم'}</span>
-                    </div>`;
-                } else {
-                    return `
-                    <div class="list-row">
-                        <div>
-                            <strong>${item.title}</strong>
-                            <div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div>
-                        </div>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                            <button onclick="renameReminder(${item.id})" class="tag-badge" title="تسمية">✏️</button>
-                            <span class="tag-badge">⏳ ${formatTime(item.targetTime - now)}</span>
-                            <button onclick="confirmDeleteReminder(${item.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer; font-size:16px;" title="إلغاء">✖</button>
-                        </div>
-                    </div>`;
-                }
-            }).join('') || '<p style="color:var(--text-secondary); text-align:center;">لا توجد صلوات أو تنبيهات قادمة</p>';
-        }
-
-        function renderPrayersAndReminders() {
-            const now = Date.now();
-            
-            const nextPrayer = livePrayersList.find(p => p.targetTime > now);
-            const topPrayerText = document.getElementById('topPrayerText');
-            if (topPrayerText) {
-                if (nextPrayer) {
-                    topPrayerText.innerText = `${nextPrayer.title.replace('🕌 ', '')} ${formatTime(nextPrayer.targetTime - now)}`;
-                } else {
-                    topPrayerText.innerText = 'اكتملت الصلوات';
-                }
-            }
-
-            const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
-            activeReminders.sort((a,b) => a.targetTime - b.targetTime);
-
-            const countText = document.getElementById('activeRemindersCountText');
-            if (countText) countText.innerText = `${activeReminders.length} تنبيهات نشطة`;
-
-            const nearest = activeReminders[0];
-            const circle = document.getElementById('timerProgressCircle');
-            const timeEl = document.getElementById('nearestTimerTime');
-            const labelEl = document.getElementById('nearestTimerLabel');
-
-            if (nearest) {
-                const remainingMs = nearest.targetTime - now;
-                const totalDuration = (nearest.minutes * 60 * 1000) || (nearest.targetTime - nearest.createdAt) || remainingMs;
-                const fraction = Math.max(0, Math.min(1, remainingMs / totalDuration));
-                const strokeTotal = 326.72;
-                
-                if (circle) circle.style.strokeDashoffset = strokeTotal * (1 - fraction);
-                if (timeEl) timeEl.innerText = formatTime(remainingMs);
-                if (labelEl) labelEl.innerText = nearest.title || `تنبيه (${nearest.minutes} د)`;
-            } else if (nextPrayer) {
-                const remainingMs = nextPrayer.targetTime - now;
-                if (circle) circle.style.strokeDashoffset = 0;
-                if (timeEl) timeEl.innerText = formatTime(remainingMs);
-                if (labelEl) labelEl.innerText = nextPrayer.title.replace('🕌 ', '');
-            } else {
-                if (circle) circle.style.strokeDashoffset = 326.72;
-                if (timeEl) timeEl.innerText = "--:--";
-                if (labelEl) labelEl.innerText = "لا توجد تنبيهات";
-            }
-
-            const dashRemPreview = document.getElementById('dashRemindersPreview');
-            if (dashRemPreview) {
-                const restReminders = activeReminders.slice(1, 3);
-                dashRemPreview.innerHTML = restReminders.map(r => `
-                    <div class="list-row">
-                        <div>
-                            <strong>${r.title || `تنبيه (${r.minutes} د)`}</strong>
-                            <div style="font-size:12px; color:var(--text-secondary);">${new Date(r.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}</div>
-                        </div>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                            <button onclick="renameReminder(${r.id})" class="tag-badge" title="تسمية">✏️</button>
-                            <span class="tag-badge">⏳ ${formatTime(r.targetTime - now)}</span>
-                            <button onclick="confirmDeleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer; font-size:16px;" title="إلغاء">✖</button>
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            renderPrayersAndAlarmsCombined();
-        }
-
-        setInterval(() => {
-            const now = Date.now();
-            let changed = false;
-
-            db.reminders.forEach(r => {
-                if (!r.triggered) {
-                    const diff = r.targetTime - now;
-                    if (diff <= 0) {
-                        r.triggered = true;
-                        changed = true;
-                        startAlarm(r.title);
-                    }
-                }
-            });
-
-            renderPrayersAndReminders();
-            if (changed) finalizeAction();
-        }, 1000);
-
         function updateUI() {
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
@@ -2254,11 +1810,11 @@
 
             db.expenses.forEach(ex => {
                 const d = new Date(ex.date);
-                if (d.getMonth() === cMonth && d.getFullYear() === cYear) spentMonth += parseFloat(ex.amount);
+                if (d.getMonth() === cMonth && d.getFullYear() === cYear) spentMonth += parseFloat(ex.amount || 0);
             });
             db.fixed_bills.forEach(b => {
                 const d = new Date(b.date);
-                if (d.getMonth() === cMonth && d.getFullYear() === cYear) spentMonth += parseFloat(b.amount);
+                if (d.getMonth() === cMonth && d.getFullYear() === cYear) spentMonth += parseFloat(b.amount || 0);
             });
 
             const textMonthlySpent = document.getElementById('textMonthlySpent');
@@ -2295,7 +1851,7 @@
             }
 
             const expToday = db.expenses.filter(e => e.date === todayStr);
-            let todayTotal = expToday.reduce((sum, item) => sum + parseFloat(item.amount), 0);
+            let todayTotal = expToday.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0);
             const dashExpensesTotal = document.getElementById('dashExpensesTotal');
             if (dashExpensesTotal) dashExpensesTotal.innerText = `${todayTotal} ₪`;
 
@@ -2314,9 +1870,10 @@
             db.expenses.forEach(ex => {
                 const exDate = new Date(ex.date);
                 const diffDays = (now - exDate) / (1000 * 60 * 60 * 24);
-                if(ex.date === todayStr) tDay += parseFloat(ex.amount);
-                if(diffDays <= 7) tWeek += parseFloat(ex.amount);
-                if(exDate.getMonth() === cMonth && exDate.getFullYear() === cYear) tMonth += parseFloat(ex.amount);
+                const amt = parseFloat(ex.amount || 0);
+                if(ex.date === todayStr) tDay += amt;
+                if(diffDays <= 7) tWeek += amt;
+                if(exDate.getMonth() === cMonth && exDate.getFullYear() === cYear) tMonth += amt;
             });
             const statToday = document.getElementById('statToday');
             const statWeek = document.getElementById('statWeek');
@@ -2356,6 +1913,20 @@
                     </div>`;
                 });
                 billsSubsEl.innerHTML = combined || '<p style="color:var(--text-secondary);">لا توجد فواتير أو اشتراكات مسجلة.</p>';
+            }
+
+            // عرض شريط التقدم المتناقص للاشتراكات في الرئيسية
+            const subProgressEl = document.getElementById('dashSubscriptionsProgressList');
+            if (subProgressEl) {
+                subProgressEl.innerHTML = db.subscriptions.map(sub => {
+                    const start = new Date(sub.startDate || todayStr);
+                    const end = new Date(sub.endDate || todayStr);
+                    const today = new Date(todayStr);
+                    const totalDays = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)));
+                    const remainingDays = Math.max(0, Math.ceil((end - today) / (1000 * 60 * 60 * 24)));
+                    const progressPercent = Math.max(0, Math.min(100, (remainingDays / totalDays) * 100));
+                    return `<div class="sub-card-item"><div class="sub-header-row"><span>${sub.name}</span><strong style="color:var(--accent-color);">${sub.amount} ₪</strong></div><div class="sub-meta-row"><span>ينتهي: ${sub.endDate}</span><span style="font-weight:700; color:${remainingDays <= 3 ? 'var(--accent-red, #FF3B30)' : 'var(--text-secondary)'};">متبقي ${remainingDays} يوم</span></div><div class="sub-progress-track"><div class="sub-progress-fill" style="width: ${progressPercent}%; background:${remainingDays <= 3 ? 'var(--accent-red, #FF3B30)' : 'var(--accent-color)'};"></div></div></div>`;
+                }).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد اشتراكات مسجلة حالياً.</p>';
             }
 
             const notesEl = document.getElementById('notesFullList');
@@ -2466,29 +2037,7 @@
             dl.click();
         }
 
-        async function requestNotificationPermission() {
-            getAudioContext();
-            testPrestigeAlarm();
-            const plugin = getNativePlugin();
-            if (plugin) {
-                try {
-                    const res = await plugin.requestPermissions();
-                    if (res.display === 'granted') {
-                        alert('✅ تم تفعيل قناة التنبيهات المسموعة بنجاح!');
-                        return;
-                    }
-                } catch(e) {}
-            }
-            if ('Notification' in window) {
-                Notification.requestPermission().then(p => {
-                    if (p === 'granted') alert('✅ تم تفعيل الإشعارات بنجاح!');
-                });
-            }
-        }
-
-        // =========================================================================
-        // --- 5. الإقلاع المباشر والتنفيذ الأولي ---
-        // =========================================================================
+        // تطبيق الثيم والبدء
         applyThemeUI();
         initNativeNotifications();
         loadAccuratePrayers();
