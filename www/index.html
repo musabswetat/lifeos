@@ -7,11 +7,11 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#121212" id="themeColorMeta">
+    <meta name="theme-color" content="#F2F2F7" id="themeColorMeta">
 
     <title>Life OS</title>
     
-    <!-- ☁️ مكتبات Firebase السحابية الرسمية -->
+    <!-- مكتبات Firebase السحابية الرسمية -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
@@ -140,7 +140,7 @@
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
-            padding-top: max(16px, env(safe-area-inset-top, 16px));
+            padding-top: max(20px, env(safe-area-inset-top, 20px));
             padding-right: 18px;
             padding-left: 18px;
             padding-bottom: calc(var(--dock-height) + 85px);
@@ -151,7 +151,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 6px 2px;
+            padding: 8px 2px;
             position: relative;
         }
         .top-prayer-info {
@@ -219,16 +219,29 @@
         }
         .dropdown-item:active { background: var(--surface-inner); }
 
-        .oneui-header-area { padding: 12px 2px 18px 2px; }
-        .oneui-title-hero-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 6px; }
-        .oneui-title-hero { font-size: 34px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0; }
+        .oneui-header-area { padding: 12px 2px 14px 2px; }
+        .oneui-title-hero-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+        .oneui-title-hero { font-size: 32px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0; }
         .edit-name-icon-btn {
             background: var(--surface-card); border: 1px solid var(--border-subtle); color: var(--accent-color);
-            font-size: 12px; width: 30px; height: 30px; border-radius: 50%; display: none; align-items: center;
+            font-size: 12px; width: 28px; height: 28px; border-radius: 50%; display: none; align-items: center;
             justify-content: center; cursor: pointer; box-shadow: var(--shadow-subtle);
         }
         .oneui-sub-text { font-size: 13px; color: var(--text-secondary); font-weight: 500; line-height: 1.6; }
         .oneui-currency-line { font-size: 13px; color: var(--text-secondary); font-weight: 500; margin-top: 3px; }
+
+        /* شريط العادات اليومية التفاعلي */
+        .habits-strip {
+            display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 10px 2px; margin-bottom: 4px;
+        }
+        .habit-chip {
+            background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
+            padding: 7px 14px; font-size: 12px; font-weight: 700; color: var(--text-secondary); cursor: pointer;
+            display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s ease;
+        }
+        .habit-chip.done {
+            background: var(--surface-inner); color: var(--accent-green); border-color: var(--accent-green);
+        }
 
         .circular-timer-wrapper {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -319,21 +332,22 @@
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
             z-index: 99999; align-items: center; justify-content: center; padding: 20px;
         }
-        .modal-overlay.active { display: flex; }
+        .modal-overlay.active { display: flex !important; }
         .modal-box {
             background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-card);
             padding: 24px; width: 100%; max-width: 380px; backdrop-filter: var(--card-backdrop);
         }
 
         #syncToast {
-            position: fixed; top: 14px; left: 50%; transform: translateX(-50%); background: var(--surface-card);
-            border: 1px solid var(--border-subtle); padding: 6px 16px; border-radius: var(--radius-pill);
-            font-size: 12px; font-weight: 700; opacity: 0; transition: opacity 0.25s ease; z-index: 9999; pointer-events: none;
+            position: fixed; top: max(20px, env(safe-area-inset-top, 20px)); left: 50%; transform: translateX(-50%);
+            background: var(--surface-card); border: 1px solid var(--border-subtle); padding: 6px 16px;
+            border-radius: var(--radius-pill); font-size: 12px; font-weight: 700; opacity: 0; transition: opacity 0.25s ease;
+            z-index: 99999; pointer-events: none; box-shadow: var(--shadow-subtle);
         }
         #syncToast.show { opacity: 1; }
     </style>
 </head>
-<body>
+<body class="theme-oneui light-mode">
 
     <div id="syncToast">☁️ مزامنة...</div>
 
@@ -349,7 +363,7 @@
             <div class="top-actions-cluster">
                 <div id="googleAuthContainer" onclick="openAuthModal()">
                     <div class="user-auth-pill" id="googleAuthBtn">
-                        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;margin-left:2px;"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
                         <span id="userNameSpan">حسابي</span>
                     </div>
                 </div>
@@ -368,6 +382,7 @@
             <div class="oneui-dropdown" id="topDropdownMenu">
                 <button class="dropdown-item" onclick="switchNavSection('notes-view')">📝 الملاحظات والتسجيلات</button>
                 <button class="dropdown-item" onclick="switchNavSection('finance-view')">🧾 الفواتير والاشتراكات</button>
+                <button class="dropdown-item" onclick="switchNavSection('debts-view')">🤝 سجل الديون والالتزامات</button>
                 <button class="dropdown-item" onclick="switchNavSection('todos-view')">✅ إدارة كافة المهام</button>
                 <button class="dropdown-item" onclick="switchNavSection('vault-view')">🔐 الخزنة المشفرة</button>
                 <button class="dropdown-item" onclick="switchNavSection('docs-view')">🆔 الوثائق الرسمية</button>
@@ -396,18 +411,25 @@
                 </button>
             </div>
             
-            <div class="oneui-sub-text" id="oneuiSubInfo" style="margin-top:6px;">
+            <div class="oneui-sub-text" id="oneuiSubInfo">
                 📍 جنين <span id="textWeather">--°C ⛅</span> · صرف هذا الشهر: <span id="textMonthlySpent">0 ₪</span>
             </div>
-            <div class="oneui-currency-line" id="oneuiCurrencyLine">
+            <div class="oneui-currency-line">
                 USD <span id="textUSD">--</span> ₪ · JOD <span id="textJOD">--</span> ₪ · EUR <span id="textEUR">--</span> ₪
             </div>
+        </div>
+
+        <!-- شريط العادات اليومية الصباحية (Micro-Habits) -->
+        <div class="habits-strip" id="dashHabitsStrip">
+            <div class="habit-chip" onclick="toggleHabit('water')">💧 شرب ماء</div>
+            <div class="habit-chip" onclick="toggleHabit('reading')">📖 قراءة</div>
+            <div class="habit-chip" onclick="toggleHabit('workout')">🏃 رياضة</div>
+            <div class="habit-chip" onclick="toggleHabit('adhkar')">🤲 أذكار</div>
         </div>
 
         <!-- 🏠 1. تبويب الرئيسية -->
         <div id="dashboard-view" class="section-view active">
             
-            <!-- التنبيهات المباشرة -->
             <div class="section-label">التنبيهات المباشرة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
@@ -428,11 +450,11 @@
                     </div>
                 </div>
 
-                <!-- اختصارات الدقائق السريعة -->
+                <!-- اختصارات الدقائق السريعة + زر بومودورو للتركيز -->
                 <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin:10px 0 6px 0;">
                     <button class="tag-badge" onclick="addReminderFast(15, 'تنبيه 15 دقيقة')">15 د</button>
                     <button class="tag-badge" onclick="addReminderFast(20, 'تنبيه 20 دقيقة')">20 د</button>
-                    <button class="tag-badge" onclick="addReminderFast(25, 'تنبيه 25 دقيقة')">25 د</button>
+                    <button class="tag-badge" onclick="addReminderFast(25, 'جلسة تركيز بومودورو 🎯')">🎯 تركيز 25 د</button>
                     <button class="tag-badge" onclick="addReminderFast(30, 'تنبيه 30 دقيقة')">30 د</button>
                     <button class="tag-badge" onclick="addReminderFast(45, 'تنبيه 45 دقيقة')">45 د</button>
                 </div>
@@ -475,13 +497,24 @@
 
         </div>
 
-        <!-- 🕌⏰ 2. تبويب الصلوات والتنبيهات الموحد -->
+        <!-- 🕌⏰ 2. تبويب الصلوات والتنبيهات -->
         <div id="prayers-alarms-view" class="section-view">
             <div class="section-label">مواقيت الصلاة والتنبيهات النشطة</div>
             <div class="oneui-card" id="prayersAlarmsFullList"></div>
         </div>
 
-        <!-- ✅ 3. تبويب إدارة كافة المهام -->
+        <!-- 🤝 3. تبويب سجل الديون والالتزامات -->
+        <div id="debts-view" class="section-view">
+            <div class="section-label">سجل الديون والمستحقات</div>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+                    <button onclick="openModalAction('debt')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ تسجيل دين / مستحق</button>
+                </div>
+                <div id="debtsFullList"></div>
+            </div>
+        </div>
+
+        <!-- ✅ 4. تبويب المهام -->
         <div id="todos-view" class="section-view">
             <div class="section-label">إدارة كافة المهام</div>
             <div class="oneui-card">
@@ -493,7 +526,7 @@
             </div>
         </div>
 
-        <!-- 📊 4. تبويب المصاريف والفواتير -->
+        <!-- 📊 5. تبويب المصاريف والفواتير -->
         <div id="finance-view" class="section-view">
             <div class="section-label">ملخص المصاريف</div>
             <div class="oneui-card">
@@ -516,7 +549,7 @@
             <div class="oneui-card" id="expensesFullList"></div>
         </div>
 
-        <!-- 📝 5. تبويب الملاحظات والتسجيلات الصوتية -->
+        <!-- 📝 6. تبويب الملاحظات والتسجيلات -->
         <div id="notes-view" class="section-view">
             <div class="section-label">الملاحظات والتسجيلات الصوتية</div>
             <div class="oneui-card">
@@ -528,7 +561,7 @@
             </div>
         </div>
 
-        <!-- 🔐 6. تبويب الخزنة -->
+        <!-- 🔐 7. تبويب الخزنة -->
         <div id="vault-view" class="section-view">
             <div class="section-label">الحسابات المشفرة</div>
             <div class="oneui-card">
@@ -539,7 +572,7 @@
             </div>
         </div>
 
-        <!-- 🆔 7. تبويب الوثائق -->
+        <!-- 🆔 8. تبويب الوثائق -->
         <div id="docs-view" class="section-view">
             <div class="section-label">الوثائق الرسمية</div>
             <div class="oneui-card">
@@ -550,7 +583,7 @@
             </div>
         </div>
 
-        <!-- ⚙️ 8. تبويب الإعدادات -->
+        <!-- ⚙️ 9. تبويب الإعدادات -->
         <div id="settings-view" class="section-view">
             <div class="section-label">الحساب والمزامنة السحابية</div>
             <div class="oneui-card">
@@ -577,14 +610,18 @@
                 </select>
             </div>
 
-            <div class="section-label">النظام والتنبيهات القصوى</div>
+            <div class="section-label">النظام والنسخ الاحتياطي الشامل</div>
             <div class="oneui-card">
                 <div style="display:flex; gap:8px; flex-direction:column;">
                     <button onclick="testPrestigeAlarm()" class="btn-action">🎵 تجربة نغمة التنبيه</button>
                     <button onclick="requestBatteryOptimizationExemption()" class="btn-action" style="background:var(--surface-inner); color:var(--accent-color); border:1px solid var(--border-subtle);">
                         ⚡ إذن العمل بالخلفية (تجاوز توفير البطارية)
                     </button>
-                    <button onclick="exportData()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">📥 تصدير نسخة احتياطية</button>
+                    <button onclick="exportData()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">📥 تصدير نسخة احتياطية (JSON)</button>
+                    
+                    <!-- استيراد النسخة الاحتياطية -->
+                    <button onclick="triggerImportFile()" class="btn-action" style="background:var(--surface-inner); color:var(--accent-green); border:1px solid var(--border-subtle);">📤 استرجاع نسخة احتياطية (Import)</button>
+                    <input type="file" id="importBackupInput" accept=".json" style="display:none;" onchange="handleImportBackup(event)">
                 </div>
             </div>
         </div>
@@ -616,8 +653,8 @@
     <div class="modal-overlay" id="postRecordingModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size:38px; margin-bottom:6px;">🎙️</div>
-            <strong style="font-size:16px; display:block; margin-bottom:4px;">تم حفظ التسجيل الصوتي محلياً بنجاح!</strong>
-            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">النص المكتشف: <span id="transcribedVoiceText" style="color:var(--text-primary); font-weight:600;">--</span></p>
+            <strong style="font-size:16px; display:block; margin-bottom:4px;">تم حفظ التسجيل الصوتي بنجاح!</strong>
+            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">النص: <span id="transcribedVoiceText" style="color:var(--text-primary); font-weight:600;">--</span></p>
             <div id="smartSuggestionsContainer" style="display:flex; flex-direction:column; gap:8px; margin-top:8px;"></div>
             <button onclick="closePostRecordingModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary); margin-top:10px;">إغلاق</button>
         </div>
@@ -645,7 +682,7 @@
             </div>
             <div id="authFormArea">
                 <input type="email" id="authEmail" placeholder="البريد الإلكتروني..." class="app-input" required>
-                <input type="password" id="authPassword" placeholder="كلمة المرور (6 خانات فأكثر)..." class="app-input" required>
+                <input type="password" id="authPassword" placeholder="كلمة المرور..." class="app-input" required>
                 <div style="display:flex; gap:8px; margin-top:4px;">
                     <button onclick="submitUserLogin()" class="btn-action">دخول</button>
                     <button onclick="submitUserSignup()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إنشاء حساب</button>
@@ -655,10 +692,6 @@
                     <button onclick="handleForgotPassword()" style="background:none; border:none; color:var(--accent-color); cursor:pointer; font-weight:700;">نسيت كلمة المرور؟</button>
                     <button onclick="resendVerificationEmail()" style="background:none; border:none; color:var(--accent-color); cursor:pointer; font-weight:700;">طلب كود التفعيل</button>
                 </div>
-
-                <p style="font-size:11px; color:var(--text-secondary); text-align:center; margin-top:12px; line-height:1.5;">
-                    ملاحظة: قد تصل رسالة التحقق إلى <b>البريد غير المرغوب به (Spam)</b>. يجب تفعيل الحساب خلال 24 ساعة وإلا سيتم حذف الحساب تلقائياً.
-                </p>
             </div>
         </div>
     </div>
@@ -710,13 +743,14 @@
 
         function normalizeDB(data) {
             if (!data || typeof data !== 'object') data = {};
-            const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders'];
+            const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders', 'debts'];
             lists.forEach(key => {
                 if (data[key]) {
                     if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
                 } else { data[key] = []; }
             });
             if (!data.settings) data.settings = { darkMode: false, displayName: '', theme: 'oneui' };
+            if (!data.habits) data.habits = {};
             if (!data.cachedFeeds) data.cachedFeeds = {
                 weatherHourly: null,
                 weatherLastFetch: 0,
@@ -771,7 +805,8 @@
                 const StatusBar = window.Capacitor.Plugins.StatusBar;
                 try {
                     StatusBar.setBackgroundColor({ color: colorHex }).catch(() => {});
-                    StatusBar.setStyle({ style: isDark ? 'DARK' : 'LIGHT' }).catch(() => {});
+                    // في كاباسيتور: DARK تعني أيقونات داكنة على خلفية بيضاء، LIGHT تعني أيقونات بيضاء على خلفية مظلمة
+                    StatusBar.setStyle({ style: isDark ? 'LIGHT' : 'DARK' }).catch(() => {});
                 } catch(e) {}
             }
         }
@@ -839,8 +874,10 @@
                                     saveToCloud();
                                 } else {
                                     const feeds = db.cachedFeeds;
+                                    const habits = db.habits;
                                     db = normalizeDB(data);
                                     db.cachedFeeds = feeds;
+                                    if (habits) db.habits = habits;
                                     try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
                                     applyThemeUI();
                                     updateUI();
@@ -897,7 +934,7 @@
                 const userCred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
                 await userCred.user.sendEmailVerification();
                 await firebase.auth().signOut();
-                alert('✅ تم إنشاء الحساب بنجاح!\n\nتم إرسال رابط تفعيل إلى بريدك الإلكتروني (تحقق من Spam).\n\n⚠️ يجب تفعيل الحساب خلال 24 ساعة وإلا سيحذف تلقائياً.');
+                alert('✅ تم إنشاء الحساب بنجاح!\n\nتم إرسال رابط تفعيل إلى بريدك الإلكتروني.');
                 closeAuthModal();
             } catch (err) {
                 alert('فشل إنشاء الحساب: ' + err.message);
@@ -907,14 +944,14 @@
         async function handleForgotPassword() {
             const email = document.getElementById('authEmail').value.trim();
             if (!email) {
-                alert('يرجى كتابة بريدك الإلكتروني في حقل الإيميل أعلاه أولاً.');
+                alert('يرجى كتابة بريدك الإلكتروني أولاً.');
                 document.getElementById('authEmail').focus();
                 return;
             }
             try {
                 showToast('جاري إرسال رابط الاستعادة...');
                 await firebase.auth().sendPasswordResetEmail(email);
-                alert('✅ تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.');
+                alert('✅ تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك.');
             } catch (err) {
                 alert('فشل الإرسال: ' + err.message);
             }
@@ -924,7 +961,7 @@
             const email = document.getElementById('authEmail').value.trim();
             const pass = document.getElementById('authPassword').value;
             if (!email || !pass) {
-                alert('يرجى كتابة البريد وكلمة المرور في الحقول المخصصة أعلاه لطلب كود/رابط التفعيل.');
+                alert('يرجى كتابة البريد وكلمة المرور.');
                 document.getElementById('authEmail').focus();
                 return;
             }
@@ -988,7 +1025,7 @@
         }
 
         // =========================================================================
-        // --- 1. محرك التنبيهات الصارم لأندرويد (خلفية تامة + شاشة مقفلة) ---
+        // --- 1. محرك التنبيهات الصارم لأندرويد في الخلفية ---
         // =========================================================================
         function getNativePlugin() {
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
@@ -1222,7 +1259,68 @@
         }
 
         // =========================================================================
-        // --- 2. مواقيت الصلاة لجنين والطقس السريع المستقر ---
+        // --- 2. ميزة العادات اليومية الصباحية (Micro-Habits) ---
+        // =========================================================================
+        function toggleHabit(habitKey) {
+            if (!db.habits) db.habits = {};
+            if (!db.habits[todayStr]) db.habits[todayStr] = {};
+            db.habits[todayStr][habitKey] = !db.habits[todayStr][habitKey];
+            finalizeAction();
+            renderHabitsUI();
+        }
+
+        function renderHabitsUI() {
+            const strip = document.getElementById('dashHabitsStrip');
+            if (!strip) return;
+            const todayHabits = (db.habits && db.habits[todayStr]) ? db.habits[todayStr] : {};
+
+            strip.innerHTML = `
+                <div class="habit-chip ${todayHabits.water ? 'done' : ''}" onclick="toggleHabit('water')">💧 شرب ماء ${todayHabits.water ? '✓' : ''}</div>
+                <div class="habit-chip ${todayHabits.reading ? 'done' : ''}" onclick="toggleHabit('reading')">📖 قراءة ${todayHabits.reading ? '✓' : ''}</div>
+                <div class="habit-chip ${todayHabits.workout ? 'done' : ''}" onclick="toggleHabit('workout')">🏃 رياضة ${todayHabits.workout ? '✓' : ''}</div>
+                <div class="habit-chip ${todayHabits.adhkar ? 'done' : ''}" onclick="toggleHabit('adhkar')">🤲 أذكار ${todayHabits.adhkar ? '✓' : ''}</div>
+            `;
+        }
+
+        // =========================================================================
+        // --- 3. استيراد وتصدير النسخة الاحتياطية (Import/Export Backup) ---
+        // =========================================================================
+        function exportData() {
+            const dl = document.createElement('a');
+            dl.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
+            dl.download = `LifeOS_Backup_${todayStr}.json`;
+            dl.click();
+            showToast('📥 تم تصدير النسخة الاحتياطية بنجاح');
+        }
+
+        function triggerImportFile() {
+            const input = document.getElementById('importBackupInput');
+            if (input) input.click();
+        }
+
+        function handleImportBackup(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const imported = JSON.parse(event.target.result);
+                    if (confirm('هل أنت متأكد من استرجاع هذه النسخة الاحتياطية؟ سيتم دمجها مع بياناتك الحالية.')) {
+                        db = normalizeDB(imported);
+                        finalizeAction();
+                        applyThemeUI();
+                        showToast('✅ تم استرجاع النسخة الاحتياطية بنجاح');
+                    }
+                } catch(err) {
+                    alert('ملف النسخة الاحتياطية غير صالح!');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // =========================================================================
+        // --- 4. مواقيت الصلاة والطقس والعملات ---
         // =========================================================================
         function calculatePalestinePrayerTimes(date = new Date()) {
             const lat = 32.4646;
@@ -1324,7 +1422,7 @@
         }
 
         // =========================================================================
-        // --- 3. التسجيل الصوتي والتنقل والبحث والرجوع الذكي ---
+        // --- 5. التسجيل الصوتي والتنقل والبحث والرجوع الذكي ---
         // =========================================================================
         function handleDockMicClick(btnEl) {
             switchNavSection('notes-view', btnEl);
@@ -1512,9 +1610,8 @@
             }
         });
 
-        // دالة معالجة زر الرجوع المركزية والشاملة
+        // دالة معالجة زر الرجوع المركزية: إغلاق النوافذ أولاً ثم الرجوع للشاشات ثم تأكيد الخروج
         function handleSystemBackButton() {
-            // 1. فحص وإغلاق النوافذ المنبثقة
             const activeAlarm = document.getElementById('activeAlarmModal');
             if (activeAlarm && activeAlarm.classList.contains('active')) {
                 dismissActiveAlarm();
@@ -1546,21 +1643,18 @@
                 return true;
             }
 
-            // 2. فحص وإغلاق القائمة المنسدلة
             const dropdown = document.getElementById('topDropdownMenu');
             if (dropdown && dropdown.classList.contains('open')) {
                 closeTopDropdown();
                 return true;
             }
 
-            // 3. فحص وإغلاق شريط البحث
             const searchBar = document.getElementById('expandableSearchBar');
             if (searchBar && searchBar.classList.contains('active')) {
                 toggleSearchBar();
                 return true;
             }
 
-            // 4. الرجوع إلى الصفحة السابقة في سجل الصفحات
             const currentActive = document.querySelector('.section-view.active');
             const currentId = currentActive ? currentActive.id : 'dashboard-view';
 
@@ -1573,14 +1667,13 @@
                 return true;
             }
 
-            // 5. إذا كان في الشاشة الرئيسية ولا توجد نوافذ: طلب تأكيد الخروج بنقرة ثانية
             const now = Date.now();
             if (now - lastBackPressTime < 2000) {
-                return false; // السماح بالخروج الفعلي
+                return false;
             } else {
                 lastBackPressTime = now;
                 showToast('اضغط مرة أخرى للخروج من التطبيق');
-                return true; // منع الخروج المؤقت
+                return true;
             }
         }
 
@@ -1662,7 +1755,13 @@
         }
 
         function closeModalAction() {
-            document.getElementById('actionModal').classList.remove('active');
+            const modal = document.getElementById('actionModal');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.style.display = 'none';
+            }
+            const container = document.getElementById('modalFormContainer');
+            if (container) container.innerHTML = '';
         }
 
         function setSubDuration(months) {
@@ -1729,6 +1828,18 @@
                     
                     <button type="button" onclick="submitActSub()" class="btn-action">حفظ الاشتراك</button>
                 `;
+            } else if (type === 'debt') {
+                title.innerText = '🤝 تسجيل دين أو التزام';
+                container.innerHTML = `
+                    <select id="actDebtType" class="app-input">
+                        <option value="لي">مستحق لي على شخص (طلب)</option>
+                        <option value="علي">دين علي لشخص (التزام)</option>
+                    </select>
+                    <input type="text" id="actDebtPerson" placeholder="اسم الشخص..." class="app-input" required>
+                    <input type="number" id="actDebtAmount" placeholder="المبلغ (₪)..." class="app-input" required>
+                    <input type="text" id="actDebtNote" placeholder="ملاحظة أو سبب الدين..." class="app-input">
+                    <button type="button" onclick="submitActDebt()" class="btn-action">حفظ الالتزام</button>
+                `;
             } else if (type === 'bill') {
                 title.innerText = '🧾 تسجيل فاتورة جديدة';
                 container.innerHTML = `
@@ -1760,6 +1871,8 @@
                     <button type="button" onclick="submitActDoc()" class="btn-action">حفظ الوثيقة</button>
                 `;
             }
+
+            modal.style.display = 'flex';
             modal.classList.add('active');
         }
 
@@ -1795,6 +1908,7 @@
             finalizeAction();
         }
 
+        // إغلاق فوري للنافذة مع حفظ سليم للاشتراك
         function submitActSub() {
             const nameEl = document.getElementById('actSubName');
             const amountEl = document.getElementById('actSubAmount');
@@ -1832,6 +1946,46 @@
 
             finalizeAction();
             showToast('✅ تم حفظ الاشتراك بنجاح');
+        }
+
+        function submitActDebt() {
+            const typeEl = document.getElementById('actDebtType');
+            const personEl = document.getElementById('actDebtPerson');
+            const amountEl = document.getElementById('actDebtAmount');
+            const noteEl = document.getElementById('actDebtNote');
+            if (!personEl || !amountEl || !personEl.value.trim() || !amountEl.value) {
+                return alert('يرجى كتابة اسم الشخص والمبلغ');
+            }
+
+            const debtObj = {
+                id: Date.now(),
+                type: typeEl.value,
+                person: personEl.value.trim(),
+                amount: amountEl.value,
+                note: noteEl ? noteEl.value.trim() : '',
+                settled: false,
+                date: todayStr
+            };
+
+            closeModalAction();
+            db.debts.push(debtObj);
+            finalizeAction();
+            showToast('✅ تم تسجيل الالتزام');
+        }
+
+        function toggleSettleDebt(id) {
+            const d = db.debts.find(x => x.id === id);
+            if (d) {
+                d.settled = !d.settled;
+                finalizeAction();
+            }
+        }
+
+        function confirmDeleteDebt(id) {
+            if (confirm('هل تريد حذف هذا القيد؟')) {
+                db.debts = db.debts.filter(x => x.id !== id);
+                finalizeAction();
+            }
         }
 
         function submitActBill() {
@@ -1899,9 +2053,11 @@
         }
 
         // =========================================================================
-        // --- 4. تحديث الواجهة الشامل لجميع الأقسام وقوائم البيانات ---
+        // --- 6. تحديث الواجهة الشامل لجميع الأقسام وقوائم البيانات ---
         // =========================================================================
         function updateUI() {
+            renderHabitsUI();
+
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
             const cYear = new Date().getFullYear();
@@ -1983,13 +2139,32 @@
             const fullExpEl = document.getElementById('expensesFullList');
             if(fullExpEl) {
                 fullExpEl.innerHTML = db.expenses.map(e => `
-                    <div class="list-row"><div><strong>${e.desc}</strong><div style="font-size:11px; color:var(--text-secondary);">${e.date}</div></div>
+                    <div class="list-row">
+                        <div><strong>${e.desc}</strong><div style="font-size:11px; color:var(--text-secondary);">${e.date}</div></div>
                         <div style="display:flex; gap:8px; align-items:center;">
                             <strong style="color:var(--accent-red, #FF3B30);">${e.amount} ₪</strong>
                             <button onclick="confirmDeleteExpense(${e.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer;">🗑</button>
                         </div>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary);">لا توجد مصاريف سابقة.</p>';
+            }
+
+            // عرض سجل الديون والالتزامات
+            const debtsEl = document.getElementById('debtsFullList');
+            if (debtsEl) {
+                debtsEl.innerHTML = db.debts.map(d => `
+                    <div class="list-row">
+                        <div>
+                            <span class="tag-badge ${d.type === 'لي' ? 'green' : ''}" style="margin-left:6px;">${d.type === 'لي' ? 'مستحق لي' : 'دين علي'}</span>
+                            <strong>${d.person}</strong>: <span style="font-weight:700; color:${d.type === 'لي' ? 'var(--accent-green)' : 'var(--accent-red)'};">${d.amount} ₪</span>
+                            ${d.note ? `<div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">${d.note}</div>` : ''}
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <button onclick="toggleSettleDebt(${d.id})" class="tag-badge ${d.settled ? 'green' : ''}">${d.settled ? '✅ تم السداد' : '⏳ معلق'}</button>
+                            <button onclick="confirmDeleteDebt(${d.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
+                        </div>
+                    </div>
+                `).join('') || '<p style="color:var(--text-secondary); text-align:center; padding:10px;">لا توجد ديون أو التزامات مسجلة.</p>';
             }
 
             const billsSubsEl = document.getElementById('billsAndSubsList');
@@ -2126,15 +2301,148 @@
             finalizeAction();
         }
 
-        function exportData() {
-            const dl = document.createElement('a');
-            dl.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
-            dl.download = `LifeOS_Backup.json`;
-            dl.click();
+        function renderPrayersAndAlarmsCombined() {
+            const now = Date.now();
+            const container = document.getElementById('prayersAlarmsFullList');
+            if (!container) return;
+
+            const combined = [];
+            livePrayersList.forEach(p => {
+                combined.push({
+                    title: p.title,
+                    targetTime: p.targetTime,
+                    isPrayer: true
+                });
+            });
+
+            db.reminders.forEach(r => {
+                if (!r.triggered && r.targetTime > now) {
+                    combined.push({
+                        id: r.id,
+                        title: `⏰ ${r.title || `تنبيه (${r.minutes} د)`}`,
+                        targetTime: r.targetTime,
+                        isPrayer: false
+                    });
+                }
+            });
+
+            combined.sort((a, b) => a.targetTime - b.targetTime);
+
+            container.innerHTML = combined.map(item => {
+                const isPending = item.targetTime > now;
+                const timeStr = new Date(item.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
+                if (item.isPrayer) {
+                    return `
+                    <div class="list-row">
+                        <div>
+                            <strong>${item.title}</strong>
+                            <div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div>
+                        </div>
+                        <span class="tag-badge ${isPending ? 'green' : ''}">${isPending ? `⏳ ${formatTime(item.targetTime - now)}` : '✅ تم'}</span>
+                    </div>`;
+                } else {
+                    return `
+                    <div class="list-row">
+                        <div>
+                            <strong>${item.title}</strong>
+                            <div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <button onclick="renameReminder(${item.id})" class="tag-badge" title="تسمية">✏️</button>
+                            <span class="tag-badge">⏳ ${formatTime(item.targetTime - now)}</span>
+                            <button onclick="confirmDeleteReminder(${item.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer; font-size:16px;" title="إلغاء">✖</button>
+                        </div>
+                    </div>`;
+                }
+            }).join('') || '<p style="color:var(--text-secondary); text-align:center;">لا توجد صلوات أو تنبيهات قادمة</p>';
         }
 
+        function renderPrayersAndReminders() {
+            const now = Date.now();
+            
+            const nextPrayer = livePrayersList.find(p => p.targetTime > now);
+            const topPrayerText = document.getElementById('topPrayerText');
+            if (topPrayerText) {
+                if (nextPrayer) {
+                    topPrayerText.innerText = `${nextPrayer.title.replace('🕌 ', '')} ${formatTime(nextPrayer.targetTime - now)}`;
+                } else {
+                    topPrayerText.innerText = 'اكتملت الصلوات';
+                }
+            }
+
+            const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
+            activeReminders.sort((a,b) => a.targetTime - b.targetTime);
+
+            const countText = document.getElementById('activeRemindersCountText');
+            if (countText) countText.innerText = `${activeReminders.length} تنبيهات نشطة`;
+
+            const nearest = activeReminders[0];
+            const circle = document.getElementById('timerProgressCircle');
+            const timeEl = document.getElementById('nearestTimerTime');
+            const labelEl = document.getElementById('nearestTimerLabel');
+
+            if (nearest) {
+                const remainingMs = nearest.targetTime - now;
+                const totalDuration = (nearest.minutes * 60 * 1000) || (nearest.targetTime - nearest.createdAt) || remainingMs;
+                const fraction = Math.max(0, Math.min(1, remainingMs / totalDuration));
+                const strokeTotal = 326.72;
+                
+                if (circle) circle.style.strokeDashoffset = strokeTotal * (1 - fraction);
+                if (timeEl) timeEl.innerText = formatTime(remainingMs);
+                if (labelEl) labelEl.innerText = nearest.title || `تنبيه (${nearest.minutes} د)`;
+            } else if (nextPrayer) {
+                const remainingMs = nextPrayer.targetTime - now;
+                if (circle) circle.style.strokeDashoffset = 0;
+                if (timeEl) timeEl.innerText = formatTime(remainingMs);
+                if (labelEl) labelEl.innerText = nextPrayer.title.replace('🕌 ', '');
+            } else {
+                if (circle) circle.style.strokeDashoffset = 326.72;
+                if (timeEl) timeEl.innerText = "--:--";
+                if (labelEl) labelEl.innerText = "لا توجد تنبيهات";
+            }
+
+            const dashRemPreview = document.getElementById('dashRemindersPreview');
+            if (dashRemPreview) {
+                const restReminders = activeReminders.slice(1, 3);
+                dashRemPreview.innerHTML = restReminders.map(r => `
+                    <div class="list-row">
+                        <div>
+                            <strong>${r.title || `تنبيه (${r.minutes} د)`}</strong>
+                            <div style="font-size:12px; color:var(--text-secondary);">${new Date(r.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}</div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <button onclick="renameReminder(${r.id})" class="tag-badge" title="تسمية">✏️</button>
+                            <span class="tag-badge">⏳ ${formatTime(r.targetTime - now)}</span>
+                            <button onclick="confirmDeleteReminder(${r.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer; font-size:16px;" title="إلغاء">✖</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            renderPrayersAndAlarmsCombined();
+        }
+
+        setInterval(() => {
+            const now = Date.now();
+            let changed = false;
+
+            db.reminders.forEach(r => {
+                if (!r.triggered) {
+                    const diff = r.targetTime - now;
+                    if (diff <= 0) {
+                        r.triggered = true;
+                        changed = true;
+                        startAlarm(r.title);
+                    }
+                }
+            });
+
+            renderPrayersAndReminders();
+            if (changed) finalizeAction();
+        }, 1000);
+
         // =========================================================================
-        // --- 5. الإقلاع المباشر والتنفيذ الأولي ---
+        // --- 7. الإقلاع الفوري والتنفيذ الأولي للمحركات ---
         // =========================================================================
         applyThemeUI();
         initNativeNotifications();
