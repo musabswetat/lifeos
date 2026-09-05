@@ -120,70 +120,39 @@
         * { scrollbar-width: none !important; }
 
         body {
-            background-color: var(--bg-canvas);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
+            background-color: var(--bg-canvas); color: var(--text-primary);
+            min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden;
             transition: background 0.25s ease, color 0.25s ease;
         }
 
         .app-container {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
+            width: 100%; max-width: 600px; margin: 0 auto;
             padding-top: max(20px, env(safe-area-inset-top, 20px));
-            padding-right: 18px;
-            padding-left: 18px;
-            padding-bottom: calc(var(--dock-height) + 85px);
-            box-sizing: border-box;
+            padding-right: 18px; padding-left: 18px;
+            padding-bottom: calc(var(--dock-height) + 85px); box-sizing: border-box;
         }
 
         .oneui-top-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 2px;
-            position: relative;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 2px; position: relative;
         }
         .top-prayer-info {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--accent-green, #34C759);
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            font-size: 13px; font-weight: 600; color: var(--accent-green, #34C759);
+            display: flex; align-items: center; gap: 6px;
         }
         .top-actions-cluster { display: flex; align-items: center; gap: 6px; }
         .top-action-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            cursor: pointer;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.15s ease;
+            background: transparent; border: none; color: var(--text-primary);
+            cursor: pointer; width: 38px; height: 38px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; transition: background 0.15s ease;
         }
         .top-action-btn:active { background: var(--surface-inner); }
         .top-action-btn svg { width: 20px; height: 20px; fill: currentColor; }
 
         .user-auth-pill {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--surface-card);
-            border: 1px solid var(--border-subtle);
-            padding: 6px 14px;
-            border-radius: var(--radius-pill);
-            cursor: pointer;
-            box-shadow: var(--shadow-subtle);
-            font-size: 12px;
-            font-weight: 700;
+            display: flex; align-items: center; gap: 6px; background: var(--surface-card);
+            border: 1px solid var(--border-subtle); padding: 6px 14px; border-radius: var(--radius-pill);
+            cursor: pointer; box-shadow: var(--shadow-subtle); font-size: 12px; font-weight: 700;
             backdrop-filter: var(--card-backdrop);
         }
 
@@ -223,34 +192,20 @@
         .oneui-sub-text { font-size: 13px; color: var(--text-secondary); font-weight: 500; line-height: 1.6; }
         .oneui-currency-line { font-size: 13px; color: var(--text-secondary); font-weight: 500; margin-top: 3px; }
 
-        /* شريط العادات اليومية التفاعلي */
+        /* شريط الأنشطة السريعة (الأذكار أقصى اليمين أولاً) */
         .habits-strip {
-            display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 10px 2px; margin-bottom: 4px;
+            display: flex; flex-direction: row; gap: 8px; overflow-x: auto; padding: 6px 2px 12px 2px;
+            margin-bottom: 6px; -webkit-overflow-scrolling: touch;
         }
         .habit-chip {
             background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
-            padding: 7px 14px; font-size: 12px; font-weight: 700; color: var(--text-secondary); cursor: pointer;
+            padding: 8px 16px; font-size: 12px; font-weight: 700; color: var(--text-primary); cursor: pointer;
             display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
         }
-        .habit-chip.done {
-            background: var(--surface-inner); color: var(--accent-green); border-color: var(--accent-green);
-        }
-
-        /* العداد الدائري للأقسام عند الدخول لحين الخروج */
-        .section-session-banner {
-            background: var(--surface-inner); border-radius: var(--radius-card); padding: 12px 16px;
-            margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;
-            border: 1px solid var(--border-subtle);
-        }
-        .session-timer-circle {
-            position: relative; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
-        }
-        .session-timer-circle svg { position: absolute; width: 100%; height: 100%; transform: rotate(-90deg); }
-        .session-timer-circle circle { fill: none; stroke-width: 4; }
-        .session-timer-circle .bg { stroke: var(--surface-card); }
-        .session-timer-circle .progress {
-            stroke: var(--accent-color); stroke-dasharray: 113; stroke-dashoffset: 0;
-            transition: stroke-dashoffset 1s linear; stroke-linecap: round;
+        .habit-chip:active { transform: scale(0.96); }
+        .habit-chip.primary-highlight {
+            background: var(--surface-inner); border-color: var(--accent-color); color: var(--accent-color);
         }
 
         .circular-timer-wrapper {
@@ -274,13 +229,6 @@
             font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-top: 2px;
             max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
         }
-
-        .sub-card-item { padding: 12px 0; border-bottom: 1px solid var(--border-subtle); }
-        .sub-card-item:last-child { border-bottom: none; }
-        .sub-header-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 700; }
-        .sub-meta-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
-        .sub-progress-track { width: 100%; height: 6px; background: var(--surface-inner); border-radius: var(--radius-pill); overflow: hidden; margin-top: 8px; }
-        .sub-progress-fill { height: 100%; background: var(--accent-color); border-radius: var(--radius-pill); transition: width 0.4s ease; }
 
         .section-label {
             font-size: 13px; font-weight: 700; color: var(--text-secondary);
@@ -367,9 +315,43 @@
             background: var(--accent-color); color: #FFF; border-radius: var(--radius-pill);
             padding: 4px 12px; font-size: 12px; font-weight: 700; display: inline-block; margin-top: 8px;
         }
-        .quran-story-box {
+
+        .quran-ayah-badge {
+            display: inline-block; background: var(--surface-inner); color: var(--accent-green);
+            padding: 4px 12px; border-radius: var(--radius-pill); font-weight: 800; font-size: 13px; margin-bottom: 8px;
+        }
+        .quran-verse-block {
+            font-family: "Amiri", "Traditional Arabic", serif; font-size: 19px; line-height: 2.2;
+            color: var(--text-primary); text-align: justify; margin-bottom: 16px;
+        }
+        .quran-tafsir-block {
             background: var(--surface-inner); border-right: 4px solid var(--accent-green);
-            border-radius: var(--radius-input); padding: 14px; line-height: 1.7; font-size: 13px;
+            border-radius: var(--radius-input); padding: 14px; line-height: 1.8; font-size: 13px;
+            margin-bottom: 14px;
+        }
+
+        /* شاشة الجلسة المستقلة للدراسة والقراءة */
+        .session-hero-wrapper {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 30px 10px; text-align: center;
+        }
+        .session-hero-circle {
+            position: relative; width: 220px; height: 220px; display: flex; align-items: center;
+            justify-content: center; margin-bottom: 24px;
+        }
+        .session-hero-svg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg);
+        }
+        .session-hero-bg { fill: none; stroke: var(--surface-inner); stroke-width: 10; }
+        .session-hero-bar {
+            fill: none; stroke: var(--accent-color); stroke-width: 10; stroke-linecap: round;
+            stroke-dasharray: 596.9; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear;
+        }
+        .session-time-display {
+            font-size: 38px; font-weight: 800; font-family: monospace; letter-spacing: -0.03em;
+        }
+        .session-status-tag {
+            font-size: 13px; color: var(--text-secondary); margin-top: 4px; font-weight: 600;
         }
     </style>
 </head>
@@ -406,7 +388,8 @@
             </div>
 
             <div class="oneui-dropdown" id="topDropdownMenu">
-                <button class="dropdown-item" onclick="switchNavSection('adhkar-view')">🤲 الأذكار وورد القرآن</button>
+                <button class="dropdown-item" onclick="switchNavSection('adhkar-view')">🤲 الأذكار اليومية</button>
+                <button class="dropdown-item" onclick="switchNavSection('quran-view')">📖 ورد القرآن المفسر</button>
                 <button class="dropdown-item" onclick="switchNavSection('notes-view')">📝 الملاحظات والتسجيلات</button>
                 <button class="dropdown-item" onclick="switchNavSection('finance-view')">🧾 الفواتير والاشتراكات</button>
                 <button class="dropdown-item" onclick="switchNavSection('debts-view')">🤝 سجل الديون والالتزامات</button>
@@ -446,12 +429,14 @@
             </div>
         </div>
 
-        <!-- شريط العادات اليومية الصباحية -->
+        <!-- شريط الأنشطة السريعة (الأذكار أقصى اليمين أولاً) -->
         <div class="habits-strip" id="dashHabitsStrip">
-            <div class="habit-chip" onclick="toggleHabit('water')">💧 شرب ماء</div>
-            <div class="habit-chip" onclick="toggleHabit('reading')">📖 قراءة</div>
-            <div class="habit-chip" onclick="toggleHabit('workout')">🏃 رياضة</div>
-            <div class="habit-chip" onclick="openAdhkarDirectly()">🤲 أذكار اليوم</div>
+            <div class="habit-chip primary-highlight" onclick="switchNavSection('adhkar-view')">🤲 الأذكار</div>
+            <div class="habit-chip primary-highlight" onclick="switchNavSection('quran-view')">📖 ورد اليوم</div>
+            <div class="habit-chip" onclick="startDedicatedSession('دراسة', '📚')">📚 دراسة</div>
+            <div class="habit-chip" onclick="startDedicatedSession('قراءة', '📖')">📖 قراءة</div>
+            <div class="habit-chip" onclick="startDedicatedSession('رياضة', '🏃')">🏃 رياضة</div>
+            <div class="habit-chip" onclick="toggleWaterHabit()">💧 شرب ماء</div>
         </div>
 
         <!-- 🏠 1. تبويب الرئيسية -->
@@ -521,37 +506,62 @@
             </div>
         </div>
 
-        <!-- 🤲 2. تبويب الأذكار الذكية وورد القرآن المفسر -->
+        <!-- 🤲 2. صفحة الأذكار اليومية المستقلة -->
         <div id="adhkar-view" class="section-view">
-            <!-- بنر عداد الجلسة الدائري -->
-            <div class="section-session-banner">
-                <div>
-                    <strong style="font-size:13px;">الوقت في هذا القسم</strong>
-                    <div style="font-size:11px; color:var(--text-secondary);" id="adhkarSessionLabel">جلسة قراءة الأذكار والتدبر</div>
-                </div>
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <span id="sessionTimerText" style="font-size:16px; font-weight:800; font-family:monospace;">00:00</span>
-                    <div class="session-timer-circle">
-                        <svg viewBox="0 0 40 40"><circle class="bg" cx="20" cy="20" r="18"/><circle class="progress" id="sessionTimerProgress" cx="20" cy="20" r="18"/></svg>
-                        <span style="font-size:12px;">⏱️</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <div class="section-label" id="adhkarDynamicHeaderTitle" style="margin:0;">الأذكار الموصى بها لوقتك</div>
+                <button class="tag-badge" onclick="switchNavSection('dashboard-view')">← الرئيسية</button>
+            </div>
+            <div id="adhkarContentContainer"></div>
+        </div>
+
+        <!-- 📖 3. صفحة ورد القرآن اليومي المستقلة (5 آيات متتالية + تفسيرها) -->
+        <div id="quran-view" class="section-view">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <div class="section-label" style="margin:0;">ورد القرآن اليومي المفسر</div>
+                <button class="tag-badge" onclick="switchNavSection('dashboard-view')">← الرئيسية</button>
+            </div>
+            <div class="oneui-card">
+                <div id="quranProgressHeader" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;"></div>
+                <div id="quranVersesContainer"></div>
+                <div id="quranTafsirContainer"></div>
+                <button onclick="completeQuranPortion()" class="btn-action" style="background:var(--accent-green); margin-top:8px;">
+                    ✅ تم بحمد الله (الانتقال للـ 5 آيات التالية)
+                </button>
+            </div>
+        </div>
+
+        <!-- ⏱️ 4. صفحة الجلسة المستقلة (دراسة / قراءة / تركيز) تبدأ بالعد مباشرة -->
+        <div id="session-focus-view" class="section-view">
+            <div class="oneui-card" style="margin-top:10px;">
+                <div class="session-hero-wrapper">
+                    <span id="sessionActivityIcon" style="font-size:46px; margin-bottom:10px;">📚</span>
+                    <h2 id="sessionActivityTitle" style="font-size:22px; font-weight:800; margin-bottom:6px;">جلسة دراسة</h2>
+                    <div class="session-status-tag" id="sessionStatusText">الجلسة قيد التقدم...</div>
+
+                    <div class="session-hero-circle">
+                        <svg class="session-hero-svg" viewBox="0 0 200 200">
+                            <circle class="session-hero-bg" cx="100" cy="100" r="95" />
+                            <circle class="session-hero-bar" id="sessionHeroProgress" cx="100" cy="100" r="95" />
+                        </svg>
+                        <div class="session-time-display" id="sessionLiveTimeDisplay">00:00</div>
+                    </div>
+
+                    <div style="display:flex; gap:10px; width:100%; max-width:280px;">
+                        <button onclick="togglePauseSession()" id="sessionPauseBtn" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary); border:1px solid var(--border-subtle); flex:1;">إيقاف مؤقت</button>
+                        <button onclick="finishAndSaveSession()" class="btn-action" style="background:var(--accent-green); flex:1;">إنهاء وحفظ</button>
                     </div>
                 </div>
             </div>
-
-            <div class="section-label" id="adhkarDynamicHeaderTitle">الأذكار المناسبة لوقتك الحالي</div>
-            <div class="oneui-card" id="adhkarContentContainer"></div>
-
-            <div class="section-label">ورد القرآن وتفسيره (لمحة قرآنية يومية موثوقة)</div>
-            <div class="oneui-card" id="quranDailyStoryContainer"></div>
         </div>
 
-        <!-- 🕌⏰ 3. تبويب الصلوات والتنبيهات -->
+        <!-- 🕌⏰ 5. تبويب الصلوات والتنبيهات -->
         <div id="prayers-alarms-view" class="section-view">
             <div class="section-label">مواقيت الصلاة والتنبيهات النشطة</div>
             <div class="oneui-card" id="prayersAlarmsFullList"></div>
         </div>
 
-        <!-- 🤝 4. تبويب سجل الديون والالتزامات -->
+        <!-- 🤝 6. تبويب سجل الديون والالتزامات -->
         <div id="debts-view" class="section-view">
             <div class="section-label">سجل الديون والمستحقات</div>
             <div class="oneui-card">
@@ -562,7 +572,7 @@
             </div>
         </div>
 
-        <!-- ✅ 5. تبويب المهام -->
+        <!-- ✅ 7. تبويب المهام -->
         <div id="todos-view" class="section-view">
             <div class="section-label">إدارة كافة المهام</div>
             <div class="oneui-card">
@@ -574,7 +584,7 @@
             </div>
         </div>
 
-        <!-- 📊 6. تبويب المصاريف والفواتير -->
+        <!-- 📊 8. تبويب المصاريف والفواتير -->
         <div id="finance-view" class="section-view">
             <div class="section-label">ملخص المصاريف</div>
             <div class="oneui-card">
@@ -597,7 +607,7 @@
             <div class="oneui-card" id="expensesFullList"></div>
         </div>
 
-        <!-- 📝 7. تبويب الملاحظات والتسجيلات -->
+        <!-- 📝 9. تبويب الملاحظات والتسجيلات -->
         <div id="notes-view" class="section-view">
             <div class="section-label">الملاحظات والتسجيلات الصوتية</div>
             <div class="oneui-card">
@@ -609,7 +619,7 @@
             </div>
         </div>
 
-        <!-- 🔐 8. تبويب الخزنة -->
+        <!-- 🔐 10. تبويب الخزنة -->
         <div id="vault-view" class="section-view">
             <div class="section-label">الحسابات المشفرة</div>
             <div class="oneui-card">
@@ -620,7 +630,7 @@
             </div>
         </div>
 
-        <!-- 🆔 9. تبويب الوثائق -->
+        <!-- 🆔 11. تبويب الوثائق -->
         <div id="docs-view" class="section-view">
             <div class="section-label">الوثائق الرسمية</div>
             <div class="oneui-card">
@@ -631,7 +641,7 @@
             </div>
         </div>
 
-        <!-- ⚙️ 10. تبويب الإعدادات -->
+        <!-- ⚙️ 12. تبويب الإعدادات -->
         <div id="settings-view" class="section-view">
             <div class="section-label">الحساب والمزامنة السحابية</div>
             <div class="oneui-card">
@@ -695,17 +705,6 @@
         </div>
     </div>
 
-    <!-- نافذة الاقتراحات الذكية للصوت -->
-    <div class="modal-overlay" id="postRecordingModal">
-        <div class="modal-box" style="text-align:center;">
-            <div style="font-size:38px; margin-bottom:6px;">🎙️</div>
-            <strong style="font-size:16px; display:block; margin-bottom:4px;">تم حفظ التسجيل الصوتي بنجاح!</strong>
-            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">النص: <span id="transcribedVoiceText" style="color:var(--text-primary); font-weight:600;">--</span></p>
-            <div id="smartSuggestionsContainer" style="display:flex; flex-direction:column; gap:8px; margin-top:8px;"></div>
-            <button onclick="closePostRecordingModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary); margin-top:10px;">إغلاق</button>
-        </div>
-    </div>
-
     <!-- نافذة تسجيل الصوت الخام -->
     <div class="modal-overlay" id="voiceModal">
         <div class="modal-box" style="text-align:center;">
@@ -716,6 +715,17 @@
                 <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--accent-green, #34C759);">حفظ</button>
                 <button onclick="cancelVoiceRecording()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إلغاء</button>
             </div>
+        </div>
+    </div>
+
+    <!-- نافذة الاقتراحات الذكية للصوت -->
+    <div class="modal-overlay" id="postRecordingModal">
+        <div class="modal-box" style="text-align:center;">
+            <div style="font-size:38px; margin-bottom:6px;">🎙️</div>
+            <strong style="font-size:16px; display:block; margin-bottom:4px;">تم حفظ التسجيل الصوتي بنجاح!</strong>
+            <p style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">النص: <span id="transcribedVoiceText" style="color:var(--text-primary); font-weight:600;">--</span></p>
+            <div id="smartSuggestionsContainer" style="display:flex; flex-direction:column; gap:8px; margin-top:8px;"></div>
+            <button onclick="closePostRecordingModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary); margin-top:10px;">إغلاق</button>
         </div>
     </div>
 
@@ -752,7 +762,7 @@
         </div>
     </div>
 
-    <!-- نافذة رنين التنبيه المباشر -->
+    <!-- نافذة رنين التنبيه -->
     <div class="modal-overlay" id="activeAlarmModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size: 40px; margin-bottom: 8px;">⏰</div>
@@ -782,25 +792,33 @@
         let lastSpokenText = '';
         let currentActiveTimerObj = null;
 
-        // مصفوفة سجل التنقل لدعم الرجوع خطوة بخطوة
         let navHistory = ['dashboard-view'];
         let lastBackPressTime = 0;
 
-        // متغيرات مؤقت الجلسة الدائري للأقسام
+        // متغيرات مؤقت جلسة التركيز المستقلة
         let sessionTimerInterval = null;
         let sessionElapsedSec = 0;
+        let isSessionPaused = false;
+        let currentSessionName = '';
 
         function normalizeDB(data) {
             if (!data || typeof data !== 'object') data = {};
-            const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders', 'debts'];
+            const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders', 'debts', 'sessionsLog'];
             lists.forEach(key => {
                 if (data[key]) {
                     if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
                 } else { data[key] = []; }
             });
             if (!data.settings) data.settings = { darkMode: false, displayName: '', theme: 'oneui' };
-            if (!data.habits) data.habits = {};
             if (!data.adhkarCounters) data.adhkarCounters = {};
+            // ضبط ورد القرآن التراكمي (البداية من سورة البقرة الآية 1 إلى 5)
+            if (!data.quranPortion) data.quranPortion = {
+                surah: 'البقرة',
+                startAya: 1,
+                endAya: 5,
+                completedBatches: 0,
+                lastCompletedDate: ''
+            };
             if (!data.cachedFeeds) data.cachedFeeds = {
                 weatherHourly: null,
                 weatherLastFetch: 0,
@@ -923,11 +941,11 @@
                                     saveToCloud();
                                 } else {
                                     const feeds = db.cachedFeeds;
-                                    const habits = db.habits;
+                                    const quran = db.quranPortion;
                                     const counters = db.adhkarCounters;
                                     db = normalizeDB(data);
                                     db.cachedFeeds = feeds;
-                                    if (habits) db.habits = habits;
+                                    if (quran) db.quranPortion = quran;
                                     if (counters) db.adhkarCounters = counters;
                                     try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
                                     applyThemeUI();
@@ -1273,7 +1291,7 @@
             currentActiveTimerObj = activeReminders[0];
 
             if (!currentActiveTimerObj) {
-                alert('لا توجد تنبيهات نشطة حالياً. يمكنك ضبط تنبيه جديد من زر "+ ضبط تنبيه".');
+                alert('لا توجد تنبيهات نشطة حالياً.');
                 return;
             }
 
@@ -1310,7 +1328,7 @@
         }
 
         // =========================================================================
-        // --- 2. محرك الأذكار التلقائي والذكي بحسب الوقت والصلاة + ورد القرآن ---
+        // --- 2. الأذكار الذكية التلقائية حسب مواقيت الصلاة ---
         // =========================================================================
         const adhkarDatabase = {
             postPrayer: [
@@ -1323,17 +1341,16 @@
             ],
             morning: [
                 { id: 'm1', text: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', count: 1 },
-                { id: 'm2', text: 'اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لا يَغْفِرُ الذُّنُوبَ إِلا أَنْتَ. (سيد الاستغفار)', count: 1 },
+                { id: 'm2', text: 'اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لا يَغْفِرُ الذُّنُوبَ إِلا أَنْتَ.', count: 1 },
                 { id: 'm3', text: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ.', count: 3 },
                 { id: 'm4', text: 'رَضِيتُ بِاللهِ رَبَّاً، وَبِالإِسْلاَمِ دِيناً، وَبِمُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ نَبِيَّاً.', count: 3 },
-                { id: 'm5', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ.', count: 100 }
+                { id: 'm5', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ.', count: 3 }
             ],
             evening: [
                 { id: 'e1', text: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', count: 1 },
-                { id: 'e2', text: 'اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ... (سيد الاستغفار)', count: 1 },
-                { id: 'e3', text: 'أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.', count: 3 },
-                { id: 'e4', text: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ.', count: 3 },
-                { id: 'e5', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ.', count: 100 }
+                { id: 'e2', text: 'أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.', count: 3 },
+                { id: 'e3', text: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ.', count: 3 },
+                { id: 'e4', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ.', count: 100 }
             ],
             night: [
                 { id: 'n1', text: 'بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ.', count: 1 },
@@ -1342,32 +1359,10 @@
             ]
         };
 
-        // ورد القرآن اليومي الموثوق مع سبب النزول والقصة والتفسير
-        const quranDailyReflections = [
-            {
-                ayah: "﴿ وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا * وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ ﴾ [الطلاق: 2-3]",
-                story: "نزلت في عوف بن مالك الأشجعي حين أَسر المشركون ابنه وأصابه ضيق شديد وفقر، فأمره النبي ﷺ بالصبر والتقوى والإكثار من قول 'لا حول ولا قوة إلا بالله'، فغفل العدو عن ابنه ففر وساق معه إبلهم ورزقهم الله فرجاً لم يحتسبوه.",
-                tafsir: "تفسير السعدي: أي مَن خاف الله واجتنب معاصيه، جعل الله له مخرجاً من كل كرب وبلاء في الدنيا والآخرة، ويسوق له رزقه من جهة لا تخطر بباله ولا يرجوها."
-            },
-            {
-                ayah: "﴿ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾ [الرعد: 28]",
-                story: "كان المشركون يطلبون معجزات مادية محسوسة كالخوارق ليؤمنوا، فبين الله سبحانه أن أعظم آية تسكن إليها النفوس وتشفي الصدور من الحيرة والاضطراب هي استشعار عظمة الله والاتصال به بذكره.",
-                tafsir: "تفسير ابن كثير: أي تزول وحشتها وتسكن اضطراباتها بذكره سبحانه؛ فلا شيء يشرح الصدر ويجلب السكينة الحقيقية إلا دوام الإقبال على الله تعالى."
-            },
-            {
-                ayah: "﴿ وَاصْبِرْ لِحُكْمِ رَبِّكَ فَإِنَّكَ بِأَعْيُنِنَا ﴾ [الطور: 48]",
-                story: "نزلت تثبيتاً لقلب النبي ﷺ عندما تكالبت عليه قريش بالاستهزاء والأذى ورموه بالسحر والشعر، فأمره الله بالصبر مطمئناً إياه بأنه في حفظ الله ورعايته التامة التي لا يغفل عنها.",
-                tafsir: "تفسير السعدي: اصبر على أذى قومك ولأمر ربك الشرعي والقدري، فإنك بمرأى منا وتحت كلاءتنا وحفظنا وعنايتنا التامة فلا ينالك منهم سوء."
-            }
-        ];
-
-        // تحديد الأذكار الحالية بناءً على مواقيت الصلاة
         function getActiveDhikrCategory() {
             const now = Date.now();
-            const nowDate = new Date();
-            const currentHour = nowDate.getHours();
+            const currentHour = new Date().getHours();
 
-            // فحص هل نحن خلال 25 دقيقة من وقت أي صلاة؟
             for (let p of livePrayersList) {
                 const diff = now - p.targetTime;
                 if (diff >= 0 && diff <= (25 * 60 * 1000)) {
@@ -1375,7 +1370,6 @@
                 }
             }
 
-            // فترات اليوم التلقائية
             if (currentHour >= 4 && currentHour < 12) {
                 return { type: 'morning', name: 'أذكار الصباح المباركة' };
             } else if (currentHour >= 12 && currentHour < 16) {
@@ -1407,22 +1401,6 @@
                     </div>
                 `;
             }).join('');
-
-            // عرض ورد القرآن اليومي
-            const quranContainer = document.getElementById('quranDailyStoryContainer');
-            if (quranContainer) {
-                const dayIndex = new Date().getDate() % quranDailyReflections.length;
-                const dailyItem = quranDailyReflections[dayIndex];
-                quranContainer.innerHTML = `
-                    <div style="font-size:16px; font-weight:800; color:var(--accent-green); margin-bottom:8px; line-height:1.7;">${dailyItem.ayah}</div>
-                    <div class="quran-story-box">
-                        <strong>📖 القصة وسبب النزول:</strong>
-                        <p style="margin-top:4px; margin-bottom:8px;">${dailyItem.story}</p>
-                        <strong>🌿 التفسير المعتمد:</strong>
-                        <p style="margin-top:4px;">${dailyItem.tafsir}</p>
-                    </div>
-                `;
-            }
         }
 
         function decrementDhikr(id, originalCount) {
@@ -1437,67 +1415,144 @@
             }
         }
 
-        function openAdhkarDirectly() {
-            switchNavSection('adhkar-view');
+        // =========================================================================
+        // --- 3. ورد القرآن اليومي المفسر (يبدأ من سورة البقرة بمعدل 5 آيات) ---
+        // =========================================================================
+        const quranPortionsDB = [
+            {
+                start: 1, end: 5,
+                title: "سورة البقرة: الآيات (1 - 5)",
+                text: "﴿ بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ * الم * ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ * الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ * وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ * أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ ﴾",
+                tafsir: "<b>التفسير الميسر:</b> يفتتح الله السورة بالحروف المقطعة للتحدي والإعجاز، ثم يؤكد أن هذا القرآن كتاب لا شك في صحته، هادٍ لمن اتقى الله ففعل أوامره واجتنب نواهيه. ووصف المتقين بأنهم يؤمنون بما غاب عن حواسهم من الجنة والنار والملائكة، ويؤدون الصلاة بأركانها وشروطها، وينفقون في سبيل الله مما رزقهم، ويؤمنون بالوحي المنزل على النبي ﷺ والكتب السابقة، وهم الفائزون بكل خير."
+            },
+            {
+                start: 6, end: 10,
+                title: "سورة البقرة: الآيات (6 - 10)",
+                text: "﴿ إِنَّ الَّذِينَ كَفَرُوا سَوَاءٌ عَلَيْهِمْ أَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ * خَتَمَ اللَّهُ عَلَىٰ قُلُوبِهِمْ وَعَلَىٰ سَمْعِهِمْ ۖ وَعَلَىٰ أَبْصَارِهِمْ غِشَاوَةٌ ۖ وَلَهُمْ عَذَابٌ عَظِيمٌ * وَمِنَ النَّاسِ مَن يَقُولُ آمَنَّا بِاللَّهِ وَبِالْيَوْمِ الْآخِرِ وَمَا هُم بِمُؤْمِنِينَ * يُخَادِعُونَ اللَّهَ وَالَّذِينَ آمَنُوا وَمَا يَخْدَعُونَ إِلَّا أَنفُسَهُمْ وَمَا يَشْعُرُونَ * فِي قُلُوبِهِم مَّرَضٌ فَزَادَهُمُ اللَّهُ مَرَضًا ۖ وَلَهُمْ عَذَابٌ أَلِيمٌ بِمَا كَانُوا يَكْذِبُونَ ﴾",
+                tafsir: "<b>التفسير الميسر:</b> تبين الآيات صنف الكافرين المعاندين الذين طبع الله على قلوبهم وأسماعهم وجعل على أبصارهم غطاء، فلا تنفعهم الدعوة لأنهم آثروا العناد. ثم يذكر صنف المنافقين الذين يظهرون الإيمان بألسنتهم ويبطنون الكفر، يظنون أنهم يخادعون المؤمنين وما يخدعون إلا أنفسهم بنفاقهم؛ فزادهم الله شكاً وضلالاً ولهم عذاب موجع."
+            },
+            {
+                start: 11, end: 15,
+                title: "سورة البقرة: الآيات (11 - 15)",
+                text: "﴿ وَإِذَا قِيلَ لَهُمْ لَا تُفْسِدُوا فِي الْأَرْضِ قَالُوا إِنَّمَا نَحْنُ مُصْلِحُونَ * أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ وَلَٰكِن لَّا يَشْعُرُونَ * وَإِذَا قِيلَ لَهُمْ آمِنُوا كَمَا آمَنَ النَّاسُ قَالُوا أَنُؤْمِنُ كَمَا آمَنَ السُّفَهَاءُ ۗ أَلَا إِنَّهُمْ هُمُ السُّفَهَاءُ وَلَٰكِن لَّا يَعْلَمُونَ * وَإِذَا لَقُوا الَّذِينَ آمَنُوا قَالُوا آمَنَّا وَإِذَا خَلَوْا إِلَىٰ شَيَاطِينِهِمْ قَالُوا إِنَّا مَعَكُمْ إِنَّمَا نَحْنُ مُسْتَهْزِئُونَ * اللَّهُ يَسْتَهْزِئُ بِهِمْ وَيَمُدُّهُمْ فِي طُغْيَانِهِمْ يَعْمَهُونَ ﴾",
+                tafsir: "<b>التفسير الميسر:</b> إذا نُهي المنافقون عن الفساد بنشر الكفر وإفشاء أسرار المسلمين، زعموا أنهم أهل الإصلاح، فرد الله عليهم بأنهم هم عين المفسدين ولكن لا يشعرون. وإذا دُعوا للإيمان الصادق كإيمان الصحابة، استهزأوا ووصفوهم بالسفهاء، فرد الله عليهم بأن السفه ملازم لهم. وحين يلقون المؤمنين يظهرون الوفاق، وحين يخلون برؤسائهم يعلنون مكرهم، والله يجازيهم على استهزائهم بالخزي والخذلان."
+            },
+            {
+                start: 16, end: 20,
+                title: "سورة البقرة: الآيات (16 - 20)",
+                text: "﴿ أُولَٰئِكَ الَّذِينَ اشْتَرَوُا الضَّلَالَةَ بِالْهُدَىٰ فَمَا رَبِحَت تِّجَارَتُهُمْ وَمَا كَانُوا مُهْتَدِينَ * مَثَلُهُمْ كَمَثَلِ الَّذِي اسْتَوْقَدَ نَارًا فَلَمَّا أَضَاءَتْ مَا حَوْلَهُ ذَهَبَ اللَّهُ بِنُورِهِمْ وَتَرَكَهُمْ فِي ظُلُمَاتٍ لَّا يُبْصِرُونَ * صُمٌّ بُكْمٌ عُمْيٌ فَهُمْ لَا يَرْجِعُونَ * أَوْ كَصَيِّبٍ مِّنَ السَّمَاءِ فِيهِ ظُلُمَاتٌ وَرَعْدٌ وَبَرْقٌ يَجْعَلُونَ أَصَابِعَهُمْ فِي آذَانِهِم مِّنَ الصَّوَاعِقِ حَذَرَ الْمَوْتِ ۚ وَاللَّهُ مُحِيطٌ بِالْكَافِرِينَ * يَكَادُ الْبَرْقُ يَخْطَفُ أَبْصَارَهُمْ ۖ كُلَّمَا أَضَاءَ لَهُم مَّشَوْا فِيهِ وَإِذَا أَظْلَمَ عَلَيْهِمْ قَامُوا ۚ وَلَوْ شَاءَ اللَّهُ لَذَهَبَ بِسَمْعِهِمْ وَأَبْصَارِهِمْ ۚ إِنَّ اللَّهَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ ﴾",
+                tafsir: "<b>التفسير الميسر:</b> استبدل المنافقون الكفر بالإيمان، فخسرت تجارتهم، وضرب الله لهم مثلين: الأول كمثل من أوقد ناراً ليستضيء بها فلما أضاءت انطفأت وبقي في ظلمات لا يبصر، فهم صم عن سماع الحق، بكم عن النطق به، عمي عن رؤيته. والمثل الثاني كمطر شديد فيه ظلمات ورعد وبرق صاعق، يصيبهم الرعب الشديد، حائرين تائهين كلما أضاء البرق مشوا قليلاً وإذا أظلم ثبتوا مكانهم."
+            }
+        ];
+
+        function renderQuranView() {
+            if (!db.quranPortion) db.quranPortion = { surah: 'البقرة', startAya: 1, endAya: 5, completedBatches: 0 };
+            
+            const currentIdx = db.quranPortion.completedBatches % quranPortionsDB.length;
+            const portion = quranPortionsDB[currentIdx];
+
+            const headerEl = document.getElementById('quranProgressHeader');
+            const versesEl = document.getElementById('quranVersesContainer');
+            const tafsirEl = document.getElementById('quranTafsirContainer');
+
+            if (headerEl) {
+                headerEl.innerHTML = `
+                    <span class="quran-ayah-badge">${portion.title}</span>
+                    <span style="font-size:12px; color:var(--text-secondary); font-weight:700;">المقدار اليومي: 5 آيات</span>
+                `;
+            }
+            if (versesEl) {
+                versesEl.innerHTML = `<div class="quran-verse-block">${portion.text}</div>`;
+            }
+            if (tafsirEl) {
+                tafsirEl.innerHTML = `<div class="quran-tafsir-block">${portion.tafsir}</div>`;
+            }
+        }
+
+        function completeQuranPortion() {
+            if (!db.quranPortion) db.quranPortion = { surah: 'البقرة', startAya: 1, endAya: 5, completedBatches: 0 };
+            db.quranPortion.completedBatches = (db.quranPortion.completedBatches || 0) + 1;
+            db.quranPortion.lastCompletedDate = todayStr;
+            finalizeAction();
+            renderQuranView();
+            showToast('✅ تم إكمال الورد! جاري عرض الـ 5 آيات التالية 🌿');
+            if ("vibrate" in navigator) navigator.vibrate([100, 50, 100]);
         }
 
         // =========================================================================
-        // --- 3. عداد الجلسة الدائري للأقسام عند الدخول لحين الخروج ---
+        // --- 4. صفحة الجلسة المستقلة (دراسة / قراءة / تركيز) ---
         // =========================================================================
-        function startSectionSessionTimer(viewName) {
-            clearInterval(sessionTimerInterval);
-            sessionElapsedSec = 0;
-            const progressCircle = document.getElementById('sessionTimerProgress');
-            const timeText = document.getElementById('sessionTimerText');
-            const label = document.getElementById('adhkarSessionLabel');
+        function startDedicatedSession(activityName, icon) {
+            currentSessionName = activityName;
+            document.getElementById('sessionActivityIcon').innerText = icon;
+            document.getElementById('sessionActivityTitle').innerText = `جلسة ${activityName}`;
+            document.getElementById('sessionStatusText').innerText = 'الجلسة نشطة وبدأت الآن...';
+            document.getElementById('sessionPauseBtn').innerText = 'إيقاف مؤقت';
 
-            if (label) label.innerText = `جلسة نشطة في: ${viewName}`;
-            if (timeText) timeText.innerText = "00:00";
-            if (progressCircle) progressCircle.style.strokeDashoffset = "0";
+            sessionElapsedSec = 0;
+            isSessionPaused = false;
+            clearInterval(sessionTimerInterval);
+
+            const circle = document.getElementById('sessionHeroProgress');
+            const display = document.getElementById('sessionLiveTimeDisplay');
+            display.innerText = "00:00";
+            if (circle) circle.style.strokeDashoffset = "0";
 
             sessionTimerInterval = setInterval(() => {
-                sessionElapsedSec++;
-                const mins = String(Math.floor(sessionElapsedSec / 60)).padStart(2, '0');
-                const secs = String(sessionElapsedSec % 60).padStart(2, '0');
-                if (timeText) timeText.innerText = `${mins}:${secs}`;
-                
-                if (progressCircle) {
-                    // دورة دائرية كاملة كل 60 ثانية
-                    const frac = (sessionElapsedSec % 60) / 60;
-                    progressCircle.style.strokeDashoffset = (113 * frac);
+                if (!isSessionPaused) {
+                    sessionElapsedSec++;
+                    const m = String(Math.floor(sessionElapsedSec / 60)).padStart(2, '0');
+                    const s = String(sessionElapsedSec % 60).padStart(2, '0');
+                    display.innerText = `${m}:${s}`;
+
+                    if (circle) {
+                        const frac = (sessionElapsedSec % 60) / 60;
+                        circle.style.strokeDashoffset = (596.9 * frac);
+                    }
                 }
             }, 1000);
+
+            switchNavSection('session-focus-view');
         }
 
-        function stopSectionSessionTimer() {
+        function togglePauseSession() {
+            isSessionPaused = !isSessionPaused;
+            const btn = document.getElementById('sessionPauseBtn');
+            const status = document.getElementById('sessionStatusText');
+            if (isSessionPaused) {
+                btn.innerText = 'استئناف ▶';
+                status.innerText = 'الجلسة متوقفة مؤقتاً';
+            } else {
+                btn.innerText = 'إيقاف مؤقت';
+                status.innerText = 'الجلسة نشطة وتتقدم...';
+            }
+        }
+
+        function finishAndSaveSession() {
             clearInterval(sessionTimerInterval);
-            sessionElapsedSec = 0;
+            const minsSpent = Math.round(sessionElapsedSec / 60);
+            if (sessionElapsedSec >= 30) {
+                if (!db.sessionsLog) db.sessionsLog = [];
+                db.sessionsLog.push({
+                    id: Date.now(),
+                    name: currentSessionName,
+                    seconds: sessionElapsedSec,
+                    date: todayStr
+                });
+                finalizeAction();
+                showToast(`🎉 أحسنت! تم إكمال ${minsSpent > 0 ? minsSpent + ' دقيقة' : sessionElapsedSec + ' ثانية'} في ${currentSessionName}`);
+            }
+            switchNavSection('dashboard-view');
+        }
+
+        function toggleWaterHabit() {
+            if ("vibrate" in navigator) navigator.vibrate(50);
+            showToast('💧 تم تسجيل شرب الماء!');
         }
 
         // =========================================================================
-        // --- 4. العادات اليومية الصباحية واستيراد النسخة الاحتياطية ---
+        // --- 5. التنقل، والبحث، واسترجاع النسخ، ومواقيت الصلاة ---
         // =========================================================================
-        function toggleHabit(habitKey) {
-            if (!db.habits) db.habits = {};
-            if (!db.habits[todayStr]) db.habits[todayStr] = {};
-            db.habits[todayStr][habitKey] = !db.habits[todayStr][habitKey];
-            finalizeAction();
-            renderHabitsUI();
-        }
-
-        function renderHabitsUI() {
-            const strip = document.getElementById('dashHabitsStrip');
-            if (!strip) return;
-            const todayHabits = (db.habits && db.habits[todayStr]) ? db.habits[todayStr] : {};
-
-            strip.innerHTML = `
-                <div class="habit-chip ${todayHabits.water ? 'done' : ''}" onclick="toggleHabit('water')">💧 شرب ماء ${todayHabits.water ? '✓' : ''}</div>
-                <div class="habit-chip ${todayHabits.reading ? 'done' : ''}" onclick="toggleHabit('reading')">📖 قراءة ${todayHabits.reading ? '✓' : ''}</div>
-                <div class="habit-chip ${todayHabits.workout ? 'done' : ''}" onclick="toggleHabit('workout')">🏃 رياضة ${todayHabits.workout ? '✓' : ''}</div>
-                <div class="habit-chip" onclick="openAdhkarDirectly()">🤲 أذكار اليوم</div>
-            `;
-        }
-
         function exportData() {
             const dl = document.createElement('a');
             dl.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
@@ -1519,7 +1574,7 @@
             reader.onload = (event) => {
                 try {
                     const imported = JSON.parse(event.target.result);
-                    if (confirm('هل أنت متأكد من استرجاع هذه النسخة الاحتياطية؟ سيتم دمجها مع بياناتك.')) {
+                    if (confirm('هل أنت متأكد من استرجاع هذه النسخة الاحتياطية؟')) {
                         db = normalizeDB(imported);
                         finalizeAction();
                         applyThemeUI();
@@ -1532,9 +1587,6 @@
             reader.readAsText(file);
         }
 
-        // =========================================================================
-        // --- 5. مواقيت الصلاة والطقس والعملات ---
-        // =========================================================================
         function calculatePalestinePrayerTimes(date = new Date()) {
             const lat = 32.4646; const lng = 35.2939; const tz = -date.getTimezoneOffset() / 60;
             const start = new Date(date.getFullYear(), 0, 0);
@@ -1617,9 +1669,6 @@
             alert('لضمان عمل المنبه بدقة متناهية والتطبيق مغلق:\n\n1. اذهب لإعدادات البطارية بالهاتف واختر تطبيق LifeOS.\n2. اختر "غير مقيد" (Unrestricted).\n3. تأكد من تفعيل "التشغيل التلقائي" (Autostart) إن وجد.');
         }
 
-        // =========================================================================
-        // --- 6. التسجيل الصوتي والتنقل والبحث والرجوع الذكي ---
-        // =========================================================================
         function handleDockMicClick(btnEl) {
             switchNavSection('notes-view', btnEl);
             startVoiceRecording();
@@ -1668,7 +1717,7 @@
                     const s = String(recSec%60).padStart(2,'0');
                     document.getElementById('recordTimer').innerText = `${m}:${s}`;
                 }, 1000);
-            } catch (err) { alert('تعذر الوصول إلى الميكروفون. تأكد من منح الأذن.'); }
+            } catch (err) { alert('تعذر الوصول إلى الميكروفون.'); }
         }
 
         function stopAndSaveVoiceRecording() {
@@ -1727,7 +1776,7 @@
             }
         }
 
-        // التنقل مع حفظ مسار الصفحات وتفعيل مؤقت الجلسة التلقائي
+        // التنقل مع حفظ مسار الصفحات
         function switchNavSection(viewId, btnEl, addToHistory = true) {
             closeTopDropdown();
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
@@ -1752,23 +1801,8 @@
                 }
             }
 
-            // تشغيل مؤقت الجلسة عند الدخول لقسم الأذكار أو الأقسام الأخرى وإيقافه في الرئيسية
-            if (viewId !== 'dashboard-view') {
-                const namesMap = {
-                    'adhkar-view': 'الأذكار والقرآن الكريم',
-                    'notes-view': 'الملاحظات والتسجيلات',
-                    'finance-view': 'الفواتير والمالية',
-                    'debts-view': 'سجل الديون',
-                    'todos-view': 'المهام',
-                    'vault-view': 'الخزنة المشفرة',
-                    'docs-view': 'الوثائق الرسمية',
-                    'settings-view': 'الإعدادات'
-                };
-                startSectionSessionTimer(namesMap[viewId] || 'هذا القسم');
-                if (viewId === 'adhkar-view') renderDhikrView();
-            } else {
-                stopSectionSessionTimer();
-            }
+            if (viewId === 'adhkar-view') renderDhikrView();
+            if (viewId === 'quran-view') renderQuranView();
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             updateUI();
@@ -1793,7 +1827,7 @@
             }
         });
 
-        // معالج زر الرجوع الذكي
+        // زر الرجوع الشامل والذكي
         function handleSystemBackButton() {
             const activeAlarm = document.getElementById('activeAlarmModal');
             if (activeAlarm && activeAlarm.classList.contains('active')) { dismissActiveAlarm(); return true; }
@@ -1821,6 +1855,14 @@
 
             const currentActive = document.querySelector('.section-view.active');
             const currentId = currentActive ? currentActive.id : 'dashboard-view';
+
+            if (currentId === 'session-focus-view') {
+                if (confirm('هل تريد مغادرة جلسة التركيز الحالية؟')) {
+                    clearInterval(sessionTimerInterval);
+                    switchNavSection('dashboard-view', null, false);
+                }
+                return true;
+            }
 
             if (currentId !== 'dashboard-view') {
                 if (navHistory.length > 0 && navHistory[navHistory.length - 1] === currentId) {
@@ -1872,6 +1914,18 @@
             db.notes.forEach(n => {
                 if ((n.title && n.title.toLowerCase().includes(q)) || (n.body && n.body.toLowerCase().includes(q))) {
                     results.push(`<div class="list-row"><div><span class="tag-badge green" style="margin-left:6px;">ملاحظة</span> <strong>${n.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${n.body || ''}</div></div></div>`);
+                }
+            });
+
+            db.documents.forEach(d => {
+                if (d.name.toLowerCase().includes(q)) {
+                    results.push(`<div class="list-row"><div><span class="tag-badge" style="margin-left:6px;">وثيقة</span> <strong>${d.name}</strong><div style="font-size:12px; color:var(--text-secondary);">تنتهي: ${d.expiryDate}</div></div></div>`);
+                }
+            });
+
+            db.vault.forEach(v => {
+                if (v.accountName.toLowerCase().includes(q)) {
+                    results.push(`<div class="list-row"><div><span class="tag-badge" style="margin-left:6px; color:var(--accent-red, #FF3B30);">خزنة</span> <strong>${v.accountName}</strong><div style="font-size:12px; color:var(--accent-red, #FF3B30); font-family:monospace;">${v.password}</div></div></div>`);
                 }
             });
 
@@ -1984,7 +2038,7 @@
                 container.innerHTML = `
                     <input type="text" id="actVaultName" placeholder="اسم الحساب / الموقع" class="app-input" required>
                     <input type="text" id="actVaultUser" placeholder="اسم المستخدم / الإيميل" class="app-input">
-                    <input type="text" id="actVaultPass" placeholder="كلمة المرور" class="app-input" required>
+                    <input type="password" id="actVaultPass" placeholder="كلمة المرور" class="app-input" required>
                     <textarea id="actVaultNote" rows="2" placeholder="ملاحظات أو تفاصيل إضافية..." class="app-input"></textarea>
                     <button type="button" onclick="submitActVault()" class="btn-action">حفظ بالخزنة</button>
                 `;
@@ -2033,7 +2087,6 @@
             finalizeAction();
         }
 
-        // إغلاق فوري للنافذة مع حفظ سليم للاشتراك
         function submitActSub() {
             const nameEl = document.getElementById('actSubName');
             const amountEl = document.getElementById('actSubAmount');
@@ -2178,11 +2231,9 @@
         }
 
         // =========================================================================
-        // --- 7. تحديث الواجهة الشامل لجميع الأقسام وقوائم البيانات ---
+        // --- 6. تحديث الواجهة الشامل لجميع الأقسام وقوائم البيانات ---
         // =========================================================================
         function updateUI() {
-            renderHabitsUI();
-
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
             const cYear = new Date().getFullYear();
@@ -2273,7 +2324,6 @@
                 `).join('') || '<p style="color:var(--text-secondary);">لا توجد مصاريف سابقة.</p>';
             }
 
-            // عرض سجل الديون والالتزامات
             const debtsEl = document.getElementById('debtsFullList');
             if (debtsEl) {
                 debtsEl.innerHTML = db.debts.map(d => `
@@ -2372,14 +2422,52 @@
             updateUI();
         }
 
-        function toggleTodo(id) { const t = db.todos.find(x => x.id === id); if(t) { t.done = !t.done; finalizeAction(); } }
-        function confirmDeleteTodo(id) { if(confirm('هل تريد حذف هذه المهمة؟')) { db.todos = db.todos.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteBill(id) { if(confirm('هل تريد حذف هذه الفاتورة؟')) { db.fixed_bills = db.fixed_bills.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteSub(id) { if(confirm('هل تريد حذف هذا الاشتراك؟')) { db.subscriptions = db.subscriptions.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteDoc(id) { if(confirm('هل تريد حذف هذه الوثيقة؟')) { db.documents = db.documents.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteVault(id) { if(confirm('هل تريد حذف هذا الحساب من الخزنة؟')) { db.vault = db.vault.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteNote(id) { if(confirm('هل تريد حذف هذه الملاحظة؟')) { db.notes = db.notes.filter(x => x.id !== id); finalizeAction(); } }
-        function confirmDeleteExpense(id) { if(confirm('هل تريد حذف هذا المصروف؟')) { db.expenses = db.expenses.filter(x => x.id !== id); finalizeAction(); } }
+        function toggleTodo(id) {
+            const t = db.todos.find(x => x.id === id);
+            if(t) { t.done = !t.done; finalizeAction(); }
+        }
+        function confirmDeleteTodo(id) {
+            if(confirm('هل تريد حذف هذه المهمة؟')) {
+                db.todos = db.todos.filter(x => x.id !== id);
+                finalizeAction();
+            }
+        }
+        function confirmDeleteBill(id) {
+            if(confirm('هل تريد حذف هذه الفاتورة؟')) {
+                db.fixed_bills = db.fixed_bills.filter(x => x.id !== id);
+                finalizeAction();
+            }
+        }
+        function confirmDeleteSub(id) {
+            if(confirm('هل تريد حذف هذا الاشتراك؟')) {
+                db.subscriptions = db.subscriptions.filter(x => x.id !== id);
+                finalizeAction();
+            }
+        }
+        function confirmDeleteDoc(id) {
+            if(confirm('هل تريد حذف هذه الوثيقة؟')) {
+                db.documents = db.documents.filter(x => x.id !== id);
+                finalizeAction();
+            }
+        }
+        function confirmDeleteVault(id) {
+            if(confirm('هل تريد حذف هذا الحساب من الخزنة؟')) {
+                db.vault = db.vault.filter(x => x.id !== id);
+                finalizeAction();
+            }
+        }
+        function confirmDeleteNote(id) {
+            if(confirm('هل تريد حذف هذه الملاحظة؟')) {
+                db.notes = db.notes.filter(x => x.id !== id);
+                finalizeAction();
+            }
+        }
+        function confirmDeleteExpense(id) {
+            if(confirm('هل تريد حذف هذا المصروف؟')) {
+                db.expenses = db.expenses.filter(x => x.id !== id);
+                finalizeAction();
+            }
+        }
 
         function toggleTheme() {
             db.settings.darkMode = !db.settings.darkMode;
@@ -2393,27 +2481,59 @@
             if (!container) return;
 
             const combined = [];
-            livePrayersList.forEach(p => { combined.push({ title: p.title, targetTime: p.targetTime, isPrayer: true }); });
+            livePrayersList.forEach(p => {
+                combined.push({
+                    title: p.title,
+                    targetTime: p.targetTime,
+                    isPrayer: true
+                });
+            });
+
             db.reminders.forEach(r => {
                 if (!r.triggered && r.targetTime > now) {
-                    combined.push({ id: r.id, title: `⏰ ${r.title || `تنبيه (${r.minutes} د)`}`, targetTime: r.targetTime, isPrayer: false });
+                    combined.push({
+                        id: r.id,
+                        title: `⏰ ${r.title || `تنبيه (${r.minutes} د)`}`,
+                        targetTime: r.targetTime,
+                        isPrayer: false
+                    });
                 }
             });
 
             combined.sort((a, b) => a.targetTime - b.targetTime);
+
             container.innerHTML = combined.map(item => {
                 const isPending = item.targetTime > now;
                 const timeStr = new Date(item.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
                 if (item.isPrayer) {
-                    return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><span class="tag-badge ${isPending ? 'green' : ''}">${isPending ? `⏳ ${formatTime(item.targetTime - now)}` : '✅ تم'}</span></div>`;
+                    return `
+                    <div class="list-row">
+                        <div>
+                            <strong>${item.title}</strong>
+                            <div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div>
+                        </div>
+                        <span class="tag-badge ${isPending ? 'green' : ''}">${isPending ? `⏳ ${formatTime(item.targetTime - now)}` : '✅ تم'}</span>
+                    </div>`;
                 } else {
-                    return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><div style="display:flex; align-items:center; gap:6px;"><button onclick="renameReminder(${item.id})" class="tag-badge" title="تسمية">✏️</button><span class="tag-badge">⏳ ${formatTime(item.targetTime - now)}</span><button onclick="confirmDeleteReminder(${item.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer; font-size:16px;" title="إلغاء">✖</button></div></div>`;
+                    return `
+                    <div class="list-row">
+                        <div>
+                            <strong>${item.title}</strong>
+                            <div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <button onclick="renameReminder(${item.id})" class="tag-badge" title="تسمية">✏️</button>
+                            <span class="tag-badge">⏳ ${formatTime(item.targetTime - now)}</span>
+                            <button onclick="confirmDeleteReminder(${item.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer; font-size:16px;" title="إلغاء">✖</button>
+                        </div>
+                    </div>`;
                 }
             }).join('') || '<p style="color:var(--text-secondary); text-align:center;">لا توجد صلوات أو تنبيهات قادمة</p>';
         }
 
         function renderPrayersAndReminders() {
             const now = Date.now();
+            
             const nextPrayer = livePrayersList.find(p => p.targetTime > now);
             const topPrayerText = document.getElementById('topPrayerText');
             if (topPrayerText) {
@@ -2496,7 +2616,7 @@
         }, 1000);
 
         // =========================================================================
-        // --- 8. الإقلاع المباشر والتنفيذ الأولي للمحركات ---
+        // --- 7. الإقلاع الفوري والتنفيذ الأولي للمحركات ---
         // =========================================================================
         applyThemeUI();
         initNativeNotifications();
