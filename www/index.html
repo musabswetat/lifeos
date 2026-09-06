@@ -7,7 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#121212" id="themeColorMeta">
+    <meta name="theme-color" content="#F2F2F7" id="themeColorMeta">
 
     <title>Life OS - النسخة الشاملة</title>
     
@@ -29,7 +29,7 @@
             --accent-color: #007AFF;
             --accent-green: #34C759;
             --accent-red: #FF3B30;
-            --radius-card: 26px;
+            --radius-card: 24px;
             --radius-input: 14px;
             --radius-pill: 9999px;
             --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -40,14 +40,14 @@
 
         /* 1. Samsung One UI */
         body.theme-oneui {
-            --radius-card: 26px; --radius-input: 14px; --accent-color: #007AFF;
+            --radius-card: 24px; --radius-input: 14px; --accent-color: #007AFF;
             --bg-canvas: #121212; --surface-card: #1E1E1E; --surface-inner: #282828;
             --border-subtle: #2C2C2C; --text-primary: #FFFFFF; --text-secondary: #8E8E93;
         }
         body.theme-oneui.light-mode {
-            --bg-canvas: #F2F2F7; --surface-card: #FFFFFF; --surface-inner: #E5E5EA;
-            --border-subtle: #E5E5EA; --text-primary: #000000; --text-secondary: #6C6C70;
-            --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.04);
+            --bg-canvas: #F2F4F8; --surface-card: #FFFFFF; --surface-inner: #E9ECEF;
+            --border-subtle: #E5E7EB; --text-primary: #111827; --text-secondary: #6B7280;
+            --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.05);
         }
 
         /* 2. Apple iOS */
@@ -67,7 +67,7 @@
         /* 3. Google Pixel */
         body.theme-pixel {
             --font-family: "Google Sans", system-ui, sans-serif;
-            --radius-card: 32px; --radius-input: 20px; --accent-color: #A8C7FA;
+            --radius-card: 28px; --radius-input: 20px; --accent-color: #A8C7FA;
             --bg-canvas: #131314; --surface-card: #1F1F23; --surface-inner: #2B2B30;
             --border-subtle: #34343A; --text-primary: #E3E2E6; --text-secondary: #C4C6D0;
         }
@@ -79,7 +79,7 @@
         /* 4. Ubuntu */
         body.theme-ubuntu {
             --font-family: "Ubuntu", system-ui, sans-serif;
-            --radius-card: 10px; --radius-input: 8px; --accent-color: #E95420;
+            --radius-card: 12px; --radius-input: 8px; --accent-color: #E95420;
             --bg-canvas: #1B1817; --surface-card: #2D2A28; --surface-inner: #3C3835;
             --border-subtle: #4D4744; --text-primary: #FFFFFF; --text-secondary: #AEA79F;
         }
@@ -122,7 +122,14 @@
             --border-subtle: #E2E4EB; --text-primary: #1C1E21; --text-secondary: #6B707B; --accent-color: #FF6900;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-family); -webkit-tap-highlight-color: transparent; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            -webkit-tap-highlight-color: transparent;
+        }
+
         ::-webkit-scrollbar { display: none !important; }
         * { scrollbar-width: none !important; }
 
@@ -139,10 +146,9 @@
             padding-bottom: calc(var(--dock-height) + 85px); box-sizing: border-box;
         }
 
-        /* الشريط العلوي */
         .oneui-top-bar {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 8px 2px; position: relative;
+            padding: 6px 2px; position: relative;
         }
         .top-prayer-info {
             font-size: 13px; font-weight: 600; color: var(--accent-green, #34C759);
@@ -153,6 +159,7 @@
             background: transparent; border: none; color: var(--text-primary);
             cursor: pointer; width: 38px; height: 38px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; transition: background 0.15s ease;
+            touch-action: manipulation;
         }
         .top-action-btn:active { background: var(--surface-inner); }
         .top-action-btn svg { width: 20px; height: 20px; fill: currentColor; }
@@ -161,27 +168,28 @@
             display: flex; align-items: center; gap: 6px; background: var(--surface-card);
             border: 1px solid var(--border-subtle); padding: 6px 14px; border-radius: var(--radius-pill);
             cursor: pointer; box-shadow: var(--shadow-subtle); font-size: 12px; font-weight: 700;
-            backdrop-filter: var(--card-backdrop);
+            backdrop-filter: var(--card-backdrop); touch-action: manipulation;
         }
 
-        /* شريط/درج التطبيقات المتحرك والسريع */
+        /* شريط درج التطبيقات */
         .apps-horizontal-dock {
             display: flex; gap: 8px; overflow-x: auto; padding: 6px 2px 14px 2px;
-            margin-bottom: 6px; -webkit-overflow-scrolling: touch;
+            margin-bottom: 4px; -webkit-overflow-scrolling: touch;
         }
         .app-dock-chip {
             background: var(--surface-card); border: 1px solid var(--border-subtle);
             border-radius: var(--radius-pill); padding: 8px 16px; font-size: 13px;
             font-weight: 700; color: var(--text-primary); cursor: pointer;
             display: flex; align-items: center; gap: 6px; white-space: nowrap;
-            transition: all 0.2s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            transition: all 0.15s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            touch-action: manipulation;
         }
         .app-dock-chip:active { transform: scale(0.96); }
         .app-dock-chip.highlight {
             background: var(--surface-inner); border-color: var(--accent-color); color: var(--accent-color);
         }
 
-        .oneui-header-area { padding: 8px 2px 12px 2px; }
+        .oneui-header-area { padding: 4px 2px 12px 2px; }
         .oneui-title-hero-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
         .oneui-title-hero { font-size: 32px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0; }
         .edit-name-icon-btn {
@@ -205,6 +213,84 @@
         .section-view.active { display: block; animation: oneuiFade 0.25s cubic-bezier(0.2, 0, 0, 1); }
         @keyframes oneuiFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* =========================================================
+           🛡️ إصلاح الدائرة الشامل ومنع أي سواد SVG
+           ========================================================= */
+        svg, svg circle {
+            fill: none !important;
+        }
+        .circular-timer-wrapper {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 12px 0 6px 0; cursor: pointer; touch-action: manipulation;
+        }
+        .circular-timer-box {
+            position: relative; width: 140px; height: 140px; display: flex; align-items: center;
+            justify-content: center; transition: transform 0.15s ease;
+        }
+        .circular-timer-box:active { transform: scale(0.96); }
+        .timer-svg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg);
+        }
+        .timer-bg-circle {
+            stroke: var(--surface-inner) !important; stroke-width: 8; fill: none !important;
+        }
+        .timer-progress-circle {
+            stroke: var(--accent-color) !important; stroke-width: 8; stroke-linecap: round;
+            stroke-dasharray: 326.72; stroke-dashoffset: 0; transition: stroke-dashoffset 0.5s ease;
+            fill: none !important;
+        }
+        .timer-text-content {
+            position: relative; text-align: center; z-index: 2;
+        }
+        .timer-time-large { font-size: 24px; font-weight: 800; color: var(--text-primary); font-family: monospace; }
+        .timer-label-sub {
+            font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-top: 2px;
+            max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+
+        /* =========================================================
+           🧮 حاسبة Google الدقيقة والمحترفة
+           ========================================================= */
+        .google-calc-box {
+            background: var(--surface-inner); border-radius: var(--radius-card);
+            padding: 20px 16px 14px 16px; border: 1px solid var(--border-subtle);
+        }
+        .calc-screen-wrapper {
+            display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end;
+            min-height: 80px; padding: 6px 10px 14px 10px; margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .calc-expression-line {
+            font-size: 15px; color: var(--text-secondary); min-height: 22px; font-family: monospace;
+            word-break: break-all; direction: ltr; text-align: right;
+        }
+        .calc-main-line {
+            font-size: 38px; font-weight: 800; color: var(--text-primary); font-family: monospace;
+            line-height: 1.2; word-break: break-all; direction: ltr; text-align: right;
+        }
+        .google-calc-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+        }
+        .g-calc-btn {
+            background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
+            height: 60px; font-size: 20px; font-weight: 700; color: var(--text-primary); cursor: pointer;
+            display: flex; align-items: center; justify-content: center; touch-action: manipulation;
+            user-select: none; transition: background 0.1s ease, transform 0.08s ease;
+        }
+        .g-calc-btn:active {
+            background: var(--surface-active); transform: scale(0.93);
+        }
+        .g-calc-btn.operator {
+            background: var(--surface-inner); color: var(--accent-color); font-size: 22px;
+        }
+        .g-calc-btn.equals {
+            background: var(--accent-color); color: #FFFFFF; border: none; font-size: 24px;
+        }
+        .g-calc-btn.special {
+            color: var(--accent-red); font-size: 18px;
+        }
+
+        /* القوائم والبطاقات */
         .list-row {
             display: flex; justify-content: space-between; align-items: center;
             padding: 13px 0; border-bottom: 1px solid var(--border-subtle); font-size: 14px; gap: 10px;
@@ -215,6 +301,7 @@
             display: inline-flex; align-items: center; padding: 6px 12px; border-radius: var(--radius-pill);
             font-size: 12px; font-weight: 700; background: var(--surface-inner); color: var(--accent-color);
             border: 1px solid var(--border-subtle); cursor: pointer; transition: background 0.15s ease;
+            touch-action: manipulation;
         }
         .tag-badge:active { background: var(--surface-active); }
         .tag-badge.green { color: var(--accent-green, #34C759); }
@@ -230,6 +317,7 @@
             flex: 1; background: transparent; border: none; padding: 10px 12px; border-radius: var(--radius-pill);
             color: var(--text-secondary); font-size: 13px; font-weight: 700; cursor: pointer; display: flex;
             align-items: center; justify-content: center; transition: all 0.15s ease; white-space: nowrap;
+            touch-action: manipulation;
         }
         .samsung-dock-item.active { background: var(--surface-inner); color: var(--text-primary); }
         .samsung-dock-item:active { transform: scale(0.96); }
@@ -242,7 +330,7 @@
         .btn-action {
             background: var(--accent-color); color: #FFFFFF; border: none; padding: 13px 18px;
             border-radius: var(--radius-input); font-size: 14px; font-weight: 700; cursor: pointer; width: 100%;
-            transition: transform 0.15s ease;
+            transition: transform 0.15s ease; touch-action: manipulation;
         }
         .btn-action:active { transform: scale(0.98); opacity: 0.9; }
 
@@ -256,25 +344,7 @@
             padding: 24px; width: 100%; max-width: 380px; backdrop-filter: var(--card-backdrop);
         }
 
-        /* 🧮 تصميم الآلة الحاسبة المدمجة */
-        .calc-screen {
-            background: var(--surface-inner); border-radius: var(--radius-input); padding: 16px;
-            text-align: left; font-size: 32px; font-weight: 800; font-family: monospace;
-            color: var(--text-primary); margin-bottom: 14px; overflow-x: auto; min-height: 40px;
-        }
-        .calc-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
-        }
-        .calc-btn {
-            background: var(--surface-inner); border: 1px solid var(--border-subtle); border-radius: var(--radius-input);
-            padding: 16px 0; font-size: 18px; font-weight: 800; color: var(--text-primary); cursor: pointer;
-            transition: all 0.1s ease;
-        }
-        .calc-btn:active { background: var(--surface-active); transform: scale(0.95); }
-        .calc-btn.op { background: var(--accent-color); color: #FFFFFF; border: none; }
-        .calc-btn.action { color: var(--accent-red); }
-
-        /* 📅 تصميم التقويم الشهري */
+        /* 📅 التقويم */
         .calendar-header-controls {
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;
         }
@@ -288,51 +358,42 @@
         .calendar-day-cell {
             aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
             font-size: 13px; font-weight: 700; border-radius: 50%; cursor: pointer;
-            background: var(--surface-inner); border: 1px solid transparent;
+            background: var(--surface-inner); border: 1px solid transparent; touch-action: manipulation;
         }
-        .calendar-day-cell.today {
-            background: var(--accent-color); color: #FFFFFF;
-        }
-        .calendar-day-cell.has-event {
-            border-color: var(--accent-green);
-        }
+        .calendar-day-cell.today { background: var(--accent-color); color: #FFFFFF; }
+        .calendar-day-cell.has-event { border-color: var(--accent-green); }
 
-        /* ⛅ بطاقات الطقس لـ 5 أيام */
+        /* ⛅ بطاقات الطقس */
         .weather-hourly-strip {
             display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-top: 10px;
         }
         .weather-hour-card {
             background: var(--surface-inner); border-radius: var(--radius-input); padding: 10px 12px;
-            min-width: 70px; text-align: center; font-size: 12px; border: 1px solid var(--border-subtle);
+            min-width: 75px; text-align: center; font-size: 12px; border: 1px solid var(--border-subtle);
         }
 
-        /* 🕌 سبحة إلكترونية بملء الشاشة */
+        /* 📿 المسبحة */
         .tasbeeh-touch-surface {
             background: var(--surface-inner); border-radius: var(--radius-card); border: 2px dashed var(--accent-green);
             padding: 40px 20px; text-align: center; cursor: pointer; user-select: none;
-            transition: transform 0.1s ease; margin-top: 14px;
+            transition: transform 0.1s ease; margin-top: 14px; touch-action: manipulation;
         }
         .tasbeeh-touch-surface:active { transform: scale(0.98); }
         .tasbeeh-big-counter { font-size: 54px; font-weight: 800; font-family: monospace; color: var(--accent-green); }
 
-        .sub-card-item { padding: 12px 0; border-bottom: 1px solid var(--border-subtle); }
-        .sub-card-item:last-child { border-bottom: none; }
-        .sub-header-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 700; }
-        .sub-meta-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
-        .sub-progress-track { width: 100%; height: 6px; background: var(--surface-inner); border-radius: var(--radius-pill); overflow: hidden; margin-top: 8px; }
-        .sub-progress-fill { height: 100%; background: var(--accent-color); border-radius: var(--radius-pill); transition: width 0.4s ease; }
-
+        /* الأذكار وورد القرآن المفسر */
         .dhikr-card {
-            background: var(--surface-inner); border-radius: var(--radius-input); padding: 14px;
+            background: var(--surface-inner); border-radius: var(--radius-input); padding: 14px 16px;
             margin-bottom: 10px; border: 1px solid var(--border-subtle); line-height: 1.8;
-            font-size: 14px; cursor: pointer;
+            font-size: 14px; cursor: pointer; touch-action: manipulation;
         }
+        .dhikr-card:active { background: var(--surface-active); }
         .quran-ayah-badge {
             display: inline-block; background: var(--surface-inner); color: var(--accent-green);
             padding: 4px 12px; border-radius: var(--radius-pill); font-weight: 800; font-size: 13px; margin-bottom: 8px;
         }
         .quran-verse-block {
-            font-family: "Amiri", "Traditional Arabic", serif; font-size: 18px; line-height: 2.2;
+            font-family: "Amiri", "Traditional Arabic", serif; font-size: 19px; line-height: 2.2;
             color: var(--text-primary); text-align: justify; margin-bottom: 14px;
         }
         .quran-tafsir-block {
@@ -340,6 +401,13 @@
             border-radius: var(--radius-input); padding: 14px; line-height: 1.8; font-size: 13px;
             margin-bottom: 14px;
         }
+
+        .sub-card-item { padding: 12px 0; border-bottom: 1px solid var(--border-subtle); }
+        .sub-card-item:last-child { border-bottom: none; }
+        .sub-header-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 700; }
+        .sub-meta-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+        .sub-progress-track { width: 100%; height: 6px; background: var(--surface-inner); border-radius: var(--radius-pill); overflow: hidden; margin-top: 8px; }
+        .sub-progress-fill { height: 100%; background: var(--accent-color); border-radius: var(--radius-pill); transition: width 0.4s ease; }
     </style>
 </head>
 <body class="theme-oneui light-mode">
@@ -372,7 +440,7 @@
             </div>
         </div>
 
-        <!-- 🚀 شريط/درج التطبيقات المدمجة السريع -->
+        <!-- 🚀 درج التطبيقات المصغرة -->
         <div class="apps-horizontal-dock">
             <div class="app-dock-chip highlight" onclick="switchNavSection('dashboard-view')">🏠 الرئيسية</div>
             <div class="app-dock-chip" onclick="switchNavSection('calc-view')">🧮 الحاسبة</div>
@@ -402,7 +470,7 @@
             </div>
         </div>
 
-        <!-- 🏠 1. الشاشة الرئيسية الموحدة -->
+        <!-- 🏠 1. الشاشة الرئيسية -->
         <div id="dashboard-view" class="section-view active">
             <div class="section-label">التنبيهات المباشرة</div>
             <div class="oneui-card">
@@ -411,11 +479,12 @@
                     <button onclick="openModalAction('alarm')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ ضبط تنبيه</button>
                 </div>
 
+                <!-- تم منع السواد الداخلي نهائياً -->
                 <div class="circular-timer-wrapper" onclick="openManageActiveTimerModal()">
                     <div class="circular-timer-box">
                         <svg class="timer-svg" viewBox="0 0 120 120">
-                            <circle class="timer-bg-circle" cx="60" cy="60" r="52" />
-                            <circle class="timer-progress-circle" id="timerProgressCircle" cx="60" cy="60" r="52" />
+                            <circle class="timer-bg-circle" cx="60" cy="60" r="52" fill="none" />
+                            <circle class="timer-progress-circle" id="timerProgressCircle" cx="60" cy="60" r="52" fill="none" />
                         </svg>
                         <div class="timer-text-content">
                             <div class="timer-time-large" id="nearestTimerTime">--:--</div>
@@ -469,41 +538,44 @@
             </div>
         </div>
 
-        <!-- 🧮 2. تطبيق الحاسبة داخل التطبيق -->
+        <!-- 🧮 2. تطبيق الحاسبة - تصميم واستجابة Google Calculator -->
         <div id="calc-view" class="section-view">
-            <div class="section-label">الحاسبة السريعة</div>
-            <div class="oneui-card">
-                <div class="calc-screen" id="calcDisplay">0</div>
-                <div class="calc-grid">
-                    <button class="calc-btn action" onclick="calcAction('C')">C</button>
-                    <button class="calc-btn action" onclick="calcAction('DEL')">⌫</button>
-                    <button class="calc-btn op" onclick="calcOp('%')">%</button>
-                    <button class="calc-btn op" onclick="calcOp('/')">÷</button>
+            <div class="section-label">حاسبة سريعة ومتقدمة</div>
+            <div class="google-calc-box">
+                <div class="calc-screen-wrapper">
+                    <div class="calc-expression-line" id="gCalcExpr"></div>
+                    <div class="calc-main-line" id="gCalcDisplay">0</div>
+                </div>
+                <div class="google-calc-grid">
+                    <button class="g-calc-btn special" onclick="gCalcAction('AC')">AC</button>
+                    <button class="g-calc-btn special" onclick="gCalcAction('DEL')">⌫</button>
+                    <button class="g-calc-btn operator" onclick="gCalcOp('%')">%</button>
+                    <button class="g-calc-btn operator" onclick="gCalcOp('÷')">÷</button>
 
-                    <button class="calc-btn" onclick="calcNum('7')">7</button>
-                    <button class="calc-btn" onclick="calcNum('8')">8</button>
-                    <button class="calc-btn" onclick="calcNum('9')">9</button>
-                    <button class="calc-btn op" onclick="calcOp('*')">×</button>
+                    <button class="g-calc-btn" onclick="gCalcNum('7')">7</button>
+                    <button class="g-calc-btn" onclick="gCalcNum('8')">8</button>
+                    <button class="g-calc-btn" onclick="gCalcNum('9')">9</button>
+                    <button class="g-calc-btn operator" onclick="gCalcOp('×')">×</button>
 
-                    <button class="calc-btn" onclick="calcNum('4')">4</button>
-                    <button class="calc-btn" onclick="calcNum('5')">5</button>
-                    <button class="calc-btn" onclick="calcNum('6')">6</button>
-                    <button class="calc-btn op" onclick="calcOp('-')">-</button>
+                    <button class="g-calc-btn" onclick="gCalcNum('4')">4</button>
+                    <button class="g-calc-btn" onclick="gCalcNum('5')">5</button>
+                    <button class="g-calc-btn" onclick="gCalcNum('6')">6</button>
+                    <button class="g-calc-btn operator" onclick="gCalcOp('−')">−</button>
 
-                    <button class="calc-btn" onclick="calcNum('1')">1</button>
-                    <button class="calc-btn" onclick="calcNum('2')">2</button>
-                    <button class="calc-btn" onclick="calcNum('3')">3</button>
-                    <button class="calc-btn op" onclick="calcOp('+')">+</button>
+                    <button class="g-calc-btn" onclick="gCalcNum('1')">1</button>
+                    <button class="g-calc-btn" onclick="gCalcNum('2')">2</button>
+                    <button class="g-calc-btn" onclick="gCalcNum('3')">3</button>
+                    <button class="g-calc-btn operator" onclick="gCalcOp('+')">+</button>
 
-                    <button class="calc-btn" onclick="calcNum('0')">0</button>
-                    <button class="calc-btn" onclick="calcNum('.')">.</button>
-                    <button class="calc-btn" onclick="calcNum('00')">00</button>
-                    <button class="calc-btn op" style="background:var(--accent-green);" onclick="calcEqual()">=</button>
+                    <button class="g-calc-btn" onclick="gCalcAction('±')">±</button>
+                    <button class="g-calc-btn" onclick="gCalcNum('0')">0</button>
+                    <button class="g-calc-btn" onclick="gCalcNum('.')">.</button>
+                    <button class="g-calc-btn equals" onclick="gCalcEquals()">=</button>
                 </div>
             </div>
         </div>
 
-        <!-- 📅 3. تطبيق التقويم داخل التطبيق -->
+        <!-- 📅 3. تطبيق التقويم -->
         <div id="calendar-view" class="section-view">
             <div class="section-label">تقويم المهام والمواعيد</div>
             <div class="oneui-card">
@@ -517,49 +589,49 @@
                 </div>
                 <div class="calendar-days-grid" id="calDaysGrid"></div>
             </div>
-            <div class="section-label" id="calSelectedDayTitle">مهام ومصاريف اليوم المحدد</div>
+            <div class="section-label" id="calSelectedDayTitle">تفاصيل اليوم المحدد</div>
             <div class="oneui-card" id="calDayEventsList">
                 <p style="color:var(--text-secondary); text-align:center;">اختر يوماً من التقويم لعرض تفاصيله</p>
             </div>
         </div>
 
-        <!-- 🕌 4. تطبيق إسلاميات الشامل (أذكار + ورد القرآن المفسر + المسبحة) -->
+        <!-- 🕌 4. تطبيق إسلاميات (أذكار موثوقة كاملة + ورد القرآن وتفسير ابن كثير + مسبحة) -->
         <div id="islamiyat-view" class="section-view">
             <div style="display:flex; gap:6px; margin-bottom:12px; overflow-x:auto;">
-                <button class="tag-badge" id="btnTabAdhkar" onclick="switchIslamiyatTab('adhkar')">🤲 الأذكار التلقائية</button>
-                <button class="tag-badge" id="btnTabQuran" onclick="switchIslamiyatTab('quran')">📖 ورد القرآن (5 آيات)</button>
+                <button class="tag-badge" id="btnTabAdhkar" onclick="switchIslamiyatTab('adhkar')">🤲 الأذكار المأثورة</button>
+                <button class="tag-badge" id="btnTabQuran" onclick="switchIslamiyatTab('quran')">📖 ورد القرآن (تفسير ابن كثير)</button>
                 <button class="tag-badge" id="btnTabTasbeeh" onclick="switchIslamiyatTab('tasbeeh')">📿 المسبحة الإلكترونية</button>
             </div>
 
-            <!-- تبويب الأذكار -->
+            <!-- تبويب الأذكار الكاملة -->
             <div id="islamTabAdhkar">
-                <div class="section-label" id="adhkarDynamicHeaderTitle">أذكار الوقت الحالي</div>
+                <div class="section-label" id="adhkarDynamicHeaderTitle">الأذكار المأثورة</div>
                 <div id="adhkarContentContainer"></div>
             </div>
 
-            <!-- تبويب ورد القرآن -->
+            <!-- تبويب ورد القرآن المفسر بابن كثير -->
             <div id="islamTabQuran" style="display:none;">
-                <div class="section-label">ورد القرآن اليومي المفسر</div>
+                <div class="section-label">ورد القرآن وتفسير ابن كثير (5 آيات)</div>
                 <div class="oneui-card">
                     <div id="quranProgressHeader" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;"></div>
                     <div id="quranVersesContainer"></div>
                     <div id="quranTafsirContainer"></div>
                     <button onclick="completeQuranPortion()" class="btn-action" style="background:var(--accent-green); margin-top:8px;">
-                        ✅ تم بحمد الله (الانتقال لـ 5 آيات تالية)
+                        ✅ تم بحمد الله (عرض الـ 5 آيات التالية مع التفسير)
                     </button>
                 </div>
             </div>
 
-            <!-- تبويب المسبحة الإلكترونية -->
+            <!-- تبويب المسبحة -->
             <div id="islamTabTasbeeh" style="display:none;">
                 <div class="section-label">المسبحة اللمسية التفاعلية</div>
                 <div class="oneui-card" style="text-align:center;">
-                    <div style="font-size:14px; color:var(--text-secondary);" id="tasbeehCurrentZikr">سُبْحَانَ اللهِ</div>
+                    <div style="font-size:15px; font-weight:700; color:var(--accent-green);" id="tasbeehCurrentZikr">سُبْحَانَ اللهِ</div>
                     <div class="tasbeeh-touch-surface" onclick="incrementTasbeeh()">
                         <div class="tasbeeh-big-counter" id="tasbeehCountDisplay">0</div>
-                        <div style="font-size:12px; color:var(--text-secondary); margin-top:8px;">انقر في أي مكان للتسبيح</div>
+                        <div style="font-size:12px; color:var(--text-secondary); margin-top:8px;">انقر في أي مكان للتسبيح بالاهتزاز</div>
                     </div>
-                    <div style="display:flex; gap:8px; justify-content:center; margin-top:14px;">
+                    <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-top:14px;">
                         <button class="tag-badge" onclick="setTasbeehZikr('سُبْحَانَ اللهِ')">سبحان الله</button>
                         <button class="tag-badge" onclick="setTasbeehZikr('الْحَمْدُ للهِ')">الحمد لله</button>
                         <button class="tag-badge" onclick="setTasbeehZikr('اللهُ أَكْبَرُ')">الله أكبر</button>
@@ -570,13 +642,13 @@
             </div>
         </div>
 
-        <!-- ⛅ 5. تطبيق الطقس التفصيلي لـ 5 أيام مع مخطط بالساعات -->
+        <!-- ⛅ 5. تطبيق الطقس التفصيلي لـ 5 أيام بالساعات -->
         <div id="weather-view" class="section-view">
             <div class="section-label">حالة الطقس لـ 5 أيام (محدث بالساعات)</div>
             <div class="oneui-card" style="text-align:center;">
                 <div style="font-size:38px; font-weight:800; color:var(--text-primary); margin-bottom:4px;" id="weatherViewCurrentTemp">--°C</div>
                 <div style="font-size:14px; color:var(--text-secondary);" id="weatherViewCurrentStatus">⛅ جاري الفحص...</div>
-                <div style="font-size:12px; color:var(--accent-green); margin-top:4px;">📍 جنين، فلسطين (بيانات دقيقة مخزنة محلياً)</div>
+                <div style="font-size:12px; color:var(--accent-green); margin-top:4px;">📍 جنين، فلسطين (محدث بالساعات ومحفوظ أوفلاين)</div>
                 
                 <div class="section-label" style="text-align:right; margin-top:16px;">المخطط الساعي لدرجات الحرارة</div>
                 <div class="weather-hourly-strip" id="weatherHourlyContainer">
@@ -585,7 +657,7 @@
             </div>
         </div>
 
-        <!-- 💱 6. تطبيق محول العملات المباشر -->
+        <!-- 💱 6. محول العملات المالي المباشر -->
         <div id="currency-view" class="section-view">
             <div class="section-label">محول العملات المالي المباشر</div>
             <div class="oneui-card">
@@ -614,13 +686,13 @@
                 </div>
 
                 <div style="background:var(--surface-inner); border-radius:var(--radius-input); padding:16px; text-align:center; border:1px solid var(--border-subtle);">
-                    <div style="font-size:12px; color:var(--text-secondary);">النتيجة الدقيقة</div>
-                    <div style="font-size:26px; font-weight:800; color:var(--accent-color); margin-top:4px;" id="conversionResultDisplay">--</div>
+                    <div style="font-size:12px; color:var(--text-secondary);">القيمة الناتجة</div>
+                    <div style="font-size:28px; font-weight:800; color:var(--accent-color); margin-top:4px;" id="conversionResultDisplay">--</div>
                 </div>
             </div>
         </div>
 
-        <!-- ✅ 7. تطبيق المهام السريعة -->
+        <!-- ✅ 7. تطبيق المهام -->
         <div id="todos-view" class="section-view">
             <div class="section-label">إدارة كافة المهام</div>
             <div class="oneui-card">
@@ -694,13 +766,13 @@
             </div>
         </div>
 
-        <!-- 🕌⏰ 11. تطبيق الصلوات والتنبيهات الموحد -->
+        <!-- 🕌⏰ 11. تطبيق الصلوات والتنبيهات -->
         <div id="prayers-alarms-view" class="section-view">
             <div class="section-label">مواقيت الصلاة والتنبيهات النشطة</div>
             <div class="oneui-card" id="prayersAlarmsFullList"></div>
         </div>
 
-        <!-- ⚙️ 12. تطبيق الإعدادات والنسخ الاحتياطي -->
+        <!-- ⚙️ 12. الإعدادات -->
         <div id="settings-view" class="section-view">
             <div class="section-label">الحساب والمزامنة السحابية</div>
             <div class="oneui-card">
@@ -721,8 +793,8 @@
                     <option value="iphone">Apple iOS / iPhone (آيفون)</option>
                     <option value="pixel">Google Pixel (ماتيريال يو)</option>
                     <option value="ubuntu">Ubuntu Yaru (أوبونتو)</option>
-                    <option value="linux">Linux Terminal (لينكس موجه الأوامر)</option>
-                    <option value="infinix">Infinix XOS (إنفنيكس نيون)</option>
+                    <option value="linux">Linux Terminal (لينكس)</option>
+                    <option value="infinix">Infinix XOS (إنفنيكس)</option>
                     <option value="mi">Xiaomi HyperOS (شاومي)</option>
                 </select>
             </div>
@@ -750,7 +822,7 @@
         <button class="samsung-dock-item" id="btnDockPrayersAlarms" onclick="switchNavSection('prayers-alarms-view', this)">الصلوات</button>
     </div>
 
-    <!-- النوافذ المنبثقة التفاعلية -->
+    <!-- النوافذ المنبثقة -->
     <div class="modal-overlay" id="timerManageModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size:36px; margin-bottom:6px;">⏱️</div>
@@ -849,12 +921,13 @@
         let navHistory = ['dashboard-view'];
         let lastBackPressTime = 0;
 
-        // حالة تطبيق الحاسبة
-        let calcCurrentVal = '0';
-        let calcStoredVal = null;
-        let calcCurrentOp = null;
+        // حالة حاسبة Google
+        let gCalcCurrent = '0';
+        let gCalcPrevious = '';
+        let gCalcOpValue = null;
+        let gCalcShouldReset = false;
 
-        // حالة تطبيق التقويم
+        // حالة التقويم
         let calCurrentYear = new Date().getFullYear();
         let calCurrentMonth = new Date().getMonth();
 
@@ -935,7 +1008,7 @@
             if (!db.settings.darkMode) document.body.classList.add('light-mode');
 
             const themeColors = {
-                oneui: { dark: '#121212', light: '#F2F2F7' },
+                oneui: { dark: '#121212', light: '#F2F4F8' },
                 iphone: { dark: '#000000', light: '#F2F2F6' },
                 pixel: { dark: '#131314', light: '#FDF8FD' },
                 ubuntu: { dark: '#1B1817', light: '#F7F7F7' },
@@ -946,7 +1019,7 @@
 
             const currentHex = themeColors[theme] 
                 ? (db.settings.darkMode ? themeColors[theme].dark : themeColors[theme].light) 
-                : (db.settings.darkMode ? '#121212' : '#F2F2F7');
+                : (db.settings.darkMode ? '#121212' : '#F2F4F8');
 
             updateNativeStatusBar(currentHex, db.settings.darkMode);
 
@@ -1114,63 +1187,104 @@
         }
 
         // =========================================================================
-        // --- 1. تطبيق الحاسبة داخل التطبيق ---
+        // --- 1. حاسبة Google التفاعلية (Google Calculator Engine) ---
         // =========================================================================
-        function updateCalcDisplay() {
-            document.getElementById('calcDisplay').innerText = calcCurrentVal;
+        function updateGCalcDisplay() {
+            const exprEl = document.getElementById('gCalcExpr');
+            const mainEl = document.getElementById('gCalcDisplay');
+            if (exprEl) exprEl.innerText = gCalcPrevious + (gCalcOpValue ? ` ${gCalcOpValue} ` : '');
+            if (mainEl) mainEl.innerText = gCalcCurrent;
         }
 
-        function calcNum(numStr) {
-            if (calcCurrentVal === '0' && numStr !== '.') {
-                calcCurrentVal = numStr;
-            } else {
-                if (numStr === '.' && calcCurrentVal.includes('.')) return;
-                calcCurrentVal += numStr;
-            }
-            updateCalcDisplay();
-        }
-
-        function calcOp(op) {
-            calcStoredVal = parseFloat(calcCurrentVal);
-            calcCurrentOp = op;
-            calcCurrentVal = '0';
-            updateCalcDisplay();
-        }
-
-        function calcAction(action) {
-            if (action === 'C') {
-                calcCurrentVal = '0';
-                calcStoredVal = null;
-                calcCurrentOp = null;
-            } else if (action === 'DEL') {
-                if (calcCurrentVal.length > 1) {
-                    calcCurrentVal = calcCurrentVal.slice(0, -1);
+        function gCalcNum(digit) {
+            if ("vibrate" in navigator) navigator.vibrate(20);
+            if (gCalcShouldReset || gCalcCurrent === '0') {
+                if (digit === '.') {
+                    gCalcCurrent = '0.';
                 } else {
-                    calcCurrentVal = '0';
+                    gCalcCurrent = digit;
                 }
+                gCalcShouldReset = false;
+            } else {
+                if (digit === '.' && gCalcCurrent.includes('.')) return;
+                gCalcCurrent += digit;
             }
-            updateCalcDisplay();
+            updateGCalcDisplay();
         }
 
-        function calcEqual() {
-            if (calcStoredVal === null || calcCurrentOp === null) return;
-            const current = parseFloat(calcCurrentVal);
-            let res = 0;
-            switch(calcCurrentOp) {
-                case '+': res = calcStoredVal + current; break;
-                case '-': res = calcStoredVal - current; break;
-                case '*': res = calcStoredVal * current; break;
-                case '/': res = current !== 0 ? calcStoredVal / current : 'خطأ'; break;
-                case '%': res = (calcStoredVal * current) / 100; break;
+        function gCalcOp(op) {
+            if ("vibrate" in navigator) navigator.vibrate(25);
+            if (gCalcOpValue !== null && !gCalcShouldReset) {
+                gCalcComputeIntermediate();
             }
-            calcCurrentVal = String(res);
-            calcStoredVal = null;
-            calcCurrentOp = null;
-            updateCalcDisplay();
+            gCalcPrevious = gCalcCurrent;
+            gCalcOpValue = op;
+            gCalcShouldReset = true;
+            updateGCalcDisplay();
+        }
+
+        function gCalcComputeIntermediate() {
+            const prev = parseFloat(gCalcPrevious);
+            const curr = parseFloat(gCalcCurrent);
+            if (isNaN(prev) || isNaN(curr)) return;
+
+            let result = 0;
+            switch(gCalcOpValue) {
+                case '+': result = prev + curr; break;
+                case '−': result = prev - curr; break;
+                case '×': result = prev * curr; break;
+                case '÷': result = curr !== 0 ? prev / curr : 0; break;
+                case '%': result = (prev * curr) / 100; break;
+            }
+            gCalcCurrent = parseFloat(result.toFixed(8)).toString();
+            gCalcPrevious = gCalcCurrent;
+        }
+
+        function gCalcEquals() {
+            if ("vibrate" in navigator) navigator.vibrate(40);
+            if (gCalcOpValue === null || gCalcPrevious === '') return;
+            const prev = parseFloat(gCalcPrevious);
+            const curr = parseFloat(gCalcCurrent);
+            const op = gCalcOpValue;
+
+            let result = 0;
+            switch(op) {
+                case '+': result = prev + curr; break;
+                case '−': result = prev - curr; break;
+                case '×': result = prev * curr; break;
+                case '÷': result = curr !== 0 ? prev / curr : 0; break;
+                case '%': result = (prev * curr) / 100; break;
+            }
+
+            document.getElementById('gCalcExpr').innerText = `${gCalcPrevious} ${op} ${gCalcCurrent} =`;
+            gCalcCurrent = parseFloat(result.toFixed(8)).toString();
+            gCalcPrevious = '';
+            gCalcOpValue = null;
+            gCalcShouldReset = true;
+            document.getElementById('gCalcDisplay').innerText = gCalcCurrent;
+        }
+
+        function gCalcAction(act) {
+            if ("vibrate" in navigator) navigator.vibrate(25);
+            if (act === 'AC') {
+                gCalcCurrent = '0';
+                gCalcPrevious = '';
+                gCalcOpValue = null;
+                gCalcShouldReset = false;
+            } else if (act === 'DEL') {
+                if (!gCalcShouldReset && gCalcCurrent.length > 1) {
+                    gCalcCurrent = gCalcCurrent.slice(0, -1);
+                } else {
+                    gCalcCurrent = '0';
+                }
+            } else if (act === '±') {
+                gCalcCurrent = (parseFloat(gCalcCurrent) * -1).toString();
+            }
+            updateGCalcDisplay();
         }
 
         // =========================================================================
-        // --- 2. تطبيق التقويم داخل التطبيق ---
+        // --- 2. تطبيق التقويم ---
         // =========================================================================
         function renderCalendarGrid() {
             const grid = document.getElementById('calDaysGrid');
@@ -1233,7 +1347,7 @@
         }
 
         // =========================================================================
-        // --- 3. تطبيق إسلاميات (أذكار، ورد القرآن المفسر، المسبحة) ---
+        // --- 3. تطبيق إسلاميات (أذكار موثوقة كاملة + ورد ابن كثير + مسبحة) ---
         // =========================================================================
         function switchIslamiyatTab(tab) {
             document.getElementById('islamTabAdhkar').style.display = (tab === 'adhkar') ? 'block' : 'none';
@@ -1244,32 +1358,44 @@
             if (tab === 'quran') renderQuranView();
         }
 
+        // نصوص الأذكار الموثوقة الكاملة
         const adhkarDatabase = {
             postPrayer: [
-                { id: 'p1', text: 'أَسْتَغْفِرُ اللهَ (ثلاثاً)... اللَّهُمَّ أَنْتَ السَّلامُ وَمِنْكَ السَّلامُ، تَبَارَكْتَ يَا ذَا الْجَلالِ وَالإِكْرَامِ.', count: 1 },
-                { id: 'p2', text: 'سُبْحَانَ اللهِ (33 مرة)', count: 33 },
-                { id: 'p3', text: 'الْحَمْدُ للهِ (33 مرة)', count: 33 },
-                { id: 'p4', text: 'اللهُ أَكْبَرُ (33 مرة)', count: 33 },
-                { id: 'p5', text: 'لا إِلَهَ إِلا اللهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', count: 1 },
-                { id: 'p6', text: 'قراءة آية الكرسي: {اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...}', count: 1 }
+                { id: 'p1', text: 'أَسْتَغْفِرُ اللهَ، أَسْتَغْفِرُ اللهَ، أَسْتَغْفِرُ اللهَ. اللَّهُمَّ أَنْتَ السَّلامُ وَمِنْكَ السَّلامُ، تَبَارَكْتَ يَا ذَا الْجَلالِ وَالإِكْرَامِ.', count: 1 },
+                { id: 'p2', text: 'لا إِلَهَ إِلا اللهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، اللَّهُمَّ لا مَانِعَ لِمَا أَعْطَيْتَ، وَلا مُعْطِيَ لِمَا مَنَعْتَ، وَلا يَنْفَعُ ذَا الْجَدِّ مِنْكَ الْجَدُّ.', count: 1 },
+                { id: 'p3', text: 'سُبْحَانَ اللهِ (33 مرة)', count: 33 },
+                { id: 'p4', text: 'الْحَمْدُ للهِ (33 مرة)', count: 33 },
+                { id: 'p5', text: 'اللهُ أَكْبَرُ (33 مرة)', count: 33 },
+                { id: 'p6', text: 'لا إِلَهَ إِلا اللهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ (تمام المائة).', count: 1 },
+                { id: 'p7', text: '﴿ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ ﴾ [آية الكرسي]', count: 1 }
             ],
             morning: [
-                { id: 'm1', text: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', count: 1 },
-                { id: 'm2', text: 'اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لا يَغْفِرُ الذُّنُوبَ إِلا أَنْتَ.', count: 1 },
-                { id: 'm3', text: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ.', count: 3 },
-                { id: 'm4', text: 'رَضِيتُ بِاللهِ رَبَّاً، وَبِالإِسْلاَمِ دِيناً، وَبِمُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ نَبِيَّاً.', count: 3 },
-                { id: 'm5', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ.', count: 3 }
+                { id: 'm1', text: '﴿ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ... ﴾ [آية الكرسي كاملة]', count: 1 },
+                { id: 'm2', text: 'قراءة سورة الإخلاص، والفلق، والناس (ثلاث مرات).', count: 3 },
+                { id: 'm3', text: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ.', count: 1 },
+                { id: 'm4', text: 'اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لا يَغْفِرُ الذُّنُوبَ إِلا أَنْتَ. [سيد الاستغفار]', count: 1 },
+                { id: 'm5', text: 'اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ. اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ، وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَهَ إِلَّا أَنْتَ. (3 مرات)', count: 3 },
+                { id: 'm6', text: 'حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ. (7 مرات)', count: 7 },
+                { id: 'm7', text: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ. (3 مرات)', count: 3 },
+                { id: 'm8', text: 'رَضِيتُ بِاللهِ رَبَّاً، وَبِالإِسْلاَمِ دِيناً، وَبِمُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ نَبِيَّاً. (3 مرات)', count: 3 },
+                { id: 'm9', text: 'يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلاَ تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ.', count: 1 },
+                { id: 'm10', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ. (3 مرات)', count: 3 },
+                { id: 'm11', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ. (100 مرة)', count: 100 }
             ],
             evening: [
-                { id: 'e1', text: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', count: 1 },
-                { id: 'e2', text: 'أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.', count: 3 },
-                { id: 'e3', text: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ.', count: 3 },
-                { id: 'e4', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ.', count: 100 }
+                { id: 'e1', text: '﴿ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ... ﴾ [آية الكرسي]', count: 1 },
+                { id: 'e2', text: 'المعوذات الثلاث: الإخلاص، الفلق، الناس (3 مرات).', count: 3 },
+                { id: 'e3', text: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذِهِ اللَّيْلَةِ وَشَرِّ مَا بَعْدَهَا.', count: 1 },
+                { id: 'e4', text: 'سيد الاستغفار: اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ...', count: 1 },
+                { id: 'e5', text: 'أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ. (3 مرات)', count: 3 },
+                { id: 'e6', text: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ. (3 مرات)', count: 3 },
+                { id: 'e7', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ. (100 مرة)', count: 100 }
             ],
             night: [
                 { id: 'n1', text: 'بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ.', count: 1 },
-                { id: 'n2', text: 'سُبْحَانَ اللهِ (33)، الْحَمْدُ للهِ (33)، اللهُ أَكْبَرُ (34)', count: 1 },
-                { id: 'n3', text: 'قراءة سورة الملك والآيتين الأخيرتين من سورة البقرة.', count: 1 }
+                { id: 'n2', text: 'اللَّهُمَّ أَسْلَمْتُ نَفْسِي إِلَيْكَ، وَفَوَّضْتُ أَمْرِي إِلَيْكَ، وَوَجَّهْتُ وَجْهِي إِلَيْكَ، وَأَلْجَأْتُ ظَهْرِي إِلَيْكَ، رَغْبَةً وَرَهْبَةً إِلَيْكَ، لا مَلْجَأَ وَلا مَنْجَا مِنْكَ إِلا إِلَيْكَ، آمَنْتُ بِكِتَابِكَ الَّذِي أَنْزَلْتَ، وَبِنَبِيِّكَ الَّذِي أَرْسَلْتَ.', count: 1 },
+                { id: 'n3', text: 'سُبْحَانَ اللهِ (33)، الْحَمْدُ للهِ (33)، اللهُ أَكْبَرُ (34).', count: 1 },
+                { id: 'n4', text: 'قراءة الآيتين الأخيرتين من سورة البقرة وسورة الملك.', count: 1 }
             ]
         };
 
@@ -1313,31 +1439,31 @@
             if (current > 0) {
                 current--;
                 db.adhkarCounters[id] = current;
-                if ("vibrate" in navigator) navigator.vibrate(35);
+                if ("vibrate" in navigator) navigator.vibrate(30);
                 finalizeAction();
                 renderDhikrView();
             }
         }
 
-        // ورد القرآن اليومي المفسر (يبدأ من سورة البقرة بمعدل 5 آيات)
+        // ورد القرآن المفسر المعتمد من "مختصر تفسير ابن كثير"
         const quranPortionsDB = [
             {
                 start: 1, end: 5,
                 title: "سورة البقرة: الآيات (1 - 5)",
                 text: "﴿ الم * ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ * الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ * وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ * أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ ﴾",
-                tafsir: "<b>التفسير الميسر:</b> يفتتح الله السورة بالحروف المقطعة للتحدي والإعجاز، ثم يثبت أن هذا القرآن كتاب عظيم لا شك في صحته، يهدي المتقين الممتثلين لأوامره، الذين يصدقون بالغيب، ويؤدون الصلاة بأركانها وشروطها، وينفقون مما رزقهم الله، ويؤمنون بالوحي واليوم الآخر."
+                tafsir: "<b>مختصر تفسير ابن كثير:</b> ابتدأت السورة بالحروف المقطعة إعجازاً للمشركين بأن القرآن مركب من لغتهم وعجزوا عن الإتيان بمثله. ثم أخبر أن هذا الكتاب لا شك فيه بوجه من الوجوه، وأنه هدى ونور ونجاة للمتقين الذين خافوا عقاب الله باتباع أمره. ونعتهم بأنهم يؤمنون بالغيب وهو كل ما غاب عن العيان وأخبر به الصادق من أمور الآخرة والملائكة والجنة، ويقيمون الصلاة بإتمام ركوعها وسجودها وخشوعها، ويخرجون زكاة أموالهم ونفقاتهم في سبيل الله، ويصدقون بالقرآن والكتب السابقة؛ فأولئك أهل الفلاح والظفر بالجنة والنجاة من النار."
             },
             {
                 start: 6, end: 10,
                 title: "سورة البقرة: الآيات (6 - 10)",
                 text: "﴿ إِنَّ الَّذِينَ كَفَرُوا سَوَاءٌ عَلَيْهِمْ أَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ * خَتَمَ اللَّهُ عَلَىٰ قُلُوبِهِمْ وَعَلَىٰ سَمْعِهِمْ ۖ وَعَلَىٰ أَبْصَارِهِمْ غِشَاوَةٌ ۖ وَلَهُمْ عَذَابٌ عَظِيمٌ * وَمِنَ النَّاسِ مَن يَقُولُ آمَنَّا بِاللَّهِ وَبِالْيَوْمِ الْآخِرِ وَمَا هُم بِمُؤْمِنِينَ * يُخَادِعُونَ اللَّهَ وَالَّذِينَ آمَنُوا وَمَا يَخْدَعُونَ إِلَّا أَنفُسَهُمْ وَمَا يَشْعُرُونَ * فِي قُلُوبِهِم مَّرَضٌ فَزَادَهُمُ اللَّهُ مَرَضًا ۖ وَلَهُمْ عَذَابٌ أَلِيمٌ بِمَا كَانُوا يَكْذِبُونَ ﴾",
-                tafsir: "<b>التفسير الميسر:</b> توضح الآيات حال الكافرين المعاندين الذين طبع الله على قلوبهم وأسماعهم بسبب استكبارهم، ثم تكشف حال المنافقين الذين يظهرون الإيمان بألسنتهم ويبطنون الكفر، وهم في الحقيقة لا يخدعون إلا أنفسهم ولهم عذاب أليم بما كانوا يكذبون."
+                tafsir: "<b>مختصر تفسير ابن كثير:</b> يخبر تعالى عن المعاندين كأبي جهل وغيرهم أن الإنذار لا ينفعهم لسبق القضاء بشقائهم، ختم الله على قلوبهم فلا تعي خيراً، وعلى سمعهم فلا يسمعون سماع قبول، وعلى أبصارهم غطاء فلا يبصرون الحق. ثم ذكر صنف المنافقين الذين يزعمون الإيمان بألسنتهم ويبطنون الكفر تقية، يخادعون الله ورسوله في ظنهم وما يخدعون إلا أنفسهم لأن الله مطلع على سرائرهم وفاضحهم، وفي قلوبهم شك وشبهة فزادهم الله ضلالاً ولهم عذاب موجع."
             },
             {
                 start: 11, end: 15,
                 title: "سورة البقرة: الآيات (11 - 15)",
                 text: "﴿ وَإِذَا قِيلَ لَهُمْ لَا تُفْسِدُوا فِي الْأَرْضِ قَالُوا إِنَّمَا نَحْنُ مُصْلِحُونَ * أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ وَلَٰكِن لَّا يَشْعُرُونَ * وَإِذَا قِيلَ لَهُمْ آمِنُوا كَمَا آمَنَ النَّاسُ قَالُوا أَنُؤْمِنُ كَمَا آمَنَ السُّفَهَاءُ ۗ أَلَا إِنَّهُمْ هُمُ السُّفَهَاءُ وَلَٰكِن لَّا يَعْلَمُونَ * وَإِذَا لَقُوا الَّذِينَ آمَنُوا قَالُوا آمَنَّا وَإِذَا خَلَوْا إِلَىٰ شَيَاطِينِهِمْ قَالُوا إِنَّا مَعَكُمْ إِنَّمَا نَحْنُ مُسْتَهْزِئُونَ * اللَّهُ يَسْتَهْزِئُ بِهِمْ وَيَمُدُّهُمْ فِي طُغْيَانِهِمْ يَعْمَهُونَ ﴾",
-                tafsir: "<b>التفسير الميسر:</b> يزعم أهل النفاق أن إفسادهم في الأرض إصلاح، ويرمون الصحابة المؤمنين بالسفاهة، وحين يلقون أهل الإيمان يبدون الموافقة، فإذا خلوا برؤسائهم أكدوا بقاءهم على الكفر، والله يجازيهم على استهزائهم بالخزي في الدنيا والآخرة."
+                tafsir: "<b>مختصر تفسير ابن كثير:</b> إذا نُهي أهل النفاق عن معصية الله وموالاة الكفار، ادعوا أن غرضهم الإصلاح والمصانعة بين الفريقين، فأكذبهم الله بأن فعلهم هو عين الفساد. وإذا دُعوا للإيمان الصادق الخالص كإيمان الصحابة، استكبروا ووصفوا المؤمنين بالسفه، فرد الله سفههم في نحورهم. وإذا التقوا بالمؤمنين نطقوا بالإسلام ظاهراً، وإذا خلوا برؤساء الكفر أظهروا حقيقة استهزائهم، والله يجازيهم بالخزي والهوان ويملي لهم في ضلالهم حائرين."
             }
         ];
 
@@ -1347,7 +1473,7 @@
 
             document.getElementById('quranProgressHeader').innerHTML = `
                 <span class="quran-ayah-badge">${portion.title}</span>
-                <span style="font-size:12px; color:var(--text-secondary); font-weight:700;">المقدار: 5 آيات يومياً</span>
+                <span style="font-size:12px; color:var(--text-secondary); font-weight:700;">الورد: 5 آيات يومياً</span>
             `;
             document.getElementById('quranVersesContainer').innerHTML = `<div class="quran-verse-block">${portion.text}</div>`;
             document.getElementById('quranTafsirContainer').innerHTML = `<div class="quran-tafsir-block">${portion.tafsir}</div>`;
@@ -1357,8 +1483,8 @@
             db.quranPortion.completedBatches = (db.quranPortion.completedBatches || 0) + 1;
             finalizeAction();
             renderQuranView();
-            showToast('✅ تم إكمال الورد! جاري عرض الـ 5 آيات التالية');
-            if ("vibrate" in navigator) navigator.vibrate([80, 40, 80]);
+            showToast('✅ تم إكمال الورد والانتقال للـ 5 آيات التالية');
+            if ("vibrate" in navigator) navigator.vibrate([70, 40, 70]);
         }
 
         function incrementTasbeeh() {
@@ -1366,15 +1492,15 @@
             document.getElementById('tasbeehCountDisplay').innerText = currentTasbeehCount;
             if ("vibrate" in navigator) {
                 if (currentTasbeehCount % 33 === 0) {
-                    navigator.vibrate([100, 50, 100]); // اهتزاز عند إتمام 33 أو 100
+                    navigator.vibrate([100, 50, 100]);
                 } else {
-                    navigator.vibrate(30);
+                    navigator.vibrate(25);
                 }
             }
         }
 
-        function setTasbeehZikr(zikrText) {
-            document.getElementById('tasbeehCurrentZikr').innerText = zikrText;
+        function setTasbeehZikr(text) {
+            document.getElementById('tasbeehCurrentZikr').innerText = text;
             currentTasbeehCount = 0;
             document.getElementById('tasbeehCountDisplay').innerText = '0';
         }
@@ -1385,7 +1511,7 @@
         }
 
         // =========================================================================
-        // --- 4. تطبيق الطقس التفصيلي ومحول العملات المباشر ---
+        // --- 4. محول العملات ومحرك الطقس التفصيلي لـ 5 أيام ---
         // =========================================================================
         function calculateCurrencyConversion() {
             const amount = parseFloat(document.getElementById('convertAmountInput').value) || 0;
@@ -1393,7 +1519,6 @@
             const to = document.getElementById('convertToCurrency').value;
             const rates = db.cachedFeeds.rates || { USD: "3.65", JOD: "5.15", EUR: "3.95", ILS: "1.00" };
 
-            // تحويل إلى الشيكل كعملة أساسية ثم إلى العملة المستهدفة
             const rateFromToILS = parseFloat(rates[from]) || 1;
             const rateToToILS = parseFloat(rates[to]) || 1;
 
@@ -1436,7 +1561,7 @@
         }
 
         // =========================================================================
-        // --- 5. محرك التنبيهات والأذونات وإدارة المواعيد ---
+        // --- 5. محرك التنبيهات والأذونات ---
         // =========================================================================
         function getNativePlugin() {
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
@@ -1625,7 +1750,7 @@
         }
 
         // =========================================================================
-        // --- 6. التسجيل الصوتي، التنقل وزر الرجوع الذكي ---
+        // --- 6. التنقل، الصوت، وزر الرجوع الشامل ---
         // =========================================================================
         function handleDockMicClick(btnEl) { switchNavSection('notes-view', btnEl); startVoiceRecording(); }
 
@@ -1638,6 +1763,7 @@
                 if (SpeechRecognition) {
                     speechRecognizer = new SpeechRecognition();
                     speechRecognizer.lang = 'ar-SA';
+                    speechRecognizer.interimResults = false;
                     speechRecognizer.onresult = (e) => { lastSpokenText = e.results[0][0].transcript; };
                     try { speechRecognizer.start(); } catch(err) {}
                 }
@@ -1747,6 +1873,7 @@
                 }
             }
 
+            if (viewId === 'calc-view') updateGCalcDisplay();
             if (viewId === 'calendar-view') renderCalendarGrid();
             if (viewId === 'islamiyat-view') switchIslamiyatTab('adhkar');
             if (viewId === 'weather-view') renderWeather5DaysUI();
@@ -2025,7 +2152,7 @@
         }
 
         // =========================================================================
-        // --- 7. تحديث الواجهات العامة والمحركات الدورية ---
+        // --- 7. تحديث الواجهة العامة والعمليات المشتركة ---
         // =========================================================================
         function updateUI() {
             let spentMonth = 0;
@@ -2165,7 +2292,7 @@
                     const totalDays = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)));
                     const remainingDays = Math.max(0, Math.ceil((end - today) / (1000 * 60 * 60 * 24)));
                     const progressPercent = Math.max(0, Math.min(100, (remainingDays / totalDays) * 100));
-                    return `<div class="sub-card-item"><div class="sub-header-row"><span>${sub.name}</span><strong style="color:var(--accent-color);">${sub.amount} ₪</strong></div><div class="sub-meta-row"><span>ينتهي: ${sub.endDate}</span><span style="font-weight:700; color:${remainingDays <= 3 ? 'var(--accent-red)' : 'var(--text-secondary)'};">متبقي ${remainingDays} يوم</span></div><div class="sub-progress-track"><div class="sub-progress-fill" style="width: ${progressPercent}%; background:${remainingDays <= 3 ? 'var(--accent-red)' : 'var(--accent-color)'};"></div></div></div>`;
+                    return `<div class="sub-card-item"><div class="sub-header-row"><span>${sub.name}</span><strong style="color:var(--accent-color);">${sub.amount} ₪</strong></div><div class="sub-meta-row"><span>ينتهي: ${sub.endDate}</span><span style="font-weight:700; color:${remainingDays <= 3 ? 'var(--accent-red, #FF3B30)' : 'var(--text-secondary)'};">متبقي ${remainingDays} يوم</span></div><div class="sub-progress-track"><div class="sub-progress-fill" style="width: ${progressPercent}%; background:${remainingDays <= 3 ? 'var(--accent-red, #FF3B30)' : 'var(--accent-color)'};"></div></div></div>`;
                 }).join('') || '<p style="color:var(--text-tertiary); font-size:13px;">لا توجد اشتراكات مسجلة حالياً.</p>';
             }
 
@@ -2279,7 +2406,9 @@
                 const remainingMs = nearest.targetTime - now;
                 const totalDuration = (nearest.minutes * 60 * 1000) || (nearest.targetTime - nearest.createdAt) || remainingMs;
                 const fraction = Math.max(0, Math.min(1, remainingMs / totalDuration));
-                if (circle) circle.style.strokeDashoffset = 326.72 * (1 - fraction);
+                const strokeTotal = 326.72;
+                
+                if (circle) circle.style.strokeDashoffset = strokeTotal * (1 - fraction);
                 if (timeEl) timeEl.innerText = formatTime(remainingMs);
                 if (labelEl) labelEl.innerText = nearest.title || `تنبيه (${nearest.minutes} د)`;
             } else if (nextPrayer) {
@@ -2317,19 +2446,24 @@
         setInterval(() => {
             const now = Date.now();
             let changed = false;
+
             db.reminders.forEach(r => {
-                if (!r.triggered && r.targetTime <= now) {
-                    r.triggered = true;
-                    changed = true;
-                    startAlarm(r.title);
+                if (!r.triggered) {
+                    const diff = r.targetTime - now;
+                    if (diff <= 0) {
+                        r.triggered = true;
+                        changed = true;
+                        startAlarm(r.title);
+                    }
                 }
             });
+
             renderPrayersAndReminders();
             if (changed) finalizeAction();
         }, 1000);
 
         // =========================================================================
-        // --- 8. جلب بيانات الطقس والعملات وتحديث الكاش تلقائياً ---
+        // --- 8. جلب بيانات الطقس والعملات وحفظ الكاش ---
         // =========================================================================
         function calculatePalestinePrayerTimes(date = new Date()) {
             const lat = 32.4646; const lng = 35.2939; const tz = -date.getTimezoneOffset() / 60;
@@ -2388,7 +2522,6 @@
             if (!navigator.onLine) return;
 
             const now = Date.now();
-            // جلب توقعات 5 أيام مع الساعات
             if (now - (db.cachedFeeds.weatherLastFetch || 0) > 3600000 || !db.cachedFeeds.weatherHourly) {
                 try {
                     const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&hourly=temperature_2m,weather_code&forecast_days=5&timezone=auto');
@@ -2405,7 +2538,6 @@
                 } catch(e) {}
             }
 
-            // جلب أسعار العملات
             if (now - (db.cachedFeeds.ratesLastFetch || 0) > 86400000) {
                 try {
                     const res = await fetch('https://open.er-api.com/v6/latest/ILS');
