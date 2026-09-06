@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#121212" id="themeColorMeta">
 
-    <title>Life OS</title>
+    <title>Life OS - النسخة الشاملة</title>
     
     <!-- مكتبات Firebase السحابية الرسمية -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -38,6 +38,7 @@
             --card-backdrop: none;
         }
 
+        /* 1. Samsung One UI */
         body.theme-oneui {
             --radius-card: 26px; --radius-input: 14px; --accent-color: #007AFF;
             --bg-canvas: #121212; --surface-card: #1E1E1E; --surface-inner: #282828;
@@ -49,6 +50,7 @@
             --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
 
+        /* 2. Apple iOS */
         body.theme-iphone {
             --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
             --radius-card: 22px; --radius-input: 12px; --accent-color: #0A84FF;
@@ -62,6 +64,7 @@
             --card-backdrop: blur(25px);
         }
 
+        /* 3. Google Pixel */
         body.theme-pixel {
             --font-family: "Google Sans", system-ui, sans-serif;
             --radius-card: 32px; --radius-input: 20px; --accent-color: #A8C7FA;
@@ -73,6 +76,7 @@
             --border-subtle: #CAC4D0; --text-primary: #1D1B20; --text-secondary: #49454F; --accent-color: #6750A4;
         }
 
+        /* 4. Ubuntu */
         body.theme-ubuntu {
             --font-family: "Ubuntu", system-ui, sans-serif;
             --radius-card: 10px; --radius-input: 8px; --accent-color: #E95420;
@@ -84,6 +88,7 @@
             --border-subtle: #D5D3D1; --text-primary: #111111; --text-secondary: #5E5C5B; --accent-color: #E95420;
         }
 
+        /* 5. Linux Terminal */
         body.theme-linux {
             --font-family: "Courier New", monospace; --radius-card: 4px; --radius-input: 2px;
             --accent-color: #00FF66; --accent-green: #00FF66; --accent-red: #FF3333;
@@ -95,6 +100,7 @@
             --border-subtle: #117733; --text-primary: #0A5522; --text-secondary: #2E6641; --accent-color: #117733;
         }
 
+        /* 6. Infinix */
         body.theme-infinix {
             --radius-card: 18px; --radius-input: 12px; --accent-color: #00FF9D;
             --bg-canvas: #090C10; --surface-card: #121820; --surface-inner: #1B2430;
@@ -105,6 +111,7 @@
             --border-subtle: #D0D9E6; --text-primary: #0C1E36; --text-secondary: #5A6D84; --accent-color: #00B36B;
         }
 
+        /* 7. Xiaomi HyperOS */
         body.theme-mi {
             --radius-card: 20px; --radius-input: 14px; --accent-color: #FF6900;
             --bg-canvas: #0F1012; --surface-card: #1B1C20; --surface-inner: #26282E;
@@ -127,18 +134,19 @@
 
         .app-container {
             width: 100%; max-width: 600px; margin: 0 auto;
-            padding-top: max(20px, env(safe-area-inset-top, 20px));
+            padding-top: max(16px, env(safe-area-inset-top, 16px));
             padding-right: 18px; padding-left: 18px;
             padding-bottom: calc(var(--dock-height) + 85px); box-sizing: border-box;
         }
 
+        /* الشريط العلوي */
         .oneui-top-bar {
             display: flex; align-items: center; justify-content: space-between;
             padding: 8px 2px; position: relative;
         }
         .top-prayer-info {
             font-size: 13px; font-weight: 600; color: var(--accent-green, #34C759);
-            display: flex; align-items: center; gap: 6px;
+            display: flex; align-items: center; gap: 6px; cursor: pointer;
         }
         .top-actions-cluster { display: flex; align-items: center; gap: 6px; }
         .top-action-btn {
@@ -156,32 +164,24 @@
             backdrop-filter: var(--card-backdrop);
         }
 
-        .expandable-search-bar { display: none; width: 100%; margin-bottom: 12px; animation: fadeInSearch 0.2s ease; }
-        .expandable-search-bar.active { display: block; }
-        @keyframes fadeInSearch { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
-        .search-inner-box {
-            display: flex; align-items: center; background: var(--surface-card); border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-pill); padding: 10px 16px; gap: 10px; box-shadow: var(--shadow-subtle);
-            backdrop-filter: var(--card-backdrop);
+        /* شريط/درج التطبيقات المتحرك والسريع */
+        .apps-horizontal-dock {
+            display: flex; gap: 8px; overflow-x: auto; padding: 6px 2px 14px 2px;
+            margin-bottom: 6px; -webkit-overflow-scrolling: touch;
         }
-        .search-input { background: transparent; border: none; outline: none; color: var(--text-primary); font-size: 14px; width: 100%; }
+        .app-dock-chip {
+            background: var(--surface-card); border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-pill); padding: 8px 16px; font-size: 13px;
+            font-weight: 700; color: var(--text-primary); cursor: pointer;
+            display: flex; align-items: center; gap: 6px; white-space: nowrap;
+            transition: all 0.2s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .app-dock-chip:active { transform: scale(0.96); }
+        .app-dock-chip.highlight {
+            background: var(--surface-inner); border-color: var(--accent-color); color: var(--accent-color);
+        }
 
-        .oneui-dropdown {
-            position: absolute; top: 48px; left: 4px; background: var(--surface-card); border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-card); padding: 6px; width: 230px; box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
-            display: flex; flex-direction: column; gap: 2px; z-index: 9999; opacity: 0; pointer-events: none;
-            transform: translateY(-8px) scale(0.96); transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
-            backdrop-filter: var(--card-backdrop);
-        }
-        .oneui-dropdown.open { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
-        .dropdown-item {
-            background: transparent; border: none; padding: 11px 14px; border-radius: var(--radius-input);
-            color: var(--text-primary); font-size: 14px; font-weight: 600; cursor: pointer; display: flex;
-            align-items: center; gap: 10px; text-align: right; transition: background 0.15s ease;
-        }
-        .dropdown-item:active { background: var(--surface-inner); }
-
-        .oneui-header-area { padding: 12px 2px 14px 2px; }
+        .oneui-header-area { padding: 8px 2px 12px 2px; }
         .oneui-title-hero-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
         .oneui-title-hero { font-size: 32px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0; }
         .edit-name-icon-btn {
@@ -190,45 +190,7 @@
             justify-content: center; cursor: pointer; box-shadow: var(--shadow-subtle);
         }
         .oneui-sub-text { font-size: 13px; color: var(--text-secondary); font-weight: 500; line-height: 1.6; }
-        .oneui-currency-line { font-size: 13px; color: var(--text-secondary); font-weight: 500; margin-top: 3px; }
-
-        /* شريط الأنشطة السريعة (الأذكار أقصى اليمين أولاً) */
-        .habits-strip {
-            display: flex; flex-direction: row; gap: 8px; overflow-x: auto; padding: 6px 2px 12px 2px;
-            margin-bottom: 6px; -webkit-overflow-scrolling: touch;
-        }
-        .habit-chip {
-            background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
-            padding: 8px 16px; font-size: 12px; font-weight: 700; color: var(--text-primary); cursor: pointer;
-            display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: all 0.2s ease;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-        }
-        .habit-chip:active { transform: scale(0.96); }
-        .habit-chip.primary-highlight {
-            background: var(--surface-inner); border-color: var(--accent-color); color: var(--accent-color);
-        }
-
-        .circular-timer-wrapper {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 10px 0 6px 0; cursor: pointer;
-        }
-        .circular-timer-box {
-            position: relative; width: 130px; height: 130px; display: flex; align-items: center;
-            justify-content: center; transition: transform 0.15s ease;
-        }
-        .circular-timer-box:active { transform: scale(0.96); }
-        .timer-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
-        .timer-bg-circle { fill: none; stroke: var(--surface-inner); stroke-width: 7; }
-        .timer-progress-circle {
-            fill: none; stroke: var(--accent-color); stroke-width: 7; stroke-linecap: round;
-            stroke-dasharray: 326.72; stroke-dashoffset: 0; transition: stroke-dashoffset 0.5s ease;
-        }
-        .timer-text-content { position: relative; text-align: center; z-index: 2; }
-        .timer-time-large { font-size: 20px; font-weight: 800; color: var(--text-primary); }
-        .timer-label-sub {
-            font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-top: 2px;
-            max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-        }
+        .oneui-currency-line { font-size: 13px; color: var(--text-secondary); font-weight: 500; margin-top: 3px; cursor: pointer; }
 
         .section-label {
             font-size: 13px; font-weight: 700; color: var(--text-secondary);
@@ -277,8 +239,6 @@
             border-radius: var(--radius-input); color: var(--text-primary) !important; font-size: 14px; font-weight: 600;
             outline: none; width: 100%; box-sizing: border-box; margin-bottom: 10px;
         }
-        .app-input:focus { border-color: var(--accent-color); }
-
         .btn-action {
             background: var(--accent-color); color: #FFFFFF; border: none; padding: 13px 18px;
             border-radius: var(--radius-input); font-size: 14px; font-weight: 700; cursor: pointer; width: 100%;
@@ -296,62 +256,89 @@
             padding: 24px; width: 100%; max-width: 380px; backdrop-filter: var(--card-backdrop);
         }
 
-        #syncToast {
-            position: fixed; top: max(20px, env(safe-area-inset-top, 20px)); left: 50%; transform: translateX(-50%);
-            background: var(--surface-card); border: 1px solid var(--border-subtle); padding: 6px 16px;
-            border-radius: var(--radius-pill); font-size: 12px; font-weight: 700; opacity: 0; transition: opacity 0.25s ease;
-            z-index: 99999; pointer-events: none; box-shadow: var(--shadow-subtle);
+        /* 🧮 تصميم الآلة الحاسبة المدمجة */
+        .calc-screen {
+            background: var(--surface-inner); border-radius: var(--radius-input); padding: 16px;
+            text-align: left; font-size: 32px; font-weight: 800; font-family: monospace;
+            color: var(--text-primary); margin-bottom: 14px; overflow-x: auto; min-height: 40px;
         }
-        #syncToast.show { opacity: 1; }
+        .calc-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+        }
+        .calc-btn {
+            background: var(--surface-inner); border: 1px solid var(--border-subtle); border-radius: var(--radius-input);
+            padding: 16px 0; font-size: 18px; font-weight: 800; color: var(--text-primary); cursor: pointer;
+            transition: all 0.1s ease;
+        }
+        .calc-btn:active { background: var(--surface-active); transform: scale(0.95); }
+        .calc-btn.op { background: var(--accent-color); color: #FFFFFF; border: none; }
+        .calc-btn.action { color: var(--accent-red); }
 
-        /* بطاقات الأذكار وورد القرآن */
+        /* 📅 تصميم التقويم الشهري */
+        .calendar-header-controls {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;
+        }
+        .calendar-weekdays {
+            display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 12px;
+            font-weight: 700; color: var(--text-secondary); margin-bottom: 8px;
+        }
+        .calendar-days-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center;
+        }
+        .calendar-day-cell {
+            aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 700; border-radius: 50%; cursor: pointer;
+            background: var(--surface-inner); border: 1px solid transparent;
+        }
+        .calendar-day-cell.today {
+            background: var(--accent-color); color: #FFFFFF;
+        }
+        .calendar-day-cell.has-event {
+            border-color: var(--accent-green);
+        }
+
+        /* ⛅ بطاقات الطقس لـ 5 أيام */
+        .weather-hourly-strip {
+            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-top: 10px;
+        }
+        .weather-hour-card {
+            background: var(--surface-inner); border-radius: var(--radius-input); padding: 10px 12px;
+            min-width: 70px; text-align: center; font-size: 12px; border: 1px solid var(--border-subtle);
+        }
+
+        /* 🕌 سبحة إلكترونية بملء الشاشة */
+        .tasbeeh-touch-surface {
+            background: var(--surface-inner); border-radius: var(--radius-card); border: 2px dashed var(--accent-green);
+            padding: 40px 20px; text-align: center; cursor: pointer; user-select: none;
+            transition: transform 0.1s ease; margin-top: 14px;
+        }
+        .tasbeeh-touch-surface:active { transform: scale(0.98); }
+        .tasbeeh-big-counter { font-size: 54px; font-weight: 800; font-family: monospace; color: var(--accent-green); }
+
+        .sub-card-item { padding: 12px 0; border-bottom: 1px solid var(--border-subtle); }
+        .sub-card-item:last-child { border-bottom: none; }
+        .sub-header-row { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 700; }
+        .sub-meta-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+        .sub-progress-track { width: 100%; height: 6px; background: var(--surface-inner); border-radius: var(--radius-pill); overflow: hidden; margin-top: 8px; }
+        .sub-progress-fill { height: 100%; background: var(--accent-color); border-radius: var(--radius-pill); transition: width 0.4s ease; }
+
         .dhikr-card {
             background: var(--surface-inner); border-radius: var(--radius-input); padding: 14px;
             margin-bottom: 10px; border: 1px solid var(--border-subtle); line-height: 1.8;
-            font-size: 14px; cursor: pointer; transition: transform 0.1s ease;
+            font-size: 14px; cursor: pointer;
         }
-        .dhikr-card:active { transform: scale(0.99); }
-        .dhikr-counter-btn {
-            background: var(--accent-color); color: #FFF; border-radius: var(--radius-pill);
-            padding: 4px 12px; font-size: 12px; font-weight: 700; display: inline-block; margin-top: 8px;
-        }
-
         .quran-ayah-badge {
             display: inline-block; background: var(--surface-inner); color: var(--accent-green);
             padding: 4px 12px; border-radius: var(--radius-pill); font-weight: 800; font-size: 13px; margin-bottom: 8px;
         }
         .quran-verse-block {
-            font-family: "Amiri", "Traditional Arabic", serif; font-size: 19px; line-height: 2.2;
-            color: var(--text-primary); text-align: justify; margin-bottom: 16px;
+            font-family: "Amiri", "Traditional Arabic", serif; font-size: 18px; line-height: 2.2;
+            color: var(--text-primary); text-align: justify; margin-bottom: 14px;
         }
         .quran-tafsir-block {
             background: var(--surface-inner); border-right: 4px solid var(--accent-green);
             border-radius: var(--radius-input); padding: 14px; line-height: 1.8; font-size: 13px;
             margin-bottom: 14px;
-        }
-
-        /* شاشة الجلسة المستقلة للدراسة والقراءة */
-        .session-hero-wrapper {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 30px 10px; text-align: center;
-        }
-        .session-hero-circle {
-            position: relative; width: 220px; height: 220px; display: flex; align-items: center;
-            justify-content: center; margin-bottom: 24px;
-        }
-        .session-hero-svg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg);
-        }
-        .session-hero-bg { fill: none; stroke: var(--surface-inner); stroke-width: 10; }
-        .session-hero-bar {
-            fill: none; stroke: var(--accent-color); stroke-width: 10; stroke-linecap: round;
-            stroke-dasharray: 596.9; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear;
-        }
-        .session-time-display {
-            font-size: 38px; font-weight: 800; font-family: monospace; letter-spacing: -0.03em;
-        }
-        .session-status-tag {
-            font-size: 13px; color: var(--text-secondary); margin-top: 4px; font-weight: 600;
         }
     </style>
 </head>
@@ -363,7 +350,7 @@
         
         <!-- الشريط العلوي -->
         <div class="oneui-top-bar">
-            <div class="top-prayer-info" id="topPrayerTag">
+            <div class="top-prayer-info" id="topPrayerTag" onclick="switchNavSection('prayers-alarms-view')">
                 <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.07 2.75z"/></svg>
                 <span id="topPrayerText">الصلاة: --</span>
             </div>
@@ -376,41 +363,27 @@
                     </div>
                 </div>
 
-                <button class="top-action-btn" onclick="toggleSearchBar()" title="بحث">
-                    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                </button>
                 <button class="top-action-btn" onclick="toggleTheme()" id="themeBtn" title="الوضع الليلي">
                     <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.39 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.39-.44-.06-.9-.1-1.36-.1z"/></svg>
                 </button>
-                <button class="top-action-btn" onclick="toggleTopDropdown()" title="القائمة">
-                    <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                <button class="top-action-btn" onclick="switchNavSection('settings-view')" title="الإعدادات">
+                    <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
                 </button>
             </div>
-
-            <div class="oneui-dropdown" id="topDropdownMenu">
-                <button class="dropdown-item" onclick="switchNavSection('adhkar-view')">🤲 الأذكار اليومية</button>
-                <button class="dropdown-item" onclick="switchNavSection('quran-view')">📖 ورد القرآن المفسر</button>
-                <button class="dropdown-item" onclick="switchNavSection('notes-view')">📝 الملاحظات والتسجيلات</button>
-                <button class="dropdown-item" onclick="switchNavSection('finance-view')">🧾 الفواتير والاشتراكات</button>
-                <button class="dropdown-item" onclick="switchNavSection('debts-view')">🤝 سجل الديون والالتزامات</button>
-                <button class="dropdown-item" onclick="switchNavSection('todos-view')">✅ إدارة كافة المهام</button>
-                <button class="dropdown-item" onclick="switchNavSection('vault-view')">🔐 الخزنة المشفرة</button>
-                <button class="dropdown-item" onclick="switchNavSection('docs-view')">🆔 الوثائق الرسمية</button>
-                <button class="dropdown-item" onclick="switchNavSection('settings-view')">⚙️ الإعدادات</button>
-                <button class="dropdown-item" onclick="exportData()">📥 تصدير نسخة احتياطية</button>
-            </div>
         </div>
 
-        <div class="expandable-search-bar" id="expandableSearchBar">
-            <div class="search-inner-box">
-                <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:var(--text-secondary);"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                <input type="text" id="globalSearchInput" class="search-input" placeholder="بحث في المهام، الملاحظات، الوثائق..." oninput="handleGlobalSearch(this.value)">
-                <button onclick="toggleSearchBar()" style="background:none; border:none; color:var(--text-secondary); cursor:pointer; font-size:14px;">إلغاء</button>
-            </div>
-        </div>
-
-        <div id="searchResultsCard" class="oneui-card" style="display:none; margin-bottom:14px;">
-            <div id="searchResultsList"></div>
+        <!-- 🚀 شريط/درج التطبيقات المدمجة السريع -->
+        <div class="apps-horizontal-dock">
+            <div class="app-dock-chip highlight" onclick="switchNavSection('dashboard-view')">🏠 الرئيسية</div>
+            <div class="app-dock-chip" onclick="switchNavSection('calc-view')">🧮 الحاسبة</div>
+            <div class="app-dock-chip" onclick="switchNavSection('calendar-view')">📅 التقويم</div>
+            <div class="app-dock-chip" onclick="switchNavSection('islamiyat-view')">🕌 إسلاميات</div>
+            <div class="app-dock-chip" onclick="switchNavSection('weather-view')">⛅ الطقس 5 أيام</div>
+            <div class="app-dock-chip" onclick="switchNavSection('currency-view')">💱 محول العملات</div>
+            <div class="app-dock-chip" onclick="switchNavSection('todos-view')">✅ المهام</div>
+            <div class="app-dock-chip" onclick="switchNavSection('finance-view')">📊 المالية والديون</div>
+            <div class="app-dock-chip" onclick="switchNavSection('notes-view')">📝 الملاحظات والصوت</div>
+            <div class="app-dock-chip" onclick="switchNavSection('vault-view')">🔐 الخزنة والوثائق</div>
         </div>
 
         <div class="oneui-header-area">
@@ -421,25 +394,15 @@
                 </button>
             </div>
             
-            <div class="oneui-sub-text" id="oneuiSubInfo">
+            <div class="oneui-sub-text" onclick="switchNavSection('weather-view')" style="cursor:pointer;">
                 📍 جنين <span id="textWeather">--°C ⛅</span> · صرف هذا الشهر: <span id="textMonthlySpent">0 ₪</span>
             </div>
-            <div class="oneui-currency-line">
+            <div class="oneui-currency-line" onclick="switchNavSection('currency-view')">
                 USD <span id="textUSD">--</span> ₪ · JOD <span id="textJOD">--</span> ₪ · EUR <span id="textEUR">--</span> ₪
             </div>
         </div>
 
-        <!-- شريط الأنشطة السريعة (الأذكار أقصى اليمين أولاً) -->
-        <div class="habits-strip" id="dashHabitsStrip">
-            <div class="habit-chip primary-highlight" onclick="switchNavSection('adhkar-view')">🤲 الأذكار</div>
-            <div class="habit-chip primary-highlight" onclick="switchNavSection('quran-view')">📖 ورد اليوم</div>
-            <div class="habit-chip" onclick="startDedicatedSession('دراسة', '📚')">📚 دراسة</div>
-            <div class="habit-chip" onclick="startDedicatedSession('قراءة', '📖')">📖 قراءة</div>
-            <div class="habit-chip" onclick="startDedicatedSession('رياضة', '🏃')">🏃 رياضة</div>
-            <div class="habit-chip" onclick="toggleWaterHabit()">💧 شرب ماء</div>
-        </div>
-
-        <!-- 🏠 1. تبويب الرئيسية -->
+        <!-- 🏠 1. الشاشة الرئيسية الموحدة -->
         <div id="dashboard-view" class="section-view active">
             <div class="section-label">التنبيهات المباشرة</div>
             <div class="oneui-card">
@@ -464,7 +427,7 @@
                 <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin:10px 0 6px 0;">
                     <button class="tag-badge" onclick="addReminderFast(15, 'تنبيه 15 دقيقة')">15 د</button>
                     <button class="tag-badge" onclick="addReminderFast(20, 'تنبيه 20 دقيقة')">20 د</button>
-                    <button class="tag-badge" onclick="addReminderFast(25, 'جلسة تركيز بومودورو 🎯')">🎯 تركيز 25 د</button>
+                    <button class="tag-badge" onclick="addReminderFast(25, 'جلسة تركيز 🎯')">🎯 25 د</button>
                     <button class="tag-badge" onclick="addReminderFast(30, 'تنبيه 30 دقيقة')">30 د</button>
                     <button class="tag-badge" onclick="addReminderFast(45, 'تنبيه 45 دقيقة')">45 د</button>
                 </div>
@@ -506,73 +469,158 @@
             </div>
         </div>
 
-        <!-- 🤲 2. صفحة الأذكار اليومية المستقلة -->
-        <div id="adhkar-view" class="section-view">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <div class="section-label" id="adhkarDynamicHeaderTitle" style="margin:0;">الأذكار الموصى بها لوقتك</div>
-                <button class="tag-badge" onclick="switchNavSection('dashboard-view')">← الرئيسية</button>
-            </div>
-            <div id="adhkarContentContainer"></div>
-        </div>
-
-        <!-- 📖 3. صفحة ورد القرآن اليومي المستقلة (5 آيات متتالية + تفسيرها) -->
-        <div id="quran-view" class="section-view">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <div class="section-label" style="margin:0;">ورد القرآن اليومي المفسر</div>
-                <button class="tag-badge" onclick="switchNavSection('dashboard-view')">← الرئيسية</button>
-            </div>
+        <!-- 🧮 2. تطبيق الحاسبة داخل التطبيق -->
+        <div id="calc-view" class="section-view">
+            <div class="section-label">الحاسبة السريعة</div>
             <div class="oneui-card">
-                <div id="quranProgressHeader" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;"></div>
-                <div id="quranVersesContainer"></div>
-                <div id="quranTafsirContainer"></div>
-                <button onclick="completeQuranPortion()" class="btn-action" style="background:var(--accent-green); margin-top:8px;">
-                    ✅ تم بحمد الله (الانتقال للـ 5 آيات التالية)
-                </button>
+                <div class="calc-screen" id="calcDisplay">0</div>
+                <div class="calc-grid">
+                    <button class="calc-btn action" onclick="calcAction('C')">C</button>
+                    <button class="calc-btn action" onclick="calcAction('DEL')">⌫</button>
+                    <button class="calc-btn op" onclick="calcOp('%')">%</button>
+                    <button class="calc-btn op" onclick="calcOp('/')">÷</button>
+
+                    <button class="calc-btn" onclick="calcNum('7')">7</button>
+                    <button class="calc-btn" onclick="calcNum('8')">8</button>
+                    <button class="calc-btn" onclick="calcNum('9')">9</button>
+                    <button class="calc-btn op" onclick="calcOp('*')">×</button>
+
+                    <button class="calc-btn" onclick="calcNum('4')">4</button>
+                    <button class="calc-btn" onclick="calcNum('5')">5</button>
+                    <button class="calc-btn" onclick="calcNum('6')">6</button>
+                    <button class="calc-btn op" onclick="calcOp('-')">-</button>
+
+                    <button class="calc-btn" onclick="calcNum('1')">1</button>
+                    <button class="calc-btn" onclick="calcNum('2')">2</button>
+                    <button class="calc-btn" onclick="calcNum('3')">3</button>
+                    <button class="calc-btn op" onclick="calcOp('+')">+</button>
+
+                    <button class="calc-btn" onclick="calcNum('0')">0</button>
+                    <button class="calc-btn" onclick="calcNum('.')">.</button>
+                    <button class="calc-btn" onclick="calcNum('00')">00</button>
+                    <button class="calc-btn op" style="background:var(--accent-green);" onclick="calcEqual()">=</button>
+                </div>
             </div>
         </div>
 
-        <!-- ⏱️ 4. صفحة الجلسة المستقلة (دراسة / قراءة / تركيز) تبدأ بالعد مباشرة -->
-        <div id="session-focus-view" class="section-view">
-            <div class="oneui-card" style="margin-top:10px;">
-                <div class="session-hero-wrapper">
-                    <span id="sessionActivityIcon" style="font-size:46px; margin-bottom:10px;">📚</span>
-                    <h2 id="sessionActivityTitle" style="font-size:22px; font-weight:800; margin-bottom:6px;">جلسة دراسة</h2>
-                    <div class="session-status-tag" id="sessionStatusText">الجلسة قيد التقدم...</div>
+        <!-- 📅 3. تطبيق التقويم داخل التطبيق -->
+        <div id="calendar-view" class="section-view">
+            <div class="section-label">تقويم المهام والمواعيد</div>
+            <div class="oneui-card">
+                <div class="calendar-header-controls">
+                    <button class="tag-badge" onclick="changeCalMonth(-1)">‹ السابق</button>
+                    <strong id="calMonthTitle" style="font-size:16px;">--</strong>
+                    <button class="tag-badge" onclick="changeCalMonth(1)">التالي ›</button>
+                </div>
+                <div class="calendar-weekdays">
+                    <div>ح</div><div>ن</div><div>ث</div><div>ر</div><div>خ</div><div>ج</div><div>س</div>
+                </div>
+                <div class="calendar-days-grid" id="calDaysGrid"></div>
+            </div>
+            <div class="section-label" id="calSelectedDayTitle">مهام ومصاريف اليوم المحدد</div>
+            <div class="oneui-card" id="calDayEventsList">
+                <p style="color:var(--text-secondary); text-align:center;">اختر يوماً من التقويم لعرض تفاصيله</p>
+            </div>
+        </div>
 
-                    <div class="session-hero-circle">
-                        <svg class="session-hero-svg" viewBox="0 0 200 200">
-                            <circle class="session-hero-bg" cx="100" cy="100" r="95" />
-                            <circle class="session-hero-bar" id="sessionHeroProgress" cx="100" cy="100" r="95" />
-                        </svg>
-                        <div class="session-time-display" id="sessionLiveTimeDisplay">00:00</div>
+        <!-- 🕌 4. تطبيق إسلاميات الشامل (أذكار + ورد القرآن المفسر + المسبحة) -->
+        <div id="islamiyat-view" class="section-view">
+            <div style="display:flex; gap:6px; margin-bottom:12px; overflow-x:auto;">
+                <button class="tag-badge" id="btnTabAdhkar" onclick="switchIslamiyatTab('adhkar')">🤲 الأذكار التلقائية</button>
+                <button class="tag-badge" id="btnTabQuran" onclick="switchIslamiyatTab('quran')">📖 ورد القرآن (5 آيات)</button>
+                <button class="tag-badge" id="btnTabTasbeeh" onclick="switchIslamiyatTab('tasbeeh')">📿 المسبحة الإلكترونية</button>
+            </div>
+
+            <!-- تبويب الأذكار -->
+            <div id="islamTabAdhkar">
+                <div class="section-label" id="adhkarDynamicHeaderTitle">أذكار الوقت الحالي</div>
+                <div id="adhkarContentContainer"></div>
+            </div>
+
+            <!-- تبويب ورد القرآن -->
+            <div id="islamTabQuran" style="display:none;">
+                <div class="section-label">ورد القرآن اليومي المفسر</div>
+                <div class="oneui-card">
+                    <div id="quranProgressHeader" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;"></div>
+                    <div id="quranVersesContainer"></div>
+                    <div id="quranTafsirContainer"></div>
+                    <button onclick="completeQuranPortion()" class="btn-action" style="background:var(--accent-green); margin-top:8px;">
+                        ✅ تم بحمد الله (الانتقال لـ 5 آيات تالية)
+                    </button>
+                </div>
+            </div>
+
+            <!-- تبويب المسبحة الإلكترونية -->
+            <div id="islamTabTasbeeh" style="display:none;">
+                <div class="section-label">المسبحة اللمسية التفاعلية</div>
+                <div class="oneui-card" style="text-align:center;">
+                    <div style="font-size:14px; color:var(--text-secondary);" id="tasbeehCurrentZikr">سُبْحَانَ اللهِ</div>
+                    <div class="tasbeeh-touch-surface" onclick="incrementTasbeeh()">
+                        <div class="tasbeeh-big-counter" id="tasbeehCountDisplay">0</div>
+                        <div style="font-size:12px; color:var(--text-secondary); margin-top:8px;">انقر في أي مكان للتسبيح</div>
                     </div>
-
-                    <div style="display:flex; gap:10px; width:100%; max-width:280px;">
-                        <button onclick="togglePauseSession()" id="sessionPauseBtn" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary); border:1px solid var(--border-subtle); flex:1;">إيقاف مؤقت</button>
-                        <button onclick="finishAndSaveSession()" class="btn-action" style="background:var(--accent-green); flex:1;">إنهاء وحفظ</button>
+                    <div style="display:flex; gap:8px; justify-content:center; margin-top:14px;">
+                        <button class="tag-badge" onclick="setTasbeehZikr('سُبْحَانَ اللهِ')">سبحان الله</button>
+                        <button class="tag-badge" onclick="setTasbeehZikr('الْحَمْدُ للهِ')">الحمد لله</button>
+                        <button class="tag-badge" onclick="setTasbeehZikr('اللهُ أَكْبَرُ')">الله أكبر</button>
+                        <button class="tag-badge" onclick="setTasbeehZikr('أَسْتَغْفِرُ اللهَ')">استغفار</button>
+                        <button class="tag-badge" style="color:var(--accent-red);" onclick="resetTasbeeh()">تصفير</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 🕌⏰ 5. تبويب الصلوات والتنبيهات -->
-        <div id="prayers-alarms-view" class="section-view">
-            <div class="section-label">مواقيت الصلاة والتنبيهات النشطة</div>
-            <div class="oneui-card" id="prayersAlarmsFullList"></div>
-        </div>
-
-        <!-- 🤝 6. تبويب سجل الديون والالتزامات -->
-        <div id="debts-view" class="section-view">
-            <div class="section-label">سجل الديون والمستحقات</div>
-            <div class="oneui-card">
-                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
-                    <button onclick="openModalAction('debt')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ تسجيل دين / مستحق</button>
+        <!-- ⛅ 5. تطبيق الطقس التفصيلي لـ 5 أيام مع مخطط بالساعات -->
+        <div id="weather-view" class="section-view">
+            <div class="section-label">حالة الطقس لـ 5 أيام (محدث بالساعات)</div>
+            <div class="oneui-card" style="text-align:center;">
+                <div style="font-size:38px; font-weight:800; color:var(--text-primary); margin-bottom:4px;" id="weatherViewCurrentTemp">--°C</div>
+                <div style="font-size:14px; color:var(--text-secondary);" id="weatherViewCurrentStatus">⛅ جاري الفحص...</div>
+                <div style="font-size:12px; color:var(--accent-green); margin-top:4px;">📍 جنين، فلسطين (بيانات دقيقة مخزنة محلياً)</div>
+                
+                <div class="section-label" style="text-align:right; margin-top:16px;">المخطط الساعي لدرجات الحرارة</div>
+                <div class="weather-hourly-strip" id="weatherHourlyContainer">
+                    <p style="color:var(--text-secondary); font-size:12px; width:100%;">يتم التحديث فور توفر الإنترنت...</p>
                 </div>
-                <div id="debtsFullList"></div>
             </div>
         </div>
 
-        <!-- ✅ 7. تبويب المهام -->
+        <!-- 💱 6. تطبيق محول العملات المباشر -->
+        <div id="currency-view" class="section-view">
+            <div class="section-label">محول العملات المالي المباشر</div>
+            <div class="oneui-card">
+                <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">أدخل المبلغ:</label>
+                <input type="number" id="convertAmountInput" value="100" class="app-input" oninput="calculateCurrencyConversion()">
+                
+                <div style="display:flex; gap:8px; margin-bottom:12px;">
+                    <div style="flex:1;">
+                        <label style="font-size:11px; color:var(--text-secondary);">من عملة:</label>
+                        <select id="convertFromCurrency" class="app-input" onchange="calculateCurrencyConversion()">
+                            <option value="ILS">ILS (شيكل)</option>
+                            <option value="USD">USD (دولار)</option>
+                            <option value="JOD">JOD (دينار أردني)</option>
+                            <option value="EUR">EUR (يورو)</option>
+                        </select>
+                    </div>
+                    <div style="flex:1;">
+                        <label style="font-size:11px; color:var(--text-secondary);">إلى عملة:</label>
+                        <select id="convertToCurrency" class="app-input" onchange="calculateCurrencyConversion()">
+                            <option value="USD">USD (دولار)</option>
+                            <option value="ILS" selected>ILS (شيكل)</option>
+                            <option value="JOD">JOD (دينار أردني)</option>
+                            <option value="EUR">EUR (يورو)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="background:var(--surface-inner); border-radius:var(--radius-input); padding:16px; text-align:center; border:1px solid var(--border-subtle);">
+                    <div style="font-size:12px; color:var(--text-secondary);">النتيجة الدقيقة</div>
+                    <div style="font-size:26px; font-weight:800; color:var(--accent-color); margin-top:4px;" id="conversionResultDisplay">--</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ✅ 7. تطبيق المهام السريعة -->
         <div id="todos-view" class="section-view">
             <div class="section-label">إدارة كافة المهام</div>
             <div class="oneui-card">
@@ -584,7 +632,7 @@
             </div>
         </div>
 
-        <!-- 📊 8. تبويب المصاريف والفواتير -->
+        <!-- 📊 8. تطبيق المالية والاشتراكات والديون -->
         <div id="finance-view" class="section-view">
             <div class="section-label">ملخص المصاريف</div>
             <div class="oneui-card">
@@ -593,6 +641,14 @@
                     <div><div style="font-size:12px; color:var(--text-secondary);">آخر 7 أيام</div><div style="font-size:18px; font-weight:800; color:var(--accent-color); margin-top:2px;" id="statWeek">0 ₪</div></div>
                     <div><div style="font-size:12px; color:var(--text-secondary);">هذا الشهر</div><div style="font-size:18px; font-weight:800; color:var(--accent-red, #FF3B30); margin-top:2px;" id="statMonth">0 ₪</div></div>
                 </div>
+            </div>
+
+            <div class="section-label">سجل الديون والمستحقات (لي / علي)</div>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+                    <button onclick="openModalAction('debt')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ تسجيل دين / طلب</button>
+                </div>
+                <div id="debtsFullList"></div>
             </div>
 
             <div class="section-label">الفواتير والاشتراكات الدورية</div>
@@ -607,19 +663,19 @@
             <div class="oneui-card" id="expensesFullList"></div>
         </div>
 
-        <!-- 📝 9. تبويب الملاحظات والتسجيلات -->
+        <!-- 📝 9. تطبيق الملاحظات والتسجيلات -->
         <div id="notes-view" class="section-view">
             <div class="section-label">الملاحظات والتسجيلات الصوتية</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <button onclick="openModalAction('note')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ ملاحظة جديدة</button>
-                    <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--accent-red, #FF3B30); padding:6px 14px; font-size:12px;">🎙️ تسجيل جديد</button>
+                    <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--accent-red, #FF3B30); padding:6px 14px; font-size:12px;">🎙️ تسجيل صوتي</button>
                 </div>
                 <div id="notesFullList"></div>
             </div>
         </div>
 
-        <!-- 🔐 10. تبويب الخزنة -->
+        <!-- 🔐 10. تطبيق الخزنة والوثائق -->
         <div id="vault-view" class="section-view">
             <div class="section-label">الحسابات المشفرة</div>
             <div class="oneui-card">
@@ -628,11 +684,8 @@
                 </div>
                 <div id="vaultFullList"></div>
             </div>
-        </div>
 
-        <!-- 🆔 11. تبويب الوثائق -->
-        <div id="docs-view" class="section-view">
-            <div class="section-label">الوثائق الرسمية</div>
+            <div class="section-label">الوثائق الرسمية ومواعيد الانتهاء</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
                     <button onclick="openModalAction('doc')" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">+ وثيقة جديدة</button>
@@ -641,7 +694,13 @@
             </div>
         </div>
 
-        <!-- ⚙️ 12. تبويب الإعدادات -->
+        <!-- 🕌⏰ 11. تطبيق الصلوات والتنبيهات الموحد -->
+        <div id="prayers-alarms-view" class="section-view">
+            <div class="section-label">مواقيت الصلاة والتنبيهات النشطة</div>
+            <div class="oneui-card" id="prayersAlarmsFullList"></div>
+        </div>
+
+        <!-- ⚙️ 12. تطبيق الإعدادات والنسخ الاحتياطي -->
         <div id="settings-view" class="section-view">
             <div class="section-label">الحساب والمزامنة السحابية</div>
             <div class="oneui-card">
@@ -659,7 +718,7 @@
                 <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">اختر ثيم النظام المطابق لهاتفك:</label>
                 <select id="themeSelector" class="app-input" onchange="changeAppTheme(this.value)">
                     <option value="oneui">Samsung One UI (سامسونج)</option>
-                    <option value="iphone">Apple iOS / iPhone (آيفون زجاجي)</option>
+                    <option value="iphone">Apple iOS / iPhone (آيفون)</option>
                     <option value="pixel">Google Pixel (ماتيريال يو)</option>
                     <option value="ubuntu">Ubuntu Yaru (أوبونتو)</option>
                     <option value="linux">Linux Terminal (لينكس موجه الأوامر)</option>
@@ -684,32 +743,31 @@
 
     </div>
 
-    <!-- شريط التنقل السفلي -->
+    <!-- شريط التنقل السفلي الموحد -->
     <div class="samsung-dock-container">
         <button class="samsung-dock-item active" id="btnDockHome" onclick="switchNavSection('dashboard-view', this)">الرئيسية</button>
         <button class="samsung-dock-item" onclick="handleDockMicClick(this)" style="flex:0 0 46px; height:46px; border-radius:50%; background:var(--surface-inner); color:var(--accent-red, #FF3B30); font-size:20px; display:flex; align-items:center; justify-content:center; padding:0;" title="تسجيل صوتي">🎙️</button>
-        <button class="samsung-dock-item" id="btnDockPrayersAlarms" onclick="switchNavSection('prayers-alarms-view', this)">الصلوات والتنبيهات</button>
+        <button class="samsung-dock-item" id="btnDockPrayersAlarms" onclick="switchNavSection('prayers-alarms-view', this)">الصلوات</button>
     </div>
 
-    <!-- نافذة إدارة التنبيه الفعال -->
+    <!-- النوافذ المنبثقة التفاعلية -->
     <div class="modal-overlay" id="timerManageModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size:36px; margin-bottom:6px;">⏱️</div>
-            <strong id="manageTimerTitle" style="font-size:16px; display:block; margin-bottom:4px;">إدارة التنبيه الفعال</strong>
+            <strong id="manageTimerTitle" style="font-size:16px; display:block; margin-bottom:4px;">إدارة التنبيه</strong>
             <p id="manageTimerSub" style="font-size:13px; color:var(--text-secondary); margin-bottom:16px;">المتبقي: 00:00</p>
             <div style="display:flex; flex-direction:column; gap:8px;">
                 <button onclick="editActiveTimerTitle()" class="btn-action">✏️ تعديل اسم التنبيه</button>
                 <button onclick="deleteActiveTimer()" class="btn-action" style="background:var(--accent-red, #FF3B30);">🗑️ إلغاء وحذف التنبيه</button>
-                <button onclick="closeManageTimerModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إلغاء</button>
+                <button onclick="closeManageTimerModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">إغلاق</button>
             </div>
         </div>
     </div>
 
-    <!-- نافذة تسجيل الصوت الخام -->
     <div class="modal-overlay" id="voiceModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size:36px; color:var(--accent-red, #FF3B30); margin-bottom:8px;">🎙️</div>
-            <strong style="display:block; font-size:16px; margin-bottom:4px;">جاري تسجيل الصوت الخام...</strong>
+            <strong style="display:block; font-size:16px; margin-bottom:4px;">جاري التسجيل...</strong>
             <div id="recordTimer" style="font-size:22px; font-weight:800; color:var(--accent-red, #FF3B30); margin:12px 0;">00:00</div>
             <div style="display:flex; gap:8px;">
                 <button onclick="stopAndSaveVoiceRecording()" class="btn-action" style="background:var(--accent-green, #34C759);">حفظ</button>
@@ -718,22 +776,20 @@
         </div>
     </div>
 
-    <!-- نافذة الاقتراحات الذكية للصوت -->
     <div class="modal-overlay" id="postRecordingModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size:38px; margin-bottom:6px;">🎙️</div>
-            <strong style="font-size:16px; display:block; margin-bottom:4px;">تم حفظ التسجيل الصوتي بنجاح!</strong>
+            <strong style="font-size:16px; display:block; margin-bottom:4px;">تم حفظ التسجيل!</strong>
             <p style="font-size:12px; color:var(--text-secondary); margin-bottom:10px;">النص: <span id="transcribedVoiceText" style="color:var(--text-primary); font-weight:600;">--</span></p>
             <div id="smartSuggestionsContainer" style="display:flex; flex-direction:column; gap:8px; margin-top:8px;"></div>
             <button onclick="closePostRecordingModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary); margin-top:10px;">إغلاق</button>
         </div>
     </div>
 
-    <!-- نافذة تسجيل الدخول -->
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                <strong style="font-size:16px; font-weight:700;">تسجيل الحساب الآمن</strong>
+                <strong style="font-size:16px; font-weight:700;">تسجيل الحساب</strong>
                 <button onclick="closeAuthModal()" style="background:none; border:none; color:var(--text-secondary); font-size:18px; cursor:pointer;">✖</button>
             </div>
             <div id="authFormArea">
@@ -751,7 +807,6 @@
         </div>
     </div>
 
-    <!-- نافذة الإضافة الموحدة -->
     <div class="modal-overlay" id="actionModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
@@ -762,7 +817,6 @@
         </div>
     </div>
 
-    <!-- نافذة رنين التنبيه -->
     <div class="modal-overlay" id="activeAlarmModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size: 40px; margin-bottom: 8px;">⏰</div>
@@ -774,7 +828,7 @@
 
     <script>
         // =========================================================================
-        // --- 0. إعدادات Firebase والبيانات المحلية ومزامنة الأوفلاين التامة ---
+        // --- 0. تهيئة البنية والبيانات والمزامنة الأوفلاين والسحابية ---
         // =========================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCxalyr_Xa7IeSuT8enh6MCu2a1h5HvBWY",
@@ -795,15 +849,21 @@
         let navHistory = ['dashboard-view'];
         let lastBackPressTime = 0;
 
-        // متغيرات مؤقت جلسة التركيز المستقلة
-        let sessionTimerInterval = null;
-        let sessionElapsedSec = 0;
-        let isSessionPaused = false;
-        let currentSessionName = '';
+        // حالة تطبيق الحاسبة
+        let calcCurrentVal = '0';
+        let calcStoredVal = null;
+        let calcCurrentOp = null;
+
+        // حالة تطبيق التقويم
+        let calCurrentYear = new Date().getFullYear();
+        let calCurrentMonth = new Date().getMonth();
+
+        // حالة المسبحة
+        let currentTasbeehCount = 0;
 
         function normalizeDB(data) {
             if (!data || typeof data !== 'object') data = {};
-            const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders', 'debts', 'sessionsLog'];
+            const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders', 'debts'];
             lists.forEach(key => {
                 if (data[key]) {
                     if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
@@ -811,18 +871,11 @@
             });
             if (!data.settings) data.settings = { darkMode: false, displayName: '', theme: 'oneui' };
             if (!data.adhkarCounters) data.adhkarCounters = {};
-            // ضبط ورد القرآن التراكمي (البداية من سورة البقرة الآية 1 إلى 5)
-            if (!data.quranPortion) data.quranPortion = {
-                surah: 'البقرة',
-                startAya: 1,
-                endAya: 5,
-                completedBatches: 0,
-                lastCompletedDate: ''
-            };
+            if (!data.quranPortion) data.quranPortion = { surah: 'البقرة', startAya: 1, endAya: 5, completedBatches: 0 };
             if (!data.cachedFeeds) data.cachedFeeds = {
                 weatherHourly: null,
                 weatherLastFetch: 0,
-                rates: { USD: "3.65", JOD: "5.15", EUR: "3.95" },
+                rates: { USD: "3.65", JOD: "5.15", EUR: "3.95", ILS: "1.00" },
                 ratesLastFetch: 0,
                 cachedUser: null
             };
@@ -849,7 +902,7 @@
             try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
 
             if (userDbRef && navigator.onLine) {
-                showToast('☁️ حفظ بالحساب...');
+                showToast('☁️ حفظ سحابي...');
                 const cloudPayload = JSON.parse(JSON.stringify(db));
                 cloudPayload.notes.forEach(n => { delete n.audioData; });
                 delete cloudPayload._hasLocalChanges;
@@ -858,10 +911,7 @@
                 userDbRef.set(cloudPayload).then(() => {
                     db._hasLocalChanges = false;
                     try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
-                    showToast('✅ تم الحفظ السحابي');
-                }).catch(() => showToast('💾 محفوظ محلياً'));
-            } else {
-                showToast('💾 محفوظ محلياً');
+                }).catch(() => {});
             }
         }
 
@@ -916,7 +966,7 @@
             db.settings.theme = themeName;
             applyThemeUI();
             finalizeAction();
-            showToast('🎨 تم تغيير ثيم التطبيق وحفظه');
+            showToast('🎨 تم تغيير ثيم التطبيق');
         }
 
         try {
@@ -926,14 +976,9 @@
                 }
                 firebase.auth().onAuthStateChanged(async (user) => {
                     if (user) {
-                        if (!user.emailVerified) {
-                            firebase.auth().signOut();
-                            return;
-                        }
-
+                        if (!user.emailVerified) { firebase.auth().signOut(); return; }
                         currentUser = user;
                         userDbRef = firebase.database().ref(`users/${user.uid}/data`);
-                        
                         userDbRef.on('value', (snapshot) => {
                             const data = snapshot.val();
                             if (data) {
@@ -955,7 +1000,6 @@
                                 saveToCloud();
                             }
                         });
-
                         updateAuthProfileUI(user);
                     } else {
                         currentUser = null;
@@ -964,21 +1008,18 @@
                     }
                 });
             }
-        } catch(e) { console.warn("Firebase Notice:", e); }
+        } catch(e) { console.warn("Firebase:", e); }
 
         function openAuthModal() {
             if (currentUser) {
-                if (confirm(`هل تريد تسجيل الخروج من حساب ${currentUser.email}؟`)) {
+                if (confirm(`تسجيل الخروج من ${currentUser.email}؟`)) {
                     firebase.auth().signOut().then(() => showToast('تم تسجيل الخروج'));
                 }
             } else {
                 document.getElementById('authModal').classList.add('active');
             }
         }
-
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.remove('active');
-        }
+        function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); }
 
         async function submitUserLogin() {
             const email = document.getElementById('authEmail').value.trim();
@@ -988,9 +1029,7 @@
                 showToast('جاري تسجيل الدخول...');
                 await firebase.auth().signInWithEmailAndPassword(email, pass);
                 closeAuthModal();
-            } catch (err) {
-                alert('فشل الدخول: ' + err.message);
-            }
+            } catch (err) { alert('فشل الدخول: ' + err.message); }
         }
 
         async function submitUserSignup() {
@@ -1003,50 +1042,32 @@
                 const userCred = await firebase.auth().createUserWithEmailAndPassword(email, pass);
                 await userCred.user.sendEmailVerification();
                 await firebase.auth().signOut();
-                alert('✅ تم إنشاء الحساب بنجاح!\n\nتم إرسال رابط تفعيل إلى بريدك الإلكتروني.');
+                alert('تم إنشاء الحساب وإرسال رابط التفعيل إلى بريدك.');
                 closeAuthModal();
-            } catch (err) {
-                alert('فشل إنشاء الحساب: ' + err.message);
-            }
+            } catch (err) { alert('فشل إنشاء الحساب: ' + err.message); }
         }
 
         async function handleForgotPassword() {
             const email = document.getElementById('authEmail').value.trim();
-            if (!email) {
-                alert('يرجى كتابة بريدك الإلكتروني أولاً.');
-                document.getElementById('authEmail').focus();
-                return;
-            }
+            if (!email) return alert('يرجى كتابة بريدك الإلكتروني.');
             try {
-                showToast('جاري إرسال رابط الاستعادة...');
                 await firebase.auth().sendPasswordResetEmail(email);
-                alert('✅ تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك.');
-            } catch (err) {
-                alert('فشل الإرسال: ' + err.message);
-            }
+                alert('تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك.');
+            } catch (err) { alert('فشل الإرسال: ' + err.message); }
         }
 
         async function resendVerificationEmail() {
             const email = document.getElementById('authEmail').value.trim();
             const pass = document.getElementById('authPassword').value;
-            if (!email || !pass) {
-                alert('يرجى كتابة البريد وكلمة المرور.');
-                document.getElementById('authEmail').focus();
-                return;
-            }
+            if (!email || !pass) return alert('يرجى كتابة البريد وكلمة المرور.');
             try {
-                showToast('جاري إرسال رابط التفعيل...');
                 const userCred = await firebase.auth().signInWithEmailAndPassword(email, pass);
                 if (!userCred.user.emailVerified) {
                     await userCred.user.sendEmailVerification();
-                    alert('✅ تم إعادة إرسال رسالة التفعيل إلى بريدك بنجاح.');
-                } else {
-                    alert('هذا الحساب مفعل ومؤكد مسبقاً!');
+                    alert('تم إعادة إرسال رابط التفعيل.');
                 }
                 await firebase.auth().signOut();
-            } catch (e) {
-                alert('تعذر الإرسال: ' + e.message);
-            }
+            } catch (e) { alert('تعذر الإرسال: ' + e.message); }
         }
 
         async function promptEditDisplayName() {
@@ -1058,7 +1079,6 @@
                 db.settings.displayName = cleanName;
                 finalizeAction();
                 updateAuthProfileUI(currentUser);
-
                 if (currentUser && navigator.onLine) {
                     try { await currentUser.updateProfile({ displayName: cleanName }); } catch(e){}
                 }
@@ -1094,7 +1114,329 @@
         }
 
         // =========================================================================
-        // --- 1. محرك التنبيهات الصارم لأندرويد في الخلفية ---
+        // --- 1. تطبيق الحاسبة داخل التطبيق ---
+        // =========================================================================
+        function updateCalcDisplay() {
+            document.getElementById('calcDisplay').innerText = calcCurrentVal;
+        }
+
+        function calcNum(numStr) {
+            if (calcCurrentVal === '0' && numStr !== '.') {
+                calcCurrentVal = numStr;
+            } else {
+                if (numStr === '.' && calcCurrentVal.includes('.')) return;
+                calcCurrentVal += numStr;
+            }
+            updateCalcDisplay();
+        }
+
+        function calcOp(op) {
+            calcStoredVal = parseFloat(calcCurrentVal);
+            calcCurrentOp = op;
+            calcCurrentVal = '0';
+            updateCalcDisplay();
+        }
+
+        function calcAction(action) {
+            if (action === 'C') {
+                calcCurrentVal = '0';
+                calcStoredVal = null;
+                calcCurrentOp = null;
+            } else if (action === 'DEL') {
+                if (calcCurrentVal.length > 1) {
+                    calcCurrentVal = calcCurrentVal.slice(0, -1);
+                } else {
+                    calcCurrentVal = '0';
+                }
+            }
+            updateCalcDisplay();
+        }
+
+        function calcEqual() {
+            if (calcStoredVal === null || calcCurrentOp === null) return;
+            const current = parseFloat(calcCurrentVal);
+            let res = 0;
+            switch(calcCurrentOp) {
+                case '+': res = calcStoredVal + current; break;
+                case '-': res = calcStoredVal - current; break;
+                case '*': res = calcStoredVal * current; break;
+                case '/': res = current !== 0 ? calcStoredVal / current : 'خطأ'; break;
+                case '%': res = (calcStoredVal * current) / 100; break;
+            }
+            calcCurrentVal = String(res);
+            calcStoredVal = null;
+            calcCurrentOp = null;
+            updateCalcDisplay();
+        }
+
+        // =========================================================================
+        // --- 2. تطبيق التقويم داخل التطبيق ---
+        // =========================================================================
+        function renderCalendarGrid() {
+            const grid = document.getElementById('calDaysGrid');
+            const title = document.getElementById('calMonthTitle');
+            if (!grid || !title) return;
+
+            const monthsNames = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
+            title.innerText = `${monthsNames[calCurrentMonth]} ${calCurrentYear}`;
+
+            const firstDayIndex = new Date(calCurrentYear, calCurrentMonth, 1).getDay();
+            const totalDaysInMonth = new Date(calCurrentYear, calCurrentMonth + 1, 0).getDate();
+
+            grid.innerHTML = '';
+            for (let i = 0; i < firstDayIndex; i++) {
+                grid.innerHTML += `<div style="opacity:0;"></div>`;
+            }
+
+            const today = new Date();
+            for (let day = 1; day <= totalDaysInMonth; day++) {
+                const isToday = (day === today.getDate() && calCurrentMonth === today.getMonth() && calCurrentYear === today.getFullYear());
+                const dateISO = `${calCurrentYear}-${String(calCurrentMonth + 1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                
+                const hasTodo = db.todos.some(t => t.date === dateISO);
+                const hasExp = db.expenses.some(e => e.date === dateISO);
+
+                grid.innerHTML += `
+                    <div class="calendar-day-cell ${isToday ? 'today' : ''} ${hasTodo || hasExp ? 'has-event' : ''}" onclick="selectCalendarDay('${dateISO}')">
+                        ${day}
+                    </div>
+                `;
+            }
+        }
+
+        function changeCalMonth(delta) {
+            calCurrentMonth += delta;
+            if (calCurrentMonth > 11) { calCurrentMonth = 0; calCurrentYear++; }
+            if (calCurrentMonth < 0) { calCurrentMonth = 11; calCurrentYear--; }
+            renderCalendarGrid();
+        }
+
+        function selectCalendarDay(dateISO) {
+            document.getElementById('calSelectedDayTitle').innerText = `تفاصيل يوم (${dateISO})`;
+            const container = document.getElementById('calDayEventsList');
+            const dayTodos = db.todos.filter(t => t.date === dateISO);
+            const dayExpenses = db.expenses.filter(e => e.date === dateISO);
+
+            let html = '';
+            if (dayTodos.length === 0 && dayExpenses.length === 0) {
+                container.innerHTML = `<p style="color:var(--text-secondary); text-align:center;">لا توجد مهام أو مصروفات مسجلة في هذا اليوم.</p>`;
+                return;
+            }
+
+            dayTodos.forEach(t => {
+                html += `<div class="list-row"><div><span class="tag-badge" style="margin-left:6px;">مهمة</span>${t.text}</div><span>${t.done ? '✅' : '⏳'}</span></div>`;
+            });
+            dayExpenses.forEach(e => {
+                html += `<div class="list-row"><div><span class="tag-badge" style="margin-left:6px; color:var(--accent-red);">صرف</span>${e.desc}</div><strong style="color:var(--accent-red);">${e.amount} ₪</strong></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // =========================================================================
+        // --- 3. تطبيق إسلاميات (أذكار، ورد القرآن المفسر، المسبحة) ---
+        // =========================================================================
+        function switchIslamiyatTab(tab) {
+            document.getElementById('islamTabAdhkar').style.display = (tab === 'adhkar') ? 'block' : 'none';
+            document.getElementById('islamTabQuran').style.display = (tab === 'quran') ? 'block' : 'none';
+            document.getElementById('islamTabTasbeeh').style.display = (tab === 'tasbeeh') ? 'block' : 'none';
+            
+            if (tab === 'adhkar') renderDhikrView();
+            if (tab === 'quran') renderQuranView();
+        }
+
+        const adhkarDatabase = {
+            postPrayer: [
+                { id: 'p1', text: 'أَسْتَغْفِرُ اللهَ (ثلاثاً)... اللَّهُمَّ أَنْتَ السَّلامُ وَمِنْكَ السَّلامُ، تَبَارَكْتَ يَا ذَا الْجَلالِ وَالإِكْرَامِ.', count: 1 },
+                { id: 'p2', text: 'سُبْحَانَ اللهِ (33 مرة)', count: 33 },
+                { id: 'p3', text: 'الْحَمْدُ للهِ (33 مرة)', count: 33 },
+                { id: 'p4', text: 'اللهُ أَكْبَرُ (33 مرة)', count: 33 },
+                { id: 'p5', text: 'لا إِلَهَ إِلا اللهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', count: 1 },
+                { id: 'p6', text: 'قراءة آية الكرسي: {اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...}', count: 1 }
+            ],
+            morning: [
+                { id: 'm1', text: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', count: 1 },
+                { id: 'm2', text: 'اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لا يَغْفِرُ الذُّنُوبَ إِلا أَنْتَ.', count: 1 },
+                { id: 'm3', text: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ.', count: 3 },
+                { id: 'm4', text: 'رَضِيتُ بِاللهِ رَبَّاً، وَبِالإِسْلاَمِ دِيناً، وَبِمُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ نَبِيَّاً.', count: 3 },
+                { id: 'm5', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ.', count: 3 }
+            ],
+            evening: [
+                { id: 'e1', text: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', count: 1 },
+                { id: 'e2', text: 'أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.', count: 3 },
+                { id: 'e3', text: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ.', count: 3 },
+                { id: 'e4', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ.', count: 100 }
+            ],
+            night: [
+                { id: 'n1', text: 'بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ.', count: 1 },
+                { id: 'n2', text: 'سُبْحَانَ اللهِ (33)، الْحَمْدُ للهِ (33)، اللهُ أَكْبَرُ (34)', count: 1 },
+                { id: 'n3', text: 'قراءة سورة الملك والآيتين الأخيرتين من سورة البقرة.', count: 1 }
+            ]
+        };
+
+        function getActiveDhikrCategory() {
+            const now = Date.now();
+            const currentHour = new Date().getHours();
+            for (let p of livePrayersList) {
+                const diff = now - p.targetTime;
+                if (diff >= 0 && diff <= (25 * 60 * 1000)) {
+                    return { type: 'postPrayer', name: `أذكار ما بعد ${p.title.replace('🕌 ', '')}` };
+                }
+            }
+            if (currentHour >= 4 && currentHour < 12) return { type: 'morning', name: 'أذكار الصباح المباركة' };
+            if (currentHour >= 12 && currentHour < 16) return { type: 'postPrayer', name: 'أذكار النهار والاستغفار' };
+            if (currentHour >= 16 && currentHour < 20) return { type: 'evening', name: 'أذكار المساء وحفظ النفس' };
+            return { type: 'night', name: 'أذكار الليل والنوم' };
+        }
+
+        function renderDhikrView() {
+            const category = getActiveDhikrCategory();
+            const headerTitle = document.getElementById('adhkarDynamicHeaderTitle');
+            const container = document.getElementById('adhkarContentContainer');
+            if (headerTitle) headerTitle.innerText = category.name;
+            const list = adhkarDatabase[category.type] || adhkarDatabase.morning;
+
+            container.innerHTML = list.map(d => {
+                const remaining = (db.adhkarCounters[d.id] !== undefined) ? db.adhkarCounters[d.id] : d.count;
+                return `
+                    <div class="dhikr-card" onclick="decrementDhikr('${d.id}', ${d.count})">
+                        <div>${d.text}</div>
+                        <span class="tag-badge ${remaining === 0 ? 'green' : ''}" style="margin-top:8px;">
+                            ${remaining === 0 ? '✅ اكتمل' : `المتبقي: ${remaining}`}
+                        </span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function decrementDhikr(id, originalCount) {
+            let current = (db.adhkarCounters[id] !== undefined) ? db.adhkarCounters[id] : originalCount;
+            if (current > 0) {
+                current--;
+                db.adhkarCounters[id] = current;
+                if ("vibrate" in navigator) navigator.vibrate(35);
+                finalizeAction();
+                renderDhikrView();
+            }
+        }
+
+        // ورد القرآن اليومي المفسر (يبدأ من سورة البقرة بمعدل 5 آيات)
+        const quranPortionsDB = [
+            {
+                start: 1, end: 5,
+                title: "سورة البقرة: الآيات (1 - 5)",
+                text: "﴿ الم * ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ * الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ * وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ * أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ ﴾",
+                tafsir: "<b>التفسير الميسر:</b> يفتتح الله السورة بالحروف المقطعة للتحدي والإعجاز، ثم يثبت أن هذا القرآن كتاب عظيم لا شك في صحته، يهدي المتقين الممتثلين لأوامره، الذين يصدقون بالغيب، ويؤدون الصلاة بأركانها وشروطها، وينفقون مما رزقهم الله، ويؤمنون بالوحي واليوم الآخر."
+            },
+            {
+                start: 6, end: 10,
+                title: "سورة البقرة: الآيات (6 - 10)",
+                text: "﴿ إِنَّ الَّذِينَ كَفَرُوا سَوَاءٌ عَلَيْهِمْ أَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ * خَتَمَ اللَّهُ عَلَىٰ قُلُوبِهِمْ وَعَلَىٰ سَمْعِهِمْ ۖ وَعَلَىٰ أَبْصَارِهِمْ غِشَاوَةٌ ۖ وَلَهُمْ عَذَابٌ عَظِيمٌ * وَمِنَ النَّاسِ مَن يَقُولُ آمَنَّا بِاللَّهِ وَبِالْيَوْمِ الْآخِرِ وَمَا هُم بِمُؤْمِنِينَ * يُخَادِعُونَ اللَّهَ وَالَّذِينَ آمَنُوا وَمَا يَخْدَعُونَ إِلَّا أَنفُسَهُمْ وَمَا يَشْعُرُونَ * فِي قُلُوبِهِم مَّرَضٌ فَزَادَهُمُ اللَّهُ مَرَضًا ۖ وَلَهُمْ عَذَابٌ أَلِيمٌ بِمَا كَانُوا يَكْذِبُونَ ﴾",
+                tafsir: "<b>التفسير الميسر:</b> توضح الآيات حال الكافرين المعاندين الذين طبع الله على قلوبهم وأسماعهم بسبب استكبارهم، ثم تكشف حال المنافقين الذين يظهرون الإيمان بألسنتهم ويبطنون الكفر، وهم في الحقيقة لا يخدعون إلا أنفسهم ولهم عذاب أليم بما كانوا يكذبون."
+            },
+            {
+                start: 11, end: 15,
+                title: "سورة البقرة: الآيات (11 - 15)",
+                text: "﴿ وَإِذَا قِيلَ لَهُمْ لَا تُفْسِدُوا فِي الْأَرْضِ قَالُوا إِنَّمَا نَحْنُ مُصْلِحُونَ * أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ وَلَٰكِن لَّا يَشْعُرُونَ * وَإِذَا قِيلَ لَهُمْ آمِنُوا كَمَا آمَنَ النَّاسُ قَالُوا أَنُؤْمِنُ كَمَا آمَنَ السُّفَهَاءُ ۗ أَلَا إِنَّهُمْ هُمُ السُّفَهَاءُ وَلَٰكِن لَّا يَعْلَمُونَ * وَإِذَا لَقُوا الَّذِينَ آمَنُوا قَالُوا آمَنَّا وَإِذَا خَلَوْا إِلَىٰ شَيَاطِينِهِمْ قَالُوا إِنَّا مَعَكُمْ إِنَّمَا نَحْنُ مُسْتَهْزِئُونَ * اللَّهُ يَسْتَهْزِئُ بِهِمْ وَيَمُدُّهُمْ فِي طُغْيَانِهِمْ يَعْمَهُونَ ﴾",
+                tafsir: "<b>التفسير الميسر:</b> يزعم أهل النفاق أن إفسادهم في الأرض إصلاح، ويرمون الصحابة المؤمنين بالسفاهة، وحين يلقون أهل الإيمان يبدون الموافقة، فإذا خلوا برؤسائهم أكدوا بقاءهم على الكفر، والله يجازيهم على استهزائهم بالخزي في الدنيا والآخرة."
+            }
+        ];
+
+        function renderQuranView() {
+            const currentIdx = db.quranPortion.completedBatches % quranPortionsDB.length;
+            const portion = quranPortionsDB[currentIdx];
+
+            document.getElementById('quranProgressHeader').innerHTML = `
+                <span class="quran-ayah-badge">${portion.title}</span>
+                <span style="font-size:12px; color:var(--text-secondary); font-weight:700;">المقدار: 5 آيات يومياً</span>
+            `;
+            document.getElementById('quranVersesContainer').innerHTML = `<div class="quran-verse-block">${portion.text}</div>`;
+            document.getElementById('quranTafsirContainer').innerHTML = `<div class="quran-tafsir-block">${portion.tafsir}</div>`;
+        }
+
+        function completeQuranPortion() {
+            db.quranPortion.completedBatches = (db.quranPortion.completedBatches || 0) + 1;
+            finalizeAction();
+            renderQuranView();
+            showToast('✅ تم إكمال الورد! جاري عرض الـ 5 آيات التالية');
+            if ("vibrate" in navigator) navigator.vibrate([80, 40, 80]);
+        }
+
+        function incrementTasbeeh() {
+            currentTasbeehCount++;
+            document.getElementById('tasbeehCountDisplay').innerText = currentTasbeehCount;
+            if ("vibrate" in navigator) {
+                if (currentTasbeehCount % 33 === 0) {
+                    navigator.vibrate([100, 50, 100]); // اهتزاز عند إتمام 33 أو 100
+                } else {
+                    navigator.vibrate(30);
+                }
+            }
+        }
+
+        function setTasbeehZikr(zikrText) {
+            document.getElementById('tasbeehCurrentZikr').innerText = zikrText;
+            currentTasbeehCount = 0;
+            document.getElementById('tasbeehCountDisplay').innerText = '0';
+        }
+
+        function resetTasbeeh() {
+            currentTasbeehCount = 0;
+            document.getElementById('tasbeehCountDisplay').innerText = '0';
+        }
+
+        // =========================================================================
+        // --- 4. تطبيق الطقس التفصيلي ومحول العملات المباشر ---
+        // =========================================================================
+        function calculateCurrencyConversion() {
+            const amount = parseFloat(document.getElementById('convertAmountInput').value) || 0;
+            const from = document.getElementById('convertFromCurrency').value;
+            const to = document.getElementById('convertToCurrency').value;
+            const rates = db.cachedFeeds.rates || { USD: "3.65", JOD: "5.15", EUR: "3.95", ILS: "1.00" };
+
+            // تحويل إلى الشيكل كعملة أساسية ثم إلى العملة المستهدفة
+            const rateFromToILS = parseFloat(rates[from]) || 1;
+            const rateToToILS = parseFloat(rates[to]) || 1;
+
+            const amountInILS = amount * rateFromToILS;
+            const finalResult = amountInILS / rateToToILS;
+
+            document.getElementById('conversionResultDisplay').innerText = `${finalResult.toFixed(2)} ${to}`;
+        }
+
+        function renderWeather5DaysUI() {
+            if (!db.cachedFeeds || !db.cachedFeeds.weatherHourly) return;
+            const hourly = db.cachedFeeds.weatherHourly;
+            const container = document.getElementById('weatherHourlyContainer');
+            if (!container || !hourly.time) return;
+
+            const now = new Date();
+            const currentHourISO = now.toISOString().slice(0, 13) + ':00';
+            let startIndex = hourly.time.findIndex(t => t.startsWith(currentHourISO));
+            if (startIndex === -1) startIndex = 0;
+
+            const nextHours = hourly.time.slice(startIndex, startIndex + 24);
+            const nextTemps = hourly.temperature_2m.slice(startIndex, startIndex + 24);
+
+            if (nextTemps.length > 0) {
+                document.getElementById('weatherViewCurrentTemp').innerText = `${Math.round(nextTemps[0])}°C`;
+                document.getElementById('weatherViewCurrentStatus').innerText = '⛅ طقس مستقر ومحدث محلياً';
+            }
+
+            container.innerHTML = nextHours.map((t, idx) => {
+                const hourStr = t.split('T')[1].slice(0, 5);
+                const temp = Math.round(nextTemps[idx]);
+                return `
+                    <div class="weather-hour-card">
+                        <div style="color:var(--text-secondary);">${hourStr}</div>
+                        <div style="font-size:16px; font-weight:800; margin:6px 0;">${temp}°</div>
+                        <div>⛅</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // =========================================================================
+        // --- 5. محرك التنبيهات والأذونات وإدارة المواعيد ---
         // =========================================================================
         function getNativePlugin() {
             if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
@@ -1106,12 +1448,9 @@
         async function initNativeNotifications() {
             const plugin = getNativePlugin();
             if (!plugin) return;
-
             try {
                 const perm = await plugin.checkPermissions();
-                if (perm.display !== 'granted') {
-                    await plugin.requestPermissions();
-                }
+                if (perm.display !== 'granted') await plugin.requestPermissions();
 
                 await plugin.createChannel({
                     id: 'lifeos_ultra_alarm_v4',
@@ -1124,31 +1463,21 @@
                     lights: true
                 });
 
-                plugin.addListener('localNotificationActionPerformed', () => {
-                    dismissActiveAlarm();
-                });
+                plugin.addListener('localNotificationActionPerformed', () => { dismissActiveAlarm(); });
             } catch (e) {}
         }
 
         async function scheduleSystemNotification(title, minutes, reminderId) {
             const plugin = getNativePlugin();
             if (!plugin) return;
-
-            const notifTitle = title ? `⏰ تنبيه: ${title}` : `⏰ موعد التنبيه (${minutes} دقيقة)!`;
-            const notifBody = title ? `حان الآن موعد: ${title}` : `انتهت مدة التنبيه في Life OS`;
             const targetDate = new Date(Date.now() + minutes * 60 * 1000);
             const safeId = Math.abs(parseInt(reminderId, 10) % 2147483647);
 
             try {
-                const perm = await plugin.checkPermissions();
-                if (perm.display !== 'granted') {
-                    await plugin.requestPermissions();
-                }
-
                 await plugin.schedule({
                     notifications: [{
-                        title: notifTitle,
-                        body: notifBody,
+                        title: `⏰ تنبيه: ${title || 'موعد التنبيه'}`,
+                        body: `حان الآن موعد: ${title || 'التنبيه المحدد'}`,
                         id: safeId,
                         schedule: { at: targetDate, allowWhileIdle: true },
                         sound: 'marimba',
@@ -1159,14 +1488,14 @@
                 try {
                     await plugin.schedule({
                         notifications: [{
-                            title: notifTitle,
-                            body: notifBody,
+                            title: `⏰ تنبيه: ${title || 'موعد التنبيه'}`,
+                            body: `حان الآن موعد: ${title || 'التنبيه المحدد'}`,
                             id: safeId,
                             schedule: { at: targetDate, allowWhileIdle: true },
                             sound: 'default'
                         }]
                     });
-                } catch (fallbackErr) {}
+                } catch (e) {}
             }
         }
 
@@ -1183,32 +1512,22 @@
             try {
                 const ctx = getAudioContext();
                 const now = ctx.currentTime;
-                const notes = [
-                    { f: 739.99, delay: 0.00 },
-                    { f: 932.33, delay: 0.07 },
-                    { f: 1108.73, delay: 0.14 },
-                    { f: 1396.91, delay: 0.21 }
-                ];
-
-                notes.forEach((note) => {
+                const notes = [{ f: 739.99, delay: 0 }, { f: 932.33, delay: 0.07 }, { f: 1108.73, delay: 0.14 }, { f: 1396.91, delay: 0.21 }];
+                notes.forEach(note => {
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
                     const startTime = now + note.delay;
-
                     osc.type = 'sine';
                     osc.frequency.setValueAtTime(note.f, startTime);
-
                     gain.gain.setValueAtTime(0.0001, startTime);
                     gain.gain.linearRampToValueAtTime(0.12, startTime + 0.015);
                     gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.65);
-
                     osc.connect(gain);
                     gain.connect(ctx.destination);
-
                     osc.start(startTime);
                     osc.stop(startTime + 0.7);
                 });
-            } catch(e){}
+            } catch(e) {}
         }
 
         function testPrestigeAlarm() {
@@ -1247,14 +1566,8 @@
             const cleanTitle = title.trim();
 
             db.reminders.push({
-                id: reminderId,
-                title: cleanTitle,
-                minutes: mins,
-                name: cleanTitle,
-                createdAt: now,
-                targetTime: now + (mins * 60 * 1000),
-                triggered: false,
-                hasName: !!cleanTitle
+                id: reminderId, title: cleanTitle, minutes: mins, name: cleanTitle,
+                createdAt: now, targetTime: now + (mins * 60 * 1000), triggered: false
             });
 
             finalizeAction();
@@ -1263,12 +1576,10 @@
         }
 
         function confirmDeleteReminder(id) {
-            if (confirm('هل تريد إلغاء التنبيه الحالي؟')) {
+            if (confirm('هل تريد إلغاء التنبيه؟')) {
                 const numId = Number(id);
                 const plugin = getNativePlugin();
-                if (plugin) {
-                    plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {});
-                }
+                if (plugin) plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {});
                 db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
                 finalizeAction();
             }
@@ -1277,11 +1588,8 @@
         function renameReminder(id) {
             const r = db.reminders.find(x => x.id === id);
             if (!r) return;
-            const newName = prompt('أدخل اسم أو عنوان التنبيه:', r.title || '');
-            if (newName !== null) {
-                r.title = newName.trim() || 'تنبيه';
-                finalizeAction();
-            }
+            const newName = prompt('أدخل اسم التنبيه:', r.title || '');
+            if (newName !== null) { r.title = newName.trim() || 'تنبيه'; finalizeAction(); }
         }
 
         function openManageActiveTimerModal() {
@@ -1289,12 +1597,7 @@
             const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now);
             activeReminders.sort((a,b) => a.targetTime - b.targetTime);
             currentActiveTimerObj = activeReminders[0];
-
-            if (!currentActiveTimerObj) {
-                alert('لا توجد تنبيهات نشطة حالياً.');
-                return;
-            }
-
+            if (!currentActiveTimerObj) return alert('لا توجد تنبيهات نشطة حالياً.');
             document.getElementById('manageTimerTitle').innerText = currentActiveTimerObj.title || `تنبيه (${currentActiveTimerObj.minutes} د)`;
             document.getElementById('manageTimerSub').innerText = `المتبقي: ${formatTime(currentActiveTimerObj.targetTime - now)}`;
             document.getElementById('timerManageModal').classList.add('active');
@@ -1307,383 +1610,34 @@
 
         function editActiveTimerTitle() {
             if (!currentActiveTimerObj) return;
-            const newName = prompt('أدخل اسم أو عنوان التنبيه الجديد:', currentActiveTimerObj.title || '');
-            if (newName !== null) {
-                currentActiveTimerObj.title = newName.trim() || 'تنبيه';
-                finalizeAction();
-                closeManageTimerModal();
-            }
+            const newName = prompt('أدخل اسم التنبيه الجديد:', currentActiveTimerObj.title || '');
+            if (newName !== null) { currentActiveTimerObj.title = newName.trim() || 'تنبيه'; finalizeAction(); closeManageTimerModal(); }
         }
 
         function deleteActiveTimer() {
             if (!currentActiveTimerObj) return;
             const numId = Number(currentActiveTimerObj.id);
             const plugin = getNativePlugin();
-            if (plugin) {
-                plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {});
-            }
+            if (plugin) plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {});
             db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
             finalizeAction();
             closeManageTimerModal();
         }
 
         // =========================================================================
-        // --- 2. الأذكار الذكية التلقائية حسب مواقيت الصلاة ---
+        // --- 6. التسجيل الصوتي، التنقل وزر الرجوع الذكي ---
         // =========================================================================
-        const adhkarDatabase = {
-            postPrayer: [
-                { id: 'p1', text: 'أَسْتَغْفِرُ اللهَ (ثلاثاً)... اللَّهُمَّ أَنْتَ السَّلامُ وَمِنْكَ السَّلامُ، تَبَارَكْتَ يَا ذَا الْجَلالِ وَالإِكْرَامِ.', count: 1 },
-                { id: 'p2', text: 'سُبْحَانَ اللهِ (33 مرة)', count: 33 },
-                { id: 'p3', text: 'الْحَمْدُ للهِ (33 مرة)', count: 33 },
-                { id: 'p4', text: 'اللهُ أَكْبَرُ (33 مرة)', count: 33 },
-                { id: 'p5', text: 'لا إِلَهَ إِلا اللهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', count: 1 },
-                { id: 'p6', text: 'قراءة آية الكرسي: {اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ...}', count: 1 }
-            ],
-            morning: [
-                { id: 'm1', text: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', count: 1 },
-                { id: 'm2', text: 'اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لا يَغْفِرُ الذُّنُوبَ إِلا أَنْتَ.', count: 1 },
-                { id: 'm3', text: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ.', count: 3 },
-                { id: 'm4', text: 'رَضِيتُ بِاللهِ رَبَّاً، وَبِالإِسْلاَمِ دِيناً، وَبِمُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ نَبِيَّاً.', count: 3 },
-                { id: 'm5', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ.', count: 3 }
-            ],
-            evening: [
-                { id: 'e1', text: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', count: 1 },
-                { id: 'e2', text: 'أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.', count: 3 },
-                { id: 'e3', text: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ.', count: 3 },
-                { id: 'e4', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ.', count: 100 }
-            ],
-            night: [
-                { id: 'n1', text: 'بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ.', count: 1 },
-                { id: 'n2', text: 'سُبْحَانَ اللهِ (33)، الْحَمْدُ للهِ (33)، اللهُ أَكْبَرُ (34)', count: 1 },
-                { id: 'n3', text: 'قراءة سورة الملك والآيتين الأخيرتين من سورة البقرة.', count: 1 }
-            ]
-        };
-
-        function getActiveDhikrCategory() {
-            const now = Date.now();
-            const currentHour = new Date().getHours();
-
-            for (let p of livePrayersList) {
-                const diff = now - p.targetTime;
-                if (diff >= 0 && diff <= (25 * 60 * 1000)) {
-                    return { type: 'postPrayer', name: `أذكار ما بعد ${p.title.replace('🕌 ', '')}` };
-                }
-            }
-
-            if (currentHour >= 4 && currentHour < 12) {
-                return { type: 'morning', name: 'أذكار الصباح المباركة' };
-            } else if (currentHour >= 12 && currentHour < 16) {
-                return { type: 'postPrayer', name: 'أذكار النهار والاستغفار' };
-            } else if (currentHour >= 16 && currentHour < 20) {
-                return { type: 'evening', name: 'أذكار المساء وحفظ النفس' };
-            } else {
-                return { type: 'night', name: 'أذكار الليل والنوم' };
-            }
-        }
-
-        function renderDhikrView() {
-            const category = getActiveDhikrCategory();
-            const headerTitle = document.getElementById('adhkarDynamicHeaderTitle');
-            const container = document.getElementById('adhkarContentContainer');
-            if (headerTitle) headerTitle.innerText = category.name;
-
-            const list = adhkarDatabase[category.type] || adhkarDatabase.morning;
-            if (!db.adhkarCounters) db.adhkarCounters = {};
-
-            container.innerHTML = list.map(d => {
-                const remaining = (db.adhkarCounters[d.id] !== undefined) ? db.adhkarCounters[d.id] : d.count;
-                return `
-                    <div class="dhikr-card" onclick="decrementDhikr('${d.id}', ${d.count})">
-                        <div>${d.text}</div>
-                        <span class="dhikr-counter-btn" style="background:${remaining === 0 ? 'var(--accent-green)' : 'var(--accent-color)'};">
-                            ${remaining === 0 ? '✅ اكتمل' : `المتبقي: ${remaining}`}
-                        </span>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function decrementDhikr(id, originalCount) {
-            if (!db.adhkarCounters) db.adhkarCounters = {};
-            let current = (db.adhkarCounters[id] !== undefined) ? db.adhkarCounters[id] : originalCount;
-            if (current > 0) {
-                current--;
-                db.adhkarCounters[id] = current;
-                if ("vibrate" in navigator) navigator.vibrate(35);
-                finalizeAction();
-                renderDhikrView();
-            }
-        }
-
-        // =========================================================================
-        // --- 3. ورد القرآن اليومي المفسر (يبدأ من سورة البقرة بمعدل 5 آيات) ---
-        // =========================================================================
-        const quranPortionsDB = [
-            {
-                start: 1, end: 5,
-                title: "سورة البقرة: الآيات (1 - 5)",
-                text: "﴿ بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ * الم * ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ * الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ * وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ * أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ ﴾",
-                tafsir: "<b>التفسير الميسر:</b> يفتتح الله السورة بالحروف المقطعة للتحدي والإعجاز، ثم يؤكد أن هذا القرآن كتاب لا شك في صحته، هادٍ لمن اتقى الله ففعل أوامره واجتنب نواهيه. ووصف المتقين بأنهم يؤمنون بما غاب عن حواسهم من الجنة والنار والملائكة، ويؤدون الصلاة بأركانها وشروطها، وينفقون في سبيل الله مما رزقهم، ويؤمنون بالوحي المنزل على النبي ﷺ والكتب السابقة، وهم الفائزون بكل خير."
-            },
-            {
-                start: 6, end: 10,
-                title: "سورة البقرة: الآيات (6 - 10)",
-                text: "﴿ إِنَّ الَّذِينَ كَفَرُوا سَوَاءٌ عَلَيْهِمْ أَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ * خَتَمَ اللَّهُ عَلَىٰ قُلُوبِهِمْ وَعَلَىٰ سَمْعِهِمْ ۖ وَعَلَىٰ أَبْصَارِهِمْ غِشَاوَةٌ ۖ وَلَهُمْ عَذَابٌ عَظِيمٌ * وَمِنَ النَّاسِ مَن يَقُولُ آمَنَّا بِاللَّهِ وَبِالْيَوْمِ الْآخِرِ وَمَا هُم بِمُؤْمِنِينَ * يُخَادِعُونَ اللَّهَ وَالَّذِينَ آمَنُوا وَمَا يَخْدَعُونَ إِلَّا أَنفُسَهُمْ وَمَا يَشْعُرُونَ * فِي قُلُوبِهِم مَّرَضٌ فَزَادَهُمُ اللَّهُ مَرَضًا ۖ وَلَهُمْ عَذَابٌ أَلِيمٌ بِمَا كَانُوا يَكْذِبُونَ ﴾",
-                tafsir: "<b>التفسير الميسر:</b> تبين الآيات صنف الكافرين المعاندين الذين طبع الله على قلوبهم وأسماعهم وجعل على أبصارهم غطاء، فلا تنفعهم الدعوة لأنهم آثروا العناد. ثم يذكر صنف المنافقين الذين يظهرون الإيمان بألسنتهم ويبطنون الكفر، يظنون أنهم يخادعون المؤمنين وما يخدعون إلا أنفسهم بنفاقهم؛ فزادهم الله شكاً وضلالاً ولهم عذاب موجع."
-            },
-            {
-                start: 11, end: 15,
-                title: "سورة البقرة: الآيات (11 - 15)",
-                text: "﴿ وَإِذَا قِيلَ لَهُمْ لَا تُفْسِدُوا فِي الْأَرْضِ قَالُوا إِنَّمَا نَحْنُ مُصْلِحُونَ * أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ وَلَٰكِن لَّا يَشْعُرُونَ * وَإِذَا قِيلَ لَهُمْ آمِنُوا كَمَا آمَنَ النَّاسُ قَالُوا أَنُؤْمِنُ كَمَا آمَنَ السُّفَهَاءُ ۗ أَلَا إِنَّهُمْ هُمُ السُّفَهَاءُ وَلَٰكِن لَّا يَعْلَمُونَ * وَإِذَا لَقُوا الَّذِينَ آمَنُوا قَالُوا آمَنَّا وَإِذَا خَلَوْا إِلَىٰ شَيَاطِينِهِمْ قَالُوا إِنَّا مَعَكُمْ إِنَّمَا نَحْنُ مُسْتَهْزِئُونَ * اللَّهُ يَسْتَهْزِئُ بِهِمْ وَيَمُدُّهُمْ فِي طُغْيَانِهِمْ يَعْمَهُونَ ﴾",
-                tafsir: "<b>التفسير الميسر:</b> إذا نُهي المنافقون عن الفساد بنشر الكفر وإفشاء أسرار المسلمين، زعموا أنهم أهل الإصلاح، فرد الله عليهم بأنهم هم عين المفسدين ولكن لا يشعرون. وإذا دُعوا للإيمان الصادق كإيمان الصحابة، استهزأوا ووصفوهم بالسفهاء، فرد الله عليهم بأن السفه ملازم لهم. وحين يلقون المؤمنين يظهرون الوفاق، وحين يخلون برؤسائهم يعلنون مكرهم، والله يجازيهم على استهزائهم بالخزي والخذلان."
-            },
-            {
-                start: 16, end: 20,
-                title: "سورة البقرة: الآيات (16 - 20)",
-                text: "﴿ أُولَٰئِكَ الَّذِينَ اشْتَرَوُا الضَّلَالَةَ بِالْهُدَىٰ فَمَا رَبِحَت تِّجَارَتُهُمْ وَمَا كَانُوا مُهْتَدِينَ * مَثَلُهُمْ كَمَثَلِ الَّذِي اسْتَوْقَدَ نَارًا فَلَمَّا أَضَاءَتْ مَا حَوْلَهُ ذَهَبَ اللَّهُ بِنُورِهِمْ وَتَرَكَهُمْ فِي ظُلُمَاتٍ لَّا يُبْصِرُونَ * صُمٌّ بُكْمٌ عُمْيٌ فَهُمْ لَا يَرْجِعُونَ * أَوْ كَصَيِّبٍ مِّنَ السَّمَاءِ فِيهِ ظُلُمَاتٌ وَرَعْدٌ وَبَرْقٌ يَجْعَلُونَ أَصَابِعَهُمْ فِي آذَانِهِم مِّنَ الصَّوَاعِقِ حَذَرَ الْمَوْتِ ۚ وَاللَّهُ مُحِيطٌ بِالْكَافِرِينَ * يَكَادُ الْبَرْقُ يَخْطَفُ أَبْصَارَهُمْ ۖ كُلَّمَا أَضَاءَ لَهُم مَّشَوْا فِيهِ وَإِذَا أَظْلَمَ عَلَيْهِمْ قَامُوا ۚ وَلَوْ شَاءَ اللَّهُ لَذَهَبَ بِسَمْعِهِمْ وَأَبْصَارِهِمْ ۚ إِنَّ اللَّهَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ ﴾",
-                tafsir: "<b>التفسير الميسر:</b> استبدل المنافقون الكفر بالإيمان، فخسرت تجارتهم، وضرب الله لهم مثلين: الأول كمثل من أوقد ناراً ليستضيء بها فلما أضاءت انطفأت وبقي في ظلمات لا يبصر، فهم صم عن سماع الحق، بكم عن النطق به، عمي عن رؤيته. والمثل الثاني كمطر شديد فيه ظلمات ورعد وبرق صاعق، يصيبهم الرعب الشديد، حائرين تائهين كلما أضاء البرق مشوا قليلاً وإذا أظلم ثبتوا مكانهم."
-            }
-        ];
-
-        function renderQuranView() {
-            if (!db.quranPortion) db.quranPortion = { surah: 'البقرة', startAya: 1, endAya: 5, completedBatches: 0 };
-            
-            const currentIdx = db.quranPortion.completedBatches % quranPortionsDB.length;
-            const portion = quranPortionsDB[currentIdx];
-
-            const headerEl = document.getElementById('quranProgressHeader');
-            const versesEl = document.getElementById('quranVersesContainer');
-            const tafsirEl = document.getElementById('quranTafsirContainer');
-
-            if (headerEl) {
-                headerEl.innerHTML = `
-                    <span class="quran-ayah-badge">${portion.title}</span>
-                    <span style="font-size:12px; color:var(--text-secondary); font-weight:700;">المقدار اليومي: 5 آيات</span>
-                `;
-            }
-            if (versesEl) {
-                versesEl.innerHTML = `<div class="quran-verse-block">${portion.text}</div>`;
-            }
-            if (tafsirEl) {
-                tafsirEl.innerHTML = `<div class="quran-tafsir-block">${portion.tafsir}</div>`;
-            }
-        }
-
-        function completeQuranPortion() {
-            if (!db.quranPortion) db.quranPortion = { surah: 'البقرة', startAya: 1, endAya: 5, completedBatches: 0 };
-            db.quranPortion.completedBatches = (db.quranPortion.completedBatches || 0) + 1;
-            db.quranPortion.lastCompletedDate = todayStr;
-            finalizeAction();
-            renderQuranView();
-            showToast('✅ تم إكمال الورد! جاري عرض الـ 5 آيات التالية 🌿');
-            if ("vibrate" in navigator) navigator.vibrate([100, 50, 100]);
-        }
-
-        // =========================================================================
-        // --- 4. صفحة الجلسة المستقلة (دراسة / قراءة / تركيز) ---
-        // =========================================================================
-        function startDedicatedSession(activityName, icon) {
-            currentSessionName = activityName;
-            document.getElementById('sessionActivityIcon').innerText = icon;
-            document.getElementById('sessionActivityTitle').innerText = `جلسة ${activityName}`;
-            document.getElementById('sessionStatusText').innerText = 'الجلسة نشطة وبدأت الآن...';
-            document.getElementById('sessionPauseBtn').innerText = 'إيقاف مؤقت';
-
-            sessionElapsedSec = 0;
-            isSessionPaused = false;
-            clearInterval(sessionTimerInterval);
-
-            const circle = document.getElementById('sessionHeroProgress');
-            const display = document.getElementById('sessionLiveTimeDisplay');
-            display.innerText = "00:00";
-            if (circle) circle.style.strokeDashoffset = "0";
-
-            sessionTimerInterval = setInterval(() => {
-                if (!isSessionPaused) {
-                    sessionElapsedSec++;
-                    const m = String(Math.floor(sessionElapsedSec / 60)).padStart(2, '0');
-                    const s = String(sessionElapsedSec % 60).padStart(2, '0');
-                    display.innerText = `${m}:${s}`;
-
-                    if (circle) {
-                        const frac = (sessionElapsedSec % 60) / 60;
-                        circle.style.strokeDashoffset = (596.9 * frac);
-                    }
-                }
-            }, 1000);
-
-            switchNavSection('session-focus-view');
-        }
-
-        function togglePauseSession() {
-            isSessionPaused = !isSessionPaused;
-            const btn = document.getElementById('sessionPauseBtn');
-            const status = document.getElementById('sessionStatusText');
-            if (isSessionPaused) {
-                btn.innerText = 'استئناف ▶';
-                status.innerText = 'الجلسة متوقفة مؤقتاً';
-            } else {
-                btn.innerText = 'إيقاف مؤقت';
-                status.innerText = 'الجلسة نشطة وتتقدم...';
-            }
-        }
-
-        function finishAndSaveSession() {
-            clearInterval(sessionTimerInterval);
-            const minsSpent = Math.round(sessionElapsedSec / 60);
-            if (sessionElapsedSec >= 30) {
-                if (!db.sessionsLog) db.sessionsLog = [];
-                db.sessionsLog.push({
-                    id: Date.now(),
-                    name: currentSessionName,
-                    seconds: sessionElapsedSec,
-                    date: todayStr
-                });
-                finalizeAction();
-                showToast(`🎉 أحسنت! تم إكمال ${minsSpent > 0 ? minsSpent + ' دقيقة' : sessionElapsedSec + ' ثانية'} في ${currentSessionName}`);
-            }
-            switchNavSection('dashboard-view');
-        }
-
-        function toggleWaterHabit() {
-            if ("vibrate" in navigator) navigator.vibrate(50);
-            showToast('💧 تم تسجيل شرب الماء!');
-        }
-
-        // =========================================================================
-        // --- 5. التنقل، والبحث، واسترجاع النسخ، ومواقيت الصلاة ---
-        // =========================================================================
-        function exportData() {
-            const dl = document.createElement('a');
-            dl.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
-            dl.download = `LifeOS_Backup_${todayStr}.json`;
-            dl.click();
-            showToast('📥 تم تصدير النسخة الاحتياطية بنجاح');
-        }
-
-        function triggerImportFile() {
-            const input = document.getElementById('importBackupInput');
-            if (input) input.click();
-        }
-
-        function handleImportBackup(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                try {
-                    const imported = JSON.parse(event.target.result);
-                    if (confirm('هل أنت متأكد من استرجاع هذه النسخة الاحتياطية؟')) {
-                        db = normalizeDB(imported);
-                        finalizeAction();
-                        applyThemeUI();
-                        showToast('✅ تم استرجاع النسخة الاحتياطية بنجاح');
-                    }
-                } catch(err) {
-                    alert('ملف النسخة الاحتياطية غير صالح!');
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        function calculatePalestinePrayerTimes(date = new Date()) {
-            const lat = 32.4646; const lng = 35.2939; const tz = -date.getTimezoneOffset() / 60;
-            const start = new Date(date.getFullYear(), 0, 0);
-            const diff = (date - start) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
-            const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const gamma = (2 * Math.PI / 365) * (dayOfYear - 1);
-            const eqtime = 229.18 * (0.000075 + 0.001868 * Math.cos(gamma) - 0.032077 * Math.sin(gamma) - 0.014615 * Math.cos(2 * gamma) - 0.040849 * Math.sin(2 * gamma));
-            const decl = 0.006918 - 0.399912 * Math.cos(gamma) + 0.070257 * Math.sin(gamma) - 0.006758 * Math.cos(2 * gamma) + 0.000907 * Math.sin(2 * gamma) - 0.002697 * Math.cos(3 * gamma) + 0.00148 * Math.sin(3 * gamma);
-            const degToRad = Math.PI / 180; const radToDeg = 180 / Math.PI; const latRad = lat * degToRad;
-            const noon = 12 + tz - (lng / 15) - (eqtime / 60);
-
-            function getHourAngle(angleDeg) {
-                const altRad = -angleDeg * degToRad;
-                const cosHA = (Math.sin(altRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl));
-                if (cosHA > 1 || cosHA < -1) return 0;
-                return radToDeg * Math.acos(cosHA) / 15;
-            }
-
-            const asrAlt = Math.atan(1 / (1 + Math.tan(Math.abs(latRad - decl)))) * radToDeg;
-            const asrHA = radToDeg * Math.acos(Math.max(-1, Math.min(1, (Math.sin(asrAlt * degToRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl))))) / 15;
-            const fajrHA = getHourAngle(19.5); const ishaHA = getHourAngle(17.5);
-
-            function toDateObj(hoursDecimal) {
-                const d = new Date(date); let h = Math.floor(hoursDecimal); let m = Math.round((hoursDecimal - h) * 60);
-                if (m >= 60) { h += 1; m = 0; } d.setHours(h, m, 0, 0); return d;
-            }
-
-            return [
-                { name: 'صلاة الفجر', targetDate: toDateObj(noon - fajrHA) },
-                { name: 'صلاة الظهر', targetDate: toDateObj(noon + (1.5/60)) },
-                { name: 'صلاة العصر', targetDate: toDateObj(noon + asrHA) },
-                { name: 'صلاة المغرب', targetDate: toDateObj(noon + getHourAngle(0.833) + (1.5/60)) },
-                { name: 'صلاة العشاء', targetDate: toDateObj(noon + ishaHA) }
-            ];
-        }
-
-        function loadAccuratePrayers() {
-            const prayers = calculatePalestinePrayerTimes(new Date());
-            livePrayersList = prayers.map((p, idx) => ({
-                id: `prayer_${idx}`, title: `🕌 ${p.name}`, targetTime: p.targetDate.getTime(), isPrayer: true
-            }));
-            renderPrayersAndAlarmsCombined();
-            renderPrayersAndReminders();
-        }
-
-        async function syncFeeds() {
-            const fetchWeather = async () => {
-                try {
-                    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&current=temperature_2m,weather_code&timezone=auto');
-                    const data = await res.json();
-                    if (data && data.current) {
-                        const temp = Math.round(data.current.temperature_2m);
-                        const el = document.getElementById('textWeather');
-                        if (el) el.innerText = `${temp}°C ⛅`;
-                    }
-                } catch(e) {}
-            };
-
-            const fetchCurrencies = async () => {
-                try {
-                    const res = await fetch('https://open.er-api.com/v6/latest/ILS');
-                    const data = await res.json();
-                    if (data && data.rates) {
-                        const usd = document.getElementById('textUSD');
-                        const jod = document.getElementById('textJOD');
-                        const eur = document.getElementById('textEUR');
-                        if (usd) usd.innerText = (1 / data.rates.USD).toFixed(2);
-                        if (jod) jod.innerText = (1 / data.rates.JOD).toFixed(2);
-                        if (eur) eur.innerText = (1 / data.rates.EUR).toFixed(2);
-                    }
-                } catch(e) {}
-            };
-
-            fetchWeather();
-            fetchCurrencies();
-            setInterval(fetchWeather, 20 * 60 * 1000);
-        }
-
-        function requestBatteryOptimizationExemption() {
-            alert('لضمان عمل المنبه بدقة متناهية والتطبيق مغلق:\n\n1. اذهب لإعدادات البطارية بالهاتف واختر تطبيق LifeOS.\n2. اختر "غير مقيد" (Unrestricted).\n3. تأكد من تفعيل "التشغيل التلقائي" (Autostart) إن وجد.');
-        }
-
-        function handleDockMicClick(btnEl) {
-            switchNavSection('notes-view', btnEl);
-            startVoiceRecording();
-        }
+        function handleDockMicClick(btnEl) { switchNavSection('notes-view', btnEl); startVoiceRecording(); }
 
         let mediaRec = null; let audioParts = []; let recTimer = null; let recSec = 0; let speechRecognizer = null;
 
         async function startVoiceRecording() {
-            closeTopDropdown(); lastSpokenText = '';
+            lastSpokenText = '';
             try {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 if (SpeechRecognition) {
                     speechRecognizer = new SpeechRecognition();
                     speechRecognizer.lang = 'ar-SA';
-                    speechRecognizer.interimResults = false;
                     speechRecognizer.onresult = (e) => { lastSpokenText = e.results[0][0].transcript; };
                     try { speechRecognizer.start(); } catch(err) {}
                 }
@@ -1695,18 +1649,16 @@
                 mediaRec.ondataavailable = e => audioParts.push(e.data);
                 mediaRec.onstop = () => {
                     if (speechRecognizer) { try { speechRecognizer.stop(); } catch(e){} }
-                    const blob = new Blob(audioParts, { type: 'audio/webm' });
                     const reader = new FileReader();
                     reader.onloadend = () => {
-                        const noteId = Date.now();
                         db.notes.push({ 
-                            id: noteId, title: `🎙️ تسجيل صوتي خام`, audioData: reader.result, 
+                            id: Date.now(), title: `🎙️ تسجيل صوتي خام`, audioData: reader.result, 
                             body: lastSpokenText ? `النص: ${lastSpokenText}` : 'تسجيل صوتي خام', date: todayStr 
                         });
                         finalizeAction();
                         showSmartSuggestions(lastSpokenText);
                     };
-                    reader.readAsDataURL(blob);
+                    reader.readAsDataURL(new Blob(audioParts, { type: 'audio/webm' }));
                     stream.getTracks().forEach(t => t.stop());
                 };
                 mediaRec.start();
@@ -1747,23 +1699,18 @@
                 const amount = numbers[0];
                 html += `<button class="btn-action" onclick="executeSmartAction('expense', '${text}', ${amount})" style="background:var(--accent-red, #FF3B30);">💸 تسجيل شراء جديد بمبلغ (${amount} ₪)</button>`;
             }
-
             const timeMatch = text.match(/(\d+)\s*(دقيقة|دقائق|ساعة|ساعات)/);
             if (timeMatch) {
                 const val = parseInt(timeMatch[1]);
-                const unit = timeMatch[2];
-                const totalMins = unit.includes('ساعة') ? val * 60 : val;
-                html += `<button class="btn-action" onclick="executeSmartAction('alarm', '${text}', ${totalMins})" style="background:var(--accent-color);">⏰ إضافة تنبيه سريع للشراء بعد ${val} ${unit}</button>`;
+                const totalMins = timeMatch[2].includes('ساعة') ? val * 60 : val;
+                html += `<button class="btn-action" onclick="executeSmartAction('alarm', '${text}', ${totalMins})" style="background:var(--accent-color);">⏰ إضافة تنبيه سريع بعد ${val} دقيقة</button>`;
             }
-
-            html += `<button class="btn-action" onclick="executeSmartAction('note', '${text}')" style="background:var(--surface-inner); color:var(--text-primary);">📝 تسجيل ملاحظة سريعة للظهور على الرئيسية</button>`;
+            html += `<button class="btn-action" onclick="executeSmartAction('note', '${text}')" style="background:var(--surface-inner); color:var(--text-primary);">📝 تسجيل ملاحظة سريعة</button>`;
             container.innerHTML = html;
             document.getElementById('postRecordingModal').classList.add('active');
         }
 
-        function closePostRecordingModal() {
-            document.getElementById('postRecordingModal').classList.remove('active');
-        }
+        function closePostRecordingModal() { document.getElementById('postRecordingModal').classList.remove('active'); }
 
         function executeSmartAction(type, text, param = null) {
             document.getElementById('postRecordingModal').classList.remove('active');
@@ -1776,12 +1723,11 @@
             }
         }
 
-        // التنقل مع حفظ مسار الصفحات
         function switchNavSection(viewId, btnEl, addToHistory = true) {
-            closeTopDropdown();
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.samsung-dock-item').forEach(b => b.classList.remove('active'));
-            
+            document.querySelectorAll('.app-dock-chip').forEach(c => c.classList.remove('highlight'));
+
             const target = document.getElementById(viewId);
             if (target) target.classList.add('active');
 
@@ -1801,68 +1747,29 @@
                 }
             }
 
-            if (viewId === 'adhkar-view') renderDhikrView();
-            if (viewId === 'quran-view') renderQuranView();
+            if (viewId === 'calendar-view') renderCalendarGrid();
+            if (viewId === 'islamiyat-view') switchIslamiyatTab('adhkar');
+            if (viewId === 'weather-view') renderWeather5DaysUI();
+            if (viewId === 'currency-view') calculateCurrencyConversion();
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             updateUI();
         }
 
-        function toggleTopDropdown() { document.getElementById('topDropdownMenu').classList.toggle('open'); }
-        function closeTopDropdown() { const el = document.getElementById('topDropdownMenu'); if (el) el.classList.remove('open'); }
-        function toggleSearchBar() {
-            const bar = document.getElementById('expandableSearchBar');
-            bar.classList.toggle('active');
-            if (bar.classList.contains('active')) {
-                document.getElementById('globalSearchInput').focus();
-            } else {
-                clearGlobalSearch();
-            }
-        }
-
-        document.addEventListener('click', (e) => {
-            const menu = document.getElementById('topDropdownMenu');
-            if (menu && menu.classList.contains('open') && !menu.contains(e.target) && !e.target.closest('button[title="القائمة"]')) {
-                closeTopDropdown();
-            }
-        });
-
-        // زر الرجوع الشامل والذكي
         function handleSystemBackButton() {
-            const activeAlarm = document.getElementById('activeAlarmModal');
-            if (activeAlarm && activeAlarm.classList.contains('active')) { dismissActiveAlarm(); return true; }
-
-            const timerManage = document.getElementById('timerManageModal');
-            if (timerManage && timerManage.classList.contains('active')) { closeManageTimerModal(); return true; }
-
-            const postRecModal = document.getElementById('postRecordingModal');
-            if (postRecModal && postRecModal.classList.contains('active')) { closePostRecordingModal(); return true; }
-
-            const authM = document.getElementById('authModal');
-            if (authM && authM.classList.contains('active')) { closeAuthModal(); return true; }
-
-            const actModal = document.getElementById('actionModal');
-            if (actModal && actModal.classList.contains('active')) { closeModalAction(); return true; }
-
-            const voiceModal = document.getElementById('voiceModal');
-            if (voiceModal && voiceModal.classList.contains('active')) { cancelVoiceRecording(); return true; }
-
-            const dropdown = document.getElementById('topDropdownMenu');
-            if (dropdown && dropdown.classList.contains('open')) { closeTopDropdown(); return true; }
-
-            const searchBar = document.getElementById('expandableSearchBar');
-            if (searchBar && searchBar.classList.contains('active')) { toggleSearchBar(); return true; }
+            const modals = ['activeAlarmModal', 'timerManageModal', 'postRecordingModal', 'authModal', 'actionModal', 'voiceModal'];
+            for (let m of modals) {
+                const el = document.getElementById(m);
+                if (el && el.classList.contains('active')) {
+                    if (m === 'activeAlarmModal') dismissActiveAlarm();
+                    else if (m === 'actionModal') closeModalAction();
+                    else el.classList.remove('active');
+                    return true;
+                }
+            }
 
             const currentActive = document.querySelector('.section-view.active');
             const currentId = currentActive ? currentActive.id : 'dashboard-view';
-
-            if (currentId === 'session-focus-view') {
-                if (confirm('هل تريد مغادرة جلسة التركيز الحالية؟')) {
-                    clearInterval(sessionTimerInterval);
-                    switchNavSection('dashboard-view', null, false);
-                }
-                return true;
-            }
 
             if (currentId !== 'dashboard-view') {
                 if (navHistory.length > 0 && navHistory[navHistory.length - 1] === currentId) {
@@ -1896,47 +1803,6 @@
             window.addEventListener('popstate', () => { handleSystemBackButton(); });
         }
 
-        function handleGlobalSearch(query) {
-            const card = document.getElementById('searchResultsCard');
-            const list = document.getElementById('searchResultsList');
-            const q = query.trim().toLowerCase();
-
-            if (!q) { card.style.display = 'none'; list.innerHTML = ''; return; }
-            card.style.display = 'block';
-            let results = [];
-
-            db.todos.forEach(t => {
-                if (t.text.toLowerCase().includes(q)) {
-                    results.push(`<div class="list-row"><div><span class="tag-badge" style="margin-left:6px;">مهمة</span> <span>${t.text}</span></div><button onclick="toggleTodo(${t.id})" style="background:none; border:none; color:var(--accent-color); font-weight:700; cursor:pointer;">${t.done?'✅ مكتملة':'⭕ إكمال'}</button></div>`);
-                }
-            });
-
-            db.notes.forEach(n => {
-                if ((n.title && n.title.toLowerCase().includes(q)) || (n.body && n.body.toLowerCase().includes(q))) {
-                    results.push(`<div class="list-row"><div><span class="tag-badge green" style="margin-left:6px;">ملاحظة</span> <strong>${n.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${n.body || ''}</div></div></div>`);
-                }
-            });
-
-            db.documents.forEach(d => {
-                if (d.name.toLowerCase().includes(q)) {
-                    results.push(`<div class="list-row"><div><span class="tag-badge" style="margin-left:6px;">وثيقة</span> <strong>${d.name}</strong><div style="font-size:12px; color:var(--text-secondary);">تنتهي: ${d.expiryDate}</div></div></div>`);
-                }
-            });
-
-            db.vault.forEach(v => {
-                if (v.accountName.toLowerCase().includes(q)) {
-                    results.push(`<div class="list-row"><div><span class="tag-badge" style="margin-left:6px; color:var(--accent-red, #FF3B30);">خزنة</span> <strong>${v.accountName}</strong><div style="font-size:12px; color:var(--accent-red, #FF3B30); font-family:monospace;">${v.password}</div></div></div>`);
-                }
-            });
-
-            list.innerHTML = results.join('') || '<p style="color:var(--text-tertiary); font-size:13px; text-align:center; padding:10px;">لا توجد نتائج مطابقة.</p>';
-        }
-
-        function clearGlobalSearch() {
-            document.getElementById('globalSearchInput').value = '';
-            handleGlobalSearch('');
-        }
-
         function closeModalAction() {
             const modal = document.getElementById('actionModal');
             if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
@@ -1944,19 +1810,7 @@
             if (container) container.innerHTML = '';
         }
 
-        function setSubDuration(months) {
-            const startInput = document.getElementById('actSubStartDate');
-            const endInput = document.getElementById('actSubEndDate');
-            if (!startInput || !endInput) return;
-            const startVal = startInput.value || todayStr;
-            const d = new Date(startVal);
-            if (isNaN(d.getTime())) return;
-            d.setMonth(d.getMonth() + months);
-            endInput.value = d.toISOString().split('T')[0];
-        }
-
         function openModalAction(type) {
-            closeTopDropdown();
             const modal = document.getElementById('actionModal');
             const title = document.getElementById('modalTitle');
             const container = document.getElementById('modalFormContainer');
@@ -1987,24 +1841,10 @@
                 const defaultEnd = d.toISOString().split('T')[0];
 
                 container.innerHTML = `
-                    <input type="text" id="actSubName" placeholder="اسم الاشتراك (نتفلكس، جيم...)" class="app-input" required>
+                    <input type="text" id="actSubName" placeholder="اسم الاشتراك..." class="app-input" required>
                     <input type="number" id="actSubAmount" placeholder="المبلغ (₪)" class="app-input" required>
-                    
-                    <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">تاريخ بدء الاشتراك:</label>
-                    <input type="date" id="actSubStartDate" value="${todayStr}" class="app-input" onchange="setSubDuration(1)">
-                    
-                    <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">مدة الاشتراك السريعة:</label>
-                    <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
-                        <button type="button" class="tag-badge" onclick="setSubDuration(1)">شهر</button>
-                        <button type="button" class="tag-badge" onclick="setSubDuration(2)">شهرين</button>
-                        <button type="button" class="tag-badge" onclick="setSubDuration(3)">3 شهور</button>
-                        <button type="button" class="tag-badge" onclick="setSubDuration(6)">6 شهور</button>
-                        <button type="button" class="tag-badge" onclick="setSubDuration(12)">سنة</button>
-                    </div>
-
                     <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:4px;">تاريخ انتهاء الاشتراك:</label>
                     <input type="date" id="actSubEndDate" value="${defaultEnd}" class="app-input" required>
-                    
                     <button type="button" onclick="submitActSub()" class="btn-action">حفظ الاشتراك</button>
                 `;
             } else if (type === 'debt') {
@@ -2016,7 +1856,7 @@
                     </select>
                     <input type="text" id="actDebtPerson" placeholder="اسم الشخص..." class="app-input" required>
                     <input type="number" id="actDebtAmount" placeholder="المبلغ (₪)..." class="app-input" required>
-                    <input type="text" id="actDebtNote" placeholder="ملاحظة أو سبب الدين..." class="app-input">
+                    <input type="text" id="actDebtNote" placeholder="ملاحظة..." class="app-input">
                     <button type="button" onclick="submitActDebt()" class="btn-action">حفظ الالتزام</button>
                 `;
             } else if (type === 'bill') {
@@ -2036,16 +1876,16 @@
             } else if (type === 'vault') {
                 title.innerText = '🔐 حفظ حساب في الخزنة';
                 container.innerHTML = `
-                    <input type="text" id="actVaultName" placeholder="اسم الحساب / الموقع" class="app-input" required>
+                    <input type="text" id="actVaultName" placeholder="اسم الموقع / الحساب" class="app-input" required>
                     <input type="text" id="actVaultUser" placeholder="اسم المستخدم / الإيميل" class="app-input">
                     <input type="password" id="actVaultPass" placeholder="كلمة المرور" class="app-input" required>
-                    <textarea id="actVaultNote" rows="2" placeholder="ملاحظات أو تفاصيل إضافية..." class="app-input"></textarea>
+                    <textarea id="actVaultNote" rows="2" placeholder="ملاحظات إضافية..." class="app-input"></textarea>
                     <button type="button" onclick="submitActVault()" class="btn-action">حفظ بالخزنة</button>
                 `;
             } else if (type === 'doc') {
                 title.innerText = '🆔 تسجيل وثيقة رسمية';
                 container.innerHTML = `
-                    <input type="text" id="actDocName" placeholder="اسم الوثيقة (جواز، رخصة...)" class="app-input" required>
+                    <input type="text" id="actDocName" placeholder="اسم الوثيقة..." class="app-input" required>
                     <input type="date" id="actDocExpiry" class="app-input" required>
                     <button type="button" onclick="submitActDoc()" class="btn-action">حفظ الوثيقة</button>
                 `;
@@ -2090,38 +1930,18 @@
         function submitActSub() {
             const nameEl = document.getElementById('actSubName');
             const amountEl = document.getElementById('actSubAmount');
-            const startEl = document.getElementById('actSubStartDate');
             const endEl = document.getElementById('actSubEndDate');
-            if (!nameEl || !amountEl) return;
-
+            if (!nameEl || !amountEl || !nameEl.value.trim() || !amountEl.value) return alert('أدخل اسم الاشتراك والمبلغ');
+            
             const name = nameEl.value.trim();
             const amount = amountEl.value;
-            const startDate = (startEl && startEl.value) ? startEl.value : todayStr;
-            let endDate = endEl ? endEl.value : '';
-
-            if (!name || !amount) {
-                alert('يرجى كتابة اسم الاشتراك والمبلغ');
-                return;
-            }
-
-            if (!endDate) {
-                const d = new Date(startDate);
-                d.setMonth(d.getMonth() + 1);
-                endDate = d.toISOString().split('T')[0];
-            }
+            const endDate = endEl ? endEl.value : todayStr;
 
             closeModalAction();
-
             db.subscriptions.push({
-                id: Date.now(),
-                name: name,
-                amount: amount,
-                startDate: startDate,
-                endDate: endDate,
-                renewalDate: endDate,
-                createdAt: Date.now()
+                id: Date.now(), name: name, amount: amount, startDate: todayStr,
+                endDate: endDate, renewalDate: endDate, createdAt: Date.now()
             });
-
             finalizeAction();
             showToast('✅ تم حفظ الاشتراك بنجاح');
         }
@@ -2131,32 +1951,20 @@
             const personEl = document.getElementById('actDebtPerson');
             const amountEl = document.getElementById('actDebtAmount');
             const noteEl = document.getElementById('actDebtNote');
-            if (!personEl || !amountEl || !personEl.value.trim() || !amountEl.value) {
-                return alert('يرجى كتابة اسم الشخص والمبلغ');
-            }
-
-            const debtObj = {
-                id: Date.now(),
-                type: typeEl.value,
-                person: personEl.value.trim(),
-                amount: amountEl.value,
-                note: noteEl ? noteEl.value.trim() : '',
-                settled: false,
-                date: todayStr
-            };
+            if (!personEl || !amountEl || !personEl.value.trim() || !amountEl.value) return alert('يرجى كتابة اسم الشخص والمبلغ');
 
             closeModalAction();
-            db.debts.push(debtObj);
+            db.debts.push({
+                id: Date.now(), type: typeEl.value, person: personEl.value.trim(),
+                amount: amountEl.value, note: noteEl ? noteEl.value.trim() : '', settled: false, date: todayStr
+            });
             finalizeAction();
             showToast('✅ تم تسجيل الالتزام');
         }
 
         function toggleSettleDebt(id) {
             const d = db.debts.find(x => x.id === id);
-            if (d) {
-                d.settled = !d.settled;
-                finalizeAction();
-            }
+            if (d) { d.settled = !d.settled; finalizeAction(); }
         }
 
         function confirmDeleteDebt(id) {
@@ -2170,10 +1978,8 @@
             const typeEl = document.getElementById('actBillType');
             const amountEl = document.getElementById('actBillAmount');
             if (!amountEl || !amountEl.value) return alert('أدخل المبلغ');
-            const type = typeEl.value;
-            const amount = amountEl.value;
             closeModalAction();
-            db.fixed_bills.push({ id: Date.now(), type: type, amount: amount, date: todayStr });
+            db.fixed_bills.push({ id: Date.now(), type: typeEl.value, amount: amountEl.value, date: todayStr });
             finalizeAction();
         }
 
@@ -2181,10 +1987,8 @@
             const bodyEl = document.getElementById('actNoteBody');
             const titleEl = document.getElementById('actNoteTitle');
             if (!bodyEl || !bodyEl.value.trim()) return alert('اكتب نص الملاحظة');
-            const title = (titleEl && titleEl.value) ? titleEl.value : 'ملاحظة';
-            const body = bodyEl.value;
             closeModalAction();
-            db.notes.push({ id: Date.now(), title: title, body: body });
+            db.notes.push({ id: Date.now(), title: (titleEl && titleEl.value) ? titleEl.value : 'ملاحظة', body: bodyEl.value });
             finalizeAction();
         }
 
@@ -2194,18 +1998,10 @@
             const passEl = document.getElementById('actVaultPass');
             const noteEl = document.getElementById('actVaultNote');
             if (!nameEl || !passEl || !nameEl.value || !passEl.value) return alert('أدخل اسم الحساب وكلمة المرور');
-            const name = nameEl.value;
-            const username = userEl ? userEl.value : '';
-            const pass = passEl.value;
-            const note = noteEl ? noteEl.value : '';
             closeModalAction();
             db.vault.push({
-                id: Date.now(),
-                accountName: name,
-                username: username,
-                password: pass,
-                note: note,
-                date: todayStr
+                id: Date.now(), accountName: nameEl.value, username: userEl ? userEl.value : '',
+                password: passEl.value, note: noteEl ? noteEl.value : '', date: todayStr
             });
             finalizeAction();
         }
@@ -2214,10 +2010,8 @@
             const nameEl = document.getElementById('actDocName');
             const expEl = document.getElementById('actDocExpiry');
             if (!nameEl || !expEl || !nameEl.value || !expEl.value) return alert('أدخل البيانات المطلوبة');
-            const name = nameEl.value;
-            const exp = expEl.value;
             closeModalAction();
-            db.documents.push({ id: Date.now(), name: name, expiryDate: exp });
+            db.documents.push({ id: Date.now(), name: nameEl.value, expiryDate: expEl.value });
             finalizeAction();
         }
 
@@ -2231,7 +2025,7 @@
         }
 
         // =========================================================================
-        // --- 6. تحديث الواجهة الشامل لجميع الأقسام وقوائم البيانات ---
+        // --- 7. تحديث الواجهات العامة والمحركات الدورية ---
         // =========================================================================
         function updateUI() {
             let spentMonth = 0;
@@ -2315,7 +2109,8 @@
             const fullExpEl = document.getElementById('expensesFullList');
             if(fullExpEl) {
                 fullExpEl.innerHTML = db.expenses.map(e => `
-                    <div class="list-row"><div><strong>${e.desc}</strong><div style="font-size:11px; color:var(--text-secondary);">${e.date}</div></div>
+                    <div class="list-row">
+                        <div><strong>${e.desc}</strong><div style="font-size:11px; color:var(--text-secondary);">${e.date}</div></div>
                         <div style="display:flex; gap:8px; align-items:center;">
                             <strong style="color:var(--accent-red, #FF3B30);">${e.amount} ₪</strong>
                             <button onclick="confirmDeleteExpense(${e.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer;">🗑</button>
@@ -2338,7 +2133,7 @@
                             <button onclick="confirmDeleteDebt(${d.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
                         </div>
                     </div>
-                `).join('') || '<p style="color:var(--text-secondary); text-align:center; padding:10px;">لا توجد ديون أو التزامات مسجلة.</p>';
+                `).join('') || '<p style="color:var(--text-secondary); text-align:center; padding:10px;">لا توجد ديون مسجلة.</p>';
             }
 
             const billsSubsEl = document.getElementById('billsAndSubsList');
@@ -2422,58 +2217,15 @@
             updateUI();
         }
 
-        function toggleTodo(id) {
-            const t = db.todos.find(x => x.id === id);
-            if(t) { t.done = !t.done; finalizeAction(); }
-        }
-        function confirmDeleteTodo(id) {
-            if(confirm('هل تريد حذف هذه المهمة؟')) {
-                db.todos = db.todos.filter(x => x.id !== id);
-                finalizeAction();
-            }
-        }
-        function confirmDeleteBill(id) {
-            if(confirm('هل تريد حذف هذه الفاتورة؟')) {
-                db.fixed_bills = db.fixed_bills.filter(x => x.id !== id);
-                finalizeAction();
-            }
-        }
-        function confirmDeleteSub(id) {
-            if(confirm('هل تريد حذف هذا الاشتراك؟')) {
-                db.subscriptions = db.subscriptions.filter(x => x.id !== id);
-                finalizeAction();
-            }
-        }
-        function confirmDeleteDoc(id) {
-            if(confirm('هل تريد حذف هذه الوثيقة؟')) {
-                db.documents = db.documents.filter(x => x.id !== id);
-                finalizeAction();
-            }
-        }
-        function confirmDeleteVault(id) {
-            if(confirm('هل تريد حذف هذا الحساب من الخزنة؟')) {
-                db.vault = db.vault.filter(x => x.id !== id);
-                finalizeAction();
-            }
-        }
-        function confirmDeleteNote(id) {
-            if(confirm('هل تريد حذف هذه الملاحظة؟')) {
-                db.notes = db.notes.filter(x => x.id !== id);
-                finalizeAction();
-            }
-        }
-        function confirmDeleteExpense(id) {
-            if(confirm('هل تريد حذف هذا المصروف؟')) {
-                db.expenses = db.expenses.filter(x => x.id !== id);
-                finalizeAction();
-            }
-        }
-
-        function toggleTheme() {
-            db.settings.darkMode = !db.settings.darkMode;
-            applyThemeUI();
-            finalizeAction();
-        }
+        function toggleTodo(id) { const t = db.todos.find(x => x.id === id); if(t) { t.done = !t.done; finalizeAction(); } }
+        function confirmDeleteTodo(id) { if(confirm('هل تريد حذف هذه المهمة؟')) { db.todos = db.todos.filter(x => x.id !== id); finalizeAction(); } }
+        function confirmDeleteBill(id) { if(confirm('هل تريد حذف هذه الفاتورة؟')) { db.fixed_bills = db.fixed_bills.filter(x => x.id !== id); finalizeAction(); } }
+        function confirmDeleteSub(id) { if(confirm('هل تريد حذف هذا الاشتراك؟')) { db.subscriptions = db.subscriptions.filter(x => x.id !== id); finalizeAction(); } }
+        function confirmDeleteDoc(id) { if(confirm('هل تريد حذف هذه الوثيقة؟')) { db.documents = db.documents.filter(x => x.id !== id); finalizeAction(); } }
+        function confirmDeleteVault(id) { if(confirm('هل تريد حذف هذا الحساب؟')) { db.vault = db.vault.filter(x => x.id !== id); finalizeAction(); } }
+        function confirmDeleteNote(id) { if(confirm('هل تريد حذف هذه الملاحظة؟')) { db.notes = db.notes.filter(x => x.id !== id); finalizeAction(); } }
+        function confirmDeleteExpense(id) { if(confirm('هل تريد حذف هذا المصروف؟')) { db.expenses = db.expenses.filter(x => x.id !== id); finalizeAction(); } }
+        function toggleTheme() { db.settings.darkMode = !db.settings.darkMode; applyThemeUI(); finalizeAction(); }
 
         function renderPrayersAndAlarmsCombined() {
             const now = Date.now();
@@ -2481,59 +2233,27 @@
             if (!container) return;
 
             const combined = [];
-            livePrayersList.forEach(p => {
-                combined.push({
-                    title: p.title,
-                    targetTime: p.targetTime,
-                    isPrayer: true
-                });
-            });
-
+            livePrayersList.forEach(p => { combined.push({ title: p.title, targetTime: p.targetTime, isPrayer: true }); });
             db.reminders.forEach(r => {
                 if (!r.triggered && r.targetTime > now) {
-                    combined.push({
-                        id: r.id,
-                        title: `⏰ ${r.title || `تنبيه (${r.minutes} د)`}`,
-                        targetTime: r.targetTime,
-                        isPrayer: false
-                    });
+                    combined.push({ id: r.id, title: `⏰ ${r.title || `تنبيه (${r.minutes} د)`}`, targetTime: r.targetTime, isPrayer: false });
                 }
             });
 
             combined.sort((a, b) => a.targetTime - b.targetTime);
-
             container.innerHTML = combined.map(item => {
                 const isPending = item.targetTime > now;
                 const timeStr = new Date(item.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
                 if (item.isPrayer) {
-                    return `
-                    <div class="list-row">
-                        <div>
-                            <strong>${item.title}</strong>
-                            <div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div>
-                        </div>
-                        <span class="tag-badge ${isPending ? 'green' : ''}">${isPending ? `⏳ ${formatTime(item.targetTime - now)}` : '✅ تم'}</span>
-                    </div>`;
+                    return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><span class="tag-badge ${isPending ? 'green' : ''}">${isPending ? `⏳ ${formatTime(item.targetTime - now)}` : '✅ تم'}</span></div>`;
                 } else {
-                    return `
-                    <div class="list-row">
-                        <div>
-                            <strong>${item.title}</strong>
-                            <div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div>
-                        </div>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                            <button onclick="renameReminder(${item.id})" class="tag-badge" title="تسمية">✏️</button>
-                            <span class="tag-badge">⏳ ${formatTime(item.targetTime - now)}</span>
-                            <button onclick="confirmDeleteReminder(${item.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer; font-size:16px;" title="إلغاء">✖</button>
-                        </div>
-                    </div>`;
+                    return `<div class="list-row"><div><strong>${item.title}</strong><div style="font-size:12px; color:var(--text-secondary);">${timeStr}</div></div><div style="display:flex; align-items:center; gap:6px;"><button onclick="renameReminder(${item.id})" class="tag-badge" title="تسمية">✏️</button><span class="tag-badge">⏳ ${formatTime(item.targetTime - now)}</span><button onclick="confirmDeleteReminder(${item.id})" style="background:none; border:none; color:var(--accent-red, #FF3B30); cursor:pointer; font-size:16px;" title="إلغاء">✖</button></div></div>`;
                 }
             }).join('') || '<p style="color:var(--text-secondary); text-align:center;">لا توجد صلوات أو تنبيهات قادمة</p>';
         }
 
         function renderPrayersAndReminders() {
             const now = Date.now();
-            
             const nextPrayer = livePrayersList.find(p => p.targetTime > now);
             const topPrayerText = document.getElementById('topPrayerText');
             if (topPrayerText) {
@@ -2559,9 +2279,7 @@
                 const remainingMs = nearest.targetTime - now;
                 const totalDuration = (nearest.minutes * 60 * 1000) || (nearest.targetTime - nearest.createdAt) || remainingMs;
                 const fraction = Math.max(0, Math.min(1, remainingMs / totalDuration));
-                const strokeTotal = 326.72;
-                
-                if (circle) circle.style.strokeDashoffset = strokeTotal * (1 - fraction);
+                if (circle) circle.style.strokeDashoffset = 326.72 * (1 - fraction);
                 if (timeEl) timeEl.innerText = formatTime(remainingMs);
                 if (labelEl) labelEl.innerText = nearest.title || `تنبيه (${nearest.minutes} د)`;
             } else if (nextPrayer) {
@@ -2599,24 +2317,127 @@
         setInterval(() => {
             const now = Date.now();
             let changed = false;
-
             db.reminders.forEach(r => {
-                if (!r.triggered) {
-                    const diff = r.targetTime - now;
-                    if (diff <= 0) {
-                        r.triggered = true;
-                        changed = true;
-                        startAlarm(r.title);
-                    }
+                if (!r.triggered && r.targetTime <= now) {
+                    r.triggered = true;
+                    changed = true;
+                    startAlarm(r.title);
                 }
             });
-
             renderPrayersAndReminders();
             if (changed) finalizeAction();
         }, 1000);
 
         // =========================================================================
-        // --- 7. الإقلاع الفوري والتنفيذ الأولي للمحركات ---
+        // --- 8. جلب بيانات الطقس والعملات وتحديث الكاش تلقائياً ---
+        // =========================================================================
+        function calculatePalestinePrayerTimes(date = new Date()) {
+            const lat = 32.4646; const lng = 35.2939; const tz = -date.getTimezoneOffset() / 60;
+            const start = new Date(date.getFullYear(), 0, 0);
+            const diff = (date - start) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
+            const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const gamma = (2 * Math.PI / 365) * (dayOfYear - 1);
+            const eqtime = 229.18 * (0.000075 + 0.001868 * Math.cos(gamma) - 0.032077 * Math.sin(gamma) - 0.014615 * Math.cos(2 * gamma) - 0.040849 * Math.sin(2 * gamma));
+            const decl = 0.006918 - 0.399912 * Math.cos(gamma) + 0.070257 * Math.sin(gamma) - 0.006758 * Math.cos(2 * gamma) + 0.000907 * Math.sin(2 * gamma) - 0.002697 * Math.cos(3 * gamma) + 0.00148 * Math.sin(3 * gamma);
+            const degToRad = Math.PI / 180; const radToDeg = 180 / Math.PI; const latRad = lat * degToRad;
+            const noon = 12 + tz - (lng / 15) - (eqtime / 60);
+
+            function getHourAngle(angleDeg) {
+                const altRad = -angleDeg * degToRad;
+                const cosHA = (Math.sin(altRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl));
+                if (cosHA > 1 || cosHA < -1) return 0;
+                return radToDeg * Math.acos(cosHA) / 15;
+            }
+
+            const asrAlt = Math.atan(1 / (1 + Math.tan(Math.abs(latRad - decl)))) * radToDeg;
+            const asrHA = radToDeg * Math.acos(Math.max(-1, Math.min(1, (Math.sin(asrAlt * degToRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl))))) / 15;
+            const fajrHA = getHourAngle(19.5); const ishaHA = getHourAngle(17.5);
+
+            function toDateObj(hoursDecimal) {
+                const d = new Date(date); let h = Math.floor(hoursDecimal); let m = Math.round((hoursDecimal - h) * 60);
+                if (m >= 60) { h += 1; m = 0; } d.setHours(h, m, 0, 0); return d;
+            }
+
+            return [
+                { name: 'صلاة الفجر', targetDate: toDateObj(noon - fajrHA) },
+                { name: 'صلاة الظهر', targetDate: toDateObj(noon + (1.5/60)) },
+                { name: 'صلاة العصر', targetDate: toDateObj(noon + asrHA) },
+                { name: 'صلاة المغرب', targetDate: toDateObj(noon + getHourAngle(0.833) + (1.5/60)) },
+                { name: 'صلاة العشاء', targetDate: toDateObj(noon + ishaHA) }
+            ];
+        }
+
+        function loadAccuratePrayers() {
+            const prayers = calculatePalestinePrayerTimes(new Date());
+            livePrayersList = prayers.map((p, idx) => ({
+                id: `prayer_${idx}`, title: `🕌 ${p.name}`, targetTime: p.targetDate.getTime(), isPrayer: true
+            }));
+            renderPrayersAndAlarmsCombined();
+            renderPrayersAndReminders();
+        }
+
+        async function syncFeeds() {
+            const rates = (db.cachedFeeds && db.cachedFeeds.rates) ? db.cachedFeeds.rates : { USD: "3.65", JOD: "5.15", EUR: "3.95" };
+            const usd = document.getElementById('textUSD');
+            const jod = document.getElementById('textJOD');
+            const eur = document.getElementById('textEUR');
+            if (usd) usd.innerText = rates.USD;
+            if (jod) jod.innerText = rates.JOD;
+            if (eur) eur.innerText = rates.EUR;
+
+            if (!navigator.onLine) return;
+
+            const now = Date.now();
+            // جلب توقعات 5 أيام مع الساعات
+            if (now - (db.cachedFeeds.weatherLastFetch || 0) > 3600000 || !db.cachedFeeds.weatherHourly) {
+                try {
+                    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&hourly=temperature_2m,weather_code&forecast_days=5&timezone=auto');
+                    const data = await res.json();
+                    if (data && data.hourly) {
+                        db.cachedFeeds.weatherHourly = data.hourly;
+                        db.cachedFeeds.weatherLastFetch = now;
+                        finalizeAction();
+                        renderWeather5DaysUI();
+                        if (data.hourly.temperature_2m && data.hourly.temperature_2m[0]) {
+                            document.getElementById('textWeather').innerText = `${Math.round(data.hourly.temperature_2m[0])}°C ⛅`;
+                        }
+                    }
+                } catch(e) {}
+            }
+
+            // جلب أسعار العملات
+            if (now - (db.cachedFeeds.ratesLastFetch || 0) > 86400000) {
+                try {
+                    const res = await fetch('https://open.er-api.com/v6/latest/ILS');
+                    const data = await res.json();
+                    if (data && data.rates) {
+                        db.cachedFeeds.rates = {
+                            USD: (1 / data.rates.USD).toFixed(2),
+                            JOD: (1 / data.rates.JOD).toFixed(2),
+                            EUR: (1 / data.rates.EUR).toFixed(2),
+                            ILS: "1.00"
+                        };
+                        db.cachedFeeds.ratesLastFetch = now;
+                        finalizeAction();
+                        if (usd) usd.innerText = db.cachedFeeds.rates.USD;
+                        if (jod) jod.innerText = db.cachedFeeds.rates.JOD;
+                        if (eur) eur.innerText = db.cachedFeeds.rates.EUR;
+                        calculateCurrencyConversion();
+                    }
+                } catch(e) {}
+            }
+        }
+
+        window.addEventListener('online', () => {
+            syncFeeds();
+            saveToCloud();
+            if (currentUser && db.settings.displayName) {
+                currentUser.updateProfile({ displayName: db.settings.displayName }).catch(() => {});
+            }
+        });
+
+        // =========================================================================
+        // --- 9. الإقلاع الفوري للنسخة الشاملة ---
         // =========================================================================
         applyThemeUI();
         initNativeNotifications();
