@@ -18,7 +18,7 @@
 
     <style>
         /* =========================================================
-           💎 نظام الهوية والتصميم النظيف المستقر
+           💎 ثيمات الألوان والواجهة التنفيذية المستقرة
            ========================================================= */
         body[data-theme="sapphire"] {
             --bg-canvas: #0B1120;
@@ -108,12 +108,12 @@
         }
 
         :root {
-            --radius-card: 20px;
-            --radius-input: 12px;
+            --radius-card: 22px;
+            --radius-input: 14px;
             --radius-pill: 9999px;
             --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             --dock-height: 60px;
-            --shadow-subtle: 0 8px 25px -5px rgba(0, 0, 0, 0.25);
+            --shadow-subtle: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
         }
 
         * {
@@ -265,7 +265,7 @@
         .section-view.active { display: block; animation: viewFade 0.22s ease; }
         @keyframes viewFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* العداد التنازلي الشفاف تماماً */
+        /* العداد الشفاف تماماً */
         svg circle { fill: transparent !important; }
         .circular-timer-wrapper {
             display: flex;
@@ -470,7 +470,7 @@
             box-shadow: var(--shadow-subtle);
         }
 
-        /* 🚀 الشريط السفلي الجديد: من أقصى اليمين لأقصى الشمال بدون انحناءات ومصقول */
+        /* 🚀 الشريط السفلي الجديد: ممتد من أقصى اليمين لأقصى الشمال وبدون أي انحناءات */
         .bottom-edge-dock {
             position: fixed;
             bottom: 0;
@@ -480,17 +480,19 @@
             border-top: 1px solid var(--border-subtle);
             padding: 10px 4px max(10px, env(safe-area-inset-bottom, 10px)) 4px;
             display: flex;
-            gap: 6px;
+            gap: 4px;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
             z-index: 1000;
             scrollbar-width: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
         }
         .dock-edge-item {
             background: transparent;
             border: 1px solid transparent;
-            border-radius: 10px;
+            border-radius: 8px;
             padding: 8px 12px;
             font-size: 12px;
             font-weight: 700;
@@ -991,7 +993,7 @@
 
     </div>
 
-    <!-- 🚀 الشريط السفلي الجديد: من أقصى اليمين لأقصى الشمال بدون انحناءات -->
+    <!-- 🚀 الشريط السفلي الجديد: ممتد من أقصى اليمين لأقصى الشمال بدون أي انحناءات -->
     <div class="bottom-edge-dock" id="bottomDock">
         <button class="dock-edge-item active" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
         <button class="dock-edge-item" onclick="switchNavSection('islamiyat-view', this)">🕌 إسلاميات</button>
@@ -1267,7 +1269,6 @@
             finalizeAction();
         }
 
-        // الأذكار الدورية والتنبيه
         function playZenHarmonicChime() {
             try {
                 const ctx = getAudioContext();
@@ -2334,8 +2335,10 @@
             const doneTodosCount = todosToday.filter(t => t.done).length;
             const totalTodos = todosToday.length;
             const percentage = totalTodos > 0 ? Math.round((doneTodosCount / totalTodos) * 100) : 0;
-            document.getElementById('dailyProgressFill').style.width = `${percentage}%`;
-            document.getElementById('dailyProgressText').innerText = `${percentage}%`;
+            const fillEl = document.getElementById('dailyProgressFill');
+            const textEl = document.getElementById('dailyProgressText');
+            if (fillEl) fillEl.style.width = `${percentage}%`;
+            if (textEl) textEl.innerText = `${percentage}%`;
 
             const todosAllEl = document.getElementById('todosAllList');
             if (todosAllEl) {
@@ -2579,9 +2582,6 @@
             if (changed) finalizeAction();
         }, 1000);
 
-        // =========================================================================
-        // --- 10. حساب مواقيت الصلاة والطقس والعملات ---
-        // =========================================================================
         function calculatePalestinePrayerTimes(date = new Date()) {
             const lat = 32.4646; const lng = 35.2939; const tz = -date.getTimezoneOffset() / 60;
             const start = new Date(date.getFullYear(), 0, 0);
@@ -2685,9 +2685,6 @@
             }
         });
 
-        // =========================================================================
-        // --- 11. الإقلاع الفوري المستقر للنظام ---
-        // =========================================================================
         applyThemeUI();
         initNativeNotifications();
         setupBackButtonListener();
