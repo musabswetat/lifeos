@@ -226,6 +226,7 @@
         .habits-strip {
             display: flex; gap: 8px; overflow-x: auto; padding: 6px 2px 12px 2px;
             margin-bottom: 6px; -webkit-overflow-scrolling: touch;
+            touch-action: pan-x;
         }
         .habit-chip {
             background: var(--surface-panel); border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
@@ -481,7 +482,7 @@
             box-shadow: var(--shadow-subtle);
         }
 
-        /* الدوك السفلي العائم المصقول */
+        /* الدوك السفلي العائم المصقول مع دعم السحب */
         .bottom-floating-dock {
             position: fixed;
             bottom: max(12px, env(safe-area-inset-bottom, 12px));
@@ -500,6 +501,12 @@
             box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
             z-index: 1000;
             scrollbar-width: none;
+            touch-action: pan-x;
+            cursor: grab;
+            user-select: none;
+        }
+        .bottom-floating-dock:active {
+            cursor: grabbing;
         }
         .dock-capsule-item {
             background: transparent;
@@ -515,6 +522,7 @@
             gap: 6px;
             white-space: nowrap;
             transition: all 0.15s ease;
+            flex-shrink: 0;
         }
         .dock-capsule-item:active { transform: scale(0.95); }
         .dock-capsule-item.active {
@@ -539,8 +547,8 @@
         .calendar-day-cell.today { background: var(--accent-primary); color: #FFFFFF; }
         .calendar-day-cell.has-event { border-color: var(--accent-green); }
 
-        .weather-hourly-strip { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-top: 10px; }
-        .weather-hour-card { background: var(--surface-inner); border-radius: var(--radius-input); padding: 10px 12px; min-width: 75px; text-align: center; font-size: 12px; border: 1px solid var(--border-subtle); }
+        .weather-hourly-strip { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-top: 10px; touch-action: pan-x; }
+        .weather-hour-card { background: var(--surface-inner); border-radius: var(--radius-input); padding: 10px 12px; min-width: 75px; text-align: center; font-size: 12px; border: 1px solid var(--border-subtle); flex-shrink: 0; }
 
         .tasbeeh-touch-surface { background: var(--surface-inner); border-radius: var(--radius-card); border: 2px dashed var(--accent-green); padding: 40px 20px; text-align: center; cursor: pointer; user-select: none; margin-top: 14px; }
         .tasbeeh-touch-surface:active { transform: scale(0.98); }
@@ -574,8 +582,8 @@
         .dashboard-task-check { width:22px; height:22px; flex:0 0 22px; accent-color:var(--accent-primary); }
         .dashboard-task-text { flex:1; min-width:0; font-size:13px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
         .dashboard-task-delete { border:0; background:transparent; color:var(--accent-red); font-size:16px; cursor:pointer; padding:4px; }
-        .top-info-links { display:flex; gap:7px; margin-top:10px; overflow-x:auto; padding-bottom:2px; }
-        .top-info-link { flex:1; min-width:105px; border:1px solid var(--border-subtle); background:var(--surface-panel); color:var(--text-primary); border-radius:16px; padding:10px 9px; text-align:right; cursor:pointer; }
+        .top-info-links { display:flex; gap:7px; margin-top:10px; overflow-x:auto; padding-bottom:2px; touch-action: pan-x; }
+        .top-info-link { flex:1; min-width:105px; border:1px solid var(--border-subtle); background:var(--surface-panel); color:var(--text-primary); border-radius:16px; padding:10px 9px; text-align:right; cursor:pointer; flex-shrink: 0; }
         .top-info-link strong { display:block; color:var(--accent-primary); font-size:13px; }
         .top-info-link span { display:block; color:var(--text-secondary); font-size:11px; margin-top:3px; }
         @media (max-width:420px) { .dashboard-task-form { flex-direction:column; } .dashboard-task-form .btn-action { width:100% !important; } }
@@ -611,9 +619,7 @@ body{background:var(--bg-canvas);}
 .dashboard-task-item{padding:10px 0;}
 .dashboard-task-text{font-size:13px;}
 .dock-capsule{box-shadow:0 5px 20px rgba(15,23,42,.12) !important;}
-/* منع السحب الأفقي بين الأقسام */
-html,body,.app-container,.section-view{overscroll-behavior-x:none;}
-/* ترتيب الحاسبة كما في الحاسبات المعتادة: 7 8 9 / 4 5 6 / 1 2 3 */
+/* ترتيب الحاسبة كما في الحاسبات المعتادة */
 .google-calc-grid{direction:ltr !important;unicode-bidi:isolate !important;}
 .g-calc-btn{direction:ltr !important;unicode-bidi:isolate !important;}
 .calc-screen-wrapper,.calc-expression-line,.calc-main-line{direction:ltr !important;unicode-bidi:plaintext !important;}
@@ -696,21 +702,6 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
                 <span style="font-size:12px; font-weight:800; color:var(--accent-green);" id="dailyProgressText">0%</span>
             </div>
 
-            <div class="oneui-card dashboard-tasks-card">
-                <div class="dashboard-tasks-head">
-                    <div>
-                        <div class="dashboard-tasks-title">مهام اليوم</div>
-                        <div class="dashboard-tasks-subtitle" id="dashTasksSubtitle">ابدأ بأهم مهمة الآن</div>
-                    </div>
-                    <button class="tag-badge" onclick="switchNavSection('todos-view')">كل المهام</button>
-                </div>
-                <form class="dashboard-task-form" onsubmit="handleDashboardTodo(event)">
-                    <input id="dashboardTodoInput" class="app-input" type="text" placeholder="ما المهمة التالية؟" required>
-                    <button class="btn-action" type="submit" style="width:auto; padding:11px 16px;">إضافة</button>
-                </form>
-                <div id="dashboardTasksList"></div>
-            </div>
-
             <!-- شريط الأنشطة والتركيز السريع في الرئيسية -->
             <div class="habits-strip" id="dashHabitsStrip">
                 <div class="habit-chip primary-highlight" onclick="switchNavSection('adhkar-view')">🤲 الأذكار</div>
@@ -721,6 +712,7 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
                 <div class="habit-chip" onclick="toggleWaterHabit()">💧 شرب ماء</div>
             </div>
 
+            <!-- قسم التنبيهات المباشرة والمؤقت -->
             <div class="section-label">التنبيهات المباشرة والمؤقت</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
@@ -750,6 +742,22 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
                 </div>
 
                 <div id="dashRemindersPreview"></div>
+            </div>
+
+            <!-- قائمة المهام (تم نقلها لتكون أسفل التنبيهات) -->
+            <div class="oneui-card dashboard-tasks-card">
+                <div class="dashboard-tasks-head">
+                    <div>
+                        <div class="dashboard-tasks-title">مهام اليوم</div>
+                        <div class="dashboard-tasks-subtitle" id="dashTasksSubtitle">ابدأ بأهم مهمة الآن</div>
+                    </div>
+                    <button class="tag-badge" onclick="switchNavSection('todos-view')">كل المهام</button>
+                </div>
+                <form class="dashboard-task-form" onsubmit="handleDashboardTodo(event)">
+                    <input id="dashboardTodoInput" class="app-input" type="text" placeholder="ما المهمة التالية؟" required>
+                    <button class="btn-action" type="submit" style="width:auto; padding:11px 16px;">إضافة</button>
+                </form>
+                <div id="dashboardTasksList"></div>
             </div>
         </div>
 
@@ -1095,7 +1103,7 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
     </div>
 
     <!-- =========================================================
-       🚀 الدوك السفلي العائم العصري (Modern Floating Dock)
+       🚀 الدوك السفلي العائم العصري (يدعم السحب والتمرير السلس)
        ========================================================= -->
     <div class="bottom-floating-dock" id="bottomDock">
         <button class="dock-capsule-item active" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
@@ -1327,15 +1335,10 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
             }
         }
 
-        // تلوين شريط الإشعارات ليتطابق مع لون الخلفية
-        // darkIcons = true للأيقونات السوداء في الوضع الفاتح
-        // darkIcons = false للأيقونات البيضاء في الوضع الداكن
         async function updateNativeStatusBar(colorHex, isDarkIcons) {
             const meta = document.getElementById('themeColorMeta');
             if (meta) meta.setAttribute('content', colorHex);
 
-            // نستخدم البلاغن المخصص فقط حتى لا تعيد إضافة StatusBar
-            // ضبط لون الأيقونات وتلغي إعداد MainActivity.java.
             try {
                 if (
                     window.Capacitor &&
@@ -1384,7 +1387,6 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
             const selector = document.getElementById('themeSelector');
             if (selector) selector.value = masterTheme;
 
-            // ضبط عناصر إعدادات التذكير الدوري
             const reminderToggle = document.getElementById('dhikrReminderToggle');
             const reminderInterval = document.getElementById('dhikrReminderInterval');
             if (reminderToggle) reminderToggle.checked = !!db.settings.dhikrReminder;
@@ -1411,7 +1413,6 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
             try {
                 const ctx = getAudioContext();
                 const now = ctx.currentTime;
-                // توليد نغمة غونغ هادئة روحانية مكونة من ثلاث طبقات متناغمة
                 const frequencies = [528, 660, 792];
                 frequencies.forEach((freq, idx) => {
                     const osc = ctx.createOscillator();
@@ -1765,7 +1766,7 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
             }
 
             dayTodos.forEach(t => {
-                html += `<div class="list-row"><div><span class="tag-badge" style="margin-left:6px;">مهمة</span>${t.text}</div><span>${t.done ? '✅' : '⏳'}</span></div>`;
+                html += `<div class="list-row"><div><span class="tag-badge" style="margin-left:6px;">مهمة</span>${t.text || t.title}</div><span>${t.done ? '✅' : '⏳'}</span></div>`;
             });
             dayExpenses.forEach(e => {
                 html += `<div class="list-row"><div><span class="tag-badge" style="margin-left:6px; color:var(--accent-red);">صرف</span>${e.desc}</div><strong style="color:var(--accent-red);">${e.amount} ₪</strong></div>`;
@@ -2267,7 +2268,7 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
         }
 
         // =========================================================================
-        // --- 8. التنقل بالسحب والدوك وزر الرجوع الشامل بدون أي رسالة مزعجة ---
+        // --- 8. التنقل بالسحب والدوك وزر الرجوع الشامل ---
         // =========================================================================
         function switchNavSection(viewId, btnEl, addToHistory = true) {
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
@@ -2276,7 +2277,6 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
             const target = document.getElementById(viewId);
             if (target) target.classList.add('active');
 
-            // تلوين الكبسولة النشطة في الدوك السفلي والتمرير إليها
             const dockButtons = document.querySelectorAll('.dock-capsule-item');
             dockButtons.forEach(c => {
                 if (c.getAttribute('onclick') && c.getAttribute('onclick').includes(viewId)) {
@@ -2303,9 +2303,6 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
             updateUI();
         }
 
-        // تم إلغاء السحب بين الأقسام عمدًا؛ التنقل يتم من الأزرار والترويسة فقط.
-
-        // معالجة زر الرجوع المركزية خطوة بخطوة وبدون رسالة نصية مزعجة
         window.handleSystemBackButton = function() {
             const modals = ['activeAlarmModal', 'timerManageModal', 'postRecordingModal', 'authModal', 'actionModal', 'voiceModal', 'dhikrChimeModal'];
             for (const m of modals) {
@@ -2325,7 +2322,6 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
                 return true;
             }
 
-            // في الرئيسية: السماح بالخروج مباشرة من التطبيق.
             return false;
         };
 
@@ -2450,7 +2446,7 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
             if (!textEl || !textEl.value.trim()) return alert('اكتب نص المهمة');
             const text = textEl.value.trim();
             closeModalAction();
-            db.todos.push({ id: Date.now(), text: text, done: false, date: todayStr });
+            db.todos.push({ id: Date.now(), text: text, title: text, done: false, date: todayStr });
             finalizeAction();
         }
 
@@ -2558,7 +2554,8 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
             e.preventDefault();
             const input = document.getElementById('todoInputTab');
             if (!input || !input.value.trim()) return;
-            db.todos.push({ id: Date.now(), text: input.value.trim(), done: false, date: todayStr });
+            const text = input.value.trim();
+            db.todos.push({ id: Date.now(), text: text, title: text, done: false, date: todayStr });
             input.value = '';
             finalizeAction();
         }
@@ -2612,7 +2609,7 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
             const input = document.getElementById('dashboardTodoInput');
             const title = input ? input.value.trim() : '';
             if (!title) return;
-            db.todos.push({ id: Date.now(), title, date: todayStr, done: false, createdAt: Date.now() });
+            db.todos.push({ id: Date.now(), title, text: title, date: todayStr, done: false, createdAt: Date.now() });
             input.value = '';
             finalizeAction();
         }
@@ -2627,7 +2624,7 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
             container.innerHTML = tasks.length ? tasks.map(t => `
                 <div class="dashboard-task-item ${t.done ? 'done' : ''}">
                     <input class="dashboard-task-check" type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodo(${t.id})">
-                    <span class="dashboard-task-text">${escapeHTML(t.title || 'مهمة بلا عنوان')}</span>
+                    <span class="dashboard-task-text">${escapeHTML(t.title || t.text || 'مهمة بلا عنوان')}</span>
                     <button class="dashboard-task-delete" onclick="deleteTodo(${t.id})" title="حذف">×</button>
                 </div>
             `).join('') : '<div style="text-align:center;color:var(--text-secondary);font-size:13px;padding:12px 0;">أضف أول مهمة ليومك</div>';
@@ -2667,7 +2664,6 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
             const dashTodoCount = document.getElementById('dashTodoCount');
             if (dashTodoCount) dashTodoCount.innerText = `${todosToday.length} مهام معلقة`;
             
-            // تحديث مؤشر إنجاز اليوم
             const doneTodosCount = todosToday.filter(t => t.done).length;
             const totalTodos = todosToday.length;
             const percentage = totalTodos > 0 ? Math.round((doneTodosCount / totalTodos) * 100) : 0;
@@ -2680,7 +2676,7 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
                     <div class="list-row">
                         <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
                             <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--accent-primary); width:18px; height:18px;">
-                            <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text}</span>
+                            <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text || t.title}</span>
                         </label>
                         <button onclick="confirmDeleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
                     </div>
@@ -3039,32 +3035,60 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
 (function(){
   'use strict';
 
-  /* لا تسمح بالسحب الأفقي لتبديل الأقسام */
-  let startX=0,startY=0;
-  document.addEventListener('touchstart',function(e){
-    if(!e.touches || e.touches.length!==1) return;
-    startX=e.touches[0].clientX;
-    startY=e.touches[0].clientY;
-  },{passive:true});
-  document.addEventListener('touchmove',function(e){
-    if(!e.touches || e.touches.length!==1) return;
-    const dx=e.touches[0].clientX-startX;
-    const dy=e.touches[0].clientY-startY;
-    if(Math.abs(dx)>Math.abs(dy) && Math.abs(dx)>12){
+  /* السماح بالسحب الأفقي داخل القوائم الأفقية فقط (مثل الدوك السفلي والشريط السريع) */
+  let startX=0, startY=0;
+  document.addEventListener('touchstart', function(e){
+    if(!e.touches || e.touches.length !== 1) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, {passive:true});
+
+  document.addEventListener('touchmove', function(e){
+    if(!e.touches || e.touches.length !== 1) return;
+    
+    // إذا كان التمرير داخل شريط قابل للتمرير الأفقي، لا نمنعه أبداً
+    if(e.target.closest('.bottom-floating-dock, .habits-strip, .weather-hourly-strip, .top-info-links')) {
+      return;
+    }
+
+    const dx = e.touches[0].clientX - startX;
+    const dy = e.touches[0].clientY - startY;
+    if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 12){
       e.preventDefault();
     }
-  },{passive:false});
+  }, {passive:false});
+
+  /* دعم سحب الدوك السفلي بالفأرة واللمس بسلاسة */
+  const dock = document.getElementById('bottomDock');
+  if (dock) {
+    let isDown = false;
+    let startXPos, scrollLeft;
+    dock.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startXPos = e.pageX - dock.offsetLeft;
+      scrollLeft = dock.scrollLeft;
+    });
+    dock.addEventListener('mouseleave', () => { isDown = false; });
+    dock.addEventListener('mouseup', () => { isDown = false; });
+    dock.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - dock.offsetLeft;
+      const walk = (x - startXPos) * 1.5;
+      dock.scrollLeft = scrollLeft - walk;
+    });
+  }
 
   /* زر الرجوع: خروج من التطبيق بدل الرجوع إلى قسم سابق */
-  window.handleSystemBackButton=function(){
+  window.handleSystemBackButton = function(){
     return false;
   };
-  window.setupBackButtonListener=function(){
+  window.setupBackButtonListener = function(){
     try{
-      const App=window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+      const App = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
       if(!App) return;
       App.removeAllListeners('backButton').catch(function(){}).then(function(){
-        App.addListener('backButton',function(){
+        App.addListener('backButton', function(){
           try{ App.exitApp(); }catch(e){ console.log(e); }
         });
       });
@@ -3073,26 +3097,26 @@ html,body,.app-container,.section-view{overscroll-behavior-x:none;}
 
   /* فرض ترتيب أزرار الحاسبة حتى لا يتأثر باتجاه العربية */
   function fixCalculator(){
-    const grid=document.querySelector('.google-calc-grid');
+    const grid = document.querySelector('.google-calc-grid');
     if(!grid) return;
-    grid.style.direction='ltr';
+    grid.style.direction = 'ltr';
     Array.from(grid.children).forEach(function(btn){
-      btn.style.direction='ltr';
-      btn.style.unicodeBidi='isolate';
+      btn.style.direction = 'ltr';
+      btn.style.unicodeBidi = 'isolate';
     });
   }
   fixCalculator();
-  setTimeout(fixCalculator,300);
-  setTimeout(fixCalculator,1000);
+  setTimeout(fixCalculator, 300);
+  setTimeout(fixCalculator, 1000);
 
   /* تحسين الترويسة: الضغط على السطرين يفتح القسم مباشرة */
-  const weatherLine=document.querySelector('.oneui-sub-text');
-  const currencyLine=document.querySelector('.oneui-currency-line');
+  const weatherLine = document.querySelector('.oneui-sub-text');
+  const currencyLine = document.querySelector('.oneui-currency-line');
   if(weatherLine){weatherLine.setAttribute('role','button');weatherLine.setAttribute('aria-label','فتح الطقس');}
   if(currencyLine){currencyLine.setAttribute('role','button');currencyLine.setAttribute('aria-label','فتح العملات');}
 
   /* إعادة ضبط زر الرجوع بعد تحميل التطبيق */
-  setTimeout(function(){ if(typeof window.setupBackButtonListener==='function') window.setupBackButtonListener(); },1200);
+  setTimeout(function(){ if(typeof window.setupBackButtonListener === 'function') window.setupBackButtonListener(); }, 1200);
 })();
 </script>
 
