@@ -3,11 +3,15 @@ package com.mosaab.lifeos;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -22,7 +26,6 @@ public class MainActivity extends BridgeActivity {
         super.onCreate(savedInstanceState);
     }
 
-    // تسليم السيطرة على زر الرجوع الفيزيائي لجافاسكريبت لمنع إغلاق التطبيق فجأة
     @Override
     public void onBackPressed() {
         if (this.bridge != null && this.bridge.getWebView() != null) {
@@ -35,6 +38,34 @@ public class MainActivity extends BridgeActivity {
 
 @CapacitorPlugin(name = "AlarmOptimizer")
 class AlarmOptimizerPlugin extends Plugin {
+
+    // تلوين شريط الإشعارات ديناميكياً ليطابق خلفية التطبيق 100%
+    @PluginMethod
+    public void setStatusBar(PluginCall call) {
+        String colorHex = call.getString("color", "#0B1120");
+        boolean darkIcons = Boolean.TRUE.equals(call.getBoolean("darkIcons", false));
+
+        getActivity().runOnUiThread(() -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getActivity().getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                window.setStatusBarColor(Color.parseColor(colorHex));
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    View decor = window.getDecorView();
+                    int flags = decor.getSystemUiVisibility();
+                    if (darkIcons) {
+                        flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR; // أيقونات داكنة للوضع النهاري
+                    } else {
+                        flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR; // أيقونات بيضاء للوضع الليلي
+                    }
+                    decor.setSystemUiVisibility(flags);
+                }
+            }
+        });
+        call.resolve();
+    }
 
     @PluginMethod
     public void checkStatus(PluginCall call) {
