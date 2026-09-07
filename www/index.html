@@ -18,8 +18,10 @@
 
     <style>
         /* =========================================================
-           💎 الهوية والأنماط التنفيذية المتكاملة
+           💎 أفضل 3 ثيمات احترافية متكاملة
            ========================================================= */
+        
+        /* 1. ثيم أزرق الياقوت الملكي (Sapphire Executive) - الافتراضي */
         body[data-theme="sapphire"] {
             --bg-canvas: #0B1120;
             --surface-panel: #131D31;
@@ -49,6 +51,7 @@
             --accent-glow: rgba(2, 132, 199, 0.15);
         }
 
+        /* 2. ثيم زمرد الواحة (Emerald Oasis) */
         body[data-theme="emerald"] {
             --bg-canvas: #04140E;
             --surface-panel: #0A2219;
@@ -78,6 +81,7 @@
             --accent-glow: rgba(5, 150, 105, 0.15);
         }
 
+        /* 3. ثيم الكهرمان الفاخر (Amber Luxe) */
         body[data-theme="amber"] {
             --bg-canvas: #120D08;
             --surface-panel: #1D150D;
@@ -112,6 +116,7 @@
             --radius-input: 14px;
             --radius-pill: 9999px;
             --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --dock-height: 64px;
             --shadow-subtle: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
         }
 
@@ -144,11 +149,10 @@
             padding-top: max(16px, env(safe-area-inset-top, 16px));
             padding-right: 18px;
             padding-left: 18px;
-            padding-bottom: max(32px, env(safe-area-inset-bottom, 32px));
+            padding-bottom: calc(var(--dock-height) + max(28px, env(safe-area-inset-bottom, 28px)));
             box-sizing: border-box;
         }
 
-        /* شريط علوي أنيق */
         .oneui-top-bar {
             display: flex;
             align-items: center;
@@ -206,39 +210,7 @@
             box-shadow: var(--shadow-subtle);
         }
 
-        /* درج الكبسولات في الأعلى بالترتيب المطلوب بدقة */
-        .apps-horizontal-dock {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding: 8px 2px 14px 2px;
-            margin-bottom: 4px;
-            -webkit-overflow-scrolling: touch;
-        }
-        .app-dock-chip {
-            background: var(--surface-panel);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-pill);
-            padding: 8px 16px;
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-            transition: all 0.15s ease;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-        }
-        .app-dock-chip:active { transform: scale(0.95); }
-        .app-dock-chip.highlight {
-            background: var(--accent-primary);
-            border-color: var(--accent-primary);
-            color: #FFFFFF;
-        }
-
-        .oneui-header-area { padding: 4px 2px 12px 2px; }
+        .oneui-header-area { padding: 4px 2px 14px 2px; }
         .oneui-title-hero-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
         .oneui-title-hero { font-size: 32px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0; }
         .edit-name-icon-btn {
@@ -276,90 +248,277 @@
         }
 
         .section-label {
-            font-size: 12px; font-weight: 800; color: var(--text-tertiary);
-            margin: 18px 4px 8px 4px; text-transform: uppercase; letter-spacing: 0.04em;
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-tertiary);
+            margin: 18px 4px 8px 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
         .oneui-card {
-            background: var(--surface-panel); border-radius: var(--radius-card); border: 1px solid var(--border-subtle);
-            padding: 18px 20px; margin-bottom: 14px; box-shadow: var(--shadow-subtle); transition: transform 0.2s ease;
+            background: var(--surface-panel);
+            border-radius: var(--radius-card);
+            border: 1px solid var(--border-subtle);
+            padding: 18px 20px;
+            margin-bottom: 14px;
+            box-shadow: var(--shadow-subtle);
+            transition: transform 0.2s ease;
         }
 
         .section-view { display: none; }
         .section-view.active { display: block; animation: viewFade 0.22s ease; }
         @keyframes viewFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* العداد الشفاف تماماً */
+        /* العداد التنازلي الشفاف */
         svg circle { fill: transparent !important; }
         .circular-timer-wrapper {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 14px 0 6px 0; cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 0 6px 0;
+            cursor: pointer;
         }
         .circular-timer-box {
-            position: relative; width: 180px; height: 180px; display: flex; align-items: center;
-            justify-content: center; transition: transform 0.15s ease;
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.15s ease;
         }
         .circular-timer-box:active { transform: scale(0.96); }
-        .timer-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
-        .timer-bg-circle { stroke: var(--surface-inner) !important; stroke-width: 8; fill: transparent !important; }
-        .timer-progress-circle {
-            stroke: var(--accent-primary) !important; stroke-width: 8; stroke-linecap: round;
-            stroke-dasharray: 477.5; stroke-dashoffset: 0; transition: stroke-dashoffset 0.5s linear; fill: transparent !important;
+        .timer-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
         }
-        .timer-text-content { position: relative; text-align: center; z-index: 2; width: 100%; }
-        .timer-time-large { font-size: 28px; font-weight: 800; color: var(--text-primary); font-family: monospace; letter-spacing: -0.02em; }
+        .timer-bg-circle {
+            stroke: var(--surface-inner) !important;
+            stroke-width: 8;
+            fill: transparent !important;
+        }
+        .timer-progress-circle {
+            stroke: var(--accent-primary) !important;
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 477.5;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 0.5s linear;
+            fill: transparent !important;
+        }
+        .timer-text-content {
+            position: relative;
+            text-align: center;
+            z-index: 2;
+            width: 100%;
+        }
+        .timer-time-large {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--text-primary);
+            font-family: monospace;
+            letter-spacing: -0.02em;
+        }
         .timer-label-sub {
-            font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-top: 4px;
-            max-width: 130px; margin-left: auto; margin-right: auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-top: 4px;
+            max-width: 130px;
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         /* الحاسبة */
-        .google-calc-box { background: var(--surface-panel); border-radius: var(--radius-card); padding: 18px 16px 14px 16px; border: 1px solid var(--border-subtle); box-shadow: var(--shadow-subtle); }
-        .calc-screen-wrapper { display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; min-height: 85px; padding: 4px 10px 14px 10px; margin-bottom: 12px; border-bottom: 1px solid var(--border-subtle); }
-        .calc-expression-line { font-size: 16px; color: var(--text-secondary); min-height: 24px; font-family: monospace; direction: ltr; text-align: right; }
-        .calc-main-line { font-size: 40px; font-weight: 800; color: var(--text-primary); font-family: monospace; line-height: 1.2; direction: ltr; text-align: right; word-break: break-all; }
-        .google-calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .google-calc-box {
+            background: var(--surface-panel);
+            border-radius: var(--radius-card);
+            padding: 18px 16px 14px 16px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-subtle);
+        }
+        .calc-screen-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+            min-height: 85px;
+            padding: 4px 10px 14px 10px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .calc-expression-line {
+            font-size: 16px;
+            color: var(--text-secondary);
+            min-height: 24px;
+            font-family: monospace;
+            direction: ltr;
+            text-align: right;
+        }
+        .calc-main-line {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--text-primary);
+            font-family: monospace;
+            line-height: 1.2;
+            direction: ltr;
+            text-align: right;
+            word-break: break-all;
+        }
+        .google-calc-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
         .g-calc-btn {
-            background: var(--surface-inner); border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
-            height: 60px; font-size: 21px; font-weight: 700; color: var(--text-primary); cursor: pointer;
-            display: flex; align-items: center; justify-content: center; user-select: none; transition: background 0.1s ease;
+            background: var(--surface-inner);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-pill);
+            height: 60px;
+            font-size: 21px;
+            font-weight: 700;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            transition: background 0.1s ease, transform 0.08s ease;
         }
         .g-calc-btn:active { background: var(--surface-active); transform: scale(0.94); }
         .g-calc-btn.operator { background: var(--surface-elevated); color: var(--accent-primary); font-size: 22px; }
         .g-calc-btn.equals { background: var(--accent-primary); color: #FFFFFF; border: none; font-size: 24px; }
         .g-calc-btn.special { color: var(--accent-red); font-size: 18px; }
 
-        .list-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 0; border-bottom: 1px solid var(--border-subtle); font-size: 14px; gap: 10px; }
+        .list-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 0;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 14px;
+            gap: 10px;
+        }
         .list-row:last-child { border-bottom: none; }
+
         .tag-badge {
-            display: inline-flex; align-items: center; padding: 6px 13px; border-radius: var(--radius-pill);
-            font-size: 12px; font-weight: 700; background: var(--surface-inner); color: var(--accent-primary);
-            border: 1px solid var(--border-subtle); cursor: pointer; transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 13px;
+            border-radius: var(--radius-pill);
+            font-size: 12px;
+            font-weight: 700;
+            background: var(--surface-inner);
+            color: var(--accent-primary);
+            border: 1px solid var(--border-subtle);
+            cursor: pointer;
+            transition: all 0.15s ease;
         }
         .tag-badge:active { transform: scale(0.96); }
         .tag-badge.green { color: var(--accent-green); }
 
         .app-input {
-            padding: 13px 15px; background: var(--surface-inner) !important; border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-input); color: var(--text-primary) !important; font-size: 14px; font-weight: 600;
-            outline: none; width: 100%; box-sizing: border-box; margin-bottom: 10px;
+            padding: 13px 15px;
+            background: var(--surface-inner) !important;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-input);
+            color: var(--text-primary) !important;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
         }
         .btn-action {
-            background: var(--accent-primary); color: #FFFFFF; border: none; padding: 14px 18px;
-            border-radius: var(--radius-input); font-size: 14px; font-weight: 700; cursor: pointer; width: 100%;
+            background: var(--accent-primary);
+            color: #FFFFFF;
+            border: none;
+            padding: 14px 18px;
+            border-radius: var(--radius-input);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
             transition: transform 0.15s ease;
         }
         .btn-action:active { transform: scale(0.98); opacity: 0.9; }
 
         .modal-overlay {
-            display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px);
-            z-index: 99999; align-items: center; justify-content: center; padding: 20px;
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
         .modal-overlay.active { display: flex !important; }
         .modal-box {
-            background: var(--surface-panel); border: 1px solid var(--border-subtle); border-radius: var(--radius-card);
-            padding: 24px; width: 100%; max-width: 380px; box-shadow: var(--shadow-subtle);
+            background: var(--surface-panel);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-card);
+            padding: 24px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: var(--shadow-subtle);
         }
 
+        /* 🚀 الدوك السفلي العائم الفاخر بمعمارية الأولوية المطلوبة */
+        .bottom-floating-dock {
+            position: fixed;
+            bottom: max(12px, env(safe-area-inset-bottom, 12px));
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 24px);
+            max-width: 580px;
+            background: var(--surface-panel);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 8px 10px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            scrollbar-width: none;
+        }
+        .dock-capsule-item {
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            padding: 8px 14px;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+        }
+        .dock-capsule-item:active { transform: scale(0.95); }
+        .dock-capsule-item.active {
+            background: var(--accent-primary);
+            color: #FFFFFF;
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 14px var(--accent-glow);
+        }
+
+        /* الجلسات والتقويم والمسبحة والقرآن */
         .session-hero-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 10px; text-align: center; }
         .session-hero-circle { position: relative; width: 200px; height: 200px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
         .session-hero-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
@@ -433,22 +592,6 @@
             </div>
         </div>
 
-        <!-- 🚀 كبسولات التطبيقات في الأعلى مرتبة بدقة حسب الأولوية المطلوبة -->
-        <div class="apps-horizontal-dock" id="capsulesDock">
-            <div class="app-dock-chip highlight" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</div>
-            <div class="app-dock-chip" onclick="switchNavSection('islamiyat-view', this)">🕌 إسلاميات</div>
-            <div class="app-dock-chip" onclick="switchNavSection('notes-view', this)">📝 الملاحظات</div>
-            <div class="app-dock-chip" onclick="switchNavSection('todos-view', this)">✅ المهام</div>
-            <div class="app-dock-chip" onclick="switchNavSection('finance-view', this)">📊 المالية والديون</div>
-            <div class="app-dock-chip" onclick="switchNavSection('quran-view', this)">📖 ورد القرآن</div>
-            <div class="app-dock-chip" onclick="switchNavSection('calc-view', this)">🧮 الحاسبة</div>
-            <div class="app-dock-chip" onclick="switchNavSection('calendar-view', this)">📅 التقويم</div>
-            <div class="app-dock-chip" onclick="switchNavSection('weather-view', this)">⛅ الطقس 5 أيام</div>
-            <div class="app-dock-chip" onclick="switchNavSection('currency-view', this)">💱 محول العملات</div>
-            <div class="app-dock-chip" onclick="switchNavSection('vault-view', this)">🔐 الخزنة والوثائق</div>
-            <div class="app-dock-chip" onclick="switchNavSection('settings-view', this)">⚙️ الإعدادات</div>
-        </div>
-
         <div class="oneui-header-area">
             <div class="oneui-title-hero-row">
                 <div class="oneui-title-hero" id="heroGreetingTitle">طاب يومك.</div>
@@ -465,7 +608,7 @@
             </div>
         </div>
 
-        <!-- 🏠 1. الشاشة الرئيسية المنظفة بالكامل -->
+        <!-- 🏠 1. الشاشة الرئيسية -->
         <div id="dashboard-view" class="section-view active">
             <div class="daily-progress-wrap">
                 <span style="font-size:12px; font-weight:700;">نسبة الإنجاز:</span>
@@ -855,6 +998,22 @@
 
     </div>
 
+    <!-- 🚀 الدوك السفلي العائم الفاخر بمعمارية الأولوية المطلوبة -->
+    <div class="bottom-floating-dock" id="bottomDock">
+        <button class="dock-capsule-item active" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('islamiyat-view', this)">🕌 إسلاميات</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('notes-view', this)">📝 الملاحظات</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('todos-view', this)">✅ المهام</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('finance-view', this)">📊 المالية</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('quran-view', this)">📖 ورد القرآن</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('calc-view', this)">🧮 الحاسبة</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('calendar-view', this)">📅 التقويم</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('weather-view', this)">⛅ الطقس</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('currency-view', this)">💱 العملات</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('vault-view', this)">🔐 الخزنة</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('settings-view', this)">⚙️ الإعدادات</button>
+    </div>
+
     <!-- النوافذ المنبثقة التفاعلية -->
     <div class="modal-overlay" id="timerManageModal">
         <div class="modal-box" style="text-align:center;">
@@ -936,7 +1095,7 @@
             <div style="font-size: 44px; margin-bottom: 6px;">🌿</div>
             <h3 style="color:var(--accent-green); font-size:18px; font-weight:800; margin-bottom:8px;">تذكير بالذكر</h3>
             <div id="dhikrChimeText" style="font-size:16px; font-weight:700; line-height:1.7; margin-bottom:18px; color:var(--text-primary);">
-                اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ
+                اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ
             </div>
             <button onclick="dismissDhikrChimeModal()" class="btn-action" style="background:var(--accent-green);">جزاك الله خيراً</button>
         </div>
@@ -962,7 +1121,6 @@
         let lastSpokenText = '';
         let currentActiveTimerObj = null;
 
-        // ترتيب الأقسام متطابق مع الدوك السفلي العائم والسحب باللمس
         const mainSectionsOrder = [
             'dashboard-view',
             'islamiyat-view',
@@ -996,7 +1154,7 @@
         let currentSessionName = '';
 
         const periodicRemembrances = [
-            "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ",
+            "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ",
             "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ ، سُبْحَانَ اللَّهِ الْعَظِيمِ",
             "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ",
             "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ",
@@ -1065,15 +1223,13 @@
             }
         }
 
-        // دالة آمنة ومضمونة بالكامل لتحديث لون شريط الإشعارات ونظام أندرويد
         function updateNativeStatusBar(colorHex, isDarkIcons) {
             const meta = document.getElementById('themeColorMeta');
             if (meta) meta.setAttribute('content', colorHex);
 
             try {
-                const plugin = getAlarmOptimizerPlugin();
-                if (plugin && typeof plugin.setStatusBar === 'function') {
-                    plugin.setStatusBar({ color: colorHex, darkIcons: isDarkIcons }).catch(() => {});
+                if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AlarmOptimizer) {
+                    window.Capacitor.Plugins.AlarmOptimizer.setStatusBar({ color: colorHex, darkIcons: isDarkIcons }).catch(() => {});
                 }
                 if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.StatusBar) {
                     window.Capacitor.Plugins.StatusBar.setBackgroundColor({ color: colorHex }).catch(() => {});
@@ -1133,7 +1289,6 @@
             finalizeAction();
         }
 
-        // إعدادات التذكير الدوري
         function playZenHarmonicChime() {
             try {
                 const ctx = getAudioContext();
@@ -1719,113 +1874,6 @@
         // =========================================================================
         // --- 7. التنبيهات والإشعارات ---
         // =========================================================================
-        function getNativePlugin() {
-            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
-                return window.Capacitor.Plugins.LocalNotifications;
-            }
-            return null;
-        }
-
-        async function initNativeNotifications() {
-            const plugin = getNativePlugin();
-            if (!plugin) return;
-            try {
-                const perm = await plugin.checkPermissions();
-                if (perm.display !== 'granted') await plugin.requestPermissions();
-
-                await plugin.createChannel({
-                    id: 'lifeos_ultra_alarm_v4',
-                    name: 'منبهات Life OS الفائقة',
-                    description: 'قناة المنبهات الرسمية ذات الأولوية القصوى',
-                    importance: 5,
-                    visibility: 1,
-                    sound: 'marimba',
-                    vibration: true,
-                    lights: true
-                });
-            } catch (e) {}
-        }
-
-        async function scheduleSystemNotification(title, minutes, reminderId) {
-            const plugin = getNativePlugin();
-            if (!plugin) return;
-            const targetDate = new Date(Date.now() + minutes * 60 * 1000);
-            const safeId = Math.abs(parseInt(reminderId, 10) % 2147483647);
-
-            try {
-                await plugin.schedule({
-                    notifications: [{
-                        title: `⏰ تنبيه: ${title || 'موعد التنبيه'}`,
-                        body: `حان الآن موعد: ${title || 'التنبيه المحدد'}`,
-                        id: safeId,
-                        schedule: { at: targetDate, allowWhileIdle: true },
-                        sound: 'marimba',
-                        channelId: 'lifeos_ultra_alarm_v4'
-                    }]
-                });
-            } catch (err) {}
-        }
-
-        let audioCtx = null;
-        let alarmTimer = null;
-
-        function getAudioContext() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            return audioCtx;
-        }
-
-        function playPrestigeZenBell() {
-            try {
-                const ctx = getAudioContext();
-                const now = ctx.currentTime;
-                const notes = [{ f: 739.99, delay: 0 }, { f: 932.33, delay: 0.07 }, { f: 1108.73, delay: 0.14 }, { f: 1396.91, delay: 0.21 }];
-                notes.forEach(note => {
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    const startTime = now + note.delay;
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(note.f, startTime);
-                    gain.gain.setValueAtTime(0.0001, startTime);
-                    gain.gain.linearRampToValueAtTime(0.12, startTime + 0.015);
-                    gain.gain.exponentialRampToValueAtTime(0.00001, startTime + 0.65);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start(startTime);
-                    osc.stop(startTime + 0.7);
-                });
-            } catch(e) {}
-        }
-
-        function testPrestigeAlarm() {
-            playPrestigeZenBell();
-            if ("vibrate" in navigator) navigator.vibrate([150, 80, 150]);
-        }
-
-        function startAlarm(title) {
-            playPrestigeZenBell();
-            clearInterval(alarmTimer);
-            alarmTimer = setInterval(playPrestigeZenBell, 2800);
-            if ("vibrate" in navigator) navigator.vibrate([300, 150, 300]);
-            document.getElementById('activeAlarmModalTitle').innerText = title || 'تنبيه موعد';
-            document.getElementById('activeAlarmModal').classList.add('active');
-        }
-
-        function dismissActiveAlarm() {
-            clearInterval(alarmTimer);
-            document.getElementById('activeAlarmModal').classList.remove('active');
-        }
-
-        function formatTime(ms) {
-            if (ms <= 0) return '00:00';
-            const s = Math.floor(ms / 1000);
-            const hrs = Math.floor(s / 3600);
-            const mins = Math.floor((s % 3600) / 60);
-            const secs = s % 60;
-            if (hrs > 0) return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-        }
-
         function addReminderFast(mins, title = '') {
             getAudioContext();
             const now = Date.now();
@@ -1845,8 +1893,10 @@
         function confirmDeleteReminder(id) {
             if (confirm('هل تريد إلغاء التنبيه؟')) {
                 const numId = Number(id);
-                const plugin = getNativePlugin();
-                if (plugin) plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {});
+                const plugin = getAlarmOptimizerPlugin();
+                if (plugin && typeof plugin.cancel === 'function') {
+                    plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {});
+                }
                 db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
                 finalizeAction();
             }
@@ -1884,15 +1934,17 @@
         function deleteActiveTimer() {
             if (!currentActiveTimerObj) return;
             const numId = Number(currentActiveTimerObj.id);
-            const plugin = getNativePlugin();
-            if (plugin) plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {});
+            const plugin = getAlarmOptimizerPlugin();
+            if (plugin && typeof plugin.cancel === 'function') {
+                plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {});
+            }
             db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
             finalizeAction();
             closeManageTimerModal();
         }
 
         // =========================================================================
-        // --- 8. التنقل بالسحب والدوك وزر الرجوع الشامل بدون رسائل مزعجة ---
+        // --- 8. التنقل بالسحب والدوك السفلي وزر الرجوع الشامل ---
         // =========================================================================
         function switchNavSection(viewId, btnEl, addToHistory = true) {
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
@@ -2276,9 +2328,6 @@
             alert('لضمان عمل المنبه بدقة متناهية والتطبيق مغلق:\n\n1. اذهب لإعدادات البطارية بالهاتف واختر تطبيق LifeOS.\n2. اختر "غير مقيد" (Unrestricted).\n3. تأكد من تفعيل "التشغيل التلقائي" (Autostart) إن وجد.');
         }
 
-        // =========================================================================
-        // --- 9. تحديث الواجهة العامة والعمليات المشتركة ---
-        // =========================================================================
         function updateUI() {
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
@@ -2548,9 +2597,6 @@
             if (changed) finalizeAction();
         }, 1000);
 
-        // =========================================================================
-        // --- 10. حساب مواقيت الصلاة والطقس والعملات ---
-        // =========================================================================
         function calculatePalestinePrayerTimes(date = new Date()) {
             const lat = 32.4646; const lng = 35.2939; const tz = -date.getTimezoneOffset() / 60;
             const start = new Date(date.getFullYear(), 0, 0);
@@ -2654,9 +2700,6 @@
             }
         });
 
-        // =========================================================================
-        // --- 11. الإقلاع الفوري المستقر للنظام ---
-        // =========================================================================
         applyThemeUI();
         initNativeNotifications();
         setupBackButtonListener();
