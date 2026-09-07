@@ -21,6 +21,16 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(AlarmOptimizerPlugin.class);
         super.onCreate(savedInstanceState);
     }
+
+    // تسليم السيطرة على زر الرجوع الفيزيائي لجافاسكريبت لمنع إغلاق التطبيق فجأة
+    @Override
+    public void onBackPressed() {
+        if (this.bridge != null && this.bridge.getWebView() != null) {
+            this.bridge.getWebView().evaluateJavascript("window.handleSystemBackButton();", null);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
 
 @CapacitorPlugin(name = "AlarmOptimizer")
