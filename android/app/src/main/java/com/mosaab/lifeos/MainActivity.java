@@ -24,6 +24,13 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(AlarmOptimizerPlugin.class);
         super.onCreate(savedInstanceState);
+
+        // تفعيل قدرة التطبيق على تلوين شريط النظام فور الإقلاع
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
 
     @Override
@@ -39,32 +46,35 @@ public class MainActivity extends BridgeActivity {
 @CapacitorPlugin(name = "AlarmOptimizer")
 class AlarmOptimizerPlugin extends Plugin {
 
-    // تلوين شريط الإشعارات ديناميكياً ليطابق خلفية التطبيق 100%
     @PluginMethod
     public void setStatusBar(PluginCall call) {
         String colorHex = call.getString("color", "#0B1120");
         boolean darkIcons = Boolean.TRUE.equals(call.getBoolean("darkIcons", false));
 
         getActivity().runOnUiThread(() -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getActivity().getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                window.setStatusBarColor(Color.parseColor(colorHex));
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = getActivity().getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                    window.setStatusBarColor(Color.parseColor(colorHex));
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    View decor = window.getDecorView();
-                    int flags = decor.getSystemUiVisibility();
-                    if (darkIcons) {
-                        flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR; // أيقونات داكنة للوضع النهاري
-                    } else {
-                        flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR; // أيقونات بيضاء للوضع الليلي
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        View decor = window.getDecorView();
+                        int flags = decor.getSystemUiVisibility();
+                        if (darkIcons) {
+                            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR; // أيقونات سوداء للوضع الفاتح
+                        } else {
+                            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR; // أيقونات بيضاء للوضع الداكن
+                        }
+                        decor.setSystemUiVisibility(flags);
                     }
-                    decor.setSystemUiVisibility(flags);
                 }
+                call.resolve();
+            } catch (Exception e) {
+                call.reject(e.getMessage());
             }
         });
-        call.resolve();
     }
 
     @PluginMethod
