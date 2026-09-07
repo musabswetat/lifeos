@@ -25,12 +25,11 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(AlarmOptimizerPlugin.class);
         super.onCreate(savedInstanceState);
 
-        // فرض تلوين شريط الإشعارات وتجاوز أي طبقات شفافة أو بيضاء افتراضية
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(Color.parseColor("#0B1120")); // اللون الافتراضي الأولي
+            window.setStatusBarColor(Color.parseColor("#0B1120"));
         }
     }
 
@@ -64,9 +63,9 @@ class AlarmOptimizerPlugin extends Plugin {
                         View decor = window.getDecorView();
                         int flags = decor.getSystemUiVisibility();
                         if (darkIcons) {
-                            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR; // أيقونات داكنة للوضع الفاتح
+                            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
                         } else {
-                            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR; // أيقونات بيضاء للوضع الداكن
+                            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
                         }
                         decor.setSystemUiVisibility(flags);
                     }
@@ -82,7 +81,6 @@ class AlarmOptimizerPlugin extends Plugin {
     public void checkStatus(PluginCall call) {
         Context context = getContext();
         JSObject ret = new JSObject();
-
         boolean isIgnoringBattery = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
@@ -91,7 +89,6 @@ class AlarmOptimizerPlugin extends Plugin {
             }
         }
         ret.put("batteryIgnored", isIgnoringBattery);
-
         boolean canExactAlarm = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             android.app.AlarmManager am = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -100,7 +97,6 @@ class AlarmOptimizerPlugin extends Plugin {
             }
         }
         ret.put("canExactAlarm", canExactAlarm);
-
         call.resolve(ret);
     }
 
