@@ -18,10 +18,8 @@
 
     <style>
         /* =========================================================
-           💎 أفضل 3 ثيمات احترافية متكاملة
+           💎 نظام الهوية والتصميم النظيف المستقر
            ========================================================= */
-        
-        /* 1. ثيم أزرق الياقوت الملكي (Sapphire Executive) - الافتراضي */
         body[data-theme="sapphire"] {
             --bg-canvas: #0B1120;
             --surface-panel: #131D31;
@@ -51,7 +49,6 @@
             --accent-glow: rgba(2, 132, 199, 0.15);
         }
 
-        /* 2. ثيم زمرد الواحة (Emerald Oasis) */
         body[data-theme="emerald"] {
             --bg-canvas: #04140E;
             --surface-panel: #0A2219;
@@ -81,7 +78,6 @@
             --accent-glow: rgba(5, 150, 105, 0.15);
         }
 
-        /* 3. ثيم الكهرمان الفاخر (Amber Luxe) */
         body[data-theme="amber"] {
             --bg-canvas: #120D08;
             --surface-panel: #1D150D;
@@ -112,12 +108,12 @@
         }
 
         :root {
-            --radius-card: 22px;
-            --radius-input: 14px;
+            --radius-card: 20px;
+            --radius-input: 12px;
             --radius-pill: 9999px;
             --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --dock-height: 64px;
-            --shadow-subtle: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            --dock-height: 60px;
+            --shadow-subtle: 0 8px 25px -5px rgba(0, 0, 0, 0.25);
         }
 
         * {
@@ -149,7 +145,7 @@
             padding-top: max(16px, env(safe-area-inset-top, 16px));
             padding-right: 18px;
             padding-left: 18px;
-            padding-bottom: calc(var(--dock-height) + max(28px, env(safe-area-inset-bottom, 28px)));
+            padding-bottom: calc(var(--dock-height) + max(24px, env(safe-area-inset-bottom, 24px)));
             box-sizing: border-box;
         }
 
@@ -210,7 +206,7 @@
             box-shadow: var(--shadow-subtle);
         }
 
-        .oneui-header-area { padding: 4px 2px 14px 2px; }
+        .oneui-header-area { padding: 4px 2px 12px 2px; }
         .oneui-title-hero-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
         .oneui-title-hero { font-size: 32px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0; }
         .edit-name-icon-btn {
@@ -269,7 +265,7 @@
         .section-view.active { display: block; animation: viewFade 0.22s ease; }
         @keyframes viewFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* العداد التنازلي الشفاف */
+        /* العداد التنازلي الشفاف تماماً */
         svg circle { fill: transparent !important; }
         .circular-timer-wrapper {
             display: flex;
@@ -337,7 +333,7 @@
             white-space: nowrap;
         }
 
-        /* الحاسبة */
+        /* حاسبة Google */
         .google-calc-box {
             background: var(--surface-panel);
             border-radius: var(--radius-card);
@@ -474,48 +470,45 @@
             box-shadow: var(--shadow-subtle);
         }
 
-        /* 🚀 الدوك السفلي العائم الفاخر بمعمارية الأولوية المطلوبة */
-        .bottom-floating-dock {
+        /* 🚀 الشريط السفلي الجديد: من أقصى اليمين لأقصى الشمال بدون انحناءات ومصقول */
+        .bottom-edge-dock {
             position: fixed;
-            bottom: max(12px, env(safe-area-inset-bottom, 12px));
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 24px);
-            max-width: 580px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             background: var(--surface-panel);
-            border: 1px solid var(--border-subtle);
-            border-radius: 20px;
-            padding: 8px 10px;
+            border-top: 1px solid var(--border-subtle);
+            padding: 10px 4px max(10px, env(safe-area-inset-bottom, 10px)) 4px;
             display: flex;
-            gap: 8px;
+            gap: 6px;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
             z-index: 1000;
-            backdrop-filter: blur(20px);
             scrollbar-width: none;
         }
-        .dock-capsule-item {
+        .dock-edge-item {
             background: transparent;
             border: 1px solid transparent;
-            border-radius: 14px;
-            padding: 8px 14px;
-            font-size: 12.5px;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 12px;
             font-weight: 700;
             color: var(--text-secondary);
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             white-space: nowrap;
+            flex-shrink: 0;
             transition: all 0.15s ease;
         }
-        .dock-capsule-item:active { transform: scale(0.95); }
-        .dock-capsule-item.active {
+        .dock-edge-item:active { transform: scale(0.95); }
+        .dock-edge-item.active {
             background: var(--accent-primary);
             color: #FFFFFF;
             border-color: var(--accent-primary);
-            box-shadow: 0 4px 14px var(--accent-glow);
+            box-shadow: 0 4px 12px var(--accent-glow);
         }
 
         /* الجلسات والتقويم والمسبحة والقرآن */
@@ -998,20 +991,20 @@
 
     </div>
 
-    <!-- 🚀 الدوك السفلي العائم الفاخر بمعمارية الأولوية المطلوبة -->
-    <div class="bottom-floating-dock" id="bottomDock">
-        <button class="dock-capsule-item active" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('islamiyat-view', this)">🕌 إسلاميات</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('notes-view', this)">📝 الملاحظات</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('todos-view', this)">✅ المهام</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('finance-view', this)">📊 المالية</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('quran-view', this)">📖 ورد القرآن</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('calc-view', this)">🧮 الحاسبة</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('calendar-view', this)">📅 التقويم</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('weather-view', this)">⛅ الطقس</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('currency-view', this)">💱 العملات</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('vault-view', this)">🔐 الخزنة</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('settings-view', this)">⚙️ الإعدادات</button>
+    <!-- 🚀 الشريط السفلي الجديد: من أقصى اليمين لأقصى الشمال بدون انحناءات -->
+    <div class="bottom-edge-dock" id="bottomDock">
+        <button class="dock-edge-item active" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
+        <button class="dock-edge-item" onclick="switchNavSection('islamiyat-view', this)">🕌 إسلاميات</button>
+        <button class="dock-edge-item" onclick="switchNavSection('notes-view', this)">📝 الملاحظات</button>
+        <button class="dock-edge-item" onclick="switchNavSection('todos-view', this)">✅ المهام</button>
+        <button class="dock-edge-item" onclick="switchNavSection('finance-view', this)">📊 المالية</button>
+        <button class="dock-edge-item" onclick="switchNavSection('quran-view', this)">📖 ورد القرآن</button>
+        <button class="dock-edge-item" onclick="switchNavSection('calc-view', this)">🧮 الحاسبة</button>
+        <button class="dock-edge-item" onclick="switchNavSection('calendar-view', this)">📅 التقويم</button>
+        <button class="dock-edge-item" onclick="switchNavSection('weather-view', this)">⛅ الطقس</button>
+        <button class="dock-edge-item" onclick="switchNavSection('currency-view', this)">💱 العملات</button>
+        <button class="dock-edge-item" onclick="switchNavSection('vault-view', this)">🔐 الخزنة</button>
+        <button class="dock-edge-item" onclick="switchNavSection('settings-view', this)">⚙️ الإعدادات</button>
     </div>
 
     <!-- النوافذ المنبثقة التفاعلية -->
@@ -1159,7 +1152,7 @@
             "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ",
             "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ",
             "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
-            "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
+            "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
             "سُبْحَانَ اللَّهِ ، وَالْحَمْدُ لِلَّهِ ، وَلَا إِلَهَ إِلَّا اللَّهُ ، وَاللَّهُ أَكْبَرُ"
         ];
         let dhikrReminderTimer = null;
@@ -1223,21 +1216,6 @@
             }
         }
 
-        function updateNativeStatusBar(colorHex, isDarkIcons) {
-            const meta = document.getElementById('themeColorMeta');
-            if (meta) meta.setAttribute('content', colorHex);
-
-            try {
-                if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AlarmOptimizer) {
-                    window.Capacitor.Plugins.AlarmOptimizer.setStatusBar({ color: colorHex, darkIcons: isDarkIcons }).catch(() => {});
-                }
-                if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.StatusBar) {
-                    window.Capacitor.Plugins.StatusBar.setBackgroundColor({ color: colorHex }).catch(() => {});
-                    window.Capacitor.Plugins.StatusBar.setStyle({ style: isDarkIcons ? 'LIGHT' : 'DARK' }).catch(() => {});
-                }
-            } catch(e) {}
-        }
-
         function applyThemeUI() {
             const masterTheme = (db.settings && db.settings.masterTheme) ? db.settings.masterTheme : 'sapphire';
             document.body.setAttribute('data-theme', masterTheme);
@@ -1289,6 +1267,7 @@
             finalizeAction();
         }
 
+        // الأذكار الدورية والتنبيه
         function playZenHarmonicChime() {
             try {
                 const ctx = getAudioContext();
@@ -1872,7 +1851,7 @@
         }
 
         // =========================================================================
-        // --- 7. التنبيهات والإشعارات ---
+        // --- 7. التنبيهات وإشعارات أندرويد الصارمة ---
         // =========================================================================
         function addReminderFast(mins, title = '') {
             getAudioContext();
@@ -1944,16 +1923,16 @@
         }
 
         // =========================================================================
-        // --- 8. التنقل بالسحب والدوك السفلي وزر الرجوع الشامل ---
+        // --- 8. التنقل بالسحب والدوك السفلي الحافة الممتدة وزر الرجوع الشامل ---
         // =========================================================================
         function switchNavSection(viewId, btnEl, addToHistory = true) {
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.dock-capsule-item').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.dock-edge-item').forEach(c => c.classList.remove('active'));
 
             const target = document.getElementById(viewId);
             if (target) target.classList.add('active');
 
-            const dockButtons = document.querySelectorAll('.dock-capsule-item');
+            const dockButtons = document.querySelectorAll('.dock-edge-item');
             dockButtons.forEach(c => {
                 if (c.getAttribute('onclick') && c.getAttribute('onclick').includes(viewId)) {
                     c.classList.add('active');
@@ -1993,7 +1972,7 @@
         }, { passive: true });
 
         function handleSwipeGesture(startX, startY, endX, endY, targetElement) {
-            if (targetElement.closest('.google-calc-box, .bottom-floating-dock, .weather-hourly-strip, .habits-strip, .calendar-days-grid')) {
+            if (targetElement.closest('.google-calc-box, .bottom-edge-dock, .weather-hourly-strip, .habits-strip, .calendar-days-grid')) {
                 return;
             }
 
@@ -2328,6 +2307,9 @@
             alert('لضمان عمل المنبه بدقة متناهية والتطبيق مغلق:\n\n1. اذهب لإعدادات البطارية بالهاتف واختر تطبيق LifeOS.\n2. اختر "غير مقيد" (Unrestricted).\n3. تأكد من تفعيل "التشغيل التلقائي" (Autostart) إن وجد.');
         }
 
+        // =========================================================================
+        // --- 9. تحديث الواجهة العامة والعمليات المشتركة ---
+        // =========================================================================
         function updateUI() {
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
@@ -2597,6 +2579,9 @@
             if (changed) finalizeAction();
         }, 1000);
 
+        // =========================================================================
+        // --- 10. حساب مواقيت الصلاة والطقس والعملات ---
+        // =========================================================================
         function calculatePalestinePrayerTimes(date = new Date()) {
             const lat = 32.4646; const lng = 35.2939; const tz = -date.getTimezoneOffset() / 60;
             const start = new Date(date.getFullYear(), 0, 0);
@@ -2700,6 +2685,9 @@
             }
         });
 
+        // =========================================================================
+        // --- 11. الإقلاع الفوري المستقر للنظام ---
+        // =========================================================================
         applyThemeUI();
         initNativeNotifications();
         setupBackButtonListener();
