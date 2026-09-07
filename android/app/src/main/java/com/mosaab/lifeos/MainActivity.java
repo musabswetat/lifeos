@@ -1,17 +1,15 @@
 package com.mosaab.lifeos;
 
-import android.content.ComponentName;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.provider.Settings;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
+import android.view.WindowInsetsController;
 
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.JSObject;
@@ -25,37 +23,49 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(AlarmOptimizerPlugin.class);
+
         super.onCreate(savedInstanceState);
 
-        // إعداد شريط الإشعارات عند فتح التطبيق
+        // اللون الافتراضي لشريط الإشعارات في الوضع الداكن
         applyStatusBar("#0B1120", false);
     }
 
     /**
-     * تغيير لون شريط الإشعارات ولون أيقوناته.
+     * تطبيق لون شريط الإشعارات وتحديد لون الأيقونات.
      *
-     * darkIcons = true  → أيقونات داكنة (لخلفية فاتحة)
-     * darkIcons = false → أيقونات فاتحة (لخلفية داكنة)
+     * darkIcons = true  : أيقونات سوداء للوضع الفاتح
+     * darkIcons = false : أيقونات بيضاء للوضع الداكن
      */
     public void applyStatusBar(String colorHex, boolean darkIcons) {
+        Window window = getWindow();
+
         try {
-            Window window = getWindow();
+            window.setStatusBarColor(Color.parseColor(colorHex));
+        } catch (Exception e) {
+            window.setStatusBarColor(Color.parseColor("#0B1120"));
+        }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                window.addFlags(
-                        WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
-                );
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                WindowInsetsController controller =
+                        window.getInsetsController();
 
-                window.clearFlags(
-                        WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                );
-
-                window.setStatusBarColor(Color.parseColor(colorHex));
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                View decor = window.getDecorView();
-                int flags = decor.getSystemUiVisibility();
+                if (controller != null) {
+                    if (darkIcons) {
+                        controller.setSystemBarsAppearance(
+                                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                        );
+                    } else {
+                        controller.setSystemBarsAppearance(
+                                0,
+                                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                        );
+                    }
+                }
+            } else {
+                View decorView = window.getDecorView();
+                int flags = decorView.getSystemUiVisibility();
 
                 if (darkIcons) {
                     flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
@@ -63,242 +73,137 @@ public class MainActivity extends BridgeActivity {
                     flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
                 }
 
-                decor.setSystemUiVisibility(flags);
+                decorView.setSystemUiVisibility(flags);
+            }
+        }
+    }
+
+    @CapacitorPlugin(name = "AlarmOptimizer")
+    public static class AlarmOptimizerPlugin extends Plugin {
+
+        @PluginMethod
+        public void setStatusBar(PluginCall call) {
+            String colorHex =
+                    call.getString("color", "#0B1120");
+
+            boolean darkIcons =
+                    call.getBoolean("darkIcons", false);
+
+            Activity activity = getActivity();
+
+            activity.runOnUiThread(() -> {
+                if (activity instanceof MainActivity) {
+                    ((MainActivity) activity).applyStatusBar(
+                            colorHex,
+                            darkIcons
+                    );
+                }
+            });
+
+            JSObject result = new JSObject();
+            result.put("success", true);
+            call.resolve(result);
+        }
+
+        @PluginMethod
+        public void checkStatus(PluginCall call) {
+            JSObject result = new JSObject();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                result.put("api", Build.VERSION.SDK_INT);
+            } else {
+                result.put("api", 0);
             }
 
-        } catch (Exception ignored) {
+            result.put("success", true);
+            call.resolve(result);
         }
-    }
 
-    @Override
-    public void onBackPressed() {
-        if (this.bridge != null && this.bridge.getWebView() != null) {
-            this.bridge.getWebView().evaluateJavascript(
-                    "window.handleSystemBackButton();",
-                    null
-            );
-        } else {
-            super.onBackPressed();
-        }
-    }
-}
-
-@CapacitorPlugin(name = "AlarmOptimizer")
-class AlarmOptimizerPlugin extends Plugin {
-
-    @PluginMethod
-    public void setStatusBar(PluginCall call) {
-        String colorHex = call.getString("color", "#0B1120");
-        boolean darkIcons = Boolean.TRUE.equals(
-                call.getBoolean("darkIcons", false)
-        );
-
-        getActivity().runOnUiThread(() -> {
+        @PluginMethod
+        public void requestIgnoreBattery(PluginCall call) {
             try {
-                Window window = getActivity().getWindow();
+                Intent intent = new Intent(
+                        Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                );
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    window.addFlags(
-                            WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+                intent.setData(
+                        Uri.parse("package:" + getContext().getPackageName())
+                );
+
+                getContext().startActivity(intent);
+                call.resolve();
+            } catch (Exception e) {
+                call.reject(
+                        "تعذر فتح إعدادات تحسين البطارية",
+                        e
+                );
+            }
+        }
+
+        @PluginMethod
+        public void requestExactAlarmPermission(PluginCall call) {
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    Intent intent = new Intent(
+                            Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
                     );
 
-                    window.clearFlags(
-                            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                    intent.setData(
+                            Uri.parse("package:" + getContext().getPackageName())
                     );
 
-                    window.setStatusBarColor(Color.parseColor(colorHex));
-                }
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    View decor = window.getDecorView();
-                    int flags = decor.getSystemUiVisibility();
-
-                    if (darkIcons) {
-                        flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    } else {
-                        flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                    }
-
-                    decor.setSystemUiVisibility(flags);
+                    getContext().startActivity(intent);
                 }
 
                 call.resolve();
-
             } catch (Exception e) {
-                call.reject(e.getMessage());
-            }
-        });
-    }
-
-    @PluginMethod
-    public void checkStatus(PluginCall call) {
-        Context context = getContext();
-        JSObject ret = new JSObject();
-
-        boolean isIgnoringBattery = true;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PowerManager pm = (PowerManager)
-                    context.getSystemService(Context.POWER_SERVICE);
-
-            if (pm != null) {
-                isIgnoringBattery = pm.isIgnoringBatteryOptimizations(
-                        context.getPackageName()
+                call.reject(
+                        "تعذر فتح إعدادات المنبهات الدقيقة",
+                        e
                 );
             }
         }
 
-        ret.put("batteryIgnored", isIgnoringBattery);
-
-        boolean canExactAlarm = true;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            android.app.AlarmManager am =
-                    (android.app.AlarmManager)
-                            context.getSystemService(Context.ALARM_SERVICE);
-
-            if (am != null) {
-                canExactAlarm = am.canScheduleExactAlarms();
-            }
-        }
-
-        ret.put("canExactAlarm", canExactAlarm);
-        call.resolve(ret);
-    }
-
-    @PluginMethod
-    public void requestIgnoreBattery(PluginCall call) {
-        Context context = getContext();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        @PluginMethod
+        public void openAutostartSettings(PluginCall call) {
             try {
-                Intent intent = new Intent();
-                PowerManager pm = (PowerManager)
-                        context.getSystemService(Context.POWER_SERVICE);
-
-                if (pm != null && !pm.isIgnoringBatteryOptimizations(
-                        context.getPackageName()
-                )) {
-                    intent.setAction(
-                            Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-                    );
-                    intent.setData(Uri.parse(
-                            "package:" + context.getPackageName()
-                    ));
-                } else {
-                    intent.setAction(
-                            Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS
-                    );
-                }
-
-                getActivity().startActivity(intent);
-
-            } catch (Exception e) {
-                Intent fallback = new Intent(
-                        Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS
-                );
-                getActivity().startActivity(fallback);
-            }
-        }
-
-        call.resolve();
-    }
-
-    @PluginMethod
-    public void requestExactAlarmPermission(PluginCall call) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            try {
-                Intent intent = new Intent(
-                        Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM
-                );
-                intent.setData(Uri.parse(
-                        "package:" + getContext().getPackageName()
-                ));
-                getActivity().startActivity(intent);
-
-            } catch (Exception e) {
                 Intent intent = new Intent(
                         Settings.ACTION_APPLICATION_DETAILS_SETTINGS
                 );
-                intent.setData(Uri.parse(
-                        "package:" + getContext().getPackageName()
-                ));
-                getActivity().startActivity(intent);
+
+                intent.setData(
+                        Uri.parse("package:" + getContext().getPackageName())
+                );
+
+                getContext().startActivity(intent);
+                call.resolve();
+            } catch (Exception e) {
+                call.reject(
+                        "تعذر فتح إعدادات التشغيل التلقائي",
+                        e
+                );
             }
         }
 
-        call.resolve();
-    }
-
-    @PluginMethod
-    public void openAutostartSettings(PluginCall call) {
-        Context context = getContext();
-        Intent intent = new Intent();
-
-        String brand = Build.BRAND.toLowerCase();
-        String manufacturer = Build.MANUFACTURER.toLowerCase();
-
-        try {
-            if (brand.contains("xiaomi")
-                    || manufacturer.contains("xiaomi")
-                    || brand.contains("redmi")
-                    || brand.contains("poco")) {
-
-                intent.setComponent(new ComponentName(
-                        "com.miui.securitycenter",
-                        "com.miui.permcenter.autostart.AutoStartManagementActivity"
-                ));
-
-            } else if (brand.contains("samsung")
-                    || manufacturer.contains("samsung")) {
-
-                intent.setComponent(new ComponentName(
-                        "com.samsung.android.lool",
-                        "com.samsung.android.sm.ui.battery.BatteryActivity"
-                ));
-
-            } else if (brand.contains("huawei")
-                    || brand.contains("honor")) {
-
-                intent.setComponent(new ComponentName(
-                        "com.huawei.systemmanager",
-                        "com.huawei.systemmanager.optimize.process.ProtectActivity"
-                ));
-
-            } else {
-                intent.setAction(
+        @PluginMethod
+        public void openAppSettings(PluginCall call) {
+            try {
+                Intent intent = new Intent(
                         Settings.ACTION_APPLICATION_DETAILS_SETTINGS
                 );
-                intent.setData(Uri.parse(
-                        "package:" + context.getPackageName()
-                ));
+
+                intent.setData(
+                        Uri.parse("package:" + getContext().getPackageName())
+                );
+
+                getContext().startActivity(intent);
+                call.resolve();
+            } catch (Exception e) {
+                call.reject(
+                        "تعذر فتح إعدادات التطبيق",
+                        e
+                );
             }
-
-            getActivity().startActivity(intent);
-
-        } catch (Exception e) {
-            Intent fallback = new Intent(
-                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-            );
-            fallback.setData(Uri.parse(
-                    "package:" + context.getPackageName()
-            ));
-            getActivity().startActivity(fallback);
         }
-
-        call.resolve();
-    }
-
-    @PluginMethod
-    public void openAppSettings(PluginCall call) {
-        Intent intent = new Intent(
-                Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-        );
-        intent.setData(Uri.parse(
-                "package:" + getContext().getPackageName()
-        ));
-
-        getActivity().startActivity(intent);
-        call.resolve();
     }
 }
