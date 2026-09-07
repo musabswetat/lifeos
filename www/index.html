@@ -7,751 +7,2466 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#F4F7FB" id="themeColorMeta">
+    <meta name="theme-color" content="#0F1117" id="themeColorMeta">
 
-    <title>Life OS Pro</title>
+    <title>Life OS</title>
     
-    <!-- Firebase Apps (Compat) -->
+    <!-- مكتبات Firebase الرسمية -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
-        /* =========================================================
-           Core CSS & Reset - نظام تصفير وبناء أساسي
-           ========================================================= */
         :root {
-            /* المتغيرات الأساسية للنمط الافتراضي */
-            --bg-body: #F4F7FB;
-            --text-main: #1A1D21;
-            --text-sub: #68707C;
-            --accent: #007AFF;
-            --accent-glow: rgba(0, 122, 255, 0.15);
-            --panel-bg: rgba(255, 255, 255, 0.8);
-            --border-color: #E6E9EF;
-            --radius-md: 12px;
-            --radius-pill: 99px;
-            --font-family: system-ui, -apple-system, sans-serif;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --safe-top: env(safe-area-inset-top, 0px);
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --bg-base: #0F1117;
+            --bg-surface: #181B24;
+            --bg-card: #202433;
+            --bg-input: #12141D;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-focus: #3B82F6;
+            --text-main: #F9FAFB;
+            --text-sub: #9CA3AF;
+            --text-muted: #6B7280;
+            --accent-blue: #3B82F6;
+            --accent-green: #10B981;
+            --accent-red: #EF4444;
+            --radius-main: 16px;
+            --radius-btn: 12px;
+            --radius-pill: 9999px;
+            --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --dock-height: 60px;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-family); -webkit-tap-highlight-color: transparent; }
+        body.light-mode {
+            --bg-base: #F3F4F6;
+            --bg-surface: #FFFFFF;
+            --bg-card: #F9FAFB;
+            --bg-input: #F3F4F6;
+            --border-color: #E5E7EB;
+            --border-focus: #2563EB;
+            --text-main: #111827;
+            --text-sub: #4B5563;
+            --text-muted: #9CA3AF;
+            --accent-blue: #2563EB;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
         ::-webkit-scrollbar { display: none !important; }
 
         body {
-            background-color: var(--bg-body);
+            background-color: var(--bg-base);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            transition: var(--transition);
-            padding-bottom: calc(70px + var(--safe-bottom)); /* مساحة للسنتر دوك */
+            transition: background 0.2s ease, color 0.2s ease;
         }
 
         .app-container {
-            width: 100%; max-width: 650px; margin: 0 auto;
-            padding: calc(15px + var(--safe-top)) 18px 20px 18px;
-            display: flex; flex-direction: column; gap: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: max(14px, env(safe-area-inset-top, 14px)) 16px calc(var(--dock-height) + 85px) 16px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
         }
 
-        /* Elements Styling Base */
-        button { cursor: pointer; border: none; outline: none; transition: var(--transition); background: none; }
-        button:active { transform: scale(0.96); }
-        input, select, textarea { border: none; outline: none; transition: var(--transition); }
-
-        /* =========================================================
-           1. شريط الحالة العلوي (Top Bar) - تم الاستغناء عن الخلفية الزائدة
-           ========================================================= */
-        .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 5px 0; }
-        
-        .prayer-info-head {
-            font-size: 14px; font-weight: 700; color: #27AE60;
-            display: flex; align-items: center; gap: 6px;
-            cursor: pointer; padding: 6px 12px; border-radius: var(--radius-pill);
-            background: rgba(39, 174, 96, 0.1);
+        /* الشريط العلوي */
+        .top-nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 2px;
         }
-        
-        .top-actions { display: flex; align-items: center; gap: 10px; }
-        
-        .action-icon-btn {
-            color: var(--text-main); width: 36px; height: 36px;
-            display: flex; align-items: center; justify-content: center;
+        .prayer-badge {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.12);
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
         }
-        .action-icon-btn svg { width: 20px; height: 20px; fill: currentColor; }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-icon-nav {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .btn-icon-nav:active { transform: scale(0.92); }
+        .btn-icon-nav svg { width: 18px; height: 18px; fill: currentColor; }
 
-        .auth-user-pill {
-            display: flex; align-items: center; gap: 6px;
-            font-size: 12px; font-weight: 700; color: var(--text-main);
-            padding: 6px 12px; border-radius: var(--radius-pill);
-            background: var(--panel-bg); border: 1px solid var(--border-color);
+        .auth-pill-btn {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
         }
 
-        /* =========================================================
-           2. العنوان الرئيسي (Hero Header) - خطوط فخمة وأحجام مناسبة
-           ========================================================= */
-        .hero-header { padding: 10px 0; }
-        .greeting-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
-        .greeting-text { font-size: 36px; font-weight: 800; letter-spacing: -1px; }
-        .edit-name-btn { color: var(--accent); display: none; margin-top: 5px; }
-
-        .sub-status-line { font-size: 14px; color: var(--text-sub); display: flex; flex-direction: column; gap: 3px; }
-        .status-item { display: flex; align-items: center; gap: 5px; }
-        .status-clickable { cursor: pointer; color: var(--accent); font-weight: 600; }
-
-        /* =========================================================
-           3. درج التطبيقات (App Dock) - أفقي، انسيابي، بدون مربعات
-           ========================================================= */
-        .app-dock {
-            display: flex; gap: 8px; overflow-x: auto; padding: 5px 0 15px 0;
+        /* شريط درج التطبيقات */
+        .apps-strip {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 4px 2px;
             -webkit-overflow-scrolling: touch;
         }
-        .dock-item {
-            display: flex; align-items: center; gap: 6px;
-            padding: 8px 16px; border-radius: var(--radius-pill);
-            background: var(--panel-bg); color: var(--text-main);
-            font-size: 13px; font-weight: 700; white-space: nowrap;
+        .app-chip {
+            background: var(--bg-surface);
             border: 1px solid var(--border-color);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            border-radius: var(--radius-pill);
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-sub);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.15s ease;
         }
-        .dock-item.active {
-            background: var(--accent); color: #FFFFFF;
-            border-color: var(--accent); box-shadow: 0 4px 10px var(--accent-glow);
+        .app-chip.active {
+            background: var(--accent-blue);
+            color: #FFFFFF;
+            border-color: var(--accent-blue);
+        }
+        .app-chip:active { transform: scale(0.95); }
+
+        /* منطقة العنوان والحالة */
+        .hero-info-box {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 4px 2px;
+        }
+        .hero-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hero-title {
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .edit-name-btn {
+            background: none;
+            border: none;
+            color: var(--accent-blue);
+            cursor: pointer;
+            display: none;
+        }
+        .hero-meta-line {
+            font-size: 13px;
+            color: var(--text-sub);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .hero-meta-item {
+            cursor: pointer;
+            font-weight: 600;
         }
 
-        /* =========================================================
-           Main Content Sections - تم الاستغناء عن البطاقات
-           ========================================================= */
-        .section-view { display: none; width: 100%; animation: fadeIn 0.4s ease; }
-        .section-view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .section-title { font-size: 16px; font-weight: 800; color: var(--text-main); margin: 15px 0 10px 0; }
-        .content-group { display: flex; flex-direction: column; gap: 1px; background: var(--border-color); border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color); }
-        .content-row { background: #FFFFFF; padding: 15px; display: flex; align-items: center; justify-content: space-between; gap: 10px; transition: var(--transition); }
-        .content-row:active { background: #F9FAFB; }
-
-        /* =========================================================
-           4. عداد المؤقت (Timer) - تم تكبيره وحل مشكلة المساحة
-           ========================================================= */
-        .timer-display-main {
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; padding: 30px 0;
-            background: #FFFFFF; border-radius: var(--radius-md);
+        /* الألواح والعناصر */
+        .panel-box {
+            background: var(--bg-surface);
             border: 1px solid var(--border-color);
+            border-radius: var(--radius-main);
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
-        
-        .timer-circ-wrap { position: relative; width: 180px; height: 180px; display: flex; align-items: center; justify-content: center; }
-        
-        .timer-svg { transform: rotate(-90deg); width: 100%; height: 100%; }
-        .timer-svg-bg { stroke: #F0F2F5; stroke-width: 8; fill: none; }
-        .timer-svg-prog {
-            stroke: var(--accent); stroke-width: 8; fill: none;
-            stroke-linecap: round; stroke-dasharray: 540; stroke-dashoffset: 0;
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-sub);
+        }
+        .panel-btn-link {
+            background: none;
+            border: none;
+            color: var(--accent-blue);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .view-section { display: none; }
+        .view-section.active { display: flex; flex-direction: column; gap: 14px; }
+
+        /* العداد التنازلي */
+        svg circle { fill: transparent !important; }
+        .timer-circle-container {
+            position: relative;
+            width: 170px;
+            height: 170px;
+            margin: 6px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .timer-circle-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        .timer-circle-bg {
+            stroke: var(--bg-input);
+            stroke-width: 8;
+            fill: transparent;
+        }
+        .timer-circle-progress {
+            stroke: var(--accent-blue);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 452.38;
+            stroke-dashoffset: 0;
             transition: stroke-dashoffset 0.5s linear;
+            fill: transparent;
+        }
+        .timer-circle-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .timer-digits {
+            font-size: 28px;
+            font-weight: 800;
+            font-family: monospace;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+        .timer-sub-title {
+            font-size: 12px;
+            color: var(--text-sub);
+            font-weight: 600;
+            margin-top: 2px;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        .timer-text-digits {
-            position: absolute; font-size: 42px; font-weight: 800;
-            color: var(--text-main); font-family: 'Courier New', monospace;
-            letter-spacing: -1px; direction: ltr;
+        .quick-alarms-row {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
-        
-        .timer-label { font-size: 13px; color: var(--text-sub); margin-top: 10px; font-weight: 600; text-align: center; max-width: 80%; }
+        .btn-tag-alarm {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: var(--radius-pill);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-tag-alarm:active { background: var(--border-color); }
 
-        .quick-timer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
-        .q-timer-btn {
-            background: #FFFFFF; padding: 12px; border-radius: var(--radius-md);
-            border: 1px solid var(--border-color); font-size: 13px; font-weight: 700; color: var(--text-main); text-align: center;
+        /* القوائم */
+        .list-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            gap: 10px;
         }
+        .list-item-row:last-child { border-bottom: none; }
 
-        /* =========================================================
-           5. الحاسبة الفخمة (Calculator)
-           ========================================================= */
-        .calc-wrapper { background: #111418; border-radius: 18px; padding: 15px; direction: ltr; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .calc-screen { display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-end; min-height: 80px; padding: 10px; margin-bottom: 15px; text-align: right; word-break: break-all; }
-        .calc-expr { font-size: 16px; color: #888; min-height: 20px; }
-        .calc-main { font-size: 40px; font-weight: 700; color: #FFF; margin-top: 5px; }
-        
-        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .calc-btn {
-            height: 55px; border-radius: 50px; font-size: 20px; font-weight: 700;
-            display: flex; align-items: center; justify-content: center; color: #FFF; background: #2D3238;
-        }
-        .calc-btn.op { background: #FF9F0A; color: #FFF; }
-        .calc-btn.fn { background: #A5A5A5; color: #000; }
-        .calc-btn.num-0 { grid-column: span 2; justify-content: flex-start; padding-left: 20px; }
-
-        /* =========================================================
-           6. المسبحة التفاعلية (Tasbeeh)
-           ========================================================= */
-        .tasbeeh-zone {
-            display: flex; flex-direction: column; align-items: center;
-            background: #FFFFFF; border-radius: var(--radius-md);
-            padding: 30px 15px; border: 1px solid var(--border-color); gap: 15px;
-        }
-        .tasbeeh-zikr { font-size: 18px; font-weight: 700; color: var(--text-main); text-align: center; }
-        .tasbeeh-counter-big { font-size: 60px; font-weight: 800; color: var(--accent); font-family: monospace; }
-        .tasbeeh-btn-tap {
-            width: 100px; height: 100px; border-radius: 50px;
-            background: var(--accent); color: #FFF; display: flex; align-items: center; justify-content: center;
-            font-size: 16px; font-weight: 700; box-shadow: 0 6px 20px var(--accent-glow);
+        .btn-icon-del {
+            background: none;
+            border: none;
+            color: var(--accent-red);
+            cursor: pointer;
+            font-size: 15px;
+            padding: 4px;
         }
 
-        /* =========================================================
-           7. وورد القرآن المفسر (Quran Portion)
-           ========================================================= */
-        .quran-portion-box { background: #FFFFFF; border-radius: var(--radius-md); border: 1px solid var(--border-color); padding: 15px; }
-        .quran-header-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .quran-ayah-range { background: #EAFAF1; color: #27AE60; padding: 5px 12px; border-radius: var(--radius-pill); font-size: 12px; font-weight: 700; }
-        
-        .ayah-text-block { font-size: 19px; line-height: 2; color: var(--text-main); font-family: 'Amiri', serif; text-align: justify; margin-bottom: 15px; }
-        .tafsir-text-block { font-size: 14px; line-height: 1.8; color: var(--text-sub); background: #F8FAFC; padding: 12px; border-radius: 8px; border-right: 3px solid #27AE60; }
+        /* الحاسبة المتقدمة */
+        .calc-container {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-main);
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .calc-screen {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-btn);
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: flex-end;
+            min-height: 80px;
+            gap: 4px;
+        }
+        .calc-expr {
+            font-size: 15px;
+            color: var(--text-sub);
+            font-family: monospace;
+            direction: ltr;
+            min-height: 20px;
+        }
+        .calc-val {
+            font-size: 34px;
+            font-weight: 800;
+            font-family: monospace;
+            color: var(--text-main);
+            direction: ltr;
+            word-break: break-all;
+        }
+        .calc-keys-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        .calc-key {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-btn);
+            height: 56px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .calc-key:active { transform: scale(0.95); }
+        .calc-key.op { color: var(--accent-blue); background: var(--bg-input); }
+        .calc-key.eq { background: var(--accent-blue); color: #FFFFFF; border: none; font-size: 22px; }
+        .calc-key.clear { color: var(--accent-red); }
 
-        /* =========================================================
-           Inputs & Bottom Mic Dock
-           ========================================================= */
-        .app-input-field { background: #FFFFFF; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 14px; color: var(--text-main); width: 100%; margin-bottom: 10px; }
-        .app-input-field:focus { border-color: var(--accent); }
-
-        .app-btn-primary { background: var(--accent); color: #FFFFFF; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 700; width: 100%; text-align: center; }
-
-        .center-dock {
-            position: fixed; bottom: calc(10px + var(--safe-bottom)); left: 50%; transform: translateX(-50%);
-            width: 60px; height: 60px; background: #FF3B30; color: #FFFFFF;
-            border-radius: 30px; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 6px 20px rgba(255,59,48,0.3); z-index: 1000;
+        /* المسبحة والأذكار */
+        .tasbeeh-panel {
+            background: var(--bg-input);
+            border: 2px dashed var(--accent-green);
+            border-radius: var(--radius-main);
+            padding: 35px 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .tasbeeh-panel:active { transform: scale(0.98); }
+        .tasbeeh-number {
+            font-size: 54px;
+            font-weight: 800;
+            font-family: monospace;
+            color: var(--accent-green);
         }
 
-        /* Modals */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 99999;
-            align-items: center; justify-content: center; padding: 20px;
+        .dhikr-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-btn);
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            line-height: 1.8;
+            cursor: pointer;
         }
-        .modal-overlay.active { display: flex; }
-        .modal-content {
-            background: #FFFFFF; width: 100%; max-width: 400px;
-            border-radius: 12px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            animation: modalSlideIn 0.3s ease;
+        .dhikr-counter-tag {
+            align-self: flex-start;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--accent-blue);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: var(--radius-pill);
         }
-        @keyframes modalSlideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* التقويم */
+        .cal-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+        }
+        .cal-grid-week {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+        .cal-grid-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            text-align: center;
+        }
+        .cal-day-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 50%;
+            background: var(--bg-input);
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .cal-day-cell.today { background: var(--accent-blue); color: #FFFFFF; }
+        .cal-day-cell.has-event { border-color: var(--accent-green); }
+
+        /* الطقس */
+        .weather-scroll-strip {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+        }
+        .weather-card-h {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-btn);
+            padding: 10px 14px;
+            text-align: center;
+            font-size: 12px;
+            min-width: 75px;
+        }
+
+        /* الحقول والأزرار */
+        .form-input {
+            width: 100%;
+            padding: 12px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-btn);
+            color: var(--text-main);
+            font-size: 14px;
+            outline: none;
+        }
+        .form-input:focus { border-color: var(--border-focus); }
+        .btn-submit {
+            background: var(--accent-blue);
+            color: #FFFFFF;
+            border: none;
+            padding: 13px;
+            border-radius: var(--radius-btn);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn-submit:active { opacity: 0.9; }
+
+        /* شريط التنقل السفلي */
+        .bottom-dock {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-pill);
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            width: calc(100% - 40px);
+            max-width: 380px;
+        }
+        .dock-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 10px;
+            border-radius: var(--radius-pill);
+            color: var(--text-sub);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+        }
+        .dock-btn.active {
+            background: var(--bg-input);
+            color: var(--text-main);
+        }
+
+        /* النوافذ العائمة */
+        .modal-bg {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 99999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-bg.active { display: flex !important; }
+        .modal-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-main);
+            padding: 22px;
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
         #syncToast {
-            position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
-            background: #FFFFFF; color: var(--text-main); padding: 8px 15px;
-            border-radius: 20px; font-size: 12px; font-weight: 700;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 999999;
-            display: none; animation: toastIn 0.3s ease;
+            position: fixed;
+            top: max(16px, env(safe-area-inset-top, 16px));
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            padding: 6px 16px;
+            border-radius: var(--radius-pill);
+            font-size: 12px;
+            font-weight: 700;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 999999;
+            pointer-events: none;
         }
-        @keyframes toastIn { from { top: -40px; } to { top: 10px; } }
-    </style>
-    
-    <!-- ***************************************************************
-         ***************************************************************
-         فلسفات التصميم الحركية الـ 10 - جذريّة وشاملة
-         ***************************************************************
-         *************************************************************** -->
-    <style id="philosophyStyle">
-        /* الافتراضي (Modern Streamline) مدمج في الكود الأساسي */
+        #syncToast.show { opacity: 1; }
     </style>
 </head>
-<body class="p-modern"> <!-- الفلسفة المطبقة تضاف ككلاس هنا -->
+<body>
 
-    <div id="syncToast">☁️ جارِ المزامنة سحابياً...</div>
+    <div id="syncToast">☁️ مزامنة...</div>
 
     <div class="app-container">
         
-        <!-- 1. شريط الحالة (Top Bar) -->
-        <div class="top-bar">
-            <div class="prayer-info-head" id="topPrayerPill" onclick="switchView('prayers-alarms')">
-                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                <span id="topPrayerText">الصلاة موعد</span>
+        <!-- الشريط العلوي -->
+        <div class="top-nav-bar">
+            <div class="prayer-badge" id="topPrayerTag" onclick="switchView('prayers-view')">
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.07 2.75z"/></svg>
+                <span id="topPrayerText">الصلاة: --</span>
             </div>
-            
-            <div class="top-actions">
-                <div id="authHeadPill"></div>
-                <button class="action-icon-btn" onclick="toggleThemeBase()">
+
+            <div class="nav-actions">
+                <div id="googleAuthContainer" onclick="openAuthModal()">
+                    <div class="auth-pill-btn" id="googleAuthBtn">
+                        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:currentColor;"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                        <span id="userNameSpan">حسابي</span>
+                    </div>
+                </div>
+
+                <button class="btn-icon-nav" onclick="toggleTheme()" title="الوضع الليلي / النهاري">
                     <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.39 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.39-.44-.06-.9-.1-1.36-.1z"/></svg>
                 </button>
-                <button class="action-icon-btn" onclick="switchView('settings')">
-                    <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l-.36 2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                <button class="btn-icon-nav" onclick="switchView('settings-view')" title="الإعدادات">
+                    <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
                 </button>
             </div>
         </div>
 
-        <!-- 2. العناوين Hero -->
-        <div class="hero-header">
-            <div class="greeting-row">
-                <div class="greeting-text" id="heroGreeting">طاب يومك.</div>
-                <button class="edit-name-btn" onclick="promptChangeName()">✎</button>
+        <!-- درج التطبيقات -->
+        <div class="apps-strip">
+            <div class="app-chip active" onclick="switchView('dashboard-view', this)">🏠 الرئيسية</div>
+            <div class="app-chip" onclick="switchView('calc-view', this)">🧮 الحاسبة</div>
+            <div class="app-chip" onclick="switchView('islamiyat-view', this)">🕌 إسلاميات</div>
+            <div class="app-chip" onclick="switchView('calendar-view', this)">📅 التقويم</div>
+            <div class="app-chip" onclick="switchView('weather-view', this)">⛅ الطقس</div>
+            <div class="app-chip" onclick="switchView('currency-view', this)">💱 العملات</div>
+            <div class="app-chip" onclick="switchView('todos-view', this)">✅ المهام</div>
+            <div class="app-chip" onclick="switchView('finance-view', this)">📊 المالية والديون</div>
+            <div class="app-chip" onclick="switchView('notes-view', this)">📝 الملاحظات</div>
+            <div class="app-chip" onclick="switchView('vault-view', this)">🔐 الخزنة والوثائق</div>
+        </div>
+
+        <!-- معلومات الترحيب والطقس -->
+        <div class="hero-info-box">
+            <div class="hero-title-row">
+                <div class="hero-title" id="heroGreetingTitle">طاب يومك.</div>
+                <button id="editNameBtn" class="edit-name-btn" onclick="promptEditDisplayName()">✏️</button>
             </div>
-            <div class="sub-status-line">
-                <div class="status-item">📌 <span id="textLoc">فلسطين</span> · <span id="textWeather">--°C ⛅</span></div>
-                <div class="status-item status-clickable" onclick="switchView('finance')">📊 صرف الشهر: <span id="textMonthSpent">0</span> ₪</div>
-                <div class="status-item status-clickable" onclick="switchView('currency')">💱 <span id="textRatesHead">USD/JOD/EUR rates</span></div>
+            <div class="hero-meta-line">
+                <span class="hero-meta-item" onclick="switchView('weather-view')">📍 جنين <span id="textWeather">--°C ⛅</span></span>
+                <span>·</span>
+                <span class="hero-meta-item" onclick="switchView('finance-view')">صرف الشهر: <strong id="textMonthlySpent">0 ₪</strong></span>
+            </div>
+            <div class="hero-meta-line" onclick="switchView('currency-view')">
+                <span class="hero-meta-item">USD: <span id="textUSD">--</span> ₪</span>
+                <span>·</span>
+                <span class="hero-meta-item">JOD: <span id="textJOD">--</span> ₪</span>
+                <span>·</span>
+                <span class="hero-meta-item">EUR: <span id="textEUR">--</span> ₪</span>
             </div>
         </div>
 
-        <!-- 3. درج التطبيقات (Dock) -->
-        <div class="app-dock">
-            <button class="dock-item active" onclick="switchView('home', this)">🏠 الرئيسية</button>
-            <button class="dock-item" onclick="switchView('calc', this)">🧮 الحاسبة</button>
-            <button class="dock-item" onclick="switchView('tasbeeh', this)">📿 المسبحة</button>
-            <button class="dock-item" onclick="switchView('quran', this)">📖 وورد القرآن</button>
-            <button class="dock-item" onclick="switchView('todos', this)">✅ المهام</button>
-            <button class="dock-item" onclick="switchView('notes', this)">📝 الملاحظات</button>
-            <button class="dock-item" onclick="switchView('vault', this)">🔐 الخزنة</button>
-            <button class="dock-item" onclick="switchView('calendar', this)">📅 التقويم</button>
-        </div>
+        <!-- 🏠 1. الشاشة الرئيسية -->
+        <div id="dashboard-view" class="view-section active">
+            <div class="panel-box">
+                <div class="panel-header">
+                    <span id="activeRemindersCountText">التنبيه الفعّال</span>
+                    <button class="panel-btn-link" onclick="openModal('alarm')">+ ضبط تنبيه</button>
+                </div>
 
-        <!-- *********************************************** -->
-        <!-- شاشات المحتوى -->
-        
-        <!-- أ. الرئيسية (Home) -->
-        <div id="v-home" class="section-view active">
-            <div class="section-title">التنبيهات والمؤقت</div>
-            <div class="timer-display-main" onclick="manageActiveTimer()">
-                <div class="timer-circ-wrap">
-                    <svg class="timer-svg" viewBox="0 0 180 180">
-                        <circle class="timer-svg-bg" cx="90" cy="90" r="86"></circle>
-                        <circle class="timer-svg-prog" id="timerProgCircle" cx="90" cy="90" r="86"></circle>
+                <!-- المؤقت التنازلي المصحح -->
+                <div class="timer-circle-container" onclick="openActiveTimerModal()">
+                    <svg class="timer-circle-svg" viewBox="0 0 160 160">
+                        <circle class="timer-circle-bg" cx="80" cy="80" r="72" />
+                        <circle class="timer-circle-progress" id="timerProgressCircle" cx="80" cy="80" r="72" />
                     </svg>
-                    <div class="timer-text-digits" id="textTimerDigits">00:00</div>
-                </div>
-                <div class="timer-label" id="textTimerLabel">لا يوجد مؤقت نشط</div>
-            </div>
-            <div class="quick-timer-grid">
-                <button class="q-timer-btn" onclick="startQuickTimer(5, 'استراحة قصيرة')">5 د</button>
-                <button class="q-timer-btn" onclick="startQuickTimer(25, 'جلسة تركيز 🎯')">🎯 25 د</button>
-                <button class="q-timer-btn" onclick="switchView('prayers-alarms')">+ مؤقت مخصص</button>
-            </div>
-
-            <div class="section-title">أهم مهام اليوم</div>
-            <div class="content-group" id="homeTodosList"></div>
-            <button class="app-btn-primary" style="margin-top:10px;" onclick="quickAddTodoHome()">+ إضافة مهمة سريعة</button>
-        </div>
-
-        <!-- ب. الحاسبة (Calc) -->
-        <div id="v-calc" class="section-view v-calc-view">
-            <div class="calc-wrapper">
-                <div class="calc-screen">
-                    <div class="calc-expr" id="calcExpr"></div>
-                    <div class="calc-main" id="calcMain">0</div>
-                </div>
-                <div class="calc-buttons">
-                    <button class="calc-btn fn" onclick="calcInput('AC')">AC</button>
-                    <button class="calc-btn fn" onclick="calcInput('+/-')">+/-</button>
-                    <button class="calc-btn fn" onclick="calcInput('%')">%</button>
-                    <button class="calc-btn op" onclick="calcInput('/')">÷</button>
-                    
-                    <button class="calc-btn num" onclick="calcInput('7')">7</button>
-                    <button class="calc-btn num" onclick="calcInput('8')">8</button>
-                    <button class="calc-btn num" onclick="calcInput('9')">9</button>
-                    <button class="calc-btn op" onclick="calcInput('*')">×</button>
-                    
-                    <button class="calc-btn num" onclick="calcInput('4')">4</button>
-                    <button class="calc-btn num" onclick="calcInput('5')">5</button>
-                    <button class="calc-btn num" onclick="calcInput('6')">6</button>
-                    <button class="calc-btn op" onclick="calcInput('-')">−</button>
-                    
-                    <button class="calc-btn num" onclick="calcInput('1')">1</button>
-                    <button class="calc-btn num" onclick="calcInput('2')">2</button>
-                    <button class="calc-btn num" onclick="calcInput('3')">3</button>
-                    <button class="calc-btn op" onclick="calcInput('+')">+</button>
-                    
-                    <button class="calc-btn num num-0" onclick="calcInput('0')">0</button>
-                    <button class="calc-btn num" onclick="calcInput('.')">.</button>
-                    <button class="calc-btn op" onclick="calcInput('=')">=</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ج. المسبحة (Tasbeeh) -->
-        <div id="v-tasbeeh" class="section-view">
-            <div class="tasbeeh-zone">
-                <div class="tasbeeh-zikr" id="textCurrentZikr">سُبْحَانَ اللَّهِ</div>
-                <div class="tasbeeh-counter-big" id="textTasbeehCount">0</div>
-                <button class="tasbeeh-btn-tap" onclick="tapTasbeeh()">اضغط</button>
-                <div style="display:flex; gap:10px; margin-top:10px;">
-                    <button class="q-timer-btn" onclick="changeZikr()">تغيير الذكر</button>
-                    <button class="q-timer-btn" style="color:#FF3B30;" onclick="resetTasbeeh()">تصفير</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- د. القرآن (Quran) -->
-        <div id="v-quran" class="section-view">
-            <div class="quran-portion-box">
-                <div class="quran-header-meta">
-                    <div style="font-weight:700;">وورد اليوم</div>
-                    <div class="quran-ayah-range" id="quranSurahAyat">السورة (آية - آية)</div>
-                </div>
-                <div class="ayah-text-block" id="quranAyahText">تحميل...</div>
-                <div class="section-title">المختصر في التفسير (ابن كثير)</div>
-                <div class="tafsir-text-block" id="quranTafsirText">تحميل...</div>
-                <button class="app-btn-primary" style="margin-top:15px; background:#27AE60;" onclick="markPortionRead()">تمت القراءة بحمد الله</button>
-            </div>
-        </div>
-        
-        <!-- الشاشات الأخرى (Todos, Notes, etc.) - تبقى بنفس المنطق برمجياً وتتغير شكلياً عبر الـ CSS -->
-        <div id="v-todos" class="section-view"><div class="section-title">إدارة المهام</div><div class="content-group" id="todosFullList"></div></div>
-        <div id="v-notes" class="section-view"><div class="section-title">الملاحظات والتسجيلات</div><div class="content-group" id="notesFullList"></div></div>
-        <div id="v-vault" class="section-view"><div class="section-title">الخزنة الآمنة</div><div class="content-group" id="vaultFullList"></div></div>
-        <div id="v-currency" class="section-view"><div class="section-title">محول العملات المباشر</div><div class="content-group">...</div></div>
-        <div id="v-finance" class="section-view"><div class="section-title">المالية والديون</div><div class="content-group">...</div></div>
-        <div id="v-calendar" class="section-view"><div class="section-title">التقويم والمواعيد</div><div class="content-group">...</div></div>
-        <div id="v-prayers-alarms" class="section-view"><div class="section-title">الصلوات والتنبيهات</div><div class="content-group">...</div></div>
-        
-        <!-- الشاشة الجديدة: الإعدادات الفخمة -->
-        <div id="v-settings" class="section-view">
-            <div class="section-title">حسابك والمزامنة</div>
-            <div class="content-group">
-                <div class="content-row">
-                    <div>
-                        <div style="font-weight:700;" id="settingsUserName">مستخدم LifeOS</div>
-                        <div style="font-size:12px; color:var(--text-sub);" id="settingsUserEmail">لا مزامنة سحابية</div>
+                    <div class="timer-circle-content">
+                        <div class="timer-digits" id="nearestTimerTime">--:--</div>
+                        <div class="timer-sub-title" id="nearestTimerLabel">لا توجد تنبيهات</div>
                     </div>
-                    <button class="app-btn-primary" style="width:auto; padding:8px 15px;" onclick="openAuthModal()">إدارة</button>
+                </div>
+
+                <div class="quick-alarms-row">
+                    <button class="btn-tag-alarm" onclick="addFastAlarm(15, 'تنبيه 15 دقيقة')">15 د</button>
+                    <button class="btn-tag-alarm" onclick="addFastAlarm(20, 'تنبيه 20 دقيقة')">20 د</button>
+                    <button class="btn-tag-alarm" onclick="addFastAlarm(25, 'جلسة تركيز 🎯')">🎯 25 د</button>
+                    <button class="btn-tag-alarm" onclick="addFastAlarm(30, 'تنبيه 30 دقيقة')">30 د</button>
+                    <button class="btn-tag-alarm" onclick="addFastAlarm(45, 'تنبيه 45 دقيقة')">45 د</button>
+                </div>
+
+                <div id="dashRemindersPreview"></div>
+            </div>
+
+            <!-- مهام اليوم -->
+            <div class="panel-box">
+                <div class="panel-header">
+                    <span id="dashTodoCount">مهام اليوم</span>
+                    <button class="panel-btn-link" onclick="openModal('todo')">+ مهمة جديدة</button>
+                </div>
+                <div id="dashTodosList"></div>
+            </div>
+
+            <!-- مصاريف اليوم -->
+            <div class="panel-box">
+                <div class="panel-header">
+                    <div>صرف اليوم: <strong style="color:var(--accent-red);" id="dashExpensesTotal">0 ₪</strong></div>
+                    <button class="panel-btn-link" onclick="openModal('expense')">+ تسجيل صرف</button>
+                </div>
+                <div id="dashExpensesPreview"></div>
+            </div>
+
+            <!-- الاشتراكات الفعالة -->
+            <div class="panel-box">
+                <div class="panel-header">
+                    <span>الاشتراكات الفعالة</span>
+                    <button class="panel-btn-link" onclick="openModal('subscription')">+ اشتراك جديد</button>
+                </div>
+                <div id="dashSubscriptionsList"></div>
+            </div>
+        </div>
+
+        <!-- 🧮 2. حاسبة Google الدقيقة -->
+        <div id="calc-view" class="view-section">
+            <div class="calc-container">
+                <div class="calc-screen">
+                    <div class="calc-expr" id="gCalcExpr"></div>
+                    <div class="calc-val" id="gCalcDisplay">0</div>
+                </div>
+                <div class="calc-keys-grid">
+                    <button class="calc-key clear" onclick="calcAction('AC')">AC</button>
+                    <button class="calc-key clear" onclick="calcAction('DEL')">⌫</button>
+                    <button class="calc-key op" onclick="calcOp('%')">%</button>
+                    <button class="calc-key op" onclick="calcOp('÷')">÷</button>
+
+                    <button class="calc-key" onclick="calcNum('7')">7</button>
+                    <button class="calc-key" onclick="calcNum('8')">8</button>
+                    <button class="calc-key" onclick="calcNum('9')">9</button>
+                    <button class="calc-key op" onclick="calcOp('×')">×</button>
+
+                    <button class="calc-key" onclick="calcNum('4')">4</button>
+                    <button class="calc-key" onclick="calcNum('5')">5</button>
+                    <button class="calc-key" onclick="calcNum('6')">6</button>
+                    <button class="calc-key op" onclick="calcOp('−')">−</button>
+
+                    <button class="calc-key" onclick="calcNum('1')">1</button>
+                    <button class="calc-key" onclick="calcNum('2')">2</button>
+                    <button class="calc-key" onclick="calcNum('3')">3</button>
+                    <button class="calc-key op" onclick="calcOp('+')">+</button>
+
+                    <button class="calc-key" onclick="calcAction('±')">±</button>
+                    <button class="calc-key" onclick="calcNum('0')">0</button>
+                    <button class="calc-key" onclick="calcNum('.')">.</button>
+                    <button class="calc-key eq" onclick="calcEquals()">=</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🕌 3. إسلاميات (أذكار + ورد القرآن + مسبحة) -->
+        <div id="islamiyat-view" class="view-section">
+            <div style="display:flex; gap:6px;">
+                <button class="app-chip active" id="btnTabAdhkar" onclick="switchIslamTab('adhkar')">🤲 الأذكار</button>
+                <button class="app-chip" id="btnTabQuran" onclick="switchIslamTab('quran')">📖 ورد القرآن</button>
+                <button class="app-chip" id="btnTabTasbeeh" onclick="switchIslamTab('tasbeeh')">📿 المسبحة</button>
+            </div>
+
+            <!-- الأذكار المأثورة -->
+            <div id="islamTabAdhkar" style="display:flex; flex-direction:column; gap:10px;">
+                <div class="panel-header" id="adhkarHeaderTitle" style="padding:4px;">أذكار الوقت الحالي</div>
+                <div id="adhkarItemsContainer"></div>
+            </div>
+
+            <!-- ورد القرآن مع تفسير ابن كثير -->
+            <div id="islamTabQuran" style="display:none; flex-direction:column; gap:12px;">
+                <div class="panel-box">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-size:13px; font-weight:700; color:var(--accent-green);" id="quranSurahAyatBadge">سورة البقرة (1-5)</span>
+                        <span style="font-size:12px; color:var(--text-sub);">المقدار: 5 آيات</span>
+                    </div>
+                    <div style="font-size:18px; line-height:2.2; font-family:'Amiri', serif; text-align:justify;" id="quranVersesText"></div>
+                    <div style="font-size:13px; line-height:1.8; background:var(--bg-input); padding:14px; border-radius:var(--radius-btn); border-right:3px solid var(--accent-green);" id="quranTafsirText"></div>
+                    <button class="btn-submit" style="background:var(--accent-green);" onclick="completeQuranBatch()">
+                        ✅ تم بحمد الله (عرض الـ 5 آيات التالية)
+                    </button>
                 </div>
             </div>
 
-            <div class="section-title">فلسفة التصميم (Design Philosophy)</div>
-            <div class="app-input-field" style="padding:0;">
-                <select id="philosophySelector" onchange="changePhilosophy(this.value)" style="width:100%; height:100%; padding:12px; background:none; color:inherit;">
-                    <option value="p-modern">1. المظهر العصري (Modern Streamline)</option>
-                    <option value="p-neu">2. نيومورفيزم (Neumorphism UI)</option>
-                    <option value="p-glass">3. جلاسمورفيزم (Glassmorphism)</option>
-                    <option value="p-neo">4. بروتاليزم الجديد (Neo-Brutalism)</option>
-                    <option value="p-flat">5. التصميم المسطح (Flat 2.0)</option>
-                    <option value="p-amoled">6. الداكن الفاخر (Amoled Luxe)</option>
-                    <option value="p-swiss">7. السويسري (Swiss Typography)</option>
-                    <option value="p-cyber">8. المستقبلي (Futuristic/Cyber)</option>
-                    <option value="p-zen">9. الياباني (Zen Minimal)</option>
-                    <option value="p-retro">10. العتيق (Retro Terminal)</option>
-                </select>
+            <!-- المسبحة اللمسية -->
+            <div id="islamTabTasbeeh" style="display:none; flex-direction:column; gap:12px;">
+                <div class="panel-box" style="text-align:center;">
+                    <div style="font-size:16px; font-weight:700; color:var(--accent-green);" id="tasbeehZikrName">سُبْحَانَ اللهِ</div>
+                    <div class="tasbeeh-panel" onclick="tapTasbeeh()">
+                        <div class="tasbeeh-number" id="tasbeehDisplay">0</div>
+                        <div style="font-size:12px; color:var(--text-sub); margin-top:6px;">انقر في أي مكان للتسبيح بالاهتزاز</div>
+                    </div>
+                    <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
+                        <button class="app-chip" onclick="setZikr('سُبْحَانَ اللهِ')">سبحان الله</button>
+                        <button class="app-chip" onclick="setZikr('الْحَمْدُ للهِ')">الحمد لله</button>
+                        <button class="app-chip" onclick="setZikr('اللهُ أَكْبَرُ')">الله أكبر</button>
+                        <button class="app-chip" onclick="setZikr('أَسْتَغْفِرُ اللهَ')">استغفار</button>
+                        <button class="app-chip" style="color:var(--accent-red);" onclick="resetTasbeeh()">تصفير</button>
+                    </div>
+                </div>
             </div>
-            
-            <div class="section-title">النظام</div>
-            <div class="quick-timer-grid">
-                <button class="q-timer-btn" onclick="testNotification()">تجربة التنبيه</button>
-                <button class="q-timer-btn" onclick="exportData()">تصدير البيانات</button>
-                <button class="q-timer-btn" onclick="importData()">استيراد البيانات</button>
+        </div>
+
+        <!-- 📅 4. التقويم -->
+        <div id="calendar-view" class="view-section">
+            <div class="panel-box">
+                <div class="cal-controls">
+                    <button class="btn-tag-alarm" onclick="changeMonth(-1)">‹ السابق</button>
+                    <span id="calMonthTitle">--</span>
+                    <button class="btn-tag-alarm" onclick="changeMonth(1)">التالي ›</button>
+                </div>
+                <div class="cal-grid-week">
+                    <div>ح</div><div>ن</div><div>ث</div><div>ر</div><div>خ</div><div>ج</div><div>س</div>
+                </div>
+                <div class="cal-grid-days" id="calDaysGrid"></div>
+            </div>
+            <div class="panel-box">
+                <div class="panel-header" id="calSelectedTitle">أحداث اليوم المحدد</div>
+                <div id="calDayEventsList">
+                    <p style="color:var(--text-sub); font-size:13px; text-align:center;">اختر يوماً من التقويم لعرض تفاصيله</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ⛅ 5. الطقس -->
+        <div id="weather-view" class="view-section">
+            <div class="panel-box" style="text-align:center;">
+                <div style="font-size:42px; font-weight:800;" id="weatherViewTemp">--°C</div>
+                <div style="font-size:14px; color:var(--text-sub);" id="weatherViewDesc">⛅ جاري الفحص...</div>
+                <div style="font-size:12px; color:var(--accent-green); margin-top:4px;">📍 جنين، فلسطين (محدث بالساعات ومحفوظ أوفلاين)</div>
+                <div class="weather-scroll-strip" id="weatherHourlyStrip" style="margin-top:14px;"></div>
+            </div>
+        </div>
+
+        <!-- 💱 6. محول العملات -->
+        <div id="currency-view" class="view-section">
+            <div class="panel-box">
+                <label style="font-size:12px; color:var(--text-sub);">المبلغ:</label>
+                <input type="number" id="currAmountInput" value="100" class="form-input" oninput="convertCurrency()">
+                <div style="display:flex; gap:8px;">
+                    <div style="flex:1;">
+                        <label style="font-size:11px; color:var(--text-sub);">من:</label>
+                        <select id="currFrom" class="form-input" onchange="convertCurrency()">
+                            <option value="ILS">شيكل (ILS)</option>
+                            <option value="USD">دولار (USD)</option>
+                            <option value="JOD">دينار (JOD)</option>
+                            <option value="EUR">يورو (EUR)</option>
+                        </select>
+                    </div>
+                    <div style="flex:1;">
+                        <label style="font-size:11px; color:var(--text-sub);">إلى:</label>
+                        <select id="currTo" class="form-input" onchange="convertCurrency()">
+                            <option value="USD">دولار (USD)</option>
+                            <option value="ILS" selected>شيكل (ILS)</option>
+                            <option value="JOD">دينار (JOD)</option>
+                            <option value="EUR">يورو (EUR)</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="background:var(--bg-input); padding:16px; border-radius:var(--radius-btn); text-align:center;">
+                    <div style="font-size:12px; color:var(--text-sub);">النتيجة:</div>
+                    <div style="font-size:28px; font-weight:800; color:var(--accent-blue); margin-top:4px;" id="currResultDisplay">--</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ✅ 7. المهام -->
+        <div id="todos-view" class="view-section">
+            <div class="panel-box">
+                <form onsubmit="handleQuickTodo(event)" style="display:flex; gap:8px;">
+                    <input type="text" id="quickTodoInput" placeholder="أضف مهمة جديدة..." class="form-input" required>
+                    <button type="submit" class="btn-submit" style="width:auto; padding:0 20px;">إضافة</button>
+                </form>
+                <div id="todosFullList"></div>
+            </div>
+        </div>
+
+        <!-- 📊 8. المالية والديون -->
+        <div id="finance-view" class="view-section">
+            <div class="panel-box">
+                <div style="display:flex; justify-content:space-between; text-align:center;">
+                    <div><div style="font-size:12px; color:var(--text-sub);">اليوم</div><div style="font-size:18px; font-weight:800;" id="statToday">0 ₪</div></div>
+                    <div><div style="font-size:12px; color:var(--text-sub);">آخر 7 أيام</div><div style="font-size:18px; font-weight:800; color:var(--accent-blue);" id="statWeek">0 ₪</div></div>
+                    <div><div style="font-size:12px; color:var(--text-sub);">هذا الشهر</div><div style="font-size:18px; font-weight:800; color:var(--accent-red);" id="statMonth">0 ₪</div></div>
+                </div>
+            </div>
+
+            <!-- الديون -->
+            <div class="panel-box">
+                <div class="panel-header">
+                    <span>سجل الديون والالتزامات (لي / علي)</span>
+                    <button class="panel-btn-link" onclick="openModal('debt')">+ تسجيل التزام</button>
+                </div>
+                <div id="debtsFullList"></div>
+            </div>
+
+            <!-- الفواتير والاشتراكات -->
+            <div class="panel-box">
+                <div class="panel-header">
+                    <span>الفواتير والاشتراكات</span>
+                    <button class="panel-btn-link" onclick="openModal('bill')">+ إضافة فاتورة</button>
+                </div>
+                <div id="billsFullList"></div>
+            </div>
+
+            <!-- المصاريف السابقة -->
+            <div class="panel-box">
+                <div class="panel-header">سجل المصاريف السابقة</div>
+                <div id="expensesFullList"></div>
+            </div>
+        </div>
+
+        <!-- 📝 9. الملاحظات والصوت -->
+        <div id="notes-view" class="view-section">
+            <div class="panel-box">
+                <div class="panel-header">
+                    <span>الملاحظات والتسجيلات</span>
+                    <div style="display:flex; gap:6px;">
+                        <button class="panel-btn-link" onclick="openModal('note')">+ ملاحظة</button>
+                        <button class="panel-btn-link" style="color:var(--accent-red);" onclick="startVoiceRecording()">🎙️ تسجيل صوتي</button>
+                    </div>
+                </div>
+                <div id="notesFullList"></div>
+            </div>
+        </div>
+
+        <!-- 🔐 10. الخزنة والوثائق -->
+        <div id="vault-view" class="view-section">
+            <div class="panel-box">
+                <div class="panel-header">
+                    <span>الحسابات المشفرة</span>
+                    <button class="panel-btn-link" onclick="openModal('vault')">+ حساب جديد</button>
+                </div>
+                <div id="vaultFullList"></div>
+            </div>
+
+            <div class="panel-box">
+                <div class="panel-header">
+                    <span>الوثائق الرسمية</span>
+                    <button class="panel-btn-link" onclick="openModal('doc')">+ وثيقة جديدة</button>
+                </div>
+                <div id="docsFullList"></div>
+            </div>
+        </div>
+
+        <!-- 🕌⏰ 11. الصلوات والتنبيهات -->
+        <div id="prayers-view" class="view-section">
+            <div class="panel-box">
+                <div class="panel-header">مواقيت الصلاة والتنبيهات القادمة</div>
+                <div id="prayersFullList"></div>
+            </div>
+        </div>
+
+        <!-- ⚙️ 12. الإعدادات والنسخ الاحتياطي -->
+        <div id="settings-view" class="view-section">
+            <div class="panel-box">
+                <div class="panel-header">الحساب والمزامنة</div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <strong id="settingsAccountName">غير مسجل الدخول</strong>
+                        <div style="font-size:12px; color:var(--text-sub);" id="settingsAccountEmail">البيانات محفوظة محلياً على هاتفك</div>
+                    </div>
+                    <button class="btn-tag-alarm" onclick="openAuthModal()" id="settingsAuthBtn">تسجيل الدخول</button>
+                </div>
+            </div>
+
+            <div class="panel-box">
+                <div class="panel-header">النسخ الاحتياطي والبطارية</div>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                    <button class="btn-submit" style="background:var(--bg-card); color:var(--text-main); border:1px solid var(--border-color);" onclick="testPrestigeAlarm()">🎵 فحص نغمة التنبيه القصوى</button>
+                    <button class="btn-submit" style="background:var(--bg-card); color:var(--accent-blue); border:1px solid var(--border-color);" onclick="requestBatteryOptimizationExemption()">⚡ إذن عمل التنبيهات بالخلفية</button>
+                    <button class="btn-submit" style="background:var(--bg-card); color:var(--text-main); border:1px solid var(--border-color);" onclick="exportData()">📥 تصدير نسخة احتياطية (JSON)</button>
+                    <button class="btn-submit" style="background:var(--bg-card); color:var(--accent-green); border:1px solid var(--border-color);" onclick="triggerImportFile()">📤 استرجاع نسخة احتياطية</button>
+                    <input type="file" id="importFileInput" accept=".json" style="display:none;" onchange="handleImportBackup(event)">
+                </div>
             </div>
         </div>
 
     </div>
 
-    <!-- Bottom Dock Mic -->
-    <button class="center-dock" onclick="switchView('notes'); startVoiceRecordQuick()">🎙️</button>
+    <!-- شريط التنقل السفلي -->
+    <div class="bottom-dock">
+        <button class="dock-btn active" id="btnDockHome" onclick="switchView('dashboard-view', this)">الرئيسية</button>
+        <button class="dock-btn" onclick="switchView('notes-view'); startVoiceRecording();" style="flex:0 0 46px; height:46px; border-radius:50%; background:var(--accent-red); color:#FFFFFF; font-size:20px; padding:0; display:flex; align-items:center; justify-content:center;">🎙️</button>
+        <button class="dock-btn" id="btnDockPrayers" onclick="switchView('prayers-view', this)">الصلوات</button>
+    </div>
 
-    <!-- Modals -->
-    <div class="modal-overlay" id="authModal">
-        <div class="modal-content">
-            <div class="greeting-row">
-                <div class="section-title" id="authModalTitle">تسجيل الدخول / إنشاء حساب</div>
-                <button style="margin-right:auto;" onclick="closeModal()">✖</button>
+    <!-- النوافذ العائمة (Modals) -->
+    <div class="modal-bg" id="actionModal">
+        <div class="modal-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <strong id="modalTitle" style="font-size:16px;">إضافة</strong>
+                <button onclick="closeModal()" style="background:none; border:none; color:var(--text-sub); font-size:18px; cursor:pointer;">✖</button>
             </div>
-            <input type="email" id="authEmail" class="app-input-field" placeholder="البريد الإلكتروني">
-            <input type="password" id="authPass" class="app-input-field" placeholder="كلمة المرور (6 أحرف على الأقل)">
-            <div style="display:flex; gap:10px; margin-top:10px;">
-                <button class="app-btn-primary" onclick="handleAuthAction('login')">دخول</button>
-                <button class="app-btn-primary" style="background:#888;" onclick="handleAuthAction('signup')">تسجيل</button>
+            <div id="modalContainer" style="display:flex; flex-direction:column; gap:10px;"></div>
+        </div>
+    </div>
+
+    <div class="modal-bg" id="timerManageModal">
+        <div class="modal-card" style="text-align:center;">
+            <div style="font-size:36px;">⏱️</div>
+            <strong id="manageTimerTitle" style="font-size:16px;">إدارة التنبيه</strong>
+            <p id="manageTimerSub" style="font-size:13px; color:var(--text-sub);">المتبقي: 00:00</p>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+                <button onclick="editActiveTimerTitle()" class="btn-submit">✏️ تعديل اسم التنبيه</button>
+                <button onclick="deleteActiveTimer()" class="btn-submit" style="background:var(--accent-red);">🗑️ إلغاء وحذف التنبيه</button>
+                <button onclick="closeManageTimerModal()" class="btn-submit" style="background:var(--bg-input); color:var(--text-main);">إغلاق</button>
             </div>
         </div>
     </div>
 
-    <!-- ***************************************************************
-         CSS فلسفات التصميم الـ 10 - جذريّة وشاملة
-         *************************************************************** -->
+    <div class="modal-bg" id="voiceModal">
+        <div class="modal-card" style="text-align:center;">
+            <div style="font-size:36px; color:var(--accent-red);">🎙️</div>
+            <strong style="font-size:16px;">جاري التسجيل الصوتي...</strong>
+            <div id="recordTimer" style="font-size:24px; font-weight:800; font-family:monospace; color:var(--accent-red);">00:00</div>
+            <div style="display:flex; gap:8px;">
+                <button onclick="stopVoiceRecording()" class="btn-submit" style="background:var(--accent-green); flex:1;">حفظ</button>
+                <button onclick="cancelVoiceRecording()" class="btn-submit" style="background:var(--bg-input); color:var(--text-main); flex:1;">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-bg" id="postRecordingModal">
+        <div class="modal-card">
+            <strong style="font-size:16px;">تم حفظ التسجيل!</strong>
+            <p style="font-size:12px; color:var(--text-sub);">النص المكتشف: <span id="transcribedVoiceText" style="color:var(--text-main); font-weight:700;">--</span></p>
+            <div id="smartSuggestionsBox" style="display:flex; flex-direction:column; gap:8px;"></div>
+            <button onclick="closePostRecModal()" class="btn-submit" style="background:var(--bg-input); color:var(--text-main);">إغلاق</button>
+        </div>
+    </div>
+
+    <div class="modal-bg" id="authModal">
+        <div class="modal-card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <strong style="font-size:16px;">تسجيل الحساب</strong>
+                <button onclick="closeAuthModal()" style="background:none; border:none; color:var(--text-sub); font-size:18px; cursor:pointer;">✖</button>
+            </div>
+            <input type="email" id="authEmail" placeholder="البريد الإلكتروني..." class="form-input">
+            <input type="password" id="authPassword" placeholder="كلمة المرور..." class="form-input">
+            <div style="display:flex; gap:8px;">
+                <button onclick="submitLogin()" class="btn-submit" style="flex:1;">دخول</button>
+                <button onclick="submitSignup()" class="btn-submit" style="background:var(--bg-input); color:var(--text-main); flex:1;">إنشاء حساب</button>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:4px;">
+                <button onclick="handleForgotPass()" style="background:none; border:none; color:var(--accent-blue); cursor:pointer;">نسيت كلمة المرور؟</button>
+                <button onclick="handleResendVerification()" style="background:none; border:none; color:var(--accent-blue); cursor:pointer;">إعادة إرسال التفعيل</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-bg" id="activeAlarmModal">
+        <div class="modal-card" style="text-align:center;">
+            <div style="font-size:42px;">⏰</div>
+            <strong style="font-size:20px; color:var(--accent-red);">حان وقت التنبيه!</strong>
+            <p id="alarmActiveTitle" style="font-size:15px; font-weight:700;">موعد التنبيه</p>
+            <button onclick="dismissAlarm()" class="btn-submit" style="background:var(--accent-red);">🔕 إيقاف التنبيه</button>
+        </div>
+    </div>
+
     <script>
-        const philosophiesCSS = {
-            // الافتراضي مدمج بالفعل
-
-            // 2. نيومورفيزم: تأثيرات بارزة وغائرة
-            "p-neu": `
-                :root {
-                    --bg-body: #E0E5EC; --text-main: #37474F; --text-sub: #90A4AE; --accent: #6C5CE7;
-                    --panel-bg: #E0E5EC; --border-color: transparent;
-                    --radius-md: 20px; --font-family: 'Segoe UI', sans-serif;
-                }
-                .hero-header { text-align: center; } .greeting-row { justify-content: center; }
-                .top-bar { display:none; }
-                .hero-header { margin-top: calc(10px + var(--safe-top)); }
-                .sub-status-line { flex-direction:row; justify-content:center; flex-wrap:wrap; }
-                .dock-item, .content-row, .q-timer-btn, .tasbeeh-zone, .timer-display-main, .calc-wrapper, .quran-portion-box, .app-input-field {
-                    box-shadow: 6px 6px 12px #b8bcc2, -6px -6px 12px #ffffff;
-                    border: none; background: #E0E5EC; color: #37474F;
-                }
-                .dock-item.active { box-shadow: inset 4px 4px 8px #564a9e, inset -4px -4px 8px #826eff; background: #6C5CE7; }
-                .tasbeeh-btn-tap { box-shadow: 6px 6px 12px #b8bcc2, -6px -6px 12px #ffffff; }
-                .calc-buttons { gap: 15px; } .calc-btn { box-shadow: 4px 4px 8px #c1c6cd, -4px -4px 8px #ffffff; }
-            `,
-
-            // 3. جلاسمورفيزم: شفافية وضبابية
-            "p-glass": `
-                :root {
-                    --bg-body: #6C5CE7; --text-main: #FFFFFF; --text-sub: rgba(255,255,255,0.7); --accent: #FAB1A0;
-                    --panel-bg: rgba(255, 255, 255, 0.1); --border-color: rgba(255, 255, 255, 0.15);
-                    --safe-top: 10px; --safe-bottom: 10px;
-                }
-                body {
-                    background-image: linear-gradient(135deg, #6C5CE7 0%, #FAB1A0 100%);
-                }
-                .dock-item, .content-row, .q-timer-btn, .tasbeeh-zone, .timer-display-main, .quran-portion-box {
-                    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-                    border: 1px solid var(--border-color); color: #FFF; background: rgba(255,255,255,0.1);
-                    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
-                }
-                .dock-item.active { background: rgba(250, 177, 160, 0.3); border-color: var(--accent); color: #FFF; }
-                .content-group { background: transparent; }
-                .content-row { margin-bottom: 2px; border-radius: 8px; }
-                .calc-wrapper { background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); }
-                .tasbeeh-btn-tap { background: var(--accent); border: none; }
-                .timer-svg-bg { stroke: rgba(255,255,255,0.1); }
-            `,
-
-            // 4. بروتاليزم الجديد: صارخ وحواف حادة
-            "p-neo": `
-                :root {
-                    --bg-body: #FFDE03; --text-main: #000000; --text-sub: #000000; --accent: #FF5252;
-                    --panel-bg: #FFFFFF; --border-color: #000000;
-                    --radius-md: 0px; --font-family: 'Helvetica Neue', Arial, sans-serif;
-                }
-                .greeting-text { font-weight: 900; font-style: italic; -webkit-text-stroke: 1px black; color: white; }
-                .dock-item, .content-row, .q-timer-btn, .tasbeeh-zone, .timer-display-main, .quran-portion-box, .calc-wrapper, .app-input-field {
-                    border: 3px solid #000; box-shadow: 5px 5px 0px #000; border-radius: 0; background: #FFF;
-                }
-                .dock-item.active { background: var(--accent); color: #000; }
-                .calc-btn { border: 2px solid #000; border-radius: 0; box-shadow: 3px 3px 0 #000; }
-                .calc-wrapper { background: #616161; }
-                .timer-display-main, .tasbeeh-zone { background: cyan; }
-                .ayah-text-block { border-left: 5px solid #000; padding-left: 10px; }
-            `,
-
-            // 5. التصميم المسطح 2.0: بسيط وهادئ
-            "p-flat": `
-                :root {
-                    --bg-body: #ECF0F1; --text-main: #2C3E50; --text-sub: #7F8C8D; --accent: #1ABC9C;
-                    --panel-bg: #FFFFFF; --border-color: #BDC3C7;
-                    --radius-md: 4px; --font-family: Roboto, sans-serif;
-                }
-                * { box-shadow: none !important; }
-                .app-dock { justify-content: space-around; }
-                .dock-item { border-radius: 0; border: none; background: transparent; }
-                .dock-item.active { background: transparent; color: var(--accent); font-weight: 900; border-bottom: 3px solid var(--accent); }
-                .content-row { border-bottom: 1px solid var(--border-color); }
-                .timer-svg-prog { stroke-width: 12; } .timer-svg-bg { stroke-width: 12; }
-                .calc-wrapper { background: #34495E; border-radius: 0; } .calc-btn { border-radius: 4px; }
-            `,
-
-            // 6. الداكن الفاخر (Amoled Luxe)
-            "p-amoled": `
-                :root {
-                    --bg-body: #000000; --text-main: #E0E0E0; --text-sub: #A0A0A0; --accent: #D4AF37;
-                    --panel-bg: #121212; --border-color: #2A2A2A;
-                    --radius-md: 0px; --font-family: 'Playfair Display', serif;
-                }
-                .top-bar { padding-top: var(--safe-top); }
-                .greeting-text { font-family: 'Playfair Display', serif; }
-                .dock-item, .content-row, .q-timer-btn, .tasbeeh-zone, .timer-display-main, .quran-portion-box, .app-input-field {
-                    border: none; background: #000000; border-bottom: 1px solid var(--border-color);
-                }
-                .dock-item.active { color: var(--accent); border-bottom: 1px solid var(--accent); background: #000; font-weight: 700; }
-                .timer-svg-bg { stroke: #1A1A1A; }
-                .calc-wrapper { background: #000; }
-                .content-group { background: transparent; }
-            `,
-
-            // 7. السويسري (Swiss Typography): أحجام ضخمة
-            "p-swiss": `
-                :root {
-                    --bg-body: #FFFFFF; --text-main: #000000; --text-sub: #000000; --accent: #FF0000;
-                    --radius-md: 0px; --font-family: 'Helvetica Neue', Helvetica, sans-serif;
-                }
-                * { box-shadow: none !important; border-radius: 0 !important; border-color: #000 !important; }
-                .greeting-text { font-size: 60px; font-weight: 900; line-height: 1; letter-spacing: -3px; }
-                .top-bar, .status-item { display: none; }
-                .app-dock { flex-direction: column; height: 100vh; position: fixed; right: 0; top: 0; width: 60px; background: #000; color: #FFF; z-index: 1001; }
-                .dock-item { color: #FFF; background: #000; transform: rotate(90deg); margin-top: 50px; font-weight: 900; }
-                .dock-item.active { color: #FF0000; }
-                .section-title { font-size: 30px; font-weight: 900; border-bottom: 5px solid #000; padding-bottom: 5px; }
-                .content-row { font-size: 18px; font-weight: 700; border-bottom: 2px solid #000; }
-                .timer-text-digits { font-size: 60px; font-family: Helvetica; font-weight: 900; }
-            `,
-
-            // 8. المستقبلي (Futuristic/Cyber)
-            "p-cyber": `
-                :root {
-                    --bg-body: #05050A; --text-main: #00FFFF; --text-sub: #008B8B; --accent: #FF00FF;
-                    --panel-bg: rgba(0,255,255,0.05); --border-color: #00FFFF;
-                    --radius-md: 0px; --font-family: 'Arial', sans-serif;
-                }
-                * { text-shadow: 0 0 5px var(--accent); }
-                .dock-item, .content-row, .q-timer-btn, .tasbeeh-zone, .timer-display-main, .quran-portion-box, .calc-wrapper, .app-input-field {
-                    border: 1px solid var(--border-color); background: #05050A;
-                    position: relative;
-                }
-                .dock-item.active { background: #00FFFF; color: #000; box-shadow: 0 0 15px var(--border-color); }
-                .timer-display-main, .tasbeeh-btn-tap { clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%); }
-                .timer-text-digits { color: var(--accent); }
-                .calc-btn { color: var(--text-main); border: 1px solid var(--text-main); }
-            `,
-
-            // 9. الياباني (Zen Minimal)
-            "p-zen": `
-                :root {
-                    --bg-body: #FDFDFD; --text-main: #333333; --text-sub: #777777; --accent: #8E735B;
-                    --panel-bg: #FFFFFF; --border-color: #E0E0E0;
-                    --radius-md: 0px; --font-family: 'Hiragino Mincho ProN', serif;
-                }
-                body { padding-right: 40px; }
-                .greeting-text { writing-mode: vertical-rl; position: fixed; right: 10px; top: 100px; font-size: 40px; color: var(--accent); }
-                .top-bar, .app-dock, .status-item { border:none; background:none; box-shadow:none; }
-                .app-dock { position: fixed; left: 10px; top: 20px; flex-direction: column; width: 30px; }
-                .dock-item { font-size: 10px; color: var(--text-main); margin-bottom: 20px; transform: rotate(180deg); writing-mode: vertical-rl; padding: 0;}
-                .dock-item.active { color: var(--accent); font-weight: normal; }
-                .content-row { border: none; border-bottom: 1px solid #F0F0F0; padding: 10px; }
-                .timer-svg { width: 50%; height: 50%; margin: 0 auto; }
-            `,
-
-            // 10. العتيق (Retro Terminal)
-            "p-retro": `
-                :root {
-                    --bg-body: #000000; --text-main: #00FF00; --text-sub: #00AA00; --accent: #00FF00;
-                    --panel-bg: #000000; --border-color: #00FF00;
-                    --radius-md: 0px; --font-family: 'Courier New', mospace;
-                }
-                * { font-family: 'Courier New', monospace !important; border-radius: 0 !important; border-color: #00FF00 !important;}
-                body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,255,0,0.1) 50%, rgba(0,0,0,0) 50%); background-size: 100% 4px; pointer-events: none; z-index: 9999; }
-                .top-bar { font-size: 12px; }
-                .greeting-text { font-size: 24px; text-transform: uppercase; border-bottom: 1px solid #00FF00; }
-                .edit-name-btn::before { content: "[EDIT]"; } .edit-name-btn { font-size: 12px; }
-                .dock-item { border: 1px solid #00FF00; color: #00FF00; text-transform: uppercase; font-size: 11px; }
-                .dock-item.active { background: #00FF00; color: #000; }
-                .content-row { border-bottom: 1px dashed #00AA00; }
-                .timer-text-digits { font-family: 'Courier New', monospace; font-size: 40px; -webkit-text-stroke: 1px #00FF00; color: #000; }
-                .calc-wrapper { border: 1px solid #00FF00; } .calc-btn { border: 1px solid #00FF00; background: #000; color: #00FF00; }
-                .calc-main { color: #00FF00; font-family: 'Courier New', monospace; }
-            `
+        // =========================================================================
+        // --- 1. البنية والبيانات والمزامنة (Offline-First) ---
+        // =========================================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyCxalyr_Xa7IeSuT8enh6MCu2a1h5HvBWY",
+            authDomain: "life-8892e.firebaseapp.com",
+            databaseURL: "https://life-8892e-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "life-8892e",
+            storageBucket: "life-8892e.firebasestorage.app",
+            messagingSenderId: "164493970016",
+            appId: "1:164493970016:web:96fffd7b5507e86cfb5105"
         };
 
-        function changePhilosophy(className) {
-            document.body.className = className;
-            localStorage.setItem('lifeOS_philosophy', className);
-            updatePhilosophyStyles(className);
-            
-            // تحديث لون الـ Status bar بناءً على الفلسفة
-            const themeColor = getComputedStyle(document.body).getPropertyValue('--bg-body').trim();
-            document.getElementById('themeColorMeta').setAttribute('content', themeColor);
-            
-            // اهتزاز تأكيدي
-            if ("vibrate" in navigator) navigator.vibrate(50);
-            
-            showSyncToast('✨ تم تطبيق فلسفة تصميم جديدة');
+        let currentUser = null;
+        let userDbRef = null;
+        let lastSpokenText = '';
+        let currentActiveTimerObj = null;
+        let navHistory = ['dashboard-view'];
+        let lastBackTime = 0;
+
+        // حالة الحاسبة
+        let gExpr = '';
+        let gVal = '0';
+        let gOp = null;
+        let gReset = false;
+
+        // حالة التقويم
+        let calYear = new Date().getFullYear();
+        let calMonth = new Date().getMonth();
+
+        // حالة المسبحة
+        let tasbeehCount = 0;
+
+        function normalizeDB(data) {
+            if (!data || typeof data !== 'object') data = {};
+            const lists = ['fixed_bills', 'subscriptions', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders', 'debts'];
+            lists.forEach(k => {
+                if (data[k]) {
+                    if (!Array.isArray(data[k])) data[k] = Object.values(data[k]).filter(i => i !== null);
+                } else { data[k] = []; }
+            });
+            if (!data.settings) data.settings = { darkMode: true, displayName: '' };
+            if (!data.adhkarCounters) data.adhkarCounters = {};
+            if (!data.quranPortion) data.quranPortion = { surah: 'البقرة', startAya: 1, endAya: 5, batch: 0 };
+            if (!data.cachedFeeds) data.cachedFeeds = {
+                weatherHourly: null, weatherLastFetch: 0,
+                rates: { USD: "3.65", JOD: "5.15", EUR: "3.95", ILS: "1.00" }, ratesLastFetch: 0
+            };
+            return data;
         }
 
-        function updatePhilosophyStyles(className) {
-            const styleTag = document.getElementById('philosophyStyle');
-            styleTag.textContent = philosophiesCSS[className] || '';
+        let localRaw = '{}';
+        try { localRaw = localStorage.getItem('myLifeAppDB') || '{}'; } catch(e) {}
+        let db = normalizeDB(JSON.parse(localRaw));
+        const todayStr = new Date().toISOString().split('T')[0];
+        let livePrayersList = [];
+
+        function showToast(msg) {
+            const el = document.getElementById('syncToast');
+            if (!el) return;
+            el.innerText = msg;
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 2000);
         }
 
-        // عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedPhil = localStorage.getItem('lifeOS_philosophy') || 'p-modern';
-            document.body.className = savedPhil;
-            document.getElementById('philosophySelector').value = savedPhil;
-            updatePhilosophyStyles(savedPhil);
-        });
+        function saveToCloud() {
+            db._hasLocalChanges = true;
+            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
 
-    </script>
-    
-    <!-- JavaScript - Logic remain the same, only few UX tweaks -->
-    <script>
-        // ... [ابقاء الجزء البرمجي (Firebase, Calculator Logic, Quran Portions, Prayers, etc.) كما هو من الكود السابق، لا داعي لتغييره] ...
-        // ... [يجب دمج الأجزاء المذكورة هنا] ...
-        
-        // --- القرآن الكريم (مثال لإظهار تغيير الشكل) ---
-        let ayahNum = parseInt(localStorage.getItem('lifeOS_ayahNum')) || 1;
-        
-        const portions = [
-            {id: 1, range: 'الفاتحة (١ - ٧)', text: 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ (1) الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ (2) الرَّحْمَنِ الرَّحِيمِ (3) مَالِكِ يَوْمِ الدِّينِ (4) إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ (5) اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ (6) صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ (7)', tafsir: 'هذه السورة الكريمة هي أعظم سورة في القرآن، وهي أم القرآن، وتشتمل على معان جليلة من توحيد الله وعبادته ودعائه واستقامته.'},
-            {id: 2, range: 'البقرة (١ - ٥)', text: 'الم (1) ذَلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ هُدًى لِلْمُتَّقِينَ (2) الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنْفِقُونَ (3) وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنْزِلَ إِلَيْكَ وَمَا أُنْزِلَ مِنْ قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ (4) أُولَئِكَ عَلَى هُدًى مِنْ رَبِّهِمْ وَأُولَئِكَ هُمُ الْمُفْلِحُونَ (5)', tafsir: 'تبدأ السورة بالحروف المقطعة، ثم تثبت عظمة القرآن وأنه هداية للمتقين الذين يؤمنون بالغيب ويقيمون الصلاة وينفقون من رزق الله ويؤمنون بالكتب السماوية والآخرة.'}
-        ];
+            if (userDbRef && navigator.onLine) {
+                const payload = JSON.parse(JSON.stringify(db));
+                payload.notes.forEach(n => delete n.audioData);
+                delete payload._hasLocalChanges;
+                delete payload.cachedFeeds;
 
-        function loadQuranPortion() {
-            const portion = portions[0]; // تبسيط للعرض
-            document.getElementById('quranSurahAyat').textContent = portion.range;
-            document.getElementById('quranAyahText').textContent = portion.text;
-            document.getElementById('quranTafsirText').textContent = portion.tafsir;
-        }
-        
-        function markPortionRead() {
-            showSyncToast('✅ تم تسجيل القراءة سحابياً');
-            if ("vibrate" in navigator) navigator.vibrate([100, 50, 100]);
+                userDbRef.set(payload).then(() => {
+                    db._hasLocalChanges = false;
+                    try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
+                }).catch(() => {});
+            }
         }
 
-        // --- المسبحة (مثال) ---
-        let count = 0;
-        function tapTasbeeh() {
-            count++;
-            document.getElementById('textTasbeehCount').textContent = count;
-            if ("vibrate" in navigator) navigator.vibrate(30);
-        }
-        function resetTasbeeh() { count = 0; document.getElementById('textTasbeehCount').textContent = 0; }
+        function updateStatusBar(color, isDark) {
+            const meta = document.getElementById('themeColorMeta');
+            if (meta) meta.setAttribute('content', color);
 
-        // --- الحاسبة (مثال) ---
-        function calcInput(val) {
-            const main = document.getElementById('calcMain');
-            if (val === 'AC') main.textContent = '0';
-            else if (val === '=') main.textContent = 'Result'; // تبسيط
-            else if (main.textContent === '0') main.textContent = val;
-            else main.textContent += val;
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.StatusBar) {
+                try {
+                    window.Capacitor.Plugins.StatusBar.setBackgroundColor({ color: color });
+                    window.Capacitor.Plugins.StatusBar.setStyle({ style: isDark ? 'LIGHT' : 'DARK' });
+                } catch(e){}
+            }
         }
 
-        // --- التنقل (Navigation) ---
-        function switchView(viewId, btn = null) {
-            // إخفاء الكل
-            document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active'));
-            // إزالة نشاط الـ Dock
-            document.querySelectorAll('.dock-item').forEach(el => el.classList.remove('active'));
-            
-            // إظهار الشاشة
-            const target = document.getElementById('v-' + viewId);
-            if (target) target.classList.add('active');
-            
-            // تفعيل الـ Dock
-            if (btn) {
-                btn.classList.add('active');
+        function applyTheme() {
+            if (db.settings.darkMode) {
+                document.body.classList.remove('light-mode');
+                updateStatusBar('#0F1117', true);
             } else {
-                // تفعيل بناءً على viewId في حال لم يتم الضغط من الـ dock مباشرة
-                // (هذا جزء مبسط يحتاج ربط فعلي)
-                document.querySelectorAll('.dock-item').forEach(el => {
-                   if(el.textContent.includes(viewId)) el.classList.add('active');
+                document.body.classList.add('light-mode');
+                updateStatusBar('#F3F4F6', false);
+            }
+        }
+
+        function toggleTheme() {
+            db.settings.darkMode = !db.settings.darkMode;
+            applyTheme();
+            finalize();
+            showToast(db.settings.darkMode ? '🌙 الوضع الليلي' : '☀️ الوضع النهاري');
+        }
+
+        try {
+            if (typeof firebase !== 'undefined') {
+                if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+                firebase.auth().onAuthStateChanged(user => {
+                    if (user) {
+                        if (!user.emailVerified) { firebase.auth().signOut(); return; }
+                        currentUser = user;
+                        userDbRef = firebase.database().ref(`users/${user.uid}/data`);
+                        userDbRef.on('value', snap => {
+                            const val = snap.val();
+                            if (val) {
+                                if (db._hasLocalChanges) {
+                                    saveToCloud();
+                                } else {
+                                    const feeds = db.cachedFeeds;
+                                    const quran = db.quranPortion;
+                                    const counters = db.adhkarCounters;
+                                    db = normalizeDB(val);
+                                    db.cachedFeeds = feeds;
+                                    if (quran) db.quranPortion = quran;
+                                    if (counters) db.adhkarCounters = counters;
+                                    try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
+                                    applyTheme();
+                                    updateUI();
+                                }
+                            } else {
+                                saveToCloud();
+                            }
+                        });
+                        updateAuthProfileUI(user);
+                    } else {
+                        currentUser = null;
+                        userDbRef = null;
+                        updateAuthProfileUI(null);
+                    }
                 });
             }
-            
-            if (viewId === 'quran') loadQuranPortion();
-            if (viewId === 'settings') fillAuthSettings();
+        } catch(e) {}
+
+        function updateAuthProfileUI(user) {
+            const nameEl = document.getElementById('userNameSpan');
+            const heroEl = document.getElementById('heroGreetingTitle');
+            const editBtn = document.getElementById('editNameBtn');
+            const setAccName = document.getElementById('settingsAccountName');
+            const setAccMail = document.getElementById('settingsAccountEmail');
+            const setAuthBtn = document.getElementById('settingsAuthBtn');
+
+            const name = (db.settings && db.settings.displayName) ? db.settings.displayName : (user ? (user.displayName || user.email.split('@')[0]) : '');
+
+            if (user || name) {
+                const displayName = name || 'مستخدم';
+                if (nameEl) nameEl.innerText = displayName;
+                if (heroEl) heroEl.innerText = `طاب يومك، ${displayName}.`;
+                if (editBtn) editBtn.style.display = 'inline';
+                if (setAccName) setAccName.innerText = displayName;
+                if (setAccMail) setAccMail.innerText = user ? user.email : 'جلسة محلية محفوظة';
+                if (setAuthBtn) { setAuthBtn.innerText = 'تسجيل الخروج'; setAuthBtn.style.color = 'var(--accent-red)'; }
+            } else {
+                if (nameEl) nameEl.innerText = 'حسابي';
+                if (heroEl) heroEl.innerText = 'طاب يومك.';
+                if (editBtn) editBtn.style.display = 'none';
+                if (setAccName) setAccName.innerText = 'غير مسجل الدخول';
+                if (setAccMail) setAccMail.innerText = 'البيانات محفوظة محلياً على هاتفك';
+                if (setAuthBtn) { setAuthBtn.innerText = 'تسجيل الدخول'; setAuthBtn.style.color = 'var(--accent-blue)'; }
+            }
         }
 
-        function showSyncToast(msg) {
-            const toast = document.getElementById('syncToast');
-            toast.textContent = msg;
-            toast.style.display = 'block';
-            setTimeout(() => toast.style.display = 'none', 2500);
+        function promptEditDisplayName() {
+            const cur = db.settings.displayName || (currentUser ? currentUser.displayName : '') || 'مستخدم';
+            const val = prompt('أدخل اسم الظهور الجديد:', cur);
+            if (val !== null && val.trim()) {
+                db.settings.displayName = val.trim();
+                finalize();
+                updateAuthProfileUI(currentUser);
+                if (currentUser && navigator.onLine) {
+                    currentUser.updateProfile({ displayName: val.trim() }).catch(()=>{});
+                }
+            }
         }
-        
-        function quickAddTodoHome() { const text = prompt('المهمة:'); if(text) alert('تمت الإضافة'); }
-        function promptChangeName() { const name = prompt('الاسم الجديد:'); if(name) { document.getElementById('heroGreeting').textContent = 'طاب يومك، ' + name + '.'; localStorage.setItem('lifeOS_userName', name);}}
-        function toggleThemeBase() { document.body.classList.toggle('light-mode'); } // مبسط جداً
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedName = localStorage.getItem('lifeOS_userName');
-            if (savedName) document.getElementById('heroGreeting').textContent = 'طاب يومك، ' + savedName + '.';
+
+        // =========================================================================
+        // --- 2. محرك حاسبة Google القياسية ---
+        // =========================================================================
+        function updateCalcScreen() {
+            const exprEl = document.getElementById('gCalcExpr');
+            const valEl = document.getElementById('gCalcDisplay');
+            if (exprEl) exprEl.innerText = gExpr;
+            if (valEl) valEl.innerText = gVal;
+        }
+
+        function calcNum(n) {
+            if ("vibrate" in navigator) navigator.vibrate(15);
+            if (gReset || gVal === '0') {
+                gVal = (n === '.') ? '0.' : n;
+                gReset = false;
+            } else {
+                if (n === '.' && gVal.includes('.')) return;
+                gVal += n;
+            }
+            updateCalcScreen();
+        }
+
+        function calcOp(op) {
+            if ("vibrate" in navigator) navigator.vibrate(20);
+            if (gOp !== null && !gReset) calcCompute();
+            gExpr = `${gVal} ${op}`;
+            gOp = op;
+            gReset = true;
+            updateCalcScreen();
+        }
+
+        function calcCompute() {
+            const prev = parseFloat(gExpr);
+            const curr = parseFloat(gVal);
+            if (isNaN(prev) || isNaN(curr)) return;
+            let res = 0;
+            switch(gOp) {
+                case '+': res = prev + curr; break;
+                case '−': res = prev - curr; break;
+                case '×': res = prev * curr; break;
+                case '÷': res = curr !== 0 ? prev / curr : 0; break;
+                case '%': res = (prev * curr) / 100; break;
+            }
+            gVal = parseFloat(res.toFixed(8)).toString();
+            gExpr = gVal;
+        }
+
+        function calcEquals() {
+            if ("vibrate" in navigator) navigator.vibrate(30);
+            if (!gOp || !gExpr) return;
+            const prev = parseFloat(gExpr);
+            const curr = parseFloat(gVal);
+            const op = gOp;
+            let res = 0;
+            switch(op) {
+                case '+': res = prev + curr; break;
+                case '−': res = prev - curr; break;
+                case '×': res = prev * curr; break;
+                case '÷': res = curr !== 0 ? prev / curr : 0; break;
+                case '%': res = (prev * curr) / 100; break;
+            }
+            gExpr = `${prev} ${op} ${curr} =`;
+            gVal = parseFloat(res.toFixed(8)).toString();
+            gOp = null;
+            gReset = true;
+            updateCalcScreen();
+        }
+
+        function calcAction(act) {
+            if ("vibrate" in navigator) navigator.vibrate(20);
+            if (act === 'AC') {
+                gExpr = ''; gVal = '0'; gOp = null; gReset = false;
+            } else if (act === 'DEL') {
+                gVal = (gVal.length > 1 && !gReset) ? gVal.slice(0, -1) : '0';
+            } else if (act === '±') {
+                gVal = (parseFloat(gVal) * -1).toString();
+            }
+            updateCalcScreen();
+        }
+
+        // =========================================================================
+        // --- 3. إسلاميات: أذكار كاملة + ورد القرآن وتفسير ابن كثير + مسبحة ---
+        // =========================================================================
+        function switchIslamTab(tab) {
+            document.getElementById('islamTabAdhkar').style.display = (tab === 'adhkar') ? 'flex' : 'none';
+            document.getElementById('islamTabQuran').style.display = (tab === 'quran') ? 'flex' : 'none';
+            document.getElementById('islamTabTasbeeh').style.display = (tab === 'tasbeeh') ? 'flex' : 'none';
+
+            document.getElementById('btnTabAdhkar').classList.toggle('active', tab === 'adhkar');
+            document.getElementById('btnTabQuran').classList.toggle('active', tab === 'quran');
+            document.getElementById('btnTabTasbeeh').classList.toggle('active', tab === 'tasbeeh');
+
+            if (tab === 'adhkar') renderAdhkar();
+            if (tab === 'quran') renderQuran();
+        }
+
+        const authenticAdhkar = {
+            postPrayer: [
+                { id: 'p1', t: 'أَسْتَغْفِرُ اللهَ، أَسْتَغْفِرُ اللهَ، أَسْتَغْفِرُ اللهَ. اللَّهُمَّ أَنْتَ السَّلامُ وَمِنْكَ السَّلامُ، تَبَارَكْتَ يَا ذَا الْجَلالِ وَالإِكْرَامِ.', c: 1 },
+                { id: 'p2', t: 'لا إِلَهَ إِلا اللهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، اللَّهُمَّ لا مَانِعَ لِمَا أَعْطَيْتَ، وَلا مُعْطِيَ لِمَا مَنَعْتَ، وَلا يَنْفَعُ ذَا الْجَدِّ مِنْكَ الْجَدُّ.', c: 1 },
+                { id: 'p3', t: 'سُبْحَانَ اللهِ (33 مرة)', c: 33 },
+                { id: 'p4', t: 'الْحَمْدُ للهِ (33 مرة)', c: 33 },
+                { id: 'p5', t: 'اللهُ أَكْبَرُ (33 مرة)', c: 33 },
+                { id: 'p6', t: 'لا إِلَهَ إِلا اللهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ (تمام المائة).', c: 1 },
+                { id: 'p7', t: '﴿ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ ﴾ [آية الكرسي]', c: 1 }
+            ],
+            morning: [
+                { id: 'm1', t: '﴿ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ... ﴾ [آية الكرسي كاملة]', c: 1 },
+                { id: 'm2', t: 'سورة الإخلاص، والفلق، والناس (ثلاث مرات).', c: 3 },
+                { id: 'm3', t: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ.', c: 1 },
+                { id: 'm4', t: 'اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لا يَغْفِرُ الذُّنُوبَ إِلا أَنْتَ. [سيد الاستغفار]', c: 1 },
+                { id: 'm5', t: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ. (3 مرات)', c: 3 },
+                { id: 'm6', t: 'رَضِيتُ بِاللهِ رَبَّاً، وَبِالإِسْلاَمِ دِيناً، وَبِمُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ نَبِيَّاً. (3 مرات)', c: 3 },
+                { id: 'm7', t: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ. (100 مرة)', c: 100 }
+            ],
+            evening: [
+                { id: 'e1', t: '﴿ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ... ﴾ [آية الكرسي]', c: 1 },
+                { id: 'e2', t: 'المعوذات الثلاث: الإخلاص، الفلق، الناس (3 مرات).', c: 3 },
+                { id: 'e3', t: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', c: 1 },
+                { id: 'e4', t: 'سيد الاستغفار: اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ...', c: 1 },
+                { id: 'e5', t: 'أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ. (3 مرات)', c: 3 },
+                { id: 'e6', t: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ. (100 مرة)', c: 100 }
+            ]
+        };
+
+        function getCurrentAdhkarType() {
+            const now = Date.now();
+            const h = new Date().getHours();
+            for (let p of livePrayersList) {
+                const diff = now - p.targetTime;
+                if (diff >= 0 && diff <= (25 * 60 * 1000)) {
+                    return { type: 'postPrayer', label: `أذكار ما بعد ${p.title.replace('🕌 ', '')}` };
+                }
+            }
+            if (h >= 4 && h < 12) return { type: 'morning', label: 'أذكار الصباح المباركة' };
+            return { type: 'evening', label: 'أذكار المساء وحفظ النفس' };
+        }
+
+        function renderAdhkar() {
+            const active = getCurrentAdhkarType();
+            document.getElementById('adhkarHeaderTitle').innerText = active.label;
+            const list = authenticAdhkar[active.type] || authenticAdhkar.morning;
+            const container = document.getElementById('adhkarItemsContainer');
+
+            container.innerHTML = list.map(item => {
+                const rem = (db.adhkarCounters[item.id] !== undefined) ? db.adhkarCounters[item.id] : item.c;
+                return `
+                    <div class="dhikr-card" onclick="decrementDhikr('${item.id}', ${item.c})">
+                        <div>${item.t}</div>
+                        <div class="dhikr-counter-tag" style="background:${rem === 0 ? 'rgba(16,185,129,0.15)' : ''}; color:${rem === 0 ? 'var(--accent-green)' : ''};">
+                            ${rem === 0 ? '✅ تم بحمد الله' : `المتبقي: ${rem}`}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function decrementDhikr(id, orig) {
+            let cur = (db.adhkarCounters[id] !== undefined) ? db.adhkarCounters[id] : orig;
+            if (cur > 0) {
+                cur--;
+                db.adhkarCounters[id] = cur;
+                if ("vibrate" in navigator) navigator.vibrate(25);
+                finalize();
+                renderAdhkar();
+            }
+        }
+
+        const quranPortions = [
+            {
+                surah: "سورة البقرة (1-5)",
+                text: "﴿ الم * ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ * الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ * وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ * أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ ﴾",
+                tafsir: "<b>مختصر تفسير ابن كثير:</b> افتتحت بالحروف المقطعة إعجازاً للعرب، ثم بين أن القرآن كتاب لا شك في صحته، هادٍ للمتقين الذين يصدقون بالغيب ويقيمون الصلاة وينفقون في سبيل الله مما رزقهم، ويؤمنون بالوحي المنزل على النبي والكتب السابقة، وهم الفائزون بكل خير في الدنيا والآخرة."
+            },
+            {
+                surah: "سورة البقرة (6-10)",
+                text: "﴿ إِنَّ الَّذِينَ كَفَرُوا سَوَاءٌ عَلَيْهِمْ أَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ * خَتَمَ اللَّهُ عَلَىٰ قُلُوبِهِمْ وَعَلَىٰ سَمْعِهِمْ ۖ وَعَلَىٰ أَبْصَارِهِمْ غِشَاوَةٌ ۖ وَلَهُمْ عَذَابٌ عَظِيمٌ * وَمِنَ النَّاسِ مَن يَقُولُ آمَنَّا بِاللَّهِ وَبِالْيَوْمِ الْآخِرِ وَمَا هُم بِمُؤْمِنِينَ * يُخَادِعُونَ اللَّهَ وَالَّذِينَ آمَنُوا وَمَا يَخْدَعُونَ إِلَّا أَنفُسَهُمْ وَمَا يَشْعُرُونَ * فِي قُلُوبِهِم مَّرَضٌ فَزَادَهُمُ اللَّهُ مَرَضًا ۖ وَلَهُمْ عَذَابٌ أَلِيمٌ بِمَا كَانُوا يَكْذِبُونَ ﴾",
+                tafsir: "<b>مختصر تفسير ابن كثير:</b> يخبر تعالى عن الكافرين المعاندين أن الإنذار لا ينفعهم؛ لسبق القضاء بطبع قلوبهم وأسماعهم وغشاوة أبصارهم، ثم يفضح حال المنافقين الذين يزعمون الإيمان بألسنتهم ويبطنون الكفر، وهم لا يخدعون إلا أنفسهم، وفي قلوبهم شك وشبهة فزادهم الله عذاباً وخزياً."
+            },
+            {
+                surah: "سورة البقرة (11-15)",
+                text: "﴿ وَإِذَا قِيلَ لَهُمْ لَا تُفْسِدُوا فِي الْأَرْضِ قَالُوا إِنَّمَا نَحْنُ مُصْلِحُونَ * أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ وَلَٰكِن لَّا يَشْعُرُونَ * وَإِذَا قِيلَ لَهُمْ آمِنُوا كَمَا آمَنَ النَّاسُ قَالُوا أَنُؤْمِنُ كَمَا آمَنَ السُّفَهَاءُ ۗ أَلَا إِنَّهُمْ هُمُ السُّفَهَاءُ وَلَٰكِن لَّا يَعْلَمُونَ * وَإِذَا لَقُوا الَّذِينَ آمَنُوا قَالُوا آمَنَّا وَإِذَا خَلَوْا إِلَىٰ شَيَاطِينِهِمْ قَالُوا إِنَّا مَعَكُمْ إِنَّمَا نَحْنُ مُسْتَهْزِئُونَ * اللَّهُ يَسْتَهْزِئُ بِهِمْ وَيَمُدُّهُمْ فِي طُغْيَانِهِمْ يَعْمَهُونَ ﴾",
+                tafsir: "<b>مختصر تفسير ابن كثير:</b> إذا نُهي المنافقون عن موالاة الكفار وبث الشبهات زعموا أنهم مصلحون، وهم عين المفسدين، وإذا دعوا لإيمان صادق كإيمان الصحابة استكبروا ووصفوا المؤمنين بالسفهاء، فرد الله سفههم عليهم، وإذا خلوا برؤسائهم أعلنوا كفرهم، والله يجازيهم على استهزائهم بالخذلان والضلال."
+            }
+        ];
+
+        function renderQuran() {
+            const idx = (db.quranPortion.batch || 0) % quranPortions.length;
+            const item = quranPortions[idx];
+            document.getElementById('quranSurahAyatBadge').innerText = item.surah;
+            document.getElementById('quranVersesText').innerHTML = item.text;
+            document.getElementById('quranTafsirText').innerHTML = item.tafsir;
+        }
+
+        function completeQuranBatch() {
+            db.quranPortion.batch = (db.quranPortion.batch || 0) + 1;
+            finalize();
+            renderQuran();
+            showToast('✅ تم إكمال الورد! جاري عرض الـ 5 آيات التالية');
+            if ("vibrate" in navigator) navigator.vibrate([60, 40, 60]);
+        }
+
+        function tapTasbeeh() {
+            tasbeehCount++;
+            document.getElementById('tasbeehDisplay').innerText = tasbeehCount;
+            if ("vibrate" in navigator) {
+                if (tasbeehCount % 33 === 0) navigator.vibrate([80, 40, 80]);
+                else navigator.vibrate(20);
+            }
+        }
+
+        function setZikr(name) {
+            document.getElementById('tasbeehZikrName').innerText = name;
+            tasbeehCount = 0;
+            document.getElementById('tasbeehDisplay').innerText = '0';
+        }
+
+        function resetTasbeeh() {
+            tasbeehCount = 0;
+            document.getElementById('tasbeehDisplay').innerText = '0';
+        }
+
+        // =========================================================================
+        // --- 4. التقويم، الطقس، والعملات ---
+        // =========================================================================
+        function renderCalendar() {
+            const grid = document.getElementById('calDaysGrid');
+            const title = document.getElementById('calMonthTitle');
+            if (!grid || !title) return;
+
+            const months = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
+            title.innerText = `${months[calMonth]} ${calYear}`;
+
+            const firstDay = new Date(calYear, calMonth, 1).getDay();
+            const totalDays = new Date(calYear, calMonth + 1, 0).getDate();
+
+            grid.innerHTML = '';
+            for (let i = 0; i < firstDay; i++) grid.innerHTML += `<div></div>`;
+
+            const today = new Date();
+            for (let d = 1; d <= totalDays; d++) {
+                const isToday = (d === today.getDate() && calMonth === today.getMonth() && calYear === today.getFullYear());
+                const dateISO = `${calYear}-${String(calMonth + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                const hasEvent = db.todos.some(t => t.date === dateISO) || db.expenses.some(e => e.date === dateISO);
+
+                grid.innerHTML += `
+                    <div class="cal-day-cell ${isToday ? 'today' : ''} ${hasEvent ? 'has-event' : ''}" onclick="selectCalDay('${dateISO}')">
+                        ${d}
+                    </div>
+                `;
+            }
+        }
+
+        function changeMonth(d) {
+            calMonth += d;
+            if (calMonth > 11) { calMonth = 0; calYear++; }
+            if (calMonth < 0) { calMonth = 11; calYear--; }
+            renderCalendar();
+        }
+
+        function selectCalDay(date) {
+            document.getElementById('calSelectedTitle').innerText = `أحداث (${date})`;
+            const container = document.getElementById('calDayEventsList');
+            const todos = db.todos.filter(t => t.date === date);
+            const expenses = db.expenses.filter(e => e.date === date);
+
+            let html = '';
+            if (!todos.length && !expenses.length) {
+                container.innerHTML = `<p style="color:var(--text-sub); text-align:center;">لا توجد مهام أو مصاريف في هذا اليوم.</p>`;
+                return;
+            }
+
+            todos.forEach(t => {
+                html += `<div class="list-item-row"><div>✅ ${t.text}</div><span>${t.done ? 'مكتملة' : 'قيد الانتظار'}</span></div>`;
+            });
+            expenses.forEach(e => {
+                html += `<div class="list-item-row"><div>💸 ${e.desc}</div><strong style="color:var(--accent-red);">${e.amount} ₪</strong></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById('currAmountInput').value) || 0;
+            const from = document.getElementById('currFrom').value;
+            const to = document.getElementById('currTo').value;
+            const rates = db.cachedFeeds.rates || { USD: "3.65", JOD: "5.15", EUR: "3.95", ILS: "1.00" };
+
+            const fromRate = parseFloat(rates[from]) || 1;
+            const toRate = parseFloat(rates[to]) || 1;
+            const res = (amount * fromRate) / toRate;
+
+            document.getElementById('currResultDisplay').innerText = `${res.toFixed(2)} ${to}`;
+        }
+
+        function renderWeatherView() {
+            if (!db.cachedFeeds || !db.cachedFeeds.weatherHourly) return;
+            const h = db.cachedFeeds.weatherHourly;
+            const strip = document.getElementById('weatherHourlyStrip');
+            if (!strip || !h.time) return;
+
+            const nowISO = new Date().toISOString().slice(0, 13) + ':00';
+            let startIdx = h.time.findIndex(t => t.startsWith(nowISO));
+            if (startIdx === -1) startIdx = 0;
+
+            const nextTimes = h.time.slice(startIdx, startIdx + 24);
+            const nextTemps = h.temperature_2m.slice(startIdx, startIdx + 24);
+
+            if (nextTemps.length) {
+                document.getElementById('weatherViewTemp').innerText = `${Math.round(nextTemps[0])}°C`;
+                document.getElementById('weatherViewDesc').innerText = '⛅ طقس مستقر ومحدث';
+            }
+
+            strip.innerHTML = nextTimes.map((t, idx) => `
+                <div class="weather-card-h">
+                    <div style="color:var(--text-sub);">${t.split('T')[1].slice(0, 5)}</div>
+                    <div style="font-size:16px; font-weight:800; margin:4px 0;">${Math.round(nextTemps[idx])}°</div>
+                    <div>⛅</div>
+                </div>
+            `).join('');
+        }
+
+        // =========================================================================
+        // --- 5. محرك التنبيهات والصلوات لجنين وإشعارات الخلفية ---
+        // =========================================================================
+        function calculatePalestinePrayerTimes(date = new Date()) {
+            const lat = 32.4646; const lng = 35.2939; const tz = -date.getTimezoneOffset() / 60;
+            const start = new Date(date.getFullYear(), 0, 0);
+            const diff = (date - start) + ((start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000);
+            const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const gamma = (2 * Math.PI / 365) * (dayOfYear - 1);
+            const eqtime = 229.18 * (0.000075 + 0.001868 * Math.cos(gamma) - 0.032077 * Math.sin(gamma) - 0.014615 * Math.cos(2 * gamma) - 0.040849 * Math.sin(2 * gamma));
+            const decl = 0.006918 - 0.399912 * Math.cos(gamma) + 0.070257 * Math.sin(gamma) - 0.006758 * Math.cos(2 * gamma) + 0.000907 * Math.sin(2 * gamma) - 0.002697 * Math.cos(3 * gamma) + 0.00148 * Math.sin(3 * gamma);
+            const degToRad = Math.PI / 180; const radToDeg = 180 / Math.PI; const latRad = lat * degToRad;
+            const noon = 12 + tz - (lng / 15) - (eqtime / 60);
+
+            function getHourAngle(angleDeg) {
+                const altRad = -angleDeg * degToRad;
+                const cosHA = (Math.sin(altRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl));
+                if (cosHA > 1 || cosHA < -1) return 0;
+                return radToDeg * Math.acos(cosHA) / 15;
+            }
+
+            const asrAlt = Math.atan(1 / (1 + Math.tan(Math.abs(latRad - decl)))) * radToDeg;
+            const asrHA = radToDeg * Math.acos(Math.max(-1, Math.min(1, (Math.sin(asrAlt * degToRad) - Math.sin(latRad) * Math.sin(decl)) / (Math.cos(latRad) * Math.cos(decl))))) / 15;
+            const fajrHA = getHourAngle(19.5); const ishaHA = getHourAngle(17.5);
+
+            function toDate(hDec) {
+                const d = new Date(date); let h = Math.floor(hDec); let m = Math.round((hDec - h) * 60);
+                if (m >= 60) { h++; m = 0; } d.setHours(h, m, 0, 0); return d;
+            }
+
+            return [
+                { name: 'صلاة الفجر', targetDate: toDate(noon - fajrHA) },
+                { name: 'صلاة الظهر', targetDate: toDate(noon + (1.5/60)) },
+                { name: 'صلاة العصر', targetDate: toDate(noon + asrHA) },
+                { name: 'صلاة المغرب', targetDate: toDate(noon + getHourAngle(0.833) + (1.5/60)) },
+                { name: 'صلاة العشاء', targetDate: toDate(noon + ishaHA) }
+            ];
+        }
+
+        function loadPrayers() {
+            livePrayersList = calculatePalestinePrayerTimes(new Date()).map((p, idx) => ({
+                id: `pr_${idx}`, title: `🕌 ${p.name}`, targetTime: p.targetDate.getTime(), isPrayer: true
+            }));
+            renderPrayersAlarms();
+        }
+
+        function formatTimerMs(ms) {
+            if (ms <= 0) return '00:00';
+            const s = Math.floor(ms / 1000);
+            const hrs = Math.floor(s / 3600);
+            const mins = Math.floor((s % 3600) / 60);
+            const secs = s % 60;
+            if (hrs > 0) return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function addFastAlarm(mins, title) {
+            const now = Date.now();
+            const cleanTitle = (title || `تنبيه (${mins} د)`).trim();
+            const id = Date.now();
+
+            db.reminders.push({
+                id: id, title: cleanTitle, minutes: mins, createdAt: now,
+                targetTime: now + (mins * 60 * 1000), triggered: false
+            });
+            finalize();
+            scheduleNativeNotification(cleanTitle, mins, id);
+            showToast(`⏰ تم ضبط منبه ${mins} دقيقة`);
+        }
+
+        function scheduleNativeNotification(title, mins, id) {
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
+                const target = new Date(Date.now() + mins * 60 * 1000);
+                window.Capacitor.Plugins.LocalNotifications.schedule({
+                    notifications: [{
+                        title: `⏰ تنبيه Life OS: ${title}`,
+                        body: `حان موعد: ${title}`,
+                        id: Math.abs(parseInt(id, 10) % 2147483647),
+                        schedule: { at: target, allowWhileIdle: true },
+                        sound: 'marimba',
+                        channelId: 'lifeos_ultra_alarm_v4'
+                    }]
+                }).catch(()=>{});
+            }
+        }
+
+        let audioCtx = null;
+        let alarmInterval = null;
+
+        function playZenBell() {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const now = audioCtx.currentTime;
+                [740, 932, 1108, 1396].forEach((f, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.frequency.setValueAtTime(f, now + (idx * 0.07));
+                    gain.gain.setValueAtTime(0.001, now + (idx * 0.07));
+                    gain.gain.linearRampToValueAtTime(0.15, now + (idx * 0.07) + 0.02);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + (idx * 0.07) + 0.6);
+                    osc.connect(gain); gain.connect(audioCtx.destination);
+                    osc.start(now + (idx * 0.07)); osc.stop(now + (idx * 0.07) + 0.7);
+                });
+            } catch(e){}
+        }
+
+        function testPrestigeAlarm() {
+            playZenBell();
+            if ("vibrate" in navigator) navigator.vibrate([150, 80, 150]);
+        }
+
+        function triggerAlarmSound(title) {
+            playZenBell();
+            clearInterval(alarmInterval);
+            alarmInterval = setInterval(playZenBell, 2800);
+            if ("vibrate" in navigator) navigator.vibrate([300, 150, 300]);
+            document.getElementById('alarmActiveTitle').innerText = title || 'تنبيه موعد';
+            document.getElementById('activeAlarmModal').classList.add('active');
+        }
+
+        function dismissAlarm() {
+            clearInterval(alarmInterval);
+            document.getElementById('activeAlarmModal').classList.remove('active');
+        }
+
+        function openActiveTimerModal() {
+            const now = Date.now();
+            const active = db.reminders.filter(r => !r.triggered && r.targetTime > now).sort((a,b) => a.targetTime - b.targetTime);
+            currentActiveTimerObj = active[0];
+            if (!currentActiveTimerObj) return alert('لا توجد تنبيهات نشطة.');
+
+            document.getElementById('manageTimerTitle').innerText = currentActiveTimerObj.title;
+            document.getElementById('manageTimerSub').innerText = `المتبقي: ${formatTimerMs(currentActiveTimerObj.targetTime - now)}`;
+            document.getElementById('timerManageModal').classList.add('active');
+        }
+
+        function closeManageTimerModal() {
+            document.getElementById('timerManageModal').classList.remove('active');
+            currentActiveTimerObj = null;
+        }
+
+        function editActiveTimerTitle() {
+            if (!currentActiveTimerObj) return;
+            const val = prompt('أدخل اسم التنبيه الجديد:', currentActiveTimerObj.title);
+            if (val !== null && val.trim()) {
+                currentActiveTimerObj.title = val.trim();
+                finalize();
+                closeManageTimerModal();
+            }
+        }
+
+        function deleteActiveTimer() {
+            if (!currentActiveTimerObj) return;
+            db.reminders = db.reminders.filter(r => r.id !== currentActiveTimerObj.id);
+            finalize();
+            closeManageTimerModal();
+        }
+
+        function deleteReminder(id) {
+            db.reminders = db.reminders.filter(r => r.id !== id);
+            finalize();
+        }
+
+        function renderPrayersAlarms() {
+            const now = Date.now();
+            const nextPrayer = livePrayersList.find(p => p.targetTime > now);
+            const topTag = document.getElementById('topPrayerText');
+            if (topTag) {
+                topTag.innerText = nextPrayer ? `${nextPrayer.title.replace('🕌 ', '')} ${formatTimerMs(nextPrayer.targetTime - now)}` : 'اكتملت الصلوات';
+            }
+
+            const activeReminders = db.reminders.filter(r => !r.triggered && r.targetTime > now).sort((a,b) => a.targetTime - b.targetTime);
+            const countText = document.getElementById('activeRemindersCountText');
+            if (countText) countText.innerText = `${activeReminders.length} تنبيهات نشطة`;
+
+            const nearest = activeReminders[0];
+            const circle = document.getElementById('timerProgressCircle');
+            const timeEl = document.getElementById('nearestTimerTime');
+            const labelEl = document.getElementById('nearestTimerLabel');
+
+            if (nearest) {
+                const remMs = nearest.targetTime - now;
+                const totalDur = (nearest.minutes * 60 * 1000) || remMs;
+                const fraction = Math.max(0, Math.min(1, remMs / totalDur));
+                if (circle) circle.style.strokeDashoffset = 452.38 * (1 - fraction);
+                if (timeEl) timeEl.innerText = formatTimerMs(remMs);
+                if (labelEl) labelEl.innerText = nearest.title;
+            } else if (nextPrayer) {
+                const remMs = nextPrayer.targetTime - now;
+                if (circle) circle.style.strokeDashoffset = 0;
+                if (timeEl) timeEl.innerText = formatTimerMs(remMs);
+                if (labelEl) labelEl.innerText = nextPrayer.title.replace('🕌 ', '');
+            } else {
+                if (circle) circle.style.strokeDashoffset = 452.38;
+                if (timeEl) timeEl.innerText = "--:--";
+                if (labelEl) labelEl.innerText = "لا توجد تنبيهات";
+            }
+
+            const preview = document.getElementById('dashRemindersPreview');
+            if (preview) {
+                preview.innerHTML = activeReminders.slice(1, 3).map(r => `
+                    <div class="list-item-row">
+                        <div><strong>${r.title}</strong></div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span style="font-size:12px; color:var(--text-sub);">${formatTimerMs(r.targetTime - now)}</span>
+                            <button class="btn-icon-del" onclick="deleteReminder(${r.id})">✖</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // قائمة الصلوات الكاملة
+            const fullList = document.getElementById('prayersFullList');
+            if (fullList) {
+                const all = [...livePrayersList, ...activeReminders.map(r => ({ id: r.id, title: `⏰ ${r.title}`, targetTime: r.targetTime, isPrayer: false }))].sort((a,b) => a.targetTime - b.targetTime);
+                fullList.innerHTML = all.map(item => `
+                    <div class="list-item-row">
+                        <div>
+                            <strong>${item.title}</strong>
+                            <div style="font-size:11px; color:var(--text-sub);">${new Date(item.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}</div>
+                        </div>
+                        <span>${item.targetTime > now ? `⏳ ${formatTimerMs(item.targetTime - now)}` : '✅ تم'}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        setInterval(() => {
+            const now = Date.now();
+            let changed = false;
+            db.reminders.forEach(r => {
+                if (!r.triggered && r.targetTime <= now) {
+                    r.triggered = true;
+                    changed = true;
+                    triggerAlarmSound(r.title);
+                }
+            });
+            renderPrayersAlarms();
+            if (changed) finalize();
+        }, 1000);
+
+        // =========================================================================
+        // --- 6. التنقل والنوافذ الصوتية والتفاعلية ---
+        // =========================================================================
+        function switchView(viewId, btnEl) {
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.app-chip').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.dock-btn').forEach(b => b.classList.remove('active'));
+
+            const target = document.getElementById(viewId);
+            if (target) target.classList.add('active');
+
+            if (btnEl) btnEl.classList.add('active');
+            if (viewId === 'dashboard-view') document.getElementById('btnDockHome').classList.add('active');
+            if (viewId === 'prayers-view') document.getElementById('btnDockPrayers').classList.add('active');
+
+            if (navHistory[navHistory.length - 1] !== viewId) navHistory.push(viewId);
+
+            if (viewId === 'calc-view') updateCalcScreen();
+            if (viewId === 'calendar-view') renderCalendar();
+            if (viewId === 'weather-view') renderWeatherView();
+            if (viewId === 'currency-view') convertCurrency();
+            if (viewId === 'islamiyat-view') switchIslamTab('adhkar');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateUI();
+        }
+
+        function handleBackButton() {
+            const modals = ['activeAlarmModal', 'timerManageModal', 'postRecordingModal', 'authModal', 'actionModal', 'voiceModal'];
+            for (let m of modals) {
+                const el = document.getElementById(m);
+                if (el && el.classList.contains('active')) {
+                    if (m === 'activeAlarmModal') dismissAlarm();
+                    else el.classList.remove('active');
+                    return true;
+                }
+            }
+
+            const currentActive = document.querySelector('.view-section.active');
+            const currentId = currentActive ? currentActive.id : 'dashboard-view';
+
+            if (currentId !== 'dashboard-view') {
+                navHistory.pop();
+                const prev = navHistory.length ? navHistory[navHistory.length - 1] : 'dashboard-view';
+                switchView(prev, null);
+                return true;
+            }
+
+            const now = Date.now();
+            if (now - lastBackTime < 2000) {
+                return false;
+            } else {
+                lastBackTime = now;
+                showToast('اضغط مرة أخرى للخروج');
+                return true;
+            }
+        }
+
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+            window.Capacitor.Plugins.App.removeAllListeners('backButton').then(() => {
+                window.Capacitor.Plugins.App.addListener('backButton', () => {
+                    if (!handleBackButton()) window.Capacitor.Plugins.App.exitApp();
+                });
+            }).catch(()=>{});
+        }
+        window.addEventListener('popstate', () => handleBackButton());
+
+        // تسجيل الصوت
+        let mediaRec = null; let audioChunks = []; let recTimer = null; let recSec = 0; let recognizer = null;
+        async function startVoiceRecording() {
+            lastSpokenText = '';
+            try {
+                const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (Speech) {
+                    recognizer = new Speech();
+                    recognizer.lang = 'ar-SA';
+                    recognizer.onresult = e => { lastSpokenText = e.results[0][0].transcript; };
+                    try { recognizer.start(); } catch(e){}
+                }
+            } catch(e){}
+
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioChunks = []; recSec = 0; mediaRec = new MediaRecorder(stream);
+                mediaRec.ondataavailable = e => audioChunks.push(e.data);
+                mediaRec.onstop = () => {
+                    if (recognizer) { try { recognizer.stop(); } catch(e){} }
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        db.notes.push({
+                            id: Date.now(), title: '🎙️ تسجيل صوتي', audioData: reader.result,
+                            body: lastSpokenText ? `النص: ${lastSpokenText}` : 'تسجيل صوتي خام', date: todayStr
+                        });
+                        finalize();
+                        showSmartSuggestions(lastSpokenText);
+                    };
+                    reader.readAsDataURL(new Blob(audioChunks, { type: 'audio/webm' }));
+                    stream.getTracks().forEach(t => t.stop());
+                };
+                mediaRec.start();
+                document.getElementById('voiceModal').classList.add('active');
+                recTimer = setInterval(() => {
+                    recSec++;
+                    const m = String(Math.floor(recSec/60)).padStart(2,'0');
+                    const s = String(recSec%60).padStart(2,'0');
+                    document.getElementById('recordTimer').innerText = `${m}:${s}`;
+                }, 1000);
+            } catch (err) { alert('تعذر فتح الميكروفون.'); }
+        }
+
+        function stopVoiceRecording() {
+            clearInterval(recTimer);
+            document.getElementById('voiceModal').classList.remove('active');
+            if (mediaRec && mediaRec.state !== 'inactive') mediaRec.stop();
+        }
+
+        function cancelVoiceRecording() {
+            clearInterval(recTimer);
+            document.getElementById('voiceModal').classList.remove('active');
+            if (recognizer) { try { recognizer.stop(); } catch(e){} }
+            if (mediaRec && mediaRec.state !== 'inactive') {
+                mediaRec.stream.getTracks().forEach(t => t.stop());
+                mediaRec = null;
+            }
+        }
+
+        function showSmartSuggestions(text) {
+            document.getElementById('transcribedVoiceText').innerText = text ? `"${text}"` : 'لم يتم التقاط نص';
+            let html = '';
+            const numbers = (text || '').match(/\d+/);
+            if (numbers) {
+                html += `<button class="btn-submit" onclick="execSmartAction('expense', '${text}', ${numbers[0]})">💸 تسجيل مصروف بمبلغ (${numbers[0]} ₪)</button>`;
+            }
+            html += `<button class="btn-submit" style="background:var(--bg-input); color:var(--text-main);" onclick="execSmartAction('note', '${text}')">📝 تسجيل كملاحظة</button>`;
+            document.getElementById('smartSuggestionsBox').innerHTML = html;
+            document.getElementById('postRecordingModal').classList.add('active');
+        }
+
+        function closePostRecModal() { document.getElementById('postRecordingModal').classList.remove('active'); }
+        function execSmartAction(type, text, param) {
+            closePostRecModal();
+            if (type === 'expense') db.expenses.push({ id: Date.now(), desc: text, amount: param, date: todayStr });
+            if (type === 'note') db.todos.push({ id: Date.now(), text: text, done: false, date: todayStr });
+            finalize();
+        }
+
+        // النوافذ وإدارة المدخلات
+        function closeModal() { document.getElementById('actionModal').classList.remove('active'); }
+
+        function openModal(type) {
+            const titleEl = document.getElementById('modalTitle');
+            const container = document.getElementById('modalContainer');
+
+            if (type === 'alarm') {
+                titleEl.innerText = 'ضبط تنبيه سريع';
+                container.innerHTML = `
+                    <input type="number" id="inAlarmMins" placeholder="عدد الدقائق (مثال: 15)..." class="form-input" required>
+                    <input type="text" id="inAlarmTitle" placeholder="اسم التنبيه..." class="form-input">
+                    <button class="btn-submit" onclick="submitAlarm()">ضبط الآن</button>
+                `;
+            } else if (type === 'todo') {
+                titleEl.innerText = 'مهمة جديدة';
+                container.innerHTML = `
+                    <input type="text" id="inTodoText" placeholder="اكتب المهمة..." class="form-input" required>
+                    <button class="btn-submit" onclick="submitTodo()">إضافة المهمة</button>
+                `;
+            } else if (type === 'expense') {
+                titleEl.innerText = 'تسجيل مصروف';
+                container.innerHTML = `
+                    <input type="text" id="inExpDesc" placeholder="ماذا اشتريت؟" class="form-input" required>
+                    <input type="number" id="inExpAmount" placeholder="المبلغ (₪)..." class="form-input" required>
+                    <button class="btn-submit" onclick="submitExpense()">حفظ المصروف</button>
+                `;
+            } else if (type === 'subscription') {
+                titleEl.innerText = 'اشتراك جديد';
+                const d = new Date(); d.setMonth(d.getMonth() + 1);
+                container.innerHTML = `
+                    <input type="text" id="inSubName" placeholder="اسم الاشتراك..." class="form-input" required>
+                    <input type="number" id="inSubAmount" placeholder="المبلغ (₪)..." class="form-input" required>
+                    <label style="font-size:12px; color:var(--text-sub);">تاريخ الانتهاء:</label>
+                    <input type="date" id="inSubDate" value="${d.toISOString().split('T')[0]}" class="form-input" required>
+                    <button class="btn-submit" onclick="submitSubscription()">حفظ الاشتراك</button>
+                `;
+            } else if (type === 'debt') {
+                titleEl.innerText = 'تسجيل التزام (دين / طلب)';
+                container.innerHTML = `
+                    <select id="inDebtType" class="form-input">
+                        <option value="لي">مستحق لي على شخص (طلب)</option>
+                        <option value="علي">دين علي لشخص (التزام)</option>
+                    </select>
+                    <input type="text" id="inDebtPerson" placeholder="اسم الشخص..." class="form-input" required>
+                    <input type="number" id="inDebtAmount" placeholder="المبلغ (₪)..." class="form-input" required>
+                    <input type="text" id="inDebtNote" placeholder="ملاحظة..." class="form-input">
+                    <button class="btn-submit" onclick="submitDebt()">حفظ الالتزام</button>
+                `;
+            } else if (type === 'bill') {
+                titleEl.innerText = 'إضافة فاتورة';
+                container.innerHTML = `
+                    <select id="inBillType" class="form-input">
+                        <option value="كهرباء">كهرباء</option><option value="ماء">ماء</option><option value="إنترنت">إنترنت</option><option value="أخرى">أخرى</option>
+                    </select>
+                    <input type="number" id="inBillAmount" placeholder="المبلغ (₪)..." class="form-input" required>
+                    <button class="btn-submit" onclick="submitBill()">حفظ الفاتورة</button>
+                `;
+            } else if (type === 'note') {
+                titleEl.innerText = 'ملاحظة جديدة';
+                container.innerHTML = `
+                    <input type="text" id="inNoteTitle" placeholder="عنوان الملاحظة..." class="form-input">
+                    <textarea id="inNoteBody" rows="3" placeholder="نص الملاحظة..." class="form-input" required></textarea>
+                    <button class="btn-submit" onclick="submitNote()">حفظ الملاحظة</button>
+                `;
+            } else if (type === 'vault') {
+                titleEl.innerText = 'حساب مشفر جديد';
+                container.innerHTML = `
+                    <input type="text" id="inVaultName" placeholder="الموقع / الخدمة..." class="form-input" required>
+                    <input type="text" id="inVaultUser" placeholder="المستخدم / الإيميل..." class="form-input">
+                    <input type="password" id="inVaultPass" placeholder="كلمة المرور..." class="form-input" required>
+                    <button class="btn-submit" onclick="submitVault()">حفظ بالخزنة</button>
+                `;
+            } else if (type === 'doc') {
+                titleEl.innerText = 'وثيقة رسمية';
+                container.innerHTML = `
+                    <input type="text" id="inDocName" placeholder="اسم الوثيقة (رخصة، جواز...)..." class="form-input" required>
+                    <input type="date" id="inDocDate" class="form-input" required>
+                    <button class="btn-submit" onclick="submitDoc()">حفظ الوثيقة</button>
+                `;
+            }
+            document.getElementById('actionModal').classList.add('active');
+        }
+
+        function submitAlarm() {
+            const m = parseInt(document.getElementById('inAlarmMins').value, 10);
+            const t = document.getElementById('inAlarmTitle').value;
+            if (!m || m <= 0) return alert('أدخل دقائق صحيحة.');
+            closeModal();
+            addFastAlarm(m, t);
+        }
+
+        function submitTodo() {
+            const val = document.getElementById('inTodoText').value.trim();
+            if (!val) return;
+            closeModal();
+            db.todos.push({ id: Date.now(), text: val, done: false, date: todayStr });
+            finalize();
+        }
+
+        function submitExpense() {
+            const d = document.getElementById('inExpDesc').value.trim();
+            const a = document.getElementById('inExpAmount').value;
+            if (!d || !a) return alert('أدخل الوصف والمبلغ.');
+            closeModal();
+            db.expenses.push({ id: Date.now(), desc: d, amount: a, date: todayStr });
+            finalize();
+        }
+
+        function submitSubscription() {
+            const n = document.getElementById('inSubName').value.trim();
+            const a = document.getElementById('inSubAmount').value;
+            const d = document.getElementById('inSubDate').value;
+            if (!n || !a) return alert('أدخل الاسم والمبلغ.');
+            closeModal();
+            db.subscriptions.push({ id: Date.now(), name: n, amount: a, startDate: todayStr, endDate: d });
+            finalize();
+            showToast('✅ تم حفظ الاشتراك');
+        }
+
+        function submitDebt() {
+            const p = document.getElementById('inDebtPerson').value.trim();
+            const a = document.getElementById('inDebtAmount').value;
+            const t = document.getElementById('inDebtType').value;
+            const n = document.getElementById('inDebtNote').value.trim();
+            if (!p || !a) return alert('أدخل الاسم والمبلغ.');
+            closeModal();
+            db.debts.push({ id: Date.now(), type: t, person: p, amount: a, note: n, settled: false, date: todayStr });
+            finalize();
+        }
+
+        function submitBill() {
+            const t = document.getElementById('inBillType').value;
+            const a = document.getElementById('inBillAmount').value;
+            if (!a) return;
+            closeModal();
+            db.fixed_bills.push({ id: Date.now(), type: t, amount: a, date: todayStr });
+            finalize();
+        }
+
+        function submitNote() {
+            const t = document.getElementById('inNoteTitle').value.trim() || 'ملاحظة';
+            const b = document.getElementById('inNoteBody').value.trim();
+            if (!b) return;
+            closeModal();
+            db.notes.push({ id: Date.now(), title: t, body: b });
+            finalize();
+        }
+
+        function submitVault() {
+            const n = document.getElementById('inVaultName').value.trim();
+            const u = document.getElementById('inVaultUser').value.trim();
+            const p = document.getElementById('inVaultPass').value;
+            if (!n || !p) return;
+            closeModal();
+            db.vault.push({ id: Date.now(), accountName: n, username: u, password: p, date: todayStr });
+            finalize();
+        }
+
+        function submitDoc() {
+            const n = document.getElementById('inDocName').value.trim();
+            const d = document.getElementById('inDocDate').value;
+            if (!n || !d) return;
+            closeModal();
+            db.documents.push({ id: Date.now(), name: n, expiryDate: d });
+            finalize();
+        }
+
+        function handleQuickTodo(e) {
+            e.preventDefault();
+            const input = document.getElementById('quickTodoInput');
+            if (!input.value.trim()) return;
+            db.todos.push({ id: Date.now(), text: input.value.trim(), done: false, date: todayStr });
+            input.value = '';
+            finalize();
+        }
+
+        // =========================================================================
+        // --- 7. التحديث الشامل للواجهات ---
+        // =========================================================================
+        function updateUI() {
+            const now = new Date();
+            const cM = now.getMonth();
+            const cY = now.getFullYear();
+
+            let mSpent = 0;
+            db.expenses.forEach(e => {
+                const d = new Date(e.date);
+                if (d.getMonth() === cM && d.getFullYear() === cY) mSpent += parseFloat(e.amount || 0);
+            });
+            db.fixed_bills.forEach(b => {
+                const d = new Date(b.date);
+                if (d.getMonth() === cM && d.getFullYear() === cY) mSpent += parseFloat(b.amount || 0);
+            });
+            document.getElementById('textMonthlySpent').innerText = `${mSpent.toLocaleString()} ₪`;
+
+            // مهام اليوم
+            const todosToday = db.todos.filter(t => t.date === todayStr);
+            document.getElementById('dashTodoCount').innerText = `مهام اليوم (${todosToday.length})`;
+            const dashTodos = document.getElementById('dashTodosList');
+            if (dashTodos) {
+                dashTodos.innerHTML = todosToday.map(t => `
+                    <div class="list-item-row">
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                            <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--accent-blue); width:18px; height:18px;">
+                            <span style="${t.done?'text-decoration:line-through; color:var(--text-muted);':''}">${t.text}</span>
+                        </label>
+                        <button class="btn-icon-del" onclick="deleteTodo(${t.id})">✖</button>
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted); font-size:13px;">لا توجد مهام اليوم.</p>';
+            }
+
+            // مصاريف اليوم
+            const expToday = db.expenses.filter(e => e.date === todayStr);
+            let todayTotal = expToday.reduce((s, i) => s + parseFloat(i.amount || 0), 0);
+            document.getElementById('dashExpensesTotal').innerText = `${todayTotal} ₪`;
+            const dashExp = document.getElementById('dashExpensesPreview');
+            if (dashExp) {
+                dashExp.innerHTML = expToday.slice(0, 3).map(e => `
+                    <div class="list-item-row">
+                        <span>${e.desc}</span>
+                        <strong style="color:var(--accent-red);">${e.amount} ₪</strong>
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted); font-size:13px;">لم تسجل مصاريف اليوم.</p>';
+            }
+
+            // الاشتراكات
+            const subsList = document.getElementById('dashSubscriptionsList');
+            if (subsList) {
+                subsList.innerHTML = db.subscriptions.map(s => {
+                    const start = new Date(s.startDate || todayStr);
+                    const end = new Date(s.endDate || todayStr);
+                    const totalD = Math.max(1, Math.ceil((end - start)/(1000*60*60*24)));
+                    const remD = Math.max(0, Math.ceil((end - new Date(todayStr))/(1000*60*60*24)));
+                    const pct = Math.max(0, Math.min(100, (remD / totalD) * 100));
+                    return `
+                        <div style="display:flex; flex-direction:column; gap:4px; padding:6px 0;">
+                            <div style="display:flex; justify-content:space-between; font-size:14px; font-weight:700;">
+                                <span>${s.name}</span>
+                                <strong>${s.amount} ₪</strong>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-sub);">
+                                <span>ينتهي: ${s.endDate}</span>
+                                <span>متبقي ${remD} يوم</span>
+                            </div>
+                            <div style="width:100%; height:6px; background:var(--bg-input); border-radius:10px; overflow:hidden;">
+                                <div style="width:${pct}%; height:100%; background:var(--accent-blue);"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('') || '<p style="color:var(--text-muted); font-size:13px;">لا توجد اشتراكات.</p>';
+            }
+
+            // قائمة المهام الكاملة
+            const allTodos = document.getElementById('todosFullList');
+            if (allTodos) {
+                allTodos.innerHTML = db.todos.map(t => `
+                    <div class="list-item-row">
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                            <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--accent-blue);">
+                            <span style="${t.done?'text-decoration:line-through; color:var(--text-muted);':''}">${t.text}</span>
+                        </label>
+                        <button class="btn-icon-del" onclick="deleteTodo(${t.id})">🗑</button>
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted);">لا توجد مهام مسجلة.</p>';
+            }
+
+            // الديون
+            const debts = document.getElementById('debtsFullList');
+            if (debts) {
+                debts.innerHTML = db.debts.map(d => `
+                    <div class="list-item-row">
+                        <div>
+                            <span style="font-size:11px; font-weight:700; color:${d.type==='لي'?'var(--accent-green)':'var(--accent-red)'}; margin-left:6px;">[${d.type}]</span>
+                            <strong>${d.person}</strong>: ${d.amount} ₪
+                            ${d.note ? `<div style="font-size:11px; color:var(--text-sub);">${d.note}</div>` : ''}
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <button class="btn-tag-alarm" onclick="toggleDebtSettled(${d.id})">${d.settled ? '✅ سُدد' : 'معلق'}</button>
+                            <button class="btn-icon-del" onclick="deleteDebt(${d.id})">🗑</button>
+                        </div>
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted); text-align:center;">لا توجد ديون مسجلة.</p>';
+            }
+
+            // الفواتير
+            const bills = document.getElementById('billsFullList');
+            if (bills) {
+                bills.innerHTML = db.fixed_bills.map(b => `
+                    <div class="list-item-row">
+                        <div><strong>${b.type}</strong></div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <strong>${b.amount} ₪</strong>
+                            <button class="btn-icon-del" onclick="deleteBill(${b.id})">🗑</button>
+                        </div>
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted);">لا توجد فواتير.</p>';
+            }
+
+            // الملاحظات
+            const notes = document.getElementById('notesFullList');
+            if (notes) {
+                notes.innerHTML = db.notes.map(n => `
+                    <div style="background:var(--bg-input); padding:12px; border-radius:var(--radius-btn); margin-bottom:8px;">
+                        <div style="display:flex; justify-content:space-between; font-weight:700;">
+                            <span>${n.title}</span>
+                            <button class="btn-icon-del" onclick="deleteNote(${n.id})">🗑</button>
+                        </div>
+                        ${n.body ? `<p style="font-size:13px; color:var(--text-sub); margin-top:4px;">${n.body}</p>` : ''}
+                        ${n.audioData ? `<audio controls src="${n.audioData}" style="width:100%; height:32px; margin-top:6px;"></audio>` : ''}
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted);">لا توجد ملاحظات.</p>';
+            }
+
+            // الخزنة
+            const vault = document.getElementById('vaultFullList');
+            if (vault) {
+                vault.innerHTML = db.vault.map(v => `
+                    <div class="list-item-row">
+                        <div>
+                            <strong>${v.accountName}</strong>
+                            <div style="font-size:12px; color:var(--text-sub);">${v.username}</div>
+                            <div style="font-size:12px; color:var(--accent-red); font-family:monospace;">${v.password}</div>
+                        </div>
+                        <button class="btn-icon-del" onclick="deleteVault(${v.id})">🗑</button>
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted);">الخزنة فارغة.</p>';
+            }
+
+            // الوثائق
+            const docs = document.getElementById('docsFullList');
+            if (docs) {
+                docs.innerHTML = db.documents.map(d => `
+                    <div class="list-item-row">
+                        <div><strong>${d.name}</strong><div style="font-size:11px; color:var(--text-sub);">تنتهي: ${d.expiryDate}</div></div>
+                        <button class="btn-icon-del" onclick="deleteDoc(${d.id})">🗑</button>
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted);">لا توجد وثائق.</p>';
+            }
+
+            // المصاريف السابقة
+            const exps = document.getElementById('expensesFullList');
+            if (exps) {
+                exps.innerHTML = db.expenses.map(e => `
+                    <div class="list-item-row">
+                        <div><strong>${e.desc}</strong><div style="font-size:11px; color:var(--text-sub);">${e.date}</div></div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <strong style="color:var(--accent-red);">${e.amount} ₪</strong>
+                            <button class="btn-icon-del" onclick="deleteExpense(${e.id})">🗑</button>
+                        </div>
+                    </div>
+                `).join('') || '<p style="color:var(--text-muted);">لا توجد مصاريف سابقة.</p>';
+            }
+
+            renderPrayersAlarms();
+        }
+
+        function finalize() {
+            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
+            saveToCloud();
+            updateUI();
+        }
+
+        function toggleTodo(id) { const t = db.todos.find(x => x.id === id); if(t) { t.done = !t.done; finalize(); } }
+        function deleteTodo(id) { db.todos = db.todos.filter(x => x.id !== id); finalize(); }
+        function deleteExpense(id) { db.expenses = db.expenses.filter(x => x.id !== id); finalize(); }
+        function deleteBill(id) { db.fixed_bills = db.fixed_bills.filter(x => x.id !== id); finalize(); }
+        function deleteNote(id) { db.notes = db.notes.filter(x => x.id !== id); finalize(); }
+        function deleteVault(id) { db.vault = db.vault.filter(x => x.id !== id); finalize(); }
+        function deleteDoc(id) { db.documents = db.documents.filter(x => x.id !== id); finalize(); }
+        function deleteDebt(id) { db.debts = db.debts.filter(x => x.id !== id); finalize(); }
+        function toggleDebtSettled(id) { const d = db.debts.find(x => x.id === id); if(d) { d.settled = !d.settled; finalize(); } }
+
+        function openAuthModal() {
+            if (currentUser) {
+                if (confirm(`تسجيل الخروج من ${currentUser.email}؟`)) {
+                    firebase.auth().signOut().then(() => showToast('تم تسجيل الخروج'));
+                }
+            } else {
+                document.getElementById('authModal').classList.add('active');
+            }
+        }
+        function closeAuthModal() { document.getElementById('authModal').classList.remove('active'); }
+
+        async function submitLogin() {
+            const e = document.getElementById('authEmail').value.trim();
+            const p = document.getElementById('authPassword').value;
+            if (!e || !p) return alert('أدخل البريد وكلمة المرور.');
+            try {
+                await firebase.auth().signInWithEmailAndPassword(e, p);
+                closeAuthModal();
+            } catch(err) { alert('فشل الدخول: ' + err.message); }
+        }
+
+        async function submitSignup() {
+            const e = document.getElementById('authEmail').value.trim();
+            const p = document.getElementById('authPassword').value;
+            if (!e || !p) return alert('أدخل البريد وكلمة المرور.');
+            try {
+                const cred = await firebase.auth().createUserWithEmailAndPassword(e, p);
+                await cred.user.sendEmailVerification();
+                await firebase.auth().signOut();
+                alert('تم إنشاء الحساب وإرسال رابط التفعيل لبريدك.');
+                closeAuthModal();
+            } catch(err) { alert('فشل الإنشاء: ' + err.message); }
+        }
+
+        async function handleForgotPass() {
+            const e = document.getElementById('authEmail').value.trim();
+            if (!e) return alert('اكتب بريدك في الحقل أولاً.');
+            try {
+                await firebase.auth().sendPasswordResetEmail(e);
+                alert('تم إرسال رابط الاستعادة لبريدك.');
+            } catch(err) { alert(err.message); }
+        }
+
+        async function handleResendVerification() {
+            const e = document.getElementById('authEmail').value.trim();
+            const p = document.getElementById('authPassword').value;
+            if (!e || !p) return alert('أدخل البريد وكلمة المرور.');
+            try {
+                const cred = await firebase.auth().signInWithEmailAndPassword(e, p);
+                if (!cred.user.emailVerified) await cred.user.sendEmailVerification();
+                await firebase.auth().signOut();
+                alert('تم إعادة إرسال التفعيل.');
+            } catch(err) { alert(err.message); }
+        }
+
+        function exportData() {
+            const a = document.createElement('a');
+            a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
+            a.download = `LifeOS_Backup_${todayStr}.json`;
+            a.click();
+            showToast('📥 تم التصدير بنجاح');
+        }
+
+        function triggerImportFile() { document.getElementById('importFileInput').click(); }
+        function handleImportBackup(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                try {
+                    const imp = JSON.parse(ev.target.result);
+                    if (confirm('هل تريد استرجاع النسخة ودمجها؟')) {
+                        db = normalizeDB(imp);
+                        finalize();
+                        showToast('✅ تم الاسترجاع بنجاح');
+                    }
+                } catch(err) { alert('الملف غير صالح.'); }
+            };
+            reader.readAsText(file);
+        }
+
+        function requestBatteryOptimizationExemption() {
+            alert('لعمل المنبه والتطبيق مقفل:\n1. اذهب لإعدادات بطارية الهاتف واختر Life OS.\n2. اختر "غير مقيد" (Unrestricted).\n3. فعل "التشغيل التلقائي" (Autostart).');
+        }
+
+        async function syncFeeds() {
+            const rates = db.cachedFeeds.rates || { USD: "3.65", JOD: "5.15", EUR: "3.95" };
+            document.getElementById('textUSD').innerText = rates.USD;
+            document.getElementById('textJOD').innerText = rates.JOD;
+            document.getElementById('textEUR').innerText = rates.EUR;
+
+            if (!navigator.onLine) return;
+            const now = Date.now();
+
+            if (now - (db.cachedFeeds.weatherLastFetch || 0) > 3600000 || !db.cachedFeeds.weatherHourly) {
+                try {
+                    const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=32.4646&longitude=35.2939&hourly=temperature_2m,weather_code&forecast_days=5&timezone=auto');
+                    const data = await res.json();
+                    if (data && data.hourly) {
+                        db.cachedFeeds.weatherHourly = data.hourly;
+                        db.cachedFeeds.weatherLastFetch = now;
+                        finalize();
+                        renderWeatherView();
+                        if (data.hourly.temperature_2m[0]) {
+                            document.getElementById('textWeather').innerText = `${Math.round(data.hourly.temperature_2m[0])}°C ⛅`;
+                        }
+                    }
+                } catch(e){}
+            }
+
+            if (now - (db.cachedFeeds.ratesLastFetch || 0) > 86400000) {
+                try {
+                    const res = await fetch('https://open.er-api.com/v6/latest/ILS');
+                    const data = await res.json();
+                    if (data && data.rates) {
+                        db.cachedFeeds.rates = {
+                            USD: (1 / data.rates.USD).toFixed(2),
+                            JOD: (1 / data.rates.JOD).toFixed(2),
+                            EUR: (1 / data.rates.EUR).toFixed(2),
+                            ILS: "1.00"
+                        };
+                        db.cachedFeeds.ratesLastFetch = now;
+                        finalize();
+                        document.getElementById('textUSD').innerText = db.cachedFeeds.rates.USD;
+                        document.getElementById('textJOD').innerText = db.cachedFeeds.rates.JOD;
+                        document.getElementById('textEUR').innerText = db.cachedFeeds.rates.EUR;
+                        convertCurrency();
+                    }
+                } catch(e){}
+            }
+        }
+
+        window.addEventListener('online', () => {
+            syncFeeds();
+            saveToCloud();
         });
+
+        // =========================================================================
+        // --- 8. الإقلاع الفوري المستقر ---
+        // =========================================================================
+        applyTheme();
+        loadPrayers();
+        syncFeeds();
+        updateUI();
     </script>
 </body>
 </html>
