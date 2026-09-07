@@ -25,11 +25,12 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(AlarmOptimizerPlugin.class);
         super.onCreate(savedInstanceState);
 
-        // تفعيل قدرة التطبيق على تلوين شريط النظام فور الإقلاع
+        // فرض تلوين شريط الإشعارات وتجاوز أي طبقات شفافة أو بيضاء افتراضية
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(Color.parseColor("#0B1120")); // اللون الافتراضي الأولي
         }
     }
 
@@ -63,7 +64,7 @@ class AlarmOptimizerPlugin extends Plugin {
                         View decor = window.getDecorView();
                         int flags = decor.getSystemUiVisibility();
                         if (darkIcons) {
-                            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR; // أيقونات سوداء للوضع الفاتح
+                            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR; // أيقونات داكنة للوضع الفاتح
                         } else {
                             flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR; // أيقونات بيضاء للوضع الداكن
                         }
