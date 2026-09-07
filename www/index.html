@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0B1120" id="themeColorMeta">
 
-    <title>النظام اليومي</title>
+    <title>Life OS</title>
     
     <!-- مكتبات Firebase الرسمية -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -18,10 +18,8 @@
 
     <style>
         /* =========================================================
-           💎 8 ثيمات احترافية متكاملة (نهاري / ليلي) قابلة للحفظ في الحساب
+           💎 8 ثيمات متكاملة (نهاري / ليلي)
            ========================================================= */
-        
-        /* 1. Sapphire (أزرق الياقوت) */
         body[data-theme="sapphire"] {
             --bg-canvas: #0B1120; --surface-panel: #131D31; --surface-elevated: #1B2844;
             --surface-inner: rgba(255, 255, 255, 0.05); --surface-active: rgba(255, 255, 255, 0.09);
@@ -36,7 +34,6 @@
             --accent-primary: #0284C7; --accent-glow: rgba(2, 132, 199, 0.15);
         }
 
-        /* 2. Emerald (زمرد الواحة) */
         body[data-theme="emerald"] {
             --bg-canvas: #04140E; --surface-panel: #0A2219; --surface-elevated: #103225;
             --surface-inner: rgba(255, 255, 255, 0.05); --surface-active: rgba(255, 255, 255, 0.09);
@@ -51,7 +48,6 @@
             --accent-primary: #059669; --accent-glow: rgba(5, 150, 105, 0.15);
         }
 
-        /* 3. Amber (الكهرمان الذهبي) */
         body[data-theme="amber"] {
             --bg-canvas: #120D08; --surface-panel: #1D150D; --surface-elevated: #2A1F13;
             --surface-inner: rgba(255, 255, 255, 0.05); --surface-active: rgba(255, 255, 255, 0.09);
@@ -66,7 +62,6 @@
             --accent-primary: #D97706; --accent-glow: rgba(217, 119, 6, 0.15);
         }
 
-        /* 4. Ruby Crimson (الياقوت الأحمر) */
         body[data-theme="ruby"] {
             --bg-canvas: #140508; --surface-panel: #200910; --surface-elevated: #2E1018;
             --surface-inner: rgba(255, 255, 255, 0.05); --surface-active: rgba(255, 255, 255, 0.09);
@@ -81,7 +76,6 @@
             --accent-primary: #E11D48; --accent-glow: rgba(225, 29, 72, 0.15);
         }
 
-        /* 5. Amethyst Purple (الجمشت البنفسجي) */
         body[data-theme="amethyst"] {
             --bg-canvas: #0E071A; --surface-panel: #1A0D2E; --surface-elevated: #281446;
             --surface-inner: rgba(255, 255, 255, 0.05); --surface-active: rgba(255, 255, 255, 0.09);
@@ -96,7 +90,6 @@
             --accent-primary: #9333EA; --accent-glow: rgba(147, 51, 234, 0.15);
         }
 
-        /* 6. Midnight OLED (الأسود الليلي الحالك) */
         body[data-theme="midnight"] {
             --bg-canvas: #000000; --surface-panel: #0D1117; --surface-elevated: #161B22;
             --surface-inner: rgba(255, 255, 255, 0.06); --surface-active: rgba(255, 255, 255, 0.12);
@@ -111,7 +104,6 @@
             --accent-primary: #0969DA; --accent-glow: rgba(9, 105, 218, 0.15);
         }
 
-        /* 7. Nord Slate (النورد الثلجي) */
         body[data-theme="nord"] {
             --bg-canvas: #1E222A; --surface-panel: #242933; --surface-elevated: #2E3440;
             --surface-inner: rgba(255, 255, 255, 0.05); --surface-active: rgba(255, 255, 255, 0.09);
@@ -126,7 +118,6 @@
             --accent-primary: #5E81AC; --accent-glow: rgba(94, 129, 172, 0.15);
         }
 
-        /* 8. Rose Copper (النحاسي والوردي الدافئ) */
         body[data-theme="rose"] {
             --bg-canvas: #180D0F; --surface-panel: #271418; --surface-elevated: #3A1D23;
             --surface-inner: rgba(255, 255, 255, 0.05); --surface-active: rgba(255, 255, 255, 0.09);
@@ -171,7 +162,6 @@
             box-sizing: border-box;
         }
 
-        /* شريط علوي مع ترس الإعدادات */
         .oneui-top-bar {
             display: flex; align-items: center; justify-content: space-between;
             padding: 4px 0 12px 0; position: relative;
@@ -196,16 +186,27 @@
         }
         .user-auth-pill:active { transform: scale(0.95); }
 
-        /* ترويسة النظام اليومي ومسافة 6 أسطر */
-        .app-hero-brand {
-            padding: 10px 4px 0 4px;
+        /* منطقة الترحيب الزمني مع الأيقونة والمسافات المطلوبة */
+        .hero-greeting-container {
+            margin-top: 22px; /* سطر فارغ فوقها */
+            margin-bottom: 72px; /* 4 سطور فارغة تحتها */
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 4px;
         }
-        .app-brand-title {
-            font-size: 34px; font-weight: 900; letter-spacing: -0.02em; color: var(--text-primary); line-height: 1.15;
+        .hero-weather-icon {
+            font-size: 34px;
+            line-height: 1;
+            display: inline-block;
+            user-select: none;
         }
-        .hero-spacer-6lines {
-            height: 108px; /* مسافة تقدر بـ 6 أسطر كاملة */
-            width: 100%;
+        .hero-greeting-title {
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            line-height: 1.15;
         }
 
         .top-info-links {
@@ -250,21 +251,52 @@
         .section-view.active { display: block; animation: viewFade 0.2s ease; }
         @keyframes viewFade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* =========================================================
-           🛡️ خطوط التنبيهات المستقلة (Linear Alarms Track)
-           ========================================================= */
-        .linear-reminder-item {
-            background: var(--surface-inner); border: 1px solid var(--border-subtle); border-radius: var(--radius-input);
-            padding: 12px 14px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px;
+        /* بطاقات التنبيهات مع الدائرة المصغرة */
+        .alarm-item-card {
+            background: var(--surface-inner);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-input);
+            padding: 11px 14px;
+            margin-bottom: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
         }
-        .linear-reminder-item:last-child { margin-bottom: 0; }
-        .linear-reminder-header { display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; }
-        .linear-reminder-track {
-            width: 100%; height: 7px; background: rgba(255, 255, 255, 0.08); border-radius: var(--radius-pill); overflow: hidden;
+        .alarm-item-card:last-child { margin-bottom: 0; }
+        
+        .mini-circle-timer {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        body.light-mode .linear-reminder-track { background: rgba(0, 0, 0, 0.08); }
-        .linear-reminder-fill { height: 100%; background: var(--accent-primary); border-radius: var(--radius-pill); transition: width 0.5s linear; }
-        .linear-reminder-actions { display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: var(--text-secondary); }
+        .mini-circle-timer svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        .mini-circle-bg {
+            fill: transparent;
+            stroke: rgba(255, 255, 255, 0.12);
+            stroke-width: 3.2;
+        }
+        body.light-mode .mini-circle-bg {
+            stroke: rgba(0, 0, 0, 0.1);
+        }
+        .mini-circle-fill {
+            fill: transparent;
+            stroke: var(--accent-primary);
+            stroke-width: 3.2;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s linear;
+        }
+        .mini-circle-fill.prayer {
+            stroke: var(--accent-green);
+        }
 
         /* الحاسبة */
         .google-calc-box {
@@ -326,7 +358,6 @@
             border-radius: var(--radius-card); padding: 22px; width: 100%; max-width: 380px; box-shadow: var(--shadow-subtle);
         }
 
-        /* الدوك السفلي ممتد بعرض الشاشة */
         .bottom-floating-dock {
             position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-width: 100%;
             background: var(--surface-panel); border-top: 1px solid var(--border-subtle); border-radius: 0 !important;
@@ -384,15 +415,14 @@
 
     <div class="app-container" id="mainAppContainer">
         
-        <!-- الشريط العلوي (بدون مواقيت الصلاة، مع ترس الإعدادات بجانب التبديل) -->
+        <!-- الشريط العلوي -->
         <div class="oneui-top-bar">
             <div class="top-actions-cluster">
                 <div class="top-right-group">
                     <button class="top-action-btn mic-btn" onclick="startVoiceRecording()" title="تسجيل صوتي فوري">
                         🎙️
                     </button>
-                    <!-- النقر يفتح نافذة الدخول للمستخدم غير المسجل، أو تعديل الاسم للمسجل -->
-                    <div id="googleAuthContainer" onclick="handleUserAuthClick()" title="الحساب وتسجيل الدخول">
+                    <div id="googleAuthContainer" onclick="handleUserAuthClick()" title="الحساب">
                         <div class="user-auth-pill" id="googleAuthBtn">
                             <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:currentColor;margin-left:2px;"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                             <span id="userNameSpan">تسجيل الدخول</span>
@@ -401,11 +431,9 @@
                 </div>
 
                 <div class="top-left-group">
-                    <!-- ترس الإعدادات برمز فقط بجانب الوضع الليلي/النهاري -->
                     <button class="top-action-btn" onclick="switchNavSection('settings-view')" id="topSettingsBtn" title="الإعدادات">
                         <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
                     </button>
-                    <!-- زر النمط الليلي / النهاري -->
                     <button class="top-action-btn" onclick="toggleTheme()" id="themeBtn" title="النمط النهاري / الليلي">
                         <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.39 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.39-.44-.06-.9-.1-1.36-.1z"/></svg>
                     </button>
@@ -413,11 +441,11 @@
             </div>
         </div>
 
-        <!-- ترويسة "النظام اليومي" ومسافة 6 سطور كاملة تحتها -->
-        <div class="app-hero-brand">
-            <h1 class="app-brand-title">النظام اليومي</h1>
+        <!-- التحية المتغيرة حسب الوقت مع أيقونة الطقس ومسافة سطر أعلى و4 أسطر أسفل -->
+        <div class="hero-greeting-container">
+            <span id="heroWeatherIcon" class="hero-weather-icon">☀️</span>
+            <h1 id="heroGreetingText" class="hero-greeting-title">صباح الخير</h1>
         </div>
-        <div class="hero-spacer-6lines"></div>
 
         <!-- بطاقات الطقس والعملات والتنبيهات -->
         <div class="top-info-links" aria-label="اختصارات معلومات التطبيق">
@@ -428,13 +456,13 @@
                 <strong>💱 العملات</strong><span id="topCurrencySummary">USD 3.65 ₪</span>
             </button>
             <button class="top-info-link" onclick="switchNavSection('prayers-alarms-view')">
-                <strong>⏰ التنبيهات</strong><span id="topAlarmSummary">0 تنبيهات نشطة</span>
+                <strong>⏰ التنبيهات</strong><span id="topAlarmSummary">0 نشطة</span>
             </button>
         </div>
 
         <!-- 🏠 1. الشاشة الرئيسية -->
         <div id="dashboard-view" class="section-view active">
-            <!-- نسبة الإنجاز الشاملة لكل خطوات التطبيق -->
+            <!-- مؤشر الإنجاز اليومي -->
             <div class="daily-progress-wrap">
                 <span style="font-size:12px; font-weight:700;">نسبة الإنجاز اليومي:</span>
                 <div class="daily-progress-bar">
@@ -443,24 +471,22 @@
                 <span style="font-size:12px; font-weight:800; color:var(--accent-green);" id="dailyProgressText">0%</span>
             </div>
 
-            <!-- شريط الأنشطة السريع (الأذكار، الورد، الصلوات، الحاسبة، والعداد) -->
+            <!-- شريط الأنشطة السريع (تمت إزالة العداد ومواقيت الصلاة منه كما طُلب) -->
             <div class="habits-strip" id="dashHabitsStrip">
                 <div class="habit-chip primary-highlight" onclick="switchNavSection('adhkar-view')">🤲 الأذكار</div>
                 <div class="habit-chip primary-highlight" onclick="switchNavSection('quran-view')">📖 ورد القرآن</div>
-                <div class="habit-chip primary-highlight" onclick="switchNavSection('prayers-alarms-view')">🕌 مواقيت الصلاة</div>
-                <div class="habit-chip primary-highlight" onclick="switchNavSection('stopwatch-view')">⏱️ العداد</div>
                 <div class="habit-chip primary-highlight" onclick="switchNavSection('calc-view')">🧮 الحاسبة</div>
             </div>
 
-            <!-- قسم التنبيهات المباشرة (خطوط مستقلة لكل تنبيه جديد) -->
-            <div class="section-label">التنبيهات المباشرة والمنبهات</div>
+            <!-- قسم التنبيهات المباشرة ومواقيت الصلاة مع دائرة مصغرة لكل موعد -->
+            <div class="section-label">التنبيهات ومواقيت الصلاة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                    <span style="font-size:13px; color:var(--text-secondary);" id="activeRemindersCountText">التنبيهات الجارية</span>
+                    <span style="font-size:13px; color:var(--text-secondary);" id="activeRemindersCountText">المواعيد القادمة</span>
                     <button onclick="openModalAction('alarm')" style="background:none; border:none; color:var(--accent-primary); font-weight:700; cursor:pointer;">+ ضبط تنبيه</button>
                 </div>
 
-                <!-- حاوية خطوط التنبيهات (كل تنبيه خط مستقل) -->
+                <!-- حاوية التنبيهات والصلوات مع الدوائر الصغيرة -->
                 <div id="linearRemindersContainer"></div>
 
                 <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin:14px 0 4px 0;">
@@ -489,22 +515,7 @@
             </div>
         </div>
 
-        <!-- ⏱️ 2. قسم العداد (Stopwatch) للعد والتوقيت مع إيقاف مؤقت وإنهاء -->
-        <div id="stopwatch-view" class="section-view">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <div class="section-label" style="margin:0;">⏱️ العداد والتوقيت المباشر</div>
-                <button class="tag-badge" onclick="switchNavSection('dashboard-view')">← الرئيسية</button>
-            </div>
-            <div class="oneui-card" style="text-align:center; padding: 28px 16px;">
-                <div id="stopwatchDisplay" style="font-size: 52px; font-weight: 900; font-family: monospace; letter-spacing: 2px; color: var(--accent-primary); margin: 12px 0 24px 0;">00:00:00</div>
-                <div style="display:flex; gap:10px; justify-content:center;">
-                    <button id="swStartPauseBtn" onclick="toggleStopwatch()" class="btn-action" style="flex:1;">بدء العد ▶</button>
-                    <button onclick="finishStopwatch()" class="btn-action" style="background:var(--surface-inner); color:var(--accent-red); border:1px solid var(--border-subtle); flex:1;">إنهاء ⏹</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 🕌 3. تطبيق إسلاميات الشامل والمسبحة -->
+        <!-- 🕌 2. تطبيق إسلاميات الشامل والمسبحة -->
         <div id="islamiyat-view" class="section-view">
             <div style="display:flex; gap:6px; margin-bottom:12px; overflow-x:auto;">
                 <button class="tag-badge" onclick="switchNavSection('adhkar-view')">🤲 الأذكار المأثورة</button>
@@ -528,7 +539,7 @@
             </div>
         </div>
 
-        <!-- 📝 4. تطبيق الملاحظات والتسجيلات -->
+        <!-- 📝 3. الملاحظات -->
         <div id="notes-view" class="section-view">
             <div class="section-label">الملاحظات والتدوينات</div>
             <div class="oneui-card">
@@ -540,7 +551,7 @@
             </div>
         </div>
 
-        <!-- ✅ 5. تطبيق المهام -->
+        <!-- ✅ 4. المهام -->
         <div id="todos-view" class="section-view">
             <div class="section-label">إدارة كافة المهام</div>
             <div class="oneui-card">
@@ -552,7 +563,7 @@
             </div>
         </div>
 
-        <!-- 📊 6. تطبيق المالية والديون والاشتراكات -->
+        <!-- 📊 5. المالية والاشتراكات -->
         <div id="finance-view" class="section-view">
             <div class="section-label">ملخص المصاريف</div>
             <div class="oneui-card">
@@ -592,7 +603,7 @@
             <div class="oneui-card" id="expensesFullList"></div>
         </div>
 
-        <!-- 📖 7. ورد القرآن المفسر المستقل -->
+        <!-- 📖 6. ورد القرآن المفسر المستقل -->
         <div id="quran-view" class="section-view">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                 <div class="section-label" style="margin:0;">ورد القرآن وتفسير ابن كثير (5 آيات)</div>
@@ -608,7 +619,7 @@
             </div>
         </div>
 
-        <!-- 🧮 8. الحاسبة (بدون نص حاسبة جوجل القياسية) -->
+        <!-- 🧮 7. الحاسبة -->
         <div id="calc-view" class="section-view">
             <div class="google-calc-box">
                 <div class="calc-screen-wrapper">
@@ -644,7 +655,7 @@
             </div>
         </div>
 
-        <!-- 📅 9. التقويم -->
+        <!-- 📅 8. التقويم -->
         <div id="calendar-view" class="section-view">
             <div class="section-label">تقويم المهام والمواعيد</div>
             <div class="oneui-card">
@@ -664,7 +675,7 @@
             </div>
         </div>
 
-        <!-- ⛅ 10. تطبيق الطقس -->
+        <!-- ⛅ 9. الطقس -->
         <div id="weather-view" class="section-view">
             <div class="section-label">حالة الطقس لـ 5 أيام (محدث بالساعات)</div>
             <div class="oneui-card" style="text-align:center;">
@@ -679,7 +690,7 @@
             </div>
         </div>
 
-        <!-- 💱 11. محول العملات -->
+        <!-- 💱 10. العملات -->
         <div id="currency-view" class="section-view">
             <div class="section-label">محول العملات المالي المباشر</div>
             <div class="oneui-card">
@@ -714,7 +725,7 @@
             </div>
         </div>
 
-        <!-- 🔐 12. الخزنة المشفرة -->
+        <!-- 🔐 11. الخزنة -->
         <div id="vault-view" class="section-view">
             <div class="section-label">الحسابات المشفرة</div>
             <div class="oneui-card">
@@ -725,7 +736,7 @@
             </div>
         </div>
 
-        <!-- ⚙️ 13. الإعدادات -->
+        <!-- ⚙️ 12. الإعدادات -->
         <div id="settings-view" class="section-view">
             <div class="section-label">الحساب والمزامنة السحابية</div>
             <div class="oneui-card">
@@ -738,10 +749,9 @@
                 </div>
             </div>
 
-            <!-- قائمة الثيمات الـ 8 المتكاملة -->
-            <div class="section-label">الهوية اللونية للنظام (8 ثيمات احترافية)</div>
+            <div class="section-label">الهوية اللونية للنظام (8 ثيمات)</div>
             <div class="oneui-card">
-                <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">اختر ثيم النظام المفضل (يُحفظ في حسابك):</label>
+                <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">اختر ثيم النظام المفضل:</label>
                 <select id="themeSelector" class="app-input" onchange="changeMasterTheme(this.value)">
                     <option value="sapphire">1. Sapphire (أزرق الياقوت الملكي)</option>
                     <option value="emerald">2. Emerald (زمرد الواحة الأخضر)</option>
@@ -788,7 +798,7 @@
             </div>
         </div>
 
-        <!-- 🤲 14. الأذكار اليومية المستقلة -->
+        <!-- 🤲 13. الأذكار -->
         <div id="adhkar-view" class="section-view">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                 <div class="section-label" style="margin:0;">الأذكار المأثورة</div>
@@ -797,7 +807,7 @@
             <div id="adhkarContentContainer"></div>
         </div>
 
-        <!-- 🕌⏰ 15. تطبيق الصلوات والتنبيهات الموحد (مثبت في الأسفل) -->
+        <!-- 🕌⏰ 14. تطبيق الصلوات والتنبيهات الموحد -->
         <div id="prayers-alarms-view" class="section-view">
             <div class="section-label">مواقيت الصلاة والتنبيهات المجدولة</div>
             <div class="oneui-card" id="prayersAlarmsFullList"></div>
@@ -805,14 +815,11 @@
 
     </div>
 
-    <!-- =========================================================
-       🚀 الدوك السفلي ممتد بعرض الشاشة بالكامل من اليمين لليسار
-       ========================================================= -->
+    <!-- الدوك السفلي -->
     <div class="bottom-floating-dock" id="bottomDock">
         <button class="dock-capsule-item active" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
         <button class="dock-capsule-item" onclick="switchNavSection('prayers-alarms-view', this)">🕌 الصلوات</button>
         <button class="dock-capsule-item" onclick="switchNavSection('islamiyat-view', this)">🤲 إسلاميات</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('stopwatch-view', this)">⏱️ العداد</button>
         <button class="dock-capsule-item" onclick="switchNavSection('notes-view', this)">📝 الملاحظات</button>
         <button class="dock-capsule-item" onclick="switchNavSection('todos-view', this)">✅ المهام</button>
         <button class="dock-capsule-item" onclick="switchNavSection('finance-view', this)">📊 المالية</button>
@@ -845,7 +852,6 @@
         </div>
     </div>
 
-    <!-- نافذة الملف الشخصي وتعديل الاسم للمستخدم المسجل -->
     <div class="modal-overlay" id="profileModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size:36px; margin-bottom:8px;">👤</div>
@@ -890,9 +896,6 @@
     </div>
 
     <script>
-        // =========================================================================
-        // --- تهيئة البيانات والمزامنة ---
-        // =========================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCxalyr_Xa7IeSuT8enh6MCu2a1h5HvBWY",
             authDomain: "life-8892e.firebaseapp.com",
@@ -906,11 +909,8 @@
 
         let currentUser = null;
         let userDbRef = null;
-
-        // سجل التنقل للرجوع خطوة بخطوة
         let navHistory = ['dashboard-view'];
 
-        // حالة الحاسبة
         let gCalcCurrent = '0';
         let gCalcPrevious = '';
         let gCalcOpValue = null;
@@ -919,12 +919,6 @@
         let calCurrentYear = new Date().getFullYear();
         let calCurrentMonth = new Date().getMonth();
         let currentTasbeehCount = 0;
-
-        // حالة العداد Stopwatch
-        let swStartTime = 0;
-        let swElapsedTime = 0;
-        let swInterval = null;
-        let isSwRunning = false;
 
         const periodicRemembrances = [
             "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ",
@@ -1054,7 +1048,7 @@
             db.settings.masterTheme = themeName;
             applyThemeUI();
             finalizeAction();
-            showToast('🎨 تم حفظ الثيم في حسابك بنجاح');
+            showToast('🎨 تم حفظ الثيم في حسابك');
         }
 
         function toggleTheme() {
@@ -1064,17 +1058,65 @@
         }
 
         // =========================================================================
-        // --- إدارة الدخول وتعديل الاسم فقط بعد تسجيل الدخول ---
+        // --- دالة التحية العربية المتغيرة والأيقونة الذكية حسب الطقس والوقت ---
+        // =========================================================================
+        function getArabicGreeting() {
+            const hour = new Date().getHours();
+            if (hour >= 4 && hour < 6) return "فجر مبارك";
+            if (hour >= 6 && hour < 12) return "صباح الخير";
+            if (hour >= 12 && hour < 17) return "طاب يومك";
+            if (hour >= 17 && hour < 22) return "مساء الخير";
+            return "طابت ليلتك";
+        }
+
+        function getWeatherContextIcon() {
+            const hour = new Date().getHours();
+            const isNight = hour >= 20 || hour < 5;
+            const isDawn = hour >= 5 && hour < 7;
+            const isDusk = hour >= 17 && hour < 20;
+
+            const weatherCode = db.cachedFeeds?.weatherHourly?.weather_code ?
+                db.cachedFeeds.weatherHourly.weather_code[0] : null;
+
+            if (weatherCode !== null && weatherCode !== undefined) {
+                if (weatherCode === 0) {
+                    if (isDawn) return "🌅";
+                    if (isDusk) return "🌇";
+                    return isNight ? "🌙" : "☀️";
+                }
+                if ([1, 2].includes(weatherCode)) {
+                    return isNight ? "☁️🌙" : "⛅";
+                }
+                if (weatherCode === 3) return "☁️";
+                if ([45, 48].includes(weatherCode)) return "🌫️";
+                if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(weatherCode)) return "🌧️";
+                if ([71, 73, 75, 85, 86].includes(weatherCode)) return "❄️";
+                if ([95, 96, 99].includes(weatherCode)) return "⛈️";
+            }
+
+            if (isDawn) return "🌅";
+            if (isDusk) return "🌇";
+            if (isNight) return "🌙";
+            return "☀️";
+        }
+
+        function updateDynamicGreeting() {
+            const textEl = document.getElementById('heroGreetingText');
+            const iconEl = document.getElementById('heroWeatherIcon');
+            if (textEl) textEl.innerText = getArabicGreeting();
+            if (iconEl) iconEl.innerText = getWeatherContextIcon();
+        }
+
+        // =========================================================================
+        // --- إدارة الدخول والملف الشخصي ---
         // =========================================================================
         function handleUserAuthClick() {
             if (currentUser) {
-                // المستخدم مسجل الدخول: فتح نافذة الملف الشخصي وتعديل الاسم
                 const name = (db.settings && db.settings.displayName) ? db.settings.displayName : (currentUser.displayName || currentUser.email.split('@')[0]);
                 document.getElementById('profileModalName').innerText = name;
                 document.getElementById('profileModalEmail').innerText = currentUser.email;
                 document.getElementById('profileModal').classList.add('active');
             } else {
-                // غير مسجل الدخول: فتح شاشة تسجيل الدخول وإنشاء الحساب
                 document.getElementById('authModal').classList.add('active');
             }
         }
@@ -1099,7 +1141,7 @@
                 updateAuthProfileUI(currentUser);
                 try { await currentUser.updateProfile({ displayName: cleanName }); } catch(e){}
                 closeProfileModal();
-                showToast('✅ تم تعديل الاسم ومزامنته في الحساب');
+                showToast('✅ تم تعديل الاسم بنجاح');
             }
         }
 
@@ -1208,89 +1250,87 @@
         }
 
         // =========================================================================
-        // --- قسم العداد (Stopwatch) مع إيقاف مؤقت وإنهاء ---
+        // --- تنبيهات ومواقيت الصلاة مع الدوائر المصغرة لكل تنبيه ---
         // =========================================================================
-        function updateStopwatchDisplay() {
-            const totalMs = swElapsedTime + (isSwRunning ? (Date.now() - swStartTime) : 0);
-            const hrs = Math.floor(totalMs / 3600000);
-            const mins = Math.floor((totalMs % 3600000) / 60000);
-            const secs = Math.floor((totalMs % 60000) / 1000);
-            const el = document.getElementById('stopwatchDisplay');
-            if (el) el.innerText = `${String(hrs).padStart(2,'0')}:${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
-        }
-
-        function toggleStopwatch() {
-            const btn = document.getElementById('swStartPauseBtn');
-            if (!isSwRunning) {
-                isSwRunning = true;
-                swStartTime = Date.now();
-                swInterval = setInterval(updateStopwatchDisplay, 250);
-                if (btn) btn.innerText = 'إيقاف مؤقت ⏸';
-                showToast('⏱️ بدأ العداد');
-            } else {
-                isSwRunning = false;
-                swElapsedTime += Date.now() - swStartTime;
-                clearInterval(swInterval);
-                if (btn) btn.innerText = 'استئناف ▶';
-                showToast('⏸ تم إيقاف العداد مؤقتاً');
-            }
-        }
-
-        function finishStopwatch() {
-            if (isSwRunning) {
-                isSwRunning = false;
-                clearInterval(swInterval);
-            }
-            swElapsedTime = 0;
-            swStartTime = 0;
-            const btn = document.getElementById('swStartPauseBtn');
-            if (btn) btn.innerText = 'بدء العد ▶';
-            updateStopwatchDisplay();
-            showToast('⏹ تم إنهاء وتصفير العداد');
-        }
-
-        // =========================================================================
-        // --- خطوط التنبيهات المستقلة في الرئيسية ---
-        // =========================================================================
-        function renderLinearReminders() {
+        function renderCombinedReminders() {
             const container = document.getElementById('linearRemindersContainer');
             if (!container) return;
             const now = Date.now();
-            const active = db.reminders.filter(r => !r.triggered && r.targetTime > now);
-            active.sort((a,b) => a.targetTime - b.targetTime);
+            const combined = [];
+
+            // 1. الصلوات القادمة اليوم
+            livePrayersList.forEach(p => {
+                if (p.targetTime > now) {
+                    combined.push({
+                        id: p.id,
+                        title: p.title,
+                        targetTime: p.targetTime,
+                        isPrayer: true
+                    });
+                }
+            });
+
+            // 2. التنبيهات المجدولة
+            db.reminders.forEach(r => {
+                if (!r.triggered && r.targetTime > now) {
+                    combined.push({
+                        id: r.id,
+                        title: r.title || `تنبيه (${r.minutes} د)`,
+                        targetTime: r.targetTime,
+                        minutes: r.minutes,
+                        createdAt: r.createdAt,
+                        isPrayer: false
+                    });
+                }
+            });
+
+            combined.sort((a, b) => a.targetTime - b.targetTime);
 
             const countText = document.getElementById('activeRemindersCountText');
-            if (countText) countText.innerText = `${active.length} تنبيهات جارية`;
+            if (countText) countText.innerText = `${combined.length} مواعيد قادمة`;
 
             const topAlarmSummary = document.getElementById('topAlarmSummary');
-            if (topAlarmSummary) topAlarmSummary.innerText = `${active.length} تنبيهات نشطة`;
+            if (topAlarmSummary) topAlarmSummary.innerText = `${combined.length} نشطة`;
 
-            if (active.length === 0) {
-                container.innerHTML = `<p style="color:var(--text-secondary); text-align:center; font-size:12.5px; padding:12px 0;">لا توجد تنبيهات نشطة حالياً. يمكنك إضافة تنبيه جديد بالضغط أعلاه.</p>`;
+            if (combined.length === 0) {
+                container.innerHTML = `<p style="color:var(--text-secondary); text-align:center; font-size:12.5px; padding:12px 0;">لا توجد تنبيهات أو صلوات متبقية اليوم.</p>`;
                 return;
             }
 
-            container.innerHTML = active.map(r => {
-                const remainingMs = Math.max(0, r.targetTime - now);
-                const totalDuration = (r.minutes * 60 * 1000) || (r.targetTime - r.createdAt) || remainingMs;
-                const progressPct = Math.max(0, Math.min(100, (1 - (remainingMs / totalDuration)) * 100));
-                const targetHourStr = new Date(r.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
+            container.innerHTML = combined.map(item => {
+                const remainingMs = Math.max(0, item.targetTime - now);
+                const timeStr = new Date(item.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
+
+                // حساب نسبة الدوران للدائرة المصغرة
+                const perimeter = 62.83; // 2 * PI * 10
+                let progressOffset = 0;
+                if (!item.isPrayer) {
+                    const totalDuration = (item.minutes * 60 * 1000) || (item.targetTime - item.createdAt) || remainingMs;
+                    const fraction = Math.max(0, Math.min(1, remainingMs / totalDuration));
+                    progressOffset = perimeter * (1 - fraction);
+                }
 
                 return `
-                    <div class="linear-reminder-item">
-                        <div class="linear-reminder-header">
-                            <strong>${r.title || `تنبيه (${r.minutes} د)`}</strong>
-                            <span style="font-weight:800; font-family:monospace; color:var(--accent-primary);">⏳ ${formatTime(remainingMs)}</span>
-                        </div>
-                        <div class="linear-reminder-track">
-                            <div class="linear-reminder-fill" style="width: ${progressPct}%;"></div>
-                        </div>
-                        <div class="linear-reminder-actions">
-                            <span>الموعد: ${targetHourStr}</span>
-                            <div style="display:flex; gap:6px;">
-                                <button onclick="renameReminder(${r.id})" class="tag-badge" title="تعديل">✏️</button>
-                                <button onclick="confirmDeleteReminder(${r.id})" class="tag-badge" style="color:var(--accent-red);" title="إلغاء">✖</button>
+                    <div class="alarm-item-card">
+                        <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+                            <div class="mini-circle-timer" title="مؤشر الوقت">
+                                <svg viewBox="0 0 24 24">
+                                    <circle class="mini-circle-bg" cx="12" cy="12" r="10" />
+                                    <circle class="mini-circle-fill ${item.isPrayer ? 'prayer' : ''}" cx="12" cy="12" r="10"
+                                        stroke-dasharray="62.83" stroke-dashoffset="${progressOffset}" />
+                                </svg>
                             </div>
+                            <div style="min-width:0;">
+                                <strong style="display:block; font-size:13.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.title}</strong>
+                                <span style="font-size:11px; color:var(--text-secondary);">${timeStr}</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+                            <span class="tag-badge ${item.isPrayer ? 'green' : ''}">⏳ ${formatTime(remainingMs)}</span>
+                            ${!item.isPrayer ? `
+                                <button onclick="renameReminder(${item.id})" class="tag-badge" title="تعديل">✏️</button>
+                                <button onclick="confirmDeleteReminder(${item.id})" class="tag-badge" style="color:var(--accent-red);" title="إلغاء">✖</button>
+                            ` : ''}
                         </div>
                     </div>
                 `;
@@ -1330,7 +1370,6 @@
             updateUI();
         }
 
-        // زر الرجوع: يرجع خطوة للخلف دائماً ولا يخرج إلا من الشاشة الرئيسية بدون سجل
         window.handleSystemBackButton = function() {
             const modals = ['activeAlarmModal', 'profileModal', 'authModal', 'actionModal', 'dhikrChimeModal'];
             for (const m of modals) {
@@ -1357,7 +1396,7 @@
                 return true;
             }
 
-            return false; // الخروج من التطبيق عند الوصول للرئيسية ونهاية السجل
+            return false;
         };
 
         function setupBackButtonListener() {
@@ -1374,7 +1413,7 @@
         }
 
         // =========================================================================
-        // --- نسبة الإنجاز والطقس والعملات والوظائف المشتركة ---
+        // --- نسبة الإنجاز والطقس والعملات ---
         // =========================================================================
         function calculateUniversalDailyProgress() {
             let totalWeights = 0;
@@ -1449,6 +1488,7 @@
                     `;
                 }).join('');
             }
+            updateDynamicGreeting();
         }
 
         async function syncFeeds() {
@@ -1807,8 +1847,9 @@
 
         function updateUI() {
             renderDashboardTasks();
-            renderLinearReminders();
+            renderCombinedReminders();
             calculateUniversalDailyProgress();
+            updateDynamicGreeting();
 
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
@@ -1897,7 +1938,7 @@
                     startAlarm(r.title);
                 }
             });
-            renderLinearReminders();
+            renderCombinedReminders();
             if (changed) finalizeAction();
         }, 1000);
 
@@ -1942,6 +1983,7 @@
                 id: `prayer_${idx}`, title: `🕌 ${p.name}`, targetTime: p.targetDate.getTime(), isPrayer: true
             }));
             renderPrayersList();
+            renderCombinedReminders();
         }
 
         function closeModalAction() {
@@ -2010,7 +2052,7 @@
         function exportData() {
             const dl = document.createElement('a');
             dl.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
-            dl.download = `DailyOS_Backup_${todayStr}.json`;
+            dl.download = `LifeOS_Backup_${todayStr}.json`;
             dl.click();
             showToast('📥 تم تصدير النسخة الاحتياطية');
         }
