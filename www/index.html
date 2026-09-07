@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0B1120" id="themeColorMeta">
 
-    <title>Life OS Pro</title>
+    <title>Life OS</title>
     
     <!-- مكتبات Firebase الرسمية -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -18,8 +18,10 @@
 
     <style>
         /* =========================================================
-           💎 ثيمات الألوان والواجهة التنفيذية المستقرة
+           💎 أفضل 3 ثيمات احترافية متكاملة (نهاري / ليلي)
            ========================================================= */
+        
+        /* 1. ثيم أزرق الياقوت الملكي (Sapphire Executive) - الافتراضي */
         body[data-theme="sapphire"] {
             --bg-canvas: #0B1120;
             --surface-panel: #131D31;
@@ -49,6 +51,7 @@
             --accent-glow: rgba(2, 132, 199, 0.15);
         }
 
+        /* 2. ثيم زمرد الواحة (Emerald Oasis) */
         body[data-theme="emerald"] {
             --bg-canvas: #04140E;
             --surface-panel: #0A2219;
@@ -78,6 +81,7 @@
             --accent-glow: rgba(5, 150, 105, 0.15);
         }
 
+        /* 3. ثيم الكهرمان الفاخر (Amber Luxe) */
         body[data-theme="amber"] {
             --bg-canvas: #120D08;
             --surface-panel: #1D150D;
@@ -112,7 +116,7 @@
             --radius-input: 14px;
             --radius-pill: 9999px;
             --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --dock-height: 60px;
+            --dock-height: 64px;
             --shadow-subtle: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
         }
 
@@ -145,10 +149,11 @@
             padding-top: max(16px, env(safe-area-inset-top, 16px));
             padding-right: 18px;
             padding-left: 18px;
-            padding-bottom: calc(var(--dock-height) + max(24px, env(safe-area-inset-bottom, 24px)));
+            padding-bottom: calc(var(--dock-height) + max(28px, env(safe-area-inset-bottom, 28px)));
             box-sizing: border-box;
         }
 
+        /* شريط علوي أنيق */
         .oneui-top-bar {
             display: flex;
             align-items: center;
@@ -206,7 +211,7 @@
             box-shadow: var(--shadow-subtle);
         }
 
-        .oneui-header-area { padding: 4px 2px 12px 2px; }
+        .oneui-header-area { padding: 4px 2px 14px 2px; }
         .oneui-title-hero-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
         .oneui-title-hero { font-size: 32px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0; }
         .edit-name-icon-btn {
@@ -217,6 +222,7 @@
         .oneui-sub-text { font-size: 13px; color: var(--text-secondary); font-weight: 500; line-height: 1.6; }
         .oneui-currency-line { font-size: 13px; color: var(--text-secondary); font-weight: 500; margin-top: 3px; cursor: pointer; }
 
+        /* شريط العادات والتركيز السريع في الرئيسية */
         .habits-strip {
             display: flex; gap: 8px; overflow-x: auto; padding: 6px 2px 12px 2px;
             margin-bottom: 6px; -webkit-overflow-scrolling: touch;
@@ -265,7 +271,9 @@
         .section-view.active { display: block; animation: viewFade 0.22s ease; }
         @keyframes viewFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* العداد الشفاف تماماً */
+        /* =========================================================
+           🛡️ العداد التنازلي الشفاف بدون أي سواد
+           ========================================================= */
         svg circle { fill: transparent !important; }
         .circular-timer-wrapper {
             display: flex;
@@ -333,7 +341,9 @@
             white-space: nowrap;
         }
 
-        /* حاسبة Google */
+        /* =========================================================
+           🧮 حاسبة Google الدقيقة
+           ========================================================= */
         .google-calc-box {
             background: var(--surface-panel);
             border-radius: var(--radius-card);
@@ -394,6 +404,7 @@
         .g-calc-btn.equals { background: var(--accent-primary); color: #FFFFFF; border: none; font-size: 24px; }
         .g-calc-btn.special { color: var(--accent-red); font-size: 18px; }
 
+        /* القوائم والبطاقات */
         .list-row {
             display: flex;
             justify-content: space-between;
@@ -470,47 +481,47 @@
             box-shadow: var(--shadow-subtle);
         }
 
-        /* 🚀 الشريط السفلي الجديد: ممتد من أقصى اليمين لأقصى الشمال وبدون أي انحناءات */
-        .bottom-edge-dock {
+        /* الدوك السفلي العائم المصقول */
+        .bottom-floating-dock {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
+            bottom: max(12px, env(safe-area-inset-bottom, 12px));
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 24px);
+            max-width: 580px;
             background: var(--surface-panel);
-            border-top: 1px solid var(--border-subtle);
-            padding: 10px 4px max(10px, env(safe-area-inset-bottom, 10px)) 4px;
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 8px 10px;
             display: flex;
-            gap: 4px;
+            gap: 8px;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
             z-index: 1000;
             scrollbar-width: none;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
         }
-        .dock-edge-item {
+        .dock-capsule-item {
             background: transparent;
             border: 1px solid transparent;
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 12px;
+            border-radius: 14px;
+            padding: 8px 14px;
+            font-size: 12.5px;
             font-weight: 700;
             color: var(--text-secondary);
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             white-space: nowrap;
-            flex-shrink: 0;
             transition: all 0.15s ease;
         }
-        .dock-edge-item:active { transform: scale(0.95); }
-        .dock-edge-item.active {
+        .dock-capsule-item:active { transform: scale(0.95); }
+        .dock-capsule-item.active {
             background: var(--accent-primary);
             color: #FFFFFF;
             border-color: var(--accent-primary);
-            box-shadow: 0 4px 12px var(--accent-glow);
+            box-shadow: 0 4px 14px var(--accent-glow);
         }
 
         /* الجلسات والتقويم والمسبحة والقرآن */
@@ -546,14 +557,6 @@
         .sub-meta-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
         .sub-progress-track { width: 100%; height: 6px; background: var(--surface-inner); border-radius: var(--radius-pill); overflow: hidden; margin-top: 8px; }
         .sub-progress-fill { height: 100%; background: var(--accent-primary); border-radius: var(--radius-pill); transition: width 0.4s ease; }
-
-        #syncToast {
-            position: fixed; top: max(20px, env(safe-area-inset-top, 20px)); left: 50%; transform: translateX(-50%);
-            background: var(--surface-panel); border: 1px solid var(--border-subtle); padding: 6px 16px;
-            border-radius: var(--radius-pill); font-size: 12px; font-weight: 700; opacity: 0; transition: opacity 0.25s ease;
-            z-index: 99999; pointer-events: none; box-shadow: var(--shadow-subtle);
-        }
-        #syncToast.show { opacity: 1; }
     </style>
 </head>
 <body data-theme="sapphire">
@@ -570,6 +573,7 @@
             </div>
             
             <div class="top-actions-cluster">
+                <!-- زر التسجيل الصوتي الفوري المدمج -->
                 <button class="top-action-btn mic-btn" onclick="startVoiceRecording()" title="تسجيل صوتي فوري">
                     🎙️
                 </button>
@@ -613,6 +617,7 @@
                 <span style="font-size:12px; font-weight:800; color:var(--accent-green);" id="dailyProgressText">0%</span>
             </div>
 
+            <!-- شريط الأنشطة والتركيز السريع في الرئيسية -->
             <div class="habits-strip" id="dashHabitsStrip">
                 <div class="habit-chip primary-highlight" onclick="switchNavSection('adhkar-view')">🤲 الأذكار</div>
                 <div class="habit-chip primary-highlight" onclick="switchNavSection('quran-view')">📖 ورد القرآن</div>
@@ -904,9 +909,10 @@
                 </div>
             </div>
 
-            <div class="section-label">الهوية اللونية (أفضل 3 ثيمات متناسقة)</div>
+            <!-- إعدادات الثيمات الاحترافية الثلاثة -->
+            <div class="section-label">الهوية اللونية (أفضل 3 ثيمات احترافية)</div>
             <div class="oneui-card">
-                <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">اختر لون الواجهة وشريط الإشعارات:</label>
+                <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">اختر الهوية اللونية للنظام:</label>
                 <select id="themeSelector" class="app-input" onchange="changeMasterTheme(this.value)">
                     <option value="sapphire">1. Sapphire Executive (أزرق الياقوت الملكي)</option>
                     <option value="emerald">2. Emerald Oasis (زمرد الواحة الأخضر)</option>
@@ -918,12 +924,13 @@
                 </div>
             </div>
 
+            <!-- إعدادات التذكير بالأذكار التلقائي بنغمة هادئة -->
             <div class="section-label">التذكير الدوري بالذكر والصلاة على النبي ﷺ</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                     <div>
                         <strong>تفعيل التذكير الصوتي الدوري</strong>
-                        <div style="font-size:11px; color:var(--text-secondary);">نغمة هادئة مع ذكر نبوي في كل مرة</div>
+                        <div style="font-size:11px; color:var(--text-secondary);">نغمة هادئة مع ذكر نبوي مختلف في كل مرة</div>
                     </div>
                     <input type="checkbox" id="dhikrReminderToggle" onchange="toggleDhikrReminder(this.checked)" style="width:20px; height:20px; accent-color:var(--accent-primary);">
                 </div>
@@ -993,20 +1000,22 @@
 
     </div>
 
-    <!-- 🚀 الشريط السفلي الجديد: ممتد من أقصى اليمين لأقصى الشمال بدون أي انحناءات -->
-    <div class="bottom-edge-dock" id="bottomDock">
-        <button class="dock-edge-item active" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
-        <button class="dock-edge-item" onclick="switchNavSection('islamiyat-view', this)">🕌 إسلاميات</button>
-        <button class="dock-edge-item" onclick="switchNavSection('notes-view', this)">📝 الملاحظات</button>
-        <button class="dock-edge-item" onclick="switchNavSection('todos-view', this)">✅ المهام</button>
-        <button class="dock-edge-item" onclick="switchNavSection('finance-view', this)">📊 المالية</button>
-        <button class="dock-edge-item" onclick="switchNavSection('quran-view', this)">📖 ورد القرآن</button>
-        <button class="dock-edge-item" onclick="switchNavSection('calc-view', this)">🧮 الحاسبة</button>
-        <button class="dock-edge-item" onclick="switchNavSection('calendar-view', this)">📅 التقويم</button>
-        <button class="dock-edge-item" onclick="switchNavSection('weather-view', this)">⛅ الطقس</button>
-        <button class="dock-edge-item" onclick="switchNavSection('currency-view', this)">💱 العملات</button>
-        <button class="dock-edge-item" onclick="switchNavSection('vault-view', this)">🔐 الخزنة</button>
-        <button class="dock-edge-item" onclick="switchNavSection('settings-view', this)">⚙️ الإعدادات</button>
+    <!-- =========================================================
+       🚀 الدوك السفلي العائم العصري (Modern Floating Dock)
+       ========================================================= -->
+    <div class="bottom-floating-dock" id="bottomDock">
+        <button class="dock-capsule-item active" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('islamiyat-view', this)">🕌 إسلاميات</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('notes-view', this)">📝 الملاحظات</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('todos-view', this)">✅ المهام</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('finance-view', this)">📊 المالية</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('quran-view', this)">📖 ورد القرآن</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('calc-view', this)">🧮 الحاسبة</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('calendar-view', this)">📅 التقويم</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('weather-view', this)">⛅ الطقس</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('currency-view', this)">💱 العملات</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('vault-view', this)">🔐 الخزنة</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('settings-view', this)">⚙️ الإعدادات</button>
     </div>
 
     <!-- النوافذ المنبثقة التفاعلية -->
@@ -1085,12 +1094,13 @@
         </div>
     </div>
 
+    <!-- نافذة تذكير الذكر الدوري الهادئة -->
     <div class="modal-overlay" id="dhikrChimeModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size: 44px; margin-bottom: 6px;">🌿</div>
             <h3 style="color:var(--accent-green); font-size:18px; font-weight:800; margin-bottom:8px;">تذكير بالذكر</h3>
             <div id="dhikrChimeText" style="font-size:16px; font-weight:700; line-height:1.7; margin-bottom:18px; color:var(--text-primary);">
-                اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ
+                اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ
             </div>
             <button onclick="dismissDhikrChimeModal()" class="btn-action" style="background:var(--accent-green);">جزاك الله خيراً</button>
         </div>
@@ -1116,6 +1126,7 @@
         let lastSpokenText = '';
         let currentActiveTimerObj = null;
 
+        // قائمة الأقسام المعتمدة
         const mainSectionsOrder = [
             'dashboard-view',
             'islamiyat-view',
@@ -1134,27 +1145,33 @@
         let navHistory = ['dashboard-view'];
         let lastBackPressTime = 0;
 
+        // حالة حاسبة Google
         let gCalcCurrent = '0';
         let gCalcPrevious = '';
         let gCalcOpValue = null;
         let gCalcShouldReset = false;
 
+        // حالة التقويم
         let calCurrentYear = new Date().getFullYear();
         let calCurrentMonth = new Date().getMonth();
+
+        // حالة المسبحة
         let currentTasbeehCount = 0;
 
+        // حالة جلسة التركيز المستقلة
         let sessionTimerInterval = null;
         let sessionElapsedSec = 0;
         let isSessionPaused = false;
         let currentSessionName = '';
 
+        // قائمة الأذكار الدورية للتذكير
         const periodicRemembrances = [
-            "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ",
+            "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ",
             "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ ، سُبْحَانَ اللَّهِ الْعَظِيمِ",
             "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ",
             "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ وَأَتُوبُ إِلَيْهِ",
             "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
-            "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
+            "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
             "سُبْحَانَ اللَّهِ ، وَالْحَمْدُ لِلَّهِ ، وَلَا إِلَهَ إِلَّا اللَّهُ ، وَاللَّهُ أَكْبَرُ"
         ];
         let dhikrReminderTimer = null;
@@ -1218,6 +1235,26 @@
             }
         }
 
+        // تلوين شريط الإشعارات ليتطابق مع لون الخلفية
+        function updateNativeStatusBar(colorHex, isDarkIcons) {
+            const meta = document.getElementById('themeColorMeta');
+            if (meta) meta.setAttribute('content', colorHex);
+
+            // استدعاء مباشر لـ MainActivity.java عبر الجسر البرمجي
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AlarmOptimizer) {
+                window.Capacitor.Plugins.AlarmOptimizer.setStatusBar({
+                    color: colorHex,
+                    darkIcons: isDarkIcons
+                }).catch(() => {});
+            }
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.StatusBar) {
+                try {
+                    window.Capacitor.Plugins.StatusBar.setBackgroundColor({ color: colorHex }).catch(() => {});
+                    window.Capacitor.Plugins.StatusBar.setStyle({ style: isDarkIcons ? 'LIGHT' : 'DARK' }).catch(() => {});
+                } catch(e) {}
+            }
+        }
+
         function applyThemeUI() {
             const masterTheme = (db.settings && db.settings.masterTheme) ? db.settings.masterTheme : 'sapphire';
             document.body.setAttribute('data-theme', masterTheme);
@@ -1250,6 +1287,7 @@
             const selector = document.getElementById('themeSelector');
             if (selector) selector.value = masterTheme;
 
+            // ضبط عناصر إعدادات التذكير الدوري
             const reminderToggle = document.getElementById('dhikrReminderToggle');
             const reminderInterval = document.getElementById('dhikrReminderInterval');
             if (reminderToggle) reminderToggle.checked = !!db.settings.dhikrReminder;
@@ -1269,19 +1307,25 @@
             finalizeAction();
         }
 
+        // =========================================================================
+        // --- محرك التذكير الدوري بالأذكار ونغمته الهادئة الخاصة ---
+        // =========================================================================
         function playZenHarmonicChime() {
             try {
                 const ctx = getAudioContext();
                 const now = ctx.currentTime;
+                // توليد نغمة غونغ هادئة روحانية مكونة من ثلاث طبقات متناغمة
                 const frequencies = [528, 660, 792];
                 frequencies.forEach((freq, idx) => {
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
                     osc.type = 'sine';
                     osc.frequency.setValueAtTime(freq, now);
+
                     gain.gain.setValueAtTime(0.0001, now);
                     gain.gain.linearRampToValueAtTime(0.08 / (idx + 1), now + 0.05);
                     gain.gain.exponentialRampToValueAtTime(0.00001, now + 1.8);
+
                     osc.connect(gain);
                     gain.connect(ctx.destination);
                     osc.start(now);
@@ -1293,8 +1337,10 @@
         function triggerPeriodicDhikr() {
             playZenHarmonicChime();
             if ("vibrate" in navigator) navigator.vibrate([80, 40, 80]);
+
             const randIdx = Math.floor(Math.random() * periodicRemembrances.length);
-            document.getElementById('dhikrChimeText').innerText = periodicRemembrances[randIdx];
+            const chosenDhikr = periodicRemembrances[randIdx];
+            document.getElementById('dhikrChimeText').innerText = chosenDhikr;
             document.getElementById('dhikrChimeModal').classList.add('active');
         }
 
@@ -1302,7 +1348,9 @@
             document.getElementById('dhikrChimeModal').classList.remove('active');
         }
 
-        function testDhikrChime() { triggerPeriodicDhikr(); }
+        function testDhikrChime() {
+            triggerPeriodicDhikr();
+        }
 
         function toggleDhikrReminder(enabled) {
             if (!db.settings) db.settings = {};
@@ -1631,6 +1679,61 @@
         // =========================================================================
         // --- 3. الأذكار المأثورة الموثوقة كاملة ---
         // =========================================================================
+        const adhkarDatabase = {
+            postPrayer: [
+                { id: 'p1', text: 'أَسْتَغْفِرُ اللهَ، أَسْتَغْفِرُ اللهَ، أَسْتَغْفِرُ اللهَ. اللَّهُمَّ أَنْتَ السَّلامُ وَمِنْكَ السَّلامُ، تَبَارَكْتَ يَا ذَا الْجَلالِ وَالإِكْرَامِ.', count: 1 },
+                { id: 'p2', text: 'لا إِلَهَ إِلا اللهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، اللَّهُمَّ لا مَانِعَ لِمَا أَعْطَيْتَ، وَلا مُعْطِيَ لِمَا مَنَعْتَ، وَلا يَنْفَعُ ذَا الْجَدِّ مِنْكَ الْجَدُّ.', count: 1 },
+                { id: 'p3', text: 'سُبْحَانَ اللهِ (33 مرة)', count: 33 },
+                { id: 'p4', text: 'الْحَمْدُ للهِ (33 مرة)', count: 33 },
+                { id: 'p5', text: 'اللهُ أَكْبَرُ (33 مرة)', count: 33 },
+                { id: 'p6', text: 'لا إِلَهَ إِلا اللهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ (تمام المائة).', count: 1 },
+                { id: 'p7', text: '﴿ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ ﴾ [آية الكرسي]', count: 1 }
+            ],
+            morning: [
+                { id: 'm1', text: '﴿ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ... ﴾ [آية الكرسي كاملة]', count: 1 },
+                { id: 'm2', text: 'قراءة سورة الإخلاص، والفلق، والناس (ثلاث مرات).', count: 3 },
+                { id: 'm3', text: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ.', count: 1 },
+                { id: 'm4', text: 'اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لا يَغْفِرُ الذُّنُوبَ إِلا أَنْتَ. [سيد الاستغفار]', count: 1 },
+                { id: 'm5', text: 'اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ. اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ، وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَهَ إِلَّا أَنْتَ. (3 مرات)', count: 3 },
+                { id: 'm6', text: 'حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ. (7 مرات)', count: 7 },
+                { id: 'm7', text: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ. (3 مرات)', count: 3 },
+                { id: 'm8', text: 'رَضِيتُ بِاللهِ رَبَّاً، وَبِالإِسْلاَمِ دِيناً، وَبِمُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ نَبِيَّاً. (3 مرات)', count: 3 },
+                { id: 'm9', text: 'يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلاَ تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ.', count: 1 },
+                { id: 'm10', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ: عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ. (3 مرات)', count: 3 },
+                { id: 'm11', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ. (100 مرة)', count: 100 }
+            ],
+            evening: [
+                { id: 'e1', text: '﴿ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ... ﴾ [آية الكرسي]', count: 1 },
+                { id: 'e2', text: 'المعوذات الثلاث: الإخلاص، الفلق، الناس (3 مرات).', count: 3 },
+                { id: 'e3', text: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذِهِ اللَّيْلَةِ وَشَرِّ مَا بَعْدَهَا.', count: 1 },
+                { id: 'e4', text: 'سيد الاستغفار: اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ...', count: 1 },
+                { id: 'e5', text: 'أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ. (3 مرات)', count: 3 },
+                { id: 'e6', text: 'بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ العَلِيمُ. (3 مرات)', count: 3 },
+                { id: 'e7', text: 'سُبْحَانَ اللهِ وَبِحَمْدِهِ. (100 مرة)', count: 100 }
+            ],
+            night: [
+                { id: 'n1', text: 'بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، فَإِنْ أَمْسَكْتَ نَفْسِي فَارْحَمْهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ.', count: 1 },
+                { id: 'n2', text: 'اللَّهُمَّ أَسْلَمْتُ نَفْسِي إِلَيْكَ، وَفَوَّضْتُ أَمْرِي إِلَيْكَ، وَوَجَّهْتُ وَجْهِي إِلَيْكَ، وَأَلْجَأْتُ ظَهْرِي إِلَيْكَ، رَغْبَةً وَرَهْبَةً إِلَيْكَ، لا مَلْجَأَ وَلا مَنْجَا مِنْكَ إِلا إِلَيْكَ، آمَنْتُ بِكِتَابِكَ الَّذِي أَنْزَلْتَ، وَبِنَبِيِّكَ الَّذِي أَرْسَلْتَ.', count: 1 },
+                { id: 'n3', text: 'سُبْحَانَ اللهِ (33)، الْحَمْدُ للهِ (33)، اللهُ أَكْبَرُ (34).', count: 1 },
+                { id: 'n4', text: 'قراءة الآيتين الأخيرتين من سورة البقرة وسورة الملك.', count: 1 }
+            ]
+        };
+
+        function getActiveDhikrCategory() {
+            const now = Date.now();
+            const currentHour = new Date().getHours();
+            for (let p of livePrayersList) {
+                const diff = now - p.targetTime;
+                if (diff >= 0 && diff <= (25 * 60 * 1000)) {
+                    return { type: 'postPrayer', name: `أذكار ما بعد ${p.title.replace('🕌 ', '')}` };
+                }
+            }
+            if (currentHour >= 4 && currentHour < 12) return { type: 'morning', name: 'أذكار الصباح المباركة' };
+            if (currentHour >= 12 && currentHour < 16) return { type: 'postPrayer', name: 'أذكار النهار والاستغفار' };
+            if (currentHour >= 16 && currentHour < 20) return { type: 'evening', name: 'أذكار المساء وحفظ النفس' };
+            return { type: 'night', name: 'أذكار الليل والنوم' };
+        }
+
         function renderDhikrView() {
             const category = getActiveDhikrCategory();
             const headerTitle = document.getElementById('adhkarDynamicHeaderTitle');
@@ -1662,6 +1765,30 @@
             }
         }
 
+        // =========================================================================
+        // --- 4. ورد القرآن اليومي المفسر بمختصر ابن كثير (5 آيات) ---
+        // =========================================================================
+        const quranPortionsDB = [
+            {
+                start: 1, end: 5,
+                title: "سورة البقرة: الآيات (1 - 5)",
+                text: "﴿ الم * ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ * الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ * وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ * أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ ﴾",
+                tafsir: "<b>مختصر تفسير ابن كثير:</b> ابتدأت السورة بالحروف المقطعة إعجازاً للمشركين بأن القرآن مركب من لغتهم وعجزوا عن الإتيان بمثله. ثم أخبر أن هذا الكتاب لا شك فيه بوجه من الوجوه، وأنه هدى ونور ونجاة للمتقين الذين خافوا عقاب الله باتباع أمره. ونعتهم بأنهم يؤمنون بالغيب وهو كل ما غاب عن العيان وأخبر به الصادق من أمور الآخرة والملائكة والجنة، ويقيمون الصلاة بإتمام ركوعها وسجودها وخشوعها، ويخرجون زكاة أموالهم ونفقاتهم في سبيل الله، ويصدقون بالقرآن والكتب السابقة؛ فأولئك أهل الفلاح والظفر بالجنة والنجاة من النار."
+            },
+            {
+                start: 6, end: 10,
+                title: "سورة البقرة: الآيات (6 - 10)",
+                text: "﴿ إِنَّ الَّذِينَ كَفَرُوا سَوَاءٌ عَلَيْهِمْ أَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ * خَتَمَ اللَّهُ عَلَىٰ قُلُوبِهِمْ وَعَلَىٰ سَمْعِهِمْ ۖ وَعَلَىٰ أَبْصَارِهِمْ غِشَاوَةٌ ۖ وَلَهُمْ عَذَابٌ عَظِيمٌ * وَمِنَ النَّاسِ مَن يَقُولُ آمَنَّا بِاللَّهِ وَبِالْيَوْمِ الْآخِرِ وَمَا هُم بِمُؤْمِنِينَ * يُخَادِعُونَ اللَّهَ وَالَّذِينَ آمَنُوا وَمَا يَخْدَعُونَ إِلَّا أَنفُسَهُمْ وَمَا يَشْعُرُونَ * فِي قُلُوبِهِم مَّرَضٌ فَزَادَهُمُ اللَّهُ مَرَضًا ۖ وَلَهُمْ عَذَابٌ أَلِيمٌ بِمَا كَانُوا يَكْذِبُونَ ﴾",
+                tafsir: "<b>مختصر تفسير ابن كثير:</b> يخبر تعالى عن المعاندين كأبي جهل وغيرهم أن الإنذار لا ينفعهم لسبق القضاء بشقائهم، ختم الله على قلوبهم فلا تعي خيراً، وعلى سمعهم فلا يسمعون سماع قبول، وعلى أبصارهم غطاء فلا يبصرون الحق. ثم ذكر صنف المنافقين الذين يزعمون الإيمان بألسنتهم ويبطنون الكفر تقية، يخادعون الله ورسوله في ظنهم وما يخدعون إلا أنفسهم لأن الله مطلع على سرائرهم وفاضحهم، وفي قلوبهم شك وشبهة فزادهم الله ضلالاً ولهم عذاب موجع."
+            },
+            {
+                start: 11, end: 15,
+                title: "سورة البقرة: الآيات (11 - 15)",
+                text: "﴿ وَإِذَا قِيلَ لَهُمْ لَا تُفْسِدُوا فِي الْأَرْضِ قَالُوا إِنَّمَا نَحْنُ مُصْلِحُونَ * أَلَا إِنَّهُمْ هُمُ الْمُفْسِدُونَ وَلَٰكِن لَّا يَشْعُرُونَ * وَإِذَا قِيلَ لَهُمْ آمِنُوا كَمَا آمَنَ النَّاسُ قَالُوا أَنُؤْمِنُ كَمَا آمَنَ السُّفَهَاءُ ۗ أَلَا إِنَّهُمْ هُمُ السُّفَهَاءُ وَلَٰكِن لَّا يَعْلَمُونَ * وَإِذَا لَقُوا الَّذِينَ آمَنُوا قَالُوا آمَنَّا وَإِذَا خَلَوْا إِلَىٰ شَيَاطِينِهِمْ قَالُوا إِنَّا مَعَكُمْ إِنَّمَا نَحْنُ مُسْتَهْزِئُونَ * اللَّهُ يَسْتَهْزِئُ بِهِمْ وَيَمُدُّهُمْ فِي طُغْيَانِهِمْ يَعْمَهُونَ ﴾",
+                tafsir: "<b>مختصر تفسير ابن كثير:</b> إذا نُهي أهل النفاق عن معصية الله وموالاة الكفار، ادعوا أن غرضهم الإصلاح والمصانعة بين الفريقين، فأكذبهم الله بأن فعلهم هو عين الفساد. وإذا دُعوا للإيمان الصادق الخالص كإيمان الصحابة، استكبروا ووصفوا المؤمنين بالسفه، فرد الله سفههم في نحورهم. وإذا التقوا بالمؤمنين نطقوا بالإسلام ظاهراً، وإذا خلوا برؤساء الكفر أظهروا حقيقة استهزائهم، والله يجازيهم بالخزي والهوان ويملي لهم في ضلالهم حائرين."
+            }
+        ];
+
         function renderQuranView() {
             const currentIdx = db.quranPortion.completedBatches % quranPortionsDB.length;
             const portion = quranPortionsDB[currentIdx];
@@ -1682,6 +1809,7 @@
             if ("vibrate" in navigator) navigator.vibrate([70, 40, 70]);
         }
 
+        // المسبحة
         function incrementTasbeeh() {
             currentTasbeehCount++;
             document.getElementById('tasbeehCountDisplay').innerText = currentTasbeehCount;
@@ -1705,6 +1833,7 @@
             document.getElementById('tasbeehCountDisplay').innerText = '0';
         }
 
+        // حاسبة الزكاة الشرعية (2.5%)
         function calculateZakat() {
             const total = parseFloat(document.getElementById('zakatAmountInput').value) || 0;
             const zakat = total * 0.025;
@@ -1712,7 +1841,7 @@
         }
 
         // =========================================================================
-        // --- 5. جلسة التركيز المستقلة ---
+        // --- 5. جلسة التركيز المستقلة (دراسة / قراءة / رياضة) ---
         // =========================================================================
         let wakeLock = null;
         async function requestWakeLock() {
@@ -1802,7 +1931,7 @@
         }
 
         // =========================================================================
-        // --- 6. العملات والطقس ---
+        // --- 6. محول العملات والطقس ---
         // =========================================================================
         function calculateCurrencyConversion() {
             const amount = parseFloat(document.getElementById('convertAmountInput').value) || 0;
@@ -1852,8 +1981,129 @@
         }
 
         // =========================================================================
-        // --- 7. التنبيهات وإشعارات أندرويد الصارمة ---
+        // --- 7. محرك التنبيهات وإشعارات أندرويد الصارمة ---
         // =========================================================================
+        function getNativePlugin() {
+            if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) {
+                return window.Capacitor.Plugins.LocalNotifications;
+            }
+            return null;
+        }
+
+        async function initNativeNotifications() {
+            const plugin = getNativePlugin();
+            if (!plugin) return;
+            try {
+                const perm = await plugin.checkPermissions();
+                if (perm.display !== 'granted') await plugin.requestPermissions();
+
+                await plugin.createChannel({
+                    id: 'lifeos_ultra_alarm_v4',
+                    name: 'منبهات Life OS الفائقة',
+                    description: 'قناة المنبهات الرسمية ذات الأولوية القصوى',
+                    importance: 5,
+                    visibility: 1,
+                    sound: 'marimba',
+                    vibration: true,
+                    lights: true
+                });
+
+                plugin.addListener('localNotificationActionPerformed', () => { dismissActiveAlarm(); });
+            } catch (e) {}
+        }
+
+        async function scheduleSystemNotification(title, minutes, reminderId) {
+            const plugin = getNativePlugin();
+            if (!plugin) return;
+            const targetDate = new Date(Date.now() + minutes * 60 * 1000);
+            const safeId = Math.abs(parseInt(reminderId, 10) % 2147483647);
+
+            try {
+                await plugin.schedule({
+                    notifications: [{
+                        title: `⏰ تنبيه: ${title || 'موعد التنبيه'}`,
+                        body: `حان الآن موعد: ${title || 'التنبيه المحدد'}`,
+                        id: safeId,
+                        schedule: { at: targetDate, allowWhileIdle: true },
+                        sound: 'marimba',
+                        channelId: 'lifeos_ultra_alarm_v4'
+                    }]
+                });
+            } catch (err) {
+                try {
+                    await plugin.schedule({
+                        notifications: [{
+                            title: `⏰ تنبيه: ${title || 'موعد التنبيه'}`,
+                            body: `حان الآن موعد: ${title || 'التنبيه المحدد'}`,
+                            id: safeId,
+                            schedule: { at: targetDate, allowWhileIdle: true },
+                            sound: 'default'
+                        }]
+                    });
+                } catch (e) {}
+            }
+        }
+
+        let audioCtx = null;
+        let alarmTimer = null;
+
+        function getAudioContext() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            return audioCtx;
+        }
+
+        function playPrestigeZenBell() {
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+                const notes = [{ f: 739.99, delay: 0 }, { f: 932.33, delay: 0.07 }, { f: 1108.73, delay: 0.14 }, { f: 1396.91, delay: 0.21 }];
+                notes.forEach(note => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    const startTime = now + note.delay;
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(note.f, startTime);
+                    gain.gain.setValueAtTime(0.0001, startTime);
+                    gain.gain.linearRampToValueAtTime(0.12, startTime + 0.015);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.65);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(startTime);
+                    osc.stop(startTime + 0.7);
+                });
+            } catch(e) {}
+        }
+
+        function testPrestigeAlarm() {
+            playPrestigeZenBell();
+            if ("vibrate" in navigator) navigator.vibrate([150, 80, 150]);
+        }
+
+        function startAlarm(title) {
+            playPrestigeZenBell();
+            clearInterval(alarmTimer);
+            alarmTimer = setInterval(playPrestigeZenBell, 2800);
+            if ("vibrate" in navigator) navigator.vibrate([300, 150, 300]);
+            document.getElementById('activeAlarmModalTitle').innerText = title || 'تنبيه موعد';
+            document.getElementById('activeAlarmModal').classList.add('active');
+        }
+
+        function dismissActiveAlarm() {
+            clearInterval(alarmTimer);
+            document.getElementById('activeAlarmModal').classList.remove('active');
+        }
+
+        function formatTime(ms) {
+            if (ms <= 0) return '00:00';
+            const s = Math.floor(ms / 1000);
+            const hrs = Math.floor(s / 3600);
+            const mins = Math.floor((s % 3600) / 60);
+            const secs = s % 60;
+            if (hrs > 0) return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
         function addReminderFast(mins, title = '') {
             getAudioContext();
             const now = Date.now();
@@ -1873,10 +2123,8 @@
         function confirmDeleteReminder(id) {
             if (confirm('هل تريد إلغاء التنبيه؟')) {
                 const numId = Number(id);
-                const plugin = getAlarmOptimizerPlugin();
-                if (plugin && typeof plugin.cancel === 'function') {
-                    plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {});
-                }
+                const plugin = getNativePlugin();
+                if (plugin) plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {});
                 db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
                 finalizeAction();
             }
@@ -1914,26 +2162,25 @@
         function deleteActiveTimer() {
             if (!currentActiveTimerObj) return;
             const numId = Number(currentActiveTimerObj.id);
-            const plugin = getAlarmOptimizerPlugin();
-            if (plugin && typeof plugin.cancel === 'function') {
-                plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {});
-            }
+            const plugin = getNativePlugin();
+            if (plugin) plugin.cancel({ notifications: [{ id: Math.abs(parseInt(numId, 10) % 2147483647) }] }).catch(() => {});
             db.reminders = db.reminders.filter(r => Number(r.id) !== numId);
             finalizeAction();
             closeManageTimerModal();
         }
 
         // =========================================================================
-        // --- 8. التنقل بالسحب والدوك السفلي الحافة الممتدة وزر الرجوع الشامل ---
+        // --- 8. التنقل بالسحب والدوك وزر الرجوع الشامل بدون أي رسالة مزعجة ---
         // =========================================================================
         function switchNavSection(viewId, btnEl, addToHistory = true) {
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.dock-edge-item').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.dock-capsule-item').forEach(c => c.classList.remove('active'));
 
             const target = document.getElementById(viewId);
             if (target) target.classList.add('active');
 
-            const dockButtons = document.querySelectorAll('.dock-edge-item');
+            // تلوين الكبسولة النشطة في الدوك السفلي والتمرير إليها
+            const dockButtons = document.querySelectorAll('.dock-capsule-item');
             dockButtons.forEach(c => {
                 if (c.getAttribute('onclick') && c.getAttribute('onclick').includes(viewId)) {
                     c.classList.add('active');
@@ -1949,6 +2196,7 @@
 
             if (viewId === 'calc-view') updateGCalcDisplay();
             if (viewId === 'calendar-view') renderCalendarGrid();
+            if (viewId === 'islamiyat-view') switchIslamiyatTab('adhkar');
             if (viewId === 'adhkar-view') renderDhikrView();
             if (viewId === 'quran-view') renderQuranView();
             if (viewId === 'weather-view') renderWeather5DaysUI();
@@ -1958,6 +2206,7 @@
             updateUI();
         }
 
+        // إيماءات السحب بين الأقسام (Swipe Gestures)
         let touchStartX = 0;
         let touchStartY = 0;
 
@@ -1973,7 +2222,7 @@
         }, { passive: true });
 
         function handleSwipeGesture(startX, startY, endX, endY, targetElement) {
-            if (targetElement.closest('.google-calc-box, .bottom-edge-dock, .weather-hourly-strip, .habits-strip, .calendar-days-grid')) {
+            if (targetElement.closest('.google-calc-box, .bottom-floating-dock, .weather-hourly-strip, .habits-strip, .calendar-days-grid')) {
                 return;
             }
 
@@ -1995,6 +2244,7 @@
             }
         }
 
+        // معالجة زر الرجوع المركزية خطوة بخطوة وبدون رسالة نصية مزعجة
         window.handleSystemBackButton = function() {
             const modals = ['activeAlarmModal', 'timerManageModal', 'postRecordingModal', 'authModal', 'actionModal', 'voiceModal', 'dhikrChimeModal'];
             for (let m of modals) {
@@ -2019,6 +2269,7 @@
                 return true;
             }
 
+            // الرجوع للصفحة السابقة خطوة بخطوة
             if (currentId !== 'dashboard-view') {
                 if (navHistory.length > 0 && navHistory[navHistory.length - 1] === currentId) {
                     navHistory.pop();
@@ -2028,13 +2279,14 @@
                 return true;
             }
 
+            // إذا وصل للرئيسية: اهتزاز لمسي هادئ فقط دون كتابة نصية على الشاشة
             const now = Date.now();
             if (now - lastBackPressTime < 2000) {
-                return false;
+                return false; // خروج فعلي من التطبيق
             } else {
                 lastBackPressTime = now;
-                if ("vibrate" in navigator) navigator.vibrate(35);
-                return true;
+                if ("vibrate" in navigator) navigator.vibrate(35); // هزة خفيفة تنبه المستخدم
+                return true; // عدم الخروج من الضغطة الأولى
             }
         };
 
@@ -2332,13 +2584,12 @@
             const dashTodoCount = document.getElementById('dashTodoCount');
             if (dashTodoCount) dashTodoCount.innerText = `${todosToday.length} مهام معلقة`;
             
+            // تحديث مؤشر إنجاز اليوم
             const doneTodosCount = todosToday.filter(t => t.done).length;
             const totalTodos = todosToday.length;
             const percentage = totalTodos > 0 ? Math.round((doneTodosCount / totalTodos) * 100) : 0;
-            const fillEl = document.getElementById('dailyProgressFill');
-            const textEl = document.getElementById('dailyProgressText');
-            if (fillEl) fillEl.style.width = `${percentage}%`;
-            if (textEl) textEl.innerText = `${percentage}%`;
+            document.getElementById('dailyProgressFill').style.width = `${percentage}%`;
+            document.getElementById('dailyProgressText').innerText = `${percentage}%`;
 
             const todosAllEl = document.getElementById('todosAllList');
             if (todosAllEl) {
@@ -2582,6 +2833,9 @@
             if (changed) finalizeAction();
         }, 1000);
 
+        // =========================================================================
+        // --- 10. حساب مواقيت الصلاة والطقس والعملات ---
+        // =========================================================================
         function calculatePalestinePrayerTimes(date = new Date()) {
             const lat = 32.4646; const lng = 35.2939; const tz = -date.getTimezoneOffset() / 60;
             const start = new Date(date.getFullYear(), 0, 0);
@@ -2685,6 +2939,9 @@
             }
         });
 
+        // =========================================================================
+        // --- 11. الإقلاع الفوري المستقر للنظام ---
+        // =========================================================================
         applyThemeUI();
         initNativeNotifications();
         setupBackButtonListener();
