@@ -164,7 +164,7 @@
 
         .oneui-top-bar {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 4px 0 12px 0; position: relative;
+            padding: 4px 0 10px 0; position: relative;
         }
         .top-actions-cluster { display: flex; align-items: center; gap: 8px; width: 100%; justify-content: space-between; }
         .top-right-group { display: flex; align-items: center; gap: 8px; }
@@ -186,28 +186,27 @@
         }
         .user-auth-pill:active { transform: scale(0.95); }
 
-        /* منطقة الترحيب الزمني مع الأيقونة والمسافات المطلوبة */
-        .hero-greeting-container {
-            margin-top: 22px; /* مسافة سطر فارغ أعلاها */
-            margin-bottom: 72px; /* مسافة 4 سطور فارغة أسفلها */
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        /* منطقة الترحيب الزمني مع بيت الشعر والمسافات المطلوبة */
+        .hero-section-box {
+            margin-top: 20px; /* سطر فارغ أعلى */
+            margin-bottom: 56px; /* 4 سطور فارغة أسفل */
             padding: 0 4px;
         }
-        .hero-weather-icon {
-            font-size: 34px;
-            line-height: 1;
-            display: inline-block;
-            user-select: none;
+        .hero-greeting-container {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
         }
-        .hero-greeting-title {
-            font-size: 32px;
-            font-weight: 900;
-            letter-spacing: -0.02em;
-            color: var(--text-primary);
-            line-height: 1.15;
+        .hero-weather-icon { font-size: 32px; line-height: 1; user-select: none; }
+        .hero-greeting-title { font-size: 30px; font-weight: 900; letter-spacing: -0.02em; color: var(--text-primary); line-height: 1.2; }
+
+        .hero-poetry-line {
+            display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px;
+            color: var(--text-secondary); cursor: pointer; padding: 4px 10px;
+            border-radius: var(--radius-pill); background: var(--surface-inner);
+            border: 1px solid var(--border-subtle); transition: all 0.2s ease;
+            max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
+        .hero-poetry-line:active { transform: scale(0.97); }
+        .poetry-tap-hint { font-size: 11px; opacity: 0.7; }
 
         .top-info-links {
             display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px;
@@ -253,50 +252,21 @@
 
         /* بطاقات التنبيهات مع الدائرة المصغرة */
         .alarm-item-card {
-            background: var(--surface-inner);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-input);
-            padding: 11px 14px;
-            margin-bottom: 9px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
+            background: var(--surface-inner); border: 1px solid var(--border-subtle); border-radius: var(--radius-input);
+            padding: 11px 14px; margin-bottom: 9px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
         }
         .alarm-item-card:last-child { margin-bottom: 0; }
         
         .mini-circle-timer {
-            position: relative;
-            width: 24px;
-            height: 24px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative; width: 24px; height: 24px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
         }
-        .mini-circle-timer svg {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-90deg);
-        }
-        .mini-circle-bg {
-            fill: transparent;
-            stroke: rgba(255, 255, 255, 0.12);
-            stroke-width: 3.2;
-        }
-        body.light-mode .mini-circle-bg {
-            stroke: rgba(0, 0, 0, 0.1);
-        }
+        .mini-circle-timer svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        .mini-circle-bg { fill: transparent; stroke: rgba(255, 255, 255, 0.12); stroke-width: 3.2; }
+        body.light-mode .mini-circle-bg { stroke: rgba(0, 0, 0, 0.1); }
         .mini-circle-fill {
-            fill: transparent;
-            stroke: var(--accent-primary);
-            stroke-width: 3.2;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 0.5s linear;
+            fill: transparent; stroke: var(--accent-primary); stroke-width: 3.2; stroke-linecap: round; transition: stroke-dashoffset 0.5s linear;
         }
-        .mini-circle-fill.prayer {
-            stroke: var(--accent-green);
-        }
+        .mini-circle-fill.prayer { stroke: var(--accent-green); }
 
         /* الحاسبة */
         .google-calc-box {
@@ -394,6 +364,25 @@
         .quran-verse-block { font-family: "Amiri", "Traditional Arabic", serif; font-size: 20px; line-height: 2.2; color: var(--text-primary); text-align: justify; margin-bottom: 14px; }
         .quran-tafsir-block { background: var(--surface-inner); border-right: 4px solid var(--accent-green); border-radius: var(--radius-input); padding: 14px; line-height: 1.8; font-size: 13px; margin-bottom: 14px; }
 
+        /* بطاقات كنز المعلومات */
+        .knowledge-card-item {
+            background: var(--surface-panel); border: 1px solid var(--border-subtle); border-radius: var(--radius-card);
+            padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow-subtle);
+        }
+        .knowledge-meta-bar {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 11px;
+        }
+        .knowledge-source-badge {
+            background: var(--surface-inner); color: var(--accent-primary); padding: 3px 10px; border-radius: var(--radius-pill); font-weight: 700;
+        }
+        .knowledge-text-body {
+            font-size: 14px; line-height: 1.8; color: var(--text-primary); margin-bottom: 12px; font-weight: 500;
+        }
+        .knowledge-modern-app {
+            background: var(--surface-inner); border-right: 3px solid var(--accent-green); border-radius: var(--radius-input);
+            padding: 10px 12px; font-size: 12px; color: var(--text-secondary); line-height: 1.7;
+        }
+
         .dashboard-tasks-card { margin-top: 10px; border: 1px solid var(--border-subtle); }
         .dashboard-tasks-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
         .dashboard-tasks-title { font-size:16px; font-weight:800; color:var(--text-primary); }
@@ -407,6 +396,74 @@
         .dashboard-task-check { width:22px; height:22px; flex:0 0 22px; accent-color:var(--accent-primary); }
         .dashboard-task-text { flex:1; min-width:0; font-size:13.5px; font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
         .dashboard-task-delete { border:0; background:transparent; color:var(--accent-red); font-size:18px; cursor:pointer; padding:4px; }
+
+        /* =========================================================
+           🍏 نمط تصميم Apple iOS الكامل (تجريبي شامل)
+           ========================================================= */
+        body.ios-mode {
+            --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif !important;
+            --radius-card: 20px !important;
+            --radius-input: 14px !important;
+            letter-spacing: -0.015em !important;
+        }
+        body.ios-mode .oneui-card,
+        body.ios-mode .knowledge-card-item,
+        body.ios-mode .google-calc-box {
+            background: rgba(255, 255, 255, 0.05) !important;
+            backdrop-filter: blur(25px) saturate(190%) !important;
+            -webkit-backdrop-filter: blur(25px) saturate(190%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+        }
+        body.ios-mode.light-mode .oneui-card,
+        body.ios-mode.light-mode .knowledge-card-item,
+        body.ios-mode.light-mode .google-calc-box {
+            background: rgba(255, 255, 255, 0.75) !important;
+            border: 1px solid rgba(0, 0, 0, 0.06) !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04) !important;
+        }
+        /* دوك iOS العائم والمستدير */
+        body.ios-mode .bottom-floating-dock {
+            left: 14px !important; right: 14px !important; width: calc(100% - 28px) !important;
+            bottom: max(10px, env(safe-area-inset-bottom, 10px)) !important;
+            border-radius: 28px !important;
+            background: rgba(20, 20, 26, 0.75) !important;
+            backdrop-filter: blur(30px) saturate(200%) !important;
+            -webkit-backdrop-filter: blur(30px) saturate(200%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5) !important;
+        }
+        body.ios-mode.light-mode .bottom-floating-dock {
+            background: rgba(250, 250, 252, 0.82) !important;
+            border: 1px solid rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1) !important;
+        }
+        /* حاسبة iOS الأصلية */
+        body.ios-mode .google-calc-grid {
+            gap: 12px !important;
+        }
+        body.ios-mode .g-calc-btn {
+            border-radius: 50% !important;
+            aspect-ratio: 1 !important;
+            height: auto !important;
+            font-size: 22px !important;
+            background: #333333 !important;
+            color: #FFFFFF !important;
+            border: none !important;
+        }
+        body.ios-mode .g-calc-btn.special {
+            background: #A5A5A5 !important;
+            color: #000000 !important;
+        }
+        body.ios-mode .g-calc-btn.operator,
+        body.ios-mode .g-calc-btn.equals {
+            background: #FF9F0A !important;
+            color: #FFFFFF !important;
+        }
+        body.ios-mode .g-calc-btn:active {
+            opacity: 0.7 !important;
+            transform: scale(0.95) !important;
+        }
     </style>
 </head>
 <body data-theme="sapphire">
@@ -441,10 +498,16 @@
             </div>
         </div>
 
-        <!-- التحية المتغيرة حسب الوقت مع أيقونة الطقس ومسافة سطر أعلى و4 أسطر أسفل -->
-        <div class="hero-greeting-container">
-            <span id="heroWeatherIcon" class="hero-weather-icon">☀️</span>
-            <h1 id="heroGreetingText" class="hero-greeting-title">صباح الخير</h1>
+        <!-- التحية المتغيرة وبيت الشعر مع المسافات المطلوبة -->
+        <div class="hero-section-box">
+            <div class="hero-greeting-container">
+                <span id="heroWeatherIcon" class="hero-weather-icon">☀️</span>
+                <h1 id="heroGreetingText" class="hero-greeting-title">صباح الخير</h1>
+            </div>
+            <div class="hero-poetry-line" onclick="openPoetryModal()" title="انقر لمعرفة قائل البيت وتفاصيله">
+                <span id="heroPoemVerse">إِذا غامَرتَ في شَرَفٍ مَرومِ ۝ فَلا تَقنَع بِما دونَ النُجومِ</span>
+                <span class="poetry-tap-hint">📜</span>
+            </div>
         </div>
 
         <!-- بطاقات الطقس والعملات والتنبيهات -->
@@ -475,18 +538,18 @@
             <div class="habits-strip" id="dashHabitsStrip">
                 <div class="habit-chip primary-highlight" onclick="switchNavSection('adhkar-view')">🤲 الأذكار</div>
                 <div class="habit-chip primary-highlight" onclick="switchNavSection('quran-view')">📖 ورد القرآن</div>
+                <div class="habit-chip primary-highlight" onclick="switchNavSection('knowledge-view')">💎 كنز المعلومات</div>
                 <div class="habit-chip primary-highlight" onclick="switchNavSection('calc-view')">🧮 الحاسبة</div>
             </div>
 
-            <!-- قسم التنبيهات المباشرة ومواقيت الصلاة مع دائرة مصغرة لكل موعد -->
-            <div class="section-label">التنبيهات ومواقيت الصلاة</div>
+            <!-- قسم التنبيهات ومواقيت الصلاة (الصلاة القادمة فقط + دوائر مصغرة) -->
+            <div class="section-label">التنبيهات والصلاة القادمة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                     <span style="font-size:13px; color:var(--text-secondary);" id="activeRemindersCountText">المواعيد القادمة</span>
                     <button onclick="openModalAction('alarm')" style="background:none; border:none; color:var(--accent-primary); font-weight:700; cursor:pointer;">+ ضبط تنبيه</button>
                 </div>
 
-                <!-- حاوية التنبيهات والصلوات مع الدوائر الصغيرة -->
                 <div id="linearRemindersContainer"></div>
 
                 <div style="display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin:14px 0 4px 0;">
@@ -515,7 +578,16 @@
             </div>
         </div>
 
-        <!-- 🕌 2. تطبيق إسلاميات الشامل والمسبحة -->
+        <!-- 💎 2. قسم كنز المعلومات (معلومات موثوقة مع أمثلة معاصرة) -->
+        <div id="knowledge-view" class="section-view">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <div class="section-label" style="margin:0;">💎 كنز المعلومات وتطبيقاتها المعاصرة</div>
+                <button class="tag-badge" onclick="switchNavSection('dashboard-view')">← الرئيسية</button>
+            </div>
+            <div id="knowledgeCardsList"></div>
+        </div>
+
+        <!-- 🕌 3. تطبيق إسلاميات الشامل والمسبحة -->
         <div id="islamiyat-view" class="section-view">
             <div style="display:flex; gap:6px; margin-bottom:12px; overflow-x:auto;">
                 <button class="tag-badge" onclick="switchNavSection('adhkar-view')">🤲 الأذكار المأثورة</button>
@@ -539,7 +611,7 @@
             </div>
         </div>
 
-        <!-- 📝 3. الملاحظات -->
+        <!-- 📝 4. الملاحظات -->
         <div id="notes-view" class="section-view">
             <div class="section-label">الملاحظات والتدوينات</div>
             <div class="oneui-card">
@@ -551,7 +623,7 @@
             </div>
         </div>
 
-        <!-- ✅ 4. المهام -->
+        <!-- ✅ 5. المهام -->
         <div id="todos-view" class="section-view">
             <div class="section-label">إدارة كافة المهام</div>
             <div class="oneui-card">
@@ -563,7 +635,7 @@
             </div>
         </div>
 
-        <!-- 📊 5. المالية والاشتراكات -->
+        <!-- 📊 6. المالية والاشتراكات -->
         <div id="finance-view" class="section-view">
             <div class="section-label">ملخص المصاريف</div>
             <div class="oneui-card">
@@ -574,16 +646,7 @@
                 </div>
             </div>
 
-            <div class="section-label">الاشتراكات الفعالة</div>
-            <div class="oneui-card">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <span style="font-size:13px; color:var(--text-secondary);">تتبع فترات التجديد</span>
-                    <button onclick="openModalAction('subscription')" style="background:none; border:none; color:var(--accent-primary); font-weight:700; cursor:pointer;">+ اشتراك جديد</button>
-                </div>
-                <div id="dashSubscriptionsProgressList"></div>
-            </div>
-
-            <div class="section-label">حاسبة زكاة المال السريعة (2.5%)</div>
+            <div class="section-label">حاسبة زكاة المال (2.5%)</div>
             <div class="oneui-card">
                 <div style="display:flex; gap:8px; align-items:center;">
                     <input type="number" id="zakatAmountInput" placeholder="أدخل المبلغ الإجمالي (₪)..." class="app-input" style="margin-bottom:0;" oninput="calculateZakat()">
@@ -603,7 +666,7 @@
             <div class="oneui-card" id="expensesFullList"></div>
         </div>
 
-        <!-- 📖 6. ورد القرآن المفسر المستقل -->
+        <!-- 📖 7. ورد القرآن المفسر المستقل -->
         <div id="quran-view" class="section-view">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                 <div class="section-label" style="margin:0;">ورد القرآن وتفسير ابن كثير (5 آيات)</div>
@@ -619,7 +682,7 @@
             </div>
         </div>
 
-        <!-- 🧮 7. الحاسبة -->
+        <!-- 🧮 8. الحاسبة -->
         <div id="calc-view" class="section-view">
             <div class="google-calc-box">
                 <div class="calc-screen-wrapper">
@@ -655,7 +718,7 @@
             </div>
         </div>
 
-        <!-- 📅 8. التقويم -->
+        <!-- 📅 9. التقويم -->
         <div id="calendar-view" class="section-view">
             <div class="section-label">تقويم المهام والمواعيد</div>
             <div class="oneui-card">
@@ -675,7 +738,7 @@
             </div>
         </div>
 
-        <!-- ⛅ 9. الطقس -->
+        <!-- ⛅ 10. الطقس -->
         <div id="weather-view" class="section-view">
             <div class="section-label">حالة الطقس لـ 5 أيام (محدث بالساعات)</div>
             <div class="oneui-card" style="text-align:center;">
@@ -690,7 +753,7 @@
             </div>
         </div>
 
-        <!-- 💱 10. العملات -->
+        <!-- 💱 11. العملات -->
         <div id="currency-view" class="section-view">
             <div class="section-label">محول العملات المالي المباشر</div>
             <div class="oneui-card">
@@ -725,7 +788,7 @@
             </div>
         </div>
 
-        <!-- 🔐 11. الخزنة -->
+        <!-- 🔐 12. الخزنة -->
         <div id="vault-view" class="section-view">
             <div class="section-label">الحسابات المشفرة</div>
             <div class="oneui-card">
@@ -736,7 +799,7 @@
             </div>
         </div>
 
-        <!-- ⚙️ 12. الإعدادات -->
+        <!-- ⚙️ 13. الإعدادات -->
         <div id="settings-view" class="section-view">
             <div class="section-label">الحساب والمزامنة السحابية</div>
             <div class="oneui-card">
@@ -749,6 +812,18 @@
                 </div>
             </div>
 
+            <!-- خيار تجريبي لتفعيل نمط تصميم Apple iOS الكامل -->
+            <div class="section-label">التجربة البصرية وأنماط النظام</div>
+            <div class="oneui-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <div>
+                        <strong>نمط تصميم Apple iOS (تجريبي)</strong>
+                        <div style="font-size:11.5px; color:var(--text-secondary);">حاسبة، وخط، ودوك، وزجاجيات iOS المفتوحة</div>
+                    </div>
+                    <input type="checkbox" id="iosModeToggle" onchange="toggleIosMode(this.checked)" style="width:22px; height:22px; accent-color:var(--accent-primary);">
+                </div>
+            </div>
+
             <div class="section-label">الهوية اللونية للنظام (8 ثيمات)</div>
             <div class="oneui-card">
                 <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">اختر ثيم النظام المفضل:</label>
@@ -758,8 +833,8 @@
                     <option value="amber">3. Amber (الكهرمان الذهبي)</option>
                     <option value="ruby">4. Ruby Crimson (الياقوت الأحمر)</option>
                     <option value="amethyst">5. Amethyst Purple (الجمشت البنفسجي)</option>
-                    <option value="midnight">6. Midnight OLED (الأسود الليلي الحالك)</option>
-                    <option value="nord">7. Nord Slate (النورد الثلجي الرمادي)</option>
+                    <option value="midnight">6. Midnight OLED (الأسود الحالك)</option>
+                    <option value="nord">7. Nord Slate (النورد الثلجي)</option>
                     <option value="rose">8. Rose Copper (النحاسي والوردي)</option>
                 </select>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
@@ -798,7 +873,7 @@
             </div>
         </div>
 
-        <!-- 🤲 13. الأذكار -->
+        <!-- 🤲 14. الأذكار -->
         <div id="adhkar-view" class="section-view">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                 <div class="section-label" style="margin:0;">الأذكار المأثورة</div>
@@ -807,7 +882,7 @@
             <div id="adhkarContentContainer"></div>
         </div>
 
-        <!-- 🕌⏰ 14. مواقيت الصلاة المجدولة -->
+        <!-- 🕌⏰ 15. مواقيت الصلاة المجدولة -->
         <div id="prayers-alarms-view" class="section-view">
             <div class="section-label">مواقيت الصلاة والتنبيهات المجدولة</div>
             <div class="oneui-card" id="prayersAlarmsFullList"></div>
@@ -818,6 +893,7 @@
     <!-- الدوك السفلي -->
     <div class="bottom-floating-dock" id="bottomDock">
         <button class="dock-capsule-item active" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('knowledge-view', this)">💎 كنز المعلومات</button>
         <button class="dock-capsule-item" onclick="switchNavSection('prayers-alarms-view', this)">🕌 الصلوات</button>
         <button class="dock-capsule-item" onclick="switchNavSection('islamiyat-view', this)">🤲 إسلاميات</button>
         <button class="dock-capsule-item" onclick="switchNavSection('notes-view', this)">📝 الملاحظات</button>
@@ -831,6 +907,19 @@
     </div>
 
     <!-- النوافذ المنبثقة -->
+    <div class="modal-overlay" id="poetryModal">
+        <div class="modal-box" style="text-align:center;">
+            <div style="font-size:32px; margin-bottom:6px;">📜</div>
+            <h3 id="poemModalVerse" style="font-size:15px; font-weight:800; line-height:1.7; color:var(--text-primary); margin-bottom:8px;">--</h3>
+            <div id="poemModalPoet" style="font-size:13px; font-weight:700; color:var(--accent-primary); margin-bottom:12px;">--</div>
+            <div id="poemModalMeaning" style="font-size:12px; line-height:1.7; color:var(--text-secondary); background:var(--surface-inner); padding:10px 12px; border-radius:var(--radius-input); margin-bottom:14px; text-align:right;">--</div>
+            <div style="display:flex; gap:8px;">
+                <button onclick="nextPoemVerse()" class="btn-action" style="flex:1;">بيت شعر آخر 🎲</button>
+                <button onclick="closePoetryModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary); flex:1;">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="authModal">
         <div class="modal-box">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
@@ -896,6 +985,9 @@
     </div>
 
     <script>
+        // =========================================================================
+        // --- 0. المتغيرات والتهيئة والبيانات الأساسية ---
+        // =========================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCxalyr_Xa7IeSuT8enh6MCu2a1h5HvBWY",
             authDomain: "life-8892e.firebaseapp.com",
@@ -919,6 +1011,80 @@
         let calCurrentYear = new Date().getFullYear();
         let calCurrentMonth = new Date().getMonth();
         let currentTasbeehCount = 0;
+
+        // مكتبة أبيات الشعر العربي
+        const arabicPoemsDB = [
+            {
+                verse: "إِذا غامَرتَ في شَرَفٍ مَرومِ ۝ فَلا تَقنَع بِما دونَ النُجومِ",
+                poet: "أبو الطيب المتنبي (العصر العباسي)",
+                meaning: "يدعو الشاعر إلى علو الهمة والغاية السامية، وأنه إذا أقدم المرء على طلب المجد فلا يرضى بالمنزلة الدنية بل يطمح لأعلى المراتب."
+            },
+            {
+                verse: "وَلَقَدْ ذَكَرْتُكِ وَالرِّمَاحُ نَوَاهِلٌ ۝ مِنِّي وَبِيضُ الْهِنْدِ تَقْطُرُ مِنْ دَمِي",
+                poet: "عنترة بن شداد (العصر الجاهلي)",
+                meaning: "يصف عنترة ثباته ووفاءه؛ حيث تذكر محبوبته في أشد مواقف القتال وحلكة المعركة والسيوف تتخاطف الرؤوس."
+            },
+            {
+                verse: "سَتُبْدِي لَكَ الأَيَّامُ مَا كُنْتَ جَاهِلاً ۝ وَيَأْتِيكَ بِالأَخْبَارِ مَنْ لَمْ تُزَوِّدِ",
+                poet: "طرفة بن العبد (العصر الجاهلي)",
+                meaning: "حكمة بليغة تؤكد أن الزمان كفيل بإظهار الحقائق وكشف ما غاب عن الإنسان وتأتيه الأنباء دون سعي ولا نفقة."
+            },
+            {
+                verse: "دَعِ الأَيَّامَ تَفْعَلُ مَا تَشَاءُ ۝ وَطِبْ نَفْساً إِذَا حَكَمَ القَضَاءُ",
+                poet: "الإمام الشافعي (العصر العباسي)",
+                meaning: "دعوة لليقين بالله والرضا بالقدر والصبر على نوائب الدهر؛ لأن قضاء الله نافذ والجزع لا يغير المقدر."
+            },
+            {
+                verse: "وَأَحْسَنُ مِنْكَ لَمْ تَرَ قَطُّ عَيْنِي ۝ وَأَجْمَلُ مِنْكَ لَمْ تَلِدِ النِّسَاءُ",
+                poet: "حسان بن ثابت (مخضرم / العصر الإسلامي)",
+                meaning: "مديح نبوي رفيع يصف به حسان بن ثابت كمال خَلق وخُلق النبي محمد ﷺ بأنه خُلق مبرءاً من كل عيب."
+            },
+            {
+                verse: "سَيَذْكُرُنِي قَوْمِي إِذَا جَدَّ جِدُّهُمْ ۝ وَفِي اللَّيْلَةِ الظَّلْمَاءِ يُفْتَقَدُ الْبَدْرُ",
+                poet: "أبو فراس الحمداني (العصر العباسي)",
+                meaning: "يبيّن أن قيمة أصحاب المروءة والشجاعة تبرز جلياً عند الشدائد والأزمات، كالبدر الذي يُطلب نوره في الظلمات."
+            }
+        ];
+        let currentPoemIndex = 0;
+
+        // مكتبة كنز المعلومات الموثوقة مع الأمثلة المعاصرة
+        const knowledgeTreasuryDB = [
+            {
+                title: "فقه ترتيب الأولويات وإدارة الوقت",
+                source: "جامع العلوم والحكم - ابن رجب الحنبلي",
+                category: "تزكية وعمل",
+                text: "إن أحب ما تقرب به العبد إلى الله ما افترضه عليه؛ فالبدء بالفرائض وأداء الواجبات قبل الاشتغال بنوافل الأعمال وسفاسفها هو أصل الفلاح وركيزة البركة.",
+                modernApp: "💡 <b>التطبيق المعاصر:</b> لا تنشغل بالمهام الهامشية وتصفح رسائل الهاتف وتفقد منصات التواصل قبل إنجاز عملك الوظيفي أو مهمتك الأكاديمية الكبرى؛ فالأولى والأهم أولاً."
+            },
+            {
+                title: "قاعدة التخلية قبل التحلية",
+                source: "مدارج السالكين - ابن القيم الجوزية",
+                category: "إصلاح النفس",
+                text: "لا يستقر في القلب علم نافع ولا إخلاص حتى يُفرغ من شوائب الرياء والتعلق بالمديح وشهوة الظهور؛ فالتخلية من المشتتات والذنوب تسبق تحلية النفس بالفضائل.",
+                modernApp: "💡 <b>التطبيق المعاصر:</b> اغلق جميع إشعارات التطبيقات والمشتتات الرقمية ونظف مساحة عملك وهاتفك من البرامج الزائدة قبل البدء بجلسة عمل أو قراءة وردك بخشوع وتركيز."
+            },
+            {
+                title: "أمانة الكلمة وحفظ المجالس والمحادثات",
+                source: "رياض الصالحين - الإمام النووي",
+                category: "أخلاق ومعاملات",
+                text: "المجالس بالأمانة، وإفشاء سر الأخ بعد استئمانه خيانة بيّنة؛ فالأصل في مجالس المؤمنين الستر وحفظ الخصوصيات ما لم يكن فيها إثم أو ظلم صريح.",
+                modernApp: "💡 <b>التطبيق المعاصر:</b> تجنب تصوير شاشة المحادثات الخاصة (Screenshots) أو إعادة توجيه التسجيلات الصوتية في مجموعات العمل دون إذن صريح من صاحبها."
+            },
+            {
+                title: "بركة البكور واستثمار الصباح الذهبي",
+                source: "الشمائل المحمدية وصحيح الجامع",
+                category: "إنتاجية نبوية",
+                text: "دعاء النبي ﷺ: «اللَّهُمَّ بَارِكْ لِأُمَّتِي فِي بُكُورِهَا»؛ فأول ساعات النهار بعد الفجر فيها بركة مضاعفة وصفاء ذهني لا يعوضه السهر الطويل.",
+                modernApp: "💡 <b>التطبيق المعاصر:</b> استثمر الساعتين الأوليين من يومك في أصعب مهامك البرمجية أو الدراسية بدون إنترنت، وستنجز فيها ما يستغرق 6 ساعات في بقية اليوم."
+            },
+            {
+                title: "الاعتدال في الاستهلاك وتجنب فخ الترف الكاذب",
+                source: "قواعد الأحكام في مصالح الأنام - العز بن عبد السلام",
+                category: "اقتصاد ومالية",
+                text: "المال وسيلة لإقامة الحياة وليس غاية للتفاخر، ومن علامة الحكمة الشرعية تقديم الحاجيات والضروريات على تحسينات الترف التي تجلب الديون وتثقل النفس.",
+                modernApp: "💡 <b>التطبيق المعاصر:</b> ابتعد عن عروض الشراء بالتقسيط غير الضرورية (اشتري الآن وادفع لاحقاً) ولا تغير هاتفك أو أجهزتك لمجرد المظاهر والتباهي."
+            }
+        ];
 
         const periodicRemembrances = [
             "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ",
@@ -944,7 +1110,8 @@
                 displayName: '', 
                 masterTheme: 'sapphire',
                 dhikrReminder: false,
-                dhikrInterval: 60
+                dhikrInterval: 60,
+                iosMode: false
             };
             if (!data.adhkarCounters) data.adhkarCounters = {};
             if (!data.quranPortion) data.quranPortion = { surah: 'البقرة', startAya: 1, endAya: 5, completedBatches: 0, lastCompletedDate: '' };
@@ -1004,6 +1171,15 @@
             const masterTheme = (db.settings && db.settings.masterTheme) ? db.settings.masterTheme : 'sapphire';
             document.body.setAttribute('data-theme', masterTheme);
 
+            if (db.settings && db.settings.iosMode) {
+                document.body.classList.add('ios-mode');
+            } else {
+                document.body.classList.remove('ios-mode');
+            }
+
+            const iosToggle = document.getElementById('iosModeToggle');
+            if (iosToggle) iosToggle.checked = Boolean(db.settings?.iosMode);
+
             const themeColors = {
                 sapphire: { dark: '#0B1120', light: '#F8FAFC' },
                 emerald: { dark: '#04140E', light: '#F0FDF4' },
@@ -1043,6 +1219,14 @@
             if (reminderInterval) reminderInterval.value = db.settings.dhikrInterval || 60;
         }
 
+        function toggleIosMode(enabled) {
+            if (!db.settings) db.settings = {};
+            db.settings.iosMode = Boolean(enabled);
+            applyThemeUI();
+            finalizeAction();
+            showToast(enabled ? '🍏 تم تفعيل نمط Apple iOS التجريبي' : 'تم العودة للنمط الكلاسيكي');
+        }
+
         function changeMasterTheme(themeName) {
             if (!db.settings) db.settings = {};
             db.settings.masterTheme = themeName;
@@ -1058,7 +1242,7 @@
         }
 
         // =========================================================================
-        // --- التحية العربية المتغيرة والأيقونة الذكية للطقس والوقت ---
+        // --- 1. التحية المتغيرة والأيقونة والشعر العربي ---
         // =========================================================================
         function getArabicGreeting() {
             const hour = new Date().getHours();
@@ -1107,8 +1291,137 @@
             if (iconEl) iconEl.innerText = getWeatherContextIcon();
         }
 
+        function renderPoetryLine() {
+            const poem = arabicPoemsDB[currentPoemIndex % arabicPoemsDB.length];
+            const el = document.getElementById('heroPoemVerse');
+            if (el) el.innerText = poem.verse;
+        }
+
+        function openPoetryModal() {
+            const poem = arabicPoemsDB[currentPoemIndex % arabicPoemsDB.length];
+            document.getElementById('poemModalVerse').innerText = poem.verse;
+            document.getElementById('poemModalPoet').innerText = poem.poet;
+            document.getElementById('poemModalMeaning').innerText = poem.meaning;
+            document.getElementById('poetryModal').classList.add('active');
+        }
+
+        function closePoetryModal() {
+            document.getElementById('poetryModal').classList.remove('active');
+        }
+
+        function nextPoemVerse() {
+            currentPoemIndex = (currentPoemIndex + 1) % arabicPoemsDB.length;
+            renderPoetryLine();
+            openPoetryModal();
+        }
+
         // =========================================================================
-        // --- إدارة الدخول والملف الشخصي وتعديل الاسم ---
+        // --- 2. كنز المعلومات الموثوقة ---
+        // =========================================================================
+        function renderKnowledgeTreasury() {
+            const container = document.getElementById('knowledgeCardsList');
+            if (!container) return;
+            container.innerHTML = knowledgeTreasuryDB.map((item, idx) => `
+                <div class="knowledge-card-item">
+                    <div class="knowledge-meta-bar">
+                        <span class="knowledge-source-badge">📖 ${item.source}</span>
+                        <span style="color:var(--text-secondary); font-weight:700;">${item.category}</span>
+                    </div>
+                    <strong style="display:block; font-size:15px; margin-bottom:6px; color:var(--text-primary);">${item.title}</strong>
+                    <div class="knowledge-text-body">${item.text}</div>
+                    <div class="knowledge-modern-app">${item.modernApp}</div>
+                </div>
+            `).join('');
+        }
+
+        // =========================================================================
+        // --- 3. الصلاة القادمة فقط والتنبيهات بالدوائر المصغرة ---
+        // =========================================================================
+        function renderCombinedReminders() {
+            const container = document.getElementById('linearRemindersContainer');
+            if (!container) return;
+            const now = Date.now();
+            const combined = [];
+
+            // الصلاة القادمة فقط وليس كل الصلوات
+            const nextPrayer = livePrayersList.find(p => p.targetTime > now);
+            if (nextPrayer) {
+                combined.push({
+                    id: nextPrayer.id,
+                    title: nextPrayer.title,
+                    targetTime: nextPrayer.targetTime,
+                    isPrayer: true
+                });
+            }
+
+            // التنبيهات المجدولة النشطة
+            db.reminders.forEach(r => {
+                if (!r.triggered && r.targetTime > now) {
+                    combined.push({
+                        id: r.id,
+                        title: r.title || `تنبيه (${r.minutes} د)`,
+                        targetTime: r.targetTime,
+                        minutes: r.minutes,
+                        createdAt: r.createdAt,
+                        isPrayer: false
+                    });
+                }
+            });
+
+            combined.sort((a, b) => a.targetTime - b.targetTime);
+
+            const countText = document.getElementById('activeRemindersCountText');
+            if (countText) countText.innerText = `${combined.length} مواعيد قادمة`;
+
+            const topAlarmSummary = document.getElementById('topAlarmSummary');
+            if (topAlarmSummary) topAlarmSummary.innerText = `${combined.length} نشطة`;
+
+            if (combined.length === 0) {
+                container.innerHTML = `<p style="color:var(--text-secondary); text-align:center; font-size:12.5px; padding:12px 0;">لا توجد صلوات أو تنبيهات قادمة.</p>`;
+                return;
+            }
+
+            container.innerHTML = combined.map(item => {
+                const remainingMs = Math.max(0, item.targetTime - now);
+                const timeStr = new Date(item.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
+
+                const perimeter = 62.83;
+                let progressOffset = 0;
+                if (!item.isPrayer) {
+                    const totalDuration = (item.minutes * 60 * 1000) || (item.targetTime - item.createdAt) || remainingMs;
+                    const fraction = Math.max(0, Math.min(1, remainingMs / totalDuration));
+                    progressOffset = perimeter * (1 - fraction);
+                }
+
+                return `
+                    <div class="alarm-item-card">
+                        <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+                            <div class="mini-circle-timer" title="مؤشر الموعد">
+                                <svg viewBox="0 0 24 24">
+                                    <circle class="mini-circle-bg" cx="12" cy="12" r="10" />
+                                    <circle class="mini-circle-fill ${item.isPrayer ? 'prayer' : ''}" cx="12" cy="12" r="10"
+                                        stroke-dasharray="62.83" stroke-dashoffset="${progressOffset}" />
+                                </svg>
+                            </div>
+                            <div style="min-width:0;">
+                                <strong style="display:block; font-size:13.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.title}</strong>
+                                <span style="font-size:11px; color:var(--text-secondary);">${timeStr}</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+                            <span class="tag-badge ${item.isPrayer ? 'green' : ''}">⏳ ${formatTime(remainingMs)}</span>
+                            ${!item.isPrayer ? `
+                                <button onclick="renameReminder(${item.id})" class="tag-badge" title="تعديل">✏️</button>
+                                <button onclick="confirmDeleteReminder(${item.id})" class="tag-badge" style="color:var(--accent-red);" title="إلغاء">✖</button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // =========================================================================
+        // --- 4. إدارة المستخدم والحساب وتعديل الاسم بعد الدخول ---
         // =========================================================================
         function handleUserAuthClick() {
             if (currentUser) {
@@ -1250,94 +1563,7 @@
         }
 
         // =========================================================================
-        // --- دمج مواقيت الصلاة مع التنبيهات وإظهار الدوائر المصغرة ---
-        // =========================================================================
-        function renderCombinedReminders() {
-            const container = document.getElementById('linearRemindersContainer');
-            if (!container) return;
-            const now = Date.now();
-            const combined = [];
-
-            // 1. الصلوات المتبقية اليوم
-            livePrayersList.forEach(p => {
-                if (p.targetTime > now) {
-                    combined.push({
-                        id: p.id,
-                        title: p.title,
-                        targetTime: p.targetTime,
-                        isPrayer: true
-                    });
-                }
-            });
-
-            // 2. التنبيهات المجدولة
-            db.reminders.forEach(r => {
-                if (!r.triggered && r.targetTime > now) {
-                    combined.push({
-                        id: r.id,
-                        title: r.title || `تنبيه (${r.minutes} د)`,
-                        targetTime: r.targetTime,
-                        minutes: r.minutes,
-                        createdAt: r.createdAt,
-                        isPrayer: false
-                    });
-                }
-            });
-
-            combined.sort((a, b) => a.targetTime - b.targetTime);
-
-            const countText = document.getElementById('activeRemindersCountText');
-            if (countText) countText.innerText = `${combined.length} مواعيد قادمة`;
-
-            const topAlarmSummary = document.getElementById('topAlarmSummary');
-            if (topAlarmSummary) topAlarmSummary.innerText = `${combined.length} نشطة`;
-
-            if (combined.length === 0) {
-                container.innerHTML = `<p style="color:var(--text-secondary); text-align:center; font-size:12.5px; padding:12px 0;">لا توجد تنبيهات أو صلوات متبقية اليوم.</p>`;
-                return;
-            }
-
-            container.innerHTML = combined.map(item => {
-                const remainingMs = Math.max(0, item.targetTime - now);
-                const timeStr = new Date(item.targetTime).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
-
-                const perimeter = 62.83; // 2 * PI * 10
-                let progressOffset = 0;
-                if (!item.isPrayer) {
-                    const totalDuration = (item.minutes * 60 * 1000) || (item.targetTime - item.createdAt) || remainingMs;
-                    const fraction = Math.max(0, Math.min(1, remainingMs / totalDuration));
-                    progressOffset = perimeter * (1 - fraction);
-                }
-
-                return `
-                    <div class="alarm-item-card">
-                        <div style="display:flex; align-items:center; gap:10px; min-width:0;">
-                            <div class="mini-circle-timer" title="مؤشر الوقت">
-                                <svg viewBox="0 0 24 24">
-                                    <circle class="mini-circle-bg" cx="12" cy="12" r="10" />
-                                    <circle class="mini-circle-fill ${item.isPrayer ? 'prayer' : ''}" cx="12" cy="12" r="10"
-                                        stroke-dasharray="62.83" stroke-dashoffset="${progressOffset}" />
-                                </svg>
-                            </div>
-                            <div style="min-width:0;">
-                                <strong style="display:block; font-size:13.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.title}</strong>
-                                <span style="font-size:11px; color:var(--text-secondary);">${timeStr}</span>
-                            </div>
-                        </div>
-                        <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
-                            <span class="tag-badge ${item.isPrayer ? 'green' : ''}">⏳ ${formatTime(remainingMs)}</span>
-                            ${!item.isPrayer ? `
-                                <button onclick="renameReminder(${item.id})" class="tag-badge" title="تعديل">✏️</button>
-                                <button onclick="confirmDeleteReminder(${item.id})" class="tag-badge" style="color:var(--accent-red);" title="إلغاء">✖</button>
-                            ` : ''}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // =========================================================================
-        // --- التنقل وزر الرجوع خطوة بخطوة ---
+        // --- 5. التنقل وزر الرجوع خطوة بخطوة ---
         // =========================================================================
         function switchNavSection(viewId, btnEl, addToHistory = true) {
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
@@ -1359,6 +1585,7 @@
                 }
             }
 
+            if (viewId === 'knowledge-view') renderKnowledgeTreasury();
             if (viewId === 'calc-view') updateGCalcDisplay();
             if (viewId === 'calendar-view') renderCalendarGrid();
             if (viewId === 'adhkar-view') renderDhikrView();
@@ -1370,7 +1597,7 @@
         }
 
         window.handleSystemBackButton = function() {
-            const modals = ['activeAlarmModal', 'profileModal', 'authModal', 'actionModal', 'dhikrChimeModal'];
+            const modals = ['poetryModal', 'activeAlarmModal', 'profileModal', 'authModal', 'actionModal', 'dhikrChimeModal'];
             for (const m of modals) {
                 const el = document.getElementById(m);
                 if (el && el.classList.contains('active')) {
@@ -1412,7 +1639,7 @@
         }
 
         // =========================================================================
-        // --- نسبة الإنجاز والطقس والعملات ---
+        // --- 6. نسبة الإنجاز والطقس والعملات والحاسبة ---
         // =========================================================================
         function calculateUniversalDailyProgress() {
             let totalWeights = 0;
@@ -1614,7 +1841,7 @@
             document.getElementById('calSelectedDayTitle').innerText = `تفاصيل يوم (${dateISO})`;
             const container = document.getElementById('calDayEventsList');
             const dayTodos = db.todos.filter(t => t.date === dateISO);
-            if (dayTodos.length === 0) { container.innerHTML = `<p style="color:var(--text-secondary); text-align:center;">لا توجد مهام.</p>`; return; }
+            if (dayTodos.length === 0) { container.innerHTML = `<p style="color:var(--text-secondary); text-align:center;">لا توجد مهام مسجلة.</p>`; return; }
             container.innerHTML = dayTodos.map(t => `<div class="list-row"><div>${t.title || t.text}</div><span>${t.done ? '✅' : '⏳'}</span></div>`).join('');
         }
 
@@ -1701,7 +1928,7 @@
         }
 
         // =========================================================================
-        // --- التنبيهات والأصوات ---
+        // --- 7. التنبيهات والأصوات ---
         // =========================================================================
         let audioCtx = null;
         let alarmTimer = null;
@@ -1849,6 +2076,7 @@
             renderCombinedReminders();
             calculateUniversalDailyProgress();
             updateDynamicGreeting();
+            renderPoetryLine();
 
             let spentMonth = 0;
             const cMonth = new Date().getMonth();
@@ -2051,7 +2279,7 @@
         function exportData() {
             const dl = document.createElement('a');
             dl.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
-            dl.download = `DailyOS_Backup_${todayStr}.json`;
+            dl.download = `LifeOS_Backup_${todayStr}.json`;
             dl.click();
             showToast('📥 تم تصدير النسخة الاحتياطية');
         }
@@ -2085,6 +2313,8 @@
         setupBackButtonListener();
         loadAccuratePrayers();
         syncFeeds();
+        renderPoetryLine();
+        renderKnowledgeTreasury();
         updateUI();
     </script>
 </body>
