@@ -221,6 +221,7 @@
         .top-info-link strong { font-size: 13px; white-space: nowrap; color: var(--accent-primary); }
         .top-info-link span { font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
+        /* شريط الأنشطة السريع المحصور بالثلاثة عناصر بدقة */
         .habits-strip {
             display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 12px 0; margin-bottom: 6px;
             -webkit-overflow-scrolling: touch; touch-action: pan-x;
@@ -398,7 +399,7 @@
         .dashboard-task-delete { border:0; background:transparent; color:var(--accent-red); font-size:18px; cursor:pointer; padding:4px; }
 
         /* =========================================================
-           🍏 نمط تصميم Apple iOS الكامل (تجريبي شامل)
+           🍏 نمط تصميم Apple iOS الكامل
            ========================================================= */
         body.ios-mode {
             --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif !important;
@@ -422,7 +423,6 @@
             border: 1px solid rgba(0, 0, 0, 0.06) !important;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04) !important;
         }
-        /* دوك iOS العائم والمستدير */
         body.ios-mode .bottom-floating-dock {
             left: 14px !important; right: 14px !important; width: calc(100% - 28px) !important;
             bottom: max(10px, env(safe-area-inset-bottom, 10px)) !important;
@@ -438,32 +438,15 @@
             border: 1px solid rgba(0, 0, 0, 0.1) !important;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1) !important;
         }
-        /* حاسبة iOS الأصلية */
-        body.ios-mode .google-calc-grid {
-            gap: 12px !important;
-        }
+        body.ios-mode .google-calc-grid { gap: 12px !important; }
         body.ios-mode .g-calc-btn {
-            border-radius: 50% !important;
-            aspect-ratio: 1 !important;
-            height: auto !important;
-            font-size: 22px !important;
-            background: #333333 !important;
-            color: #FFFFFF !important;
-            border: none !important;
+            border-radius: 50% !important; aspect-ratio: 1 !important; height: auto !important;
+            font-size: 22px !important; background: #333333 !important; color: #FFFFFF !important; border: none !important;
         }
-        body.ios-mode .g-calc-btn.special {
-            background: #A5A5A5 !important;
-            color: #000000 !important;
-        }
+        body.ios-mode .g-calc-btn.special { background: #A5A5A5 !important; color: #000000 !important; }
         body.ios-mode .g-calc-btn.operator,
-        body.ios-mode .g-calc-btn.equals {
-            background: #FF9F0A !important;
-            color: #FFFFFF !important;
-        }
-        body.ios-mode .g-calc-btn:active {
-            opacity: 0.7 !important;
-            transform: scale(0.95) !important;
-        }
+        body.ios-mode .g-calc-btn.equals { background: #FF9F0A !important; color: #FFFFFF !important; }
+        body.ios-mode .g-calc-btn:active { opacity: 0.7 !important; transform: scale(0.95) !important; }
     </style>
 </head>
 <body data-theme="sapphire">
@@ -510,7 +493,7 @@
             </div>
         </div>
 
-        <!-- بطاقات الطقس والعملات والتنبيهات -->
+        <!-- بطاقات الطقس والعملات والتنبيهات (الدخول المباشر) -->
         <div class="top-info-links" aria-label="اختصارات معلومات التطبيق">
             <button class="top-info-link" onclick="switchNavSection('weather-view')">
                 <strong>⛅ الطقس</strong><span id="topWeatherSummary">--°C</span>
@@ -534,15 +517,14 @@
                 <span style="font-size:12px; font-weight:800; color:var(--accent-green);" id="dailyProgressText">0%</span>
             </div>
 
-            <!-- شريط الأنشطة السريع -->
+            <!-- شريط الأنشطة السريع المحصور بثلاثة عناصر: الأذكار، ورد القرآن، الحاسبة -->
             <div class="habits-strip" id="dashHabitsStrip">
                 <div class="habit-chip primary-highlight" onclick="switchNavSection('adhkar-view')">🤲 الأذكار</div>
                 <div class="habit-chip primary-highlight" onclick="switchNavSection('quran-view')">📖 ورد القرآن</div>
-                <div class="habit-chip primary-highlight" onclick="switchNavSection('knowledge-view')">💎 كنز المعلومات</div>
                 <div class="habit-chip primary-highlight" onclick="switchNavSection('calc-view')">🧮 الحاسبة</div>
             </div>
 
-            <!-- قسم التنبيهات ومواقيت الصلاة (الصلاة القادمة فقط + دوائر مصغرة) -->
+            <!-- قسم التنبيهات والصلاة القادمة فقط بالدوائر المصغرة -->
             <div class="section-label">التنبيهات والصلاة القادمة</div>
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
@@ -578,7 +560,7 @@
             </div>
         </div>
 
-        <!-- 💎 2. قسم كنز المعلومات (معلومات موثوقة مع أمثلة معاصرة) -->
+        <!-- 💎 2. قسم كنز المعلومات -->
         <div id="knowledge-view" class="section-view">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                 <div class="section-label" style="margin:0;">💎 كنز المعلومات وتطبيقاتها المعاصرة</div>
@@ -682,7 +664,7 @@
             </div>
         </div>
 
-        <!-- 🧮 8. الحاسبة -->
+        <!-- 🧮 8. الحاسبة (تفتح من الشريط السريع) -->
         <div id="calc-view" class="section-view">
             <div class="google-calc-box">
                 <div class="calc-screen-wrapper">
@@ -738,7 +720,7 @@
             </div>
         </div>
 
-        <!-- ⛅ 10. الطقس -->
+        <!-- ⛅ 10. الطقس (تفتح من البطاقة العلوية) -->
         <div id="weather-view" class="section-view">
             <div class="section-label">حالة الطقس لـ 5 أيام (محدث بالساعات)</div>
             <div class="oneui-card" style="text-align:center;">
@@ -753,7 +735,7 @@
             </div>
         </div>
 
-        <!-- 💱 11. العملات -->
+        <!-- 💱 11. العملات (تفتح من البطاقة العلوية) -->
         <div id="currency-view" class="section-view">
             <div class="section-label">محول العملات المالي المباشر</div>
             <div class="oneui-card">
@@ -863,9 +845,14 @@
                 <button onclick="testDhikrChime()" class="tag-badge" style="margin-top:4px;">🎵 تجربة نغمة التذكير والذكر الآن</button>
             </div>
 
-            <div class="section-label">النسخ الاحتياطي</div>
+            <!-- إعدادات إذن العمل بالخلفية والنسخ الاحتياطي المستعادة بالكامل -->
+            <div class="section-label">النظام والنسخ الاحتياطي الشامل</div>
             <div class="oneui-card">
                 <div style="display:flex; gap:8px; flex-direction:column;">
+                    <button onclick="testPrestigeAlarm()" class="btn-action">🎵 تجربة نغمة التنبيه</button>
+                    <button onclick="requestBatteryOptimizationExemption()" class="btn-action" style="background:var(--surface-inner); color:var(--accent-primary); border:1px solid var(--border-subtle);">
+                        ⚡ إذن العمل بالخلفية (تجاوز توفير البطارية)
+                    </button>
                     <button onclick="exportData()" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary);">📥 تصدير نسخة احتياطية (JSON)</button>
                     <button onclick="triggerImportFile()" class="btn-action" style="background:var(--surface-inner); color:var(--accent-green); border:1px solid var(--border-subtle);">📤 استرجاع نسخة احتياطية (Import)</button>
                     <input type="file" id="importBackupInput" accept=".json" style="display:none;" onchange="handleImportBackup(event)">
@@ -890,23 +877,50 @@
 
     </div>
 
-    <!-- الدوك السفلي -->
+    <!-- =========================================================
+       🚀 الدوك السفلي (مع إزالة الطقس والعملات والحاسبة، وإضافة زر + الموحد)
+       ========================================================= -->
     <div class="bottom-floating-dock" id="bottomDock">
         <button class="dock-capsule-item active" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('knowledge-view', this)">💎 كنز المعلومات</button>
         <button class="dock-capsule-item" onclick="switchNavSection('prayers-alarms-view', this)">🕌 الصلوات</button>
         <button class="dock-capsule-item" onclick="switchNavSection('islamiyat-view', this)">🤲 إسلاميات</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('knowledge-view', this)">💎 كنز المعلومات</button>
+
+        <!-- زر الإضافة الموحد في منتصف القائمة -->
+        <button class="dock-capsule-item" onclick="openQuickAddCenterModal()" style="background:var(--accent-primary); color:#FFFFFF; font-weight:800; border-radius:14px; box-shadow:0 3px 12px var(--accent-glow);">➕ إضافة</button>
+
         <button class="dock-capsule-item" onclick="switchNavSection('notes-view', this)">📝 الملاحظات</button>
         <button class="dock-capsule-item" onclick="switchNavSection('todos-view', this)">✅ المهام</button>
         <button class="dock-capsule-item" onclick="switchNavSection('finance-view', this)">📊 المالية</button>
         <button class="dock-capsule-item" onclick="switchNavSection('quran-view', this)">📖 ورد القرآن</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('calc-view', this)">🧮 الحاسبة</button>
         <button class="dock-capsule-item" onclick="switchNavSection('calendar-view', this)">📅 التقويم</button>
         <button class="dock-capsule-item" onclick="switchNavSection('vault-view', this)">🔐 الخزنة</button>
         <button class="dock-capsule-item" onclick="switchNavSection('settings-view', this)">⚙️ الإعدادات</button>
     </div>
 
-    <!-- النوافذ المنبثقة -->
+    <!-- النوافذ المنبثقة التفاعلية -->
+    <div class="modal-overlay" id="quickAddCenterModal">
+        <div class="modal-box" style="text-align:center;">
+            <div style="font-size:32px; margin-bottom:6px;">✨</div>
+            <strong style="font-size:16px; display:block; margin-bottom:14px;">إضافة سريعة</strong>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <button onclick="triggerFromCenterModal('todo')" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary); border:1px solid var(--border-subtle); text-align:right; display:flex; align-items:center; gap:8px;">
+                    <span>✅</span> <span>إضافة مهمة جديدة</span>
+                </button>
+                <button onclick="triggerFromCenterModal('note')" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary); border:1px solid var(--border-subtle); text-align:right; display:flex; align-items:center; gap:8px;">
+                    <span>📝</span> <span>إضافة ملاحظة</span>
+                </button>
+                <button onclick="triggerFromCenterModal('vault')" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary); border:1px solid var(--border-subtle); text-align:right; display:flex; align-items:center; gap:8px;">
+                    <span>🔐</span> <span>إضافة حساب للخزنة</span>
+                </button>
+                <button onclick="triggerFromCenterModal('purchase')" class="btn-action" style="background:var(--surface-inner); color:var(--text-primary); border:1px solid var(--border-subtle); text-align:right; display:flex; align-items:center; gap:8px;">
+                    <span>🛒</span> <span>إضافة قائمة مشتريات</span>
+                </button>
+                <button onclick="closeQuickAddCenterModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-secondary); margin-top:4px;">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="poetryModal">
         <div class="modal-box" style="text-align:center;">
             <div style="font-size:32px; margin-bottom:6px;">📜</div>
@@ -986,7 +1000,7 @@
 
     <script>
         // =========================================================================
-        // --- 0. المتغيرات والتهيئة والبيانات الأساسية ---
+        // --- 0. التهيئة والمزامنة السحابية وقواعد البيانات ---
         // =========================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCxalyr_Xa7IeSuT8enh6MCu2a1h5HvBWY",
@@ -1224,7 +1238,7 @@
             db.settings.iosMode = Boolean(enabled);
             applyThemeUI();
             finalizeAction();
-            showToast(enabled ? '🍏 تم تفعيل نمط Apple iOS التجريبي' : 'تم العودة للنمط الكلاسيكي');
+            showToast(enabled ? '🍏 تم تفعيل نمط Apple iOS' : 'تم العودة للنمط الكلاسيكي');
         }
 
         function changeMasterTheme(themeName) {
@@ -1321,7 +1335,7 @@
         function renderKnowledgeTreasury() {
             const container = document.getElementById('knowledgeCardsList');
             if (!container) return;
-            container.innerHTML = knowledgeTreasuryDB.map((item, idx) => `
+            container.innerHTML = knowledgeTreasuryDB.map(item => `
                 <div class="knowledge-card-item">
                     <div class="knowledge-meta-bar">
                         <span class="knowledge-source-badge">📖 ${item.source}</span>
@@ -1335,7 +1349,7 @@
         }
 
         // =========================================================================
-        // --- 3. الصلاة القادمة فقط والتنبيهات بالدوائر المصغرة ---
+        // --- 3. الصلاة القادمة فقط والتنبيهات المجدولة بالدوائر المصغرة ---
         // =========================================================================
         function renderCombinedReminders() {
             const container = document.getElementById('linearRemindersContainer');
@@ -1343,7 +1357,7 @@
             const now = Date.now();
             const combined = [];
 
-            // الصلاة القادمة فقط وليس كل الصلوات
+            // الصلاة القادمة فقط
             const nextPrayer = livePrayersList.find(p => p.targetTime > now);
             if (nextPrayer) {
                 combined.push({
@@ -1421,7 +1435,7 @@
         }
 
         // =========================================================================
-        // --- 4. إدارة المستخدم والحساب وتعديل الاسم بعد الدخول ---
+        // --- 4. إدارة الحساب وتعديل الاسم بعد الدخول ---
         // =========================================================================
         function handleUserAuthClick() {
             if (currentUser) {
@@ -1563,7 +1577,154 @@
         }
 
         // =========================================================================
-        // --- 5. التنقل وزر الرجوع خطوة بخطوة ---
+        // --- 5. زر الإضافة الموحد في المركز والنوافذ الخاصة به ---
+        // =========================================================================
+        function openQuickAddCenterModal() {
+            document.getElementById('quickAddCenterModal')?.classList.add('active');
+        }
+        function closeQuickAddCenterModal() {
+            document.getElementById('quickAddCenterModal')?.classList.remove('active');
+        }
+        function triggerFromCenterModal(type) {
+            closeQuickAddCenterModal();
+            openModalAction(type);
+        }
+
+        function openModalAction(type) {
+            const modal = document.getElementById('actionModal');
+            const title = document.getElementById('modalTitle');
+            const container = document.getElementById('modalFormContainer');
+
+            if (type === 'todo') {
+                title.innerText = '✅ إضافة مهمة جديدة';
+                container.innerHTML = `
+                    <input type="text" id="actTodoText" placeholder="اكتب نص المهمة..." class="app-input" required>
+                    <button type="button" onclick="submitActTodo()" class="btn-action">حفظ المهمة</button>
+                `;
+            } else if (type === 'note') {
+                title.innerText = '📝 تدوين ملاحظة جديدة';
+                container.innerHTML = `
+                    <input type="text" id="actNoteTitle" placeholder="عنوان الملاحظة..." class="app-input">
+                    <textarea id="actNoteBody" rows="3" placeholder="نص الملاحظة..." class="app-input" required></textarea>
+                    <button type="button" onclick="submitActNote()" class="btn-action">حفظ الملاحظة</button>
+                `;
+            } else if (type === 'vault') {
+                title.innerText = '🔐 إضافة حساب للخزنة';
+                container.innerHTML = `
+                    <input type="text" id="actVaultName" placeholder="اسم الموقع / التطبيق..." class="app-input" required>
+                    <input type="text" id="actVaultUser" placeholder="اسم المستخدم / البريد..." class="app-input">
+                    <input type="password" id="actVaultPass" placeholder="كلمة المرور..." class="app-input" required>
+                    <textarea id="actVaultNote" rows="2" placeholder="ملاحظات إضافية..." class="app-input"></textarea>
+                    <button type="button" onclick="submitActVault()" class="btn-action">حفظ بالخزنة</button>
+                `;
+            } else if (type === 'purchase') {
+                title.innerText = '🛒 إضافة قائمة مشتريات';
+                container.innerHTML = `
+                    <input type="text" id="actPurchaseItem" placeholder="اسم السلعة أو الغرض..." class="app-input" required>
+                    <input type="number" id="actPurchasePrice" placeholder="السعر المقدر (₪) اختياري..." class="app-input">
+                    <button type="button" onclick="submitActPurchase()" class="btn-action">إضافة للمشتريات</button>
+                `;
+            } else if (type === 'alarm') {
+                title.innerText = '⏰ ضبط تنبيه سريع';
+                container.innerHTML = `
+                    <input type="number" id="actAlarmMins" placeholder="عدد الدقائق (مثال: 15)..." class="app-input" required>
+                    <input type="text" id="actAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
+                    <button type="button" onclick="submitActAlarmFast()" class="btn-action">ضبط الآن</button>
+                `;
+            } else if (type === 'debt') {
+                title.innerText = '🤝 تسجيل دين أو التزام';
+                container.innerHTML = `
+                    <select id="actDebtType" class="app-input"><option value="لي">مستحق لي (طلب)</option><option value="علي">دين علي (التزام)</option></select>
+                    <input type="text" id="actDebtPerson" placeholder="اسم الشخص..." class="app-input" required>
+                    <input type="number" id="actDebtAmount" placeholder="المبلغ (₪)..." class="app-input" required>
+                    <button type="button" onclick="submitActDebt()" class="btn-action">حفظ الالتزام</button>
+                `;
+            }
+            modal.style.display = 'flex'; modal.classList.add('active');
+        }
+
+        function closeModalAction() {
+            const modal = document.getElementById('actionModal');
+            if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
+        }
+
+        function submitActTodo() {
+            const textEl = document.getElementById('actTodoText');
+            if (!textEl || !textEl.value.trim()) return alert('اكتب نص المهمة');
+            const text = textEl.value.trim();
+            closeModalAction();
+            db.todos.push({ id: Date.now(), text: text, title: text, done: false, date: todayStr });
+            finalizeAction();
+            showToast('✅ تم إضافة المهمة');
+        }
+
+        function submitActNote() {
+            const bodyEl = document.getElementById('actNoteBody');
+            const titleEl = document.getElementById('actNoteTitle');
+            if (!bodyEl?.value.trim()) return alert('اكتب نص الملاحظة');
+            closeModalAction();
+            db.notes.push({ id: Date.now(), title: titleEl?.value || 'ملاحظة', body: bodyEl.value, date: todayStr });
+            finalizeAction();
+            showToast('📝 تم حفظ الملاحظة');
+        }
+
+        function submitActVault() {
+            const name = document.getElementById('actVaultName')?.value.trim();
+            const user = document.getElementById('actVaultUser')?.value.trim();
+            const pass = document.getElementById('actVaultPass')?.value;
+            const note = document.getElementById('actVaultNote')?.value.trim();
+            if (!name || !pass) return alert('يرجى كتابة اسم الحساب وكلمة المرور');
+            closeModalAction();
+            db.vault.push({ id: Date.now(), accountName: name, username: user || '', password: pass, note: note || '', date: todayStr });
+            finalizeAction();
+            showToast('🔐 تم حفظ الحساب في الخزنة');
+        }
+
+        function submitActPurchase() {
+            const item = document.getElementById('actPurchaseItem')?.value.trim();
+            const price = document.getElementById('actPurchasePrice')?.value || 0;
+            if (!item) return alert('يرجى كتابة اسم السلعة');
+            closeModalAction();
+            if (!db.purchases) db.purchases = [];
+            db.purchases.push({ id: Date.now(), item: item, price: price, date: todayStr, done: false });
+            finalizeAction();
+            showToast('🛒 تم إضافة السلعة للمشتريات');
+        }
+
+        function submitActAlarmFast() {
+            const mins = parseInt(document.getElementById('actAlarmMins').value, 10);
+            const title = document.getElementById('actAlarmTitle').value;
+            if (!mins || mins <= 0) return alert('أدخل عدد دقائق صحيح');
+            closeModalAction();
+            addReminderFast(mins, title);
+        }
+
+        function submitActDebt() {
+            const type = document.getElementById('actDebtType').value;
+            const person = document.getElementById('actDebtPerson').value.trim();
+            const amount = document.getElementById('actDebtAmount').value;
+            if (!person || !amount) return alert('يرجى كتابة الاسم والمبلغ');
+            closeModalAction();
+            db.debts.push({ id: Date.now(), type, person, amount, settled: false, date: todayStr });
+            finalizeAction();
+            showToast('🤝 تم تسجيل الالتزام');
+        }
+
+        // استعادة إذن العمل بالخلفية وإلغاء توفير البطارية كما كان تماماً
+        async function requestBatteryOptimizationExemption() {
+            try {
+                if (window.Capacitor?.Plugins?.AlarmOptimizer) {
+                    await window.Capacitor.Plugins.AlarmOptimizer.requestIgnoreBattery();
+                    return;
+                }
+            } catch (error) {
+                console.warn('تعذر فتح إعدادات البطارية الأصلية', error);
+            }
+            alert('افتح إعدادات البطارية لتطبيق LifeOS واختر: غير مقيد، وفعّل التشغيل التلقائي إن كان متاحًا.');
+        }
+
+        // =========================================================================
+        // --- 6. التنقل وسجل الرجوع خطوة بخطوة ---
         // =========================================================================
         function switchNavSection(viewId, btnEl, addToHistory = true) {
             document.querySelectorAll('.section-view').forEach(s => s.classList.remove('active'));
@@ -1597,7 +1758,7 @@
         }
 
         window.handleSystemBackButton = function() {
-            const modals = ['poetryModal', 'activeAlarmModal', 'profileModal', 'authModal', 'actionModal', 'dhikrChimeModal'];
+            const modals = ['quickAddCenterModal', 'poetryModal', 'activeAlarmModal', 'profileModal', 'authModal', 'actionModal', 'dhikrChimeModal'];
             for (const m of modals) {
                 const el = document.getElementById(m);
                 if (el && el.classList.contains('active')) {
@@ -1639,7 +1800,7 @@
         }
 
         // =========================================================================
-        // --- 6. نسبة الإنجاز والطقس والعملات والحاسبة ---
+        // --- 7. نسبة الإنجاز والطقس والعملات والمؤقتات ---
         // =========================================================================
         function calculateUniversalDailyProgress() {
             let totalWeights = 0;
@@ -1841,7 +2002,7 @@
             document.getElementById('calSelectedDayTitle').innerText = `تفاصيل يوم (${dateISO})`;
             const container = document.getElementById('calDayEventsList');
             const dayTodos = db.todos.filter(t => t.date === dateISO);
-            if (dayTodos.length === 0) { container.innerHTML = `<p style="color:var(--text-secondary); text-align:center;">لا توجد مهام مسجلة.</p>`; return; }
+            if (dayTodos.length === 0) { container.innerHTML = `<p style="color:var(--text-secondary); text-align:center;">لا توجد مهام.</p>`; return; }
             container.innerHTML = dayTodos.map(t => `<div class="list-row"><div>${t.title || t.text}</div><span>${t.done ? '✅' : '⏳'}</span></div>`).join('');
         }
 
@@ -1866,7 +2027,7 @@
             db.quranPortion.lastCompletedDate = todayStr;
             finalizeAction();
             renderQuranView();
-            showToast('✅ تم إكمال الورد القرآني بنجاح');
+            showToast('✅ تم إكمال الورد بنجاح');
             if ("vibrate" in navigator) navigator.vibrate([70, 40, 70]);
         }
 
@@ -1928,7 +2089,7 @@
         }
 
         // =========================================================================
-        // --- 7. التنبيهات والأصوات ---
+        // --- التنبيهات والأصوات ---
         // =========================================================================
         let audioCtx = null;
         let alarmTimer = null;
@@ -2211,69 +2372,6 @@
             }));
             renderPrayersList();
             renderCombinedReminders();
-        }
-
-        function closeModalAction() {
-            const modal = document.getElementById('actionModal');
-            if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
-        }
-
-        function openModalAction(type) {
-            const modal = document.getElementById('actionModal');
-            const title = document.getElementById('modalTitle');
-            const container = document.getElementById('modalFormContainer');
-
-            if (type === 'alarm') {
-                title.innerText = '⏰ ضبط تنبيه جديد';
-                container.innerHTML = `
-                    <input type="number" id="actAlarmMins" placeholder="عدد الدقائق (مثال: 20)..." class="app-input" required>
-                    <input type="text" id="actAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
-                    <button type="button" onclick="submitActAlarmFast()" class="btn-action">ضبط الآن</button>
-                `;
-            } else if (type === 'note') {
-                title.innerText = '📝 تدوين ملاحظة';
-                container.innerHTML = `
-                    <input type="text" id="actNoteTitle" placeholder="عنوان الملاحظة..." class="app-input">
-                    <textarea id="actNoteBody" rows="3" placeholder="نص الملاحظة..." class="app-input" required></textarea>
-                    <button type="button" onclick="submitActNote()" class="btn-action">حفظ الملاحظة</button>
-                `;
-            } else if (type === 'debt') {
-                title.innerText = '🤝 تسجيل دين أو التزام';
-                container.innerHTML = `
-                    <select id="actDebtType" class="app-input"><option value="لي">مستحق لي (طلب)</option><option value="علي">دين علي (التزام)</option></select>
-                    <input type="text" id="actDebtPerson" placeholder="اسم الشخص..." class="app-input" required>
-                    <input type="number" id="actDebtAmount" placeholder="المبلغ (₪)..." class="app-input" required>
-                    <button type="button" onclick="submitActDebt()" class="btn-action">حفظ الالتزام</button>
-                `;
-            }
-            modal.style.display = 'flex'; modal.classList.add('active');
-        }
-
-        function submitActAlarmFast() {
-            const mins = parseInt(document.getElementById('actAlarmMins').value, 10);
-            const title = document.getElementById('actAlarmTitle').value;
-            if (!mins || mins <= 0) return alert('أدخل عدد دقائق صحيح');
-            closeModalAction();
-            addReminderFast(mins, title);
-        }
-
-        function submitActNote() {
-            const bodyEl = document.getElementById('actNoteBody');
-            const titleEl = document.getElementById('actNoteTitle');
-            if (!bodyEl?.value.trim()) return alert('اكتب نص الملاحظة');
-            closeModalAction();
-            db.notes.push({ id: Date.now(), title: titleEl?.value || 'ملاحظة', body: bodyEl.value, date: todayStr });
-            finalizeAction();
-        }
-
-        function submitActDebt() {
-            const type = document.getElementById('actDebtType').value;
-            const person = document.getElementById('actDebtPerson').value.trim();
-            const amount = document.getElementById('actDebtAmount').value;
-            if (!person || !amount) return alert('يرجى كتابة الاسم والمبلغ');
-            closeModalAction();
-            db.debts.push({ id: Date.now(), type, person, amount, settled: false, date: todayStr });
-            finalizeAction();
         }
 
         function exportData() {
