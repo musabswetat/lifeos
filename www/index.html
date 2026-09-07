@@ -513,7 +513,17 @@
         body.ios-mode .bottom-floating-dock { background:rgba(255,255,255,.82) !important; border:1px solid rgba(60,60,67,.18) !important; box-shadow:0 4px 20px rgba(0,0,0,.12) !important; backdrop-filter:blur(24px) saturate(180%) !important; }
         body.ios-mode:not(.light-mode) .bottom-floating-dock { background:rgba(30,30,30,.86) !important; border-color:rgba(255,255,255,.12) !important; }
         body.ios-mode .dock-capsule-item.active, body.ios-mode .dock-capsule-item.dock-center-btn { background:#007AFF !important; box-shadow:none !important; }
-    </style>
+    
+        /* التصميم المحايد والحاسبة الجديدة */
+        body.neutralDesign .oneui-card, body.neutralDesign .knowledge-card-item, body.neutralDesign .google-calc-box, body.neutralDesign .modal-box { border-radius: 22px !important; box-shadow: 0 8px 28px rgba(0,0,0,.08) !important; }
+        .google-calc-box { border-radius: 24px !important; padding: 18px !important; }
+        .google-calc-grid { gap: 10px !important; }
+        .g-calc-btn { height: 62px !important; border-radius: 18px !important; border: 0 !important; background: var(--surface-inner) !important; box-shadow: inset 0 -3px 0 rgba(0,0,0,.10), 0 3px 8px rgba(0,0,0,.06) !important; }
+        .g-calc-btn.operator { background: color-mix(in srgb, var(--accent-primary) 16%, var(--surface-inner)) !important; color: var(--accent-primary) !important; }
+        .g-calc-btn.special { background: color-mix(in srgb, var(--accent-red) 12%, var(--surface-inner)) !important; color: var(--accent-red) !important; }
+        .g-calc-btn.equals { background: var(--accent-primary) !important; color: white !important; box-shadow: 0 5px 12px color-mix(in srgb, var(--accent-primary) 35%, transparent) !important; }
+        .g-calc-btn:active { transform: translateY(2px) scale(.97) !important; box-shadow: none !important; }
+</style>
 </head>
 <body data-theme="sapphire">
 
@@ -889,9 +899,9 @@
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                     <div>
                         <strong>نمط واجهة iOS مبسط</strong>
-                        <div style="font-size:11.5px; color:var(--text-secondary);">ألوان ومسافات وبطاقات مستوحاة من واجهة iPhone</div>
+                        <div style="font-size:11.5px; color:var(--text-secondary);">ألوان ومسافات وبطاقات مستوحاة من التصميم المحايد</div>
                     </div>
-                    <input type="checkbox" id="iosModeToggle" onchange="toggleIosMode(this.checked)" style="width:22px; height:22px; accent-color:var(--accent-primary);">
+                    <input type="checkbox" id="neutralDesignToggle" onchange="toggleNeutralDesign(this.checked)" style="width:22px; height:22px; accent-color:var(--accent-primary);">
                 </div>
             </div>
 
@@ -1221,7 +1231,7 @@
                 masterTheme: 'sapphire',
                 dhikrReminder: false,
                 dhikrInterval: 60,
-                iosMode: false
+                neutralDesign: true
             };
             if (!data.adhkarCounters) data.adhkarCounters = {};
             if (!data.quranPortion) data.quranPortion = { surah: 'البقرة', startAya: 1, endAya: 5, completedBatches: 0, lastCompletedDate: '' };
@@ -1256,7 +1266,6 @@
             if (userDbRef && navigator.onLine) {
                 const cloudPayload = JSON.parse(JSON.stringify(db));
                 delete cloudPayload._hasLocalChanges;
-                delete cloudPayload.cachedFeeds;
 
                 userDbRef.set(cloudPayload).then(() => {
                     db._hasLocalChanges = false;
@@ -1281,14 +1290,14 @@
             const masterTheme = (db.settings && db.settings.masterTheme) ? db.settings.masterTheme : 'sapphire';
             document.body.setAttribute('data-theme', masterTheme);
 
-            if (db.settings && db.settings.iosMode) {
+            if (db.settings && db.settings.neutralDesign) {
                 document.body.classList.add('ios-mode');
             } else {
                 document.body.classList.remove('ios-mode');
             }
 
-            const iosToggle = document.getElementById('iosModeToggle');
-            if (iosToggle) iosToggle.checked = Boolean(db.settings?.iosMode);
+            const iosToggle = document.getElementById('neutralDesignToggle');
+            if (iosToggle) iosToggle.checked = Boolean(db.settings?.neutralDesign);
 
             const themeColors = {
                 sapphire: { dark: '#0B1120', light: '#F8FAFC' },
@@ -1329,12 +1338,12 @@
             if (reminderInterval) reminderInterval.value = db.settings.dhikrInterval || 60;
         }
 
-        function toggleIosMode(enabled) {
+        function toggleNeutralDesign(enabled) {
             if (!db.settings) db.settings = {};
-            db.settings.iosMode = Boolean(enabled);
+            db.settings.neutralDesign = Boolean(enabled);
             applyThemeUI();
             finalizeAction();
-            showToast(enabled ? '🍏 تم تفعيل نمط Apple iOS' : 'تم العودة للنمط الكلاسيكي');
+            showToast(enabled ? '🍏 تم تفعيل التصميم المحايد' : 'تم العودة للنمط الكلاسيكي');
         }
 
         function changeMasterTheme(themeName) {
@@ -1608,9 +1617,14 @@
                         userDbRef.once('value').then((snapshot) => {
                             const cloudData = snapshot.val();
                             if (cloudData && typeof cloudData === 'object') {
-                                const localFeeds = db.cachedFeeds;
-                                db = normalizeDB(cloudData);
-                                db.cachedFeeds = localFeeds;
+                                const localData = JSON.parse(JSON.stringify(db));
+                                db = normalizeDB({ ...localData, ...cloudData });
+                                Object.keys(cloudData).forEach(key => {
+                                    if (Array.isArray(cloudData[key])) db[key] = cloudData[key];
+                                    else if (cloudData[key] && typeof cloudData[key] === 'object' && !Array.isArray(cloudData[key])) {
+                                        db[key] = { ...(localData[key] || {}), ...cloudData[key] };
+                                    } else db[key] = cloudData[key];
+                                });
                                 db._hasLocalChanges = false;
                                 try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
                                 applyThemeUI();
@@ -1898,10 +1912,9 @@
                 const App = window.Capacitor.Plugins.App;
                 App.removeAllListeners('backButton').then(() => {
                     App.addListener('backButton', () => {
-                        const handled = window.handleSystemBackButton();
-                        if (!handled) {
-                            // لا نغلق التطبيق عند الرجوع من الصفحة الرئيسية
-                            // يبقى التطبيق مفتوحًا بدل الخروج المفاجئ
+                        window.handleSystemBackButton();
+                        if (window.Capacitor?.Plugins?.App?.exitApp) {
+                            window.Capacitor.Plugins.App.exitApp();
                         }
                     });
                 }).catch(() => {});
