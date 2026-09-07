@@ -158,7 +158,7 @@
             width: 100%; max-width: 640px; margin: 0 auto;
             padding-top: max(12px, env(safe-area-inset-top, 12px));
             padding-right: 16px; padding-left: 16px;
-            padding-bottom: calc(var(--dock-height) + max(36px, env(safe-area-inset-bottom, 36px)));
+            padding-bottom: calc(var(--dock-height) + max(44px, env(safe-area-inset-bottom, 44px)));
             box-sizing: border-box;
         }
 
@@ -186,11 +186,9 @@
         }
         .user-auth-pill:active { transform: scale(0.95); }
 
-        /* منطقة الترحيب الزمني مع بيت الشعر والمسافات المطلوبة */
+        /* منطقة الترحيب الزمني وبيت الشعر */
         .hero-section-box {
-            margin-top: 20px; /* سطر فارغ أعلى */
-            margin-bottom: 56px; /* 4 سطور فارغة أسفل */
-            padding: 0 4px;
+            margin-top: 20px; margin-bottom: 56px; padding: 0 4px;
         }
         .hero-greeting-container {
             display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
@@ -221,7 +219,7 @@
         .top-info-link strong { font-size: 13px; white-space: nowrap; color: var(--accent-primary); }
         .top-info-link span { font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 
-        /* شريط الأنشطة السريع المحصور بالثلاثة عناصر بدقة */
+        /* شريط العادات المحصور بثلاثة عناصر فقط */
         .habits-strip {
             display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 12px 0; margin-bottom: 6px;
             -webkit-overflow-scrolling: touch; touch-action: pan-x;
@@ -251,7 +249,7 @@
         .section-view.active { display: block; animation: viewFade 0.2s ease; }
         @keyframes viewFade { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* بطاقات التنبيهات مع الدائرة المصغرة */
+        /* بطاقات التنبيهات */
         .alarm-item-card {
             background: var(--surface-inner); border: 1px solid var(--border-subtle); border-radius: var(--radius-input);
             padding: 11px 14px; margin-bottom: 9px; display: flex; align-items: center; justify-content: space-between; gap: 10px;
@@ -329,22 +327,48 @@
             border-radius: var(--radius-card); padding: 22px; width: 100%; max-width: 380px; box-shadow: var(--shadow-subtle);
         }
 
+        /* =========================================================
+           🚀 الدوك السفلي الثلاثي فقط: الرئيسية، إضافة، معلومات
+           ========================================================= */
         .bottom-floating-dock {
             position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-width: 100%;
             background: var(--surface-panel); border-top: 1px solid var(--border-subtle); border-radius: 0 !important;
-            padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)) 12px; display: flex; gap: 8px;
-            overflow-x: auto; -webkit-overflow-scrolling: touch; box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
-            z-index: 1000; scrollbar-width: none; touch-action: pan-x; box-sizing: border-box;
+            padding: 8px 18px calc(8px + env(safe-area-inset-bottom, 0px)) 18px;
+            display: flex; justify-content: space-around; align-items: center; gap: 12px;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4); z-index: 1000; box-sizing: border-box;
         }
         .dock-capsule-item {
-            background: transparent; border: 1px solid transparent; border-radius: 12px; padding: 8px 13px;
-            font-size: 12.5px; font-weight: 700; color: var(--text-secondary); cursor: pointer; display: flex;
-            align-items: center; gap: 5px; white-space: nowrap; transition: all 0.15s ease; flex-shrink: 0;
+            background: transparent; border: 1px solid transparent; border-radius: 12px; padding: 8px 18px;
+            font-size: 13px; font-weight: 700; color: var(--text-secondary); cursor: pointer; display: flex;
+            align-items: center; justify-content: center; gap: 6px; white-space: nowrap; transition: all 0.15s ease;
+            flex: 1; text-align: center;
         }
         .dock-capsule-item:active { transform: scale(0.95); }
         .dock-capsule-item.active {
             background: var(--accent-primary); color: #FFFFFF; border-color: var(--accent-primary); box-shadow: 0 3px 12px var(--accent-glow);
         }
+        .dock-capsule-item.dock-center-btn {
+            background: var(--accent-primary); color: #FFFFFF; font-weight: 800; border-radius: 14px;
+            box-shadow: 0 4px 14px var(--accent-glow);
+        }
+
+        /* وصلات باقي الأقسام أسفل الصفحة */
+        .bottom-page-footer-links {
+            text-align: center; padding: 18px 4px 12px 4px; font-size: 12px; color: var(--text-secondary);
+        }
+        .bottom-page-footer-links button {
+            background: none; border: none; color: var(--accent-primary); cursor: pointer; font-size: 12px;
+            padding: 4px 8px; font-weight: 600; text-decoration: underline;
+        }
+        .all-sections-grid-menu {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px;
+        }
+        .all-sections-grid-item {
+            background: var(--surface-inner); border: 1px solid var(--border-subtle); border-radius: var(--radius-input);
+            padding: 12px 8px; font-size: 13px; font-weight: 700; color: var(--text-primary); cursor: pointer;
+            text-align: center; transition: all 0.15s ease;
+        }
+        .all-sections-grid-item:active { transform: scale(0.96); }
 
         .calendar-header-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 8px; }
@@ -365,7 +389,6 @@
         .quran-verse-block { font-family: "Amiri", "Traditional Arabic", serif; font-size: 20px; line-height: 2.2; color: var(--text-primary); text-align: justify; margin-bottom: 14px; }
         .quran-tafsir-block { background: var(--surface-inner); border-right: 4px solid var(--accent-green); border-radius: var(--radius-input); padding: 14px; line-height: 1.8; font-size: 13px; margin-bottom: 14px; }
 
-        /* بطاقات كنز المعلومات */
         .knowledge-card-item {
             background: var(--surface-panel); border: 1px solid var(--border-subtle); border-radius: var(--radius-card);
             padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow-subtle);
@@ -399,54 +422,83 @@
         .dashboard-task-delete { border:0; background:transparent; color:var(--accent-red); font-size:18px; cursor:pointer; padding:4px; }
 
         /* =========================================================
-           🍏 نمط تصميم Apple iOS الكامل
+           🍏 التحول الجذري الكامل لتصميم Apple iOS (Apple Notes Experience)
            ========================================================= */
         body.ios-mode {
-            --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif !important;
-            --radius-card: 20px !important;
-            --radius-input: 14px !important;
-            letter-spacing: -0.015em !important;
+            --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif !important;
+            --radius-card: 16px !important;
+            --radius-input: 12px !important;
+            background-color: #000000 !important;
+            color: #FFFFFF !important;
+            letter-spacing: -0.012em !important;
         }
+        body.ios-mode.light-mode {
+            background-color: #F2F2F7 !important;
+            color: #000000 !important;
+        }
+
+        /* أسلوب بطاقات وملاحظات آبل */
         body.ios-mode .oneui-card,
         body.ios-mode .knowledge-card-item,
-        body.ios-mode .google-calc-box {
-            background: rgba(255, 255, 255, 0.05) !important;
-            backdrop-filter: blur(25px) saturate(190%) !important;
-            -webkit-backdrop-filter: blur(25px) saturate(190%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+        body.ios-mode .google-calc-box,
+        body.ios-mode .modal-box {
+            background: #1C1C1E !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 16px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
         }
         body.ios-mode.light-mode .oneui-card,
         body.ios-mode.light-mode .knowledge-card-item,
-        body.ios-mode.light-mode .google-calc-box {
-            background: rgba(255, 255, 255, 0.75) !important;
-            border: 1px solid rgba(0, 0, 0, 0.06) !important;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04) !important;
+        body.ios-mode.light-mode .google-calc-box,
+        body.ios-mode.light-mode .modal-box {
+            background: #FFFFFF !important;
+            border: 1px solid rgba(0, 0, 0, 0.05) !important;
+            box-shadow: 0 2px 14px rgba(0, 0, 0, 0.06) !important;
         }
+
+        body.ios-mode .app-input,
+        body.ios-mode .alarm-item-card,
+        body.ios-mode .knowledge-modern-app {
+            background: #2C2C2E !important;
+            border: none !important;
+            border-radius: 12px !important;
+            color: #FFFFFF !important;
+        }
+        body.ios-mode.light-mode .app-input,
+        body.ios-mode.light-mode .alarm-item-card,
+        body.ios-mode.light-mode .knowledge-modern-app {
+            background: #E5E5EA !important;
+            color: #000000 !important;
+        }
+
+        /* دوك iOS العائم والمستدير الشبيه بالـ Tab Bar */
         body.ios-mode .bottom-floating-dock {
-            left: 14px !important; right: 14px !important; width: calc(100% - 28px) !important;
-            bottom: max(10px, env(safe-area-inset-bottom, 10px)) !important;
-            border-radius: 28px !important;
-            background: rgba(20, 20, 26, 0.75) !important;
-            backdrop-filter: blur(30px) saturate(200%) !important;
-            -webkit-backdrop-filter: blur(30px) saturate(200%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5) !important;
+            left: 20px !important; right: 20px !important; width: calc(100% - 40px) !important;
+            bottom: max(12px, env(safe-area-inset-bottom, 12px)) !important;
+            border-radius: 30px !important;
+            background: rgba(30, 30, 30, 0.8) !important;
+            backdrop-filter: blur(25px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+            padding: 8px 14px !important;
         }
         body.ios-mode.light-mode .bottom-floating-dock {
-            background: rgba(250, 250, 252, 0.82) !important;
+            background: rgba(245, 245, 247, 0.85) !important;
             border: 1px solid rgba(0, 0, 0, 0.1) !important;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
         }
+
+        /* حاسبة iOS الأصلية ذات الأزرار المستديرة واللون البرتقالي والرمادي */
         body.ios-mode .google-calc-grid { gap: 12px !important; }
         body.ios-mode .g-calc-btn {
             border-radius: 50% !important; aspect-ratio: 1 !important; height: auto !important;
-            font-size: 22px !important; background: #333333 !important; color: #FFFFFF !important; border: none !important;
+            font-size: 24px !important; background: #333333 !important; color: #FFFFFF !important; border: none !important;
         }
         body.ios-mode .g-calc-btn.special { background: #A5A5A5 !important; color: #000000 !important; }
         body.ios-mode .g-calc-btn.operator,
         body.ios-mode .g-calc-btn.equals { background: #FF9F0A !important; color: #FFFFFF !important; }
-        body.ios-mode .g-calc-btn:active { opacity: 0.7 !important; transform: scale(0.95) !important; }
+        body.ios-mode .g-calc-btn:active { opacity: 0.65 !important; transform: scale(0.94) !important; }
     </style>
 </head>
 <body data-theme="sapphire">
@@ -558,9 +610,21 @@
                 </form>
                 <div id="dashboardTasksList"></div>
             </div>
+
+            <!-- أسفل الصفحة: روابط وأقسام سريعة بديلة للأقسام المزالة من الدوك -->
+            <div class="bottom-page-footer-links">
+                <p style="margin-bottom: 6px;">تصفح سريع لباقي أدوات وأقسام النظام:</p>
+                <div>
+                    <button onclick="openAllSectionsModal()">📂 كافة أقسام التطبيق</button> ·
+                    <button onclick="switchNavSection('todos-view')">المهام</button> ·
+                    <button onclick="switchNavSection('notes-view')">الملاحظات</button> ·
+                    <button onclick="switchNavSection('finance-view')">المالية</button> ·
+                    <button onclick="switchNavSection('calendar-view')">التقويم</button>
+                </div>
+            </div>
         </div>
 
-        <!-- 💎 2. قسم كنز المعلومات -->
+        <!-- 💎 2. قسم كنز المعلومات (يمكن الوصول له من الدوك مباشرة) -->
         <div id="knowledge-view" class="section-view">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                 <div class="section-label" style="margin:0;">💎 كنز المعلومات وتطبيقاتها المعاصرة</div>
@@ -664,7 +728,7 @@
             </div>
         </div>
 
-        <!-- 🧮 8. الحاسبة (تفتح من الشريط السريع) -->
+        <!-- 🧮 8. الحاسبة -->
         <div id="calc-view" class="section-view">
             <div class="google-calc-box">
                 <div class="calc-screen-wrapper">
@@ -720,7 +784,7 @@
             </div>
         </div>
 
-        <!-- ⛅ 10. الطقس (تفتح من البطاقة العلوية) -->
+        <!-- ⛅ 10. الطقس -->
         <div id="weather-view" class="section-view">
             <div class="section-label">حالة الطقس لـ 5 أيام (محدث بالساعات)</div>
             <div class="oneui-card" style="text-align:center;">
@@ -735,7 +799,7 @@
             </div>
         </div>
 
-        <!-- 💱 11. العملات (تفتح من البطاقة العلوية) -->
+        <!-- 💱 11. العملات -->
         <div id="currency-view" class="section-view">
             <div class="section-label">محول العملات المالي المباشر</div>
             <div class="oneui-card">
@@ -799,8 +863,8 @@
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                     <div>
-                        <strong>نمط تصميم Apple iOS (تجريبي)</strong>
-                        <div style="font-size:11.5px; color:var(--text-secondary);">حاسبة، وخط، ودوك، وزجاجيات iOS المفتوحة</div>
+                        <strong>نمط تصميم Apple iOS (تجريبي شامل)</strong>
+                        <div style="font-size:11.5px; color:var(--text-secondary);">تحول شامل لكامل النظام إلى بيئة وتصميم الآيفون</div>
                     </div>
                     <input type="checkbox" id="iosModeToggle" onchange="toggleIosMode(this.checked)" style="width:22px; height:22px; accent-color:var(--accent-primary);">
                 </div>
@@ -845,7 +909,7 @@
                 <button onclick="testDhikrChime()" class="tag-badge" style="margin-top:4px;">🎵 تجربة نغمة التذكير والذكر الآن</button>
             </div>
 
-            <!-- إعدادات إذن العمل بالخلفية والنسخ الاحتياطي المستعادة بالكامل -->
+            <!-- إعدادات إذن العمل بالخلفية وإلغاء توفير البطارية -->
             <div class="section-label">النظام والنسخ الاحتياطي الشامل</div>
             <div class="oneui-card">
                 <div style="display:flex; gap:8px; flex-direction:column;">
@@ -878,24 +942,31 @@
     </div>
 
     <!-- =========================================================
-       🚀 الدوك السفلي (مع إزالة الطقس والعملات والحاسبة، وإضافة زر + الموحد)
+       🚀 الدوك السفلي الثلاثي فقط: الرئيسية، إضافة، معلومات
        ========================================================= -->
     <div class="bottom-floating-dock" id="bottomDock">
         <button class="dock-capsule-item active" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('prayers-alarms-view', this)">🕌 الصلوات</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('islamiyat-view', this)">🤲 إسلاميات</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('knowledge-view', this)">💎 كنز المعلومات</button>
+        <button class="dock-capsule-item dock-center-btn" onclick="openQuickAddCenterModal()">➕ إضافة</button>
+        <button class="dock-capsule-item" onclick="switchNavSection('knowledge-view', this)">💎 معلومات</button>
+    </div>
 
-        <!-- زر الإضافة الموحد في منتصف القائمة -->
-        <button class="dock-capsule-item" onclick="openQuickAddCenterModal()" style="background:var(--accent-primary); color:#FFFFFF; font-weight:800; border-radius:14px; box-shadow:0 3px 12px var(--accent-glow);">➕ إضافة</button>
-
-        <button class="dock-capsule-item" onclick="switchNavSection('notes-view', this)">📝 الملاحظات</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('todos-view', this)">✅ المهام</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('finance-view', this)">📊 المالية</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('quran-view', this)">📖 ورد القرآن</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('calendar-view', this)">📅 التقويم</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('vault-view', this)">🔐 الخزنة</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('settings-view', this)">⚙️ الإعدادات</button>
+    <!-- نافذة استعراض باقي أقسام التطبيق -->
+    <div class="modal-overlay" id="allSectionsModal">
+        <div class="modal-box" style="text-align:center;">
+            <div style="font-size:32px; margin-bottom:6px;">📂</div>
+            <strong style="font-size:16px; display:block; margin-bottom:12px;">أقسام التطبيق</strong>
+            <div class="all-sections-grid-menu">
+                <div class="all-sections-grid-item" onclick="triggerNavFromModal('prayers-alarms-view')">🕌 الصلوات</div>
+                <div class="all-sections-grid-item" onclick="triggerNavFromModal('islamiyat-view')">🤲 إسلاميات</div>
+                <div class="all-sections-grid-item" onclick="triggerNavFromModal('notes-view')">📝 الملاحظات</div>
+                <div class="all-sections-grid-item" onclick="triggerNavFromModal('todos-view')">✅ المهام</div>
+                <div class="all-sections-grid-item" onclick="triggerNavFromModal('finance-view')">📊 المالية</div>
+                <div class="all-sections-grid-item" onclick="triggerNavFromModal('quran-view')">📖 ورد القرآن</div>
+                <div class="all-sections-grid-item" onclick="triggerNavFromModal('calendar-view')">📅 التقويم</div>
+                <div class="all-sections-grid-item" onclick="triggerNavFromModal('vault-view')">🔐 الخزنة</div>
+            </div>
+            <button onclick="closeAllSectionsModal()" class="btn-action" style="background:var(--surface-inner); color:var(--text-secondary); margin-top:14px;">إغلاق</button>
+        </div>
     </div>
 
     <!-- النوافذ المنبثقة التفاعلية -->
@@ -1000,7 +1071,7 @@
 
     <script>
         // =========================================================================
-        // --- 0. التهيئة والمزامنة السحابية وقواعد البيانات ---
+        // --- 0. التهيئة والمزامنة وقواعد البيانات ---
         // =========================================================================
         const firebaseConfig = {
             apiKey: "AIzaSyCxalyr_Xa7IeSuT8enh6MCu2a1h5HvBWY",
@@ -1577,7 +1648,7 @@
         }
 
         // =========================================================================
-        // --- 5. زر الإضافة الموحد في المركز والنوافذ الخاصة به ---
+        // --- 5. زر الإضافة الموحد ونافذة باقي الأقسام ---
         // =========================================================================
         function openQuickAddCenterModal() {
             document.getElementById('quickAddCenterModal')?.classList.add('active');
@@ -1588,6 +1659,17 @@
         function triggerFromCenterModal(type) {
             closeQuickAddCenterModal();
             openModalAction(type);
+        }
+
+        function openAllSectionsModal() {
+            document.getElementById('allSectionsModal')?.classList.add('active');
+        }
+        function closeAllSectionsModal() {
+            document.getElementById('allSectionsModal')?.classList.remove('active');
+        }
+        function triggerNavFromModal(viewId) {
+            closeAllSectionsModal();
+            switchNavSection(viewId);
         }
 
         function openModalAction(type) {
@@ -1710,7 +1792,6 @@
             showToast('🤝 تم تسجيل الالتزام');
         }
 
-        // استعادة إذن العمل بالخلفية وإلغاء توفير البطارية كما كان تماماً
         async function requestBatteryOptimizationExemption() {
             try {
                 if (window.Capacitor?.Plugins?.AlarmOptimizer) {
@@ -1736,7 +1817,6 @@
             dockButtons.forEach(c => {
                 if (c.getAttribute('onclick') && c.getAttribute('onclick').includes(viewId)) {
                     c.classList.add('active');
-                    c.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
                 }
             });
 
@@ -1758,7 +1838,7 @@
         }
 
         window.handleSystemBackButton = function() {
-            const modals = ['quickAddCenterModal', 'poetryModal', 'activeAlarmModal', 'profileModal', 'authModal', 'actionModal', 'dhikrChimeModal'];
+            const modals = ['allSectionsModal', 'quickAddCenterModal', 'poetryModal', 'activeAlarmModal', 'profileModal', 'authModal', 'actionModal', 'dhikrChimeModal'];
             for (const m of modals) {
                 const el = document.getElementById(m);
                 if (el && el.classList.contains('active')) {
