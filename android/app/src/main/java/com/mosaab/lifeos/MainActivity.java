@@ -1,6 +1,5 @@
 package com.mosaab.lifeos;
 
-import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -33,51 +32,62 @@ public class MainActivity extends BridgeActivity {
         super.onCreate(savedInstanceState);
 
         createAlarmNotificationChannel();
-
         applyStatusBar("#0B1120", false);
     }
 
     /**
-     * إنشاء قناة تنبيه عالية الأهمية.
-     * تُنشأ مرة واحدة وتبقى محفوظة في النظام.
+     * إنشاء قناة الإشعارات المهمة.
      */
     private void createAlarmNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationManager manager =
-                    (NotificationManager) getSystemService(
-                            Context.NOTIFICATION_SERVICE
-                    );
-
-            if (manager == null) return;
-
-            NotificationChannel channel =
-                    new NotificationChannel(
-                            ALARM_CHANNEL_ID,
-                            "تنبيهات LifeOS المهمة",
-                            NotificationManager.IMPORTANCE_HIGH
-                    );
-
-            channel.setDescription(
-                    "تنبيهات المواعيد والمنبهات المهمة"
-            );
-
-            channel.enableVibration(true);
-            channel.setVibrationPattern(
-                    new long[]{0, 500, 250, 500, 250, 800}
-            );
-
-            channel.setBypassDnd(true);
-            channel.setShowBadge(true);
-
-            manager.createNotificationChannel(channel);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return;
         }
+
+        NotificationManager manager =
+                (NotificationManager) getSystemService(
+                        Context.NOTIFICATION_SERVICE
+                );
+
+        if (manager == null) {
+            return;
+        }
+
+        NotificationChannel channel =
+                new NotificationChannel(
+                        ALARM_CHANNEL_ID,
+                        "تنبيهات LifeOS المهمة",
+                        NotificationManager.IMPORTANCE_HIGH
+                );
+
+        channel.setDescription(
+                "تنبيهات المواعيد والمنبهات المهمة"
+        );
+
+        channel.enableVibration(true);
+
+        channel.setVibrationPattern(
+                new long[]{
+                        0,
+                        500,
+                        250,
+                        500,
+                        250,
+                        800
+                }
+        );
+
+        channel.setShowBadge(true);
+
+        /*
+         * لا نستخدم setBypassDnd هنا؛
+         * لأنه لا يضمن تجاوز وضع عدم الإزعاج،
+         * وقد يتطلب صلاحيات إضافية.
+         */
+        manager.createNotificationChannel(channel);
     }
 
     /**
-     * تطبيق لون شريط الإشعارات ولون الأيقونات.
-     *
-     * darkIcons = true  : أيقونات سوداء للوضع الفاتح
-     * darkIcons = false : أيقونات بيضاء للوضع الداكن
+     * تغيير لون شريط الحالة وأيقوناته.
      */
     public void applyStatusBar(
             String colorHex,
@@ -95,43 +105,40 @@ public class MainActivity extends BridgeActivity {
             );
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                WindowInsetsController controller =
-                        window.getInsetsController();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
 
-                if (controller != null) {
-                    if (darkIcons) {
-                        controller.setSystemBarsAppearance(
-                                WindowInsetsController
-                                        .APPEARANCE_LIGHT_STATUS_BARS,
-                                WindowInsetsController
-                                        .APPEARANCE_LIGHT_STATUS_BARS
-                        );
-                    } else {
-                        controller.setSystemBarsAppearance(
-                                0,
-                                WindowInsetsController
-                                        .APPEARANCE_LIGHT_STATUS_BARS
-                        );
-                    }
-                }
-            } else {
-                View decorView = window.getDecorView();
+            WindowInsetsController controller =
+                    window.getInsetsController();
 
-                int flags =
-                        decorView.getSystemUiVisibility();
+            if (controller != null) {
 
-                if (darkIcons) {
-                    flags |=
-                            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                } else {
-                    flags &=
-                            ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-                }
+                int appearance = darkIcons
+                        ? WindowInsetsController
+                                .APPEARANCE_LIGHT_STATUS_BARS
+                        : 0;
 
-                decorView.setSystemUiVisibility(flags);
+                controller.setSystemBarsAppearance(
+                        appearance,
+                        WindowInsetsController
+                                .APPEARANCE_LIGHT_STATUS_BARS
+                );
             }
+
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            View decorView = window.getDecorView();
+
+            int flags =
+                    decorView.getSystemUiVisibility();
+
+            if (darkIcons) {
+                flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            } else {
+                flags &=
+                        ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            }
+
+            decorView.setSystemUiVisibility(flags);
         }
     }
 
@@ -141,61 +148,81 @@ public class MainActivity extends BridgeActivity {
 
         @PluginMethod
         public void setStatusBar(PluginCall call) {
+
             String colorHex =
-                    call.getString("color", "#0B1120");
+                    call.getString(
+                            "color",
+                            "#0B1120"
+                    );
 
             boolean darkIcons =
-                    call.getBoolean("darkIcons", false);
+                    call.getBoolean(
+                            "darkIcons",
+                            false
+                    );
 
-            Activity activity = getActivity();
-
-            if (activity == null) {
+            if (getActivity() == null) {
                 call.reject("النشاط غير متاح");
                 return;
             }
 
-            activity.runOnUiThread(() -> {
-                if (activity instanceof MainActivity) {
-                    ((MainActivity) activity).applyStatusBar(
-                            colorHex,
-                            darkIcons
-                    );
+            getActivity().runOnUiThread(() -> {
+
+                if (getActivity() instanceof MainActivity) {
+
+                    ((MainActivity) getActivity())
+                            .applyStatusBar(
+                                    colorHex,
+                                    darkIcons
+                            );
                 }
             });
 
             JSObject result = new JSObject();
+
             result.put("success", true);
+
             call.resolve(result);
         }
 
         @PluginMethod
         public void createAlarmChannel(PluginCall call) {
-            Activity activity = getActivity();
 
-            if (activity instanceof MainActivity) {
-                ((MainActivity) activity)
+            if (getActivity() instanceof MainActivity) {
+
+                ((MainActivity) getActivity())
                         .createAlarmNotificationChannel();
             }
 
             JSObject result = new JSObject();
+
             result.put("success", true);
             result.put("channelId", ALARM_CHANNEL_ID);
+
             call.resolve(result);
         }
 
         @PluginMethod
         public void checkStatus(PluginCall call) {
+
             JSObject result = new JSObject();
 
-            result.put("api", Build.VERSION.SDK_INT);
+            result.put(
+                    "api",
+                    Build.VERSION.SDK_INT
+            );
+
             result.put("success", true);
 
             call.resolve(result);
         }
 
         @PluginMethod
-        public void requestIgnoreBattery(PluginCall call) {
+        public void requestIgnoreBattery(
+                PluginCall call
+        ) {
             try {
+
                 Intent intent = new Intent(
                         Settings
                                 .ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
@@ -209,9 +236,11 @@ public class MainActivity extends BridgeActivity {
                 );
 
                 getContext().startActivity(intent);
+
                 call.resolve();
 
             } catch (Exception e) {
+
                 call.reject(
                         "تعذر فتح إعدادات تحسين البطارية",
                         e
@@ -224,7 +253,10 @@ public class MainActivity extends BridgeActivity {
                 PluginCall call
         ) {
             try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+
+                if (Build.VERSION.SDK_INT >=
+                        Build.VERSION_CODES.S) {
+
                     Intent intent = new Intent(
                             Settings
                                     .ACTION_REQUEST_SCHEDULE_EXACT_ALARM
@@ -243,6 +275,7 @@ public class MainActivity extends BridgeActivity {
                 call.resolve();
 
             } catch (Exception e) {
+
                 call.reject(
                         "تعذر فتح إعدادات المنبهات الدقيقة",
                         e
@@ -254,35 +287,21 @@ public class MainActivity extends BridgeActivity {
         public void openAutostartSettings(
                 PluginCall call
         ) {
-            try {
-                Intent intent = new Intent(
-                        Settings
-                                .ACTION_APPLICATION_DETAILS_SETTINGS
-                );
-
-                intent.setData(
-                        Uri.parse(
-                                "package:" +
-                                getContext().getPackageName()
-                        )
-                );
-
-                getContext().startActivity(intent);
-                call.resolve();
-
-            } catch (Exception e) {
-                call.reject(
-                        "تعذر فتح إعدادات التشغيل التلقائي",
-                        e
-                );
-            }
+            openAppDetails(call);
         }
 
         @PluginMethod
         public void openAppSettings(
                 PluginCall call
         ) {
+            openAppDetails(call);
+        }
+
+        private void openAppDetails(
+                PluginCall call
+        ) {
             try {
+
                 Intent intent = new Intent(
                         Settings
                                 .ACTION_APPLICATION_DETAILS_SETTINGS
@@ -296,9 +315,11 @@ public class MainActivity extends BridgeActivity {
                 );
 
                 getContext().startActivity(intent);
+
                 call.resolve();
 
             } catch (Exception e) {
+
                 call.reject(
                         "تعذر فتح إعدادات التطبيق",
                         e
