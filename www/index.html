@@ -499,6 +499,20 @@
         body.ios-mode .g-calc-btn.operator,
         body.ios-mode .g-calc-btn.equals { background: #FF9F0A !important; color: #FFFFFF !important; }
         body.ios-mode .g-calc-btn:active { opacity: 0.65 !important; transform: scale(0.94) !important; }
+
+        /* التعديلات الجديدة */
+        .dashboard-task-form .btn-action,
+        #todos-view form .btn-action { display:none !important; }
+        .dashboard-task-form, #todos-view form { align-items:center; }
+        .dashboard-task-form .app-input, #todos-view form .app-input { margin-bottom:0 !important; }
+        .hero-poetry-line { background:transparent !important; border:0 !important; padding:8px 0 !important; border-radius:0 !important; white-space:normal !important; display:block !important; font-size:15px !important; line-height:1.9 !important; }
+        .poetry-tap-hint { display:none !important; }
+        body.ios-mode { --bg-canvas:#F2F2F7 !important; --surface-panel:#FFFFFF !important; --surface-elevated:#F2F2F7 !important; --surface-inner:#F2F2F7 !important; --surface-active:#E5E5EA !important; --border-subtle:rgba(60,60,67,.18) !important; --text-primary:#1C1C1E !important; --text-secondary:#6C6C70 !important; --text-tertiary:#8E8E93 !important; --accent-primary:#007AFF !important; --accent-green:#34C759 !important; --accent-red:#FF3B30 !important; background:#F2F2F7 !important; color:#1C1C1E !important; }
+        body.ios-mode:not(.light-mode) { --bg-canvas:#000000 !important; --surface-panel:#1C1C1E !important; --surface-elevated:#2C2C2E !important; --surface-inner:#2C2C2E !important; --surface-active:#3A3A3C !important; --border-subtle:rgba(84,84,88,.65) !important; --text-primary:#F2F2F7 !important; --text-secondary:#98989D !important; --text-tertiary:#8E8E93 !important; --accent-primary:#0A84FF !important; --accent-green:#30D158 !important; --accent-red:#FF453A !important; background:#000 !important; color:#F2F2F7 !important; }
+        body.ios-mode .oneui-card, body.ios-mode .knowledge-card-item, body.ios-mode .google-calc-box, body.ios-mode .modal-box { border-radius:14px !important; box-shadow:0 1px 3px rgba(0,0,0,.08) !important; }
+        body.ios-mode .bottom-floating-dock { background:rgba(255,255,255,.82) !important; border:1px solid rgba(60,60,67,.18) !important; box-shadow:0 4px 20px rgba(0,0,0,.12) !important; backdrop-filter:blur(24px) saturate(180%) !important; }
+        body.ios-mode:not(.light-mode) .bottom-floating-dock { background:rgba(30,30,30,.86) !important; border-color:rgba(255,255,255,.12) !important; }
+        body.ios-mode .dock-capsule-item.active, body.ios-mode .dock-capsule-item.dock-center-btn { background:#007AFF !important; box-shadow:none !important; }
     </style>
 </head>
 <body data-theme="sapphire">
@@ -541,7 +555,7 @@
             </div>
             <div class="hero-poetry-line" onclick="openPoetryModal()" title="انقر لمعرفة قائل البيت وتفاصيله">
                 <span id="heroPoemVerse">إِذا غامَرتَ في شَرَفٍ مَرومِ ۝ فَلا تَقنَع بِما دونَ النُجومِ</span>
-                <span class="poetry-tap-hint">📜</span>
+                
             </div>
         </div>
 
@@ -801,6 +815,17 @@
 
         <!-- 💱 11. العملات -->
         <div id="currency-view" class="section-view">
+            <div class="section-label">أسعار الشيكل مقابل العملات</div>
+            <div class="oneui-card" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;text-align:center;">
+                <div style="background:var(--surface-inner);border-radius:var(--radius-input);padding:12px;">
+                    <div style="font-size:12px;color:var(--text-secondary);">1 دولار أمريكي</div>
+                    <strong id="ilsPerUsd">-- ₪</strong>
+                </div>
+                <div style="background:var(--surface-inner);border-radius:var(--radius-input);padding:12px;">
+                    <div style="font-size:12px;color:var(--text-secondary);">1 دينار أردني</div>
+                    <strong id="ilsPerJod">-- ₪</strong>
+                </div>
+            </div>
             <div class="section-label">محول العملات المالي المباشر</div>
             <div class="oneui-card">
                 <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">أدخل المبلغ:</label>
@@ -863,8 +888,8 @@
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                     <div>
-                        <strong>نمط تصميم Apple iOS (تجريبي شامل)</strong>
-                        <div style="font-size:11.5px; color:var(--text-secondary);">تحول شامل لكامل النظام إلى بيئة وتصميم الآيفون</div>
+                        <strong>نمط واجهة iOS مبسط</strong>
+                        <div style="font-size:11.5px; color:var(--text-secondary);">ألوان ومسافات وبطاقات مستوحاة من واجهة iPhone</div>
                     </div>
                     <input type="checkbox" id="iosModeToggle" onchange="toggleIosMode(this.checked)" style="width:22px; height:22px; accent-color:var(--accent-primary);">
                 </div>
@@ -994,7 +1019,7 @@
 
     <div class="modal-overlay" id="poetryModal">
         <div class="modal-box" style="text-align:center;">
-            <div style="font-size:32px; margin-bottom:6px;">📜</div>
+            
             <h3 id="poemModalVerse" style="font-size:15px; font-weight:800; line-height:1.7; color:var(--text-primary); margin-bottom:8px;">--</h3>
             <div id="poemModalPoet" style="font-size:13px; font-weight:700; color:var(--accent-primary); margin-bottom:12px;">--</div>
             <div id="poemModalMeaning" style="font-size:12px; line-height:1.7; color:var(--text-secondary); background:var(--surface-inner); padding:10px 12px; border-radius:var(--radius-input); margin-bottom:14px; text-align:right;">--</div>
@@ -1579,21 +1604,23 @@
                     if (user) {
                         currentUser = user;
                         userDbRef = firebase.database().ref(`users/${user.uid}/data`);
-                        userDbRef.on('value', (snapshot) => {
-                            const data = snapshot.val();
-                            if (data) {
-                                if (!db._hasLocalChanges) {
-                                    const feeds = db.cachedFeeds;
-                                    db = normalizeDB(data);
-                                    db.cachedFeeds = feeds;
-                                    try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
-                                    applyThemeUI();
-                                    updateUI();
-                                }
+                        userDbRef.off();
+                        userDbRef.once('value').then((snapshot) => {
+                            const cloudData = snapshot.val();
+                            if (cloudData && typeof cloudData === 'object') {
+                                const localFeeds = db.cachedFeeds;
+                                db = normalizeDB(cloudData);
+                                db.cachedFeeds = localFeeds;
+                                db._hasLocalChanges = false;
+                                try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
+                                applyThemeUI();
+                                updateUI();
+                                showToast('☁️ تمت استعادة بيانات حسابك');
                             } else {
                                 saveToCloud();
+                                showToast('☁️ تم إنشاء مساحة بيانات حسابك');
                             }
-                        });
+                        }).catch(() => showToast('تعذر جلب بيانات السحابة'));
                         updateAuthProfileUI(user);
                     } else {
                         currentUser = null;
@@ -1872,11 +1899,16 @@
                 App.removeAllListeners('backButton').then(() => {
                     App.addListener('backButton', () => {
                         const handled = window.handleSystemBackButton();
-                        if (!handled) { App.exitApp(); }
+                        if (!handled) {
+                            // لا نغلق التطبيق عند الرجوع من الصفحة الرئيسية
+                            // يبقى التطبيق مفتوحًا بدل الخروج المفاجئ
+                        }
                     });
                 }).catch(() => {});
             }
-            window.addEventListener('popstate', () => { window.handleSystemBackButton(); });
+            window.addEventListener('popstate', () => {
+                window.handleSystemBackButton();
+            });
         }
 
         // =========================================================================
@@ -1961,7 +1993,11 @@
         async function syncFeeds() {
             const rates = (db.cachedFeeds && db.cachedFeeds.rates) ? db.cachedFeeds.rates : { USD: "3.65", JOD: "5.15", EUR: "3.95" };
             const topCurrency = document.getElementById('topCurrencySummary');
-            if (topCurrency) topCurrency.innerText = `USD ${rates.USD} ₪`;
+            if (topCurrency) topCurrency.innerText = `USD ${rates.USD} ₪ · JOD ${rates.JOD} ₪`;
+            const usdEl = document.getElementById('ilsPerUsd');
+            const jodEl = document.getElementById('ilsPerJod');
+            if (usdEl) usdEl.innerText = `${rates.USD} ₪`;
+            if (jodEl) jodEl.innerText = `${rates.JOD} ₪`;
 
             if (db.cachedFeeds?.weatherHourly) updateWeatherUIFromData(db.cachedFeeds.weatherHourly);
             if (!navigator.onLine) return;
@@ -2222,6 +2258,37 @@
             const secs = s % 60;
             if (hrs > 0) return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
             return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        async function requestNotificationPermission() {
+            const plugin = getNativePlugin();
+            if (!plugin) return;
+            try {
+                if (plugin.requestPermissions) await plugin.requestPermissions();
+                if (plugin.createChannel) {
+                    await plugin.createChannel({
+                        id: 'lifeos_ultra_alarm_v4',
+                        name: 'تنبيهات LifeOS المهمة',
+                        description: 'تنبيهات المواعيد والصلوات',
+                        importance: 5,
+                        visibility: 1,
+                        sound: 'marimba',
+                        vibration: true,
+                        lights: true
+                    });
+                }
+            } catch (e) {}
+        }
+
+        async function rescheduleStoredNotifications() {
+            const plugin = getNativePlugin();
+            if (!plugin || !Array.isArray(db.reminders)) return;
+            for (const r of db.reminders) {
+                if (!r.triggered && r.targetTime > Date.now()) {
+                    const remaining = Math.max(1, Math.ceil((r.targetTime - Date.now()) / 60000));
+                    await scheduleSystemNotification(r.title || 'موعد التنبيه', remaining, r.id);
+                }
+            }
         }
 
         function addReminderFast(mins, title = '') {
