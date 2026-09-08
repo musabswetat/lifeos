@@ -22,33 +22,65 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 
 public class MainActivity extends BridgeActivity {
 
+    /*
+     * لا نغير الثابت الموجود عندك.
+     */
     public static final String ALARM_CHANNEL_ID =
             "lifeos_ultra_alarm_v5";
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        /*
+         * تسجيل Plugin قبل super.onCreate
+         */
         registerPlugin(AlarmOptimizerPlugin.class);
 
         super.onCreate(savedInstanceState);
 
+        /*
+         * إنشاء قناة التنبيهات Native
+         */
         createAlarmNotificationChannel();
+
+        /*
+         * لون شريط الحالة الافتراضي
+         */
         applyStatusBar("#0B1120", false);
     }
 
+
     /**
      * إنشاء قناة الإشعارات المهمة.
+     *
+     * القناة Native واحدة وثابتة.
      */
-    private void createAlarmNotificationChannel() {
+    public void createAlarmNotificationChannel() {
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return;
         }
 
         NotificationManager manager =
-                (NotificationManager) getSystemService(
-                        Context.NOTIFICATION_SERVICE
-                );
+                (NotificationManager)
+                        getSystemService(
+                                Context.NOTIFICATION_SERVICE
+                        );
 
         if (manager == null) {
+            return;
+        }
+
+        /*
+         * إذا كانت القناة موجودة لا ننشئ نسخة جديدة.
+         */
+        NotificationChannel existing =
+                manager.getNotificationChannel(
+                        ALARM_CHANNEL_ID
+                );
+
+        if (existing != null) {
             return;
         }
 
@@ -78,13 +110,9 @@ public class MainActivity extends BridgeActivity {
 
         channel.setShowBadge(true);
 
-        /*
-         * لا نستخدم setBypassDnd هنا؛
-         * لأنه لا يضمن تجاوز وضع عدم الإزعاج،
-         * وقد يتطلب صلاحيات إضافية.
-         */
         manager.createNotificationChannel(channel);
     }
+
 
     /**
      * تغيير لون شريط الحالة وأيقوناته.
@@ -93,17 +121,22 @@ public class MainActivity extends BridgeActivity {
             String colorHex,
             boolean darkIcons
     ) {
+
         Window window = getWindow();
 
         try {
+
             window.setStatusBarColor(
                     Color.parseColor(colorHex)
             );
+
         } catch (Exception e) {
+
             window.setStatusBarColor(
                     Color.parseColor("#0B1120")
             );
         }
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
 
@@ -112,10 +145,11 @@ public class MainActivity extends BridgeActivity {
 
             if (controller != null) {
 
-                int appearance = darkIcons
-                        ? WindowInsetsController
-                                .APPEARANCE_LIGHT_STATUS_BARS
-                        : 0;
+                int appearance =
+                        darkIcons
+                                ? WindowInsetsController
+                                        .APPEARANCE_LIGHT_STATUS_BARS
+                                : 0;
 
                 controller.setSystemBarsAppearance(
                         appearance,
@@ -124,16 +158,24 @@ public class MainActivity extends BridgeActivity {
                 );
             }
 
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        } else if (
+                Build.VERSION.SDK_INT >=
+                        Build.VERSION_CODES.M
+        ) {
 
-            View decorView = window.getDecorView();
+            View decorView =
+                    window.getDecorView();
 
             int flags =
                     decorView.getSystemUiVisibility();
 
             if (darkIcons) {
-                flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+
+                flags |=
+                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+
             } else {
+
                 flags &=
                         ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             }
@@ -142,12 +184,22 @@ public class MainActivity extends BridgeActivity {
         }
     }
 
+
+    /**
+     * Plugin الخاص بالتطبيق.
+     */
     @CapacitorPlugin(name = "AlarmOptimizer")
     public static class AlarmOptimizerPlugin
             extends Plugin {
 
+
+        /**
+         * تغيير Status Bar.
+         */
         @PluginMethod
-        public void setStatusBar(PluginCall call) {
+        public void setStatusBar(
+                PluginCall call
+        ) {
 
             String colorHex =
                     call.getString(
@@ -161,16 +213,26 @@ public class MainActivity extends BridgeActivity {
                             false
                     );
 
+
             if (getActivity() == null) {
-                call.reject("النشاط غير متاح");
+
+                call.reject(
+                        "النشاط غير متاح"
+                );
+
                 return;
             }
 
+
             getActivity().runOnUiThread(() -> {
 
-                if (getActivity() instanceof MainActivity) {
+                if (
+                        getActivity()
+                                instanceof MainActivity
+                ) {
 
-                    ((MainActivity) getActivity())
+                    ((MainActivity)
+                            getActivity())
                             .applyStatusBar(
                                     colorHex,
                                     darkIcons
@@ -178,64 +240,191 @@ public class MainActivity extends BridgeActivity {
                 }
             });
 
-            JSObject result = new JSObject();
 
-            result.put("success", true);
+            JSObject result =
+                    new JSObject();
+
+            result.put(
+                    "success",
+                    true
+            );
 
             call.resolve(result);
         }
 
+
+        /**
+         * إنشاء قناة التنبيهات.
+         */
         @PluginMethod
-        public void createAlarmChannel(PluginCall call) {
+        public void createAlarmChannel(
+                PluginCall call
+        ) {
 
-            if (getActivity() instanceof MainActivity) {
+            if (
+                    getActivity()
+                            instanceof MainActivity
+            ) {
 
-                ((MainActivity) getActivity())
+                ((MainActivity)
+                        getActivity())
                         .createAlarmNotificationChannel();
             }
 
-            JSObject result = new JSObject();
 
-            result.put("success", true);
-            result.put("channelId", ALARM_CHANNEL_ID);
+            JSObject result =
+                    new JSObject();
+
+            result.put(
+                    "success",
+                    true
+            );
+
+            result.put(
+                    "channelId",
+                    ALARM_CHANNEL_ID
+            );
 
             call.resolve(result);
         }
 
-        @PluginMethod
-        public void checkStatus(PluginCall call) {
 
-            JSObject result = new JSObject();
+        /**
+         * فحص حالة Android.
+         */
+        @PluginMethod
+        public void checkStatus(
+                PluginCall call
+        ) {
+
+            JSObject result =
+                    new JSObject();
 
             result.put(
                     "api",
                     Build.VERSION.SDK_INT
             );
 
-            result.put("success", true);
+            result.put(
+                    "success",
+                    true
+            );
+
+            /*
+             * فحص exact alarm
+             */
+            if (
+                    Build.VERSION.SDK_INT >=
+                            Build.VERSION_CODES.S
+            ) {
+
+                try {
+
+                    android.app.AlarmManager alarmManager =
+                            (android.app.AlarmManager)
+                                    getContext()
+                                            .getSystemService(
+                                                    Context.ALARM_SERVICE
+                                            );
+
+                    result.put(
+                            "exactAlarmAllowed",
+                            alarmManager != null &&
+                                    alarmManager.canScheduleExactAlarms()
+                    );
+
+                } catch (Exception e) {
+
+                    result.put(
+                            "exactAlarmAllowed",
+                            false
+                    );
+                }
+
+            } else {
+
+                result.put(
+                        "exactAlarmAllowed",
+                        true
+                );
+            }
+
+
+            /*
+             * فحص Battery Optimization
+             */
+            try {
+
+                android.os.PowerManager powerManager =
+                        (android.os.PowerManager)
+                                getContext()
+                                        .getSystemService(
+                                                Context.POWER_SERVICE
+                                        );
+
+                boolean ignoring =
+                        Build.VERSION.SDK_INT < 23 ||
+                        (
+                                powerManager != null &&
+                                powerManager.isIgnoringBatteryOptimizations(
+                                        getContext().getPackageName()
+                                )
+                        );
+
+                result.put(
+                        "batteryOptimizationIgnored",
+                        ignoring
+                );
+
+            } catch (Exception e) {
+
+                result.put(
+                        "batteryOptimizationIgnored",
+                        false
+                );
+            }
+
 
             call.resolve(result);
         }
 
+
+        /**
+         * فتح إعدادات Battery Optimization.
+         */
         @PluginMethod
         public void requestIgnoreBattery(
                 PluginCall call
         ) {
+
             try {
 
-                Intent intent = new Intent(
-                        Settings
-                                .ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-                );
+                if (
+                        Build.VERSION.SDK_INT <
+                                Build.VERSION_CODES.M
+                ) {
+
+                    call.resolve();
+                    return;
+                }
+
+
+                Intent intent =
+                        new Intent(
+                                Settings
+                                        .ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                        );
 
                 intent.setData(
                         Uri.parse(
                                 "package:" +
-                                getContext().getPackageName()
+                                getContext()
+                                        .getPackageName()
                         )
                 );
 
-                getContext().startActivity(intent);
+                getContext()
+                        .startActivity(intent);
 
                 call.resolve();
 
@@ -248,28 +437,38 @@ public class MainActivity extends BridgeActivity {
             }
         }
 
+
+        /**
+         * فتح إعدادات Exact Alarm.
+         */
         @PluginMethod
         public void requestExactAlarmPermission(
                 PluginCall call
         ) {
+
             try {
 
-                if (Build.VERSION.SDK_INT >=
-                        Build.VERSION_CODES.S) {
+                if (
+                        Build.VERSION.SDK_INT >=
+                                Build.VERSION_CODES.S
+                ) {
 
-                    Intent intent = new Intent(
-                            Settings
-                                    .ACTION_REQUEST_SCHEDULE_EXACT_ALARM
-                    );
+                    Intent intent =
+                            new Intent(
+                                    Settings
+                                            .ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+                            );
 
                     intent.setData(
                             Uri.parse(
                                     "package:" +
-                                    getContext().getPackageName()
+                                    getContext()
+                                            .getPackageName()
                             )
                     );
 
-                    getContext().startActivity(intent);
+                    getContext()
+                            .startActivity(intent);
                 }
 
                 call.resolve();
@@ -283,38 +482,56 @@ public class MainActivity extends BridgeActivity {
             }
         }
 
+
+        /**
+         * فتح إعدادات التطبيق.
+         *
+         * Android لا يملك صفحة Autostart موحدة
+         * لجميع الشركات، لذلك نفتح صفحة التطبيق.
+         */
         @PluginMethod
         public void openAutostartSettings(
                 PluginCall call
         ) {
+
             openAppDetails(call);
         }
 
+
+        /**
+         * فتح إعدادات التطبيق.
+         */
         @PluginMethod
         public void openAppSettings(
                 PluginCall call
         ) {
+
             openAppDetails(call);
         }
+
 
         private void openAppDetails(
                 PluginCall call
         ) {
+
             try {
 
-                Intent intent = new Intent(
-                        Settings
-                                .ACTION_APPLICATION_DETAILS_SETTINGS
-                );
+                Intent intent =
+                        new Intent(
+                                Settings
+                                        .ACTION_APPLICATION_DETAILS_SETTINGS
+                        );
 
                 intent.setData(
                         Uri.parse(
                                 "package:" +
-                                getContext().getPackageName()
+                                getContext()
+                                        .getPackageName()
                         )
                 );
 
-                getContext().startActivity(intent);
+                getContext()
+                        .startActivity(intent);
 
                 call.resolve();
 
