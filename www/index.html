@@ -1880,6 +1880,7 @@
 
         window.handleSystemBackButton = function() {
             const modals = ['allSectionsModal', 'quickAddCenterModal', 'poetryModal', 'activeAlarmModal', 'profileModal', 'authModal', 'actionModal', 'dhikrChimeModal'];
+
             for (const m of modals) {
                 const el = document.getElementById(m);
                 if (el && el.classList.contains('active')) {
@@ -1890,10 +1891,12 @@
                 }
             }
 
-            if (navHistory.length > 1) {
+            if (Array.isArray(navHistory) && navHistory.length > 1) {
                 navHistory.pop();
                 const previousView = navHistory[navHistory.length - 1];
-                switchNavSection(previousView, null, false);
+                if (previousView) {
+                    switchNavSection(previousView, null, false);
+                }
                 return true;
             }
 
@@ -1908,17 +1911,24 @@
         };
 
         function setupBackButtonListener() {
-            if (window.Capacitor?.Plugins?.App) {
-                const App = window.Capacitor.Plugins.App;
+            const App = window.Capacitor?.Plugins?.App;
+
+            if (App) {
                 App.removeAllListeners('backButton').then(() => {
                     App.addListener('backButton', () => {
-                        window.handleSystemBackButton();
-                        if (window.Capacitor?.Plugins?.App?.exitApp) {
-                            window.Capacitor.Plugins.App.exitApp();
+                        const handled = window.handleSystemBackButton();
+
+                        if (handled) {
+                            return;
+                        }
+
+                        if (App.exitApp) {
+                            App.exitApp();
                         }
                     });
                 }).catch(() => {});
             }
+
             window.addEventListener('popstate', () => {
                 window.handleSystemBackButton();
             });
@@ -2275,12 +2285,20 @@
 
         async function requestNotificationPermission() {
             const plugin = getNativePlugin();
-            if (!plugin) return;
+            if (!plugin) return false;
+
             try {
-                if (plugin.requestPermissions) await plugin.requestPermissions();
+                if (plugin.requestPermissions) {
+                    const permissions = await plugin.requestPermissions();
+                    if (permissions && permissions.display === 'denied') {
+                        console.warn('صلاحية الإشعارات مرفوضة');
+                        return false;
+                    }
+                }
+
                 if (plugin.createChannel) {
                     await plugin.createChannel({
-                        id: 'lifeos_ultra_alarm_v4',
+                        id: 'lifeos_ultra_alarm_v5',
                         name: 'تنبيهات LifeOS المهمة',
                         description: 'تنبيهات المواعيد والصلوات',
                         importance: 5,
@@ -2290,53 +2308,111 @@
                         lights: true
                     });
                 }
-            } catch (e) {}
+
+                return true;
+            } catch (e) {
+                console.warn('فشل إعداد الإشعارات', e);
+                return false;
+            }
         }
 
         async function rescheduleStoredNotifications() {
             const plugin = getNativePlugin();
             if (!plugin || !Array.isArray(db.reminders)) return;
+
+            const now = Date.now();
+
             for (const r of db.reminders) {
-                if (!r.triggered && r.targetTime > Date.now()) {
-                    const remaining = Math.max(1, Math.ceil((r.targetTime - Date.now()) / 60000));
-                    await scheduleSystemNotification(r.title || 'موعد التنبيه', remaining, r.id);
-                }
+                if (!r || r.triggered || !r.targetTime || r.targetTime <= now) continue;
+
+                const remainingMs = r.targetTime - now;
+                const remaining = Math.max(1, Math.ceil(remainingMs / 60000));
+
+                await scheduleSystemNotification(
+                    r.title || r.name || 'موعد التنبيه',
+                    remaining,
+                    r.id
+                );
             }
         }
 
-        function addReminderFast(mins, title = '') {
+        async function addReminderFast(mins, title = '') {
             getAudioContext();
+
             const now = Date.now();
             const reminderId = Date.now();
-            const cleanTitle = title.trim();
+            const cleanTitle = String(title || '').trim();
+            const numericMinutes = Math.max(1, Number(mins) || 1);
+            const targetTime = now + (numericMinutes * 60 * 1000);
 
             db.reminders.push({
-                id: reminderId, title: cleanTitle, minutes: mins, name: cleanTitle,
-                createdAt: now, targetTime: now + (mins * 60 * 1000), triggered: false
+                id: reminderId,
+                title: cleanTitle,
+                minutes: numericMinutes,
+                name: cleanTitle,
+                createdAt: now,
+                targetTime: targetTime,
+                triggered: false
             });
 
             finalizeAction();
-            scheduleSystemNotification(cleanTitle, mins, reminderId);
-            showToast(`⏰ تم ضبط منبه ${mins} دقيقة`);
+
+            const scheduled = await scheduleSystemNotification(
+                cleanTitle,
+                numericMinutes,
+                reminderId
+            );
+
+            if (scheduled) {
+                showToast(`⏰ تم ضبط منبه ${numericMinutes} دقيقة`);
+            } else {
+                db.reminders = db.reminders.filter(r => r.id !== reminderId);
+                finalizeAction();
+                showToast('⚠️ تعذر جدولة التنبيه');
+            }
         }
 
         async function scheduleSystemNotification(title, minutes, reminderId) {
             const plugin = getNativePlugin();
-            if (!plugin) return;
-            const targetDate = new Date(Date.now() + minutes * 60 * 1000);
-            const safeId = Math.abs(parseInt(reminderId, 10) % 2147483647);
+            if (!plugin) {
+                console.warn('LocalNotifications غير متاح');
+                return false;
+            }
+
             try {
+                const numericMinutes = Math.max(1, Number(minutes) || 1);
+                const targetDate = new Date(Date.now() + numericMinutes * 60 * 1000);
+                const numericId = Number(reminderId);
+                const safeId = Number.isFinite(numericId)
+                    ? Math.abs(Math.floor(numericId % 2147483647))
+                    : Math.floor(Date.now() % 2147483647);
+
+                await requestNotificationPermission();
+
                 await plugin.schedule({
                     notifications: [{
                         title: `⏰ تنبيه: ${title || 'موعد التنبيه'}`,
                         body: `حان الآن موعد: ${title || 'التنبيه المحدد'}`,
                         id: safeId,
-                        schedule: { at: targetDate, allowWhileIdle: true },
+                        schedule: {
+                            at: targetDate,
+                            allowWhileIdle: true
+                        },
                         sound: 'marimba',
-                        channelId: 'lifeos_ultra_alarm_v4'
+                        channelId: 'lifeos_ultra_alarm_v5',
+                        extra: {
+                            lifeos: true,
+                            reminderId: String(reminderId)
+                        }
                     }]
                 });
-            } catch (err) {}
+
+                console.log('LifeOS notification scheduled:', targetDate);
+                return true;
+            } catch (err) {
+                console.error('فشل جدولة التنبيه:', err);
+                return false;
+            }
         }
 
         function renameReminder(id) {
@@ -2567,13 +2643,28 @@
         // =========================================================================
         // --- بدء التشغيل الفوري للنظام ---
         // =========================================================================
-        applyThemeUI();
-        setupBackButtonListener();
-        loadAccuratePrayers();
-        syncFeeds();
-        renderPoetryLine();
-        renderKnowledgeTreasury();
-        updateUI();
+        (async function initializeLifeOS() {
+            applyThemeUI();
+            setupBackButtonListener();
+
+            try {
+                await requestNotificationPermission();
+            } catch (e) {
+                console.warn('تعذر تجهيز الإشعارات', e);
+            }
+
+            try {
+                await rescheduleStoredNotifications();
+            } catch (e) {
+                console.warn('تعذر إعادة جدولة التنبيهات', e);
+            }
+
+            loadAccuratePrayers();
+            syncFeeds();
+            renderPoetryLine();
+            renderKnowledgeTreasury();
+            updateUI();
+        })();
     </script>
 </body>
 </html>
