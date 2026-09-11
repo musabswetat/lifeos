@@ -2,9 +2,11 @@ package com.mosaab.lifeos;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -73,17 +75,162 @@ public class MainActivity extends BridgeActivity {
         }
 
         /*
-         * إذا كانت القناة موجودة لا ننشئ نسخة جديدة.
+         * ملف النغمة:
+         * android/app/src/main/res/raw/marimba.mp3
+         */
+        Uri soundUri =
+                Uri.parse(
+                        ContentResolver.SCHEME_ANDROID_RESOURCE +
+                        "://" +
+                        getPackageName() +
+                        "/" +
+                        R.raw.marimba
+                );
+
+        AudioAttributes audioAttributes =
+                new AudioAttributes.Builder()
+                        .setUsage(
+                                AudioAttributes.USAGE_NOTIFICATION
+                        )
+                        .setContentType(
+                                AudioAttributes.CONTENT_TYPE_SONIFICATION
+                        )
+                        .build();
+
+        /*
+         * فحص القناة الموجودة.
          */
         NotificationChannel existing =
                 manager.getNotificationChannel(
                         ALARM_CHANNEL_ID
                 );
 
+        /*
+         * إذا كانت القناة موجودة وبها نغمة marimba،
+         * لا نلمسها.
+         */
         if (existing != null) {
+
+            Uri existingSound =
+                    existing.getSound();
+
+            if (soundUri.equals(existingSound)) {
+                return;
+            }
+
+            /*
+             * نحفظ إعدادات القناة الحالية حتى لا نغيّر
+             * قوة التنبيه أو الاهتزاز أو الشارة أو
+             * إعدادات شاشة القفل.
+             */
+            int importance =
+                    existing.getImportance();
+
+            boolean vibrationEnabled =
+                    existing.shouldVibrate();
+
+            long[] vibrationPattern =
+                    existing.getVibrationPattern();
+
+            boolean showBadge =
+                    existing.canShowBadge();
+
+            int lockscreenVisibility =
+                    existing.getLockscreenVisibility();
+
+            boolean showLights =
+                    existing.shouldShowLights();
+
+            int lightColor =
+                    existing.getLightColor();
+
+            String description =
+                    existing.getDescription();
+
+            /*
+             * Android لا يسمح بتغيير صوت قناة موجودة.
+             * لذلك نحذف القناة القديمة ونعيد إنشاءها
+             * بنفس المعرّف وإعداداتها السابقة.
+             */
+            manager.deleteNotificationChannel(
+                    ALARM_CHANNEL_ID
+            );
+
+            NotificationChannel channel =
+                    new NotificationChannel(
+                            ALARM_CHANNEL_ID,
+                            "تنبيهات LifeOS المهمة",
+                            importance
+                    );
+
+            channel.setDescription(
+                    description != null
+                            ? description
+                            : "تنبيهات المواعيد والمنبهات المهمة"
+            );
+
+            /*
+             * التغيير المطلوب فقط:
+             * إضافة marimba كنغمة للإشعار.
+             */
+            channel.setSound(
+                    soundUri,
+                    audioAttributes
+            );
+
+            /*
+             * إعادة إعدادات الاهتزاز السابقة.
+             */
+            channel.enableVibration(
+                    vibrationEnabled
+            );
+
+            if (vibrationPattern != null) {
+                channel.setVibrationPattern(
+                        vibrationPattern
+                );
+            }
+
+            /*
+             * إعادة إعدادات الشارة.
+             */
+            channel.setShowBadge(
+                    showBadge
+            );
+
+            /*
+             * إعادة إعدادات شاشة القفل.
+             */
+            channel.setLockscreenVisibility(
+                    lockscreenVisibility
+            );
+
+            /*
+             * إعادة إعدادات الإضاءة.
+             */
+            if (showLights) {
+
+                channel.enableLights(true);
+
+                channel.setLightColor(
+                        lightColor
+                );
+
+            } else {
+
+                channel.enableLights(false);
+            }
+
+            manager.createNotificationChannel(
+                    channel
+            );
+
             return;
         }
 
+        /*
+         * إنشاء القناة لأول مرة.
+         */
         NotificationChannel channel =
                 new NotificationChannel(
                         ALARM_CHANNEL_ID,
@@ -93,6 +240,14 @@ public class MainActivity extends BridgeActivity {
 
         channel.setDescription(
                 "تنبيهات المواعيد والمنبهات المهمة"
+        );
+
+        /*
+         * نغمة marimba.
+         */
+        channel.setSound(
+                soundUri,
+                audioAttributes
         );
 
         channel.enableVibration(true);
@@ -110,7 +265,9 @@ public class MainActivity extends BridgeActivity {
 
         channel.setShowBadge(true);
 
-        manager.createNotificationChannel(channel);
+        manager.createNotificationChannel(
+                channel
+        );
     }
 
 
