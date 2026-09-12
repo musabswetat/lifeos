@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowInsetsController;
+import android.view.WindowManager;
 
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.JSObject;
@@ -23,6 +24,13 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
 public class MainActivity extends BridgeActivity {
+
+    /*
+     * حالة شريط الحالة الحالية.
+     * تُستخدم لإعادة تطبيقها إذا أعاد Capacitor أو Android ضبط الشريط.
+     */
+    private String currentStatusBarColor = "#0B1120";
+    private boolean currentStatusBarDarkIcons = false;
 
     /*
      * لا نغير الثابت الموجود عندك.
@@ -75,8 +83,8 @@ public class MainActivity extends BridgeActivity {
         }
 
         /*
-         * ملف النغمة:
-         * android/app/src/main/res/raw/marimba.mp3
+         * ملف نغمة الإشعارات الموجود داخل:
+         * res/raw/marimba.mp3
          */
         Uri soundUri =
                 Uri.parse(
@@ -99,32 +107,31 @@ public class MainActivity extends BridgeActivity {
 
         /*
          * فحص القناة الموجودة.
+         *
+         * إذا كانت موجودة وبها نغمة marimba بالفعل،
+         * لا نلمسها إطلاقاً.
          */
         NotificationChannel existing =
                 manager.getNotificationChannel(
                         ALARM_CHANNEL_ID
                 );
 
-        /*
-         * إذا كانت القناة موجودة وبها نغمة marimba،
-         * لا نلمسها.
-         */
         if (existing != null) {
 
-            Uri existingSound =
-                    existing.getSound();
+            Uri existingSound = existing.getSound();
 
             if (soundUri.equals(existingSound)) {
                 return;
             }
 
             /*
-             * نحفظ إعدادات القناة الحالية حتى لا نغيّر
+             * القناة القديمة لا تحتوي على marimba.
+             *
+             * نحفظ إعداداتها الحالية حتى لا نغيّر
              * قوة التنبيه أو الاهتزاز أو الشارة أو
-             * إعدادات شاشة القفل.
+             * ظهور التنبيه على شاشة القفل.
              */
-            int importance =
-                    existing.getImportance();
+            int importance = existing.getImportance();
 
             boolean vibrationEnabled =
                     existing.shouldVibrate();
@@ -148,9 +155,9 @@ public class MainActivity extends BridgeActivity {
                     existing.getDescription();
 
             /*
-             * Android لا يسمح بتغيير صوت قناة موجودة.
-             * لذلك نحذف القناة القديمة ونعيد إنشاءها
-             * بنفس المعرّف وإعداداتها السابقة.
+             * Android لا يسمح بتغيير صوت القناة بعد إنشائها،
+             * لذلك نحذف القناة القديمة ونعيد إنشاءها بنفس
+             * المعرّف وبنفس مستوى الأهمية.
              */
             manager.deleteNotificationChannel(
                     ALARM_CHANNEL_ID
@@ -170,8 +177,7 @@ public class MainActivity extends BridgeActivity {
             );
 
             /*
-             * التغيير المطلوب فقط:
-             * إضافة marimba كنغمة للإشعار.
+             * التغيير المطلوب فقط: صوت marimba.
              */
             channel.setSound(
                     soundUri,
@@ -179,7 +185,7 @@ public class MainActivity extends BridgeActivity {
             );
 
             /*
-             * إعادة إعدادات الاهتزاز السابقة.
+             * إعادة إعدادات الاهتزاز كما كانت.
              */
             channel.enableVibration(
                     vibrationEnabled
@@ -192,32 +198,20 @@ public class MainActivity extends BridgeActivity {
             }
 
             /*
-             * إعادة إعدادات الشارة.
+             * إعادة إعدادات الشارة والإضاءة وشاشة القفل.
              */
             channel.setShowBadge(
                     showBadge
             );
 
-            /*
-             * إعادة إعدادات شاشة القفل.
-             */
             channel.setLockscreenVisibility(
                     lockscreenVisibility
             );
 
-            /*
-             * إعادة إعدادات الإضاءة.
-             */
             if (showLights) {
-
                 channel.enableLights(true);
-
-                channel.setLightColor(
-                        lightColor
-                );
-
+                channel.setLightColor(lightColor);
             } else {
-
                 channel.enableLights(false);
             }
 
@@ -229,7 +223,7 @@ public class MainActivity extends BridgeActivity {
         }
 
         /*
-         * إنشاء القناة لأول مرة.
+         * إنشاء القناة لأول مرة مع النغمة.
          */
         NotificationChannel channel =
                 new NotificationChannel(
@@ -242,9 +236,6 @@ public class MainActivity extends BridgeActivity {
                 "تنبيهات المواعيد والمنبهات المهمة"
         );
 
-        /*
-         * نغمة marimba.
-         */
         channel.setSound(
                 soundUri,
                 audioAttributes
@@ -265,9 +256,7 @@ public class MainActivity extends BridgeActivity {
 
         channel.setShowBadge(true);
 
-        manager.createNotificationChannel(
-                channel
-        );
+        manager.createNotificationChannel(channel);
     }
 
 
@@ -281,19 +270,36 @@ public class MainActivity extends BridgeActivity {
 
         Window window = getWindow();
 
+        /*
+         * نجعل Android يرسم خلفية شريط الحالة بنفسه
+         * بدل تركها شفافة أو تحت تأثير إعدادات الثيم.
+         *
+         * هذا خاص بشريط الحالة فقط ولا علاقة له بالتنبيهات.
+         */
+        window.clearFlags(
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+        );
+
+        window.addFlags(
+                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+        );
+
+        int parsedColor;
+
         try {
 
-            window.setStatusBarColor(
-                    Color.parseColor(colorHex)
-            );
+            parsedColor = Color.parseColor(colorHex);
 
         } catch (Exception e) {
 
-            window.setStatusBarColor(
-                    Color.parseColor("#0B1120")
-            );
+            parsedColor = Color.parseColor("#0B1120");
+            colorHex = "#0B1120";
         }
 
+        currentStatusBarColor = colorHex;
+        currentStatusBarDarkIcons = darkIcons;
+
+        window.setStatusBarColor(parsedColor);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
 
@@ -342,363 +348,18 @@ public class MainActivity extends BridgeActivity {
     }
 
 
-    /**
-     * Plugin الخاص بالتطبيق.
+    /*
+     * إعادة تثبيت مظهر شريط الحالة عند عودة النافذة إلى الواجهة.
+     *
+     * لا نلمس أي إعداد متعلق بقناة الإشعارات.
      */
-    @CapacitorPlugin(name = "AlarmOptimizer")
-    public static class AlarmOptimizerPlugin
-            extends Plugin {
-
-
-        /**
-         * تغيير Status Bar.
-         */
-        @PluginMethod
-        public void setStatusBar(
-                PluginCall call
-        ) {
-
-            String colorHex =
-                    call.getString(
-                            "color",
-                            "#0B1120"
-                    );
-
-            boolean darkIcons =
-                    call.getBoolean(
-                            "darkIcons",
-                            false
-                    );
-
-
-            if (getActivity() == null) {
-
-                call.reject(
-                        "النشاط غير متاح"
-                );
-
-                return;
-            }
-
-
-            getActivity().runOnUiThread(() -> {
-
-                if (
-                        getActivity()
-                                instanceof MainActivity
-                ) {
-
-                    ((MainActivity)
-                            getActivity())
-                            .applyStatusBar(
-                                    colorHex,
-                                    darkIcons
-                            );
-                }
-            });
-
-
-            JSObject result =
-                    new JSObject();
-
-            result.put(
-                    "success",
-                    true
-            );
-
-            call.resolve(result);
-        }
-
-
-        /**
-         * إنشاء قناة التنبيهات.
-         */
-        @PluginMethod
-        public void createAlarmChannel(
-                PluginCall call
-        ) {
-
-            if (
-                    getActivity()
-                            instanceof MainActivity
-            ) {
-
-                ((MainActivity)
-                        getActivity())
-                        .createAlarmNotificationChannel();
-            }
-
-
-            JSObject result =
-                    new JSObject();
-
-            result.put(
-                    "success",
-                    true
-            );
-
-            result.put(
-                    "channelId",
-                    ALARM_CHANNEL_ID
-            );
-
-            call.resolve(result);
-        }
-
-
-        /**
-         * فحص حالة Android.
-         */
-        @PluginMethod
-        public void checkStatus(
-                PluginCall call
-        ) {
-
-            JSObject result =
-                    new JSObject();
-
-            result.put(
-                    "api",
-                    Build.VERSION.SDK_INT
-            );
-
-            result.put(
-                    "success",
-                    true
-            );
-
-            /*
-             * فحص exact alarm
-             */
-            if (
-                    Build.VERSION.SDK_INT >=
-                            Build.VERSION_CODES.S
-            ) {
-
-                try {
-
-                    android.app.AlarmManager alarmManager =
-                            (android.app.AlarmManager)
-                                    getContext()
-                                            .getSystemService(
-                                                    Context.ALARM_SERVICE
-                                            );
-
-                    result.put(
-                            "exactAlarmAllowed",
-                            alarmManager != null &&
-                                    alarmManager.canScheduleExactAlarms()
-                    );
-
-                } catch (Exception e) {
-
-                    result.put(
-                            "exactAlarmAllowed",
-                            false
-                    );
-                }
-
-            } else {
-
-                result.put(
-                        "exactAlarmAllowed",
-                        true
-                );
-            }
-
-
-            /*
-             * فحص Battery Optimization
-             */
-            try {
-
-                android.os.PowerManager powerManager =
-                        (android.os.PowerManager)
-                                getContext()
-                                        .getSystemService(
-                                                Context.POWER_SERVICE
-                                        );
-
-                boolean ignoring =
-                        Build.VERSION.SDK_INT < 23 ||
-                        (
-                                powerManager != null &&
-                                powerManager.isIgnoringBatteryOptimizations(
-                                        getContext().getPackageName()
-                                )
-                        );
-
-                result.put(
-                        "batteryOptimizationIgnored",
-                        ignoring
-                );
-
-            } catch (Exception e) {
-
-                result.put(
-                        "batteryOptimizationIgnored",
-                        false
-                );
-            }
-
-
-            call.resolve(result);
-        }
-
-
-        /**
-         * فتح إعدادات Battery Optimization.
-         */
-        @PluginMethod
-        public void requestIgnoreBattery(
-                PluginCall call
-        ) {
-
-            try {
-
-                if (
-                        Build.VERSION.SDK_INT <
-                                Build.VERSION_CODES.M
-                ) {
-
-                    call.resolve();
-                    return;
-                }
-
-
-                Intent intent =
-                        new Intent(
-                                Settings
-                                        .ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-                        );
-
-                intent.setData(
-                        Uri.parse(
-                                "package:" +
-                                getContext()
-                                        .getPackageName()
-                        )
-                );
-
-                getContext()
-                        .startActivity(intent);
-
-                call.resolve();
-
-            } catch (Exception e) {
-
-                call.reject(
-                        "تعذر فتح إعدادات تحسين البطارية",
-                        e
-                );
-            }
-        }
-
-
-        /**
-         * فتح إعدادات Exact Alarm.
-         */
-        @PluginMethod
-        public void requestExactAlarmPermission(
-                PluginCall call
-        ) {
-
-            try {
-
-                if (
-                        Build.VERSION.SDK_INT >=
-                                Build.VERSION_CODES.S
-                ) {
-
-                    Intent intent =
-                            new Intent(
-                                    Settings
-                                            .ACTION_REQUEST_SCHEDULE_EXACT_ALARM
-                            );
-
-                    intent.setData(
-                            Uri.parse(
-                                    "package:" +
-                                    getContext()
-                                            .getPackageName()
-                            )
-                    );
-
-                    getContext()
-                            .startActivity(intent);
-                }
-
-                call.resolve();
-
-            } catch (Exception e) {
-
-                call.reject(
-                        "تعذر فتح إعدادات المنبهات الدقيقة",
-                        e
-                );
-            }
-        }
-
-
-        /**
-         * فتح إعدادات التطبيق.
-         *
-         * Android لا يملك صفحة Autostart موحدة
-         * لجميع الشركات، لذلك نفتح صفحة التطبيق.
-         */
-        @PluginMethod
-        public void openAutostartSettings(
-                PluginCall call
-        ) {
-
-            openAppDetails(call);
-        }
-
-
-        /**
-         * فتح إعدادات التطبيق.
-         */
-        @PluginMethod
-        public void openAppSettings(
-                PluginCall call
-        ) {
-
-            openAppDetails(call);
-        }
-
-
-        private void openAppDetails(
-                PluginCall call
-        ) {
-
-            try {
-
-                Intent intent =
-                        new Intent(
-                                Settings
-                                        .ACTION_APPLICATION_DETAILS_SETTINGS
-                        );
-
-                intent.setData(
-                        Uri.parse(
-                                "package:" +
-                                getContext()
-                                        .getPackageName()
-                        )
-                );
-
-                getContext()
-                        .startActivity(intent);
-
-                call.resolve();
-
-            } catch (Exception e) {
-
-                call.reject(
-                        "تعذر فتح إعدادات التطبيق",
-                        e
-                );
-            }
-        }
-    }
-}
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+        applyStatusBar(
+                currentStatusBarColor,
+                currentStatusBarDarkIcons
+        );
+   
