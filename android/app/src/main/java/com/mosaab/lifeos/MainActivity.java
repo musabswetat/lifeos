@@ -362,4 +362,384 @@ public class MainActivity extends BridgeActivity {
                 currentStatusBarColor,
                 currentStatusBarDarkIcons
         );
-   
+    }
+
+
+    @Override
+    public void onWindowFocusChanged(
+            boolean hasFocus
+    ) {
+
+        super.onWindowFocusChanged(hasFocus);
+
+        if (hasFocus) {
+
+            applyStatusBar(
+                    currentStatusBarColor,
+                    currentStatusBarDarkIcons
+            );
+        }
+    }
+
+
+    /**
+     * Plugin الخاص بالتطبيق.
+     */
+    @CapacitorPlugin(name = "AlarmOptimizer")
+    public static class AlarmOptimizerPlugin
+            extends Plugin {
+
+
+        /**
+         * تغيير Status Bar.
+         */
+        @PluginMethod
+        public void setStatusBar(
+                PluginCall call
+        ) {
+
+            String colorHex =
+                    call.getString(
+                            "color",
+                            "#0B1120"
+                    );
+
+            boolean darkIcons =
+                    call.getBoolean(
+                            "darkIcons",
+                            false
+                    );
+
+
+            if (getActivity() == null) {
+
+                call.reject(
+                        "النشاط غير متاح"
+                );
+
+                return;
+            }
+
+
+            getActivity().runOnUiThread(() -> {
+
+                if (
+                        getActivity()
+                                instanceof MainActivity
+                ) {
+
+                    ((MainActivity)
+                            getActivity())
+                            .applyStatusBar(
+                                    colorHex,
+                                    darkIcons
+                            );
+                }
+            });
+
+
+            JSObject result =
+                    new JSObject();
+
+            result.put(
+                    "success",
+                    true
+            );
+
+            call.resolve(result);
+        }
+
+
+        /**
+         * إنشاء قناة التنبيهات.
+         */
+        @PluginMethod
+        public void createAlarmChannel(
+                PluginCall call
+        ) {
+
+            if (
+                    getActivity()
+                            instanceof MainActivity
+            ) {
+
+                ((MainActivity)
+                        getActivity())
+                        .createAlarmNotificationChannel();
+            }
+
+
+            JSObject result =
+                    new JSObject();
+
+            result.put(
+                    "success",
+                    true
+            );
+
+            result.put(
+                    "channelId",
+                    ALARM_CHANNEL_ID
+            );
+
+            call.resolve(result);
+        }
+
+
+        /**
+         * فحص حالة Android.
+         */
+        @PluginMethod
+        public void checkStatus(
+                PluginCall call
+        ) {
+
+            JSObject result =
+                    new JSObject();
+
+            result.put(
+                    "api",
+                    Build.VERSION.SDK_INT
+            );
+
+            result.put(
+                    "success",
+                    true
+            );
+
+
+            /*
+             * فحص exact alarm
+             */
+            if (
+                    Build.VERSION.SDK_INT >=
+                            Build.VERSION_CODES.S
+            ) {
+
+                try {
+
+                    android.app.AlarmManager alarmManager =
+                            (android.app.AlarmManager)
+                                    getContext()
+                                            .getSystemService(
+                                                    Context.ALARM_SERVICE
+                                            );
+
+                    result.put(
+                            "exactAlarmAllowed",
+                            alarmManager != null &&
+                                    alarmManager.canScheduleExactAlarms()
+                    );
+
+                } catch (Exception e) {
+
+                    result.put(
+                            "exactAlarmAllowed",
+                            false
+                    );
+                }
+
+            } else {
+
+                result.put(
+                        "exactAlarmAllowed",
+                        true
+                );
+            }
+
+
+            /*
+             * فحص Battery Optimization
+             */
+            try {
+
+                android.os.PowerManager powerManager =
+                        (android.os.PowerManager)
+                                getContext()
+                                        .getSystemService(
+                                                Context.POWER_SERVICE
+                                        );
+
+                boolean ignoring =
+                        Build.VERSION.SDK_INT < 23 ||
+                        (
+                                powerManager != null &&
+                                powerManager.isIgnoringBatteryOptimizations(
+                                        getContext().getPackageName()
+                                )
+                        );
+
+                result.put(
+                        "batteryOptimizationIgnored",
+                        ignoring
+                );
+
+            } catch (Exception e) {
+
+                result.put(
+                        "batteryOptimizationIgnored",
+                        false
+                );
+            }
+
+
+            call.resolve(result);
+        }
+
+
+        /**
+         * فتح إعدادات Battery Optimization.
+         */
+        @PluginMethod
+        public void requestIgnoreBattery(
+                PluginCall call
+        ) {
+
+            try {
+
+                if (
+                        Build.VERSION.SDK_INT <
+                                Build.VERSION_CODES.M
+                ) {
+
+                    call.resolve();
+                    return;
+                }
+
+
+                Intent intent =
+                        new Intent(
+                                Settings
+                                        .ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+                        );
+
+                intent.setData(
+                        Uri.parse(
+                                "package:" +
+                                getContext()
+                                        .getPackageName()
+                        )
+                );
+
+                getContext()
+                        .startActivity(intent);
+
+                call.resolve();
+
+            } catch (Exception e) {
+
+                call.reject(
+                        "تعذر فتح إعدادات تحسين البطارية",
+                        e
+                );
+            }
+        }
+
+
+        /**
+         * فتح إعدادات Exact Alarm.
+         */
+        @PluginMethod
+        public void requestExactAlarmPermission(
+                PluginCall call
+        ) {
+
+            try {
+
+                if (
+                        Build.VERSION.SDK_INT >=
+                                Build.VERSION_CODES.S
+                ) {
+
+                    Intent intent =
+                            new Intent(
+                                    Settings
+                                            .ACTION_REQUEST_SCHEDULE_EXACT_ALARM
+                            );
+
+                    intent.setData(
+                            Uri.parse(
+                                    "package:" +
+                                    getContext()
+                                            .getPackageName()
+                            )
+                    );
+
+                    getContext()
+                            .startActivity(intent);
+                }
+
+                call.resolve();
+
+            } catch (Exception e) {
+
+                call.reject(
+                        "تعذر فتح إعدادات المنبهات الدقيقة",
+                        e
+                );
+            }
+        }
+
+
+        /**
+         * فتح إعدادات التطبيق.
+         *
+         * Android لا يملك صفحة Autostart موحدة
+         * لجميع الشركات، لذلك نفتح صفحة التطبيق.
+         */
+        @PluginMethod
+        public void openAutostartSettings(
+                PluginCall call
+        ) {
+
+            openAppDetails(call);
+        }
+
+
+        /**
+         * فتح إعدادات التطبيق.
+         */
+        @PluginMethod
+        public void openAppSettings(
+                PluginCall call
+        ) {
+
+            openAppDetails(call);
+        }
+
+
+        private void openAppDetails(
+                PluginCall call
+        ) {
+
+            try {
+
+                Intent intent =
+                        new Intent(
+                                Settings
+                                        .ACTION_APPLICATION_DETAILS_SETTINGS
+                        );
+
+                intent.setData(
+                        Uri.parse(
+                                "package:" +
+                                getContext()
+                                        .getPackageName()
+                        )
+                );
+
+                getContext()
+                        .startActivity(intent);
+
+                call.resolve();
+
+            } catch (Exception e) {
+
+                call.reject(
+                        "تعذر فتح إعدادات التطبيق",
+                        e
+                );
+            }
+        }
+    }
+}
