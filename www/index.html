@@ -1369,11 +1369,14 @@
 
             if (isDark) {
                 document.body.classList.remove('light-mode');
-                updateNativeStatusBar(targetBg, false);
             } else {
                 document.body.classList.add('light-mode');
-                updateNativeStatusBar(targetBg, true);
             }
+
+            // مزامنة شريط الحالة فقط مع خلفية التطبيق. لا نلمس قناة الإشعارات أو إعداداتها.
+            updateNativeStatusBar(targetBg, !isDark);
+            setTimeout(() => updateNativeStatusBar(targetBg, !isDark), 250);
+            setTimeout(() => updateNativeStatusBar(targetBg, !isDark), 900);
 
             const themeBtn = document.getElementById('themeBtn');
             if (themeBtn) {
@@ -2964,4 +2967,5 @@
     </script>
 </body>
 </html>
+
 
