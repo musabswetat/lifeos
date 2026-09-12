@@ -543,6 +543,80 @@
         body.ios-mode:not(.light-mode) .dashboard-pinned-card, body.ios-mode:not(.light-mode) .oneui-card, body.ios-mode:not(.light-mode) .knowledge-card-item, body.ios-mode:not(.light-mode) .google-calc-box, body.ios-mode:not(.light-mode) .modal-box, body.ios-mode:not(.light-mode) .top-info-link, body.ios-mode:not(.light-mode) .top-action-btn, body.ios-mode:not(.light-mode) .user-auth-pill, body.ios-mode:not(.light-mode) .habit-chip, body.ios-mode:not(.light-mode) .alarm-item-card, body.ios-mode:not(.light-mode) .dhikr-card, body.ios-mode:not(.light-mode) .calendar-day-cell, body.ios-mode:not(.light-mode) .weather-hour-card { background:rgba(28,28,30,.58) !important; border-color:rgba(255,255,255,.14) !important; box-shadow:0 10px 30px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.08) !important; }
         body.ios-mode.light-mode { background:linear-gradient(145deg,#eef3f9,#f8f8fb 45%,#e9eef5) !important; }
         body.ios-mode:not(.light-mode) { background:linear-gradient(145deg,#08090d,#17181c 48%,#08090d) !important; }
+
+        /* =========================================================
+           Liquid Glass: الدوك السفلي في جميع الثيمات
+           التصميم ثابت؛ الثيم يغيّر اللون فقط.
+           ========================================================= */
+        .bottom-floating-dock {
+            left: 16px !important;
+            right: 16px !important;
+            bottom: max(10px, env(safe-area-inset-bottom, 10px)) !important;
+            width: auto !important;
+            max-width: none !important;
+            min-height: 64px !important;
+            padding: 7px 9px !important;
+            gap: 6px !important;
+            border: 1px solid color-mix(in srgb, var(--accent-primary) 22%, rgba(255,255,255,.42)) !important;
+            border-radius: 30px !important;
+            background: color-mix(in srgb, var(--accent-primary) 9%, rgba(255,255,255,.72)) !important;
+            backdrop-filter: blur(26px) saturate(190%) !important;
+            -webkit-backdrop-filter: blur(26px) saturate(190%) !important;
+            box-shadow: 0 12px 34px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.55) !important;
+            overflow: hidden !important;
+        }
+        .dock-capsule-item {
+            min-height: 50px !important;
+            padding: 7px 12px !important;
+            border: 1px solid transparent !important;
+            border-radius: 24px !important;
+            color: var(--text-secondary) !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            position: relative;
+            z-index: 1;
+        }
+        .dock-capsule-item.active {
+            color: var(--text-primary) !important;
+            background: var(--surface-active) !important;
+            border-color: var(--border-subtle) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.42), 0 4px 14px rgba(0,0,0,.08) !important;
+        }
+        .dock-capsule-item.dock-center-btn {
+            color: var(--text-primary) !important;
+            background: var(--surface-elevated) !important;
+            border: 1px solid var(--border-subtle) !important;
+            border-radius: 24px !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.48), 0 5px 16px rgba(0,0,0,.09) !important;
+        }
+        body:not(.light-mode) .bottom-floating-dock {
+            background: color-mix(in srgb, var(--accent-primary) 8%, rgba(20,20,22,.82)) !important;
+            border-color: color-mix(in srgb, var(--accent-primary) 20%, rgba(255,255,255,.16)) !important;
+            box-shadow: 0 14px 38px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.12) !important;
+        }
+
+        /* لون ضغط الدوك محايد ومتناسق مع كل الثيمات؛ لا خلفية زرقاء. */
+        body .dock-capsule-item.active,
+        body .dock-capsule-item.dock-center-btn,
+        body.ios-mode .dock-capsule-item.active,
+        body.ios-mode .dock-capsule-item.dock-center-btn {
+            background: var(--surface-active) !important;
+            color: var(--text-primary) !important;
+            border-color: var(--border-subtle) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.42), 0 4px 14px rgba(0,0,0,.08) !important;
+        }
+        body:not(.light-mode) .dock-capsule-item.active,
+        body:not(.light-mode) .dock-capsule-item.dock-center-btn {
+            background: var(--surface-elevated) !important;
+            border-color: var(--border-subtle) !important;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 5px 16px rgba(0,0,0,.20) !important;
+        }
+
+        .dock-capsule-item:active { transform: scale(.94) !important; }
+        @media (max-width: 380px) {
+            .bottom-floating-dock { left: 10px !important; right: 10px !important; }
+            .dock-capsule-item { padding-inline: 8px !important; font-size: 12px !important; }
+        }
 </style>
 </head>
 <body data-theme="sapphire">
@@ -604,15 +678,6 @@
 
         <!-- 🏠 1. الشاشة الرئيسية -->
         <div id="dashboard-view" class="section-view active">
-            <!-- مؤشر الإنجاز اليومي -->
-            <div class="daily-progress-wrap">
-                <span style="font-size:12px; font-weight:700;">نسبة الإنجاز اليومي:</span>
-                <div class="daily-progress-bar">
-                    <div class="daily-progress-fill" id="dailyProgressFill"></div>
-                </div>
-                <span style="font-size:12px; font-weight:800; color:var(--accent-green);" id="dailyProgressText">0%</span>
-            </div>
-
             <!-- شريط الأنشطة السريع المحصور بثلاثة عناصر: الأذكار، ورد القرآن، الحاسبة -->
             <div class="habits-strip" id="dashHabitsStrip">
                 <div class="habit-chip primary-highlight" onclick="switchNavSection('adhkar-view')">🤲 الأذكار</div>
@@ -1189,45 +1254,6 @@
         ];
         let currentPoemIndex = 0;
 
-        // مكتبة كنز المعلومات الموثوقة مع الأمثلة المعاصرة
-        const knowledgeTreasuryDB = [
-            {
-                title: "فقه ترتيب الأولويات وإدارة الوقت",
-                source: "جامع العلوم والحكم - ابن رجب الحنبلي",
-                category: "تزكية وعمل",
-                text: "إن أحب ما تقرب به العبد إلى الله ما افترضه عليه؛ فالبدء بالفرائض وأداء الواجبات قبل الاشتغال بنوافل الأعمال وسفاسفها هو أصل الفلاح وركيزة البركة.",
-                modernApp: "💡 <b>التطبيق المعاصر:</b> لا تنشغل بالمهام الهامشية وتصفح رسائل الهاتف وتفقد منصات التواصل قبل إنجاز عملك الوظيفي أو مهمتك الأكاديمية الكبرى؛ فالأولى والأهم أولاً."
-            },
-            {
-                title: "قاعدة التخلية قبل التحلية",
-                source: "مدارج السالكين - ابن القيم الجوزية",
-                category: "إصلاح النفس",
-                text: "لا يستقر في القلب علم نافع ولا إخلاص حتى يُفرغ من شوائب الرياء والتعلق بالمديح وشهوة الظهور؛ فالتخلية من المشتتات والذنوب تسبق تحلية النفس بالفضائل.",
-                modernApp: "💡 <b>التطبيق المعاصر:</b> اغلق جميع إشعارات التطبيقات والمشتتات الرقمية ونظف مساحة عملك وهاتفك من البرامج الزائدة قبل البدء بجلسة عمل أو قراءة وردك بخشوع وتركيز."
-            },
-            {
-                title: "أمانة الكلمة وحفظ المجالس والمحادثات",
-                source: "رياض الصالحين - الإمام النووي",
-                category: "أخلاق ومعاملات",
-                text: "المجالس بالأمانة، وإفشاء سر الأخ بعد استئمانه خيانة بيّنة؛ فالأصل في مجالس المؤمنين الستر وحفظ الخصوصيات ما لم يكن فيها إثم أو ظلم صريح.",
-                modernApp: "💡 <b>التطبيق المعاصر:</b> تجنب تصوير شاشة المحادثات الخاصة (Screenshots) أو إعادة توجيه التسجيلات الصوتية في مجموعات العمل دون إذن صريح من صاحبها."
-            },
-            {
-                title: "بركة البكور واستثمار الصباح الذهبي",
-                source: "الشمائل المحمدية وصحيح الجامع",
-                category: "إنتاجية نبوية",
-                text: "دعاء النبي ﷺ: «اللَّهُمَّ بَارِكْ لِأُمَّتِي فِي بُكُورِهَا»؛ فأول ساعات النهار بعد الفجر فيها بركة مضاعفة وصفاء ذهني لا يعوضه السهر الطويل.",
-                modernApp: "💡 <b>التطبيق المعاصر:</b> استثمر الساعتين الأوليين من يومك في أصعب مهامك البرمجية أو الدراسية بدون إنترنت، وستنجز فيها ما يستغرق 6 ساعات في بقية اليوم."
-            },
-            {
-                title: "الاعتدال في الاستهلاك وتجنب فخ الترف الكاذب",
-                source: "قواعد الأحكام في مصالح الأنام - العز بن عبد السلام",
-                category: "اقتصاد ومالية",
-                text: "المال وسيلة لإقامة الحياة وليس غاية للتفاخر، ومن علامة الحكمة الشرعية تقديم الحاجيات والضروريات على تحسينات الترف التي تجلب الديون وتثقل النفس.",
-                modernApp: "💡 <b>التطبيق المعاصر:</b> ابتعد عن عروض الشراء بالتقسيط غير الضرورية (اشتري الآن وادفع لاحقاً) ولا تغير هاتفك أو أجهزتك لمجرد المظاهر والتباهي."
-            }
-        ];
-
         const periodicRemembrances = [
             "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ ﷺ",
             "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ ، سُبْحَانَ اللَّهِ الْعَظِيمِ",
@@ -1465,87 +1491,155 @@
         // --- 2. كنز المعلومات الموثوقة ---
         // =========================================================================
         const KNOWLEDGE_ROTATION_MS = 3 * 60 * 60 * 1000;
+        const KNOWLEDGE_TARGET_COUNT = 5;
 
-        async function fetchRemoteKnowledgeCard() {
-            if (!navigator.onLine) return null;
-            try {
-                const response = await fetch('https://ar.wikipedia.org/api/rest_v1/page/random/summary', { cache: 'no-store' });
-                if (!response.ok) return null;
-                const data = await response.json();
-                const extract = String(data.extract || '').trim();
-                const title = String(data.title || '').trim();
-                if (!title || extract.length < 120) return null;
-                return {
-                    id: 'wk_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
-                    title,
-                    source: 'ويكيبيديا العربية',
-                    category: 'معلومة من الإنترنت',
-                    text: extract,
-                    modernApp: data.content_urls?.desktop?.page ? `<b>المصدر:</b> <a href="${data.content_urls.desktop.page}" target="_blank" rel="noopener">فتح المصدر</a>` : '<b>المصدر:</b> ويكيبيديا العربية',
-                    sourceUrl: data.content_urls?.desktop?.page || '',
-                    read: false,
-                    readAt: 0,
-                    updatedAt: Date.now()
-                };
-            } catch (e) { return null; }
+        // كنز معلومات مُحرَّر مسبقًا: كل بطاقة لها موضوع واضح، شرح مختصر لكن شامل،
+        // تطبيق عملي، ومصدر موثوق. الاختيار عشوائي مع تنويع المجالات حتى لا تتكرر
+        // خمسة موضوعات من النوع نفسه في دفعة واحدة.
+        const knowledgeTreasuryDB = [
+            {title:'لماذا السماء زرقاء؟',category:'فيزياء وفلك',source:'NASA Science',sourceUrl:'https://science.nasa.gov/earth/earth-observatory/why-is-the-sky-blue/',text:'ضوء الشمس يبدو أبيض، لكنه يتكوّن من أطوال موجية متعددة. عندما يدخل الغلاف الجوي تصطدم موجات الضوء بجزيئات الهواء، ويتشتت الضوء قصير الموجة، وخصوصًا الأزرق، أكثر بكثير من الأحمر. لذلك يصل إلينا الضوء الأزرق من اتجاهات كثيرة في السماء، بينما تميل ألوان الشروق والغروب إلى الأحمر والبرتقالي لأن الضوء يقطع مسافة أطول داخل الغلاف الجوي.',modernApp:'<b>الفكرة التي تستحق التذكر:</b> اللون الذي نراه ليس بالضرورة لون المصدر نفسه؛ الوسط الذي يمر فيه الضوء قد يغيّر ما يصل إلى أعيننا.'},
+            {title:'لماذا لا نشعر بدوران الأرض؟',category:'فلك وفيزياء',source:'NASA',sourceUrl:'https://science.nasa.gov/earth/facts/',text:'الأرض تدور بسرعة كبيرة، لكننا لا نشعر بهذه السرعة مباشرة لأننا نحن والغلاف الجوي وكل ما حولنا نتحرك معها. الإحساس بالحركة يظهر أساسًا عندما تتغير السرعة أو الاتجاه، مثل تسارع السيارة أو توقفها. لذلك فإن الحركة المنتظمة وحدها لا تعني وجود إحساس مستمر بها.',modernApp:'<b>تطبيق ذهني:</b> عندما تسأل: «كيف لا أشعر بالحركة؟» اسأل أولًا: هل السرعة ثابتة أم هناك تسارع؟ هذا يفسر كثيرًا من ظواهر الحركة اليومية.'},
+            {title:'لماذا يطفو الجليد فوق الماء؟',category:'كيمياء وطبيعة',source:'USGS Water Science School',sourceUrl:'https://www.usgs.gov/special-topics/water-science-school',text:'عندما يتجمد الماء ترتبط جزيئاته في بنية بلورية أكثر انفتاحًا، فتشغل حجمًا أكبر مقارنة بكتلة الماء نفسها. لذلك تقل كثافة الجليد عن كثافة الماء السائل، فيطفو بدل أن يغوص. وهذه خاصية مهمة للحياة المائية؛ إذ يمكن أن تتكون طبقة جليد عازلة على السطح بدل تجمد المسطح المائي كله من القاع إلى الأعلى.',modernApp:'<b>معلومة مترابطة:</b> تمدد الماء عند التجمد ليس مجرد تفصيل كيميائي؛ له آثار بيئية كبيرة على البحيرات والأنهار والكائنات التي تعيش فيها.'},
+            {title:'الضوء أسرع بكثير من الصوت',category:'فيزياء',source:'NASA',sourceUrl:'https://science.nasa.gov/universe/what-is-light/',text:'سرعة الضوء في الفراغ نحو 299,792 كيلومترًا في الثانية، بينما سرعة الصوت في الهواء عند الظروف المعتادة تقارب 343 مترًا في الثانية. لهذا نرى البرق قبل أن نسمع الرعد، رغم أن الحدثين يحدثان في اللحظة نفسها تقريبًا. والفرق ليس صغيرًا؛ فالضوء أسرع من الصوت بمئات الآلاف من المرات.',modernApp:'<b>تطبيق يومي:</b> تأخر الصوت عن الصورة في الألعاب والبث ليس دائمًا مشكلة في الجهاز؛ قد يكون سببه اختلاف زمن انتقال الإشارات ومعالجتها.'},
+            {title:'ما الذي يجعل النظام الشمسي مستقرًا؟',category:'فلك',source:'NASA Solar System Exploration',sourceUrl:'https://science.nasa.gov/solar-system/',text:'الكواكب لا تتحرك في الفضاء عشوائيًا؛ جاذبية الشمس هي العامل المركزي الذي يبقيها في مداراتها، بينما تجعل سرعة الكوكب الجانبية حركته مستمرة بدل سقوطه مباشرة نحو الشمس. المدارات نفسها تتأثر بجاذبية الأجرام الأخرى، لكن النظام الشمسي على المدى البشري يبدو مستقرًا جدًا.',modernApp:'<b>الفكرة:</b> المدار ليس «حبلًا» يمسك الكوكب، بل نتيجة توازن مستمر بين الحركة والشد الجاذبي.'},
+            {title:'لماذا نحتاج إلى النوم؟',category:'علوم الدماغ',source:'National Institute of Neurological Disorders and Stroke',sourceUrl:'https://www.ninds.nih.gov/health-information/public-education/brain-basics/brain-basics-understanding-sleep',text:'النوم ليس توقفًا للدماغ، بل حالة نشطة تمر بمراحل متعددة. يرتبط النوم بتثبيت بعض أنواع الذاكرة وتنظيم وظائف عصبية وجسمية متعددة، بينما يؤدي الحرمان المزمن منه إلى تراجع الانتباه والأداء واتخاذ القرار. لذلك فإن النوم جزء من الأداء العقلي وليس وقتًا «ضائعًا» من الإنتاجية.',modernApp:'<b>قاعدة عملية:</b> إذا كنت تريد تحسين التعلم والتركيز، فلا تتعامل مع النوم كمتغير ثانوي يمكن التضحية به دائمًا.'},
+            {title:'لماذا نتذكر بعض الأشياء وننسى غيرها؟',category:'علم النفس والذاكرة',source:'National Institute of Neurological Disorders and Stroke',sourceUrl:'https://www.ninds.nih.gov/health-information/public-education/brain-basics/brain-basics-understanding-memory',text:'الذاكرة ليست تسجيل فيديو كاملًا لكل ما يحدث. الانتباه والترميز والاسترجاع عوامل أساسية، وتزداد فرصة الاحتفاظ بالمعلومة عندما تكون ذات معنى أو مرتبطة بمعرفة سابقة أو تتم مراجعتها واسترجاعها أكثر من مرة. لهذا قد يكون «الاسترجاع النشط» أكثر فائدة من إعادة القراءة السلبية وحدها.',modernApp:'<b>للدراسة:</b> بعد قراءة فقرة، أغلق المصدر وحاول شرحها من ذاكرتك؛ هذه العملية تكشف ما لم يثبت في الذاكرة.'},
+            {title:'لماذا يصعب مقاومة الإشعارات والمقاطعات؟',category:'علم النفس والإنتاجية',source:'American Psychological Association',sourceUrl:'https://www.apa.org/topics/healthy-workplaces/healthy-workplaces',text:'الانتباه مورد محدود، والانتقال المتكرر بين المهام يفرض تكلفة ذهنية حتى عندما تكون المقاطعة قصيرة. المشكلة ليست فقط في الزمن الذي يستغرقه الرد؛ بل في الوقت اللازم لإعادة بناء سياق المهمة السابقة. لذلك يمكن لمقاطعات صغيرة متكررة أن تفسد جلسة تركيز طويلة.',modernApp:'<b>تطبيق مباشر:</b> اجعل جلسات العمل المهمة خالية من الإشعارات، واجمع الرسائل في فترات محددة بدل فحصها باستمرار.'},
+            {title:'لماذا لا يعني تعدد المهام أنك تنجز مهمتين معًا؟',category:'علم النفس والإنتاجية',source:'American Psychological Association',sourceUrl:'https://www.apa.org/research/action/multitask',text:'عندما تتطلب مهمتان الانتباه نفسه، يميل الدماغ إلى التبديل بينهما بدل تنفيذ المعالجة العميقة لكلتيهما في اللحظة نفسها. هذا التبديل يستهلك وقتًا وانتباهًا ويزيد فرص الخطأ، خصوصًا في المهام المعقدة. لذلك يكون التركيز المتتابع أفضل غالبًا من التبديل المستمر.',modernApp:'<b>تطبيق عملي:</b> خصص نافذة واحدة لمهمة واحدة، ثم انتقل للمهمة التالية بدل إبقاء عدة مهام مفتوحة في الوقت نفسه.'},
+            {title:'كيف تعمل الذاكرة العشوائية RAM؟',category:'الحاسوب',source:'IBM',sourceUrl:'https://www.ibm.com/think/topics/ram',text:'RAM هي مساحة عمل سريعة يستخدمها النظام للاحتفاظ بالبيانات والتعليمات التي تحتاجها البرامج أثناء التشغيل. وهي أسرع بكثير من التخزين الدائم، لكنها متطايرة؛ أي إن محتواها يختفي عند انقطاع الطاقة. زيادة RAM قد تساعد عندما يكون النظام مختنقًا بسبب امتلائها، لكنها لا تجعل كل معالج أسرع تلقائيًا.',modernApp:'<b>قاعدة مهمة:</b> إذا كان استخدام RAM منخفضًا أصلًا، فإن إضافة المزيد لن تعطي بالضرورة زيادة ملحوظة في الإطارات أو سرعة المعالج.'},
+            {title:'ما الفرق بين SSD وHDD؟',category:'الحاسوب والتخزين',source:'Microsoft Learn',sourceUrl:'https://learn.microsoft.com/en-us/windows-server/storage/disk-management/overview-of-disk-management',text:'محركات HDD تعتمد على أطباق مغناطيسية وأجزاء ميكانيكية متحركة، بينما SSD يستخدم ذاكرة فلاش دون أجزاء ميكانيكية متحركة. لذلك يمتاز SSD عادة بزمن وصول أقل بكثير وسرعة أعلى في عمليات الوصول العشوائي، كما يكون أكثر مقاومة للصدمات الميكانيكية. أما HDD فيظل مفيدًا عندما تكون السعة الكبيرة منخفضة التكلفة هي الأولوية.',modernApp:'<b>لجهاز قديم:</b> نقل نظام التشغيل من HDD إلى SSD غالبًا يعطي إحساسًا كبيرًا بسرعة الإقلاع وفتح البرامج حتى دون تغيير المعالج.'},
+            {title:'لماذا لا تكفي سرعة الإنترنت وحدها للحكم على جودة الاتصال؟',category:'شبكات وإنترنت',source:'Cloudflare Learning',sourceUrl:'https://www.cloudflare.com/learning/performance/glossary/what-is-latency/',text:'سرعة التنزيل تقيس كمية البيانات التي يمكن نقلها خلال فترة، لكن جودة الاتصال التفاعلي تعتمد أيضًا على زمن الاستجابة والتذبذب وفقدان الحزم. في الألعاب والبث السحابي قد يكون اتصال 50 ميجابت مع زمن استجابة وفقدان حزم منخفض أفضل بكثير من اتصال أسرع لكنه غير مستقر. لذلك لا تختصر جودة الشبكة في رقم Mbps واحد.',modernApp:'<b>تطبيق مباشر:</b> عند تقييم GeForce NOW أو اللعب عبر الإنترنت، راقب latency وjitter وpacket loss إلى جانب سرعة التنزيل.'},
+            {title:'ما هو فقدان الحزم Packet Loss؟',category:'شبكات وإنترنت',source:'Cloudflare Learning',sourceUrl:'https://www.cloudflare.com/learning/network-layer/what-is-packet-loss/',text:'عند إرسال البيانات عبر الشبكة تُقسّم إلى حزم صغيرة. إذا لم تصل بعض الحزم إلى وجهتها أو وصلت متأخرة جدًا، يظهر فقدان الحزم. في الألعاب والبث التفاعلي قد يؤدي ذلك إلى تقطيع، قفزات في الحركة، أو إعادة إرسال البيانات، حتى لو كانت سرعة الاتصال الاسمية مرتفعة.',modernApp:'<b>للتشخيص:</b> إذا كانت السرعة جيدة لكن التجربة تتدهور عند اللعب، فاختبار الاستقرار وفقدان الحزم أهم من إعادة اختبار سرعة التنزيل فقط.'},
+            {title:'لماذا يؤدي ارتفاع الحرارة إلى خفض أداء المعالج؟',category:'هندسة الحاسوب',source:'Intel',sourceUrl:'https://www.intel.com/content/www/us/en/gaming/resources/cpu-temperature.html',text:'المعالجات الحديثة تضبط التردد والطاقة والحرارة باستمرار. عندما ترتفع الحرارة قرب الحدود المصممة، يمكن للمعالج خفض التردد والطاقة لتقليل الحرارة وحماية العتاد. لذلك قد يعطي الجهاز أداءً مرتفعًا لفترة قصيرة ثم ينخفض الأداء إذا استمر الحمل الحراري.',modernApp:'<b>تطبيق عملي:</b> عند اختبار Mini PC لا تنظر إلى أعلى تردد لحظي فقط؛ راقب الأداء ودرجة الحرارة بعد استمرار الحمل عدة دقائق.'},
+            {title:'لماذا تزيد دقة الشاشة الحمل الرسومي؟',category:'الرسوميات',source:'NVIDIA',sourceUrl:'https://www.nvidia.com/en-us/geforce/graphics-cards/graphics-processing-units/',text:'كل إطار رسومي يتطلب معالجة عدد من البكسلات. الانتقال من 1600×900 إلى 1920×1080 يرفع عدد البكسلات في الإطار بنحو 44% تقريبًا، لذلك قد تحتاج البطاقة الرسومية إلى عمل أكبر للحفاظ على معدل الإطارات نفسه. مقدار التأثير الفعلي يعتمد أيضًا على اللعبة والإعدادات والمعالج.',modernApp:'<b>تطبيق عملي:</b> إذا كان الهدف رفع FPS دون تغيير حجم النافذة كثيرًا، خفض الدقة أو استخدام تقنية رفع الدقة قد يكون أكثر تأثيرًا من خفض بعض التفاصيل البصرية فقط.'},
+            {title:'لماذا تتأخر الاستجابة في اللعب السحابي؟',category:'ألعاب وشبكات',source:'NVIDIA GeForce NOW',sourceUrl:'https://www.nvidia.com/en-us/geforce-now/',text:'في اللعب السحابي لا ينتج جهازك الصورة بالكامل؛ تُنفذ اللعبة على خادم بعيد ثم تُرسل الصورة إلى جهازك، بينما تُرسل أوامر التحكم في الاتجاه المعاكس. لذلك تدخل الشبكة وزمن الترميز والفك في زمن الاستجابة الكلي. كلما زادت المسافة أو التذبذب أو فقدان الحزم زادت احتمالات الشعور بالتأخر.',modernApp:'<b>لأفضل استجابة:</b> الاتصال السلكي، خادم قريب، وفقدان حزم منخفض أهم من امتلاك سرعة تنزيل ضخمة لا تحتاج إليها.'},
+            {title:'كيف يعمل DNS؟',category:'إنترنت وتقنية',source:'Cloudflare Learning',sourceUrl:'https://www.cloudflare.com/learning/dns/what-is-dns/',text:'DNS هو النظام الذي يترجم أسماء النطاقات المقروءة للبشر مثل example.com إلى عناوين IP تستخدمها الأجهزة للوصول إلى الخوادم. عندما يطلب جهازك اسم نطاق، يمكن أن يجيب خادم DNS من ذاكرته المؤقتة أو يبحث عنه عبر بنية DNS الهرمية. لذلك يؤثر DNS أساسًا في سرعة بدء الاتصال، وليس في سرعة خط الإنترنت القصوى بعد بدء النقل.',modernApp:'<b>فكرة مهمة:</b> تغيير DNS قد يحسن زمن بدء بعض الاتصالات أو الوصول إلى بعض الخدمات، لكنه لن يحول اتصالًا محدود السعة إلى اتصال أسرع بكثير.'},
+            {title:'ما هو التشفير من طرف إلى طرف؟',category:'أمن رقمي',source:'Electronic Frontier Foundation',sourceUrl:'https://ssd.eff.org/module/what-should-i-know-about-encryption',text:'في التشفير من طرف إلى طرف تُشفّر الرسالة بحيث يكون الطرفان المقصودان قادرين على فكها، بينما لا يستطيع الوسطاء العاديون قراءة محتواها أثناء النقل. هذا لا يعني أن كل شيء آمن تلقائيًا؛ فاختراق الجهاز نفسه أو كشف مفتاح التشفير قد يتجاوز حماية النقل. لذلك الأمن منظومة تشمل الجهاز والحساب والبرمجيات والشبكة.',modernApp:'<b>تطبيق عملي:</b> لا تخلط بين «الاتصال مشفر» و«الحساب محمي بالكامل»؛ كلمة المرور والمصادقة الثنائية وتحديث الجهاز لا تزال مهمة.'},
+            {title:'لماذا تتغير الفصول؟',category:'أرض وفلك',source:'NASA Space Place',sourceUrl:'https://spaceplace.nasa.gov/seasons/en/',text:'الفصول لا تحدث لأن الأرض تقترب من الشمس وتبتعد عنها على نحو رئيسي، بل بسبب ميل محور الأرض بنحو 23.5 درجة أثناء دورانها حول الشمس. هذا الميل يغير زاوية سقوط أشعة الشمس وطول النهار في نصفي الكرة الأرضية خلال السنة. لذلك يكون أحد النصفين في الصيف بينما يكون الآخر في الشتاء.',modernApp:'<b>اختبار الفهم:</b> إذا فهمت ميل المحور، يمكنك تفسير اختلاف طول النهار وارتفاع الشمس واختلاف الفصول بدل حفظها كحقائق منفصلة.'},
+            {title:'لماذا يبدو القمر بأشكال مختلفة؟',category:'فلك',source:'NASA Space Place',sourceUrl:'https://spaceplace.nasa.gov/moon-phases/en/',text:'القمر لا يصدر ضوءه المرئي بنفسه؛ نحن نرى ضوء الشمس المنعكس عنه. أثناء دورانه حول الأرض تتغير الزاوية بين الشمس والقمر والمراقب، فنرى أجزاء مختلفة من نصفه المضاء. هذه هي أطوار القمر، من الهلال إلى التربيع ثم البدر وغيرها.',modernApp:'<b>معلومة مهمة:</b> أطوار القمر ليست نتيجة ظل الأرض إلا في حالة الخسوف؛ معظم الوقت نرى تغير الجزء المضاء من القمر بسبب موقعه بالنسبة للشمس والأرض.'},
+            {title:'لماذا تحدث الزلازل؟',category:'علوم الأرض',source:'USGS',sourceUrl:'https://www.usgs.gov/programs/earthquake-hazards/earthquakes',text:'تتحرك الصفائح التكتونية ببطء شديد، وقد تتراكم إجهادات في الصخور على طول الصدوع. عندما تتجاوز الإجهادات قدرة الصخور على تحملها يحدث انزلاق مفاجئ وتتحرر طاقة تنتشر على شكل موجات زلزالية. شدة التأثير على سطح الأرض تعتمد على عوامل منها مقدار الطاقة والعمق والمسافة وطبيعة التربة والبناء.',modernApp:'<b>تطبيق عملي:</b> فهم الزلازل يساعد على التركيز على تقليل المخاطر عبر البناء والتخطيط والاستعداد، بدل تصور أن التنبؤ الدقيق بموعد كل زلزال متاح دائمًا.'},
+            {title:'كيف تتكون السحب؟',category:'طقس ومناخ',source:'NOAA',sourceUrl:'https://www.noaa.gov/jetstream/clouds',text:'عندما يرتفع الهواء الرطب ويبرد قد يصل إلى حالة يصبح فيها بخار الماء قادرًا على التكاثف على جسيمات دقيقة في الهواء، فتتكون قطرات أو بلورات جليدية صغيرة تشكل السحب. نوع السحابة وشكلها يتأثران بدرجة الحرارة والرطوبة وحركة الهواء والاستقرار الجوي. ليست كل السحب ممطرة، فالهطول يحتاج إلى نمو القطرات أو البلورات إلى أحجام تسمح بسقوطها.',modernApp:'<b>راقب السماء:</b> شكل السحابة ليس مجرد منظر؛ ارتفاعها وبنيتها يمكن أن يعطي مؤشرات عن حالة الغلاف الجوي واحتمالات الهطول.'},
+            {title:'ما الفرق بين الطقس والمناخ؟',category:'مناخ وبيئة',source:'NASA Climate',sourceUrl:'https://science.nasa.gov/climate-change/what-is-climate-change/',text:'الطقس يصف حالة الغلاف الجوي على مدد قصيرة مثل الساعات والأيام، بينما المناخ يصف الأنماط والاتجاهات الإحصائية على مدد طويلة. يمكن أن يكون يوم بارد جدًا في منطقة تعاني اتجاهًا طويل الأمد نحو ارتفاع درجات الحرارة؛ لا يوجد تناقض لأن المقياسين مختلفان. لذلك لا يكفي يوم واحد للحكم على المناخ.',modernApp:'<b>قاعدة:</b> لا تستخدم حدثًا جويًا منفردًا لإثبات اتجاه مناخي؛ الاتجاهات المناخية تحتاج إلى بيانات طويلة المدى.'},
+            {title:'كيف يعمل ضغط الهواء؟',category:'فيزياء وطقس',source:'NOAA',sourceUrl:'https://www.noaa.gov/jetstream/atmosphere/air-pressure',text:'الهواء له كتلة، ووزن عمود الهواء فوق سطح معين يولد ضغطًا جويًا. يتغير الضغط مع الارتفاع ودرجة الحرارة وتوزيع الهواء، وتستخدم الأرصاد هذه التغيرات لفهم حركة الأنظمة الجوية. ارتفاع الضغط أو انخفاضه لا يعني وحده أن الجو سيكون جيدًا أو سيئًا دائمًا؛ المهم هو السياق وحركة النظام الجوي.',modernApp:'<b>معلومة عملية:</b> تغيّر الضغط الذي تراه في تطبيق الطقس ليس رقمًا تجميليًا؛ إنه قياس أساسي في فهم حركة الكتل الهوائية.'},
+            {title:'لماذا تعد البوصلة الشمال المغناطيسي لا الجغرافي؟',category:'جغرافيا وفيزياء',source:'NOAA National Centers for Environmental Information',sourceUrl:'https://www.ncei.noaa.gov/products/magnetic-models',text:'المجال المغناطيسي للأرض يجعل إبرة البوصلة تصطف تقريبًا مع اتجاه المجال المحلي، ولذلك تشير إلى الشمال المغناطيسي. أما الشمال الجغرافي فهو اتجاه القطب الشمالي الجغرافي، وهما ليسا في المكان نفسه. الفرق الزاوي بين الاتجاهين يسمى الانحراف المغناطيسي ويتغير حسب الموقع والزمن.',modernApp:'<b>تطبيق عملي:</b> في الملاحة الدقيقة لا يكفي استخدام بوصلة دون معرفة الانحراف المغناطيسي للمنطقة.'},
+            {title:'كيف يقيس GPS موقعك؟',category:'تقنية وملاحة',source:'GPS.gov',sourceUrl:'https://www.gps.gov/systems/gps/performance/accuracy/',text:'يستقبل جهاز GPS إشارات زمنية من عدة أقمار صناعية، ويستخدم فروق زمن وصول الإشارات لتقدير المسافات إلى الأقمار ثم حساب الموقع. يحتاج الحل الجيد عادة إلى عدة أقمار ومعلومات دقيقة عن الزمن، وتتأثر الدقة بعوامل مثل المباني والعوائق والانعكاسات والغلاف الجوي. لذلك قد يتغير الموقع الظاهر قليلًا حتى وأنت ثابت.',modernApp:'<b>فكرة:</b> الهاتف لا «يرى» موقعك من الفضاء؛ بل يستنتج موقعه حسابيًا من إشارات راديوية وزمن وصولها.'},
+            {title:'لماذا تظهر الأقواس الملونة في قوس المطر؟',category:'ضوء وبصريات',source:'NASA Science',sourceUrl:'https://science.nasa.gov/earth/earth-observatory/rainbows/',text:'عندما يدخل ضوء الشمس قطرة ماء ينكسر، ثم ينعكس جزئيًا داخل القطرة ويخرج بعد انكسار آخر. لأن الأطوال الموجية المختلفة تنحرف بدرجات مختلفة، ينفصل الضوء الأبيض إلى ألوانه. تجمع أعداد هائلة من القطرات هذه التأثيرات في اتجاهات مناسبة فتظهر لنا قوس قزح.',modernApp:'<b>لماذا لا ترى قوسًا ثابتًا دائمًا؟</b> لأن ظهور القوس يعتمد على موقع الشمس والمراقب وقطرات الماء بالنسبة إلى بعضها.'},
+            {title:'ما هي نظرية التطور بالانتخاب الطبيعي؟',category:'أحياء',source:'Smithsonian National Museum of Natural History',sourceUrl:'https://humanorigins.si.edu/education/introduction-human-evolution',text:'الانتخاب الطبيعي آلية يتغير بها تواتر الصفات الوراثية في الجماعات عبر الأجيال عندما تؤثر الاختلافات الموروثة في البقاء والتكاثر في بيئة معينة. لا يعني ذلك أن الكائن «يتطور لأنه يحتاج» إلى صفة معينة؛ بل إن اختلافات موجودة أصلًا قد تمنح بعض الأفراد أفضلية، فتزداد فرص انتقالها.',modernApp:'<b>مفتاح الفهم:</b> التطور يحدث في الجماعات عبر أجيال، وليس قرارًا واعيًا يتخذه الفرد أثناء حياته.'},
+            {title:'لماذا تعد المضادات الحيوية مختلفة عن مسكنات الألم؟',category:'أحياء وصحة',source:'World Health Organization',sourceUrl:'https://www.who.int/news-room/fact-sheets/detail/antimicrobial-resistance',text:'المضادات الحيوية أدوية تستهدف البكتيريا أو تعيق نموها، بينما مسكنات الألم تهدف أساسًا إلى تخفيف الإحساس بالألم ولا تعالج العدوى البكتيرية. لذلك لا تعالج المضادات الحيوية نزلات البرد الفيروسية. كما أن سوء استخدامها يمكن أن يساهم في مقاومة الميكروبات للأدوية.',modernApp:'<b>قاعدة أمان:</b> لا تستخدم مضادًا حيويًا لمجرد وجود أعراض عدوى؛ تحديد السبب واستخدام الدواء المناسب من اختصاص الرعاية الطبية.'},
+            {title:'لماذا تختلف بصمة كل إصبع؟',category:'أحياء',source:'FBI',sourceUrl:'https://www.fbi.gov/how-we-can-help-you/need-an-fbi-service-or-clearance/fingerprints-and-other-biometrics',text:'خطوط الجلد الدقيقة على أطراف الأصابع تتكون أثناء نمو الجنين وتتأثر بعوامل وراثية وبيئية دقيقة، ولذلك يكون نمطها شديد التميز بين الأفراد. حتى التوائم المتطابقة لا يملكون عادة بصمات متطابقة. وتُستخدم هذه الأنماط في التعرف البيومتري لأن احتمال التطابق الكامل منخفض جدًا.',modernApp:'<b>معلومة:</b> التشابه الوراثي الكبير لا يعني تطابق التفاصيل النمائية الدقيقة.'},
+            {title:'كيف تعرف النباتات اتجاه الضوء؟',category:'أحياء ونبات',source:'Royal Society of Biology',sourceUrl:'https://www.rsb.org.uk/biologist-features/plant-science',text:'تستجيب النباتات للضوء عبر مستقبلات ضوئية ومسارات هرمونية تؤثر في نمو الخلايا. في ظاهرة الانتحاء الضوئي يتوزع هرمون الأوكسين بطريقة تؤدي إلى نمو غير متساوٍ في الساق، فينحني النبات نحو مصدر الضوء في حالات كثيرة. هذا ليس «رؤية» بالمعنى الحيواني، بل استجابة فسيولوجية منظمة للإشارات البيئية.',modernApp:'<b>فكرة جميلة:</b> الكائن الحي يمكنه الاستجابة لمعلومة بيئية معقدة دون امتلاك جهاز عصبي مثل الإنسان.'},
+            {title:'لماذا الملح يذوب في الماء؟',category:'كيمياء',source:'Royal Society of Chemistry',sourceUrl:'https://www.rsc.org/periodic-table/compound/948/sodium-chloride',text:'كلوريد الصوديوم يتكون من أيونات موجبة وسالبة مرتبة في شبكة بلورية. جزيئات الماء قطبية، فتتجاذب مع الأيونات وتساعد على فصلها وإحاطتها، فتنتشر الأيونات في المحلول. قابلية الذوبان تعتمد على طبيعة المذاب والمذيب ودرجة الحرارة وغيرها من العوامل، وليست قاعدة واحدة لكل المواد.',modernApp:'<b>تطبيق:</b> «الماء مذيب جيد» لا يعني أنه يذيب كل شيء؛ طبيعة الروابط والقطبية هي التي تحدد ذلك.'},
+            {title:'لماذا لا تختلط كل السوائل؟',category:'كيمياء',source:'Royal Society of Chemistry',sourceUrl:'https://edu.rsc.org/resources',text:'قابلية امتزاج سائلين تعتمد بدرجة كبيرة على طبيعة القوى بين جزيئاتهما. السوائل ذات الخصائص القطبية المتقاربة تميل إلى الامتزاج أكثر، بينما قد تنفصل سوائل ذات خصائص مختلفة، مثل الماء والزيت، إلى طبقتين. الكثافة تحدد أي طبقة تكون أعلى أو أسفل، لكنها ليست السبب الوحيد لعدم الامتزاج.',modernApp:'<b>فكرة:</b> «الأثقل ينزل» يفسر ترتيب الطبقات أحيانًا، لكنه لا يفسر وحده لماذا لا يمتزج السائلان أصلًا.'},
+            {title:'لماذا ترتفع حرارة الماء ببطء مقارنة ببعض المواد؟',category:'فيزياء وكيمياء',source:'USGS Water Science School',sourceUrl:'https://www.usgs.gov/special-topics/water-science-school',text:'للماء سعة حرارية نوعية مرتفعة نسبيًا، أي إنه يحتاج إلى كمية كبيرة من الطاقة لرفع درجة حرارته مقدارًا معينًا. لذلك تتغير حرارة المسطحات المائية ببطء نسبيًا مقارنة بمواد كثيرة، ويسهم ذلك في تخفيف تقلبات درجات الحرارة في المناطق القريبة من البحار والمحيطات.',modernApp:'<b>أثر واسع:</b> خصائص الماء الحرارية تؤثر في المناخ المحلي والبيئات المائية وطريقة تخزين الحرارة على الأرض.'},
+            {title:'ما هو التضخم الاقتصادي؟',category:'اقتصاد',source:'International Monetary Fund',sourceUrl:'https://www.imf.org/en/Publications/fandd/issues/Series/Back-to-Basics/Inflation',text:'التضخم هو ارتفاع عام ومستمر نسبيًا في المستوى العام للأسعار، وليس مجرد ارتفاع سعر سلعة واحدة. عندما ترتفع الأسعار على نطاق واسع تنخفض القوة الشرائية لوحدة العملة إذا لم ترتفع الدخول بالقدر نفسه. وتختلف أسباب التضخم، فقد ترتبط بالطلب أو تكاليف الإنتاج أو صدمات العرض أو توقعات التضخم وغيرها.',modernApp:'<b>تطبيق:</b> عند تقييم غلاء شيء ما، ميّز بين ارتفاع سعر ذلك المنتج وحده وبين تغير المستوى العام للأسعار في الاقتصاد.'},
+            {title:'لماذا لا تعني زيادة الراتب دائمًا زيادة القوة الشرائية؟',category:'اقتصاد شخصي',source:'OECD',sourceUrl:'https://www.oecd.org/en/topics/sub-issues/inflation-and-consumer-prices.html',text:'القوة الشرائية تعتمد على الدخل مقارنة بمستوى الأسعار. إذا ارتفع الدخل بنسبة 5% بينما ارتفعت تكلفة المعيشة بنسبة أكبر، فقد تنخفض كمية السلع والخدمات التي يمكن شراءها فعليًا. لذلك من المفيد النظر إلى الدخل الحقيقي لا الرقم الاسمي فقط.',modernApp:'<b>قاعدة مالية:</b> عند مقارنة دخلين عبر سنوات مختلفة، اسأل عن تغير الأسعار أيضًا، لا عن الرقم النقدي وحده.'},
+            {title:'كيف يعمل الفائدة المركبة؟',category:'مال ورياضيات',source:'Investor.gov',sourceUrl:'https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator',text:'الفائدة المركبة تعني أن العائد المتراكم يمكن أن يبدأ هو نفسه في توليد عائد لاحقًا. لذلك يعتمد النمو النهائي على رأس المال ومعدل العائد والمدة وتكرار التركيب والإضافات أو السحوبات. أثر الزمن يصبح مهمًا جدًا لأن النمو يتراكم فوق نمو سابق.',modernApp:'<b>فكرة عملية:</b> لا تنظر إلى العائد في سنة واحدة فقط؛ في القرارات طويلة الأجل قد يكون الزمن والاستمرارية مؤثرين جدًا.'},
+            {title:'لماذا نستخدم المتوسط والوسيط؟',category:'رياضيات وإحصاء',source:'NIST',sourceUrl:'https://www.itl.nist.gov/div898/handbook/',text:'المتوسط الحسابي يجمع القيم ويقسمها على عددها، لكنه يتأثر بالقيم الشاذة. الوسيط هو القيمة التي تقع في منتصف البيانات بعد ترتيبها، ولذلك يكون أكثر مقاومة لبعض القيم المتطرفة. اختيار المقياس المناسب يعتمد على شكل البيانات والسؤال الذي تريد الإجابة عنه.',modernApp:'<b>مثال:</b> إذا كانت معظم الرواتب متقاربة لكن هناك عددًا قليلًا من الرواتب الضخمة، فقد يعطي الوسيط صورة أقرب إلى «الدخل المعتاد» من المتوسط.'},
+            {title:'ما معنى الارتباط؟ وهل يعني السببية؟',category:'إحصاء وتفكير نقدي',source:'NIST',sourceUrl:'https://www.itl.nist.gov/div898/handbook/',text:'الارتباط يعني أن متغيرين يتحركان معًا بطريقة إحصائية، لكنه لا يثبت أن أحدهما سبب الآخر. قد يكون هناك عامل ثالث يؤثر في الاثنين، أو قد يكون الارتباط مصادفة، أو قد تكون العلاقة سببية فعلًا. إثبات السببية يحتاج تصميمًا وأدلة أقوى من مجرد ملاحظة ارتباط.',modernApp:'<b>قاعدة ضد التضليل:</b> عندما ترى «الدراسة وجدت ارتباطًا»، لا تحولها تلقائيًا إلى «الدراسة أثبتت أن X يسبب Y».'},
+            {title:'لماذا تُستخدم الوحدات القياسية؟',category:'علم وقياس',source:'BIPM',sourceUrl:'https://www.bipm.org/en/measurement-units',text:'الوحدات القياسية تجعل القياسات قابلة للمقارنة بين الأشخاص والأجهزة والدول والمختبرات. النظام الدولي للوحدات يحدد وحدات أساسية مثل المتر والثانية والكيلوغرام والأمبير وغيرها، وتُبنى عليها وحدات كثيرة أخرى. من دون توحيد الوحدات يصبح نقل النتائج وإعادة التجارب أكثر عرضة للخطأ.',modernApp:'<b>في الحياة اليومية:</b> عندما تقارن مواصفات جهازين، تحقق من أن القياسات تستخدم الوحدات نفسها قبل مقارنة الأرقام.'},
+            {title:'لماذا تحتاج التجارب العلمية إلى مجموعة ضابطة؟',category:'منهج علمي',source:'National Institutes of Health',sourceUrl:'https://www.nih.gov/health-information/nih-clinical-research-trials-you',text:'المجموعة الضابطة تساعد الباحث على مقارنة ما يحدث عند التعرض للعامل المدروس بما يحدث في غيابه أو تحت شرط بديل. الهدف هو عزل أثر المتغير محل الدراسة وتقليل التفسيرات البديلة. تصميم التجربة يختلف حسب المجال، لكن المقارنة المنضبطة عنصر أساسي في كثير من الدراسات التجريبية.',modernApp:'<b>تفكير نقدي:</b> اسأل دائمًا: «بماذا قورن هذا التأثير؟» قبل قبول ادعاء أن شيئًا ما أحدث النتيجة.'},
+            {title:'ما معنى أن تكون النتيجة قابلة لإعادة الإنتاج؟',category:'منهج علمي',source:'National Academies',sourceUrl:'https://www.nationalacademies.org/',text:'قابلية إعادة الإنتاج تعني أن باحثين آخرين يستطيعون، باستخدام بيانات أو منهجية مناسبة، الوصول إلى نتائج متوافقة بدرجة معقولة. لا يعني هذا أن كل تجربة يجب أن تنتج الرقم نفسه حرفيًا؛ فهناك تفاوت طبيعي وأخطاء قياس وظروف مختلفة. لكنها قاعدة مهمة لاختبار متانة المعرفة العلمية.',modernApp:'<b>قاعدة:</b> النتيجة المثيرة مرة واحدة أضعف من نتيجة دعمتها أدلة مستقلة ومتكررة.'},
+            {title:'لماذا تعد الخرائط المسطحة مشوهة؟',category:'جغرافيا',source:'USGS',sourceUrl:'https://www.usgs.gov/programs/national-geospatial-program',text:'الأرض جسم قريب من الكرة، بينما الخريطة المسطحة سطح ثنائي الأبعاد. عند إسقاط سطح منحني على ورقة لا يمكن الحفاظ على المسافات والأشكال والمساحات والاتجاهات كلها في الوقت نفسه؛ لذلك تختار كل إسقاط خريطي خصائص يحافظ عليها أكثر من غيرها. لهذا قد تظهر بعض المناطق أكبر أو أصغر مما تتوقع.',modernApp:'<b>تطبيق:</b> لا تستخدم خريطة واحدة لكل الأغراض؛ إسقاط مناسب للملاحة قد لا يكون الأنسب لمقارنة مساحات الدول.'},
+            {title:'لماذا تبدو بعض الدول أكبر من حجمها الحقيقي على الخرائط؟',category:'جغرافيا',source:'USGS',sourceUrl:'https://www.usgs.gov/programs/national-geospatial-program',text:'بعض الإسقاطات، مثل إسقاط مركاتور، تحافظ على الزوايا والاتجاهات المحلية لكنها تضخم المساحات كلما اقتربنا من القطبين. لذلك تبدو مناطق شمالية مثل غرينلاند أكبر بصريًا من مساحتها الحقيقية مقارنة بالمناطق القريبة من خط الاستواء. هذا ليس خطأ في الرسم بقدر ما هو نتيجة رياضية لطريقة الإسقاط.',modernApp:'<b>فكرة:</b> شكل الخريطة ليس صورة محايدة تمامًا للأرض؛ اختيار الإسقاط يغير ما يبدو كبيرًا أو صغيرًا.'}
+        ];
+
+        function buildKnowledgeCard(template) {
+            return {
+                id: `knowledge_${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
+                title: template.title,
+                source: template.source,
+                category: template.category,
+                text: template.text,
+                modernApp: `<b>المصدر الموثوق:</b> <a href="${template.sourceUrl}" target="_blank" rel="noopener noreferrer">${template.source}</a><br><br>${template.modernApp}`,
+                sourceUrl: template.sourceUrl,
+                read: false,
+                readAt: 0,
+                updatedAt: Date.now(),
+                sourceType: 'curated'
+            };
         }
 
         function knowledgeNeedsRefresh(card) {
             return card && card.read && (!card.readAt || (Date.now() - card.readAt >= KNOWLEDGE_ROTATION_MS));
         }
 
-        async function refreshReadKnowledgeCards() {
-            if (!navigator.onLine || !Array.isArray(db.knowledgeCards)) return;
+        function pickDiverseKnowledgeCards() {
+            const pool = [...knowledgeTreasuryDB];
+            const selected = [];
+            const usedCategories = new Set();
+            while (selected.length < KNOWLEDGE_TARGET_COUNT && pool.length) {
+                const diverse = pool.filter(item => !usedCategories.has(item.category));
+                const sourcePool = diverse.length ? diverse : pool;
+                const index = Math.floor(Math.random() * sourcePool.length);
+                const chosen = sourcePool[index];
+                selected.push(buildKnowledgeCard(chosen));
+                usedCategories.add(chosen.category);
+                const originalIndex = pool.indexOf(chosen);
+                if (originalIndex >= 0) pool.splice(originalIndex, 1);
+            }
+            return selected;
+        }
+
+        function refreshReadKnowledgeCards() {
+            if (!Array.isArray(db.knowledgeCards)) return;
             let changed = false;
             for (let i = 0; i < db.knowledgeCards.length; i++) {
                 if (!knowledgeNeedsRefresh(db.knowledgeCards[i])) continue;
-                const fresh = await fetchRemoteKnowledgeCard();
-                if (fresh) { db.knowledgeCards[i] = fresh; changed = true; }
+                const current = db.knowledgeCards[i];
+                const candidates = knowledgeTreasuryDB.filter(item => item.title !== current.title);
+                if (!candidates.length) continue;
+                const replacement = candidates[Math.floor(Math.random() * candidates.length)];
+                db.knowledgeCards[i] = buildKnowledgeCard(replacement);
+                changed = true;
             }
             if (changed) finalizeAction();
         }
 
-        async function ensureRemoteKnowledgeCards() {
+        function ensureRemoteKnowledgeCards() {
             if (!Array.isArray(db.knowledgeCards)) db.knowledgeCards = [];
-            if (db.knowledgeCards.length === 0 && navigator.onLine) {
-                const fetched = [];
-                for (let i = 0; i < 5; i++) {
-                    const card = await fetchRemoteKnowledgeCard();
-                    if (card) fetched.push(card);
-                }
-                if (fetched.length) { db.knowledgeCards = fetched; finalizeAction(); }
-            } else {
-                await refreshReadKnowledgeCards();
+            const validCurated = db.knowledgeCards.length === KNOWLEDGE_TARGET_COUNT &&
+                db.knowledgeCards.every(card => card && card.sourceType === 'curated' && card.title && card.text && card.sourceUrl);
+            if (!validCurated) {
+                db.knowledgeCards = pickDiverseKnowledgeCards();
+                finalizeAction();
+                return;
             }
+            refreshReadKnowledgeCards();
         }
 
-        function markKnowledgeRead(id) {
-            const card = db.knowledgeCards.find(item => item.id === id);
+        function markKnowledgeRead(id, event) {
+            if (event) event.stopPropagation();
+            const card = Array.isArray(db.knowledgeCards) ? db.knowledgeCards.find(item => item.id === id) : null;
             if (!card) return;
             card.read = true;
             card.readAt = Date.now();
-            finalizeAction();
+            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e) {}
+            renderKnowledgeTreasury();
+            showToast('تم تسجيل إتمام القراءة');
+            saveToCloud();
         }
 
         function renderKnowledgeTreasury() {
             const container = document.getElementById('knowledgeCardsList');
             if (!container) return;
             const cards = Array.isArray(db.knowledgeCards) ? db.knowledgeCards : [];
-            if (!cards.length) {
-                container.innerHTML = '<div class="oneui-card" style="text-align:center;color:var(--text-secondary);">جاري جلب المعلومات من الإنترنت...</div>';
+            if (cards.length < KNOWLEDGE_TARGET_COUNT) {
+                container.innerHTML = '<div class="oneui-card" style="text-align:center;color:var(--text-secondary);">جاري جلب خمس معلومات دينية من المصدر الموثوق...</div>';
                 return;
             }
-            container.innerHTML = cards.map(item => `
-                <div class="knowledge-card-item ${item.read ? 'read' : 'unread'}" onclick="markKnowledgeRead('${String(item.id).replace(/'/g, "\\'")}')">
+            container.innerHTML = cards.slice(0, KNOWLEDGE_TARGET_COUNT).map(item => `
+                <div class="knowledge-card-item ${item.read ? 'read' : 'unread'}">
                     <div class="knowledge-meta-bar">
-                        <span class="knowledge-source-badge">📖 ${escapeHTML(item.source || 'مصدر إلكتروني')}</span>
-                        <span style="color:var(--text-secondary); font-weight:700;">${escapeHTML(item.category || 'معلومة')}</span>
+                        <span class="knowledge-source-badge">📖 ${escapeHTML(item.source || 'القرآن الكريم')}</span>
+                        <span style="color:var(--text-secondary); font-weight:700;">${escapeHTML(item.category || 'معلومة دينية موثوقة')}</span>
                     </div>
                     <strong style="display:block; font-size:15px; margin-bottom:6px; color:var(--text-primary);">${escapeHTML(item.title || '')}</strong>
                     <div class="knowledge-text-body">${escapeHTML(item.text || '')}</div>
                     <div class="knowledge-modern-app">${item.modernApp || ''}</div>
-                    <div style="display:flex;justify-content:flex-end;margin-top:8px;">
-                        ${item.read ? '<span class="knowledge-read-badge">✓ مقروءة — ستُحدّث دورياً</span>' : '<span style="font-size:10.5px;color:var(--accent-primary);font-weight:800;">اضغط عند الانتهاء لاعتبارها مقروءة</span>'}
+                    <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                        ${item.read
+                            ? '<span class="knowledge-read-badge">✓ تمت القراءة — ستُحدّث بعد 3 ساعات</span>'
+                            : `<button type="button" class="btn-action knowledge-complete-btn" onclick="markKnowledgeRead('${String(item.id).replace(/'/g, "\\'")}', event)">✓ إتمام القراءة</button>`}
                     </div>
                 </div>
             `).join('');
@@ -2079,8 +2173,14 @@
         function updateWeatherUIFromData(hourly) {
             if (!hourly || !hourly.time || !hourly.temperature_2m) return;
             const now = new Date();
-            const currentHourISO = now.toISOString().slice(0, 13) + ':00';
-            let startIndex = hourly.time.findIndex(t => t.startsWith(currentHourISO));
+            // بيانات Open-Meteo مضبوطة على timezone=auto؛ لذلك نطابق الساعة المحلية
+            // بدلاً من toISOString() الذي يحوّل الوقت إلى UTC ويسبب فرقاً في الرئيسية.
+            const currentHourISO = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}T${String(now.getHours()).padStart(2,'0')}:00`;
+            let startIndex = hourly.time.findIndex(t => t === currentHourISO);
+            if (startIndex === -1) {
+                const localPrefix = currentHourISO.slice(0, 13);
+                startIndex = hourly.time.findIndex(t => t.startsWith(localPrefix));
+            }
             if (startIndex === -1) startIndex = 0;
             const currentTemp = Math.round(hourly.temperature_2m[startIndex]);
 
@@ -2864,5 +2964,4 @@
     </script>
 </body>
 </html>
-
 
