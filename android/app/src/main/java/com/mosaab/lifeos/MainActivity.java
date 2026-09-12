@@ -6,6 +6,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
@@ -27,7 +28,6 @@ public class MainActivity extends BridgeActivity {
 
     /*
      * حالة شريط الحالة الحالية.
-     * تُستخدم لإعادة تطبيقها إذا أعاد Capacitor أو Android ضبط الشريط.
      */
     private String currentStatusBarColor = "#0B1120";
     private boolean currentStatusBarDarkIcons = false;
@@ -64,7 +64,8 @@ public class MainActivity extends BridgeActivity {
     /**
      * إنشاء قناة الإشعارات المهمة.
      *
-     * القناة Native واحدة وثابتة.
+     * هذا الجزء خاص بالتنبيهات ولا علاقة له
+     * بإصلاح شريط الحالة.
      */
     public void createAlarmNotificationChannel() {
 
@@ -83,8 +84,8 @@ public class MainActivity extends BridgeActivity {
         }
 
         /*
-         * ملف نغمة الإشعارات الموجود داخل:
-         * res/raw/marimba.mp3
+         * ملف النغمة:
+         * android/app/src/main/res/raw/marimba.mp3
          */
         Uri soundUri =
                 Uri.parse(
@@ -107,31 +108,30 @@ public class MainActivity extends BridgeActivity {
 
         /*
          * فحص القناة الموجودة.
-         *
-         * إذا كانت موجودة وبها نغمة marimba بالفعل،
-         * لا نلمسها إطلاقاً.
          */
         NotificationChannel existing =
                 manager.getNotificationChannel(
                         ALARM_CHANNEL_ID
                 );
 
+        /*
+         * إذا كانت القناة موجودة وبها نغمة marimba،
+         * لا نلمسها.
+         */
         if (existing != null) {
 
-            Uri existingSound = existing.getSound();
+            Uri existingSound =
+                    existing.getSound();
 
             if (soundUri.equals(existingSound)) {
                 return;
             }
 
             /*
-             * القناة القديمة لا تحتوي على marimba.
-             *
-             * نحفظ إعداداتها الحالية حتى لا نغيّر
-             * قوة التنبيه أو الاهتزاز أو الشارة أو
-             * ظهور التنبيه على شاشة القفل.
+             * نحفظ إعدادات القناة الحالية.
              */
-            int importance = existing.getImportance();
+            int importance =
+                    existing.getImportance();
 
             boolean vibrationEnabled =
                     existing.shouldVibrate();
@@ -155,9 +155,7 @@ public class MainActivity extends BridgeActivity {
                     existing.getDescription();
 
             /*
-             * Android لا يسمح بتغيير صوت القناة بعد إنشائها،
-             * لذلك نحذف القناة القديمة ونعيد إنشاءها بنفس
-             * المعرّف وبنفس مستوى الأهمية.
+             * Android لا يسمح بتغيير صوت قناة موجودة.
              */
             manager.deleteNotificationChannel(
                     ALARM_CHANNEL_ID
@@ -177,7 +175,7 @@ public class MainActivity extends BridgeActivity {
             );
 
             /*
-             * التغيير المطلوب فقط: صوت marimba.
+             * إضافة marimba.
              */
             channel.setSound(
                     soundUri,
@@ -185,7 +183,7 @@ public class MainActivity extends BridgeActivity {
             );
 
             /*
-             * إعادة إعدادات الاهتزاز كما كانت.
+             * إعادة إعدادات الاهتزاز.
              */
             channel.enableVibration(
                     vibrationEnabled
@@ -198,20 +196,32 @@ public class MainActivity extends BridgeActivity {
             }
 
             /*
-             * إعادة إعدادات الشارة والإضاءة وشاشة القفل.
+             * إعادة إعدادات الشارة.
              */
             channel.setShowBadge(
                     showBadge
             );
 
+            /*
+             * إعادة إعدادات شاشة القفل.
+             */
             channel.setLockscreenVisibility(
                     lockscreenVisibility
             );
 
+            /*
+             * إعادة إعدادات الإضاءة.
+             */
             if (showLights) {
+
                 channel.enableLights(true);
-                channel.setLightColor(lightColor);
+
+                channel.setLightColor(
+                        lightColor
+                );
+
             } else {
+
                 channel.enableLights(false);
             }
 
@@ -223,7 +233,7 @@ public class MainActivity extends BridgeActivity {
         }
 
         /*
-         * إنشاء القناة لأول مرة مع النغمة.
+         * إنشاء القناة لأول مرة.
          */
         NotificationChannel channel =
                 new NotificationChannel(
@@ -236,6 +246,9 @@ public class MainActivity extends BridgeActivity {
                 "تنبيهات المواعيد والمنبهات المهمة"
         );
 
+        /*
+         * نغمة marimba.
+         */
         channel.setSound(
                 soundUri,
                 audioAttributes
@@ -256,12 +269,16 @@ public class MainActivity extends BridgeActivity {
 
         channel.setShowBadge(true);
 
-        manager.createNotificationChannel(channel);
+        manager.createNotificationChannel(
+                channel
+        );
     }
 
 
     /**
      * تغيير لون شريط الحالة وأيقوناته.
+     *
+     * هذا هو الجزء الذي تم إصلاحه.
      */
     public void applyStatusBar(
             String colorHex,
@@ -271,36 +288,61 @@ public class MainActivity extends BridgeActivity {
         Window window = getWindow();
 
         /*
-         * نجعل Android يرسم خلفية شريط الحالة بنفسه
-         * بدل تركها شفافة أو تحت تأثير إعدادات الثيم.
-         *
-         * هذا خاص بشريط الحالة فقط ولا علاقة له بالتنبيهات.
+         * منع Android من استخدام شريط حالة شفاف.
          */
-        window.clearFlags(
-                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-        );
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-        window.addFlags(
-                WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
-        );
+            window.clearFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+            );
+
+            window.addFlags(
+                    WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+            );
+        }
 
         int parsedColor;
 
         try {
 
-            parsedColor = Color.parseColor(colorHex);
+            parsedColor =
+                    Color.parseColor(colorHex);
 
         } catch (Exception e) {
 
-            parsedColor = Color.parseColor("#0B1120");
+            parsedColor =
+                    Color.parseColor("#0B1120");
+
             colorHex = "#0B1120";
         }
 
+        /*
+         * حفظ الحالة الحالية حتى نستطيع إعادة تطبيقها.
+         */
         currentStatusBarColor = colorHex;
         currentStatusBarDarkIcons = darkIcons;
 
-        window.setStatusBarColor(parsedColor);
+        /*
+         * لون شريط الحالة.
+         */
+        window.setStatusBarColor(
+                parsedColor
+        );
 
+        /*
+         * إصلاح مهم:
+         * جعل خلفية نافذة Android نفسها بنفس اللون
+         * لمنع ظهور المساحة البيضاء فوق التطبيق.
+         */
+        window.setBackgroundDrawable(
+                new ColorDrawable(
+                        parsedColor
+                )
+        );
+
+        /*
+         * التحكم في لون أيقونات شريط الحالة.
+         */
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
 
             WindowInsetsController controller =
@@ -343,15 +385,15 @@ public class MainActivity extends BridgeActivity {
                         ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             }
 
-            decorView.setSystemUiVisibility(flags);
+            decorView.setSystemUiVisibility(
+                    flags
+            );
         }
     }
 
 
-    /*
-     * إعادة تثبيت مظهر شريط الحالة عند عودة النافذة إلى الواجهة.
-     *
-     * لا نلمس أي إعداد متعلق بقناة الإشعارات.
+    /**
+     * إعادة تطبيق لون شريط الحالة عند العودة للتطبيق.
      */
     @Override
     public void onResume() {
@@ -365,12 +407,17 @@ public class MainActivity extends BridgeActivity {
     }
 
 
+    /**
+     * إعادة تطبيق اللون عندما تستعيد النافذة التركيز.
+     */
     @Override
     public void onWindowFocusChanged(
             boolean hasFocus
     ) {
 
-        super.onWindowFocusChanged(hasFocus);
+        super.onWindowFocusChanged(
+                hasFocus
+        );
 
         if (hasFocus) {
 
@@ -410,7 +457,6 @@ public class MainActivity extends BridgeActivity {
                             false
                     );
 
-
             if (getActivity() == null) {
 
                 call.reject(
@@ -419,7 +465,6 @@ public class MainActivity extends BridgeActivity {
 
                 return;
             }
-
 
             getActivity().runOnUiThread(() -> {
 
@@ -436,7 +481,6 @@ public class MainActivity extends BridgeActivity {
                             );
                 }
             });
-
 
             JSObject result =
                     new JSObject();
@@ -467,7 +511,6 @@ public class MainActivity extends BridgeActivity {
                         getActivity())
                         .createAlarmNotificationChannel();
             }
-
 
             JSObject result =
                     new JSObject();
@@ -506,7 +549,6 @@ public class MainActivity extends BridgeActivity {
                     "success",
                     true
             );
-
 
             /*
              * فحص exact alarm
@@ -582,7 +624,6 @@ public class MainActivity extends BridgeActivity {
                 );
             }
 
-
             call.resolve(result);
         }
 
@@ -605,7 +646,6 @@ public class MainActivity extends BridgeActivity {
                     call.resolve();
                     return;
                 }
-
 
                 Intent intent =
                         new Intent(
@@ -683,9 +723,6 @@ public class MainActivity extends BridgeActivity {
 
         /**
          * فتح إعدادات التطبيق.
-         *
-         * Android لا يملك صفحة Autostart موحدة
-         * لجميع الشركات، لذلك نفتح صفحة التطبيق.
          */
         @PluginMethod
         public void openAutostartSettings(
