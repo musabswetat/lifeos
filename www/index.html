@@ -744,6 +744,15 @@
             <div id="knowledgeCardsList"></div>
         </div>
 
+        <!-- 🌿 3. قسم الحياة: أفكار وتجارب ومواعظ ومصادر تستحق الوقت -->
+        <div id="life-view" class="section-view">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <div class="section-label" style="margin:0;">🌿 الحياة — أفكار وتجارب تستحق أن تُعاش</div>
+                <button class="tag-badge" onclick="switchNavSection('dashboard-view')">← الرئيسية</button>
+            </div>
+            <div id="lifeCardsList"></div>
+        </div>
+
         <!-- 🕌 3. تطبيق إسلاميات الشامل والمسبحة -->
         <div id="islamiyat-view" class="section-view">
             <div style="display:flex; gap:6px; margin-bottom:12px; overflow-x:auto;">
@@ -1079,6 +1088,7 @@
             <strong style="font-size:16px; display:block; margin-bottom:12px;">أقسام التطبيق</strong>
             <div class="all-sections-grid-menu">
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('prayers-alarms-view')">🕌 الصلوات</div>
+                <div class="all-sections-grid-item" onclick="triggerNavFromModal('life-view')">🌿 الحياة</div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('islamiyat-view')">🤲 إسلاميات</div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('notes-view')">📝 الملاحظات</div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('todos-view')">✅ المهام</div>
@@ -1286,6 +1296,7 @@
             if (!data.settings.pinnedSections) data.settings.pinnedSections = [];
             if (!Array.isArray(data.settings.pinnedSections)) data.settings.pinnedSections = [];
             if (!Array.isArray(data.knowledgeCards)) data.knowledgeCards = [];
+            if (!Array.isArray(data.lifeCards)) data.lifeCards = [];
             if (!data.adhkarCounters) data.adhkarCounters = {};
             if (!data.quranPortion) data.quranPortion = { surah: 'البقرة', startAya: 1, endAya: 5, completedBatches: 0, lastCompletedDate: '' };
             if (!data.cachedFeeds) data.cachedFeeds = {
@@ -1643,6 +1654,134 @@
                         ${item.read
                             ? '<span class="knowledge-read-badge">✓ تمت القراءة — ستُحدّث بعد 3 ساعات</span>'
                             : `<button type="button" class="btn-action knowledge-complete-btn" onclick="markKnowledgeRead('${String(item.id).replace(/'/g, "\\'")}', event)">✓ إتمام القراءة</button>`}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // =========================================================================
+        // --- 2B. قسم الحياة: محتوى منتقى من مصادر متعددة ويدور دوريًا ---
+        // =========================================================================
+        const LIFE_ROTATION_MS = 3 * 60 * 60 * 1000;
+        const LIFE_TARGET_COUNT = 5;
+
+        // هذا القسم ليس "تنمية بشرية"؛ بل مزيج من أبحاث وتجارب وأفكار فلسفية
+        // ومصادر دينية موثوقة وكتب/مقالات تستحق القراءة، مع تطبيق عملي قصير.
+        const lifeTreasuryDB = [
+            {title:'بدّل السؤال: كيف أنجح؟ إلى ماذا سيجعلني أفشل؟',category:'تفكير ذكي',source:'Farnam Street — Inversion',sourceUrl:'https://fs.blog/mental-models/',text:'عندما تواجه قرارًا أو مشكلة، لا تسأل فقط: ما الذي يقربني من النتيجة؟ اسأل أيضًا: ما الأشياء التي لو فعلتها أو أهملتها ستجعل الفشل شبه مضمون؟ قلب السؤال يكشف أحيانًا مخاطر واضحة لا تراها وأنت منشغل بالوصول إلى الهدف.',modernApp:'<b>جرّبها اليوم:</b> قبل قرار مهم اكتب ثلاث طرق قد تفسده، ثم صمّم حاجزًا واحدًا يمنع كل طريقة. ليست الفكرة أن تصبح متشائمًا؛ بل أن تمنع الأخطاء الغبية قبل أن تحتاج إلى إنقاذها.'},
+            {title:'لا تحكم على القرار من نتيجته فقط',category:'اتخاذ القرار',source:'Farnam Street — Second-Order Thinking',sourceUrl:'https://fs.blog/second-order-thinking/',text:'القرار الجيد قد ينتج عنه أحيانًا حظ سيئ، والقرار السيئ قد ينجح مرة. لذلك من المفيد النظر إلى الآثار التالية للقرار: ماذا سيحدث بعد النتيجة الأولى؟ وما السلوك الذي سيصنعه هذا القرار إذا تكرر؟ التفكير في «ثم ماذا؟» يمنعك من الانبهار بالمكاسب السريعة.',modernApp:'<b>اختبار سريع:</b> قبل أن تقول «هذا أفضل»، اسأل: ماذا سيحدث بعد أسبوع؟ وبعد سنة؟ ومن سيتغير سلوكه بسبب هذا القرار؟'},
+            {title:'احمِ انتباهك كأنه مال لا يعود',category:'حياة رقمية',source:'Cal Newport — Digital Minimalism',sourceUrl:'https://calnewport.com/on-digital-minimalism/',text:'الفكرة ليست كراهية الهاتف أو الإنترنت، بل أن تختار التقنية التي تخدم قيمة واضحة في حياتك بدل أن تقبل كل ما يطلب جزءًا من انتباهك. بعض الأدوات تحل مشكلة حقيقية، وأخرى تصنع عادة لم تكن تحتاجها أصلًا.',modernApp:'<b>تجربة ذكية:</b> عطّل إشعارًا واحدًا لا تحتاجه. إذا كان التطبيق مهمًا، ستذهب إليه عمدًا؛ أما أن يطلب حضورك طوال اليوم فشيء آخر.'},
+            {title:'اصنع مساحة للدهشة بدل أن تستهلك يومك كله',category:'دهشة ومعنى',source:'Greater Good Science Center — The Science of Awe',sourceUrl:'https://greatergood.berkeley.edu/article/item/why_do_we_feel_awe',text:'أبحاث الدهشة تشير إلى أن لحظات نشعر فيها بعظمة شيء يتجاوزنا — في الطبيعة أو الفن أو العلم أو فعل إنساني نبيل — قد توسّع منظورنا وتزيد الإحساس بالترابط وتدفعنا إلى قدر أكبر من الكرم والتواضع. والدهشة لا تحتاج رحلة باهظة؛ قد تبدأ من السماء أو كتاب أو قصة إنسان.',modernApp:'<b>طقس صغير:</b> اخرج عشر دقائق بلا سماعات ولا هاتف في يدك. ابحث عن شيء واحد لم تنتبه إليه من قبل. لا تصوّره؛ فقط انظر.'},
+            {title:'المعنى قد يأتي من العطاء لا من مطاردة «الشغف»',category:'معنى الحياة',source:'Greater Good Science Center — Helping Others',sourceUrl:'https://greatergood.berkeley.edu/article/item/can_helping_others_help_you_find_meaning_in_life',text:'تشير أبحاث في معنى الحياة إلى أن مساعدة الآخرين والعلاقات الجيدة ليستا مجرد إضافات لطيفة بعد أن «ننجح». في بعض الدراسات ارتبط السلوك الإيثاري والإحساس بأنك نافع للآخرين بإحساس أقوى بالمعنى، وحتى أفعال الامتنان الموجهة لشخص آخر قد ترفع هذا الإحساس.',modernApp:'<b>لا تجعلها شعارًا:</b> اختر شخصًا واحدًا تستطيع أن تخفف عنه عبئًا حقيقيًا هذا الأسبوع، من دون انتظار أن يعرف أحد أنك فعلت ذلك.'},
+            {title:'الامتنان ليس أن تقنع نفسك أن كل شيء جميل',category:'العلاقات',source:'Greater Good Science Center — Gratitude',sourceUrl:'https://greatergood.berkeley.edu/article/item/how_gratitude_helps_your_friendships_grow',text:'الامتنان الصحي لا يعني إنكار المشاكل أو تزيين الواقع. في العلاقات، فائدته الأقوى تظهر عندما يصبح اعترافًا محددًا بقيمة شخص وبما فعله، لا مجرد كلمة «شكرًا». هذا الاعتراف يمكن أن يغذي دورة من الاهتمام والعطاء المتبادل.',modernApp:'<b>جرّب الفرق:</b> بدل «شكرًا على كل شيء»، قل لشخص: «الشيء الذي فعلته أمس وفّر عليّ كذا، وأنا انتبهت له». التحديد يجعل الامتنان فعلًا لا مجاملة.'},
+            {title:'التسامح ليس إعلان أن ما حدث كان مقبولًا',category:'الكرامة والصفح',source:'Greater Good Science Center — Forgiveness',sourceUrl:'https://greatergood.berkeley.edu/forgiveness/definition',text:'الصفح يمكن أن يعني أن تتوقف عن حمل الأذى كأنه يعيش داخل يومك إلى الأبد. لكنه لا يلغي المحاسبة ولا يفرض عليك إعادة الثقة بمن أذاك. يمكنك أن تضع حدًا واضحًا، وفي الوقت نفسه ترفض أن تجعل الانتقام مشروع حياتك.',modernApp:'<b>فكرة جريئة:</b> اسأل نفسك: «ما الحد الذي أحتاجه لحماية نفسي؟ وما الغضب الذي لم يعد يخدمني؟» هذان سؤالان مختلفان.'},
+            {title:'لا تجعل «الهدوء» ذريعة لتجنب المواجهة',category:'حكمة عملية',source:'Epictetus — Stanford Encyclopedia of Philosophy',sourceUrl:'https://plato.stanford.edu/entries/epictetus/',text:'الفلسفة الرواقية عند إبكتيتوس تهتم بالنزاهة وإدارة النفس والحرية الداخلية، لا بمجرد الظهور بمظهر الشخص الهادئ. الهدوء الحقيقي لا يعني أن توافق على كل شيء؛ بل أن تستطيع اختيار ردك بدل أن يصبح الغضب هو الذي يختاره نيابة عنك.',modernApp:'<b>تجربة:</b> في نقاش حاد، لا تحاول الفوز فورًا. قل ما يلزم بوضوح، ثم توقف. السيطرة على ردك أقوى من آخر كلمة.'},
+            {title:'«وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا» — ليست آية للانتظار السلبي',category:'روحانيات',source:'القرآن الكريم — سورة الطلاق 65:2-3',sourceUrl:'https://quran.com/65/2',text:'الآية تربط التقوى بالمخرج والرزق والتوكل. المعنى ليس أن المؤمن يتوقف عن الأخذ بالأسباب، بل أن الإنسان يعمل ويضبط طريقه ثم لا يجعل النتيجة المجهولة إلهًا صغيرًا يسيطر على قلبه. التوكل هنا ليس كسلًا؛ هو أن تعمل دون أن تعبد النتيجة.',modernApp:'<b>تأمل:</b> في مشكلة لا تملك نتيجتها، اكتب «ما الذي أستطيع فعله الآن؟» ثم افعل ما تستطيع، واترك ما لا تملكه لله بدل إعادة المشهد في رأسك.'},
+            {title:'«أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ» — الهدوء ليس دائمًا حلًا خارجيًا',category:'روحانيات',source:'القرآن الكريم — سورة الرعد 13:28',sourceUrl:'https://quran.com/13/28',text:'تذكّر الآية أن الطمأنينة ليست مشروع شراء أو ترتيب حياة مثالية. قد تبقى الظروف صعبة، لكن علاقة القلب بالله ليست رهينة بأن تسير كل الأشياء كما يريد الإنسان. هذا لا يلغي السعي لحل المشكلة؛ بل يحرر القلب من شرط «لن أطمئن إلا إذا حدث كذا».',modernApp:'<b>تطبيق:</b> خصص دقائق قليلة للذكر بلا هاتف ولا تسجيل نتائج ولا تصوير. اجعلها عبادة لا «تقنية للاسترخاء» فقط.'},
+            {title:'«احرص على ما ينفعك واستعن بالله ولا تعجز»',category:'هدي نبوي',source:'صحيح مسلم 2664 — Sunnah.com',sourceUrl:'https://sunnah.com/muslim:2664',text:'في الحديث اجتماع ثلاث حركات في جملة واحدة: اختيار ما ينفع، طلب العون من الله، ورفض العجز. ثم يأتي التعامل مع الندم على الماضي دون الغرق في «لو». إنها صيغة عملية جدًا: استفد من الماضي، لكن لا تجعل الماضي يستهلك قدرتك على الفعل الآن.',modernApp:'<b>قاعدة عملية:</b> عندما تكرر «لو أنني...»، أوقف الجملة واسأل: «ما الشيء النافع الذي أستطيع فعله الآن؟»'},
+            {title:'عش في الدنيا كأنك غريب أو عابر سبيل',category:'روحانيات وحياة',source:'صحيح البخاري 6416 — Sunnah.com',sourceUrl:'https://sunnah.com/bukhari:6416',text:'التشبيه النبوي لا يطلب ترك الدنيا، بل يغيّر طريقة التعلق بها: المسافر يستخدم ما يحتاجه في طريقه لكنه لا يتعامل مع محطة مؤقتة كأنها وطن أبدي. هذه النظرة يمكن أن تعيد ترتيب علاقتك بالمال والسمعة والخلافات والأشياء التي تستهلك عمرك.',modernApp:'<b>سؤال مؤلم ومفيد:</b> هل هناك شيء يسرق منك سلامك لأنك تتعامل معه كأنه دائم، مع أنه في الحقيقة مرحلة وستمر؟'},
+            {title:'اقرأ «التأملات» كدفتر محاسبة لا ككتاب اقتباسات',category:'كتاب يستحق القراءة',source:'Marcus Aurelius — Meditations / Project Gutenberg',sourceUrl:'https://www.gutenberg.org/ebooks/2680',text:'التأملات ليست كتابًا مكتوبًا ليبدو صاحبه حكيمًا أمام الناس؛ هي كتابات شخصية لإمبراطور روماني يحاول ضبط نفسه وسط الحرب والسلطة والخسارة. من أقوى ما فيها العودة إلى الخلق والانضباط بدل الانشغال بما لا تملكه.',modernApp:'<b>طريقة القراءة:</b> لا تجمع الاقتباسات. اقرأ صفحة، ثم اكتب سطرًا واحدًا: «ما الشيء الذي يجب أن أفعله أنا، لا أن أقتبس عنه؟»'},
+            {title:'الدهشة قد تكون في إنسان لا في منظر طبيعي',category:'قصص وتجارب إنسانية',source:'Greater Good — Moral Beauty',sourceUrl:'https://greatergood.berkeley.edu/article/item/whats_the_most_common_source_of_awe',text:'في بحث عن مصادر الدهشة عبر ثقافات متعددة، ظهر شيء لافت: الأفعال الإنسانية الاستثنائية — الشجاعة والرحمة والقوة وتجاوز المحن — كانت مصدرًا شائعًا جدًا للدهشة. أحيانًا أفضل قصة ملهمة ليست عن شخص «نجح»، بل عن شخص فعل الخير حين كان يستطيع أن يفعل العكس.',modernApp:'<b>تحدٍ:</b> ابحث هذا الأسبوع عن قصة إنسان فعل شيئًا شريفًا بلا مكافأة واضحة. لا تبحث عن المشاهير؛ ابحث عن الفعل نفسه.'},
+            {title:'أنت لا تحتاج إلى تحسين كل شيء في حياتك',category:'بساطة',source:'Cal Newport — The Deep Life',sourceUrl:'https://calnewport.com/the-deep-life-some-notes/',text:'من الأفكار المفيدة في الحياة العميقة البحث عن الأشياء الكبيرة التي تغيّر الكثير، ثم إزالة الضجيج الذي يلتهمها. ليست الحكمة أن تضيف عشر عادات جديدة، بل أن تعرف أي التزامات قليلة تستحق أفضل طاقتك.',modernApp:'<b>تجربة أسبوع:</b> لا تضف عادة واحدة. احذف التزامًا منخفض القيمة، واستعمل الوقت الناتج في شيء مهم فعلًا.'}
+        ];
+
+        function buildLifeCard(template) {
+            return {
+                id: `life_${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
+                title: template.title,
+                source: template.source,
+                category: template.category,
+                text: template.text,
+                modernApp: `<b>المصدر:</b> <a href="${template.sourceUrl}" target="_blank" rel="noopener noreferrer">${template.source}</a><br><br>${template.modernApp}`,
+                sourceUrl: template.sourceUrl,
+                read: false,
+                readAt: 0,
+                updatedAt: Date.now(),
+                sourceType: 'curated'
+            };
+        }
+
+        function lifeNeedsRefresh(card) {
+            return card && card.read && (!card.readAt || (Date.now() - card.readAt >= LIFE_ROTATION_MS));
+        }
+
+        function pickDiverseLifeCards() {
+            const pool = [...lifeTreasuryDB];
+            const selected = [];
+            const usedCategories = new Set();
+            while (selected.length < LIFE_TARGET_COUNT && pool.length) {
+                const diverse = pool.filter(item => !usedCategories.has(item.category));
+                const sourcePool = diverse.length ? diverse : pool;
+                const index = Math.floor(Math.random() * sourcePool.length);
+                const chosen = sourcePool[index];
+                selected.push(buildLifeCard(chosen));
+                usedCategories.add(chosen.category);
+                const originalIndex = pool.indexOf(chosen);
+                if (originalIndex >= 0) pool.splice(originalIndex, 1);
+            }
+            return selected;
+        }
+
+        function refreshReadLifeCards() {
+            if (!Array.isArray(db.lifeCards)) return;
+            let changed = false;
+            for (let i = 0; i < db.lifeCards.length; i++) {
+                if (!lifeNeedsRefresh(db.lifeCards[i])) continue;
+                const current = db.lifeCards[i];
+                const candidates = lifeTreasuryDB.filter(item => item.title !== current.title);
+                if (!candidates.length) continue;
+                const replacement = candidates[Math.floor(Math.random() * candidates.length)];
+                db.lifeCards[i] = buildLifeCard(replacement);
+                changed = true;
+            }
+            if (changed) finalizeAction();
+        }
+
+        async function ensureRemoteLifeCards() {
+            if (!Array.isArray(db.lifeCards)) db.lifeCards = [];
+            const validCurated = db.lifeCards.length === LIFE_TARGET_COUNT &&
+                db.lifeCards.every(card => card && card.sourceType === 'curated' && card.title && card.text && card.sourceUrl);
+            if (!validCurated) {
+                db.lifeCards = pickDiverseLifeCards();
+                finalizeAction();
+                return;
+            }
+            refreshReadLifeCards();
+        }
+
+        function markLifeRead(id, event) {
+            if (event) event.stopPropagation();
+            const card = Array.isArray(db.lifeCards) ? db.lifeCards.find(item => item.id === id) : null;
+            if (!card) return;
+            card.read = true;
+            card.readAt = Date.now();
+            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e) {}
+            renderLifeTreasury();
+            showToast('تم تسجيل إتمام القراءة');
+            saveToCloud();
+        }
+
+        function renderLifeTreasury() {
+            const container = document.getElementById('lifeCardsList');
+            if (!container) return;
+            const cards = Array.isArray(db.lifeCards) ? db.lifeCards : [];
+            if (cards.length < LIFE_TARGET_COUNT) {
+                container.innerHTML = '<div class="oneui-card" style="text-align:center;color:var(--text-secondary);">جاري تجهيز خمس مواد جديدة من مصادر متعددة...</div>';
+                return;
+            }
+            container.innerHTML = cards.slice(0, LIFE_TARGET_COUNT).map(item => `
+                <div class="knowledge-card-item ${item.read ? 'read' : 'unread'}">
+                    <div class="knowledge-meta-bar">
+                        <span class="knowledge-source-badge">🌿 ${escapeHTML(item.source || 'مصدر موثوق')}</span>
+                        <span style="color:var(--text-secondary); font-weight:700;">${escapeHTML(item.category || 'الحياة')}</span>
+                    </div>
+                    <strong style="display:block; font-size:15px; margin-bottom:6px; color:var(--text-primary);">${escapeHTML(item.title || '')}</strong>
+                    <div class="knowledge-text-body">${escapeHTML(item.text || '')}</div>
+                    <div class="knowledge-modern-app">${item.modernApp || ''}</div>
+                    <div style="display:flex;justify-content:flex-end;margin-top:10px;">
+                        ${item.read
+                            ? '<span class="knowledge-read-badge">✓ تمت القراءة — ستُحدّث بعد 3 ساعات</span>'
+                            : `<button type="button" class="btn-action knowledge-complete-btn" onclick="markLifeRead('${String(item.id).replace(/'/g, "\\'")}', event)">✓ إتمام القراءة</button>`}
                     </div>
                 </div>
             `).join('');
@@ -2063,6 +2202,7 @@
             }
 
             if (viewId === 'knowledge-view') { renderKnowledgeTreasury(); ensureRemoteKnowledgeCards().then(renderKnowledgeTreasury); }
+            if (viewId === 'life-view') { renderLifeTreasury(); ensureRemoteLifeCards().then(renderLifeTreasury); }
             if (viewId === 'calc-view') updateGCalcDisplay();
             if (viewId === 'calendar-view') renderCalendarGrid();
             if (viewId === 'adhkar-view') renderDhikrView();
@@ -2861,7 +3001,7 @@
         function startVoiceRecording() { showToast('🎙️ ميزة التسجيل الصوتي المباشر'); }
 
         const SECTION_META = {
-            'knowledge-view': ['💎', 'المعلومات'], 'islamiyat-view': ['🤲', 'إسلاميات'], 'notes-view': ['📝', 'الملاحظات'],
+            'knowledge-view': ['💎', 'المعلومات'], 'life-view': ['🌿', 'الحياة'], 'islamiyat-view': ['🤲', 'إسلاميات'], 'notes-view': ['📝', 'الملاحظات'],
             'todos-view': ['✅', 'المهام'], 'finance-view': ['📊', 'المالية'], 'quran-view': ['📖', 'ورد القرآن'],
             'calc-view': ['🧮', 'الحاسبة'], 'calendar-view': ['📅', 'التقويم'], 'weather-view': ['⛅', 'الطقس'],
             'currency-view': ['💱', 'العملات'], 'vault-view': ['🔐', 'الخزنة'], 'settings-view': ['⚙️', 'الإعدادات'],
@@ -2936,6 +3076,11 @@
             if (document.getElementById('knowledge-view')?.classList.contains('active')) renderKnowledgeTreasury();
         }, KNOWLEDGE_ROTATION_MS);
 
+        setInterval(async () => {
+            await refreshReadLifeCards();
+            if (document.getElementById('life-view')?.classList.contains('active')) renderLifeTreasury();
+        }, LIFE_ROTATION_MS);
+
         // =========================================================================
         // --- بدء التشغيل الفوري للنظام ---
         // =========================================================================
@@ -2962,10 +3107,11 @@
             renderKnowledgeTreasury();
             await ensureRemoteKnowledgeCards();
             renderKnowledgeTreasury();
+            renderLifeTreasury();
+            await ensureRemoteLifeCards();
+            renderLifeTreasury();
             updateUI();
         })();
     </script>
 </body>
-</html>
-
-
+</html
