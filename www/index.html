@@ -328,7 +328,7 @@
         }
 
         /* =========================================================
-           🚀 الدوك السفلي الثلاثي فقط: الرئيسية، إضافة، معلومات
+           🚀 الدوك السفلي: الرئيسية، الأقسام، المعلومات
            ========================================================= */
         .bottom-floating-dock {
             position: fixed; bottom: 0; left: 0; right: 0; width: 100%; max-width: 100%;
@@ -501,8 +501,6 @@
         body.ios-mode .g-calc-btn:active { opacity: 0.65 !important; transform: scale(0.94) !important; }
 
         /* التعديلات الجديدة */
-        .dashboard-task-form .btn-action,
-        #todos-view form .btn-action { display:none !important; }
         .dashboard-task-form, #todos-view form { align-items:center; }
         .dashboard-task-form .app-input, #todos-view form .app-input { margin-bottom:0 !important; }
         .hero-poetry-line { background:transparent !important; border:0 !important; padding:8px 0 !important; border-radius:0 !important; white-space:normal !important; display:block !important; font-size:15px !important; line-height:1.9 !important; }
@@ -616,6 +614,276 @@
         @media (max-width: 380px) {
             .bottom-floating-dock { left: 10px !important; right: 10px !important; }
             .dock-capsule-item { padding-inline: 8px !important; font-size: 12px !important; }
+        }
+
+        /* iOS 27 — Liquid Glass: وضوح أعلى، فصل أفضل، حواف وإضاءة انعكاسية */
+        body.ios-mode { --radius-card:20px !important; --radius-input:15px !important; letter-spacing:-0.018em !important; }
+        body.ios-mode .oneui-card, body.ios-mode .knowledge-card-item, body.ios-mode .google-calc-box, body.ios-mode .modal-box, body.ios-mode .dashboard-pinned-card, body.ios-mode .top-info-link, body.ios-mode .habit-chip, body.ios-mode .alarm-item-card {
+            background:linear-gradient(145deg,rgba(255,255,255,.66),rgba(255,255,255,.38)) !important;
+            border:1px solid rgba(255,255,255,.70) !important;
+            box-shadow:0 12px 32px rgba(0,0,0,.10),inset 0 1px 0 rgba(255,255,255,.88),inset 0 -1px 0 rgba(0,0,0,.045) !important;
+            backdrop-filter:blur(28px) saturate(185%) !important; -webkit-backdrop-filter:blur(28px) saturate(185%) !important;
+        }
+        body.ios-mode:not(.light-mode) .oneui-card, body.ios-mode:not(.light-mode) .knowledge-card-item, body.ios-mode:not(.light-mode) .google-calc-box, body.ios-mode:not(.light-mode) .modal-box, body.ios-mode:not(.light-mode) .dashboard-pinned-card, body.ios-mode:not(.light-mode) .top-info-link, body.ios-mode:not(.light-mode) .habit-chip, body.ios-mode:not(.light-mode) .alarm-item-card {
+            background:linear-gradient(145deg,rgba(44,44,46,.70),rgba(28,28,30,.58)) !important; border-color:rgba(255,255,255,.14) !important;
+            box-shadow:0 14px 36px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.10),inset 0 -1px 0 rgba(0,0,0,.30) !important;
+        }
+        body.ios-mode .bottom-floating-dock { left:12px !important; right:12px !important; bottom:max(8px,env(safe-area-inset-bottom,8px)) !important; min-height:68px !important; padding:8px !important; gap:5px !important; border-radius:28px !important; background:rgba(250,250,252,.58) !important; border:1px solid rgba(255,255,255,.78) !important; box-shadow:0 16px 42px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.90),inset 0 -1px 0 rgba(0,0,0,.06) !important; backdrop-filter:blur(30px) saturate(190%) !important; -webkit-backdrop-filter:blur(30px) saturate(190%) !important; }
+        body.ios-mode:not(.light-mode) .bottom-floating-dock { background:rgba(35,35,38,.64) !important; border-color:rgba(255,255,255,.16) !important; box-shadow:0 18px 46px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.11),inset 0 -1px 0 rgba(0,0,0,.35) !important; }
+        body.ios-mode .dock-capsule-item { min-height:52px !important; border-radius:21px !important; font-size:12px !important; font-weight:700 !important; color:var(--text-secondary) !important; background:transparent !important; border:1px solid transparent !important; }
+        body.ios-mode .dock-capsule-item.active { color:var(--text-primary) !important; background:rgba(255,255,255,.50) !important; border-color:rgba(255,255,255,.62) !important; box-shadow:inset 0 1px 0 rgba(255,255,255,.82),0 5px 18px rgba(0,0,0,.08) !important; }
+        body.ios-mode:not(.light-mode) .dock-capsule-item.active { background:rgba(70,70,74,.58) !important; border-color:rgba(255,255,255,.12) !important; box-shadow:inset 0 1px 0 rgba(255,255,255,.10),0 5px 18px rgba(0,0,0,.25) !important; }
+        body.ios-mode .dock-capsule-item.dock-center-btn { background:transparent !important; box-shadow:none !important; border-color:transparent !important; }
+
+
+        /* =========================================================
+           Zen OS — iPhone Liquid Glass final layer
+           طبقة بصرية فقط: لا تغيّر منطق التطبيق أو البيانات.
+           ========================================================= */
+        body.ios-mode.light-mode {
+            background-color:#eef3f8 !important;
+            background-image:
+                radial-gradient(circle at 8% 8%, rgba(126,184,255,.28), transparent 34%),
+                radial-gradient(circle at 92% 10%, rgba(194,171,255,.22), transparent 32%),
+                radial-gradient(circle at 50% 100%, rgba(158,224,199,.18), transparent 40%),
+                linear-gradient(145deg,#edf2f8 0%,#f8f9fc 48%,#e9eff6 100%) !important;
+            background-attachment:fixed !important;
+        }
+        body.ios-mode:not(.light-mode) {
+            background-color:#090d14 !important;
+            background-image:
+                radial-gradient(circle at 8% 8%, rgba(42,101,180,.22), transparent 34%),
+                radial-gradient(circle at 92% 12%, rgba(112,74,170,.18), transparent 32%),
+                radial-gradient(circle at 55% 100%, rgba(38,110,88,.12), transparent 40%),
+                linear-gradient(145deg,#080c13 0%,#121923 50%,#080c12 100%) !important;
+            background-attachment:fixed !important;
+        }
+
+        body.ios-mode.light-mode .oneui-card,
+        body.ios-mode.light-mode .knowledge-card-item,
+        body.ios-mode.light-mode .dashboard-pinned-card,
+        body.ios-mode.light-mode .google-calc-box,
+        body.ios-mode.light-mode .modal-box,
+        body.ios-mode.light-mode .top-info-link,
+        body.ios-mode.light-mode .top-action-btn,
+        body.ios-mode.light-mode .user-auth-pill,
+        body.ios-mode.light-mode .habit-chip,
+        body.ios-mode.light-mode .alarm-item-card,
+        body.ios-mode.light-mode .dhikr-card,
+        body.ios-mode.light-mode .calendar-day-cell,
+        body.ios-mode.light-mode .weather-hour-card {
+            background:rgba(255,255,255,.56) !important;
+            border-color:rgba(255,255,255,.78) !important;
+            box-shadow:0 10px 30px rgba(45,62,90,.10),inset 0 1px 0 rgba(255,255,255,.82) !important;
+            backdrop-filter:blur(22px) saturate(175%) !important;
+            -webkit-backdrop-filter:blur(22px) saturate(175%) !important;
+        }
+        body.ios-mode:not(.light-mode) .oneui-card,
+        body.ios-mode:not(.light-mode) .knowledge-card-item,
+        body.ios-mode:not(.light-mode) .dashboard-pinned-card,
+        body.ios-mode:not(.light-mode) .google-calc-box,
+        body.ios-mode:not(.light-mode) .modal-box,
+        body.ios-mode:not(.light-mode) .top-info-link,
+        body.ios-mode:not(.light-mode) .top-action-btn,
+        body.ios-mode:not(.light-mode) .user-auth-pill,
+        body.ios-mode:not(.light-mode) .habit-chip,
+        body.ios-mode:not(.light-mode) .alarm-item-card,
+        body.ios-mode:not(.light-mode) .dhikr-card,
+        body.ios-mode:not(.light-mode) .calendar-day-cell,
+        body.ios-mode:not(.light-mode) .weather-hour-card {
+            background:rgba(31,36,45,.58) !important;
+            border-color:rgba(255,255,255,.14) !important;
+            box-shadow:0 12px 34px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.09) !important;
+            backdrop-filter:blur(22px) saturate(160%) !important;
+            -webkit-backdrop-filter:blur(22px) saturate(160%) !important;
+        }
+
+        /* انعكاس زجاجي خفيف، بدون طبقات ثقيلة. */
+        body.ios-mode .oneui-card,
+        body.ios-mode .knowledge-card-item,
+        body.ios-mode .dashboard-pinned-card,
+        body.ios-mode .google-calc-box,
+        body.ios-mode .modal-box { position:relative; overflow:hidden; }
+        body.ios-mode .oneui-card::before,
+        body.ios-mode .knowledge-card-item::before,
+        body.ios-mode .dashboard-pinned-card::before,
+        body.ios-mode .google-calc-box::before,
+        body.ios-mode .modal-box::before {
+            content:"";
+            position:absolute;
+            left:0;right:0;top:0;height:38%;
+            background:linear-gradient(180deg,rgba(255,255,255,.16),transparent);
+            pointer-events:none;
+            border-radius:inherit;
+            opacity:.55;
+        }
+
+        /* حقول الإدخال تبقى واضحة ولا تتحول إلى أسود عند إضافة مهمة. */
+        body.ios-mode.light-mode .app-input,
+        body.ios-mode.light-mode .dashboard-task-form .app-input,
+        body.ios-mode.light-mode #todos-view form .app-input {
+            background:rgba(255,255,255,.70) !important;
+            color:#1c1c1e !important;
+            border:1px solid rgba(60,60,67,.14) !important;
+        }
+        body.ios-mode:not(.light-mode) .app-input,
+        body.ios-mode:not(.light-mode) .dashboard-task-form .app-input,
+        body.ios-mode:not(.light-mode) #todos-view form .app-input {
+            background:rgba(44,44,46,.78) !important;
+            color:#f2f2f7 !important;
+            border:1px solid rgba(255,255,255,.10) !important;
+        }
+        body.ios-mode .dashboard-task-form .btn-action,
+        body.ios-mode #todos-view form .btn-action {
+            display:inline-flex !important;
+        }
+
+        /* شريط iPhone السفلي: الرئيسية / الأقسام / معلومات */
+        body.ios-mode.light-mode .bottom-floating-dock {
+            background:rgba(255,255,255,.56) !important;
+            border-color:rgba(255,255,255,.78) !important;
+            box-shadow:0 16px 40px rgba(45,62,90,.14),inset 0 1px 0 rgba(255,255,255,.86) !important;
+            backdrop-filter:blur(24px) saturate(180%) !important;
+            -webkit-backdrop-filter:blur(24px) saturate(180%) !important;
+        }
+        body.ios-mode:not(.light-mode) .bottom-floating-dock {
+            background:rgba(28,33,42,.62) !important;
+            border-color:rgba(255,255,255,.15) !important;
+            box-shadow:0 18px 44px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.10) !important;
+            backdrop-filter:blur(24px) saturate(175%) !important;
+            -webkit-backdrop-filter:blur(24px) saturate(175%) !important;
+        }
+
+
+        /* نحدد ألوان الزجاج بحسب الثيم المختار مع إبقاء شكل Liquid Glass ثابتًا. */
+        body.ios-mode { --ios-glass-tint: rgba(56,189,248,.14); --ios-glass-border: rgba(56,189,248,.24); --ios-glass-glow: rgba(56,189,248,.16); }
+        /* نغير لون الزجاج إلى أخضر عند اختيار Emerald. */
+        body.ios-mode[data-theme="emerald"] { --ios-glass-tint: rgba(16,185,129,.14); --ios-glass-border: rgba(16,185,129,.25); --ios-glass-glow: rgba(16,185,129,.16); }
+        /* نغير لون الزجاج إلى ذهبي عند اختيار Amber. */
+        body.ios-mode[data-theme="amber"] { --ios-glass-tint: rgba(245,158,11,.15); --ios-glass-border: rgba(245,158,11,.27); --ios-glass-glow: rgba(245,158,11,.17); }
+        /* نغير لون الزجاج إلى أحمر عند اختيار Ruby. */
+        body.ios-mode[data-theme="ruby"] { --ios-glass-tint: rgba(244,63,94,.14); --ios-glass-border: rgba(244,63,94,.25); --ios-glass-glow: rgba(244,63,94,.16); }
+        /* نغير لون الزجاج إلى بنفسجي عند اختيار Amethyst. */
+        body.ios-mode[data-theme="amethyst"] { --ios-glass-tint: rgba(168,85,247,.15); --ios-glass-border: rgba(168,85,247,.26); --ios-glass-glow: rgba(168,85,247,.17); }
+        /* نستخدم زجاجًا أزرق باردًا هادئًا في Midnight. */
+        body.ios-mode[data-theme="midnight"] { --ios-glass-tint: rgba(56,189,248,.10); --ios-glass-border: rgba(148,163,184,.22); --ios-glass-glow: rgba(56,189,248,.12); }
+        /* نستخدم لونًا أزرق رماديًا مستوحى من Nord. */
+        body.ios-mode[data-theme="nord"] { --ios-glass-tint: rgba(94,129,172,.15); --ios-glass-border: rgba(136,192,208,.25); --ios-glass-glow: rgba(94,129,172,.15); }
+        /* نستخدم لونًا ورديًا هادئًا في Rose. */
+        body.ios-mode[data-theme="rose"] { --ios-glass-tint: rgba(229,62,62,.12); --ios-glass-border: rgba(251,113,133,.24); --ios-glass-glow: rgba(229,62,62,.14); }
+        /* نغير خلفية Liquid Glass النهارية مع الثيم بدل فرض لون iOS أبيض ثابت. */
+        body.ios-mode.light-mode { background-image: radial-gradient(circle at 8% 8%, color-mix(in srgb, var(--ios-glass-tint) 95%, transparent), transparent 34%), radial-gradient(circle at 92% 10%, color-mix(in srgb, var(--ios-glass-glow) 90%, transparent), transparent 32%), linear-gradient(145deg, var(--bg-canvas), #ffffff 52%, var(--surface-elevated)) !important; }
+        /* نغير خلفية Liquid Glass الليلية مع الثيم بدل فرض أسود iOS على الجميع. */
+        body.ios-mode:not(.light-mode) { background-image: radial-gradient(circle at 8% 8%, color-mix(in srgb, var(--ios-glass-tint) 100%, transparent), transparent 34%), radial-gradient(circle at 92% 10%, color-mix(in srgb, var(--ios-glass-glow) 90%, transparent), transparent 32%), linear-gradient(145deg, var(--bg-canvas), var(--surface-panel) 52%, #05070b) !important; }
+        /* نطبق الزجاج نفسه على كل البطاقات، لكن بلون الثيم الحالي. */
+        body.ios-mode .oneui-card, body.ios-mode .knowledge-card-item, body.ios-mode .dashboard-pinned-card, body.ios-mode .google-calc-box, body.ios-mode .modal-box, body.ios-mode .top-info-link, body.ios-mode .top-action-btn, body.ios-mode .user-auth-pill, body.ios-mode .habit-chip, body.ios-mode .alarm-item-card, body.ios-mode .dhikr-card, body.ios-mode .calendar-day-cell, body.ios-mode .weather-hour-card { background: linear-gradient(145deg, color-mix(in srgb, var(--ios-glass-tint) 88%, rgba(255,255,255,.52)), color-mix(in srgb, var(--surface-panel) 78%, rgba(255,255,255,.20))) !important; border-color: var(--ios-glass-border) !important; box-shadow: 0 12px 32px color-mix(in srgb, var(--ios-glass-glow) 70%, rgba(0,0,0,.10)), inset 0 1px 0 rgba(255,255,255,.70) !important; }
+        /* نضمن أن الحاويات الداخلية في النمط الزجاجي لا تعيد فرض اللون الأبيض القديم. */
+        body.ios-mode .knowledge-modern-app, body.ios-mode .magazine-status-card { background: color-mix(in srgb, var(--ios-glass-tint) 55%, transparent) !important; border-color: var(--ios-glass-border) !important; }
+        /* نطبق لون الثيم نفسه على زر المجلة النشط في الدوك. */
+        body.ios-mode .dock-capsule-item.active { background: color-mix(in srgb, var(--ios-glass-tint) 160%, rgba(255,255,255,.45)) !important; border-color: var(--ios-glass-border) !important; box-shadow: 0 6px 20px var(--ios-glass-glow), inset 0 1px 0 rgba(255,255,255,.75) !important; }
+        /* نغير لون زر الإجراء الرئيسي مع الثيم مع الحفاظ على شكله الزجاجي. */
+        body.ios-mode .btn-action { background: linear-gradient(135deg, color-mix(in srgb, var(--accent-primary) 84%, white), color-mix(in srgb, var(--accent-primary) 65%, var(--ios-glass-tint))) !important; box-shadow: 0 8px 22px var(--ios-glass-glow) !important; }
+        /* نمنع المجلة من قص النص إلى مقتطفات قصيرة ونترك النص الكامل القادم من المصدر. */
+        .magazine-full-text { white-space: pre-wrap; line-height: 2 !important; font-size: 14px !important; }
+        /* نميز مواد المجلة عن الأخبار بعلامة بصرية بسيطة. */
+        .magazine-card-item .knowledge-source-badge::before { content: '📚 '; }
+
+        /* شرح: نميز رأس العدد اليومي عن بطاقات المعلومات العادية. */
+        .magazine-issue-hero { padding:22px; margin-bottom:14px; border-radius:26px; background:linear-gradient(135deg, color-mix(in srgb, var(--accent-blue) 12%, var(--card-bg)), var(--card-bg)); border:1px solid color-mix(in srgb, var(--accent-blue) 18%, transparent); } /* شرح: نمنح العدد هوية تحريرية واضحة. */
+        .magazine-issue-kicker { font-size:12px; font-weight:800; color:var(--accent-blue); margin-bottom:8px; } /* شرح: نوضح نوع العدد قبل العنوان. */
+        .magazine-issue-hero h2 { margin:0 0 9px; font-size:22px; line-height:1.45; color:var(--text-primary); } /* شرح: نبرز الموضوع الرئيسي. */
+        .magazine-issue-hero p { margin:0; line-height:1.9; color:var(--text-secondary); font-size:14px; } /* شرح: نعرض مقدمة العدد كاملة. */
+        .magazine-issue-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; } /* شرح: نرتب مؤشرات العدد في صف مرن. */
+        .magazine-issue-meta span { padding:7px 10px; border-radius:999px; background:var(--glass-bg); border:1px solid var(--glass-border); font-size:11px; font-weight:800; color:var(--text-secondary); } /* شرح: نصنع شارات بسيطة غير مزعجة. */
+        .magazine-section-title { font-size:15px; font-weight:900; margin:18px 2px 10px; color:var(--text-primary); } /* شرح: نفصل رأس العدد عن مواده. */
+        .magazine-card-item { padding:20px; margin-bottom:12px; border-radius:22px; } /* شرح: نثبت شكل البطاقات لتصبح أقرب إلى مقالات قصيرة مكتملة. */
+        .magazine-card-item h3 { margin:8px 0 12px; font-size:18px; line-height:1.55; color:var(--text-primary); } /* شرح: نستخدم عنوانًا واضحًا لكل زاوية. */
+        .magazine-full-text { font-size:14px; line-height:2; color:var(--text-primary); white-space:normal; } /* شرح: نرفع قابلية القراءة ونمنع مظهر المقتطفات المبتورة. */
+        .magazine-action-box { margin-top:14px; padding:12px 14px; border-radius:16px; background:color-mix(in srgb, var(--accent-green) 8%, var(--card-bg)); border:1px solid color-mix(in srgb, var(--accent-green) 16%, transparent); color:var(--text-primary); line-height:1.8; } /* شرح: نفصل التطبيق العملي بصريًا عن النص المعرفي. */
+        .magazine-source-row { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-top:13px; padding-top:11px; border-top:1px solid var(--glass-border); color:var(--text-secondary); font-size:11px; line-height:1.7; } /* شرح: نجعل المصدر واضحًا ولا نخلطه مع النص. */
+        .magazine-source-row a { color:var(--accent-blue); font-weight:800; text-decoration:none; } /* شرح: نميز رابط المصدر دون تحويل البطاقة إلى خبر. */
+        .magazine-read-row { display:flex; justify-content:flex-end; margin-top:12px; } /* شرح: نثبت زر القراءة في مكان واحد. */
+        .magazine-number { font-size:11px; font-weight:900; color:var(--text-secondary); } /* شرح: نرقم الزوايا لتسهيل متابعة العدد. */
+        @media (max-width:600px) { .magazine-issue-hero { padding:18px; border-radius:22px; } .magazine-issue-hero h2 { font-size:19px; } .magazine-card-item { padding:17px; border-radius:19px; } } /* شرح: نضبط المسافات على الشاشات الصغيرة دون تغيير بنية التطبيق. */
+
+        /* شرح: نكبر نصوص أزرار القائمة السفلية لتكون أوضح على الهاتف. */
+        .bottom-floating-dock .dock-capsule-item { font-size: 16px !important; font-weight: 800 !important; }
+        /* شرح: نحافظ على وضوح رمز الإعدادات داخل الزر السفلي. */
+        .bottom-floating-dock .dock-capsule-item { min-height: 48px !important; }
+
+
+        /* =========================================================
+           🍎 iPhone Duo Bar — شريط سفلي زجاجي قابل للتوسع
+           مصمم ليقبل إضافات مستقبلية دون تغيير هيكل التنقل.
+           ========================================================= */
+        .duo-bar {
+            position:fixed; left:50%; bottom:max(10px, env(safe-area-inset-bottom, 10px));
+            transform:translateX(-50%); z-index:10050; width:min(520px, calc(100vw - 24px));
+            min-height:66px; padding:7px; display:flex; align-items:center; gap:7px;
+            border:1px solid rgba(255,255,255,.62); border-radius:32px;
+            background:rgba(248,249,252,.62); color:var(--text-primary);
+            box-shadow:0 18px 55px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.88);
+            backdrop-filter:blur(30px) saturate(190%); -webkit-backdrop-filter:blur(30px) saturate(190%);
+            transition:width .42s cubic-bezier(.22,1,.36,1), transform .35s cubic-bezier(.22,1,.36,1), background .3s ease;
+        }
+        body.ios-mode:not(.light-mode) .duo-bar { background:rgba(28,30,35,.66); border-color:rgba(255,255,255,.14); box-shadow:0 20px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.12); }
+        .duo-nav { display:flex; flex:1; align-items:center; justify-content:space-around; gap:4px; }
+        .duo-item, .duo-alarm-button {
+            appearance:none; border:0; cursor:pointer; color:var(--text-secondary); background:transparent;
+            min-width:54px; height:50px; border-radius:23px; display:flex; flex-direction:column;
+            align-items:center; justify-content:center; gap:2px; font:inherit; transition:transform .28s cubic-bezier(.22,1,.36,1), background .25s ease, color .25s ease;
+        }
+        .duo-item:active, .duo-alarm-button:active { transform:scale(.88); }
+        .duo-item.active { background:rgba(255,255,255,.56); color:var(--text-primary); box-shadow:inset 0 1px 0 rgba(255,255,255,.75), 0 4px 14px rgba(0,0,0,.07); }
+        body.ios-mode:not(.light-mode) .duo-item.active { background:rgba(75,77,84,.55); box-shadow:inset 0 1px 0 rgba(255,255,255,.10); }
+        .duo-icon { font-size:20px; line-height:1; }
+        .duo-label { font-size:10px; font-weight:800; line-height:1; }
+        .duo-alarm-wrap { position:relative; flex:0 0 58px; display:flex; justify-content:center; }
+        .duo-alarm-button { width:56px; height:56px; min-width:56px; border-radius:50%; position:relative; overflow:hidden; }
+        .duo-alarm-button::before { content:""; position:absolute; inset:2px; border-radius:50%; background:conic-gradient(var(--accent-primary) var(--alarm-progress, 0deg), rgba(127,127,127,.16) 0deg); transition:background .8s linear; }
+        .duo-alarm-button::after { content:""; position:absolute; inset:5px; border-radius:50%; background:var(--surface-panel); }
+        .duo-alarm-inner { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1; }
+        .duo-alarm-time { font-size:11px; font-weight:900; letter-spacing:-.2px; }
+        .duo-alarm-caption { font-size:7px; font-weight:800; margin-top:3px; color:var(--text-secondary); }
+        .duo-alarm-dot { position:absolute; z-index:4; top:0; right:0; width:10px; height:10px; border-radius:50%; background:var(--accent-red); border:2px solid var(--surface-panel); animation:duoPulse 1.8s infinite; }
+        .duo-alarm-dot.hidden { display:none; }
+        @keyframes duoPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.32);opacity:.62} }
+
+        /* اللوحة الجانبية: مساحة مقصودة للتخصيصات القادمة */
+        .duo-side-panel { position:fixed; inset:0; z-index:10060; pointer-events:none; visibility:hidden; transition:visibility .3s; }
+        .duo-side-panel.active { pointer-events:auto; visibility:visible; }
+        .duo-side-backdrop { position:absolute; inset:0; background:rgba(0,0,0,.28); backdrop-filter:blur(4px); opacity:0; transition:opacity .35s ease; }
+        .duo-side-panel.active .duo-side-backdrop { opacity:1; }
+        .duo-side-sheet { position:absolute; right:12px; top:12px; bottom:12px; width:min(390px, calc(100vw - 24px)); padding:18px;
+            border:1px solid rgba(255,255,255,.58); border-radius:30px; background:rgba(248,249,252,.82); color:var(--text-primary);
+            box-shadow:0 24px 70px rgba(0,0,0,.24); backdrop-filter:blur(32px) saturate(190%); -webkit-backdrop-filter:blur(32px) saturate(190%);
+            transform:translateX(110%); transition:transform .48s cubic-bezier(.22,1,.36,1); overflow:auto; }
+        .duo-side-panel.active .duo-side-sheet { transform:translateX(0); }
+        body.ios-mode:not(.light-mode) .duo-side-sheet { background:rgba(27,29,34,.86); border-color:rgba(255,255,255,.13); }
+        .duo-side-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
+        .duo-side-title { font-size:20px; font-weight:900; }
+        .duo-close { width:40px; height:40px; border:0; border-radius:50%; background:rgba(127,127,127,.12); cursor:pointer; font-size:20px; transition:transform .25s ease; }
+        .duo-close:active { transform:scale(.88) rotate(8deg); }
+        .duo-section { padding:13px; border:1px solid var(--border-subtle); border-radius:20px; background:rgba(127,127,127,.06); margin-bottom:10px; }
+        .duo-section-title { display:flex; align-items:center; gap:9px; font-weight:900; font-size:14px; margin-bottom:9px; }
+        .duo-alarm-detail-time { font-size:30px; font-weight:900; letter-spacing:-1px; }
+        .duo-alarm-detail-name { color:var(--text-secondary); font-size:13px; margin-top:2px; }
+        .duo-future-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+        .duo-future-slot { min-height:72px; border:1px dashed var(--border-subtle); border-radius:17px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; color:var(--text-secondary); font-size:11px; font-weight:800; }
+        .duo-future-slot b { font-size:18px; color:var(--text-primary); }
+        .duo-menu-pop { animation:duoMenuIn .35s cubic-bezier(.22,1,.36,1); }
+        @keyframes duoMenuIn { from{opacity:0; transform:translateY(12px) scale(.96)} to{opacity:1; transform:none} }
+
+        /* حركات موحدة للنوافذ والقوائم والبطاقات */
+        .section-view.active { animation:duoViewIn .38s cubic-bezier(.22,1,.36,1); }
+        .oneui-card, .list-row, .all-sections-grid-item, .tag-badge, .btn-action, .app-input { transition:transform .24s ease, box-shadow .24s ease, opacity .24s ease, background .24s ease, border-color .24s ease; }
+        .all-sections-grid-item:active, .tag-badge:active, .btn-action:active { transform:scale(.96); }
+        @keyframes duoViewIn { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
+        @media (max-width:420px) {
+            .duo-bar { width:calc(100vw - 16px); bottom:max(7px, env(safe-area-inset-bottom, 7px)); }
+            .duo-item { min-width:48px; }
+            .duo-label { font-size:9px; }
+            .duo-alarm-wrap { flex-basis:54px; }
         }
 </style>
 </head>
@@ -735,25 +1003,10 @@
             </div>
         </div>
 
-        <!-- 💎 2. قسم كنز المعلومات (يمكن الوصول له من الدوك مباشرة) -->
-        <div id="knowledge-view" class="section-view">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <div class="section-label" style="margin:0;">💎 كنز المعلومات وتطبيقاتها المعاصرة</div>
-                <button class="tag-badge" onclick="switchNavSection('dashboard-view')">← الرئيسية</button>
-            </div>
-            <div id="knowledgeCardsList"></div>
-        </div>
-
-        <!-- 🌿 3. قسم الحياة: أفكار وتجارب ومواعظ ومصادر تستحق الوقت -->
-        <div id="life-view" class="section-view">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <div class="section-label" style="margin:0;">🌿 الحياة — أفكار وتجارب تستحق أن تُعاش</div>
-                <button class="tag-badge" onclick="switchNavSection('dashboard-view')">← الرئيسية</button>
-            </div>
-            <div id="lifeCardsList"></div>
-        </div>
-
-        <!-- 🕌 3. تطبيق إسلاميات الشامل والمسبحة -->
+        <!-- شرح: هذا السطر جزء من واجهة المجلة اليومية. -->
+        <!-- 📰 المجلة اليومية تجمع الحياة والمعلومات في قسم واحد. -->
+        <!-- شرح: هذا السطر جزء من واجهة المجلة اليومية. -->
+                <!-- 🕌 3. تطبيق إسلاميات الشامل والمسبحة -->
         <div id="islamiyat-view" class="section-view">
             <div style="display:flex; gap:6px; margin-bottom:12px; overflow-x:auto;">
                 <button class="tag-badge" onclick="switchNavSection('adhkar-view')">🤲 الأذكار المأثورة</button>
@@ -1073,12 +1326,41 @@
     </div>
 
     <!-- =========================================================
-       🚀 الدوك السفلي الثلاثي فقط: الرئيسية، إضافة، معلومات
+       🍎 شريط iPhone Duo: تنقل + دائرة تنبيه حية + مساحة توسعة مستقبلية
        ========================================================= -->
-    <div class="bottom-floating-dock" id="bottomDock">
-        <button class="dock-capsule-item active" onclick="switchNavSection('dashboard-view', this)">🏠 الرئيسية</button>
-        <button class="dock-capsule-item dock-center-btn" onclick="openQuickAddCenterModal()">➕ إضافة</button>
-        <button class="dock-capsule-item" onclick="switchNavSection('knowledge-view', this)">💎 معلومات</button>
+    <div class="duo-bar" id="duoBar" aria-label="شريط iPhone Duo">
+        <div class="duo-nav">
+            <button class="duo-item active" id="duoHomeBtn" onclick="switchNavSection('dashboard-view', this)"><span class="duo-icon">⌂</span><span class="duo-label">الرئيسية</span></button>
+            <button class="duo-item" onclick="openAllSectionsModal(); animateDuoBar()"><span class="duo-icon">☷</span><span class="duo-label">الأقسام</span></button>
+            <button class="duo-item" onclick="switchNavSection('settings-view', this)"><span class="duo-icon">⚙</span><span class="duo-label">الإعدادات</span></button>
+        </div>
+        <div class="duo-alarm-wrap">
+            <button class="duo-alarm-button" id="duoAlarmButton" onclick="openDuoAlarmPanel()" title="تفاصيل التنبيه">
+                <span class="duo-alarm-inner"><span class="duo-alarm-time" id="duoAlarmTime">--:--</span><span class="duo-alarm-caption" id="duoAlarmCaption">لا يوجد</span></span>
+                <span class="duo-alarm-dot hidden" id="duoAlarmDot"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- لوحة iPhone Duo الجانبية: مهيأة لإضافات وتخصيصات مستقبلية -->
+    <div class="duo-side-panel" id="duoAlarmPanel" aria-hidden="true">
+        <div class="duo-side-backdrop" onclick="closeDuoAlarmPanel()"></div>
+        <aside class="duo-side-sheet" role="dialog" aria-modal="true" aria-label="تفاصيل شريط Duo">
+            <div class="duo-side-head">
+                <div><div class="duo-side-title">تفاصيل التنبيه</div><div style="font-size:11px;color:var(--text-secondary);margin-top:3px;">لوحة Duo قابلة للتوسع والتخصيص</div></div>
+                <button class="duo-close" onclick="closeDuoAlarmPanel()">✕</button>
+            </div>
+            <div id="duoAlarmDetailContent"></div>
+            <div class="duo-section">
+                <div class="duo-section-title">🧩 مساحة التخصيصات القادمة</div>
+                <div class="duo-future-grid">
+                    <div class="duo-future-slot"><b>＋</b>اختصار جديد</div>
+                    <div class="duo-future-slot"><b>◉</b>حالة مباشرة</div>
+                    <div class="duo-future-slot"><b>♫</b>التحكم بالصوت</div>
+                    <div class="duo-future-slot"><b>☀</b>معلومة سريعة</div>
+                </div>
+            </div>
+        </aside>
     </div>
 
     <!-- نافذة استعراض باقي أقسام التطبيق -->
@@ -1088,7 +1370,6 @@
             <strong style="font-size:16px; display:block; margin-bottom:12px;">أقسام التطبيق</strong>
             <div class="all-sections-grid-menu">
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('prayers-alarms-view')">🕌 الصلوات</div>
-                <div class="all-sections-grid-item" onclick="triggerNavFromModal('life-view')">🌿 الحياة</div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('islamiyat-view')">🤲 إسلاميات</div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('notes-view')">📝 الملاحظات</div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('todos-view')">✅ المهام</div>
@@ -1297,6 +1578,30 @@
             if (!Array.isArray(data.settings.pinnedSections)) data.settings.pinnedSections = [];
             if (!Array.isArray(data.knowledgeCards)) data.knowledgeCards = [];
             if (!Array.isArray(data.lifeCards)) data.lifeCards = [];
+            // شرح: // نضمن وجود حالة المجلة اليومية حتى تعمل النسخ القديمة من قاعدة البيانات دون أخطاء.
+            // نضمن وجود حالة المجلة اليومية حتى تعمل النسخ القديمة من قاعدة البيانات دون أخطاء.
+            // شرح: if (!data.dailyMagazine || typeof data.dailyMagazine !== 'object') data.dailyMagazine = {};
+            if (!data.dailyMagazine || typeof data.dailyMagazine !== 'object') data.dailyMagazine = {};
+            // شرح: نحفظ يوم آخر تجهيز ناجح لمنع إعادة بناء العدد بلا حاجة.
+            // نحفظ يوم آخر مزامنة ناجحة لمنع جلب RSS عدة مرات في اليوم نفسه.
+            // شرح: if (typeof data.dailyMagazine.dayKey !== 'string') data.dailyMagazine.dayKey = '';
+            if (typeof data.dailyMagazine.dayKey !== 'string') data.dailyMagazine.dayKey = '';
+            // شرح: // نحفظ وقت آخر مزامنة ناجحة لعرضه للمستخدم وللمزامنة السحابية.
+            // نحفظ وقت آخر مزامنة ناجحة لعرضه للمستخدم وللمزامنة السحابية.
+            // شرح: if (!Number.isFinite(Number(data.dailyMagazine.lastSyncAt))) data.dailyMagazine.lastSyncAt = 0;
+            if (!Number.isFinite(Number(data.dailyMagazine.lastSyncAt))) data.dailyMagazine.lastSyncAt = 0;
+            // شرح: // نحفظ وقت آخر محاولة حتى نميز بين فشل مؤقت ونجاح فعلي.
+            // نحفظ وقت آخر محاولة حتى نميز بين فشل مؤقت ونجاح فعلي.
+            // شرح: if (!Number.isFinite(Number(data.dailyMagazine.lastAttemptAt))) data.dailyMagazine.lastAttemptAt = 0;
+            if (!Number.isFinite(Number(data.dailyMagazine.lastAttemptAt))) data.dailyMagazine.lastAttemptAt = 0;
+            // شرح: // نخزن آخر عدد بطاقات ناجح حتى تعمل المجلة دون اتصال بعد المزامنة الأولى.
+            // نخزن آخر عدد بطاقات ناجح حتى تعمل المجلة دون اتصال بعد المزامنة الأولى.
+            // شرح: if (!Array.isArray(data.dailyMagazine.cards)) data.dailyMagazine.cards = [];
+            if (!Array.isArray(data.dailyMagazine.cards)) data.dailyMagazine.cards = [];
+            // شرح: // نحفظ تاريخ اليوم الذي أُرسلت له جدولة تنبيه المجلة لتجنب التكرار.
+            // نحفظ تاريخ اليوم الذي أُرسلت له جدولة تنبيه المجلة لتجنب التكرار.
+            // شرح: if (typeof data.dailyMagazine.notificationDay !== 'string') data.dailyMagazine.notificationDay = '';
+            if (typeof data.dailyMagazine.notificationDay !== 'string') data.dailyMagazine.notificationDay = '';
             if (!data.adhkarCounters) data.adhkarCounters = {};
             if (!data.quranPortion) data.quranPortion = { surah: 'البقرة', startAya: 1, endAya: 5, completedBatches: 0, lastCompletedDate: '' };
             if (!data.cachedFeeds) data.cachedFeeds = {
@@ -1501,293 +1806,6 @@
             openPoetryModal();
         }
 
-        // =========================================================================
-        // --- 2. كنز المعلومات الموثوقة ---
-        // =========================================================================
-        const KNOWLEDGE_ROTATION_MS = 3 * 60 * 60 * 1000;
-        const KNOWLEDGE_TARGET_COUNT = 5;
-
-        // كنز معلومات مُحرَّر مسبقًا: كل بطاقة لها موضوع واضح، شرح مختصر لكن شامل،
-        // تطبيق عملي، ومصدر موثوق. الاختيار عشوائي مع تنويع المجالات حتى لا تتكرر
-        // خمسة موضوعات من النوع نفسه في دفعة واحدة.
-        const knowledgeTreasuryDB = [
-            {title:'لماذا السماء زرقاء؟',category:'فيزياء وفلك',source:'NASA Science',sourceUrl:'https://science.nasa.gov/earth/earth-observatory/why-is-the-sky-blue/',text:'ضوء الشمس يبدو أبيض، لكنه يتكوّن من أطوال موجية متعددة. عندما يدخل الغلاف الجوي تصطدم موجات الضوء بجزيئات الهواء، ويتشتت الضوء قصير الموجة، وخصوصًا الأزرق، أكثر بكثير من الأحمر. لذلك يصل إلينا الضوء الأزرق من اتجاهات كثيرة في السماء، بينما تميل ألوان الشروق والغروب إلى الأحمر والبرتقالي لأن الضوء يقطع مسافة أطول داخل الغلاف الجوي.',modernApp:'<b>الفكرة التي تستحق التذكر:</b> اللون الذي نراه ليس بالضرورة لون المصدر نفسه؛ الوسط الذي يمر فيه الضوء قد يغيّر ما يصل إلى أعيننا.'},
-            {title:'لماذا لا نشعر بدوران الأرض؟',category:'فلك وفيزياء',source:'NASA',sourceUrl:'https://science.nasa.gov/earth/facts/',text:'الأرض تدور بسرعة كبيرة، لكننا لا نشعر بهذه السرعة مباشرة لأننا نحن والغلاف الجوي وكل ما حولنا نتحرك معها. الإحساس بالحركة يظهر أساسًا عندما تتغير السرعة أو الاتجاه، مثل تسارع السيارة أو توقفها. لذلك فإن الحركة المنتظمة وحدها لا تعني وجود إحساس مستمر بها.',modernApp:'<b>تطبيق ذهني:</b> عندما تسأل: «كيف لا أشعر بالحركة؟» اسأل أولًا: هل السرعة ثابتة أم هناك تسارع؟ هذا يفسر كثيرًا من ظواهر الحركة اليومية.'},
-            {title:'لماذا يطفو الجليد فوق الماء؟',category:'كيمياء وطبيعة',source:'USGS Water Science School',sourceUrl:'https://www.usgs.gov/special-topics/water-science-school',text:'عندما يتجمد الماء ترتبط جزيئاته في بنية بلورية أكثر انفتاحًا، فتشغل حجمًا أكبر مقارنة بكتلة الماء نفسها. لذلك تقل كثافة الجليد عن كثافة الماء السائل، فيطفو بدل أن يغوص. وهذه خاصية مهمة للحياة المائية؛ إذ يمكن أن تتكون طبقة جليد عازلة على السطح بدل تجمد المسطح المائي كله من القاع إلى الأعلى.',modernApp:'<b>معلومة مترابطة:</b> تمدد الماء عند التجمد ليس مجرد تفصيل كيميائي؛ له آثار بيئية كبيرة على البحيرات والأنهار والكائنات التي تعيش فيها.'},
-            {title:'الضوء أسرع بكثير من الصوت',category:'فيزياء',source:'NASA',sourceUrl:'https://science.nasa.gov/universe/what-is-light/',text:'سرعة الضوء في الفراغ نحو 299,792 كيلومترًا في الثانية، بينما سرعة الصوت في الهواء عند الظروف المعتادة تقارب 343 مترًا في الثانية. لهذا نرى البرق قبل أن نسمع الرعد، رغم أن الحدثين يحدثان في اللحظة نفسها تقريبًا. والفرق ليس صغيرًا؛ فالضوء أسرع من الصوت بمئات الآلاف من المرات.',modernApp:'<b>تطبيق يومي:</b> تأخر الصوت عن الصورة في الألعاب والبث ليس دائمًا مشكلة في الجهاز؛ قد يكون سببه اختلاف زمن انتقال الإشارات ومعالجتها.'},
-            {title:'ما الذي يجعل النظام الشمسي مستقرًا؟',category:'فلك',source:'NASA Solar System Exploration',sourceUrl:'https://science.nasa.gov/solar-system/',text:'الكواكب لا تتحرك في الفضاء عشوائيًا؛ جاذبية الشمس هي العامل المركزي الذي يبقيها في مداراتها، بينما تجعل سرعة الكوكب الجانبية حركته مستمرة بدل سقوطه مباشرة نحو الشمس. المدارات نفسها تتأثر بجاذبية الأجرام الأخرى، لكن النظام الشمسي على المدى البشري يبدو مستقرًا جدًا.',modernApp:'<b>الفكرة:</b> المدار ليس «حبلًا» يمسك الكوكب، بل نتيجة توازن مستمر بين الحركة والشد الجاذبي.'},
-            {title:'لماذا نحتاج إلى النوم؟',category:'علوم الدماغ',source:'National Institute of Neurological Disorders and Stroke',sourceUrl:'https://www.ninds.nih.gov/health-information/public-education/brain-basics/brain-basics-understanding-sleep',text:'النوم ليس توقفًا للدماغ، بل حالة نشطة تمر بمراحل متعددة. يرتبط النوم بتثبيت بعض أنواع الذاكرة وتنظيم وظائف عصبية وجسمية متعددة، بينما يؤدي الحرمان المزمن منه إلى تراجع الانتباه والأداء واتخاذ القرار. لذلك فإن النوم جزء من الأداء العقلي وليس وقتًا «ضائعًا» من الإنتاجية.',modernApp:'<b>قاعدة عملية:</b> إذا كنت تريد تحسين التعلم والتركيز، فلا تتعامل مع النوم كمتغير ثانوي يمكن التضحية به دائمًا.'},
-            {title:'لماذا نتذكر بعض الأشياء وننسى غيرها؟',category:'علم النفس والذاكرة',source:'National Institute of Neurological Disorders and Stroke',sourceUrl:'https://www.ninds.nih.gov/health-information/public-education/brain-basics/brain-basics-understanding-memory',text:'الذاكرة ليست تسجيل فيديو كاملًا لكل ما يحدث. الانتباه والترميز والاسترجاع عوامل أساسية، وتزداد فرصة الاحتفاظ بالمعلومة عندما تكون ذات معنى أو مرتبطة بمعرفة سابقة أو تتم مراجعتها واسترجاعها أكثر من مرة. لهذا قد يكون «الاسترجاع النشط» أكثر فائدة من إعادة القراءة السلبية وحدها.',modernApp:'<b>للدراسة:</b> بعد قراءة فقرة، أغلق المصدر وحاول شرحها من ذاكرتك؛ هذه العملية تكشف ما لم يثبت في الذاكرة.'},
-            {title:'لماذا يصعب مقاومة الإشعارات والمقاطعات؟',category:'علم النفس والإنتاجية',source:'American Psychological Association',sourceUrl:'https://www.apa.org/topics/healthy-workplaces/healthy-workplaces',text:'الانتباه مورد محدود، والانتقال المتكرر بين المهام يفرض تكلفة ذهنية حتى عندما تكون المقاطعة قصيرة. المشكلة ليست فقط في الزمن الذي يستغرقه الرد؛ بل في الوقت اللازم لإعادة بناء سياق المهمة السابقة. لذلك يمكن لمقاطعات صغيرة متكررة أن تفسد جلسة تركيز طويلة.',modernApp:'<b>تطبيق مباشر:</b> اجعل جلسات العمل المهمة خالية من الإشعارات، واجمع الرسائل في فترات محددة بدل فحصها باستمرار.'},
-            {title:'لماذا لا يعني تعدد المهام أنك تنجز مهمتين معًا؟',category:'علم النفس والإنتاجية',source:'American Psychological Association',sourceUrl:'https://www.apa.org/research/action/multitask',text:'عندما تتطلب مهمتان الانتباه نفسه، يميل الدماغ إلى التبديل بينهما بدل تنفيذ المعالجة العميقة لكلتيهما في اللحظة نفسها. هذا التبديل يستهلك وقتًا وانتباهًا ويزيد فرص الخطأ، خصوصًا في المهام المعقدة. لذلك يكون التركيز المتتابع أفضل غالبًا من التبديل المستمر.',modernApp:'<b>تطبيق عملي:</b> خصص نافذة واحدة لمهمة واحدة، ثم انتقل للمهمة التالية بدل إبقاء عدة مهام مفتوحة في الوقت نفسه.'},
-            {title:'كيف تعمل الذاكرة العشوائية RAM؟',category:'الحاسوب',source:'IBM',sourceUrl:'https://www.ibm.com/think/topics/ram',text:'RAM هي مساحة عمل سريعة يستخدمها النظام للاحتفاظ بالبيانات والتعليمات التي تحتاجها البرامج أثناء التشغيل. وهي أسرع بكثير من التخزين الدائم، لكنها متطايرة؛ أي إن محتواها يختفي عند انقطاع الطاقة. زيادة RAM قد تساعد عندما يكون النظام مختنقًا بسبب امتلائها، لكنها لا تجعل كل معالج أسرع تلقائيًا.',modernApp:'<b>قاعدة مهمة:</b> إذا كان استخدام RAM منخفضًا أصلًا، فإن إضافة المزيد لن تعطي بالضرورة زيادة ملحوظة في الإطارات أو سرعة المعالج.'},
-            {title:'ما الفرق بين SSD وHDD؟',category:'الحاسوب والتخزين',source:'Microsoft Learn',sourceUrl:'https://learn.microsoft.com/en-us/windows-server/storage/disk-management/overview-of-disk-management',text:'محركات HDD تعتمد على أطباق مغناطيسية وأجزاء ميكانيكية متحركة، بينما SSD يستخدم ذاكرة فلاش دون أجزاء ميكانيكية متحركة. لذلك يمتاز SSD عادة بزمن وصول أقل بكثير وسرعة أعلى في عمليات الوصول العشوائي، كما يكون أكثر مقاومة للصدمات الميكانيكية. أما HDD فيظل مفيدًا عندما تكون السعة الكبيرة منخفضة التكلفة هي الأولوية.',modernApp:'<b>لجهاز قديم:</b> نقل نظام التشغيل من HDD إلى SSD غالبًا يعطي إحساسًا كبيرًا بسرعة الإقلاع وفتح البرامج حتى دون تغيير المعالج.'},
-            {title:'لماذا لا تكفي سرعة الإنترنت وحدها للحكم على جودة الاتصال؟',category:'شبكات وإنترنت',source:'Cloudflare Learning',sourceUrl:'https://www.cloudflare.com/learning/performance/glossary/what-is-latency/',text:'سرعة التنزيل تقيس كمية البيانات التي يمكن نقلها خلال فترة، لكن جودة الاتصال التفاعلي تعتمد أيضًا على زمن الاستجابة والتذبذب وفقدان الحزم. في الألعاب والبث السحابي قد يكون اتصال 50 ميجابت مع زمن استجابة وفقدان حزم منخفض أفضل بكثير من اتصال أسرع لكنه غير مستقر. لذلك لا تختصر جودة الشبكة في رقم Mbps واحد.',modernApp:'<b>تطبيق مباشر:</b> عند تقييم GeForce NOW أو اللعب عبر الإنترنت، راقب latency وjitter وpacket loss إلى جانب سرعة التنزيل.'},
-            {title:'ما هو فقدان الحزم Packet Loss؟',category:'شبكات وإنترنت',source:'Cloudflare Learning',sourceUrl:'https://www.cloudflare.com/learning/network-layer/what-is-packet-loss/',text:'عند إرسال البيانات عبر الشبكة تُقسّم إلى حزم صغيرة. إذا لم تصل بعض الحزم إلى وجهتها أو وصلت متأخرة جدًا، يظهر فقدان الحزم. في الألعاب والبث التفاعلي قد يؤدي ذلك إلى تقطيع، قفزات في الحركة، أو إعادة إرسال البيانات، حتى لو كانت سرعة الاتصال الاسمية مرتفعة.',modernApp:'<b>للتشخيص:</b> إذا كانت السرعة جيدة لكن التجربة تتدهور عند اللعب، فاختبار الاستقرار وفقدان الحزم أهم من إعادة اختبار سرعة التنزيل فقط.'},
-            {title:'لماذا يؤدي ارتفاع الحرارة إلى خفض أداء المعالج؟',category:'هندسة الحاسوب',source:'Intel',sourceUrl:'https://www.intel.com/content/www/us/en/gaming/resources/cpu-temperature.html',text:'المعالجات الحديثة تضبط التردد والطاقة والحرارة باستمرار. عندما ترتفع الحرارة قرب الحدود المصممة، يمكن للمعالج خفض التردد والطاقة لتقليل الحرارة وحماية العتاد. لذلك قد يعطي الجهاز أداءً مرتفعًا لفترة قصيرة ثم ينخفض الأداء إذا استمر الحمل الحراري.',modernApp:'<b>تطبيق عملي:</b> عند اختبار Mini PC لا تنظر إلى أعلى تردد لحظي فقط؛ راقب الأداء ودرجة الحرارة بعد استمرار الحمل عدة دقائق.'},
-            {title:'لماذا تزيد دقة الشاشة الحمل الرسومي؟',category:'الرسوميات',source:'NVIDIA',sourceUrl:'https://www.nvidia.com/en-us/geforce/graphics-cards/graphics-processing-units/',text:'كل إطار رسومي يتطلب معالجة عدد من البكسلات. الانتقال من 1600×900 إلى 1920×1080 يرفع عدد البكسلات في الإطار بنحو 44% تقريبًا، لذلك قد تحتاج البطاقة الرسومية إلى عمل أكبر للحفاظ على معدل الإطارات نفسه. مقدار التأثير الفعلي يعتمد أيضًا على اللعبة والإعدادات والمعالج.',modernApp:'<b>تطبيق عملي:</b> إذا كان الهدف رفع FPS دون تغيير حجم النافذة كثيرًا، خفض الدقة أو استخدام تقنية رفع الدقة قد يكون أكثر تأثيرًا من خفض بعض التفاصيل البصرية فقط.'},
-            {title:'لماذا تتأخر الاستجابة في اللعب السحابي؟',category:'ألعاب وشبكات',source:'NVIDIA GeForce NOW',sourceUrl:'https://www.nvidia.com/en-us/geforce-now/',text:'في اللعب السحابي لا ينتج جهازك الصورة بالكامل؛ تُنفذ اللعبة على خادم بعيد ثم تُرسل الصورة إلى جهازك، بينما تُرسل أوامر التحكم في الاتجاه المعاكس. لذلك تدخل الشبكة وزمن الترميز والفك في زمن الاستجابة الكلي. كلما زادت المسافة أو التذبذب أو فقدان الحزم زادت احتمالات الشعور بالتأخر.',modernApp:'<b>لأفضل استجابة:</b> الاتصال السلكي، خادم قريب، وفقدان حزم منخفض أهم من امتلاك سرعة تنزيل ضخمة لا تحتاج إليها.'},
-            {title:'كيف يعمل DNS؟',category:'إنترنت وتقنية',source:'Cloudflare Learning',sourceUrl:'https://www.cloudflare.com/learning/dns/what-is-dns/',text:'DNS هو النظام الذي يترجم أسماء النطاقات المقروءة للبشر مثل example.com إلى عناوين IP تستخدمها الأجهزة للوصول إلى الخوادم. عندما يطلب جهازك اسم نطاق، يمكن أن يجيب خادم DNS من ذاكرته المؤقتة أو يبحث عنه عبر بنية DNS الهرمية. لذلك يؤثر DNS أساسًا في سرعة بدء الاتصال، وليس في سرعة خط الإنترنت القصوى بعد بدء النقل.',modernApp:'<b>فكرة مهمة:</b> تغيير DNS قد يحسن زمن بدء بعض الاتصالات أو الوصول إلى بعض الخدمات، لكنه لن يحول اتصالًا محدود السعة إلى اتصال أسرع بكثير.'},
-            {title:'ما هو التشفير من طرف إلى طرف؟',category:'أمن رقمي',source:'Electronic Frontier Foundation',sourceUrl:'https://ssd.eff.org/module/what-should-i-know-about-encryption',text:'في التشفير من طرف إلى طرف تُشفّر الرسالة بحيث يكون الطرفان المقصودان قادرين على فكها، بينما لا يستطيع الوسطاء العاديون قراءة محتواها أثناء النقل. هذا لا يعني أن كل شيء آمن تلقائيًا؛ فاختراق الجهاز نفسه أو كشف مفتاح التشفير قد يتجاوز حماية النقل. لذلك الأمن منظومة تشمل الجهاز والحساب والبرمجيات والشبكة.',modernApp:'<b>تطبيق عملي:</b> لا تخلط بين «الاتصال مشفر» و«الحساب محمي بالكامل»؛ كلمة المرور والمصادقة الثنائية وتحديث الجهاز لا تزال مهمة.'},
-            {title:'لماذا تتغير الفصول؟',category:'أرض وفلك',source:'NASA Space Place',sourceUrl:'https://spaceplace.nasa.gov/seasons/en/',text:'الفصول لا تحدث لأن الأرض تقترب من الشمس وتبتعد عنها على نحو رئيسي، بل بسبب ميل محور الأرض بنحو 23.5 درجة أثناء دورانها حول الشمس. هذا الميل يغير زاوية سقوط أشعة الشمس وطول النهار في نصفي الكرة الأرضية خلال السنة. لذلك يكون أحد النصفين في الصيف بينما يكون الآخر في الشتاء.',modernApp:'<b>اختبار الفهم:</b> إذا فهمت ميل المحور، يمكنك تفسير اختلاف طول النهار وارتفاع الشمس واختلاف الفصول بدل حفظها كحقائق منفصلة.'},
-            {title:'لماذا يبدو القمر بأشكال مختلفة؟',category:'فلك',source:'NASA Space Place',sourceUrl:'https://spaceplace.nasa.gov/moon-phases/en/',text:'القمر لا يصدر ضوءه المرئي بنفسه؛ نحن نرى ضوء الشمس المنعكس عنه. أثناء دورانه حول الأرض تتغير الزاوية بين الشمس والقمر والمراقب، فنرى أجزاء مختلفة من نصفه المضاء. هذه هي أطوار القمر، من الهلال إلى التربيع ثم البدر وغيرها.',modernApp:'<b>معلومة مهمة:</b> أطوار القمر ليست نتيجة ظل الأرض إلا في حالة الخسوف؛ معظم الوقت نرى تغير الجزء المضاء من القمر بسبب موقعه بالنسبة للشمس والأرض.'},
-            {title:'لماذا تحدث الزلازل؟',category:'علوم الأرض',source:'USGS',sourceUrl:'https://www.usgs.gov/programs/earthquake-hazards/earthquakes',text:'تتحرك الصفائح التكتونية ببطء شديد، وقد تتراكم إجهادات في الصخور على طول الصدوع. عندما تتجاوز الإجهادات قدرة الصخور على تحملها يحدث انزلاق مفاجئ وتتحرر طاقة تنتشر على شكل موجات زلزالية. شدة التأثير على سطح الأرض تعتمد على عوامل منها مقدار الطاقة والعمق والمسافة وطبيعة التربة والبناء.',modernApp:'<b>تطبيق عملي:</b> فهم الزلازل يساعد على التركيز على تقليل المخاطر عبر البناء والتخطيط والاستعداد، بدل تصور أن التنبؤ الدقيق بموعد كل زلزال متاح دائمًا.'},
-            {title:'كيف تتكون السحب؟',category:'طقس ومناخ',source:'NOAA',sourceUrl:'https://www.noaa.gov/jetstream/clouds',text:'عندما يرتفع الهواء الرطب ويبرد قد يصل إلى حالة يصبح فيها بخار الماء قادرًا على التكاثف على جسيمات دقيقة في الهواء، فتتكون قطرات أو بلورات جليدية صغيرة تشكل السحب. نوع السحابة وشكلها يتأثران بدرجة الحرارة والرطوبة وحركة الهواء والاستقرار الجوي. ليست كل السحب ممطرة، فالهطول يحتاج إلى نمو القطرات أو البلورات إلى أحجام تسمح بسقوطها.',modernApp:'<b>راقب السماء:</b> شكل السحابة ليس مجرد منظر؛ ارتفاعها وبنيتها يمكن أن يعطي مؤشرات عن حالة الغلاف الجوي واحتمالات الهطول.'},
-            {title:'ما الفرق بين الطقس والمناخ؟',category:'مناخ وبيئة',source:'NASA Climate',sourceUrl:'https://science.nasa.gov/climate-change/what-is-climate-change/',text:'الطقس يصف حالة الغلاف الجوي على مدد قصيرة مثل الساعات والأيام، بينما المناخ يصف الأنماط والاتجاهات الإحصائية على مدد طويلة. يمكن أن يكون يوم بارد جدًا في منطقة تعاني اتجاهًا طويل الأمد نحو ارتفاع درجات الحرارة؛ لا يوجد تناقض لأن المقياسين مختلفان. لذلك لا يكفي يوم واحد للحكم على المناخ.',modernApp:'<b>قاعدة:</b> لا تستخدم حدثًا جويًا منفردًا لإثبات اتجاه مناخي؛ الاتجاهات المناخية تحتاج إلى بيانات طويلة المدى.'},
-            {title:'كيف يعمل ضغط الهواء؟',category:'فيزياء وطقس',source:'NOAA',sourceUrl:'https://www.noaa.gov/jetstream/atmosphere/air-pressure',text:'الهواء له كتلة، ووزن عمود الهواء فوق سطح معين يولد ضغطًا جويًا. يتغير الضغط مع الارتفاع ودرجة الحرارة وتوزيع الهواء، وتستخدم الأرصاد هذه التغيرات لفهم حركة الأنظمة الجوية. ارتفاع الضغط أو انخفاضه لا يعني وحده أن الجو سيكون جيدًا أو سيئًا دائمًا؛ المهم هو السياق وحركة النظام الجوي.',modernApp:'<b>معلومة عملية:</b> تغيّر الضغط الذي تراه في تطبيق الطقس ليس رقمًا تجميليًا؛ إنه قياس أساسي في فهم حركة الكتل الهوائية.'},
-            {title:'لماذا تعد البوصلة الشمال المغناطيسي لا الجغرافي؟',category:'جغرافيا وفيزياء',source:'NOAA National Centers for Environmental Information',sourceUrl:'https://www.ncei.noaa.gov/products/magnetic-models',text:'المجال المغناطيسي للأرض يجعل إبرة البوصلة تصطف تقريبًا مع اتجاه المجال المحلي، ولذلك تشير إلى الشمال المغناطيسي. أما الشمال الجغرافي فهو اتجاه القطب الشمالي الجغرافي، وهما ليسا في المكان نفسه. الفرق الزاوي بين الاتجاهين يسمى الانحراف المغناطيسي ويتغير حسب الموقع والزمن.',modernApp:'<b>تطبيق عملي:</b> في الملاحة الدقيقة لا يكفي استخدام بوصلة دون معرفة الانحراف المغناطيسي للمنطقة.'},
-            {title:'كيف يقيس GPS موقعك؟',category:'تقنية وملاحة',source:'GPS.gov',sourceUrl:'https://www.gps.gov/systems/gps/performance/accuracy/',text:'يستقبل جهاز GPS إشارات زمنية من عدة أقمار صناعية، ويستخدم فروق زمن وصول الإشارات لتقدير المسافات إلى الأقمار ثم حساب الموقع. يحتاج الحل الجيد عادة إلى عدة أقمار ومعلومات دقيقة عن الزمن، وتتأثر الدقة بعوامل مثل المباني والعوائق والانعكاسات والغلاف الجوي. لذلك قد يتغير الموقع الظاهر قليلًا حتى وأنت ثابت.',modernApp:'<b>فكرة:</b> الهاتف لا «يرى» موقعك من الفضاء؛ بل يستنتج موقعه حسابيًا من إشارات راديوية وزمن وصولها.'},
-            {title:'لماذا تظهر الأقواس الملونة في قوس المطر؟',category:'ضوء وبصريات',source:'NASA Science',sourceUrl:'https://science.nasa.gov/earth/earth-observatory/rainbows/',text:'عندما يدخل ضوء الشمس قطرة ماء ينكسر، ثم ينعكس جزئيًا داخل القطرة ويخرج بعد انكسار آخر. لأن الأطوال الموجية المختلفة تنحرف بدرجات مختلفة، ينفصل الضوء الأبيض إلى ألوانه. تجمع أعداد هائلة من القطرات هذه التأثيرات في اتجاهات مناسبة فتظهر لنا قوس قزح.',modernApp:'<b>لماذا لا ترى قوسًا ثابتًا دائمًا؟</b> لأن ظهور القوس يعتمد على موقع الشمس والمراقب وقطرات الماء بالنسبة إلى بعضها.'},
-            {title:'ما هي نظرية التطور بالانتخاب الطبيعي؟',category:'أحياء',source:'Smithsonian National Museum of Natural History',sourceUrl:'https://humanorigins.si.edu/education/introduction-human-evolution',text:'الانتخاب الطبيعي آلية يتغير بها تواتر الصفات الوراثية في الجماعات عبر الأجيال عندما تؤثر الاختلافات الموروثة في البقاء والتكاثر في بيئة معينة. لا يعني ذلك أن الكائن «يتطور لأنه يحتاج» إلى صفة معينة؛ بل إن اختلافات موجودة أصلًا قد تمنح بعض الأفراد أفضلية، فتزداد فرص انتقالها.',modernApp:'<b>مفتاح الفهم:</b> التطور يحدث في الجماعات عبر أجيال، وليس قرارًا واعيًا يتخذه الفرد أثناء حياته.'},
-            {title:'لماذا تعد المضادات الحيوية مختلفة عن مسكنات الألم؟',category:'أحياء وصحة',source:'World Health Organization',sourceUrl:'https://www.who.int/news-room/fact-sheets/detail/antimicrobial-resistance',text:'المضادات الحيوية أدوية تستهدف البكتيريا أو تعيق نموها، بينما مسكنات الألم تهدف أساسًا إلى تخفيف الإحساس بالألم ولا تعالج العدوى البكتيرية. لذلك لا تعالج المضادات الحيوية نزلات البرد الفيروسية. كما أن سوء استخدامها يمكن أن يساهم في مقاومة الميكروبات للأدوية.',modernApp:'<b>قاعدة أمان:</b> لا تستخدم مضادًا حيويًا لمجرد وجود أعراض عدوى؛ تحديد السبب واستخدام الدواء المناسب من اختصاص الرعاية الطبية.'},
-            {title:'لماذا تختلف بصمة كل إصبع؟',category:'أحياء',source:'FBI',sourceUrl:'https://www.fbi.gov/how-we-can-help-you/need-an-fbi-service-or-clearance/fingerprints-and-other-biometrics',text:'خطوط الجلد الدقيقة على أطراف الأصابع تتكون أثناء نمو الجنين وتتأثر بعوامل وراثية وبيئية دقيقة، ولذلك يكون نمطها شديد التميز بين الأفراد. حتى التوائم المتطابقة لا يملكون عادة بصمات متطابقة. وتُستخدم هذه الأنماط في التعرف البيومتري لأن احتمال التطابق الكامل منخفض جدًا.',modernApp:'<b>معلومة:</b> التشابه الوراثي الكبير لا يعني تطابق التفاصيل النمائية الدقيقة.'},
-            {title:'كيف تعرف النباتات اتجاه الضوء؟',category:'أحياء ونبات',source:'Royal Society of Biology',sourceUrl:'https://www.rsb.org.uk/biologist-features/plant-science',text:'تستجيب النباتات للضوء عبر مستقبلات ضوئية ومسارات هرمونية تؤثر في نمو الخلايا. في ظاهرة الانتحاء الضوئي يتوزع هرمون الأوكسين بطريقة تؤدي إلى نمو غير متساوٍ في الساق، فينحني النبات نحو مصدر الضوء في حالات كثيرة. هذا ليس «رؤية» بالمعنى الحيواني، بل استجابة فسيولوجية منظمة للإشارات البيئية.',modernApp:'<b>فكرة جميلة:</b> الكائن الحي يمكنه الاستجابة لمعلومة بيئية معقدة دون امتلاك جهاز عصبي مثل الإنسان.'},
-            {title:'لماذا الملح يذوب في الماء؟',category:'كيمياء',source:'Royal Society of Chemistry',sourceUrl:'https://www.rsc.org/periodic-table/compound/948/sodium-chloride',text:'كلوريد الصوديوم يتكون من أيونات موجبة وسالبة مرتبة في شبكة بلورية. جزيئات الماء قطبية، فتتجاذب مع الأيونات وتساعد على فصلها وإحاطتها، فتنتشر الأيونات في المحلول. قابلية الذوبان تعتمد على طبيعة المذاب والمذيب ودرجة الحرارة وغيرها من العوامل، وليست قاعدة واحدة لكل المواد.',modernApp:'<b>تطبيق:</b> «الماء مذيب جيد» لا يعني أنه يذيب كل شيء؛ طبيعة الروابط والقطبية هي التي تحدد ذلك.'},
-            {title:'لماذا لا تختلط كل السوائل؟',category:'كيمياء',source:'Royal Society of Chemistry',sourceUrl:'https://edu.rsc.org/resources',text:'قابلية امتزاج سائلين تعتمد بدرجة كبيرة على طبيعة القوى بين جزيئاتهما. السوائل ذات الخصائص القطبية المتقاربة تميل إلى الامتزاج أكثر، بينما قد تنفصل سوائل ذات خصائص مختلفة، مثل الماء والزيت، إلى طبقتين. الكثافة تحدد أي طبقة تكون أعلى أو أسفل، لكنها ليست السبب الوحيد لعدم الامتزاج.',modernApp:'<b>فكرة:</b> «الأثقل ينزل» يفسر ترتيب الطبقات أحيانًا، لكنه لا يفسر وحده لماذا لا يمتزج السائلان أصلًا.'},
-            {title:'لماذا ترتفع حرارة الماء ببطء مقارنة ببعض المواد؟',category:'فيزياء وكيمياء',source:'USGS Water Science School',sourceUrl:'https://www.usgs.gov/special-topics/water-science-school',text:'للماء سعة حرارية نوعية مرتفعة نسبيًا، أي إنه يحتاج إلى كمية كبيرة من الطاقة لرفع درجة حرارته مقدارًا معينًا. لذلك تتغير حرارة المسطحات المائية ببطء نسبيًا مقارنة بمواد كثيرة، ويسهم ذلك في تخفيف تقلبات درجات الحرارة في المناطق القريبة من البحار والمحيطات.',modernApp:'<b>أثر واسع:</b> خصائص الماء الحرارية تؤثر في المناخ المحلي والبيئات المائية وطريقة تخزين الحرارة على الأرض.'},
-            {title:'ما هو التضخم الاقتصادي؟',category:'اقتصاد',source:'International Monetary Fund',sourceUrl:'https://www.imf.org/en/Publications/fandd/issues/Series/Back-to-Basics/Inflation',text:'التضخم هو ارتفاع عام ومستمر نسبيًا في المستوى العام للأسعار، وليس مجرد ارتفاع سعر سلعة واحدة. عندما ترتفع الأسعار على نطاق واسع تنخفض القوة الشرائية لوحدة العملة إذا لم ترتفع الدخول بالقدر نفسه. وتختلف أسباب التضخم، فقد ترتبط بالطلب أو تكاليف الإنتاج أو صدمات العرض أو توقعات التضخم وغيرها.',modernApp:'<b>تطبيق:</b> عند تقييم غلاء شيء ما، ميّز بين ارتفاع سعر ذلك المنتج وحده وبين تغير المستوى العام للأسعار في الاقتصاد.'},
-            {title:'لماذا لا تعني زيادة الراتب دائمًا زيادة القوة الشرائية؟',category:'اقتصاد شخصي',source:'OECD',sourceUrl:'https://www.oecd.org/en/topics/sub-issues/inflation-and-consumer-prices.html',text:'القوة الشرائية تعتمد على الدخل مقارنة بمستوى الأسعار. إذا ارتفع الدخل بنسبة 5% بينما ارتفعت تكلفة المعيشة بنسبة أكبر، فقد تنخفض كمية السلع والخدمات التي يمكن شراءها فعليًا. لذلك من المفيد النظر إلى الدخل الحقيقي لا الرقم الاسمي فقط.',modernApp:'<b>قاعدة مالية:</b> عند مقارنة دخلين عبر سنوات مختلفة، اسأل عن تغير الأسعار أيضًا، لا عن الرقم النقدي وحده.'},
-            {title:'كيف يعمل الفائدة المركبة؟',category:'مال ورياضيات',source:'Investor.gov',sourceUrl:'https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator',text:'الفائدة المركبة تعني أن العائد المتراكم يمكن أن يبدأ هو نفسه في توليد عائد لاحقًا. لذلك يعتمد النمو النهائي على رأس المال ومعدل العائد والمدة وتكرار التركيب والإضافات أو السحوبات. أثر الزمن يصبح مهمًا جدًا لأن النمو يتراكم فوق نمو سابق.',modernApp:'<b>فكرة عملية:</b> لا تنظر إلى العائد في سنة واحدة فقط؛ في القرارات طويلة الأجل قد يكون الزمن والاستمرارية مؤثرين جدًا.'},
-            {title:'لماذا نستخدم المتوسط والوسيط؟',category:'رياضيات وإحصاء',source:'NIST',sourceUrl:'https://www.itl.nist.gov/div898/handbook/',text:'المتوسط الحسابي يجمع القيم ويقسمها على عددها، لكنه يتأثر بالقيم الشاذة. الوسيط هو القيمة التي تقع في منتصف البيانات بعد ترتيبها، ولذلك يكون أكثر مقاومة لبعض القيم المتطرفة. اختيار المقياس المناسب يعتمد على شكل البيانات والسؤال الذي تريد الإجابة عنه.',modernApp:'<b>مثال:</b> إذا كانت معظم الرواتب متقاربة لكن هناك عددًا قليلًا من الرواتب الضخمة، فقد يعطي الوسيط صورة أقرب إلى «الدخل المعتاد» من المتوسط.'},
-            {title:'ما معنى الارتباط؟ وهل يعني السببية؟',category:'إحصاء وتفكير نقدي',source:'NIST',sourceUrl:'https://www.itl.nist.gov/div898/handbook/',text:'الارتباط يعني أن متغيرين يتحركان معًا بطريقة إحصائية، لكنه لا يثبت أن أحدهما سبب الآخر. قد يكون هناك عامل ثالث يؤثر في الاثنين، أو قد يكون الارتباط مصادفة، أو قد تكون العلاقة سببية فعلًا. إثبات السببية يحتاج تصميمًا وأدلة أقوى من مجرد ملاحظة ارتباط.',modernApp:'<b>قاعدة ضد التضليل:</b> عندما ترى «الدراسة وجدت ارتباطًا»، لا تحولها تلقائيًا إلى «الدراسة أثبتت أن X يسبب Y».'},
-            {title:'لماذا تُستخدم الوحدات القياسية؟',category:'علم وقياس',source:'BIPM',sourceUrl:'https://www.bipm.org/en/measurement-units',text:'الوحدات القياسية تجعل القياسات قابلة للمقارنة بين الأشخاص والأجهزة والدول والمختبرات. النظام الدولي للوحدات يحدد وحدات أساسية مثل المتر والثانية والكيلوغرام والأمبير وغيرها، وتُبنى عليها وحدات كثيرة أخرى. من دون توحيد الوحدات يصبح نقل النتائج وإعادة التجارب أكثر عرضة للخطأ.',modernApp:'<b>في الحياة اليومية:</b> عندما تقارن مواصفات جهازين، تحقق من أن القياسات تستخدم الوحدات نفسها قبل مقارنة الأرقام.'},
-            {title:'لماذا تحتاج التجارب العلمية إلى مجموعة ضابطة؟',category:'منهج علمي',source:'National Institutes of Health',sourceUrl:'https://www.nih.gov/health-information/nih-clinical-research-trials-you',text:'المجموعة الضابطة تساعد الباحث على مقارنة ما يحدث عند التعرض للعامل المدروس بما يحدث في غيابه أو تحت شرط بديل. الهدف هو عزل أثر المتغير محل الدراسة وتقليل التفسيرات البديلة. تصميم التجربة يختلف حسب المجال، لكن المقارنة المنضبطة عنصر أساسي في كثير من الدراسات التجريبية.',modernApp:'<b>تفكير نقدي:</b> اسأل دائمًا: «بماذا قورن هذا التأثير؟» قبل قبول ادعاء أن شيئًا ما أحدث النتيجة.'},
-            {title:'ما معنى أن تكون النتيجة قابلة لإعادة الإنتاج؟',category:'منهج علمي',source:'National Academies',sourceUrl:'https://www.nationalacademies.org/',text:'قابلية إعادة الإنتاج تعني أن باحثين آخرين يستطيعون، باستخدام بيانات أو منهجية مناسبة، الوصول إلى نتائج متوافقة بدرجة معقولة. لا يعني هذا أن كل تجربة يجب أن تنتج الرقم نفسه حرفيًا؛ فهناك تفاوت طبيعي وأخطاء قياس وظروف مختلفة. لكنها قاعدة مهمة لاختبار متانة المعرفة العلمية.',modernApp:'<b>قاعدة:</b> النتيجة المثيرة مرة واحدة أضعف من نتيجة دعمتها أدلة مستقلة ومتكررة.'},
-            {title:'لماذا تعد الخرائط المسطحة مشوهة؟',category:'جغرافيا',source:'USGS',sourceUrl:'https://www.usgs.gov/programs/national-geospatial-program',text:'الأرض جسم قريب من الكرة، بينما الخريطة المسطحة سطح ثنائي الأبعاد. عند إسقاط سطح منحني على ورقة لا يمكن الحفاظ على المسافات والأشكال والمساحات والاتجاهات كلها في الوقت نفسه؛ لذلك تختار كل إسقاط خريطي خصائص يحافظ عليها أكثر من غيرها. لهذا قد تظهر بعض المناطق أكبر أو أصغر مما تتوقع.',modernApp:'<b>تطبيق:</b> لا تستخدم خريطة واحدة لكل الأغراض؛ إسقاط مناسب للملاحة قد لا يكون الأنسب لمقارنة مساحات الدول.'},
-            {title:'لماذا تبدو بعض الدول أكبر من حجمها الحقيقي على الخرائط؟',category:'جغرافيا',source:'USGS',sourceUrl:'https://www.usgs.gov/programs/national-geospatial-program',text:'بعض الإسقاطات، مثل إسقاط مركاتور، تحافظ على الزوايا والاتجاهات المحلية لكنها تضخم المساحات كلما اقتربنا من القطبين. لذلك تبدو مناطق شمالية مثل غرينلاند أكبر بصريًا من مساحتها الحقيقية مقارنة بالمناطق القريبة من خط الاستواء. هذا ليس خطأ في الرسم بقدر ما هو نتيجة رياضية لطريقة الإسقاط.',modernApp:'<b>فكرة:</b> شكل الخريطة ليس صورة محايدة تمامًا للأرض؛ اختيار الإسقاط يغير ما يبدو كبيرًا أو صغيرًا.'}
-        ];
-
-        function buildKnowledgeCard(template) {
-            return {
-                id: `knowledge_${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
-                title: template.title,
-                source: template.source,
-                category: template.category,
-                text: template.text,
-                modernApp: `<b>المصدر الموثوق:</b> <a href="${template.sourceUrl}" target="_blank" rel="noopener noreferrer">${template.source}</a><br><br>${template.modernApp}`,
-                sourceUrl: template.sourceUrl,
-                read: false,
-                readAt: 0,
-                updatedAt: Date.now(),
-                sourceType: 'curated'
-            };
-        }
-
-        function knowledgeNeedsRefresh(card) {
-            return card && card.read && (!card.readAt || (Date.now() - card.readAt >= KNOWLEDGE_ROTATION_MS));
-        }
-
-        function pickDiverseKnowledgeCards() {
-            const pool = [...knowledgeTreasuryDB];
-            const selected = [];
-            const usedCategories = new Set();
-            while (selected.length < KNOWLEDGE_TARGET_COUNT && pool.length) {
-                const diverse = pool.filter(item => !usedCategories.has(item.category));
-                const sourcePool = diverse.length ? diverse : pool;
-                const index = Math.floor(Math.random() * sourcePool.length);
-                const chosen = sourcePool[index];
-                selected.push(buildKnowledgeCard(chosen));
-                usedCategories.add(chosen.category);
-                const originalIndex = pool.indexOf(chosen);
-                if (originalIndex >= 0) pool.splice(originalIndex, 1);
-            }
-            return selected;
-        }
-
-        function refreshReadKnowledgeCards() {
-            if (!Array.isArray(db.knowledgeCards)) return;
-            let changed = false;
-            for (let i = 0; i < db.knowledgeCards.length; i++) {
-                if (!knowledgeNeedsRefresh(db.knowledgeCards[i])) continue;
-                const current = db.knowledgeCards[i];
-                const candidates = knowledgeTreasuryDB.filter(item => item.title !== current.title);
-                if (!candidates.length) continue;
-                const replacement = candidates[Math.floor(Math.random() * candidates.length)];
-                db.knowledgeCards[i] = buildKnowledgeCard(replacement);
-                changed = true;
-            }
-            if (changed) finalizeAction();
-        }
-
-        function ensureRemoteKnowledgeCards() {
-            if (!Array.isArray(db.knowledgeCards)) db.knowledgeCards = [];
-            const validCurated = db.knowledgeCards.length === KNOWLEDGE_TARGET_COUNT &&
-                db.knowledgeCards.every(card => card && card.sourceType === 'curated' && card.title && card.text && card.sourceUrl);
-            if (!validCurated) {
-                db.knowledgeCards = pickDiverseKnowledgeCards();
-                finalizeAction();
-                return;
-            }
-            refreshReadKnowledgeCards();
-        }
-
-        function markKnowledgeRead(id, event) {
-            if (event) event.stopPropagation();
-            const card = Array.isArray(db.knowledgeCards) ? db.knowledgeCards.find(item => item.id === id) : null;
-            if (!card) return;
-            card.read = true;
-            card.readAt = Date.now();
-            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e) {}
-            renderKnowledgeTreasury();
-            showToast('تم تسجيل إتمام القراءة');
-            saveToCloud();
-        }
-
-        function renderKnowledgeTreasury() {
-            const container = document.getElementById('knowledgeCardsList');
-            if (!container) return;
-            const cards = Array.isArray(db.knowledgeCards) ? db.knowledgeCards : [];
-            if (cards.length < KNOWLEDGE_TARGET_COUNT) {
-                container.innerHTML = '<div class="oneui-card" style="text-align:center;color:var(--text-secondary);">جاري جلب خمس معلومات دينية من المصدر الموثوق...</div>';
-                return;
-            }
-            container.innerHTML = cards.slice(0, KNOWLEDGE_TARGET_COUNT).map(item => `
-                <div class="knowledge-card-item ${item.read ? 'read' : 'unread'}">
-                    <div class="knowledge-meta-bar">
-                        <span class="knowledge-source-badge">📖 ${escapeHTML(item.source || 'القرآن الكريم')}</span>
-                        <span style="color:var(--text-secondary); font-weight:700;">${escapeHTML(item.category || 'معلومة دينية موثوقة')}</span>
-                    </div>
-                    <strong style="display:block; font-size:15px; margin-bottom:6px; color:var(--text-primary);">${escapeHTML(item.title || '')}</strong>
-                    <div class="knowledge-text-body">${escapeHTML(item.text || '')}</div>
-                    <div class="knowledge-modern-app">${item.modernApp || ''}</div>
-                    <div style="display:flex;justify-content:flex-end;margin-top:10px;">
-                        ${item.read
-                            ? '<span class="knowledge-read-badge">✓ تمت القراءة — ستُحدّث بعد 3 ساعات</span>'
-                            : `<button type="button" class="btn-action knowledge-complete-btn" onclick="markKnowledgeRead('${String(item.id).replace(/'/g, "\\'")}', event)">✓ إتمام القراءة</button>`}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // =========================================================================
-        // --- 2B. قسم الحياة: محتوى منتقى من مصادر متعددة ويدور دوريًا ---
-        // =========================================================================
-        const LIFE_ROTATION_MS = 3 * 60 * 60 * 1000;
-        const LIFE_TARGET_COUNT = 5;
-
-        // هذا القسم ليس "تنمية بشرية"؛ بل مزيج من أبحاث وتجارب وأفكار فلسفية
-        // ومصادر دينية موثوقة وكتب/مقالات تستحق القراءة، مع تطبيق عملي قصير.
-        const lifeTreasuryDB = [
-            {title:'بدّل السؤال: كيف أنجح؟ إلى ماذا سيجعلني أفشل؟',category:'تفكير ذكي',source:'Farnam Street — Inversion',sourceUrl:'https://fs.blog/mental-models/',text:'عندما تواجه قرارًا أو مشكلة، لا تسأل فقط: ما الذي يقربني من النتيجة؟ اسأل أيضًا: ما الأشياء التي لو فعلتها أو أهملتها ستجعل الفشل شبه مضمون؟ قلب السؤال يكشف أحيانًا مخاطر واضحة لا تراها وأنت منشغل بالوصول إلى الهدف.',modernApp:'<b>جرّبها اليوم:</b> قبل قرار مهم اكتب ثلاث طرق قد تفسده، ثم صمّم حاجزًا واحدًا يمنع كل طريقة. ليست الفكرة أن تصبح متشائمًا؛ بل أن تمنع الأخطاء الغبية قبل أن تحتاج إلى إنقاذها.'},
-            {title:'لا تحكم على القرار من نتيجته فقط',category:'اتخاذ القرار',source:'Farnam Street — Second-Order Thinking',sourceUrl:'https://fs.blog/second-order-thinking/',text:'القرار الجيد قد ينتج عنه أحيانًا حظ سيئ، والقرار السيئ قد ينجح مرة. لذلك من المفيد النظر إلى الآثار التالية للقرار: ماذا سيحدث بعد النتيجة الأولى؟ وما السلوك الذي سيصنعه هذا القرار إذا تكرر؟ التفكير في «ثم ماذا؟» يمنعك من الانبهار بالمكاسب السريعة.',modernApp:'<b>اختبار سريع:</b> قبل أن تقول «هذا أفضل»، اسأل: ماذا سيحدث بعد أسبوع؟ وبعد سنة؟ ومن سيتغير سلوكه بسبب هذا القرار؟'},
-            {title:'احمِ انتباهك كأنه مال لا يعود',category:'حياة رقمية',source:'Cal Newport — Digital Minimalism',sourceUrl:'https://calnewport.com/on-digital-minimalism/',text:'الفكرة ليست كراهية الهاتف أو الإنترنت، بل أن تختار التقنية التي تخدم قيمة واضحة في حياتك بدل أن تقبل كل ما يطلب جزءًا من انتباهك. بعض الأدوات تحل مشكلة حقيقية، وأخرى تصنع عادة لم تكن تحتاجها أصلًا.',modernApp:'<b>تجربة ذكية:</b> عطّل إشعارًا واحدًا لا تحتاجه. إذا كان التطبيق مهمًا، ستذهب إليه عمدًا؛ أما أن يطلب حضورك طوال اليوم فشيء آخر.'},
-            {title:'اصنع مساحة للدهشة بدل أن تستهلك يومك كله',category:'دهشة ومعنى',source:'Greater Good Science Center — The Science of Awe',sourceUrl:'https://greatergood.berkeley.edu/article/item/why_do_we_feel_awe',text:'أبحاث الدهشة تشير إلى أن لحظات نشعر فيها بعظمة شيء يتجاوزنا — في الطبيعة أو الفن أو العلم أو فعل إنساني نبيل — قد توسّع منظورنا وتزيد الإحساس بالترابط وتدفعنا إلى قدر أكبر من الكرم والتواضع. والدهشة لا تحتاج رحلة باهظة؛ قد تبدأ من السماء أو كتاب أو قصة إنسان.',modernApp:'<b>طقس صغير:</b> اخرج عشر دقائق بلا سماعات ولا هاتف في يدك. ابحث عن شيء واحد لم تنتبه إليه من قبل. لا تصوّره؛ فقط انظر.'},
-            {title:'المعنى قد يأتي من العطاء لا من مطاردة «الشغف»',category:'معنى الحياة',source:'Greater Good Science Center — Helping Others',sourceUrl:'https://greatergood.berkeley.edu/article/item/can_helping_others_help_you_find_meaning_in_life',text:'تشير أبحاث في معنى الحياة إلى أن مساعدة الآخرين والعلاقات الجيدة ليستا مجرد إضافات لطيفة بعد أن «ننجح». في بعض الدراسات ارتبط السلوك الإيثاري والإحساس بأنك نافع للآخرين بإحساس أقوى بالمعنى، وحتى أفعال الامتنان الموجهة لشخص آخر قد ترفع هذا الإحساس.',modernApp:'<b>لا تجعلها شعارًا:</b> اختر شخصًا واحدًا تستطيع أن تخفف عنه عبئًا حقيقيًا هذا الأسبوع، من دون انتظار أن يعرف أحد أنك فعلت ذلك.'},
-            {title:'الامتنان ليس أن تقنع نفسك أن كل شيء جميل',category:'العلاقات',source:'Greater Good Science Center — Gratitude',sourceUrl:'https://greatergood.berkeley.edu/article/item/how_gratitude_helps_your_friendships_grow',text:'الامتنان الصحي لا يعني إنكار المشاكل أو تزيين الواقع. في العلاقات، فائدته الأقوى تظهر عندما يصبح اعترافًا محددًا بقيمة شخص وبما فعله، لا مجرد كلمة «شكرًا». هذا الاعتراف يمكن أن يغذي دورة من الاهتمام والعطاء المتبادل.',modernApp:'<b>جرّب الفرق:</b> بدل «شكرًا على كل شيء»، قل لشخص: «الشيء الذي فعلته أمس وفّر عليّ كذا، وأنا انتبهت له». التحديد يجعل الامتنان فعلًا لا مجاملة.'},
-            {title:'التسامح ليس إعلان أن ما حدث كان مقبولًا',category:'الكرامة والصفح',source:'Greater Good Science Center — Forgiveness',sourceUrl:'https://greatergood.berkeley.edu/forgiveness/definition',text:'الصفح يمكن أن يعني أن تتوقف عن حمل الأذى كأنه يعيش داخل يومك إلى الأبد. لكنه لا يلغي المحاسبة ولا يفرض عليك إعادة الثقة بمن أذاك. يمكنك أن تضع حدًا واضحًا، وفي الوقت نفسه ترفض أن تجعل الانتقام مشروع حياتك.',modernApp:'<b>فكرة جريئة:</b> اسأل نفسك: «ما الحد الذي أحتاجه لحماية نفسي؟ وما الغضب الذي لم يعد يخدمني؟» هذان سؤالان مختلفان.'},
-            {title:'لا تجعل «الهدوء» ذريعة لتجنب المواجهة',category:'حكمة عملية',source:'Epictetus — Stanford Encyclopedia of Philosophy',sourceUrl:'https://plato.stanford.edu/entries/epictetus/',text:'الفلسفة الرواقية عند إبكتيتوس تهتم بالنزاهة وإدارة النفس والحرية الداخلية، لا بمجرد الظهور بمظهر الشخص الهادئ. الهدوء الحقيقي لا يعني أن توافق على كل شيء؛ بل أن تستطيع اختيار ردك بدل أن يصبح الغضب هو الذي يختاره نيابة عنك.',modernApp:'<b>تجربة:</b> في نقاش حاد، لا تحاول الفوز فورًا. قل ما يلزم بوضوح، ثم توقف. السيطرة على ردك أقوى من آخر كلمة.'},
-            {title:'«وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا» — ليست آية للانتظار السلبي',category:'روحانيات',source:'القرآن الكريم — سورة الطلاق 65:2-3',sourceUrl:'https://quran.com/65/2',text:'الآية تربط التقوى بالمخرج والرزق والتوكل. المعنى ليس أن المؤمن يتوقف عن الأخذ بالأسباب، بل أن الإنسان يعمل ويضبط طريقه ثم لا يجعل النتيجة المجهولة إلهًا صغيرًا يسيطر على قلبه. التوكل هنا ليس كسلًا؛ هو أن تعمل دون أن تعبد النتيجة.',modernApp:'<b>تأمل:</b> في مشكلة لا تملك نتيجتها، اكتب «ما الذي أستطيع فعله الآن؟» ثم افعل ما تستطيع، واترك ما لا تملكه لله بدل إعادة المشهد في رأسك.'},
-            {title:'«أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ» — الهدوء ليس دائمًا حلًا خارجيًا',category:'روحانيات',source:'القرآن الكريم — سورة الرعد 13:28',sourceUrl:'https://quran.com/13/28',text:'تذكّر الآية أن الطمأنينة ليست مشروع شراء أو ترتيب حياة مثالية. قد تبقى الظروف صعبة، لكن علاقة القلب بالله ليست رهينة بأن تسير كل الأشياء كما يريد الإنسان. هذا لا يلغي السعي لحل المشكلة؛ بل يحرر القلب من شرط «لن أطمئن إلا إذا حدث كذا».',modernApp:'<b>تطبيق:</b> خصص دقائق قليلة للذكر بلا هاتف ولا تسجيل نتائج ولا تصوير. اجعلها عبادة لا «تقنية للاسترخاء» فقط.'},
-            {title:'«احرص على ما ينفعك واستعن بالله ولا تعجز»',category:'هدي نبوي',source:'صحيح مسلم 2664 — Sunnah.com',sourceUrl:'https://sunnah.com/muslim:2664',text:'في الحديث اجتماع ثلاث حركات في جملة واحدة: اختيار ما ينفع، طلب العون من الله، ورفض العجز. ثم يأتي التعامل مع الندم على الماضي دون الغرق في «لو». إنها صيغة عملية جدًا: استفد من الماضي، لكن لا تجعل الماضي يستهلك قدرتك على الفعل الآن.',modernApp:'<b>قاعدة عملية:</b> عندما تكرر «لو أنني...»، أوقف الجملة واسأل: «ما الشيء النافع الذي أستطيع فعله الآن؟»'},
-            {title:'عش في الدنيا كأنك غريب أو عابر سبيل',category:'روحانيات وحياة',source:'صحيح البخاري 6416 — Sunnah.com',sourceUrl:'https://sunnah.com/bukhari:6416',text:'التشبيه النبوي لا يطلب ترك الدنيا، بل يغيّر طريقة التعلق بها: المسافر يستخدم ما يحتاجه في طريقه لكنه لا يتعامل مع محطة مؤقتة كأنها وطن أبدي. هذه النظرة يمكن أن تعيد ترتيب علاقتك بالمال والسمعة والخلافات والأشياء التي تستهلك عمرك.',modernApp:'<b>سؤال مؤلم ومفيد:</b> هل هناك شيء يسرق منك سلامك لأنك تتعامل معه كأنه دائم، مع أنه في الحقيقة مرحلة وستمر؟'},
-            {title:'اقرأ «التأملات» كدفتر محاسبة لا ككتاب اقتباسات',category:'كتاب يستحق القراءة',source:'Marcus Aurelius — Meditations / Project Gutenberg',sourceUrl:'https://www.gutenberg.org/ebooks/2680',text:'التأملات ليست كتابًا مكتوبًا ليبدو صاحبه حكيمًا أمام الناس؛ هي كتابات شخصية لإمبراطور روماني يحاول ضبط نفسه وسط الحرب والسلطة والخسارة. من أقوى ما فيها العودة إلى الخلق والانضباط بدل الانشغال بما لا تملكه.',modernApp:'<b>طريقة القراءة:</b> لا تجمع الاقتباسات. اقرأ صفحة، ثم اكتب سطرًا واحدًا: «ما الشيء الذي يجب أن أفعله أنا، لا أن أقتبس عنه؟»'},
-            {title:'الدهشة قد تكون في إنسان لا في منظر طبيعي',category:'قصص وتجارب إنسانية',source:'Greater Good — Moral Beauty',sourceUrl:'https://greatergood.berkeley.edu/article/item/whats_the_most_common_source_of_awe',text:'في بحث عن مصادر الدهشة عبر ثقافات متعددة، ظهر شيء لافت: الأفعال الإنسانية الاستثنائية — الشجاعة والرحمة والقوة وتجاوز المحن — كانت مصدرًا شائعًا جدًا للدهشة. أحيانًا أفضل قصة ملهمة ليست عن شخص «نجح»، بل عن شخص فعل الخير حين كان يستطيع أن يفعل العكس.',modernApp:'<b>تحدٍ:</b> ابحث هذا الأسبوع عن قصة إنسان فعل شيئًا شريفًا بلا مكافأة واضحة. لا تبحث عن المشاهير؛ ابحث عن الفعل نفسه.'},
-            {title:'أنت لا تحتاج إلى تحسين كل شيء في حياتك',category:'بساطة',source:'Cal Newport — The Deep Life',sourceUrl:'https://calnewport.com/the-deep-life-some-notes/',text:'من الأفكار المفيدة في الحياة العميقة البحث عن الأشياء الكبيرة التي تغيّر الكثير، ثم إزالة الضجيج الذي يلتهمها. ليست الحكمة أن تضيف عشر عادات جديدة، بل أن تعرف أي التزامات قليلة تستحق أفضل طاقتك.',modernApp:'<b>تجربة أسبوع:</b> لا تضف عادة واحدة. احذف التزامًا منخفض القيمة، واستعمل الوقت الناتج في شيء مهم فعلًا.'}
-        ];
-
-        function buildLifeCard(template) {
-            return {
-                id: `life_${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
-                title: template.title,
-                source: template.source,
-                category: template.category,
-                text: template.text,
-                modernApp: `<b>المصدر:</b> <a href="${template.sourceUrl}" target="_blank" rel="noopener noreferrer">${template.source}</a><br><br>${template.modernApp}`,
-                sourceUrl: template.sourceUrl,
-                read: false,
-                readAt: 0,
-                updatedAt: Date.now(),
-                sourceType: 'curated'
-            };
-        }
-
-        function lifeNeedsRefresh(card) {
-            return card && card.read && (!card.readAt || (Date.now() - card.readAt >= LIFE_ROTATION_MS));
-        }
-
-        function pickDiverseLifeCards() {
-            const pool = [...lifeTreasuryDB];
-            const selected = [];
-            const usedCategories = new Set();
-            while (selected.length < LIFE_TARGET_COUNT && pool.length) {
-                const diverse = pool.filter(item => !usedCategories.has(item.category));
-                const sourcePool = diverse.length ? diverse : pool;
-                const index = Math.floor(Math.random() * sourcePool.length);
-                const chosen = sourcePool[index];
-                selected.push(buildLifeCard(chosen));
-                usedCategories.add(chosen.category);
-                const originalIndex = pool.indexOf(chosen);
-                if (originalIndex >= 0) pool.splice(originalIndex, 1);
-            }
-            return selected;
-        }
-
-        function refreshReadLifeCards() {
-            if (!Array.isArray(db.lifeCards)) return;
-            let changed = false;
-            for (let i = 0; i < db.lifeCards.length; i++) {
-                if (!lifeNeedsRefresh(db.lifeCards[i])) continue;
-                const current = db.lifeCards[i];
-                const candidates = lifeTreasuryDB.filter(item => item.title !== current.title);
-                if (!candidates.length) continue;
-                const replacement = candidates[Math.floor(Math.random() * candidates.length)];
-                db.lifeCards[i] = buildLifeCard(replacement);
-                changed = true;
-            }
-            if (changed) finalizeAction();
-        }
-
-        async function ensureRemoteLifeCards() {
-            if (!Array.isArray(db.lifeCards)) db.lifeCards = [];
-            const validCurated = db.lifeCards.length === LIFE_TARGET_COUNT &&
-                db.lifeCards.every(card => card && card.sourceType === 'curated' && card.title && card.text && card.sourceUrl);
-            if (!validCurated) {
-                db.lifeCards = pickDiverseLifeCards();
-                finalizeAction();
-                return;
-            }
-            refreshReadLifeCards();
-        }
-
-        function markLifeRead(id, event) {
-            if (event) event.stopPropagation();
-            const card = Array.isArray(db.lifeCards) ? db.lifeCards.find(item => item.id === id) : null;
-            if (!card) return;
-            card.read = true;
-            card.readAt = Date.now();
-            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e) {}
-            renderLifeTreasury();
-            showToast('تم تسجيل إتمام القراءة');
-            saveToCloud();
-        }
-
-        function renderLifeTreasury() {
-            const container = document.getElementById('lifeCardsList');
-            if (!container) return;
-            const cards = Array.isArray(db.lifeCards) ? db.lifeCards : [];
-            if (cards.length < LIFE_TARGET_COUNT) {
-                container.innerHTML = '<div class="oneui-card" style="text-align:center;color:var(--text-secondary);">جاري تجهيز خمس مواد جديدة من مصادر متعددة...</div>';
-                return;
-            }
-            container.innerHTML = cards.slice(0, LIFE_TARGET_COUNT).map(item => `
-                <div class="knowledge-card-item ${item.read ? 'read' : 'unread'}">
-                    <div class="knowledge-meta-bar">
-                        <span class="knowledge-source-badge">🌿 ${escapeHTML(item.source || 'مصدر موثوق')}</span>
-                        <span style="color:var(--text-secondary); font-weight:700;">${escapeHTML(item.category || 'الحياة')}</span>
-                    </div>
-                    <strong style="display:block; font-size:15px; margin-bottom:6px; color:var(--text-primary);">${escapeHTML(item.title || '')}</strong>
-                    <div class="knowledge-text-body">${escapeHTML(item.text || '')}</div>
-                    <div class="knowledge-modern-app">${item.modernApp || ''}</div>
-                    <div style="display:flex;justify-content:flex-end;margin-top:10px;">
-                        ${item.read
-                            ? '<span class="knowledge-read-badge">✓ تمت القراءة — ستُحدّث بعد 3 ساعات</span>'
-                            : `<button type="button" class="btn-action knowledge-complete-btn" onclick="markLifeRead('${String(item.id).replace(/'/g, "\\'")}', event)">✓ إتمام القراءة</button>`}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // =========================================================================
         // --- 3. الصلاة القادمة فقط والتنبيهات المجدولة بالدوائر المصغرة ---
         // =========================================================================
         function renderCombinedReminders() {
@@ -1964,6 +1982,7 @@
                                 applyThemeUI();
                                 updateUI();
                                 showToast('☁️ تمت استعادة بيانات حسابك');
+                                setTimeout(() => { syncDailyMagazine(false); schedulePrayerNotifications(); }, 500);
                             } else {
                                 saveToCloud();
                                 showToast('☁️ تم إنشاء مساحة بيانات حسابك');
@@ -2084,7 +2103,14 @@
             } else if (type === 'alarm') {
                 title.innerText = '⏰ ضبط تنبيه سريع';
                 container.innerHTML = `
-                    <input type="number" id="actAlarmMins" placeholder="عدد الدقائق (مثال: 15)..." class="app-input" required>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;direction:ltr;">
+                        <label style="display:block;text-align:right;direction:rtl;font-size:11px;font-weight:800;color:var(--text-secondary);">الساعات
+                            <input type="number" id="actAlarmHours" min="0" step="1" value="0" placeholder="0" class="app-input" style="margin-top:5px;" required>
+                        </label>
+                        <label style="display:block;text-align:right;direction:rtl;font-size:11px;font-weight:800;color:var(--text-secondary);">الدقائق (0–59)
+                            <input type="number" id="actAlarmMins" min="0" max="59" step="1" value="1" placeholder="0" class="app-input" style="margin-top:5px;" required oninput="clampAlarmMinutes(this)">
+                        </label>
+                    </div>
                     <input type="text" id="actAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
                     <button type="button" onclick="submitActAlarmFast()" class="btn-action">ضبط الآن</button>
                 `;
@@ -2148,12 +2174,21 @@
             showToast('🛒 تم إضافة السلعة للمشتريات');
         }
 
+        function clampAlarmMinutes(input) {
+            // نحصر خانة الدقائق بين 0 و59 حتى لا تتحول إلى ساعة إضافية.
+            let value = parseInt(input.value, 10);
+            if (!Number.isFinite(value)) value = 0;
+            input.value = Math.max(0, Math.min(59, value));
+        }
+
         function submitActAlarmFast() {
-            const mins = parseInt(document.getElementById('actAlarmMins').value, 10);
+            const hours = Math.max(0, parseInt(document.getElementById('actAlarmHours')?.value, 10) || 0);
+            const minutes = Math.max(0, Math.min(59, parseInt(document.getElementById('actAlarmMins')?.value, 10) || 0));
             const title = document.getElementById('actAlarmTitle').value;
-            if (!mins || mins <= 0) return alert('أدخل عدد دقائق صحيح');
+            const totalMinutes = (hours * 60) + minutes;
+            if (totalMinutes <= 0) return alert('أدخل ساعة أو دقيقة واحدة على الأقل');
             closeModalAction();
-            addReminderFast(mins, title);
+            addReminderFast(totalMinutes, title);
         }
 
         function submitActDebt() {
@@ -2201,13 +2236,14 @@
                 }
             }
 
-            if (viewId === 'knowledge-view') { renderKnowledgeTreasury(); ensureRemoteKnowledgeCards().then(renderKnowledgeTreasury); }
-            if (viewId === 'life-view') { renderLifeTreasury(); ensureRemoteLifeCards().then(renderLifeTreasury); }
             if (viewId === 'calc-view') updateGCalcDisplay();
             if (viewId === 'calendar-view') renderCalendarGrid();
             if (viewId === 'adhkar-view') renderDhikrView();
             if (viewId === 'quran-view') renderQuranView();
             if (viewId === 'currency-view') calculateCurrencyConversion();
+
+            document.querySelectorAll('.duo-item').forEach(item => item.classList.remove('active'));
+            if (viewId === 'dashboard-view') document.getElementById('duoHomeBtn')?.classList.add('active');
 
             window.scrollTo({ top: 0, behavior: 'smooth' });
             updateUI();
@@ -2826,11 +2862,98 @@
             `).join('') : '<p style="color:var(--text-secondary); text-align:center; padding:12px 0;">لا توجد ملاحظات محفوظة.</p>';
         }
 
+
+        // =========================================================================
+        // --- 🍎 iPhone Duo: عداد التنبيه واللوحة الجانبية ---
+        // =========================================================================
+        function getNextActiveReminder() {
+            const now = Date.now();
+            return (Array.isArray(db.reminders) ? db.reminders : [])
+                .filter(r => r && !r.triggered && r.targetTime && r.targetTime > now)
+                .sort((a,b) => a.targetTime - b.targetTime)[0] || null;
+        }
+
+        function formatDuoCountdown(ms) {
+            const total = Math.max(0, Math.ceil(ms / 1000));
+            const h = Math.floor(total / 3600);
+            const m = Math.floor((total % 3600) / 60);
+            const sec = total % 60;
+            if (h > 0) return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+            return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+        }
+
+        function updateDuoAlarmBar() {
+            const timeEl = document.getElementById('duoAlarmTime');
+            const captionEl = document.getElementById('duoAlarmCaption');
+            const dotEl = document.getElementById('duoAlarmDot');
+            const btn = document.getElementById('duoAlarmButton');
+            if (!timeEl || !captionEl || !btn) return;
+            const r = getNextActiveReminder();
+            if (!r) {
+                timeEl.textContent = '--:--';
+                captionEl.textContent = 'لا يوجد';
+                dotEl?.classList.add('hidden');
+                btn.style.setProperty('--alarm-progress', '0deg');
+                return;
+            }
+            const remaining = Math.max(0, r.targetTime - Date.now());
+            timeEl.textContent = formatDuoCountdown(remaining);
+            captionEl.textContent = String(r.title || r.name || 'تنبيه').slice(0, 10);
+            dotEl?.classList.remove('hidden');
+            const total = Math.max(60000, Number(r.minutes || 1) * 60000);
+            const progress = Math.max(0, Math.min(360, (1 - remaining / total) * 360));
+            btn.style.setProperty('--alarm-progress', `${progress}deg`);
+        }
+
+        function openDuoAlarmPanel() {
+            const panel = document.getElementById('duoAlarmPanel');
+            const content = document.getElementById('duoAlarmDetailContent');
+            if (!panel || !content) return;
+            const now = Date.now();
+            const reminders = (Array.isArray(db.reminders) ? db.reminders : [])
+                .filter(r => r && !r.triggered && r.targetTime && r.targetTime > now)
+                .sort((a,b) => a.targetTime - b.targetTime);
+            if (!reminders.length) {
+                content.innerHTML = `<div class="duo-section duo-menu-pop"><div class="duo-section-title">⏰ لا يوجد تنبيه نشط</div><div style="font-size:12px;color:var(--text-secondary);line-height:1.8;">اضبط تنبيهًا من زر «ضبط تنبيه» ليظهر عداده مباشرة داخل شريط Duo.</div></div>`;
+            } else {
+                content.innerHTML = reminders.map((r, i) => {
+                    const remaining = Math.max(0, r.targetTime - now);
+                    const when = new Date(r.targetTime).toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});
+                    return `<div class="duo-section duo-menu-pop" style="animation-delay:${i*45}ms;">
+                        <div class="duo-section-title">⏰ ${escapeHTML(r.title || r.name || 'تنبيه')}</div>
+                        <div class="duo-alarm-detail-time">${formatDuoCountdown(remaining)}</div>
+                        <div class="duo-alarm-detail-name">موعده ${when}</div>
+                        <div style="display:flex;gap:7px;margin-top:12px;">
+                            <button class="tag-badge" onclick="renameReminder(${r.id}); openDuoAlarmPanel();">✏️ تعديل الاسم</button>
+                            <button class="tag-badge" style="color:var(--accent-red);" onclick="confirmDeleteReminder(${r.id}); openDuoAlarmPanel();">✖ إلغاء</button>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+            panel.classList.add('active');
+            panel.setAttribute('aria-hidden','false');
+            animateDuoBar();
+        }
+
+        function closeDuoAlarmPanel() {
+            const panel = document.getElementById('duoAlarmPanel');
+            if (panel) { panel.classList.remove('active'); panel.setAttribute('aria-hidden','true'); }
+        }
+
+        function animateDuoBar() {
+            const bar = document.getElementById('duoBar');
+            if (!bar) return;
+            bar.animate([{transform:'translateX(-50%) scale(.96)'},{transform:'translateX(-50%) scale(1)'}], {duration:360,easing:'cubic-bezier(.22,1,.36,1)'});
+        }
+
+        setInterval(updateDuoAlarmBar, 1000);
+
         function updateUI() {
             renderDashboardTasks();
             renderDashboardPinnedSections();
             renderNotesList();
             renderCombinedReminders();
+            updateDuoAlarmBar();
             calculateUniversalDailyProgress();
             updateDynamicGreeting();
             renderPoetryLine();
@@ -2961,6 +3084,80 @@
             ];
         }
 
+        // شرح: // نعيد حساب مواقيت الصلاة لسبعة أيام حتى تبقى المنبهات مجدولة حتى لو كان التطبيق مغلقًا.
+        // نعيد حساب مواقيت الصلاة لسبعة أيام حتى تبقى المنبهات مجدولة حتى لو كان التطبيق مغلقًا.
+        // شرح: async function schedulePrayerNotifications() {
+        async function schedulePrayerNotifications() {
+            // شرح: const plugin = getNativePlugin();
+            const plugin = getNativePlugin();
+            // شرح: if (!plugin) return false;
+            if (!plugin) return false;
+            // شرح: try {
+            try {
+                // شرح: await requestNotificationPermission();
+                await requestNotificationPermission();
+                // شرح: const notifications = [];
+                const notifications = [];
+                // شرح: const cancelIds = [];
+                const cancelIds = [];
+                // شرح: for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+                for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+                    // شرح: const day = new Date();
+                    const day = new Date();
+                    // شرح: day.setHours(0, 0, 0, 0);
+                    day.setHours(0, 0, 0, 0);
+                    // شرح: day.setDate(day.getDate() + dayOffset);
+                    day.setDate(day.getDate() + dayOffset);
+                    // شرح: const prayers = calculatePalestinePrayerTimes(day);
+                    const prayers = calculatePalestinePrayerTimes(day);
+                    // شرح: prayers.forEach((prayer, prayerIndex) => {
+                    prayers.forEach((prayer, prayerIndex) => {
+                        // شرح: const id = 190000000 + (dayOffset * 10) + prayerIndex;
+                        const id = 190000000 + (dayOffset * 10) + prayerIndex;
+                        // شرح: cancelIds.push(id);
+                        cancelIds.push(id);
+                        // شرح: if (prayer.targetDate.getTime() <= Date.now() + 30000) return;
+                        if (prayer.targetDate.getTime() <= Date.now() + 30000) return;
+                        // شرح: notifications.push({
+                        notifications.push({
+                            // شرح: title: `🕌 ${prayer.name}`,
+                            title: `🕌 ${prayer.name}`,
+                            // شرح: body: `حان الآن وقت ${prayer.name} — تقبل الله طاعتكم.`,
+                            body: `حان الآن وقت ${prayer.name} — تقبل الله طاعتكم.`,
+                            // شرح: id,
+                            id,
+                            // شرح: schedule: { at: prayer.targetDate, allowWhileIdle: true },
+                            schedule: { at: prayer.targetDate, allowWhileIdle: true },
+                            // شرح: sound: 'marimba',
+                            sound: 'marimba',
+                            // شرح: channelId: 'lifeos_ultra_alarm_v5',
+                            channelId: 'lifeos_ultra_alarm_v5',
+                            // شرح: extra: { lifeos: true, prayer: true, prayerName: prayer.name, day: getLocalDayKey(prayer.targetDate) }
+                            extra: { lifeos: true, prayer: true, prayerName: prayer.name, day: getLocalDayKey(prayer.targetDate) }
+                        // شرح: });
+                        });
+                    // شرح: });
+                    });
+                // شرح: }
+                }
+                // شرح: try { await plugin.cancel({ notifications: cancelIds.map(id => ({ id })) }); } catch (e) {}
+                try { await plugin.cancel({ notifications: cancelIds.map(id => ({ id })) }); } catch (e) {}
+                // شرح: if (notifications.length) await plugin.schedule({ notifications });
+                if (notifications.length) await plugin.schedule({ notifications });
+                // شرح: showToast('🕌 تم جدولة منبهات الصلوات للأيام القادمة');
+                showToast('🕌 تم جدولة منبهات الصلوات للأيام القادمة');
+                // شرح: return true;
+                return true;
+            // شرح: } catch (e) {
+            } catch (e) {
+                // شرح: console.warn('تعذر جدولة منبهات الصلاة', e);
+                console.warn('تعذر جدولة منبهات الصلاة', e);
+                // شرح: return false;
+                return false;
+            // شرح: }
+            }
+        // شرح: }
+        }
         function loadAccuratePrayers() {
             const prayers = calculatePalestinePrayerTimes(new Date());
             livePrayersList = prayers.map((p, idx) => ({
@@ -3001,7 +3198,7 @@
         function startVoiceRecording() { showToast('🎙️ ميزة التسجيل الصوتي المباشر'); }
 
         const SECTION_META = {
-            'knowledge-view': ['💎', 'المعلومات'], 'life-view': ['🌿', 'الحياة'], 'islamiyat-view': ['🤲', 'إسلاميات'], 'notes-view': ['📝', 'الملاحظات'],
+            'magazine-view': ['📰', 'المجلة اليومية'], 'islamiyat-view': ['🤲', 'إسلاميات'], 'notes-view': ['📝', 'الملاحظات'],
             'todos-view': ['✅', 'المهام'], 'finance-view': ['📊', 'المالية'], 'quran-view': ['📖', 'ورد القرآن'],
             'calc-view': ['🧮', 'الحاسبة'], 'calendar-view': ['📅', 'التقويم'], 'weather-view': ['⛅', 'الطقس'],
             'currency-view': ['💱', 'العملات'], 'vault-view': ['🔐', 'الخزنة'], 'settings-view': ['⚙️', 'الإعدادات'],
@@ -3071,15 +3268,7 @@
             });
         }
 
-        setInterval(async () => {
-            await refreshReadKnowledgeCards();
-            if (document.getElementById('knowledge-view')?.classList.contains('active')) renderKnowledgeTreasury();
-        }, KNOWLEDGE_ROTATION_MS);
-
-        setInterval(async () => {
-            await refreshReadLifeCards();
-            if (document.getElementById('life-view')?.classList.contains('active')) renderLifeTreasury();
-        }, LIFE_ROTATION_MS);
+        // كل بطاقة مقروءة تملك مؤقتها الخاص؛ لا يوجد تجديد جماعي للقسمين.
 
         // =========================================================================
         // --- بدء التشغيل الفوري للنظام ---
@@ -3104,14 +3293,13 @@
             loadAccuratePrayers();
             syncFeeds();
             renderPoetryLine();
-            renderKnowledgeTreasury();
-            await ensureRemoteKnowledgeCards();
-            renderKnowledgeTreasury();
-            renderLifeTreasury();
-            await ensureRemoteLifeCards();
-            renderLifeTreasury();
+            renderDailyMagazine();
+            await syncDailyMagazine(false);
+            await schedulePrayerNotifications();
             updateUI();
         })();
     </script>
 </body>
-</html
+</html>
+
+
