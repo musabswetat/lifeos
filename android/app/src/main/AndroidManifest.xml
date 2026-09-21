@@ -10,6 +10,13 @@
     <uses-permission
         android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!-- تحديد الموقع: لا يُطلب الإذن إلا عندما يضغط المستخدم على «تحديد موقعي» -->
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <!-- الإشعارات -->
     <uses-permission
         android:name="android.permission.POST_NOTIFICATIONS" />
