@@ -1277,7 +1277,7 @@
             <div class="weather-hero-glass" id="weatherHeroAtmosphere">
                 <div class="weather-hero-icon-wrap"><img id="weatherMainIcon" class="weather-main-icon" alt="حالة الطقس الحالية"></div>
                 <div class="weather-hero-main">
-                    <div class="weather-location-label">الطقس الآن</div>
+                    <div id="weatherLocationLabel" class="weather-location-label">الطقس الآن</div>
                     <div id="weatherViewCurrentTemp" class="weather-current-temp">--°C</div>
                     <div id="weatherViewCurrentStatus" class="weather-current-status">جاري فحص حالة الطقس...</div>
                     <div class="weather-feels-line">المحسوسة <strong id="weatherFeelsLike">--°</strong></div>
@@ -1620,6 +1620,19 @@
         </div>
     </div>
 
+    <!-- نافذة توضيحية اختيارية عند إضافة تنبيه: لا تفرض أي إعداد على المستخدم. -->
+    <div class="modal-overlay" id="reminderPlatformNotice">
+        <div class="modal-box" style="text-align:center;max-width:380px;">
+            <div style="font-size:40px;margin-bottom:6px;">🔔</div>
+            <h3 style="font-size:18px;font-weight:850;margin-bottom:8px;">لضمان وصول التنبيه</h3>
+            <p id="reminderPlatformNoticeText" style="font-size:13px;line-height:1.8;color:var(--text-secondary);margin-bottom:16px;"></p>
+            <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+                <button type="button" id="reminderBatterySettingsBtn" class="btn-action" style="background:var(--accent-primary);color:#fff;display:none;">⚡ فتح إعدادات البطارية</button>
+                <button type="button" class="btn-action" onclick="closeReminderPlatformNotice()" style="background:var(--surface-inner);color:var(--text-primary);border:1px solid var(--border-subtle);">حسنًا</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // =========================================================================
         // --- 0. التهيئة والمزامنة وقواعد البيانات ---
@@ -1639,6 +1652,9 @@
         let userDbRef = null;
         let navHistory = ['dashboard-view'];
 
+        // الموقع الافتراضي الآمن: جنين - الضفة الغربية.
+        // لا نطلب إذن الموقع عند فتح التطبيق؛ الإذن لا يُستخدم إلا عند ضغط المستخدم على «تحديد موقعي».
+        const DEFAULT_WEATHER_LOCATION = {name:'جنين، الضفة الغربية', latitude:32.4607, longitude:35.3009, country:'فلسطين'};
 
         let currentTasbeehCount = 0;
 
@@ -1696,9 +1712,9 @@
                     if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
                 } else { data[key] = []; }
             });
-            if (!data.settings) data.settings = { 
-                darkMode: false, 
-                displayName: '', 
+            const defaultSettings = {
+                darkMode: false,
+                displayName: '',
                 masterTheme: 'sapphire',
                 dhikrReminder: false,
                 dhikrInterval: 60,
@@ -1706,6 +1722,7 @@
                 pinnedSections: [],
                 knowledgeCards: []
             };
+            data.settings = { ...defaultSettings, ...(data.settings && typeof data.settings === 'object' ? data.settings : {}) };
             if (!data.settings.pinnedSections) data.settings.pinnedSections = [];
             if (!Array.isArray(data.settings.pinnedSections)) data.settings.pinnedSections = [];
             if (!Array.isArray(data.knowledgeCards)) data.knowledgeCards = [];
@@ -1713,14 +1730,19 @@
             if (!Array.isArray(data.lifeCards)) data.lifeCards = [];
             if (!data.adhkarCounters) data.adhkarCounters = {};
             delete data.quranPortion; // إزالة بيانات القسم القديم من التخزين المحلي
-            if (!data.cachedFeeds) data.cachedFeeds = {
+            const defaultFeeds = {
                 weatherHourly: null,
+                weatherForecast: null,
                 weatherLastFetch: 0,
                 rates: { USD: "3.65", JOD: "5.15", EUR: "3.95", ILS: "1.00" },
                 ratesLastFetch: 0,
                 weatherLocation: DEFAULT_WEATHER_LOCATION
             };
-            if (!data.cachedFeeds.weatherLocation) data.cachedFeeds.weatherLocation = {name:'الخليل',latitude:31.5326,longitude:35.0998,country:'فلسطين'};
+            data.cachedFeeds = { ...defaultFeeds, ...(data.cachedFeeds && typeof data.cachedFeeds === 'object' ? data.cachedFeeds : {}) };
+            if (!data.cachedFeeds.rates || typeof data.cachedFeeds.rates !== 'object') data.cachedFeeds.rates = { ...defaultFeeds.rates };
+            if (!data.cachedFeeds.weatherLocation || !Number.isFinite(Number(data.cachedFeeds.weatherLocation.latitude)) || !Number.isFinite(Number(data.cachedFeeds.weatherLocation.longitude))) {
+                data.cachedFeeds.weatherLocation = DEFAULT_WEATHER_LOCATION;
+            }
             return data;
         }
 
@@ -2354,7 +2376,11 @@
                 await firebase.auth().signInWithEmailAndPassword(email, pass);
                 closeAuthModal();
                 showToast('✅ تم تسجيل الدخول بنجاح');
-            } catch (err) { alert('فشل الدخول: ' + err.message); }
+            } catch (err) {
+                const code=String(err?.code||'');
+                if(code==='auth/unauthorized-domain') alert('هذا النطاق غير مضاف إلى Authorized domains في Firebase. أضف نطاق GitHub Pages مثل musabswetat.github.io من إعدادات Firebase Authentication.');
+                else alert('فشل الدخول: ' + (err?.message||'تعذر تسجيل الدخول'));
+            }
         }
 
         async function submitUserSignup() {
@@ -2936,9 +2962,8 @@
             }).join('');
         }
 
-        const DEFAULT_WEATHER_LOCATION={name:'الخليل',latitude:31.5326,longitude:35.0998,country:'فلسطين'};
         function getWeatherLocation(){return db.cachedFeeds?.weatherLocation||DEFAULT_WEATHER_LOCATION;}
-        function setWeatherLocation(loc){if(!db.cachedFeeds)db.cachedFeeds={};db.cachedFeeds.weatherLocation=loc;finalizeAction();updateWeatherLocationUI(loc);}
+        function setWeatherLocation(loc){if(!loc||!Number.isFinite(Number(loc.latitude))||!Number.isFinite(Number(loc.longitude)))return; if(!db.cachedFeeds)db.cachedFeeds={}; db.cachedFeeds.weatherLocation={name:String(loc.name||'المنطقة'),latitude:Number(loc.latitude),longitude:Number(loc.longitude),country:String(loc.country||'')}; finalizeAction(); updateWeatherLocationUI(db.cachedFeeds.weatherLocation);}
         function updateWeatherLocationUI(loc=getWeatherLocation()){const label=loc?.name||'المنطقة';['topWeatherLocation','weatherLocationLabel'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=label;});const input=document.getElementById('weatherLocationInput');if(input&&document.activeElement!==input)input.value=label;}
         function openWeatherLocationEditor(){const box=document.getElementById('weatherLocationEditor');if(!box)return;box.hidden=!box.hidden;if(!box.hidden){updateWeatherLocationUI();setTimeout(()=>document.getElementById('weatherLocationInput')?.focus(),50);}}
         async function searchWeatherLocation(){const input=document.getElementById('weatherLocationInput'),results=document.getElementById('weatherLocationResults'),q=input?.value.trim();if(!q||!results)return;results.innerHTML='<span>جاري البحث عن المنطقة...</span>';try{const res=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=6&language=ar&format=json`,{cache:'no-store'}),data=await res.json(),rows=data.results||[];if(!rows.length){results.innerHTML='<span>لم يتم العثور على منطقة بهذا الاسم.</span>';return;}window._weatherLocationResults=rows;results.innerHTML=rows.map((r,i)=>`<button type="button" class="weather-location-result" onclick="chooseWeatherLocation(${i})"><strong>${escapeHTML(r.name||'')}</strong><span>${escapeHTML([r.admin1,r.country].filter(Boolean).join('، '))}</span></button>`).join('');}catch(e){results.innerHTML='<span>تعذر البحث الآن. تحقق من الإنترنت.</span>';}}
@@ -3303,6 +3328,17 @@
                 if (!r || r.triggered || !r.targetTime || r.targetTime <= now) continue;
                 const remaining = Math.max(1, Math.ceil((r.targetTime - now) / 60000));
                 const plugin = getNativePlugin();
+                let permissionAlreadyGranted = false;
+                if (plugin?.checkPermissions) {
+                    try { permissionAlreadyGranted = (await plugin.checkPermissions())?.display === 'granted'; } catch(e) {}
+                } else if (!plugin && typeof Notification !== 'undefined') {
+                    permissionAlreadyGranted = Notification.permission === 'granted';
+                }
+                if (!permissionAlreadyGranted) {
+                    r.notificationScheduled = false;
+                    r.notificationMode = 'pending';
+                    continue;
+                }
                 const scheduled = plugin
                     ? await scheduleSystemNotification(r.title || r.name || 'موعد التنبيه', remaining, r.id)
                     : await scheduleBrowserNotification(r.title || r.name || 'موعد التنبيه', remaining, r.id);
@@ -3310,6 +3346,26 @@
                 r.notificationMode = scheduled ? (plugin ? 'native-or-browser' : 'browser') : 'pending';
             }
             renderRings();
+        }
+
+        function closeReminderPlatformNotice(){
+            document.getElementById('reminderPlatformNotice')?.classList.remove('active');
+        }
+
+        function showReminderPlatformNotice(){
+            const modal=document.getElementById('reminderPlatformNotice');
+            const text=document.getElementById('reminderPlatformNoticeText');
+            const batteryBtn=document.getElementById('reminderBatterySettingsBtn');
+            if(!modal||!text)return;
+            const isAndroid=Boolean(window.Capacitor?.getPlatform && window.Capacitor.getPlatform()==='android');
+            if(isAndroid){
+                text.textContent='على بعض أجهزة Android قد يمنع توفير البطارية التنبيهات عند عمل التطبيق في الخلفية. يمكنك —اختياريًا— جعل Life OS «غير مقيّد» من إعدادات البطارية. لن يغيّر التطبيق هذا الإعداد أو يفرضه عليك.';
+                if(batteryBtn){ batteryBtn.style.display='inline-flex'; batteryBtn.onclick=()=>requestBatteryOptimizationExemption(); }
+            }else{
+                text.textContent='على iPhone لا يوجد إعداد Android باسم «غير مقيّد للبطارية». اسمح بالإشعارات إذا طلبها النظام، ويفضّل إبقاء الموقع/التطبيق مثبتًا بالطريقة المعتادة إذا أردت أفضل سلوك للتنبيهات. لا يحتاج التطبيق إلى تغيير إعدادات البطارية.';
+                if(batteryBtn) batteryBtn.style.display='none';
+            }
+            modal.classList.add('active');
         }
 
         async function addReminderFast(mins, title = '') {
@@ -3334,6 +3390,7 @@
 
             // الحفظ والرسم قبل انتظار صلاحية الإشعارات يجعل الحلقة تظهر مباشرة.
             finalizeAction();
+            showReminderPlatformNotice();
 
             const plugin = getNativePlugin();
             let scheduled = plugin
@@ -4030,16 +4087,21 @@
             decorateSectionIcons();
             setupBackButtonListener();
 
+            // لا نطلب صلاحية الإشعارات عند تشغيل التطبيق. تُطلب فقط بعد إجراء واضح من المستخدم
+            // مثل إضافة تنبيه أو تفعيل التذكير الدوري من الإعدادات.
             try {
-                if (getNativePlugin()) await requestNotificationPermission();
+                if (db.settings?.dhikrReminder === true) {
+                    // نعيد الجدولة فقط إذا كانت الصلاحية ممنوحة مسبقًا؛ لا نفتح نافذة إذن تلقائيًا.
+                    const plugin = getNativePlugin();
+                    if (plugin?.checkPermissions) {
+                        const p = await plugin.checkPermissions();
+                        if (p?.display === 'granted') await schedulePeriodicReminder();
+                    } else if (!plugin && typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+                        await schedulePeriodicReminder();
+                    }
+                }
             } catch (e) {
-                console.warn('تعذر تجهيز الإشعارات', e);
-            }
-
-            try {
-                await schedulePeriodicReminder();
-            } catch (e) {
-                console.warn('تعذر تفعيل التذكير الدوري المحفوظ:', e);
+                console.warn('تعذر إعادة جدولة التذكير الدوري المحفوظ:', e);
             }
 
             try {
