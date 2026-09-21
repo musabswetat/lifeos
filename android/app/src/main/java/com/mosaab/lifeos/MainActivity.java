@@ -779,4 +779,31 @@ public class MainActivity extends BridgeActivity {
             }
         }
     }
+
+    /*
+     * زر الرجوع في Android:
+     * نمرره أولًا إلى منطق التنقل داخل Life OS.
+     * إذا عالجته الصفحة (قسم سابق/نافذة مفتوحة) لا نغلق التطبيق.
+     * إذا لم يوجد شيء للرجوع إليه، نستخدم سلوك Android الطبيعي.
+     */
+    @Override
+    public void onBackPressed() {
+        try {
+            if (getBridge() != null && getBridge().getWebView() != null) {
+                getBridge().getWebView().evaluateJavascript(
+                        "(function(){try{return !!(window.handleSystemBackButton && window.handleSystemBackButton());}catch(e){return false;}})();",
+                        value -> {
+                            boolean handled = "true".equalsIgnoreCase(value);
+                            if (!handled) {
+                                MainActivity.super.onBackPressed();
+                            }
+                        }
+                );
+                return;
+            }
+        } catch (Exception ignored) {
+        }
+        super.onBackPressed();
+    }
+
 }
