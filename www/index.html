@@ -1017,6 +1017,82 @@
         #mainAppContainer.weather-sunny::before,#mainAppContainer.weather-partly::before,#mainAppContainer.weather-rain::before,#mainAppContainer.weather-fog::before,#mainAppContainer.weather-snow::before,#mainAppContainer.weather-storm::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.18;mix-blend-mode:screen}.app-container>*{position:relative;z-index:1}.weather-sunny::before{background:radial-gradient(circle at 82% 9%,rgba(255,195,70,.30),transparent 24%)}.weather-partly::before{background:radial-gradient(circle at 80% 10%,rgba(255,195,70,.16),transparent 18%),radial-gradient(circle at 22% 15%,rgba(120,150,200,.12),transparent 22%)}.weather-rain::before{background:repeating-linear-gradient(115deg,transparent 0 14px,rgba(90,150,220,.09) 15px 16px,transparent 17px 28px);animation:weatherRainMove 1.8s linear infinite}.weather-fog::before{background:linear-gradient(90deg,rgba(190,200,210,.10),rgba(255,255,255,.04),rgba(190,200,210,.10))}.weather-snow::before{background:radial-gradient(circle at 10% 20%,rgba(255,255,255,.18) 0 2px,transparent 3px),radial-gradient(circle at 70% 30%,rgba(255,255,255,.14) 0 2px,transparent 3px);background-size:90px 90px,130px 130px}.weather-storm::before{background:linear-gradient(180deg,rgba(70,80,110,.10),transparent)}@keyframes weatherRainMove{from{background-position:0 0}to{background-position:80px 120px}}
         @media(max-width:560px){.weather-page-head{align-items:flex-start}.weather-page-title{font-size:18px}.weather-hero-glass{grid-template-columns:68px minmax(0,1fr);padding:16px;gap:10px}.weather-hero-icon-wrap,.weather-main-icon{width:64px;height:64px}.weather-hero-meta{grid-column:1/-1;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:4px}.weather-hero-meta div{align-items:center}.weather-insight-grid{grid-template-columns:repeat(2,1fr)}.weather-day-row{grid-template-columns:38px minmax(0,1fr) auto auto}.weather-day-feels{display:none}.hero-weather-inline{min-width:66px}.hero-weather-icon-wrap,.hero-weather-icon{width:36px;height:36px}}
 </style>
+<style id="ios-theme-color-integration">
+body.ios-mode,body.ios-mode.light-mode,body.ios-mode:not(.light-mode){background:linear-gradient(145deg,var(--bg-canvas),color-mix(in srgb,var(--bg-canvas) 72%,var(--accent-primary) 28%),var(--bg-canvas)) !important;color:var(--text-primary) !important;}
+body.ios-mode .oneui-card,body.ios-mode .knowledge-card-item,body.ios-mode .google-calc-box,body.ios-mode .modal-box,body.ios-mode .dashboard-pinned-card,body.ios-mode .top-info-link,body.ios-mode .top-action-btn,body.ios-mode .user-auth-pill,body.ios-mode .habit-chip,body.ios-mode .alarm-item-card,body.ios-mode .dhikr-card,body.ios-mode .calendar-day-cell,body.ios-mode .weather-hour-card{background:color-mix(in srgb,var(--surface-panel) 72%,var(--accent-primary) 28%) !important;border-color:color-mix(in srgb,var(--border-subtle) 65%,var(--accent-primary) 35%) !important;color:var(--text-primary) !important;}
+body.ios-mode .bottom-floating-dock{background:color-mix(in srgb,var(--surface-panel) 72%,var(--accent-primary) 28%) !important;border-color:color-mix(in srgb,var(--border-subtle) 60%,var(--accent-primary) 40%) !important;}
+body.ios-mode .dock-capsule-item.active{background:color-mix(in srgb,var(--accent-primary) 82%,transparent) !important;color:#fff !important;}
+.top-weather-user-link{display:flex;align-items:center;gap:5px;min-width:0;padding:6px 9px;border:1px solid var(--border-subtle);border-radius:999px;background:color-mix(in srgb,var(--surface-panel) 72%,var(--accent-primary) 28%);color:var(--text-primary);backdrop-filter:blur(18px) saturate(170%);-webkit-backdrop-filter:blur(18px) saturate(170%);cursor:pointer;}
+.top-weather-mini-icon-wrap{width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;flex:0 0 24px;}.top-weather-mini-icon-wrap img{width:24px;height:24px;object-fit:contain;}#topWeatherMiniTemp{font-weight:800;font-size:12px;}#topWeatherMiniLocation{font-size:10px;max-width:75px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+</style>
+<style id="lifeos-ios27-final-ui">
+/* ===== LifeOS iOS 27 Glass — جميع الثيمات، مع الحفاظ على هوية كل لون ===== */
+body.ios-mode {
+  --ios-accent: var(--accent-primary);
+  --ios-accent-soft: color-mix(in srgb, var(--accent-primary) 18%, transparent);
+  --ios-accent-medium: color-mix(in srgb, var(--accent-primary) 30%, transparent);
+  background:
+    radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--accent-primary) 18%, transparent), transparent 34%),
+    radial-gradient(circle at 88% 20%, color-mix(in srgb, var(--accent-primary) 12%, transparent), transparent 38%),
+    var(--bg-canvas) !important;
+}
+body.ios-mode .oneui-card,
+body.ios-mode .hero-section-box,
+body.ios-mode .section-view > .oneui-card,
+body.ios-mode .top-action-btn,
+body.ios-mode .user-auth-pill,
+body.ios-mode .top-header-tool,
+body.ios-mode .top-weather-user-link,
+body.ios-mode .dashboard-tab,
+body.ios-mode .rings-dock {
+  background: color-mix(in srgb, var(--surface-panel) 68%, var(--accent-primary) 8%) !important;
+  border-color: color-mix(in srgb, var(--border-subtle) 62%, var(--accent-primary) 38%) !important;
+  backdrop-filter: blur(28px) saturate(175%);
+  -webkit-backdrop-filter: blur(28px) saturate(175%);
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--accent-primary) 9%, transparent), inset 0 1px 0 rgba(255,255,255,.24);
+}
+body.ios-mode .oneui-card:hover,
+body.ios-mode .top-header-tool:active,
+body.ios-mode .top-weather-user-link:active { background: color-mix(in srgb, var(--surface-panel) 58%, var(--accent-primary) 16%) !important; }
+body.ios-mode .top-actions-cluster { gap: 8px; }
+body.ios-mode .top-right-group { gap: 7px; flex-wrap: wrap; }
+.top-header-tool { appearance:none; display:inline-flex; align-items:center; justify-content:center; gap:5px; min-height:38px; padding:6px 10px; border:1px solid var(--border-subtle); border-radius:999px; color:var(--text-primary); font:700 11px/1 inherit; cursor:pointer; white-space:nowrap; }
+.top-header-tool-icon { font-size:15px; line-height:1; }
+.top-weather-user-link { min-height:38px; }
+.top-weather-mini-icon-wrap { width:25px; height:25px; }
+.top-weather-mini-icon-wrap img, .top-weather-mini-icon-wrap .weather-icon-auto { width:25px; height:25px; object-fit:contain; }
+.top-weather-mini-icon-wrap .weather-icon-fallback { font-size:19px; line-height:1; }
+/* لا نعرض أي نسخة قديمة من الطقس بجانب التحية */
+.hero-clean-greeting .hero-weather-inline { display:none !important; }
+/* بطاقات وأزرار iOS 27 تحمل بصمة الثيم بدل الأزرق الثابت */
+body.ios-mode .dock-capsule-item.active,
+body.ios-mode .dashboard-tab.active,
+body.ios-mode .tag-badge.active { background: color-mix(in srgb, var(--accent-primary) 78%, transparent) !important; color:#fff !important; border-color: color-mix(in srgb, var(--accent-primary) 80%, transparent) !important; }
+body.ios-mode button:focus-visible { outline:2px solid color-mix(in srgb, var(--accent-primary) 72%, transparent); outline-offset:2px; }
+@media (max-width:700px){
+  .top-header-tool { padding-inline:8px; }
+  .top-header-tool span:last-child { font-size:10px; }
+  .top-weather-user-link { padding-inline:7px; }
+}
+</style>
+<style id="lifeos-final-header-sidebar-fix">
+/* الشريط العلوي: الطقس والعملات في سطر واحد وبشكل زجاجي خفيف */
+.top-right-group{min-width:0;flex-wrap:nowrap!important;}
+.top-weather-compact{display:inline-flex!important;align-items:center;gap:5px;min-width:0!important;max-width:145px;padding:5px 9px!important;white-space:nowrap!important;flex:0 1 auto;}
+.top-weather-compact .top-weather-mini-icon-wrap{width:26px;height:26px;flex:0 0 26px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.16));}
+.top-weather-compact .top-weather-mini-icon-wrap img{width:26px;height:26px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.14));}
+#topWeatherMiniTemp{font-size:12px;font-weight:850;white-space:nowrap;}
+#topWeatherMiniLocation{font-size:10px;max-width:58px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.top-currency-link{min-width:auto!important;padding:6px 9px!important;gap:4px!important;white-space:nowrap!important;flex:0 0 auto!important;}
+.top-currency-link .top-header-tool-icon{font-size:16px;line-height:1;}
+.top-currency-link span:last-child{font-size:11px;white-space:nowrap;}
+@media(max-width:560px){.top-weather-compact{max-width:108px;padding-inline:7px!important}.top-weather-compact #topWeatherMiniLocation{display:none}.top-currency-link span:last-child{font-size:10px}.top-right-group{gap:5px!important}.user-auth-pill{max-width:120px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}}
+/* جرس التنبيهات في الشريط السفلي مع رقم واضح */
+.ring-notifications{position:relative;}
+.ring-notifications .ring-icon{display:flex;align-items:center;justify-content:center;}
+.ring-notifications .ring-icon svg{width:22px;height:22px;}
+.ring-notification-badge{position:absolute;top:-3px;right:-3px;min-width:17px;height:17px;padding:0 4px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:var(--accent-red,#ef4444);color:#fff;font-size:9px;font-weight:900;line-height:1;border:2px solid var(--surface-panel);box-shadow:0 2px 7px rgba(0,0,0,.18);}
+</style>
 </head>
 <body data-theme="sapphire">
 
@@ -1034,6 +1110,8 @@
                             <span id="userNameSpan">تسجيل الدخول</span>
                         </div>
                     </div>
+                    <button type="button" class="top-weather-user-link top-weather-compact" onclick="switchNavSection('weather-view')" aria-label="فتح الطقس"><span id="topWeatherMiniIcon" class="top-weather-mini-icon-wrap"><span class="weather-icon-fallback">☀️</span></span><span id="topWeatherMiniTemp">--°</span><span id="topWeatherMiniLocation">جنين</span></button>
+                    <button type="button" class="top-header-tool top-currency-link" onclick="switchNavSection('currency-view')" aria-label="العملات"><span class="top-header-tool-icon">💱</span><span>العملات</span></button>
                 </div>
 
                 <div class="top-left-group">
@@ -1048,21 +1126,8 @@
         <div class="hero-section-box hero-clean-greeting">
             <div class="hero-greeting-container">
                 <h1 id="heroGreetingText" class="hero-greeting-title">صباح الخير</h1>
-                <button type="button" class="hero-weather-inline" aria-label="فتح قسم الطقس" onclick="switchNavSection('weather-view')">
-                    <span id="topWeatherIcon" class="hero-weather-icon-wrap"><img id="topWeatherIconImg" class="hero-weather-icon" alt="حالة الطقس" /></span>
-                    <span class="hero-weather-temp" id="topWeatherSummary">--°C</span>
-                    <span class="hero-weather-caption" id="topWeatherCaption">الطقس اليوم</span><span class="hero-weather-location" id="topWeatherLocation">تحديد المنطقة...</span>
-                </button>
-            </div>
-        </div>
 
-        <!-- العملات والتنبيهات كسطر معلومات واحد، بلا بوكسات -->
-        <div class="quick-summary-line" aria-label="ملخص العملات والتنبيهات">
-            <button type="button" class="quick-summary-link" onclick="switchNavSection('currency-view')">
-                العملات: دولار <strong id="topCurrencySummary">--</strong> ₪ · JD <strong id="topJdSummary">--</strong> ₪
-            </button>
-            <span class="quick-summary-divider">·</span>
-            <button type="button" class="quick-summary-link" onclick="switchNavSection('prayers-alarms-view')" id="topAlarmSummary">لا توجد تنبيهات</button>
+            </div>
         </div>
 
         <nav class="dashboard-tabs" aria-label="أقسامك السريعة">
@@ -1718,7 +1783,7 @@
                 masterTheme: 'sapphire',
                 dhikrReminder: false,
                 dhikrInterval: 60,
-                neutralDesign: true,
+                neutralDesign: false,
                 pinnedSections: [],
                 knowledgeCards: []
             };
@@ -1792,11 +1857,8 @@
             const masterTheme = (db.settings && db.settings.masterTheme) ? db.settings.masterTheme : 'sapphire';
             document.body.setAttribute('data-theme', masterTheme);
 
-            if (db.settings && db.settings.neutralDesign) {
-                document.body.classList.add('ios-mode');
-            } else {
-                document.body.classList.remove('ios-mode');
-            }
+            // التصميم الزجاجي اختياري؛ إعادة سلوك الثيمات الأصلي عند إيقافه.
+            document.body.classList.toggle('ios-mode', Boolean(db.settings?.neutralDesign));
 
             const iosToggle = document.getElementById('neutralDesignToggle');
             if (iosToggle) iosToggle.checked = Boolean(db.settings?.neutralDesign);
@@ -2300,13 +2362,29 @@
             }
         }
 
-        function confirmSignOut() {
-            if (confirm('هل تريد تسجيل الخروج؟')) {
-                firebase.auth().signOut().then(() => {
-                    closeProfileModal();
-                    showToast('تم تسجيل الخروج');
-                });
-            }
+        async function clearPrivateSessionData() {
+            try { if (userDbRef) userDbRef.off(); } catch (e) {}
+            try { browserNotificationTimers.forEach(timer => clearTimeout(timer)); browserNotificationTimers.clear(); } catch (e) {}
+            try {
+                const plugin = getNativePlugin();
+                if (plugin && Array.isArray(db.reminders) && db.reminders.length) {
+                    const ids = db.reminders.map(r => Number(r.id)).filter(Number.isFinite);
+                    if (ids.length) await plugin.cancel({ notifications: ids.map(id => ({ id })) });
+                }
+            } catch (e) {}
+            db = normalizeDB({});
+            try { localStorage.removeItem('myLifeAppDB'); } catch (e) {}
+            applyThemeUI(); updateUI(); updateAuthProfileUI(null);
+        }
+
+        async function confirmSignOut() {
+            if (!confirm('هل تريد تسجيل الخروج؟ سيتم إخفاء وحذف النسخة المحلية من جميع بيانات هذا الحساب من هذا الجهاز، وتبقى بيانات الحساب محفوظة في حسابه لاستعادتها عند تسجيل الدخول مرة أخرى.')) return;
+            try {
+                await clearPrivateSessionData();
+                await firebase.auth().signOut();
+                closeProfileModal(); closeAuthModal();
+                showToast('🔒 تم تسجيل الخروج ومسح البيانات المحلية من هذا الجهاز');
+            } catch (err) { alert('تعذر تسجيل الخروج: ' + (err?.message || 'خطأ غير معروف')); }
         }
 
         function updateAuthProfileUI(user) {
@@ -2337,31 +2415,29 @@
                         currentUser = user;
                         userDbRef = firebase.database().ref(`users/${user.uid}/data`);
                         userDbRef.off();
-                        userDbRef.once('value').then((snapshot) => {
+                        userDbRef.once('value').then(async (snapshot) => {
                             const cloudData = snapshot.val();
                             if (cloudData && typeof cloudData === 'object') {
-                                const localData = JSON.parse(JSON.stringify(db));
-                                db = normalizeDB({ ...localData, ...cloudData });
-                                Object.keys(cloudData).forEach(key => {
-                                    if (Array.isArray(cloudData[key])) db[key] = cloudData[key];
-                                    else if (cloudData[key] && typeof cloudData[key] === 'object' && !Array.isArray(cloudData[key])) {
-                                        db[key] = { ...(localData[key] || {}), ...cloudData[key] };
-                                    } else db[key] = cloudData[key];
-                                });
+                                // حساب موجود: لا نخلط بيانات الحساب مع أي بيانات محلية قديمة.
+                                db = normalizeDB(cloudData);
                                 db._hasLocalChanges = false;
-                                try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
-                                applyThemeUI();
-                                updateUI();
-                                showToast('☁️ تمت استعادة بيانات حسابك');
+                                try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e) {}
+                                applyThemeUI(); updateUI(); updateAuthProfileUI(user);
+                                refreshWeatherNow(false).catch(() => {});
+                                showToast('☁️ تمت استعادة بيانات حسابك فقط');
                             } else {
+                                // حساب جديد: انقل بيانات الجلسة الحالية إلى هذا الحساب مرة واحدة.
+                                db = normalizeDB(db); db._hasLocalChanges = false;
                                 saveToCloud();
-                                showToast('☁️ تم إنشاء مساحة بيانات حسابك');
+                                applyThemeUI(); updateUI(); updateAuthProfileUI(user);
+                                refreshWeatherNow(false).catch(() => {});
+                                showToast('☁️ تم ربط بيانات الجهاز بهذا الحساب');
                             }
                         }).catch(() => showToast('تعذر جلب بيانات السحابة'));
                         updateAuthProfileUI(user);
                     } else {
-                        currentUser = null;
-                        userDbRef = null;
+                        currentUser = null; userDbRef = null;
+                        clearPrivateSessionData().catch(() => {});
                         updateAuthProfileUI(null);
                     }
                 });
@@ -2892,10 +2968,10 @@
             const pressure = Math.round(current.pressure_msl ?? 0);
 
             const setText=(id,value)=>{const el=document.getElementById(id); if(el) el.textContent=value;};
-            const setImg=(id,url,alt)=>{const el=document.getElementById(id); if(el){el.src=url;el.alt=alt;el.style.display='block';el.onerror=()=>{el.onerror=null;el.style.display='none';const wrap=el.parentElement;if(wrap&&!wrap.querySelector('.weather-icon-fallback')){const fb=document.createElement('span');fb.className='weather-icon-fallback';fb.textContent=weatherFallbackGlyph(code,isDay);fb.setAttribute('aria-label',alt);wrap.appendChild(fb);}};}};
+            const setImg=(id,url,alt)=>{const el=document.getElementById(id); if(!el)return; const img=el.tagName==='IMG'?el:(el.querySelector('img')||Object.assign(document.createElement('img'),{className:'weather-icon-auto'})); if(el.tagName!=='IMG'&&!img.parentElement)el.appendChild(img); img.src=url; img.alt=alt; img.style.display='block'; const oldFb=el.querySelector?.('.weather-icon-fallback'); if(oldFb) oldFb.remove(); img.onerror=()=>{img.onerror=null;img.style.display='none';const wrap=el.tagName==='IMG'?el.parentElement:el;if(wrap&&!wrap.querySelector('.weather-icon-fallback')){const fb=document.createElement('span');fb.className='weather-icon-fallback';fb.textContent=weatherFallbackGlyph(code,isDay);fb.setAttribute('aria-label',alt);wrap.appendChild(fb);}};};
             setText('topWeatherSummary',`${temp}°C`);
             setText('topWeatherCaption',meta.label);
-            setImg('topWeatherIconImg',iconUrl,meta.label);
+            setImg('topWeatherIconImg',iconUrl,meta.label); setImg('topWeatherMiniIcon',iconUrl,meta.label); setText('topWeatherMiniTemp',`${temp}°`);
             setImg('weatherMainIcon',iconUrl,meta.label);
             setText('weatherViewCurrentTemp',`${temp}°C`);
             setText('weatherViewCurrentStatus',meta.label);
@@ -2964,7 +3040,7 @@
 
         function getWeatherLocation(){return db.cachedFeeds?.weatherLocation||DEFAULT_WEATHER_LOCATION;}
         function setWeatherLocation(loc){if(!loc||!Number.isFinite(Number(loc.latitude))||!Number.isFinite(Number(loc.longitude)))return; if(!db.cachedFeeds)db.cachedFeeds={}; db.cachedFeeds.weatherLocation={name:String(loc.name||'المنطقة'),latitude:Number(loc.latitude),longitude:Number(loc.longitude),country:String(loc.country||'')}; finalizeAction(); updateWeatherLocationUI(db.cachedFeeds.weatherLocation);}
-        function updateWeatherLocationUI(loc=getWeatherLocation()){const label=loc?.name||'المنطقة';['topWeatherLocation','weatherLocationLabel'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=label;});const input=document.getElementById('weatherLocationInput');if(input&&document.activeElement!==input)input.value=label;}
+        function updateWeatherLocationUI(loc=getWeatherLocation()){const label=loc?.name||'المنطقة';['topWeatherLocation','weatherLocationLabel','topWeatherMiniLocation'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=label;});const input=document.getElementById('weatherLocationInput');if(input&&document.activeElement!==input)input.value=label;}
         function openWeatherLocationEditor(){const box=document.getElementById('weatherLocationEditor');if(!box)return;box.hidden=!box.hidden;if(!box.hidden){updateWeatherLocationUI();setTimeout(()=>document.getElementById('weatherLocationInput')?.focus(),50);}}
         async function searchWeatherLocation(){const input=document.getElementById('weatherLocationInput'),results=document.getElementById('weatherLocationResults'),q=input?.value.trim();if(!q||!results)return;results.innerHTML='<span>جاري البحث عن المنطقة...</span>';try{const res=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=6&language=ar&format=json`,{cache:'no-store'}),data=await res.json(),rows=data.results||[];if(!rows.length){results.innerHTML='<span>لم يتم العثور على منطقة بهذا الاسم.</span>';return;}window._weatherLocationResults=rows;results.innerHTML=rows.map((r,i)=>`<button type="button" class="weather-location-result" onclick="chooseWeatherLocation(${i})"><strong>${escapeHTML(r.name||'')}</strong><span>${escapeHTML([r.admin1,r.country].filter(Boolean).join('، '))}</span></button>`).join('');}catch(e){results.innerHTML='<span>تعذر البحث الآن. تحقق من الإنترنت.</span>';}}
         function chooseWeatherLocation(index){const r=window._weatherLocationResults?.[index];if(!r)return;setWeatherLocation({name:r.name,latitude:Number(r.latitude),longitude:Number(r.longitude),country:r.country||''});const box=document.getElementById('weatherLocationEditor');if(box)box.hidden=true;refreshWeatherNow(true);}
@@ -3100,7 +3176,7 @@
                 lastPrayer = {name:yesterday[4].name, time:yesterday[4].targetDate};
             }
             const minutesAfter = Math.floor((now - lastPrayer.time) / 60000);
-            if (minutesAfter >= 0 && minutesAfter < 60) return {category:'بعد الصلاة', prayerName:lastPrayer.name, title:`أذكار دبر ${lastPrayer.name}`, subtitle:'اضغط على كل ذكر مرة واحدة في كل تكرار؛ العداد ينخفض حتى الصفر.', icon:'🕌'};
+            if (minutesAfter >= 0 && minutesAfter < 60 && ['الظهر','العصر','المغرب','العشاء'].includes(lastPrayer.name)) return {category:'بعد الصلاة', prayerName:lastPrayer.name, title:'أذكار الصلاة', subtitle:'الأذكار الثابتة المكتوبة دبر الصلاة؛ اضغط بعد كل تكرار.', icon:'🕌'};
             const fajr=today[0]?.time, dhuhr=today[1]?.time, maghrib=today[3]?.time, isha=today[4]?.time;
             if (fajr && dhuhr && now >= fajr && now < dhuhr) return {category:'أذكار الصباح', title:'أذكار الصباح', subtitle:'ورد الصباح المأثور. الوقت واسع، ويمكن قوله قبل الصلاة أو بعدها وبعد طلوع الشمس.', icon:'🌤️'};
             if (dhuhr && maghrib && now >= dhuhr && now < maghrib) return {category:'ذكر عام', title:'ذكر الله خلال النهار', subtitle:'ورد ثابت للذكر العام بين أوقات الصباح والمساء.', icon:'☀️'};
@@ -3726,7 +3802,8 @@
                 clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
                 cart:'<path d="M3 4h2l2 10h10l2-7H6"/><circle cx="9" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/>',
                 cloud:'<path d="M7 18h10a4 4 0 0 0 .7-7.94A6 6 0 0 0 6.2 9.2 4.5 4.5 0 0 0 7 18Z"/>',
-                lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v3"/>'
+                lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v3"/>',
+                bell:'<path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z"/><path d="M10 21h4"/>'
             };
             return `<svg class="ring-icon-svg section-icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${paths[name]||paths.grid}</svg>`;
         }
@@ -3748,19 +3825,13 @@
             const reminders = (Array.isArray(db.reminders) ? db.reminders : [])
                 .filter(r => r && !r.triggered && r.targetTime && r.targetTime > now)
                 .sort((a,b) => a.targetTime - b.targetTime);
-            const alarmRings = reminders.map((r, index) => {
-                const remaining = Math.max(0, r.targetTime - now);
-                const createdAt = Number(r.createdAt) || (Number(r.targetTime) - Math.max(60000, Number(r.minutes || 1) * 60000));
-                const total = Math.max(60000, Number(r.targetTime) - createdAt);
-                const progress = Math.max(0, Math.min(360, ((now - createdAt) / total) * 360));
-                const safeProgress = `${progress}deg`;
-                return `<button class="ring-item ring-dynamic ring-alarm" style="--ring-progress:${safeProgress};animation-delay:${index * 35}ms" onclick="openReminderRing()" aria-label="تنبيه ${index + 1}: ${formatRingCountdown(remaining)}" title="تنبيه: ${formatRingCountdown(remaining)}"><span class="ring-count alarm-count">${formatRingCountdown(remaining)}</span></button>`;
-            }).join('');
+            const notificationCount = reminders.length;
+            const notificationRing = `<button class="ring-item ring-notifications" id="ringNotifications" onclick="switchNavSection('prayers-alarms-view', this); pulseRings()" aria-label="التنبيهات: ${notificationCount}" title="التنبيهات"><span class="ring-icon">${iconSvg('bell')}</span>${notificationCount > 0 ? `<span class="ring-notification-badge">${notificationCount > 99 ? '99+' : notificationCount}</span>` : ''}</button>`;
             const todayTasks = (Array.isArray(db.todos) ? db.todos : []).filter(t => t && t.date === todayStr);
             const taskRing = todayTasks.length
                 ? `<button class="ring-item ring-dynamic ring-task" onclick="switchNavSection('todos-view', this); pulseRings()" aria-label="${todayTasks.length} مهام اليوم" title="مهام اليوم"><span class="ring-count">${todayTasks.length > 99 ? '99+' : todayTasks.length}</span></button>`
                 : '';
-            dock.innerHTML = alarmRings + taskRing + fixed;
+            dock.innerHTML = notificationRing + taskRing + fixed;
         }
 
         function pulseRings() {
