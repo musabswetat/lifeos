@@ -422,7 +422,9 @@
         /* الأذكار: نص أكبر وعدّاد واضح، مع إخفاء المصادر من الواجهة مع إبقائها محفوظة داخل البيانات. */
         .adhkar-source-badge { display:none !important; }
         .dhikr-pro-card { padding:20px 18px !important; margin-bottom:14px !important; border-radius:22px !important; line-height:2 !important; }
-        .dhikr-pro-meta { font-size:17px !important; font-weight:900 !important; margin-bottom:12px !important; }
+        .dhikr-pro-meta { font-size:17px !important; font-weight:900 !important; margin-bottom:12px !important; display:flex !important; align-items:center !important; justify-content:space-between !important; gap:16px !important; }
+        .dhikr-pro-meta > span { display:inline-flex !important; align-items:center !important; gap:8px !important; }
+        .dhikr-pro-meta > span + span { margin-inline-start:auto !important; white-space:nowrap !important; }
         .dhikr-pro-text { font-family:"Amiri", "Traditional Arabic", serif !important; font-size:21px !important; line-height:2.05 !important; font-weight:600 !important; color:var(--text-primary) !important; }
         .dhikr-counter-wrap { display:flex; align-items:center; justify-content:center; gap:8px; margin:18px auto 12px; direction:rtl; }
         .dhikr-counter-label { font-size:14px; font-weight:800; color:var(--text-secondary); }
@@ -441,25 +443,19 @@
             .dhikr-counter-pill { min-width:62px; height:62px; font-size:27px !important; }
         }
 
-        /* أيقونة الأذكار: هادئة في كل الثيمات مع توهج خفيف جدًا تابع للون الثيم. */
+        /* أيقونة الأذكار: مظهر هادئ وأنيق يتبع لون الثيم بدل الأخضر الثابت. */
         .ring-item.ring-adhkar {
             --ring-progress:0deg !important;
-            border-color:color-mix(in srgb,var(--accent-green) 18%,rgba(255,255,255,.34)) !important;
-            box-shadow:0 5px 15px rgba(0,0,0,.09), 0 0 10px color-mix(in srgb,var(--accent-green) 10%,transparent), inset 0 1px 0 rgba(255,255,255,.28) !important;
-        }
-        .ring-item.ring-adhkar::before {
-            background:color-mix(in srgb,var(--accent-green) 9%,transparent) !important;
-        }
-        .ring-item.ring-adhkar::after {
-            background:color-mix(in srgb,var(--surface-panel) 91%,transparent) !important;
-            border-color:color-mix(in srgb,var(--accent-green) 12%,var(--border-subtle)) !important;
+            border-color:color-mix(in srgb,var(--accent-primary) 28%,var(--border-subtle)) !important;
+            background:color-mix(in srgb,var(--accent-primary) 8%,var(--surface-panel)) !important;
+            box-shadow:0 5px 15px rgba(0,0,0,.08), 0 0 12px color-mix(in srgb,var(--accent-primary) 9%,transparent), inset 0 1px 0 rgba(255,255,255,.26) !important;
         }
         .ring-item.ring-adhkar .ring-icon-svg {
-            color:color-mix(in srgb,var(--accent-green) 78%,var(--text-primary)) !important;
-            filter:drop-shadow(0 0 5px color-mix(in srgb,var(--accent-green) 22%,transparent));
+            color:var(--accent-primary) !important;
+            filter:drop-shadow(0 1px 4px color-mix(in srgb,var(--accent-primary) 20%,transparent));
         }
         body.ios-mode:not(.light-mode) .ring-item.ring-adhkar {
-            box-shadow:0 7px 18px rgba(0,0,0,.30), 0 0 12px color-mix(in srgb,var(--accent-green) 13%,transparent), inset 0 1px 0 rgba(255,255,255,.08) !important;
+            box-shadow:0 7px 18px rgba(0,0,0,.28), 0 0 13px color-mix(in srgb,var(--accent-primary) 11%,transparent), inset 0 1px 0 rgba(255,255,255,.08) !important;
         }
         .quran-ayah-badge { display: inline-block; background: var(--surface-inner); color: var(--accent-green); padding: 5px 14px; border-radius: var(--radius-pill); font-weight: 800; font-size: 13px; margin-bottom: 8px; }
         .quran-verse-block { font-family: "Amiri", "Traditional Arabic", serif; font-size: 20px; line-height: 2.2; color: var(--text-primary); text-align: justify; margin-bottom: 14px; }
@@ -1093,6 +1089,293 @@ body.ios-mode button:focus-visible { outline:2px solid color-mix(in srgb, var(--
 .ring-notifications .ring-icon svg{width:22px;height:22px;}
 .ring-notification-badge{position:absolute;top:-3px;right:-3px;min-width:17px;height:17px;padding:0 4px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:var(--accent-red,#ef4444);color:#fff;font-size:9px;font-weight:900;line-height:1;border:2px solid var(--surface-panel);box-shadow:0 2px 7px rgba(0,0,0,.18);}
 </style>
+
+<style id="lifeos-glass-bottom-nav-v2">
+/* ===== LifeOS Glass v2: زجاج هادئ + شريط تنقل سفلي ===== */
+:root{--glass-nav-height:72px;--glass-nav-gap:7px;}
+
+/* الزجاج: طبقات خفيفة حتى تبقى ألوان الثيم الأصلية واضحة */
+body.ios-mode{
+  background:
+    radial-gradient(900px 520px at 8% 0%, color-mix(in srgb,var(--accent-primary) 13%,transparent), transparent 68%),
+    radial-gradient(760px 500px at 96% 18%, color-mix(in srgb,var(--accent-primary) 10%,transparent), transparent 70%),
+    var(--bg-canvas) !important;
+}
+body.ios-mode::before{
+  opacity:.72 !important;
+  background:
+    radial-gradient(520px 360px at 14% 12%,color-mix(in srgb,var(--accent-primary) 9%,transparent),transparent 72%),
+    radial-gradient(520px 360px at 88% 34%,color-mix(in srgb,var(--accent-primary) 7%,transparent),transparent 74%) !important;
+}
+body.ios-mode .oneui-card,
+body.ios-mode .dashboard-pinned-card,
+body.ios-mode .knowledge-card-item,
+body.ios-mode .alarm-item-card,
+body.ios-mode .dhikr-card,
+body.ios-mode .weather-hour-card,
+body.ios-mode .modal-box,
+body.ios-mode .top-info-link,
+body.ios-mode .user-auth-pill,
+body.ios-mode .habit-chip,
+body.ios-mode .memory-event-card,
+body.ios-mode .purchase-item,
+body.ios-mode .expense-item{
+  background:color-mix(in srgb,var(--surface-panel) 76%,transparent) !important;
+  border:1px solid color-mix(in srgb,var(--border-subtle) 74%,rgba(255,255,255,.25)) !important;
+  box-shadow:0 10px 30px rgba(20,30,60,.08),inset 0 1px 0 rgba(255,255,255,.28) !important;
+  backdrop-filter:blur(22px) saturate(150%) !important;
+  -webkit-backdrop-filter:blur(22px) saturate(150%) !important;
+}
+body.ios-mode:not(.light-mode) .oneui-card,
+body.ios-mode:not(.light-mode) .modal-box,
+body.ios-mode:not(.light-mode) .weather-hour-card{
+  box-shadow:0 12px 34px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.07) !important;
+}
+
+/* العملات: SVG يتبع لون النص تلقائيًا في النهاري والليلي وكل الثيمات */
+.top-currency-icon{display:inline-flex;align-items:center;justify-content:center;color:var(--text-primary);}
+.top-currency-icon svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+body.ios-mode .top-currency-link{background:color-mix(in srgb,var(--surface-panel) 74%,transparent) !important;border-color:color-mix(in srgb,var(--border-subtle) 72%,var(--accent-primary) 28%) !important;box-shadow:0 5px 16px rgba(20,30,60,.07),inset 0 1px 0 rgba(255,255,255,.26) !important;backdrop-filter:blur(18px) saturate(150%) !important;-webkit-backdrop-filter:blur(18px) saturate(150%) !important;}
+
+/* ===== شريط التنقل السفلي ===== */
+.rings-dock{
+  position:fixed !important;
+  right:50% !important;
+  left:auto !important;
+  transform:translateX(50%) !important;
+  bottom:max(10px,env(safe-area-inset-bottom,10px)) !important;
+  top:auto !important;
+  z-index:10050 !important;
+  width:min(calc(100vw - 20px),620px) !important;
+  max-width:none !important;
+  height:auto !important;
+  max-height:none !important;
+  padding:7px !important;
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:var(--glass-nav-gap) !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  direction:rtl !important;
+  border-radius:26px !important;
+  background:color-mix(in srgb,var(--surface-panel) 70%,transparent) !important;
+  border:1px solid color-mix(in srgb,var(--border-subtle) 78%,rgba(255,255,255,.24)) !important;
+  box-shadow:0 14px 38px rgba(20,30,60,.14),inset 0 1px 0 rgba(255,255,255,.34) !important;
+  backdrop-filter:blur(24px) saturate(170%) !important;
+  -webkit-backdrop-filter:blur(24px) saturate(170%) !important;
+  scrollbar-width:none;
+}
+.rings-dock::-webkit-scrollbar{display:none;}
+.ring-item{
+  position:relative !important;
+  width:50px !important;
+  min-width:50px !important;
+  height:50px !important;
+  flex:0 0 50px !important;
+  padding:0 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:7px !important;
+  border-radius:25px !important;
+  border:1px solid color-mix(in srgb,var(--border-subtle) 70%,transparent) !important;
+  background:color-mix(in srgb,var(--surface-panel) 62%,transparent) !important;
+  color:var(--text-primary) !important;
+  box-shadow:0 4px 12px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.24) !important;
+  backdrop-filter:blur(14px) saturate(145%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(145%) !important;
+  transition:width .25s ease,min-width .25s ease,flex-basis .25s ease,transform .22s ease,background .22s ease,box-shadow .22s ease !important;
+  overflow:hidden !important;
+  white-space:nowrap !important;
+}
+.ring-item::before,.ring-item::after{display:none !important;}
+.ring-item .ring-icon{width:24px !important;height:24px !important;display:flex !important;align-items:center !important;justify-content:center !important;flex:0 0 24px !important;font-size:21px !important;}
+.ring-item .ring-icon svg{width:22px !important;height:22px !important;fill:none !important;stroke:currentColor !important;stroke-width:1.8 !important;stroke-linecap:round !important;stroke-linejoin:round !important;}
+.ring-label{display:none;font-size:11px;font-weight:850;line-height:1;}
+.ring-item.active{
+  width:auto !important;
+  min-width:92px !important;
+  flex:0 0 auto !important;
+  padding:0 14px !important;
+  background:color-mix(in srgb,var(--accent-primary) 18%,var(--surface-panel)) !important;
+  border-color:color-mix(in srgb,var(--accent-primary) 42%,var(--border-subtle)) !important;
+  box-shadow:0 7px 20px color-mix(in srgb,var(--accent-primary) 18%,transparent),inset 0 1px 0 rgba(255,255,255,.32) !important;
+  transform:translateY(-3px) scale(1.03) !important;
+}
+.ring-item.active .ring-label{display:inline-block;}
+.ring-item.active .ring-icon{color:var(--accent-primary);}
+.ring-badge{position:absolute;top:2px;right:3px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:var(--accent-red,#ef4444);color:#fff;font-size:8.5px;font-weight:900;line-height:1;border:2px solid var(--surface-panel);box-shadow:0 2px 7px rgba(0,0,0,.16);}
+.ring-item.active .ring-badge{top:1px;right:4px;}
+.ring-item:active{transform:scale(.94) !important;}
+.rings-dock.rings-refresh .ring-item{animation:ringPulse .3s ease;}
+@media(max-width:560px){
+  .rings-dock{width:calc(100vw - 12px) !important;bottom:max(6px,env(safe-area-inset-bottom,6px)) !important;padding:6px !important;border-radius:23px !important;gap:5px !important;}
+  .ring-item{width:46px !important;min-width:46px !important;height:46px !important;flex-basis:46px !important;}
+  .ring-item.active{min-width:86px !important;padding-inline:11px !important;}
+  .ring-item .ring-icon{width:22px !important;height:22px !important;flex-basis:22px !important;}
+  .ring-item .ring-icon svg{width:20px !important;height:20px !important;}
+  .ring-label{font-size:10px;}
+}
+@media(max-width:360px){.ring-item.active{min-width:80px !important;padding-inline:9px !important}.ring-label{font-size:9.5px}.rings-dock{gap:4px !important;}}
+/* مساحة سفلية حتى لا يغطي الشريط آخر محتوى */
+.app-container{padding-bottom:92px;}
+</style>
+
+
+<style id="lifeos-bottom-nav-flex-final">
+/* ===== الشريط السفلي المرن: لا ضغط للعناصر، والتمرير أفقي عند الحاجة ===== */
+.rings-dock{
+  position:fixed !important;
+  right:50% !important;
+  left:auto !important;
+  transform:translateX(50%) !important;
+  bottom:max(10px,env(safe-area-inset-bottom,10px)) !important;
+  top:auto !important;
+  width:max-content !important;
+  max-width:calc(100vw - 16px) !important;
+  height:64px !important;
+  padding:5px !important;
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:flex-start !important;
+  gap:9px !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  direction:rtl !important;
+  touch-action:pan-x !important;
+  -webkit-overflow-scrolling:touch !important;
+  scroll-behavior:smooth !important;
+  scroll-snap-type:x proximity !important;
+  border-radius:24px !important;
+  background:color-mix(in srgb,var(--surface-panel) 78%,transparent) !important;
+  border:1px solid color-mix(in srgb,var(--border-subtle) 86%,var(--accent-primary) 14%) !important;
+  box-shadow:0 12px 34px rgba(15,23,42,.16),inset 0 1px 0 rgba(255,255,255,.28) !important;
+  backdrop-filter:blur(22px) saturate(155%) !important;
+  -webkit-backdrop-filter:blur(22px) saturate(155%) !important;
+}
+.rings-dock::-webkit-scrollbar{display:none !important;}
+.ring-item{
+  position:relative !important;
+  width:52px !important;
+  min-width:52px !important;
+  max-width:none !important;
+  height:52px !important;
+  flex:0 0 52px !important;
+  padding:0 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:9px !important;
+  border-radius:18px !important;
+  border:1px solid color-mix(in srgb,var(--border-subtle) 82%,var(--accent-primary) 18%) !important;
+  background:color-mix(in srgb,var(--surface-panel) 72%,transparent) !important;
+  color:var(--text-primary) !important;
+  box-shadow:0 4px 13px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.22) !important;
+  backdrop-filter:blur(14px) saturate(145%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(145%) !important;
+  transition:width .25s ease,min-width .25s ease,flex-basis .25s ease,transform .22s ease,background .22s ease,box-shadow .22s ease,border-color .22s ease !important;
+  overflow:hidden !important;
+  white-space:nowrap !important;
+  scroll-snap-align:center;
+}
+.ring-item .ring-icon{width:24px !important;height:24px !important;display:flex !important;align-items:center !important;justify-content:center !important;flex:0 0 24px !important;font-size:21px !important;}
+.ring-item .ring-icon svg{width:22px !important;height:22px !important;fill:none !important;stroke:currentColor !important;stroke-width:1.8 !important;stroke-linecap:round !important;stroke-linejoin:round !important;}
+.ring-label{display:none !important;font-size:13px;font-weight:850;line-height:1;letter-spacing:0;}
+.ring-item.active{
+  width:126px !important;
+  min-width:126px !important;
+  flex:0 0 126px !important;
+  height:54px !important;
+  padding:0 18px !important;
+  gap:10px !important;
+  border-radius:19px !important;
+  background:color-mix(in srgb,var(--accent-primary) 13%,var(--surface-panel)) !important;
+  border-color:color-mix(in srgb,var(--accent-primary) 42%,var(--border-subtle)) !important;
+  box-shadow:0 8px 24px color-mix(in srgb,var(--accent-primary) 14%,transparent),inset 0 1px 0 rgba(255,255,255,.30) !important;
+  transform:translateY(-3px) !important;
+}
+.ring-item.active .ring-label{display:inline-flex !important;align-items:center;justify-content:center;flex:0 0 auto;}
+.ring-item.active .ring-icon{color:var(--accent-primary);}
+.ring-item:active{transform:scale(.96) !important;}
+.ring-badge{top:2px !important;right:3px !important;}
+.ring-item.active .ring-badge{top:2px !important;right:4px !important;}
+@media(max-width:560px){
+  .rings-dock{max-width:calc(100vw - 10px) !important;height:62px !important;padding:4px !important;gap:8px !important;}
+  .ring-item{width:50px !important;min-width:50px !important;flex-basis:50px !important;height:50px !important;}
+  .ring-item.active{width:122px !important;min-width:122px !important;flex-basis:122px !important;height:52px !important;padding-inline:16px !important;}
+}
+@media(max-width:380px){
+  .rings-dock{gap:7px !important;}
+  .ring-item{width:48px !important;min-width:48px !important;flex-basis:48px !important;height:48px !important;}
+  .ring-item.active{width:116px !important;min-width:116px !important;flex-basis:116px !important;height:50px !important;padding-inline:14px !important;}
+  .ring-label{font-size:12.5px;}
+}
+/* لا نسمح للشريط أن يلتصق بالمحتوى الأخير */
+.app-container{padding-bottom:94px !important;}
+
+/* ===== العملات: نفس مكانها في الأعلى، لكن خلفية الأيقونة تتكيف مع النهاري/الليلي ===== */
+.top-currency-link{
+  background:color-mix(in srgb,var(--surface-panel) 86%,var(--accent-primary) 14%) !important;
+  color:var(--text-primary) !important;
+  border-color:color-mix(in srgb,var(--border-subtle) 72%,var(--accent-primary) 28%) !important;
+  box-shadow:0 5px 15px color-mix(in srgb,var(--accent-primary) 8%,transparent),inset 0 1px 0 rgba(255,255,255,.22) !important;
+  backdrop-filter:blur(14px) saturate(150%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(150%) !important;
+}
+.top-currency-icon{color:var(--accent-primary) !important;}
+body.light-mode .top-currency-link{
+  background:color-mix(in srgb,var(--surface-panel) 91%,var(--accent-primary) 9%) !important;
+  border-color:color-mix(in srgb,var(--border-subtle) 82%,var(--accent-primary) 18%) !important;
+  box-shadow:0 5px 15px color-mix(in srgb,var(--accent-primary) 7%,transparent),inset 0 1px 0 rgba(255,255,255,.70) !important;
+}
+body:not(.light-mode) .top-currency-link{
+  background:color-mix(in srgb,var(--surface-panel) 82%,var(--accent-primary) 18%) !important;
+  border-color:color-mix(in srgb,var(--border-subtle) 66%,var(--accent-primary) 34%) !important;
+  box-shadow:0 6px 18px color-mix(in srgb,var(--accent-primary) 10%,transparent),inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+
+/* ===== الزجاج: هادئ وواضح بدل التلوين الثقيل ===== */
+body.ios-mode .oneui-card,
+body.ios-mode .top-info-link,
+body.ios-mode .user-auth-pill,
+body.ios-mode .top-header-tool,
+body.ios-mode .top-weather-user-link,
+body.ios-mode .habit-chip,
+body.ios-mode .dashboard-tab,
+body.ios-mode .rings-dock{
+  background:color-mix(in srgb,var(--surface-panel) 76%,transparent) !important;
+  border-color:color-mix(in srgb,var(--border-subtle) 84%,var(--accent-primary) 16%) !important;
+  box-shadow:0 10px 30px color-mix(in srgb,var(--text-primary) 8%,transparent),inset 0 1px 0 rgba(255,255,255,.18) !important;
+  backdrop-filter:blur(24px) saturate(155%) !important;
+  -webkit-backdrop-filter:blur(24px) saturate(155%) !important;
+}
+body.ios-mode.light-mode .oneui-card,
+body.ios-mode.light-mode .top-info-link,
+body.ios-mode.light-mode .user-auth-pill,
+body.ios-mode.light-mode .top-header-tool,
+body.ios-mode.light-mode .top-weather-user-link,
+body.ios-mode.light-mode .habit-chip,
+body.ios-mode.light-mode .rings-dock{
+  background:rgba(255,255,255,.70) !important;
+  border-color:rgba(255,255,255,.76) !important;
+  box-shadow:0 10px 30px rgba(45,62,90,.10),inset 0 1px 0 rgba(255,255,255,.82) !important;
+}
+body.ios-mode:not(.light-mode) .oneui-card,
+body.ios-mode:not(.light-mode) .top-info-link,
+body.ios-mode:not(.light-mode) .user-auth-pill,
+body.ios-mode:not(.light-mode) .top-header-tool,
+body.ios-mode:not(.light-mode) .top-weather-user-link,
+body.ios-mode:not(.light-mode) .habit-chip,
+body.ios-mode:not(.light-mode) .rings-dock{
+  background:rgba(20,28,40,.64) !important;
+  border-color:rgba(255,255,255,.12) !important;
+  box-shadow:0 12px 34px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+</style>
+
 </head>
 <body data-theme="sapphire">
 
@@ -1111,7 +1394,7 @@ body.ios-mode button:focus-visible { outline:2px solid color-mix(in srgb, var(--
                         </div>
                     </div>
                     <button type="button" class="top-weather-user-link top-weather-compact" onclick="switchNavSection('weather-view')" aria-label="فتح الطقس"><span id="topWeatherMiniIcon" class="top-weather-mini-icon-wrap"><span class="weather-icon-fallback">☀️</span></span><span id="topWeatherMiniTemp">--°</span><span id="topWeatherMiniLocation">جنين</span></button>
-                    <button type="button" class="top-header-tool top-currency-link" onclick="switchNavSection('currency-view')" aria-label="العملات"><span class="top-header-tool-icon">💱</span><span>العملات</span></button>
+                    <button type="button" class="top-header-tool top-currency-link" onclick="switchNavSection('currency-view')" aria-label="العملات"><span class="top-header-tool-icon top-currency-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4v16M4 7h8a3 3 0 0 1 0 6H4m0 0h9a3 3 0 0 1 0 6H4"/><path d="M17 5v14M14 8h5a2.5 2.5 0 0 1 0 5h-5m0 0h6"/></svg></span><span>العملات</span></button>
                 </div>
 
                 <div class="top-left-group">
@@ -1556,12 +1839,7 @@ body.ios-mode button:focus-visible { outline:2px solid color-mix(in srgb, var(--
     <!-- =========================================================
        ⭕ نظام الحلقات: الرئيسية + الأقسام + التنبيهات + مهام اليوم
        ========================================================= -->
-    <div class="rings-dock" id="ringsDock" aria-label="الحلقات">
-        <button class="ring-item ring-home" id="ringHome" onclick="switchNavSection('dashboard-view', this)" aria-label="الرئيسية" title="الرئيسية"><span class="ring-icon"><svg class="ring-icon-svg section-icon-svg" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/></svg></span></button>
-        <button class="ring-item ring-adhkar" id="ringAdhkar" onclick="switchNavSection('adhkar-view', this); pulseRings()" aria-label="الأذكار" title="الأذكار"><span class="ring-icon"><svg class="ring-icon-svg section-icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h16"/><path d="M6 20v-7h12v7"/><path d="M5 13c0-3.3 2.7-6 7-9 4.3 3 7 5.7 7 9"/><path d="M9 20v-4h6v4"/></svg></span></button>
-        <button class="ring-item ring-section" id="ringSections" onclick="openAllSectionsModal(); pulseRings()" aria-label="الأقسام" title="الأقسام"><span class="ring-icon"><svg class="ring-icon-svg section-icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span></button>
-        <button class="ring-item ring-settings" id="ringSettings" onclick="switchNavSection('settings-view', this); pulseRings()" aria-label="الإعدادات" title="الإعدادات"><span class="ring-icon"><svg class="ring-icon-svg section-icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3.5"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.7 1.7-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.56V20h-2.4v-.2a1.7 1.7 0 0 0-1.04-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-1.7-1.7.06-.06A1.7 1.7 0 0 0 8.4 15a1.7 1.7 0 0 0-1.56-1.04H6v-2.4h.84A1.7 1.7 0 0 0 8.4 10a1.7 1.7 0 0 0-.34-1.88L8 8.06l1.7-1.7.06.06a1.7 1.7 0 0 0 1.88.34A1.7 1.7 0 0 0 12.68 5.2V5h2.4v.2a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 1.7 1.7-.06.06A1.7 1.7 0 0 0 19.36 10a1.7 1.7 0 0 0 1.56 1.04H21v2.4h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg></span></button>
-    </div>
+    <div class="rings-dock" id="ringsDock" aria-label="التنقل الرئيسي"></div>
 <!-- نافذة استعراض باقي أقسام التطبيق -->
     <div class="modal-overlay" id="allSectionsModal">
         <div class="modal-box" style="text-align:center;">
@@ -2768,6 +3046,7 @@ body.ios-mode button:focus-visible { outline:2px solid color-mix(in srgb, var(--
             document.querySelectorAll('.dashboard-tab').forEach(t => t.classList.remove('active'));
             const target = document.getElementById(viewId);
             if (target) target.classList.add('active');
+            updateBottomNavActive(viewId);
             const tab = document.querySelector(`.dashboard-tab[data-dashboard-tab="${viewId}"]`);
             if (tab) tab.classList.add('active');
 
@@ -3203,7 +3482,7 @@ body.ios-mode button:focus-visible { outline:2px solid color-mix(in srgb, var(--
                 const remaining=db.adhkarCounters[key]!==undefined?db.adhkarCounters[key]:d.count;
                 const done=remaining===0;
                 return `<article class="dhikr-card dhikr-pro-card ${done?'is-complete':''}" onclick="decrementDhikr('${d.id}',${d.count},'${occurrence}')">
-                    <div class="dhikr-pro-meta"><span>${d.title}</span><span>${done?'✓ مكتمل':`متبقي ${remaining} من ${d.count}`}</span></div>
+                    <div class="dhikr-pro-meta"><span>${d.title}</span><span>${done?'✓ مكتمل':`متبقي: ${remaining} من ${d.count}`}</span></div>
                     <div class="dhikr-pro-text">${d.text}</div>
                     <div class="dhikr-counter-wrap"><span class="dhikr-counter-label">${done?'اكتمل':'المتبقي'}</span><div class="dhikr-counter-pill ${done?'done':''}">${done?'✓':remaining}</div><span class="dhikr-counter-total">من ${d.count}</span></div>
                     <div class="dhikr-pro-footer"><span>${done?'اكتمل هذا الذكر اليوم':'اضغط مرة واحدة لكل تكرار'}</span></div>
@@ -3813,25 +4092,46 @@ body.ios-mode button:focus-visible { outline:2px solid color-mix(in srgb, var(--
 
         function adhkarRingSvg(){ return `<svg class="ring-icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 8h10c.29 0 .57.06.84.13.09-.33.16-.67.16-1.04 0-1.31-.65-2.53-1.74-3.25L12 1 7.74 3.84C6.65 4.56 6 5.78 6 7.09c0 .37.07.71.16 1.04.27-.07.55-.13.84-.13z"/><path d="M24 7c0-1.1-2-3-2-3s-2 1.9-2 3c0 .74.4 1.38 1 1.72V13h-2v-2c0-1.1-.9-2-2-2H7c-1.1 0-2 .9-2 2v2H3V8.72c.6-.34 1-.98 1-1.72 0-1.1-2-3-2-3S0 5.9 0 7c0 .74.4 1.38 1 1.72V21h9v-4c0-1.1.9-2 2-2s2 .9 2 2v4h9V8.72c.6-.34 1-1.72 1-1.72z"/></svg>`; }
 
+        function getBottomNavState(viewId) {
+            if (viewId === 'dashboard-view') return 'home';
+            if (viewId === 'adhkar-view') return 'adhkar';
+            if (viewId === 'settings-view') return 'settings';
+            if (viewId === 'todos-view') return 'tasks';
+            if (viewId === 'prayers-alarms-view') return 'notifications';
+            return 'sections';
+        }
+
+        function updateBottomNavActive(viewId) {
+            const dock = document.getElementById('ringsDock');
+            if (!dock) return;
+            const state = getBottomNavState(viewId || document.querySelector('.section-view.active')?.id || 'dashboard-view');
+            dock.querySelectorAll('.ring-item').forEach(item => {
+                const active = item.dataset.nav === state;
+                item.classList.toggle('active', active);
+                if (active) item.setAttribute('aria-current', 'page');
+                else item.removeAttribute('aria-current');
+            });
+        }
+
         function renderRings() {
             const dock = document.getElementById('ringsDock');
             if (!dock) return;
-            const fixed = `
-                <button class="ring-item ring-home" id="ringHome" onclick="switchNavSection('dashboard-view', this)" aria-label="الرئيسية" title="الرئيسية"><span class="ring-icon">${iconSvg('home')}</span></button>
-                <button class="ring-item ring-adhkar" id="ringAdhkar" onclick="switchNavSection('adhkar-view', this); pulseRings()" aria-label="الأذكار" title="الأذكار"><span class="ring-icon">${adhkarRingSvg()}</span></button>
-                <button class="ring-item ring-section" id="ringSections" onclick="openAllSectionsModal(); pulseRings()" aria-label="الأقسام" title="الأقسام"><span class="ring-icon">${iconSvg('grid')}</span></button>
-                <button class="ring-item ring-settings" id="ringSettings" onclick="switchNavSection('settings-view', this); pulseRings()" aria-label="الإعدادات" title="الإعدادات"><span class="ring-icon">${iconSvg('settings')}</span></button>`;
             const now = Date.now();
             const reminders = (Array.isArray(db.reminders) ? db.reminders : [])
                 .filter(r => r && !r.triggered && r.targetTime && r.targetTime > now)
                 .sort((a,b) => a.targetTime - b.targetTime);
             const notificationCount = reminders.length;
-            const notificationRing = `<button class="ring-item ring-notifications" id="ringNotifications" onclick="switchNavSection('prayers-alarms-view', this); pulseRings()" aria-label="التنبيهات: ${notificationCount}" title="التنبيهات"><span class="ring-icon">${iconSvg('bell')}</span>${notificationCount > 0 ? `<span class="ring-notification-badge">${notificationCount > 99 ? '99+' : notificationCount}</span>` : ''}</button>`;
-            const todayTasks = (Array.isArray(db.todos) ? db.todos : []).filter(t => t && t.date === todayStr);
-            const taskRing = todayTasks.length
-                ? `<button class="ring-item ring-dynamic ring-task" onclick="switchNavSection('todos-view', this); pulseRings()" aria-label="${todayTasks.length} مهام اليوم" title="مهام اليوم"><span class="ring-count">${todayTasks.length > 99 ? '99+' : todayTasks.length}</span></button>`
-                : '';
-            dock.innerHTML = notificationRing + taskRing + fixed;
+            const items = [
+                `<button class="ring-item ring-home" data-nav="home" onclick="switchNavSection('dashboard-view', this)" aria-label="الرئيسية" title="الرئيسية"><span class="ring-icon">${iconSvg('home')}</span><span class="ring-label">الرئيسية</span></button>`,
+                `<button class="ring-item ring-adhkar" data-nav="adhkar" onclick="switchNavSection('adhkar-view', this); pulseRings()" aria-label="الأذكار" title="الأذكار"><span class="ring-icon">${adhkarRingSvg()}</span><span class="ring-label">الأذكار</span></button>`,
+                `<button class="ring-item ring-section" data-nav="sections" onclick="openAllSectionsModal(); pulseRings()" aria-label="الأقسام" title="الأقسام"><span class="ring-icon">${iconSvg('grid')}</span><span class="ring-label">الأقسام</span></button>`,
+                `<button class="ring-item ring-settings" data-nav="settings" onclick="switchNavSection('settings-view', this); pulseRings()" aria-label="الإعدادات" title="الإعدادات"><span class="ring-icon">${iconSvg('settings')}</span><span class="ring-label">الإعدادات</span></button>`,
+                `<button class="ring-item ring-tasks" data-nav="tasks" onclick="switchNavSection('todos-view', this); pulseRings()" aria-label="المهام" title="المهام"><span class="ring-icon">${iconSvg('check')}</span><span class="ring-label">المهام</span></button>`,
+                `<button class="ring-item ring-notifications ${notificationCount > 0 ? 'has-notifications' : ''}" data-nav="notifications" onclick="switchNavSection('prayers-alarms-view', this); pulseRings()" aria-label="التنبيهات" title="التنبيهات"><span class="ring-icon">${iconSvg('bell')}</span><span class="ring-label">التنبيهات</span></button>`
+            ];
+            dock.innerHTML = items.join('');
+            const activeView = document.querySelector('.section-view.active')?.id || 'dashboard-view';
+            updateBottomNavActive(activeView);
         }
 
         function pulseRings() {
@@ -3844,25 +4144,11 @@ body.ios-mode button:focus-visible { outline:2px solid color-mix(in srgb, var(--
         }
 
         function updateRingCountdowns() {
+            // الشريط السفلي يستخدم أرقامًا ثابتة للمهام والتنبيهات، لذلك لا توجد حلقات عدّ تنازلي جانبية.
             const dock = document.getElementById('ringsDock');
             if (!dock) return;
-            const now = Date.now();
-            const reminders = (Array.isArray(db.reminders) ? db.reminders : [])
-                .filter(r => r && !r.triggered && r.targetTime && r.targetTime > now)
-                .sort((a,b) => a.targetTime - b.targetTime);
-            const alarmNodes = dock.querySelectorAll('.ring-alarm');
-            alarmNodes.forEach((node, index) => {
-                const reminder = reminders[index];
-                if (!reminder) return;
-                const remaining = Math.max(0, reminder.targetTime - now);
-                const total = Math.max(60000, Number(reminder.minutes || 1) * 60000);
-                const progress = Math.max(0, Math.min(360, (1 - remaining / total) * 360));
-                const counter = node.querySelector('.alarm-count');
-                if (counter) counter.textContent = formatRingCountdown(remaining);
-                node.style.setProperty('--ring-progress', `${progress}deg`);
-                node.setAttribute('aria-label', `تنبيه ${index + 1}: ${formatRingCountdown(remaining)}`);
-                node.setAttribute('title', `تنبيه: ${formatRingCountdown(remaining)}`);
-            });
+            const current = document.querySelector('.section-view.active')?.id || 'dashboard-view';
+            updateBottomNavActive(current);
         }
 
         setInterval(updateRingCountdowns, 1000);
@@ -4205,6 +4491,169 @@ body.ios-mode button:focus-visible { outline:2px solid color-mix(in srgb, var(--
             window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(err => console.warn('SW:', err)));
         }
     </script>
+
+<style id="lifeos-final-polish-v4">
+/* مسافة مريحة بين الأيقونة وإطار الكبسولة/الدائرة */
+.ring-item .ring-icon{
+  width:32px !important; height:32px !important; flex:0 0 32px !important;
+  padding:5px !important; border-radius:11px !important;
+  display:flex !important; align-items:center !important; justify-content:center !important;
+  background:color-mix(in srgb,var(--accent-primary) 7%,transparent) !important;
+}
+.ring-item .ring-icon svg{width:22px !important;height:22px !important;}
+.ring-item.active .ring-icon{
+  width:34px !important; height:34px !important; flex-basis:34px !important;
+  padding:5px !important; border-radius:11px !important;
+  background:color-mix(in srgb,var(--accent-primary) 12%,transparent) !important;
+}
+@media(max-width:560px){
+  .ring-item .ring-icon{width:31px !important;height:31px !important;flex-basis:31px !important;padding:5px !important;}
+  .ring-item.active .ring-icon{width:33px !important;height:33px !important;flex-basis:33px !important;}
+}
+</style>
+
+<style id="lifeos-final-nav-weather-notification-polish">
+/* فصل بصري واضح بين أيقونة الشريط السفلي وإطار الحلقة/الكبسولة */
+.ring-item.active{
+  padding-inline:14px !important;
+  gap:13px !important;
+}
+.ring-item .ring-icon{
+  position:relative !important;
+  z-index:1 !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  padding:6px !important;
+  width:32px !important;
+  height:32px !important;
+  flex:0 0 32px !important;
+  border-radius:11px !important;
+}
+.ring-item.active .ring-icon{
+  width:34px !important;
+  height:34px !important;
+  flex-basis:34px !important;
+  padding:6px !important;
+  margin-inline:2px !important;
+}
+.ring-item .ring-icon svg{width:20px !important;height:20px !important;}
+
+/* الطقس يحتفظ بنفس الأيقونة والكتابة، لكن يأخذ نفس الخلفية الزجاجية للعملات */
+.top-weather-compact{
+  background:color-mix(in srgb,var(--surface-panel) 86%,var(--accent-primary) 14%) !important;
+  color:var(--text-primary) !important;
+  border:1px solid color-mix(in srgb,var(--border-subtle) 72%,var(--accent-primary) 28%) !important;
+  box-shadow:0 5px 15px color-mix(in srgb,var(--accent-primary) 8%,transparent),inset 0 1px 0 rgba(255,255,255,.22) !important;
+  backdrop-filter:blur(14px) saturate(150%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(150%) !important;
+}
+body.light-mode .top-weather-compact{
+  background:color-mix(in srgb,var(--surface-panel) 91%,var(--accent-primary) 9%) !important;
+  border-color:color-mix(in srgb,var(--border-subtle) 82%,var(--accent-primary) 18%) !important;
+  box-shadow:0 5px 15px color-mix(in srgb,var(--accent-primary) 7%,transparent),inset 0 1px 0 rgba(255,255,255,.70) !important;
+}
+body:not(.light-mode) .top-weather-compact{
+  background:color-mix(in srgb,var(--surface-panel) 82%,var(--accent-primary) 18%) !important;
+  border-color:color-mix(in srgb,var(--border-subtle) 66%,var(--accent-primary) 34%) !important;
+  box-shadow:0 6px 18px color-mix(in srgb,var(--accent-primary) 10%,transparent),inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+
+/* التنبيهات بلا رقم: عند وجود تنبيه تتحرك حلقة مضيئة حول الأيقونة */
+.ring-notifications .ring-icon{overflow:visible !important;}
+.ring-notifications.has-notifications .ring-icon::before{
+  content:"";
+  position:absolute;
+  inset:-4px;
+  border-radius:50%;
+  border:2px solid color-mix(in srgb,var(--accent-primary) 18%,transparent);
+  border-top-color:var(--accent-primary);
+  border-right-color:color-mix(in srgb,var(--accent-primary) 72%,transparent);
+  box-shadow:0 0 8px color-mix(in srgb,var(--accent-primary) 22%,transparent);
+  animation:lifeosNotificationRing 1.55s linear infinite;
+  pointer-events:none;
+}
+@keyframes lifeosNotificationRing{
+  to{transform:rotate(360deg);}
+}
+@media(max-width:560px){
+  .ring-item.active{padding-inline:12px !important;gap:11px !important;}
+  .ring-item .ring-icon{width:31px !important;height:31px !important;flex-basis:31px !important;padding:6px !important;}
+  .ring-item.active .ring-icon{width:33px !important;height:33px !important;flex-basis:33px !important;}
+}
+
+/* Final bottom-nav expanded capsule alignment polish */
+.rings-dock{
+  box-sizing:border-box !important;
+  padding-inline:7px !important;
+  overflow-x:auto !important;
+  overflow-y:visible !important;
+}
+.ring-item{
+  box-sizing:border-box !important;
+  overflow:visible !important;
+}
+.ring-item.active{
+  min-width:108px !important;
+  height:54px !important;
+  padding:7px 15px !important;
+  gap:11px !important;
+  justify-content:center !important;
+  align-items:center !important;
+  flex-direction:row !important;
+  border-radius:19px !important;
+}
+.ring-item.active > span{
+  width:auto !important;
+  height:100% !important;
+  display:flex !important;
+  flex:0 0 auto !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+.ring-item.active .ring-icon{
+  width:30px !important;
+  height:30px !important;
+  min-width:30px !important;
+  flex:0 0 30px !important;
+  margin:0 !important;
+  padding:5px !important;
+  box-sizing:border-box !important;
+  border-radius:10px !important;
+}
+.ring-item.active .ring-label{
+  display:inline-flex !important;
+  width:auto !important;
+  margin:0 !important;
+  padding:0 !important;
+  white-space:nowrap !important;
+  align-items:center !important;
+  justify-content:center !important;
+  line-height:1 !important;
+}
+@media(max-width:560px){
+  .ring-item.active{
+    min-width:102px !important;
+    height:50px !important;
+    padding:6px 13px !important;
+    gap:9px !important;
+    border-radius:18px !important;
+  }
+  .ring-item.active .ring-icon{
+    width:28px !important;
+    height:28px !important;
+    min-width:28px !important;
+    flex-basis:28px !important;
+    padding:5px !important;
+  }
+}
+@media(max-width:360px){
+  .ring-item.active{
+    min-width:96px !important;
+    padding-inline:11px !important;
+    gap:8px !important;
+  }
+}
+</style>
 </body>
 </html>
 
