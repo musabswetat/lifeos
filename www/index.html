@@ -8,6 +8,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0B1120" id="themeColorMeta">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
 
     <title>Life OS</title>
     
@@ -385,6 +387,49 @@
         .tasbeeh-big-counter { font-size: 52px; font-weight: 800; font-family: monospace; color: var(--accent-green); }
 
         .dhikr-card { background: var(--surface-panel); border-radius: var(--radius-input); padding: 15px; margin-bottom: 10px; border: 1px solid var(--border-subtle); line-height: 1.8; font-size: 14px; cursor: pointer; }
+
+        /* الأذكار: نص أكبر وعدّاد واضح، مع إخفاء المصادر من الواجهة مع إبقائها محفوظة داخل البيانات. */
+        .adhkar-source-badge { display:none !important; }
+        .dhikr-pro-card { padding:20px 18px !important; margin-bottom:14px !important; border-radius:22px !important; line-height:2 !important; }
+        .dhikr-pro-meta { font-size:17px !important; font-weight:900 !important; margin-bottom:12px !important; }
+        .dhikr-pro-text { font-family:"Amiri", "Traditional Arabic", serif !important; font-size:21px !important; line-height:2.05 !important; font-weight:600 !important; color:var(--text-primary) !important; }
+        .dhikr-counter-wrap { display:flex; align-items:center; justify-content:center; gap:8px; margin:18px auto 12px; direction:rtl; }
+        .dhikr-counter-label { font-size:14px; font-weight:800; color:var(--text-secondary); }
+        .dhikr-counter-pill { min-width:66px; height:66px; padding:0 12px; display:flex; align-items:center; justify-content:center; border-radius:50%; font-size:28px !important; line-height:1; font-weight:950 !important; color:var(--text-primary); background:color-mix(in srgb,var(--accent-primary) 12%,var(--surface-inner)) !important; border:1px solid color-mix(in srgb,var(--accent-primary) 24%,var(--border-subtle)) !important; box-shadow:0 5px 18px rgba(0,0,0,.08), inset 0 1px 0 rgba(255,255,255,.35) !important; }
+        .dhikr-counter-pill.done { color:var(--accent-green) !important; background:color-mix(in srgb,var(--accent-green) 12%,var(--surface-inner)) !important; border-color:color-mix(in srgb,var(--accent-green) 28%,var(--border-subtle)) !important; }
+        .dhikr-counter-total { font-size:13px; font-weight:800; color:var(--text-tertiary); }
+        .dhikr-pro-footer { justify-content:center !important; font-size:12px !important; color:var(--text-secondary) !important; }
+        .dhikr-pro-footer a { display:none !important; }
+        .adhkar-progress-pro { padding:14px 16px !important; margin-bottom:16px !important; }
+        .adhkar-progress-pro strong { font-size:16px !important; }
+        .adhkar-progress-pro span { font-size:14px !important; }
+        @media (max-width:420px) {
+            .dhikr-pro-card { padding:18px 15px !important; }
+            .dhikr-pro-meta { font-size:16px !important; }
+            .dhikr-pro-text { font-size:19px !important; line-height:2.05 !important; }
+            .dhikr-counter-pill { min-width:62px; height:62px; font-size:27px !important; }
+        }
+
+        /* أيقونة الأذكار: هادئة في كل الثيمات مع توهج خفيف جدًا تابع للون الثيم. */
+        .ring-item.ring-adhkar {
+            --ring-progress:0deg !important;
+            border-color:color-mix(in srgb,var(--accent-green) 18%,rgba(255,255,255,.34)) !important;
+            box-shadow:0 5px 15px rgba(0,0,0,.09), 0 0 10px color-mix(in srgb,var(--accent-green) 10%,transparent), inset 0 1px 0 rgba(255,255,255,.28) !important;
+        }
+        .ring-item.ring-adhkar::before {
+            background:color-mix(in srgb,var(--accent-green) 9%,transparent) !important;
+        }
+        .ring-item.ring-adhkar::after {
+            background:color-mix(in srgb,var(--surface-panel) 91%,transparent) !important;
+            border-color:color-mix(in srgb,var(--accent-green) 12%,var(--border-subtle)) !important;
+        }
+        .ring-item.ring-adhkar .ring-icon-svg {
+            color:color-mix(in srgb,var(--accent-green) 78%,var(--text-primary)) !important;
+            filter:drop-shadow(0 0 5px color-mix(in srgb,var(--accent-green) 22%,transparent));
+        }
+        body.ios-mode:not(.light-mode) .ring-item.ring-adhkar {
+            box-shadow:0 7px 18px rgba(0,0,0,.30), 0 0 12px color-mix(in srgb,var(--accent-green) 13%,transparent), inset 0 1px 0 rgba(255,255,255,.08) !important;
+        }
         .quran-ayah-badge { display: inline-block; background: var(--surface-inner); color: var(--accent-green); padding: 5px 14px; border-radius: var(--radius-pill); font-weight: 800; font-size: 13px; margin-bottom: 8px; }
         .quran-verse-block { font-family: "Amiri", "Traditional Arabic", serif; font-size: 20px; line-height: 2.2; color: var(--text-primary); text-align: justify; margin-bottom: 14px; }
         .quran-tafsir-block { background: var(--surface-inner); border-right: 4px solid var(--accent-green); border-radius: var(--radius-input); padding: 14px; line-height: 1.8; font-size: 13px; margin-bottom: 14px; }
@@ -786,6 +831,9 @@
         }
         .ring-item > span { position:relative; z-index:2; display:flex; width:100%; height:100%; align-items:center; justify-content:center; line-height:1; }
         .ring-icon { font-size:22px; font-weight:900; }
+        /* أيقونة المسجد: مبنية على Material Design Icons / Google Material Icons، ترخيص Apache-2.0، وتستخدم currentColor لتتبع جميع الثيمات. */
+        .ring-icon-svg { width:23px; height:23px; display:block; fill:currentColor; }
+        .ring-adhkar { --ring-progress:360deg; }
         .ring-count { font-size:17px; font-weight:900; }
         .ring-count.alarm-count { font-size:10.5px; letter-spacing:-.3px; }
         .ring-item:active { transform:scale(.89); }
@@ -802,6 +850,7 @@
             .rings-dock { right:8px; width:58px; gap:7px; }
             .ring-item { width:52px; height:52px; flex-basis:52px; }
             .ring-icon { font-size:20px; }
+            .ring-icon-svg { width:21px; height:21px; }
             .ring-count { font-size:15px; }
             .ring-count.alarm-count { font-size:9.5px; }
         }
@@ -810,7 +859,42 @@
         .section-view.active { animation:ringsViewIn .32s cubic-bezier(.22,1,.36,1); }
         .oneui-card, .list-row, .all-sections-grid-item, .tag-badge, .btn-action, .app-input { transition:transform .22s ease,box-shadow .22s ease,opacity .22s ease,background .22s ease,border-color .22s ease; }
         .all-sections-grid-item:active, .tag-badge:active, .btn-action:active { transform:scale(.96); }
-        @keyframes ringsViewIn { from{opacity:0;transform:translateY(7px)}
+        @keyframes ringsViewIn { from{opacity:0;transform:translateY(7px)} to{opacity:1;transform:translateY(0)} }
+
+        /* تحسين نموذج التنبيه ليكون واضحاً ومتوازناً على الهاتف. */
+        .alarm-time-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:4px; }
+        .alarm-time-field { display:flex; flex-direction:column; gap:6px; font-size:12px; font-weight:800; color:var(--text-secondary); }
+        .alarm-time-field .app-input { text-align:center; font-size:20px; font-weight:900; margin-bottom:0; padding:12px 8px; }
+        .alarm-time-hint { font-size:11px; color:var(--text-tertiary); line-height:1.6; margin:3px 2px 10px; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; } }
+        .section-view.active { animation-duration:.16s; }
+
+        /* =========================================================
+           ✨ إصلاح تناسق النصوص + Liquid Glass 27 للحاسبة + الأذكار
+           ========================================================= */
+        .hero-clean-greeting { margin-bottom: 28px; }
+        .hero-poetry-line, #heroPoemVerse { display:none !important; }
+        body:not(.ios-mode) .hero-greeting-title,
+        body:not(.ios-mode) .section-label,
+        body:not(.ios-mode) .list-row,
+        body:not(.ios-mode) .dashboard-tasks-title,
+        body:not(.ios-mode) .dashboard-tasks-subtitle,
+        body:not(.ios-mode) .adhkar-header-pro h2,
+        body:not(.ios-mode) .adhkar-header-pro p,
+        body:not(.ios-mode) .quran-tafsir-block,
+        body:not(.ios-mode) .quran-verse-block { color:var(--text-primary); }
+        body:not(.ios-mode) .adhkar-header-pro p,
+        body:not(.ios-mode) .quran-source-list,
+        body:not(.ios-mode) .quran-tafsir-block small { color:var(--text-secondary) !important; }
+        body.light-mode:not(.ios-mode) .tag-badge,
+        body.light-mode:not(.ios-mode) .habit-chip,
+        body.light-mode:not(.ios-mode) .top-info-link,
+        body.light-mode:not(.ios-mode) .top-action-btn { color:var(--text-primary); }
+        body:not(.light-mode):not(.ios-mode) .tag-badge,
+        body:not(.light-mode):not(.ios-mode) .habit-chip,
+        body:not(.light-mode):not(.ios-mode) .top-info-link,
+        body:not(.light-mode):not(.ios-mode) .top-action-btn { color:var(--text-primary); }
+
 </style>
 </head>
 <body data-theme="sapphire">
@@ -845,15 +929,11 @@
             </div>
         </div>
 
-        <!-- التحية المتغيرة وبيت الشعر مع المسافات المطلوبة -->
-        <div class="hero-section-box">
+        <!-- التحية المتغيرة: بدون بيت شعر -->
+        <div class="hero-section-box hero-clean-greeting">
             <div class="hero-greeting-container">
                 <span id="heroWeatherIcon" class="hero-weather-icon">☀️</span>
                 <h1 id="heroGreetingText" class="hero-greeting-title">صباح الخير</h1>
-            </div>
-            <div class="hero-poetry-line" onclick="openPoetryModal()" title="انقر لمعرفة قائل البيت وتفاصيله">
-                <span id="heroPoemVerse">إِذا غامَرتَ في شَرَفٍ مَرومِ ۝ فَلا تَقنَع بِما دونَ النُجومِ</span>
-                
             </div>
         </div>
 
@@ -872,12 +952,6 @@
 
         <!-- 🏠 1. الشاشة الرئيسية -->
         <div id="dashboard-view" class="section-view active">
-            <!-- شريط الأنشطة السريع المحصور بثلاثة عناصر: الأذكار، ورد القرآن، الحاسبة -->
-            <div class="habits-strip" id="dashHabitsStrip">
-                <div class="habit-chip primary-highlight" onclick="switchNavSection('adhkar-view')">🤲 الأذكار</div>
-                <div class="habit-chip primary-highlight" onclick="switchNavSection('quran-view')">📖 ورد القرآن</div>
-                <div class="habit-chip primary-highlight" onclick="switchNavSection('calc-view')">🧮 الحاسبة</div>
-            </div>
 
             <!-- قسم التنبيهات والصلاة القادمة فقط بالدوائر المصغرة -->
             <div class="section-label">التنبيهات والصلاة القادمة</div>
@@ -951,7 +1025,6 @@
         <div id="islamiyat-view" class="section-view">
             <div style="display:flex; gap:6px; margin-bottom:12px; overflow-x:auto;">
                 <button class="tag-badge" onclick="switchNavSection('adhkar-view')">🤲 الأذكار المأثورة</button>
-                <button class="tag-badge" onclick="switchNavSection('quran-view')">📖 ورد القرآن (5 آيات)</button>
                 <button class="tag-badge" onclick="switchNavSection('prayers-alarms-view')">🕌 مواقيت الصلاة</button>
             </div>
             <div class="section-label">المسبحة اللمسية التفاعلية</div>
@@ -1026,58 +1099,6 @@
             <div class="oneui-card" id="expensesFullList"></div>
         </div>
 
-        <!-- 📖 7. ورد القرآن المفسر المستقل -->
-        <div id="quran-view" class="section-view">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <div class="section-label" style="margin:0;">ورد القرآن وتفسير ابن كثير (5 آيات)</div>
-                <button class="tag-badge" onclick="switchNavSection('dashboard-view')">← الرئيسية</button>
-            </div>
-            <div class="oneui-card">
-                <div id="quranProgressHeader" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;"></div>
-                <div id="quranVersesContainer"></div>
-                <div id="quranTafsirContainer"></div>
-                <button onclick="completeQuranPortion()" class="btn-action" style="background:var(--accent-green); margin-top:8px;">
-                    ✅ تم بحمد الله (عرض الـ 5 آيات التالية مع التفسير)
-                </button>
-            </div>
-        </div>
-
-        <!-- 🧮 8. الحاسبة -->
-        <div id="calc-view" class="section-view">
-            <div class="google-calc-box">
-                <div class="calc-screen-wrapper">
-                    <div class="calc-expression-line" id="gCalcExpr"></div>
-                    <div class="calc-main-line" id="gCalcDisplay">0</div>
-                </div>
-                <div class="google-calc-grid">
-                    <button class="g-calc-btn special" onclick="gCalcAction('AC')">AC</button>
-                    <button class="g-calc-btn special" onclick="gCalcAction('DEL')">⌫</button>
-                    <button class="g-calc-btn operator" onclick="gCalcOp('%')">%</button>
-                    <button class="g-calc-btn operator" onclick="gCalcOp('÷')">÷</button>
-
-                    <button class="g-calc-btn" onclick="gCalcNum('7')">7</button>
-                    <button class="g-calc-btn" onclick="gCalcNum('8')">8</button>
-                    <button class="g-calc-btn" onclick="gCalcNum('9')">9</button>
-                    <button class="g-calc-btn operator" onclick="gCalcOp('×')">×</button>
-
-                    <button class="g-calc-btn" onclick="gCalcNum('4')">4</button>
-                    <button class="g-calc-btn" onclick="gCalcNum('5')">5</button>
-                    <button class="g-calc-btn" onclick="gCalcNum('6')">6</button>
-                    <button class="g-calc-btn operator" onclick="gCalcOp('−')">−</button>
-
-                    <button class="g-calc-btn" onclick="gCalcNum('1')">1</button>
-                    <button class="g-calc-btn" onclick="gCalcNum('2')">2</button>
-                    <button class="g-calc-btn" onclick="gCalcNum('3')">3</button>
-                    <button class="g-calc-btn operator" onclick="gCalcOp('+')">+</button>
-
-                    <button class="g-calc-btn" onclick="gCalcAction('±')">±</button>
-                    <button class="g-calc-btn" onclick="gCalcNum('0')">0</button>
-                    <button class="g-calc-btn" onclick="gCalcNum('.')">.</button>
-                    <button class="g-calc-btn equals" onclick="gCalcEquals()">=</button>
-                </div>
-            </div>
-        </div>
-
         <!-- 📅 9. التقويم -->
         <div id="calendar-view" class="section-view">
             <div class="section-label">تقويم المهام والمواعيد</div>
@@ -1129,7 +1150,7 @@
             <div class="section-label">محول العملات المالي المباشر</div>
             <div class="oneui-card">
                 <label style="font-size:12px; color:var(--text-secondary); display:block; margin-bottom:6px;">أدخل المبلغ:</label>
-                <input type="number" id="convertAmountInput" value="100" class="app-input" oninput="calculateCurrencyConversion()">
+                <input type="number" id="convertAmountInput" value="0" class="app-input" oninput="calculateCurrencyConversion()">
                 
                 <div style="display:flex; gap:8px; margin-bottom:12px;">
                     <div style="flex:1;">
@@ -1218,8 +1239,8 @@
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
                     <div>
-                        <strong>تفعيل التذكير الصوتي الدوري</strong>
-                        <div style="font-size:11px; color:var(--text-secondary);">نغمة وإشعار نبوي حتى عند إغلاق التطبيق</div>
+                        <strong>تفعيل الإشعار الدوري</strong>
+                        <div style="font-size:11px; color:var(--text-secondary);">إشعار دوري من النظام حتى عند إغلاق التطبيق، باستخدام صوت الإشعار الافتراضي في Android.</div>
                     </div>
                     <input type="checkbox" id="dhikrReminderToggle" onchange="toggleDhikrReminder(this.checked)" style="width:20px; height:20px; accent-color:var(--accent-primary);">
                 </div>
@@ -1231,7 +1252,7 @@
                     <option value="120">كل ساعتين</option>
                 </select>
 
-                <button onclick="testDhikrChime()" class="tag-badge" style="margin-top:4px;">🎵 تجربة نغمة التذكير والذكر الآن</button>
+                <button onclick="testDhikrChime()" class="tag-badge" style="margin-top:4px;">🔔 اختبار الإشعار الدوري الآن</button>
             </div>
 
             <!-- إعدادات إذن العمل بالخلفية وإلغاء توفير البطارية -->
@@ -1251,10 +1272,15 @@
 
         <!-- 🤲 14. الأذكار -->
         <div id="adhkar-view" class="section-view">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <div class="section-label" style="margin:0;">الأذكار المأثورة</div>
+            <div class="adhkar-header-pro">
+                <div>
+                    <div class="section-label" style="margin:0;">الأذكار المأثورة</div>
+                    <h2 id="adhkarContextTitle">الذكر الآن</h2>
+                    <p id="adhkarContextSubtitle">يتم اختيار الباب وفق وقت اليوم ومواقيت الصلاة.</p>
+                </div>
                 <button class="tag-badge" onclick="switchNavSection('dashboard-view')">← الرئيسية</button>
             </div>
+            <div id="adhkarSourceBadge" class="adhkar-source-badge" aria-hidden="true"></div>
             <div id="adhkarContentContainer"></div>
         </div>
 
@@ -1270,6 +1296,7 @@
        ========================================================= -->
     <div class="rings-dock" id="ringsDock" aria-label="الحلقات">
         <button class="ring-item ring-home" id="ringHome" onclick="switchNavSection('dashboard-view', this)" aria-label="الرئيسية" title="الرئيسية"><span class="ring-icon">⌂</span></button>
+        <button class="ring-item ring-adhkar" id="ringAdhkar" onclick="switchNavSection('adhkar-view', this); pulseRings()" aria-label="الأذكار" title="الأذكار"><span class="ring-icon"><svg class="ring-icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 8h10c.29 0 .57.06.84.13.09-.33.16-.67.16-1.04 0-1.31-.65-2.53-1.74-3.25L12 1 7.74 3.84C6.65 4.56 6 5.78 6 7.09c0 .37.07.71.16 1.04.27-.07.55-.13.84-.13z"/><path d="M24 7c0-1.1-2-3-2-3s-2 1.9-2 3c0 .74.4 1.38 1 1.72V13h-2v-2c0-1.1-.9-2-2-2H7c-1.1 0-2 .9-2 2v2H3V8.72c.6-.34 1-.98 1-1.72 0-1.1-2-3-2-3S0 5.9 0 7c0 .74.4 1.38 1 1.72V21h9v-4c0-1.1.9-2 2-2s2 .9 2 2v4h9V8.72c.6-.34 1-.98 1-1.72z"/></svg></span></button>
         <button class="ring-item ring-section" id="ringSections" onclick="openAllSectionsModal(); pulseRings()" aria-label="الأقسام" title="الأقسام"><span class="ring-icon">☷</span></button>
     </div>
 <!-- نافذة استعراض باقي أقسام التطبيق -->
@@ -1284,7 +1311,6 @@
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('notes-view')">📝 الملاحظات</div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('todos-view')">✅ المهام</div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('finance-view')">📊 المالية</div>
-                <div class="all-sections-grid-item" onclick="triggerNavFromModal('quran-view')">📖 ورد القرآن</div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('calendar-view')">📅 التقويم</div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('vault-view')">🔐 الخزنة</div>
             </div>
@@ -1411,10 +1437,6 @@
         let userDbRef = null;
         let navHistory = ['dashboard-view'];
 
-        let gCalcCurrent = '0';
-        let gCalcPrevious = '';
-        let gCalcOpValue = null;
-        let gCalcShouldReset = false;
 
         let calCurrentYear = new Date().getFullYear();
         let calCurrentMonth = new Date().getMonth();
@@ -1489,7 +1511,7 @@
             if (!Array.isArray(data.knowledgeCards)) data.knowledgeCards = [];
             if (!Array.isArray(data.lifeCards)) data.lifeCards = [];
             if (!data.adhkarCounters) data.adhkarCounters = {};
-            if (!data.quranPortion) data.quranPortion = { surah: 'البقرة', startAya: 1, endAya: 5, completedBatches: 0, lastCompletedDate: '' };
+            delete data.quranPortion; // إزالة بيانات القسم القديم من التخزين المحلي
             if (!data.cachedFeeds) data.cachedFeeds = {
                 weatherHourly: null,
                 weatherLastFetch: 0,
@@ -2221,9 +2243,13 @@
             } else if (type === 'alarm') {
                 title.innerText = '⏰ ضبط تنبيه سريع';
                 container.innerHTML = `
-                    <input type="number" id="actAlarmMins" placeholder="عدد الدقائق (مثال: 15)..." class="app-input" required>
+                    <div class="alarm-time-grid">
+                        <label class="alarm-time-field"><span>الساعات</span><input type="number" id="actAlarmHours" class="app-input" min="0" max="99" step="1" inputmode="numeric" placeholder="0"></label>
+                        <label class="alarm-time-field"><span>الدقائق</span><input type="number" id="actAlarmMins" class="app-input" min="0" max="59" step="1" inputmode="numeric" placeholder="0"></label>
+                    </div>
+                    <div class="alarm-time-hint">أدخل الساعات والدقائق. يجب أن يكون أحدهما على الأقل أكبر من صفر.</div>
                     <input type="text" id="actAlarmTitle" placeholder="اسم التنبيه (اختياري)..." class="app-input">
-                    <button type="button" onclick="submitActAlarmFast()" class="btn-action">ضبط الآن</button>
+                    <button type="button" onclick="submitActAlarmFast()" class="btn-action">⏰ ضبط التنبيه</button>
                 `;
             } else if (type === 'debt') {
                 title.innerText = '🤝 تسجيل دين أو التزام';
@@ -2286,11 +2312,13 @@
         }
 
         function submitActAlarmFast() {
-            const mins = parseInt(document.getElementById('actAlarmMins').value, 10);
-            const title = document.getElementById('actAlarmTitle').value;
-            if (!mins || mins <= 0) return alert('أدخل عدد دقائق صحيح');
+            const hours = Math.max(0, parseInt(document.getElementById('actAlarmHours')?.value || '0', 10) || 0);
+            const minutes = Math.max(0, Math.min(59, parseInt(document.getElementById('actAlarmMins')?.value || '0', 10) || 0));
+            const title = document.getElementById('actAlarmTitle')?.value || '';
+            if (hours === 0 && minutes === 0) return alert('أدخل الساعات أو الدقائق أولاً.');
+            const totalMinutes = (hours * 60) + minutes;
             closeModalAction();
-            addReminderFast(mins, title);
+            addReminderFast(totalMinutes, title);
         }
 
         function submitActDebt() {
@@ -2335,18 +2363,17 @@
             if (addToHistory !== false) {
                 if (navHistory[navHistory.length - 1] !== viewId) {
                     navHistory.push(viewId);
+                    try { history.pushState({ zenosView: viewId }, '', '#'+viewId); } catch(e) {}
                 }
             }
 
             if (viewId === 'knowledge-view') { ensureContentSection('knowledge'); renderKnowledgeTreasury(); }
             if (viewId === 'life-view') { ensureContentSection('life'); renderLifeTreasury(); }
-            if (viewId === 'calc-view') updateGCalcDisplay();
             if (viewId === 'calendar-view') renderCalendarGrid();
             if (viewId === 'adhkar-view') renderDhikrView();
-            if (viewId === 'quran-view') renderQuranView();
             if (viewId === 'currency-view') calculateCurrencyConversion();
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'auto' });
             updateUI();
         }
 
@@ -2368,6 +2395,7 @@
                 const previousView = navHistory[navHistory.length - 1];
                 if (previousView) {
                     switchNavSection(previousView, null, false);
+                    try { history.replaceState({ zenosView: previousView }, '', '#'+previousView); } catch(e) {}
                 }
                 return true;
             }
@@ -2383,26 +2411,35 @@
         };
 
         function setupBackButtonListener() {
-            const App = window.Capacitor?.Plugins?.App;
+            // إنشاء نقطة تاريخ داخل التطبيق يمنع رجوع المتصفح/Android من الخروج مباشرة.
+            try {
+                if (!history.state || history.state.zenosView !== 'dashboard-view') {
+                    history.replaceState({ zenosView: 'dashboard-view' }, '', '#dashboard-view');
+                }
+            } catch(e) {}
 
-            if (App) {
-                App.removeAllListeners('backButton').then(() => {
-                    App.addListener('backButton', () => {
+            const App = window.Capacitor?.Plugins?.App || window.Capacitor?.App;
+            if (App?.addListener) {
+                try {
+                    App.removeAllListeners?.('backButton').catch?.(()=>{});
+                    App.addListener('backButton', async () => {
                         const handled = window.handleSystemBackButton();
-
-                        if (handled) {
-                            return;
-                        }
-
-                        if (App.exitApp) {
-                            App.exitApp();
-                        }
+                        if (!handled && App.exitApp) await App.exitApp();
                     });
-                }).catch(() => {});
+                } catch(e) { console.warn('تعذر ربط زر الرجوع الأصلي:', e); }
             }
 
             window.addEventListener('popstate', () => {
-                window.handleSystemBackButton();
+                // عندما يرجع المتصفح نقرأ آخر قسم من سجل التطبيق بدلاً من مغادرة الصفحة.
+                if (Array.isArray(navHistory) && navHistory.length > 1) {
+                    navHistory.pop();
+                    const previous = navHistory[navHistory.length - 1] || 'dashboard-view';
+                    switchNavSection(previous, null, false);
+                    try { history.replaceState({ zenosView: previous }, '', '#'+previous); } catch(e) {}
+                } else {
+                    try { history.pushState({ zenosView: 'dashboard-view' }, '', '#dashboard-view'); } catch(e) {}
+                    switchNavSection('dashboard-view', null, false);
+                }
             });
         }
 
@@ -2419,11 +2456,6 @@
                 completedWeights += todayTodos.filter(t => t.done).length * 2;
             } else {
                 totalWeights += 2;
-            }
-
-            totalWeights += 3;
-            if (db.quranPortion && db.quranPortion.lastCompletedDate === todayStr) {
-                completedWeights += 3;
             }
 
             totalWeights += 3;
@@ -2536,59 +2568,6 @@
             }
         }
 
-        function gCalcNum(digit) {
-            if ("vibrate" in navigator) navigator.vibrate(20);
-            if (gCalcShouldReset || gCalcCurrent === '0') {
-                gCalcCurrent = (digit === '.') ? '0.' : digit;
-                gCalcShouldReset = false;
-            } else {
-                if (digit === '.' && gCalcCurrent.includes('.')) return;
-                gCalcCurrent += digit;
-            }
-            updateGCalcDisplay();
-        }
-
-        function gCalcOp(op) {
-            if ("vibrate" in navigator) navigator.vibrate(25);
-            gCalcPrevious = gCalcCurrent;
-            gCalcOpValue = op;
-            gCalcShouldReset = true;
-            updateGCalcDisplay();
-        }
-
-        function gCalcEquals() {
-            if ("vibrate" in navigator) navigator.vibrate(40);
-            if (gCalcOpValue === null || gCalcPrevious === '') return;
-            const prev = parseFloat(gCalcPrevious);
-            const curr = parseFloat(gCalcCurrent);
-            let result = 0;
-            switch(gCalcOpValue) {
-                case '+': result = prev + curr; break;
-                case '−': result = prev - curr; break;
-                case '×': result = prev * curr; break;
-                case '÷': result = curr !== 0 ? prev / curr : 0; break;
-                case '%': result = (prev * curr) / 100; break;
-            }
-            document.getElementById('gCalcExpr').innerText = `${gCalcPrevious} ${gCalcOpValue} ${gCalcCurrent} =`;
-            gCalcCurrent = parseFloat(result.toFixed(8)).toString();
-            gCalcPrevious = ''; gCalcOpValue = null; gCalcShouldReset = true;
-            document.getElementById('gCalcDisplay').innerText = gCalcCurrent;
-        }
-
-        function gCalcAction(act) {
-            if ("vibrate" in navigator) navigator.vibrate(25);
-            if (act === 'AC') { gCalcCurrent = '0'; gCalcPrevious = ''; gCalcOpValue = null; gCalcShouldReset = false; }
-            else if (act === 'DEL') { gCalcCurrent = (!gCalcShouldReset && gCalcCurrent.length > 1) ? gCalcCurrent.slice(0, -1) : '0'; }
-            else if (act === '±') { gCalcCurrent = (parseFloat(gCalcCurrent) * -1).toString(); }
-            updateGCalcDisplay();
-        }
-
-        function updateGCalcDisplay() {
-            const exprEl = document.getElementById('gCalcExpr');
-            const mainEl = document.getElementById('gCalcDisplay');
-            if (exprEl) exprEl.innerText = gCalcPrevious + (gCalcOpValue ? ` ${gCalcOpValue} ` : '');
-            if (mainEl) mainEl.innerText = gCalcCurrent;
-        }
 
         function renderCalendarGrid() {
             const grid = document.getElementById('calDaysGrid');
@@ -2623,61 +2602,104 @@
             container.innerHTML = dayTodos.map(t => `<div class="list-row"><div>${t.title || t.text}</div><span>${t.done ? '✅' : '⏳'}</span></div>`).join('');
         }
 
-        const quranPortionsDB = [
-            {
-                start: 1, end: 5, title: "سورة البقرة: الآيات (1 - 5)",
-                text: "﴿ الم * ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ * الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ * وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ * أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ ﴾",
-                tafsir: "<b>مختصر تفسير ابن كثير:</b> ابتدأت السورة بالحروف المقطعة إعجازاً للمشركين. ثم أخبر أن هذا الكتاب لا شك فيه بوجه من الوجوه، وأنه هدى ونور ونجاة للمتقين الذين يؤمنون بالغيب ويقيمون الصلاة وينفقون في سبيل الله."
-            }
-        ];
-
-        function renderQuranView() {
-            const currentIdx = (db.quranPortion.completedBatches || 0) % quranPortionsDB.length;
-            const portion = quranPortionsDB[currentIdx];
-            document.getElementById('quranProgressHeader').innerHTML = `<span class="quran-ayah-badge">${portion.title}</span><span style="font-size:12px; color:var(--text-secondary); font-weight:700;">الورد: 5 آيات يومياً</span>`;
-            document.getElementById('quranVersesContainer').innerHTML = `<div class="quran-verse-block">${portion.text}</div>`;
-            document.getElementById('quranTafsirContainer').innerHTML = `<div class="quran-tafsir-block">${portion.tafsir}</div>`;
-        }
-
-        function completeQuranPortion() {
-            db.quranPortion.completedBatches = (db.quranPortion.completedBatches || 0) + 1;
-            db.quranPortion.lastCompletedDate = todayStr;
-            finalizeAction();
-            renderQuranView();
-            showToast('✅ تم إكمال الورد بنجاح');
-            if ("vibrate" in navigator) navigator.vibrate([70, 40, 70]);
-        }
-
+        /* =========================================================
+           🤲 الأذكار المأثورة — محتوى ثابت المصدر، دون توليد آلي.
+           المراجع الأساسية: الدرر السنية + فتاوى الشيخ ابن باز.
+           يتم عرض الباب المناسب حسب وقت الصلاة، مع أولوية أذكار دبر الصلاة لمدة ساعة.
+           ========================================================= */
         const adhkarDatabase = [
-            { id: 'a1', text: 'أَسْتَغْفِرُ اللهَ، أَسْتَغْفِرُ اللهَ، أَسْتَغْفِرُ اللهَ. اللَّهُمَّ أَنْتَ السَّلامُ وَمِنْكَ السَّلامُ، تَبَارَكْتَ يَا ذَا الْجَلالِ وَالإِكْرَامِ.', count: 1 },
-            { id: 'a2', text: 'سُبْحَانَ اللهِ (33 مرة)', count: 33 },
-            { id: 'a3', text: 'الْحَمْدُ للهِ (33 مرة)', count: 33 },
-            { id: 'a4', text: 'اللهُ أَكْبَرُ (33 مرة)', count: 33 }
+            {id:'post-istighfar', category:'بعد الصلاة', count:3, title:'الاستغفار', text:'أَسْتَغْفِرُ اللهَ', source:'صحيح مسلم (591)', sourceUrl:'https://dorar.net/feqhia/1061/'},
+            {id:'post-salam', category:'بعد الصلاة', count:1, title:'اللهم أنت السلام', text:'اللَّهُمَّ أَنْتَ السَّلَامُ، وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ.', source:'صحيح مسلم (591)', sourceUrl:'https://dorar.net/feqhia/1061/'},
+            {id:'post-tasbih', category:'بعد الصلاة', count:33, title:'التسبيح', text:'سُبْحَانَ اللهِ', source:'صحيح مسلم (597)', sourceUrl:'https://dorar.net/hadith/sharh/23604'},
+            {id:'post-hamd', category:'بعد الصلاة', count:33, title:'التحميد', text:'الْحَمْدُ لِلَّهِ', source:'صحيح مسلم (597)', sourceUrl:'https://dorar.net/hadith/sharh/23604'},
+            {id:'post-takbir', category:'بعد الصلاة', count:33, title:'التكبير', text:'اللهُ أَكْبَرُ', source:'صحيح مسلم (597)', sourceUrl:'https://dorar.net/hadith/sharh/23604'},
+            {id:'post-tahlil', category:'بعد الصلاة', count:1, title:'إتمام المائة', text:'لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', source:'صحيح مسلم (597)', sourceUrl:'https://dorar.net/hadith/sharh/23604'},
+            {id:'post-ayatul-kursi', category:'بعد الصلاة', count:1, title:'آية الكرسي', text:'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ.', source:'فتوى ابن باز في فضل قراءتها دبر الصلوات', sourceUrl:'https://binbaz.org.sa/fatwas/13938/'},
+
+            {id:'morning-sayyid', category:'أذكار الصباح', count:1, title:'سيد الاستغفار', text:'اللَّهُمَّ أَنْتَ رَبِّي، لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي، فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ.', source:'صحيح البخاري (6306)', sourceUrl:'https://dorar.net/h/1Xe5exzh'},
+            {id:'evening-sayyid', category:'أذكار المساء', count:1, title:'سيد الاستغفار', text:'اللَّهُمَّ أَنْتَ رَبِّي، لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي، فَاغْفِرْ لِي، فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ.', source:'صحيح البخاري (6306)', sourceUrl:'https://dorar.net/h/1Xe5exzh'},
+            {id:'morning-ikhlas', category:'أذكار الصباح', count:3, title:'سورة الإخلاص', text:'قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ.', source:'أبو داود (5082)، الترمذي (3575) — صحيح', sourceUrl:'https://dorar.net/h/4HhZknUQ'},
+            {id:'morning-falaq', category:'أذكار الصباح', count:3, title:'سورة الفلق', text:'قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِنْ شَرِّ مَا خَلَقَ ۝ وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ.', source:'أبو داود (5082)، الترمذي (3575) — صحيح', sourceUrl:'https://dorar.net/h/4HhZknUQ'},
+            {id:'morning-nas', category:'أذكار الصباح', count:3, title:'سورة الناس', text:'قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَٰهِ النَّاسِ ۝ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ.', source:'أبو داود (5082)، الترمذي (3575) — صحيح', sourceUrl:'https://dorar.net/h/4HhZknUQ'},
+            {id:'evening-ikhlas', category:'أذكار المساء', count:3, title:'سورة الإخلاص', text:'قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ.', source:'أبو داود (5082)، الترمذي (3575) — صحيح', sourceUrl:'https://dorar.net/h/4HhZknUQ'},
+            {id:'evening-falaq', category:'أذكار المساء', count:3, title:'سورة الفلق', text:'قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِنْ شَرِّ مَا خَلَقَ ۝ وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ.', source:'أبو داود (5082)، الترمذي (3575) — صحيح', sourceUrl:'https://dorar.net/h/4HhZknUQ'},
+            {id:'evening-nas', category:'أذكار المساء', count:3, title:'سورة الناس', text:'قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَٰهِ النَّاسِ ۝ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ.', source:'أبو داود (5082)، الترمذي (3575) — صحيح', sourceUrl:'https://dorar.net/h/4HhZknUQ'},
+            {id:'morning-bismillah', category:'أذكار الصباح', count:3, title:'بسم الله الذي لا يضر', text:'بِسْمِ اللهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ، وَهُوَ السَّمِيعُ الْعَلِيمُ.', source:'أبو داود (5088)، الترمذي (3388)، ابن ماجه (3869) — صحيح', sourceUrl:'https://dorar.net/h/dGEw6pPG'},
+            {id:'evening-bismillah', category:'أذكار المساء', count:3, title:'بسم الله الذي لا يضر', text:'بِسْمِ اللهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ، وَهُوَ السَّمِيعُ الْعَلِيمُ.', source:'أبو داود (5088)، الترمذي (3388)، ابن ماجه (3869) — صحيح', sourceUrl:'https://dorar.net/h/dGEw6pPG'},
+            {id:'morning-raditu', category:'أذكار الصباح', count:3, title:'رضيت بالله ربًا', text:'رَضِيتُ بِاللهِ رَبًّا، وَبِالإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ نَبِيًّا.', source:'مسند أحمد (18967) — صحيح لغيره', sourceUrl:'https://dorar.net/h/UuyC8dhT'},
+            {id:'evening-raditu', category:'أذكار المساء', count:3, title:'رضيت بالله ربًا', text:'رَضِيتُ بِاللهِ رَبًّا، وَبِالإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ نَبِيًّا.', source:'مسند أحمد (18967) — صحيح لغيره', sourceUrl:'https://dorar.net/h/UuyC8dhT'},
+            {id:'morning-tasbih', category:'أذكار الصباح', count:100, title:'سبحان الله وبحمده', text:'سُبْحَانَ اللهِ وَبِحَمْدِهِ.', source:'صحيح مسلم — مائة مرة صباحًا ومساءً', sourceUrl:'https://binbaz.org.sa/fatwas/23415/'},
+            {id:'evening-tasbih', category:'أذكار المساء', count:100, title:'سبحان الله وبحمده', text:'سُبْحَانَ اللهِ وَبِحَمْدِهِ.', source:'صحيح مسلم — مائة مرة صباحًا ومساءً', sourceUrl:'https://binbaz.org.sa/fatwas/23415/'},
+            {id:'morning-health', category:'أذكار الصباح', count:3, title:'اللهم عافني في بدني', text:'اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ.', source:'سنن أبي داود (5090) — إسناده حسن', sourceUrl:'https://dorar.net/h/2JhoRZY5'},
+            {id:'evening-health', category:'أذكار المساء', count:3, title:'اللهم عافني في بدني', text:'اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ.', source:'سنن أبي داود (5090) — إسناده حسن', sourceUrl:'https://dorar.net/h/2JhoRZY5'},
+            {id:'morning-refuge', category:'أذكار الصباح', count:3, title:'التعوذ من الكفر والفقر وعذاب القبر', text:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَهَ إِلَّا أَنْتَ.', source:'سنن أبي داود (5090) — إسناده حسن', sourceUrl:'https://dorar.net/h/2JhoRZY5'},
+            {id:'evening-refuge', category:'أذكار المساء', count:3, title:'التعوذ من الكفر والفقر وعذاب القبر', text:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَهَ إِلَّا أَنْتَ.', source:'سنن أبي داود (5090) — إسناده حسن', sourceUrl:'https://dorar.net/h/2JhoRZY5'},
+            {id:'morning-state', category:'أذكار الصباح', count:1, title:'أصبحنا وأصبح الملك لله', text:'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ. رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، وَأَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ.', source:'صحيح مسلم (2723)', sourceUrl:'https://dorar.net/h/SUjNATlp?osoul=1'},
+            {id:'evening-state', category:'أذكار المساء', count:1, title:'أمسينا وأمسى الملك لله', text:'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذِهِ اللَّيْلَةِ وَشَرِّ مَا بَعْدَهَا. رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، وَأَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ.', source:'صحيح مسلم (2723)', sourceUrl:'https://dorar.net/h/SUjNATlp?osoul=1'},
+
+            {id:'general-tahlil', category:'ذكر عام', count:100, title:'لا إله إلا الله وحده لا شريك له', text:'لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', source:'صحيح البخاري وصحيح مسلم — مائة مرة في اليوم', sourceUrl:'https://binbaz.org.sa/fatwas/12824/'},
+            {id:'general-istighfar', category:'ذكر عام', count:100, title:'الاستغفار', text:'أَسْتَغْفِرُ اللهَ وَأَتُوبُ إِلَيْهِ.', source:'من الذكر والاستغفار المشروع — ابن باز', sourceUrl:'https://binbaz.org.sa/fatwas/12824/'},
+            {id:'general-four', category:'ذكر عام', count:1, title:'الباقيات الصالحات', text:'سُبْحَانَ اللهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللهُ، وَاللهُ أَكْبَرُ.', source:'ابن باز — من أذكار الذكر العام', sourceUrl:'https://binbaz.org.sa/fatwas/12824/'}
         ];
+
+        function getDhikrDayKey(){
+            const d=new Date();
+            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        }
+        function getDhikrCounterKey(id, occurrence='day') { return `${getDhikrDayKey()}::${occurrence}::${id}`; }
+        function getDhikrOccurrence(ctx){ return ctx.category==='بعد الصلاة' ? `prayer-${ctx.prayerName||'current'}` : ctx.category; }
+        function getCurrentDhikrContext() {
+            const now = new Date();
+            const today = calculatePalestinePrayerTimes(now).map(p => ({name:p.name, time:p.targetDate}));
+            let lastPrayer = null;
+            for (const p of today) if (p.time <= now) lastPrayer = p;
+            if (!lastPrayer) {
+                const yesterday = calculatePalestinePrayerTimes(new Date(now.getTime() - 86400000));
+                lastPrayer = {name:yesterday[4].name, time:yesterday[4].targetDate};
+            }
+            const minutesAfter = Math.floor((now - lastPrayer.time) / 60000);
+            if (minutesAfter >= 0 && minutesAfter < 60) return {category:'بعد الصلاة', prayerName:lastPrayer.name, title:`أذكار دبر ${lastPrayer.name}`, subtitle:'اضغط على كل ذكر مرة واحدة في كل تكرار؛ العداد ينخفض حتى الصفر.', icon:'🕌'};
+            const fajr=today[0]?.time, dhuhr=today[1]?.time, maghrib=today[3]?.time, isha=today[4]?.time;
+            if (fajr && dhuhr && now >= fajr && now < dhuhr) return {category:'أذكار الصباح', title:'أذكار الصباح', subtitle:'ورد الصباح المأثور. الوقت واسع، ويمكن قوله قبل الصلاة أو بعدها وبعد طلوع الشمس.', icon:'🌤️'};
+            if (dhuhr && maghrib && now >= dhuhr && now < maghrib) return {category:'ذكر عام', title:'ذكر الله خلال النهار', subtitle:'ورد ثابت للذكر العام بين أوقات الصباح والمساء.', icon:'☀️'};
+            if (maghrib && isha && now >= maghrib && now < isha) return {category:'أذكار المساء', title:'أذكار المساء', subtitle:'ورد المساء المأثور، ويُجتهد فيه من آخر النهار وأول الليل.', icon:'🌙'};
+            return {category:'ذكر عام', title:'ذكر الله في بقية اليوم', subtitle:'أذكار ثابتة لا تتطلب وقتًا محددًا.', icon:'✨'};
+        }
 
         function renderDhikrView() {
-            const container = document.getElementById('adhkarContentContainer');
-            if (!container) return;
-            container.innerHTML = adhkarDatabase.map(d => {
-                const remaining = (db.adhkarCounters[d.id] !== undefined) ? db.adhkarCounters[d.id] : d.count;
-                return `
-                    <div class="dhikr-card" onclick="decrementDhikr('${d.id}', ${d.count})">
-                        <div>${d.text}</div>
-                        <span class="tag-badge ${remaining === 0 ? 'green' : ''}" style="margin-top:8px;">
-                            ${remaining === 0 ? '✅ اكتمل' : `المتبقي: ${remaining}`}
-                        </span>
-                    </div>
-                `;
+            const container=document.getElementById('adhkarContentContainer'); if(!container)return;
+            const ctx=getCurrentDhikrContext();
+            const title=document.getElementById('adhkarContextTitle'); const sub=document.getElementById('adhkarContextSubtitle');
+            if(title) title.textContent=`${ctx.icon} ${ctx.title}`;
+            if(sub) sub.textContent=ctx.subtitle;
+            const items=adhkarDatabase.filter(x=>x.category===ctx.category);
+            const occurrence=getDhikrOccurrence(ctx);
+            const completed=items.filter(d=>(db.adhkarCounters[getDhikrCounterKey(d.id,occurrence)] ?? d.count)===0).length;
+            const totalRemaining=items.reduce((sum,d)=>sum+(db.adhkarCounters[getDhikrCounterKey(d.id,occurrence)] ?? d.count),0);
+            const totalTarget=items.reduce((sum,d)=>sum+d.count,0);
+            const progress=totalTarget?Math.round(((totalTarget-totalRemaining)/totalTarget)*100):0;
+            const sourceBox=document.getElementById('adhkarSourceBadge');
+            if(sourceBox) sourceBox.innerHTML=`<strong>المصدر:</strong> الموسوعة الحديثية في الدرر السنية + فتاوى الشيخ ابن باز. المحتوى محفوظ داخل التطبيق ولا يحتاج جلبًا متزامنًا.`;
+            container.innerHTML=`<div class="adhkar-progress-pro"><div><strong>${completed}/${items.length} مكتملة</strong><span>${totalRemaining} تكرارًا متبقيًا</span></div><div class="adhkar-progress-track"><span style="width:${progress}%"></span></div></div>` + items.map(d=>{
+                const key=getDhikrCounterKey(d.id,occurrence);
+                const remaining=db.adhkarCounters[key]!==undefined?db.adhkarCounters[key]:d.count;
+                const done=remaining===0;
+                return `<article class="dhikr-card dhikr-pro-card ${done?'is-complete':''}" onclick="decrementDhikr('${d.id}',${d.count},'${occurrence}')">
+                    <div class="dhikr-pro-meta"><span>${d.title}</span><span>${done?'✓ مكتمل':`متبقي ${remaining} من ${d.count}`}</span></div>
+                    <div class="dhikr-pro-text">${d.text}</div>
+                    <div class="dhikr-counter-wrap"><span class="dhikr-counter-label">${done?'اكتمل':'المتبقي'}</span><div class="dhikr-counter-pill ${done?'done':''}">${done?'✓':remaining}</div><span class="dhikr-counter-total">من ${d.count}</span></div>
+                    <div class="dhikr-pro-footer"><span>${done?'اكتمل هذا الذكر اليوم':'اضغط مرة واحدة لكل تكرار'}</span></div>
+                </article>`;
             }).join('');
         }
 
-        function decrementDhikr(id, originalCount) {
-            let current = (db.adhkarCounters[id] !== undefined) ? db.adhkarCounters[id] : originalCount;
-            if (current > 0) {
-                current--; db.adhkarCounters[id] = current;
-                if ("vibrate" in navigator) navigator.vibrate(30);
-                finalizeAction();
-                renderDhikrView();
+        function decrementDhikr(id, originalCount, occurrence='day') {
+            const key=getDhikrCounterKey(id,occurrence);
+            let current=(db.adhkarCounters[key]!==undefined)?db.adhkarCounters[key]:originalCount;
+            if(current>0){
+                current--; db.adhkarCounters[key]=current;
+                if('vibrate' in navigator) navigator.vibrate(current===0?[35,45,35]:20);
+                finalizeAction(); renderDhikrView();
             }
         }
 
@@ -2765,6 +2787,7 @@
         const browserNotificationTimers = new Map();
         let periodicBrowserReminderTimer = null;
         const PERIODIC_NATIVE_BASE_ID = 1800000000;
+        const NATIVE_NOTIFICATION_CHANNEL_ID = 'lifeos_ultra_alarm_v6';
 
         function getBrowserNotificationTitle(title) {
             return title || 'تذكير من Zen OS';
@@ -2811,7 +2834,7 @@
                 }
                 if (plugin.createChannel) {
                     await plugin.createChannel({
-                        id:'lifeos_ultra_alarm_v5', name:'تنبيهات LifeOS المهمة',
+                        id:NATIVE_NOTIFICATION_CHANNEL_ID, name:'تنبيهات LifeOS المهمة',
                         description:'تنبيهات المواعيد والصلوات والتذكير الدوري',
                         importance:5, visibility:1, sound:'marimba', vibration:true, lights:true
                     });
@@ -2945,7 +2968,7 @@
                     body:`حان الآن موعد: ${title || 'التنبيه المحدد'}`,
                     id:safeId,
                     schedule:{at:targetDate, allowWhileIdle:true},
-                    sound:'marimba', channelId:'lifeos_ultra_alarm_v5',
+                    sound:'marimba', channelId:NATIVE_NOTIFICATION_CHANNEL_ID,
                     extra:{lifeos:true, reminderId:String(reminderId)}
                 };
                 try {
@@ -2980,11 +3003,45 @@
             }
         }
 
+        async function testDhikrChime() {
+            const plugin = getNativePlugin();
+            if (plugin) {
+                try {
+                    if (!(await requestNotificationPermission())) { showToast('⚠️ اسمح بإشعارات التطبيق أولًا'); return; }
+                    const id = PERIODIC_NATIVE_BASE_ID + 999;
+                    await plugin.cancel?.({notifications:[{id}]});
+                    const result = await plugin.schedule({notifications:[{
+                        id, title:'🌿 تجربة التذكير بالذكر',
+                        body:'هذه تجربة فورية للإشعار الدوري. إذا ظهر الإشعار فالنظام يعمل.',
+                        schedule:{at:new Date(Date.now()+5000), allowWhileIdle:true, isExactNotification:false},
+                        channelId:PERIODIC_NOTIFICATION_CHANNEL_ID,
+                        extra:{lifeos:true, periodicReminderTest:true}
+                    }]});
+                    showToast(result?.warning ? '⏱️ تم الاختبار، وقد يؤخر Android التنبيه قليلًا' : '🔔 سيصل اختبار التذكير بعد 5 ثوانٍ');
+                    return;
+                } catch (e) { console.warn('فشل اختبار التذكير الأصلي:', e); }
+            }
+            try {
+                const ctx = getAudioContext();
+                if (ctx) {
+                    const osc=ctx.createOscillator(), gain=ctx.createGain();
+                    osc.frequency.value=880; gain.gain.setValueAtTime(.0001,ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(.12,ctx.currentTime+.02);
+                    gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.5);
+                    osc.connect(gain); gain.connect(ctx.destination); osc.start(); osc.stop(ctx.currentTime+.55);
+                }
+                await requestBrowserNotificationPermission();
+                showBrowserNotification('🌿 تجربة الإشعار الدوري','هذه تجربة للإشعار الدوري أثناء بقاء الصفحة مفتوحة.');
+                showToast('🔔 تمت تجربة التذكير في المتصفح');
+            } catch(e) { showToast('⚠️ تعذر تشغيل تجربة التذكير'); }
+        }
+
         function clearPeriodicBrowserReminder() {
             if (periodicBrowserReminderTimer) clearTimeout(periodicBrowserReminderTimer);
             periodicBrowserReminderTimer = null;
         }
 
+        let periodicReminderCursor = 0;
         function getPeriodicReminderText() {
             const list = [
                 'اللهم صل وسلم على نبينا محمد ﷺ',
@@ -2992,7 +3049,30 @@
                 'لا حول ولا قوة إلا بالله',
                 'أستغفر الله وأتوب إليه'
             ];
-            return list[Math.floor(Math.random() * list.length)];
+            const text = list[periodicReminderCursor % list.length];
+            periodicReminderCursor++;
+            return text;
+        }
+
+        async function ensurePeriodicNotificationChannel(){
+            const plugin = getNativePlugin();
+            if (!plugin?.createChannel) return true;
+            try {
+                // قناة مستقلة للتذكير الدوري: لا نحدد sound، فيستخدم Android صوت الإشعار الافتراضي.
+                await plugin.createChannel({
+                    id:PERIODIC_NOTIFICATION_CHANNEL_ID,
+                    name:'التذكير الدوري',
+                    description:'إشعارات دورية للذكر والصلاة على النبي ﷺ',
+                    importance:3,
+                    visibility:1,
+                    vibration:true,
+                    lights:true
+                });
+                return true;
+            } catch(e) {
+                console.warn('تعذر إنشاء قناة التذكير الدوري:', e);
+                return false;
+            }
         }
 
         async function schedulePeriodicReminder() {
@@ -3009,6 +3089,7 @@
             if (plugin) {
                 try {
                     if (!(await requestNotificationPermission())) return;
+                    if (!(await ensurePeriodicNotificationChannel())) return;
                     await cancelPeriodicNativeNotifications();
                     const notifications = [];
                     const now = Date.now();
@@ -3017,8 +3098,8 @@
                             id:PERIODIC_NATIVE_BASE_ID + (i - 1),
                             title:'🌿 تذكير بالذكر',
                             body:getPeriodicReminderText(),
-                            schedule:{at:new Date(now + intervalMinutes * 60000 * i), allowWhileIdle:true},
-                            sound:'marimba', channelId:'lifeos_ultra_alarm_v5',
+                            schedule:{at:new Date(now + intervalMinutes * 60000 * i), allowWhileIdle:true, isExactNotification:false},
+                            channelId:PERIODIC_NOTIFICATION_CHANNEL_ID,
                             extra:{lifeos:true, periodicReminder:true}
                         });
                     }
@@ -3044,7 +3125,7 @@
             db.settings.dhikrReminder = Boolean(enabled);
             finalizeAction();
             schedulePeriodicReminder();
-            showToast(enabled ? '🔔 تم تفعيل التذكير كل ساعة' : '🔕 تم إيقاف التذكير الدوري');
+            showToast(enabled ? '🔔 تم تفعيل الإشعار الدوري' : '🔕 تم إيقاف التذكير الدوري');
         }
 
         function changeDhikrInterval(value) {
@@ -3064,11 +3145,27 @@
             if (newName !== null) { r.title = newName.trim() || 'تنبيه'; finalizeAction(); }
         }
 
-        function confirmDeleteReminder(id) {
-            if (confirm('هل تريد إلغاء التنبيه؟')) {
-                db.reminders = db.reminders.filter(r => r.id !== id);
-                finalizeAction();
+        async function cancelScheduledReminder(id) {
+            const key = String(id);
+            const timer = browserNotificationTimers.get(key);
+            if (timer) { clearTimeout(timer); browserNotificationTimers.delete(key); }
+            const plugin = getNativePlugin();
+            if (plugin) {
+                try {
+                    const numericId = Number(id);
+                    const safeId = Number.isFinite(numericId) ? Math.abs(Math.floor(numericId % 2147483647)) : null;
+                    if (safeId !== null && plugin.cancel) await plugin.cancel({ notifications: [{ id: safeId }] });
+                } catch (e) { console.warn('تعذر إلغاء إشعار Android:', e); }
             }
+        }
+
+        async function confirmDeleteReminder(id) {
+            if (!confirm('هل تريد إلغاء التنبيه نهائياً؟')) return;
+            await cancelScheduledReminder(id);
+            db.reminders = db.reminders.filter(r => String(r.id) !== String(id));
+            finalizeAction();
+            renderRings();
+            showToast('✖ تم إلغاء التنبيه');
         }
 
         function handleDashboardTodo(event) {
@@ -3141,11 +3238,14 @@
             pulseRings();
         }
 
+        function adhkarRingSvg(){ return `<svg class="ring-icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 8h10c.29 0 .57.06.84.13.09-.33.16-.67.16-1.04 0-1.31-.65-2.53-1.74-3.25L12 1 7.74 3.84C6.65 4.56 6 5.78 6 7.09c0 .37.07.71.16 1.04.27-.07.55-.13.84-.13z"/><path d="M24 7c0-1.1-2-3-2-3s-2 1.9-2 3c0 .74.4 1.38 1 1.72V13h-2v-2c0-1.1-.9-2-2-2H7c-1.1 0-2 .9-2 2v2H3V8.72c.6-.34 1-.98 1-1.72 0-1.1-2-3-2-3S0 5.9 0 7c0 .74.4 1.38 1 1.72V21h9v-4c0-1.1.9-2 2-2s2 .9 2 2v4h9V8.72c.6-.34 1-1.72 1-1.72z"/></svg>`; }
+
         function renderRings() {
             const dock = document.getElementById('ringsDock');
             if (!dock) return;
             const fixed = `
                 <button class="ring-item ring-home" id="ringHome" onclick="switchNavSection('dashboard-view', this)" aria-label="الرئيسية" title="الرئيسية"><span class="ring-icon">⌂</span></button>
+                <button class="ring-item ring-adhkar" id="ringAdhkar" onclick="switchNavSection('adhkar-view', this); pulseRings()" aria-label="الأذكار" title="الأذكار"><span class="ring-icon">${adhkarRingSvg()}</span></button>
                 <button class="ring-item ring-section" id="ringSections" onclick="openAllSectionsModal(); pulseRings()" aria-label="الأقسام" title="الأقسام"><span class="ring-icon">☷</span></button>`;
             const now = Date.now();
             const reminders = (Array.isArray(db.reminders) ? db.reminders : [])
@@ -3292,12 +3392,17 @@
             db.reminders.forEach(r => {
                 if (!r.triggered && r.targetTime <= now) {
                     r.triggered = true;
+                    r.notificationScheduled = false;
                     changed = true;
                     startAlarm(r.title);
                 }
             });
-            renderCombinedReminders();
-            if (changed) finalizeAction();
+            // لا نعيد بناء الرئيسية كل ثانية؛ نحدّث العدادات فقط لتقليل التقطيع.
+            updateRingCountdowns();
+            const activeView = document.querySelector('.section-view.active');
+            if (activeView?.id === 'prayers-alarms-view') renderCombinedReminders();
+            if (activeView?.id === 'adhkar-view') renderDhikrView();
+            if (changed) { renderRings(); finalizeAction(); }
         }, 1000);
 
         function calculatePalestinePrayerTimes(date = new Date()) {
@@ -3376,8 +3481,8 @@
 
         const SECTION_META = {
             'knowledge-view': ['💎', 'المعلومات'], 'life-view': ['🌿', 'الحياة'], 'islamiyat-view': ['🤲', 'إسلاميات'], 'notes-view': ['📝', 'الملاحظات'],
-            'todos-view': ['✅', 'المهام'], 'finance-view': ['📊', 'المالية'], 'quran-view': ['📖', 'ورد القرآن'],
-            'calc-view': ['🧮', 'الحاسبة'], 'calendar-view': ['📅', 'التقويم'], 'weather-view': ['⛅', 'الطقس'],
+            'todos-view': ['✅', 'المهام'], 'finance-view': ['📊', 'المالية'],
+            'calendar-view': ['📅', 'التقويم'], 'weather-view': ['⛅', 'الطقس'],
             'currency-view': ['💱', 'العملات'], 'vault-view': ['🔐', 'الخزنة'], 'settings-view': ['⚙️', 'الإعدادات'],
             'adhkar-view': ['🤲', 'الأذكار'], 'prayers-alarms-view': ['🕌', 'مواقيت الصلاة والتنبيهات']
         };
@@ -3462,6 +3567,12 @@
             }
 
             try {
+                await schedulePeriodicReminder();
+            } catch (e) {
+                console.warn('تعذر تفعيل التذكير الدوري المحفوظ:', e);
+            }
+
+            try {
                 await rescheduleStoredNotifications();
             } catch (e) {
                 console.warn('تعذر إعادة جدولة التنبيهات', e);
@@ -3480,6 +3591,12 @@
             updateUI();
             renderRings();
         })();
+    </script>
+<script>
+        // تسجيل عامل الخدمة حتى يصبح الموقع قابلاً للتثبيت عند تشغيله عبر HTTPS.
+        if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+            window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(err => console.warn('SW:', err)));
+        }
     </script>
 </body>
 </html>
