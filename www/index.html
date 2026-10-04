@@ -338,6 +338,36 @@
         body.ios-mode:not(.light-mode) .ring-item.ring-adhkar {
             box-shadow:0 7px 18px rgba(0,0,0,.28), 0 0 13px color-mix(in srgb,var(--accent-primary) 11%,transparent), inset 0 1px 0 rgba(255,255,255,.08) !important;
         }
+        /* ===== الأذكار: أبواب مستقلة + واجهة ثقيلة معلوماتيًا ===== */
+        .adhkar-tab-strip{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;margin:0 0 10px;scrollbar-width:none;direction:rtl;}
+        .adhkar-tab-strip::-webkit-scrollbar{display:none;}
+        .adhkar-tab{flex:0 0 auto;border:1px solid var(--border-subtle);background:var(--surface-inner);color:var(--text-secondary);border-radius:999px;padding:10px 14px;font:inherit;font-size:12px;font-weight:850;cursor:pointer;white-space:nowrap;}
+        .adhkar-tab.active{background:color-mix(in srgb,var(--accent-primary) 12%,var(--surface-panel));border-color:color-mix(in srgb,var(--accent-primary) 34%,var(--border-subtle));color:var(--text-primary);box-shadow:var(--shadow-subtle);}
+        .adhkar-kahf-link{display:flex;justify-content:center;margin:16px 0 6px;}
+        .adhkar-bundle-note{background:var(--surface-inner);border:1px solid var(--border-subtle);border-radius:var(--radius-card);padding:13px 15px;margin-bottom:14px;color:var(--text-secondary);line-height:1.8;font-size:12px;}
+
+        /* ===== حفظ سورة الكهف ===== */
+        .kahf-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;}
+        .kahf-header h2{margin:4px 0 5px;font-size:25px;font-weight:950;}
+        .kahf-header p{margin:0;color:var(--text-secondary);font-size:12px;line-height:1.8;}
+        .kahf-progress-card,.kahf-tools-card{background:var(--surface-panel);border:1px solid var(--border-subtle);border-radius:22px;padding:15px;margin-bottom:12px;box-shadow:var(--shadow-subtle);}
+        .kahf-progress-top,.kahf-tools-head{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;font-weight:850;}
+        .kahf-progress-track{height:7px;border-radius:999px;background:var(--surface-inner);overflow:hidden;margin-top:10px;}
+        .kahf-progress-track span{display:block;height:100%;border-radius:inherit;background:var(--accent-primary);transition:width .2s ease;}
+        .kahf-tools-grid{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px;}
+        .kahf-tools-grid .tag-badge{margin:0;cursor:pointer;}
+        .kahf-repeat-status{margin-top:9px;font-size:11px;color:var(--text-secondary);text-align:center;}
+        .kahf-ayah-card{background:var(--surface-panel);border:1px solid var(--border-subtle);border-radius:26px;padding:22px 18px;margin-bottom:12px;box-shadow:var(--shadow-subtle);min-height:280px;display:flex;flex-direction:column;justify-content:center;}
+        .kahf-ayah-meta{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:16px;color:var(--text-secondary);font-size:12px;font-weight:850;}
+        .kahf-ayah-text{font-family:"Amiri","Traditional Arabic",serif;font-size:25px;line-height:2.25;text-align:center;color:var(--text-primary);font-weight:600;}
+        .kahf-ayah-text.hidden{filter:blur(9px);user-select:none;opacity:.08;}
+        .kahf-source{margin-top:16px;text-align:center;font-size:10px;color:var(--text-tertiary);}
+        .kahf-nav-actions{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:8px;margin-bottom:10px;}
+        .kahf-nav-actions .btn-action{margin:0;}
+        .kahf-save{background:var(--accent-primary) !important;color:#fff !important;}
+        .kahf-memory-note{background:var(--surface-inner);border:1px solid var(--border-subtle);border-radius:16px;padding:11px 13px;color:var(--text-secondary);font-size:11px;line-height:1.8;text-align:center;}
+        @media(max-width:520px){.kahf-header{flex-direction:column}.kahf-ayah-text{font-size:22px;line-height:2.15}.kahf-ayah-card{min-height:250px;padding:18px 14px}.kahf-nav-actions{grid-template-columns:1fr 1.15fr 1fr;}.kahf-nav-actions .btn-action{padding-inline:8px;font-size:12px;}}
+
         .quran-ayah-badge { display: inline-block; background: var(--surface-inner); color: var(--accent-green); padding: 5px 14px; border-radius: var(--radius-pill); font-weight: 800; font-size: 13px; margin-bottom: 8px; }
         .quran-verse-block { font-family: "Amiri", "Traditional Arabic", serif; font-size: 20px; line-height: 2.2; color: var(--text-primary); text-align: justify; margin-bottom: 14px; }
         .quran-tafsir-block { background: var(--surface-inner); border-right: 4px solid var(--accent-green); border-radius: var(--radius-input); padding: 14px; line-height: 1.8; font-size: 13px; margin-bottom: 14px; }
@@ -961,314 +991,225 @@ body.ios-mode button:focus-visible { outline:2px solid color-mix(in srgb, var(--
 .top-currency-link span:last-child{font-size:11px;white-space:nowrap;}
 @media(max-width:560px){.top-weather-compact{max-width:108px;padding-inline:7px!important}.top-weather-compact #topWeatherMiniLocation{display:none}.top-currency-link span:last-child{font-size:10px}.top-right-group{gap:5px!important}.user-auth-pill{max-width:120px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}}
 /* جرس التنبيهات في الشريط السفلي مع رقم واضح */
-.ring-notifications{position:relative;}
-.ring-notifications .ring-icon{display:flex;align-items:center;justify-content:center;}
-.ring-notifications .ring-icon svg{width:22px;height:22px;}
-
-</style>
-
-<style id="lifeos-glass-bottom-nav-v2">
-/* ===== شريط تنقل سفلي زجاجي ثابت ===== */
-:root{--glass-nav-height:72px;--glass-nav-gap:7px;}
-
-/* الزجاج: طبقات خفيفة حتى تبقى ألوان الثيم الأصلية واضحة */
-body.ios-mode{
-  background:
-    radial-gradient(900px 520px at 8% 0%, color-mix(in srgb,var(--accent-primary) 13%,transparent), transparent 68%),
-    radial-gradient(760px 500px at 96% 18%, color-mix(in srgb,var(--accent-primary) 10%,transparent), transparent 70%),
-    var(--bg-canvas) !important;
-}
-body.ios-mode::before{
-  opacity:.72 !important;
-  background:
-    radial-gradient(520px 360px at 14% 12%,color-mix(in srgb,var(--accent-primary) 9%,transparent),transparent 72%),
-    radial-gradient(520px 360px at 88% 34%,color-mix(in srgb,var(--accent-primary) 7%,transparent),transparent 74%) !important;
-}
-body.ios-mode .oneui-card,
-body.ios-mode .dashboard-pinned-card,
-body.ios-mode .knowledge-card-item,
-body.ios-mode .alarm-item-card,
-body.ios-mode .dhikr-card,
-body.ios-mode .weather-hour-card,
-body.ios-mode .modal-box,
-body.ios-mode .top-info-link,
-body.ios-mode .user-auth-pill,
-body.ios-mode .habit-chip,
-body.ios-mode .memory-event-card,
-body.ios-mode .purchase-item,
-body.ios-mode .expense-item{
-  background:color-mix(in srgb,var(--surface-panel) 76%,transparent) !important;
-  border:1px solid color-mix(in srgb,var(--border-subtle) 74%,rgba(255,255,255,.25)) !important;
-  box-shadow:0 10px 30px rgba(20,30,60,.08),inset 0 1px 0 rgba(255,255,255,.28) !important;
-  backdrop-filter:blur(22px) saturate(150%) !important;
-  -webkit-backdrop-filter:blur(22px) saturate(150%) !important;
-}
-body.ios-mode:not(.light-mode) .oneui-card,
-body.ios-mode:not(.light-mode) .modal-box,
-body.ios-mode:not(.light-mode) .weather-hour-card{
-  box-shadow:0 12px 34px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.07) !important;
-}
-
-/* العملات: SVG يتبع لون النص تلقائيًا في النهاري والليلي وكل الثيمات */
-.top-currency-icon{display:inline-flex;align-items:center;justify-content:center;color:var(--text-primary);}
-.top-currency-icon svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
-body.ios-mode .top-currency-link{background:color-mix(in srgb,var(--surface-panel) 74%,transparent) !important;border-color:color-mix(in srgb,var(--border-subtle) 72%,var(--accent-primary) 28%) !important;box-shadow:0 5px 16px rgba(20,30,60,.07),inset 0 1px 0 rgba(255,255,255,.26) !important;backdrop-filter:blur(18px) saturate(150%) !important;-webkit-backdrop-filter:blur(18px) saturate(150%) !important;}
-
-/* ===== شريط التنقل السفلي ===== */
-.rings-dock{
-  position:fixed !important;
-  right:50% !important;
-  left:auto !important;
-  transform:translateX(50%) !important;
-  bottom:max(10px,env(safe-area-inset-bottom,10px)) !important;
-  top:auto !important;
-  z-index:10050 !important;
-  width:min(calc(100vw - 20px),620px) !important;
-  max-width:none !important;
-  height:auto !important;
-  max-height:none !important;
-  padding:7px !important;
-  display:flex !important;
-  flex-direction:row !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  gap:var(--glass-nav-gap) !important;
-  overflow-x:auto !important;
-  overflow-y:hidden !important;
-  direction:rtl !important;
-  border-radius:26px !important;
-  background:color-mix(in srgb,var(--surface-panel) 70%,transparent) !important;
-  border:1px solid color-mix(in srgb,var(--border-subtle) 78%,rgba(255,255,255,.24)) !important;
-  box-shadow:0 14px 38px rgba(20,30,60,.14),inset 0 1px 0 rgba(255,255,255,.34) !important;
-  backdrop-filter:blur(24px) saturate(170%) !important;
-  -webkit-backdrop-filter:blur(24px) saturate(170%) !important;
-  scrollbar-width:none;
-}
-.rings-dock::-webkit-scrollbar{display:none;}
-.ring-item{
-  position:relative !important;
-  width:50px !important;
-  min-width:50px !important;
-  height:50px !important;
-  flex:0 0 50px !important;
-  padding:0 !important;
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:7px !important;
-  border-radius:25px !important;
-  border:1px solid color-mix(in srgb,var(--border-subtle) 70%,transparent) !important;
-  background:color-mix(in srgb,var(--surface-panel) 62%,transparent) !important;
-  color:var(--text-primary) !important;
-  box-shadow:0 4px 12px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.24) !important;
-  backdrop-filter:blur(14px) saturate(145%) !important;
-  -webkit-backdrop-filter:blur(14px) saturate(145%) !important;
-  transition:width .25s ease,min-width .25s ease,flex-basis .25s ease,transform .22s ease,background .22s ease,box-shadow .22s ease !important;
-  overflow:hidden !important;
-  white-space:nowrap !important;
-}
-.ring-item::before,.ring-item::after{display:none !important;}
-.ring-item .ring-icon{width:24px !important;height:24px !important;display:flex !important;align-items:center !important;justify-content:center !important;flex:0 0 24px !important;font-size:21px !important;}
-.ring-item .ring-icon svg{width:22px !important;height:22px !important;fill:none !important;stroke:currentColor !important;stroke-width:1.8 !important;stroke-linecap:round !important;stroke-linejoin:round !important;}
-.ring-label{display:none;font-size:11px;font-weight:850;line-height:1;}
-.ring-item.active{
-  width:auto !important;
-  min-width:92px !important;
-  flex:0 0 auto !important;
-  padding:0 14px !important;
-  background:color-mix(in srgb,var(--accent-primary) 18%,var(--surface-panel)) !important;
-  border-color:color-mix(in srgb,var(--accent-primary) 42%,var(--border-subtle)) !important;
-  box-shadow:0 7px 20px color-mix(in srgb,var(--accent-primary) 18%,transparent),inset 0 1px 0 rgba(255,255,255,.32) !important;
-  transform:translateY(-3px) scale(1.03) !important;
-}
-.ring-item.active .ring-label{display:inline-block;}
-.ring-item.active .ring-icon{color:var(--accent-primary);}
-
-
-.ring-item:active{transform:scale(.94) !important;}
-
-@media(max-width:560px){
-  .rings-dock{width:calc(100vw - 12px) !important;bottom:max(6px,env(safe-area-inset-bottom,6px)) !important;padding:6px !important;border-radius:23px !important;gap:5px !important;}
-  .ring-item{width:46px !important;min-width:46px !important;height:46px !important;flex-basis:46px !important;}
-  .ring-item.active{min-width:86px !important;padding-inline:11px !important;}
-  .ring-item .ring-icon{width:22px !important;height:22px !important;flex-basis:22px !important;}
-  .ring-item .ring-icon svg{width:20px !important;height:20px !important;}
-  .ring-label{font-size:10px;}
-}
-@media(max-width:360px){.ring-item.active{min-width:80px !important;padding-inline:9px !important}.ring-label{font-size:9.5px}.rings-dock{gap:4px !important;}}
-/* مساحة سفلية حتى لا يغطي الشريط آخر محتوى */
-.app-container{padding-bottom:92px;}
-</style>
-
-
-<style id="lifeos-bottom-nav-flex-final">
-/* ===== الشريط السفلي المرن: لا ضغط للعناصر، والتمرير أفقي عند الحاجة ===== */
-.rings-dock{
-  position:fixed !important;
-  right:50% !important;
-  left:auto !important;
-  transform:translateX(50%) !important;
-  bottom:max(10px,env(safe-area-inset-bottom,10px)) !important;
-  top:auto !important;
-  width:max-content !important;
-  max-width:calc(100vw - 16px) !important;
-  height:64px !important;
-  padding:5px !important;
-  display:flex !important;
-  flex-direction:row !important;
-  align-items:center !important;
-  justify-content:flex-start !important;
-  gap:9px !important;
-  overflow-x:auto !important;
-  overflow-y:hidden !important;
-  direction:rtl !important;
-  touch-action:pan-x !important;
-  -webkit-overflow-scrolling:touch !important;
-  scroll-behavior:smooth !important;
-  scroll-snap-type:x proximity !important;
-  border-radius:24px !important;
-  background:color-mix(in srgb,var(--surface-panel) 78%,transparent) !important;
-  border:1px solid color-mix(in srgb,var(--border-subtle) 86%,var(--accent-primary) 14%) !important;
-  box-shadow:0 12px 34px rgba(15,23,42,.16),inset 0 1px 0 rgba(255,255,255,.28) !important;
-  backdrop-filter:blur(22px) saturate(155%) !important;
-  -webkit-backdrop-filter:blur(22px) saturate(155%) !important;
-}
-.rings-dock::-webkit-scrollbar{display:none !important;}
-.ring-item{
-  position:relative !important;
-  width:52px !important;
-  min-width:52px !important;
-  max-width:none !important;
-  height:52px !important;
-  flex:0 0 52px !important;
-  padding:0 !important;
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:9px !important;
-  border-radius:18px !important;
-  border:1px solid color-mix(in srgb,var(--border-subtle) 82%,var(--accent-primary) 18%) !important;
-  background:color-mix(in srgb,var(--surface-panel) 72%,transparent) !important;
-  color:var(--text-primary) !important;
-  box-shadow:0 4px 13px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.22) !important;
-  backdrop-filter:blur(14px) saturate(145%) !important;
-  -webkit-backdrop-filter:blur(14px) saturate(145%) !important;
-  transition:width .25s ease,min-width .25s ease,flex-basis .25s ease,transform .22s ease,background .22s ease,box-shadow .22s ease,border-color .22s ease !important;
-  overflow:hidden !important;
-  white-space:nowrap !important;
-  scroll-snap-align:center;
-}
-.ring-item .ring-icon{width:24px !important;height:24px !important;display:flex !important;align-items:center !important;justify-content:center !important;flex:0 0 24px !important;font-size:21px !important;}
-.ring-item .ring-icon svg{width:22px !important;height:22px !important;fill:none !important;stroke:currentColor !important;stroke-width:1.8 !important;stroke-linecap:round !important;stroke-linejoin:round !important;}
-.ring-label{display:none !important;font-size:13px;font-weight:850;line-height:1;letter-spacing:0;}
-.ring-item.active{
-  width:126px !important;
-  min-width:126px !important;
-  flex:0 0 126px !important;
-  height:54px !important;
-  padding:0 18px !important;
-  gap:10px !important;
-  border-radius:19px !important;
-  background:color-mix(in srgb,var(--accent-primary) 13%,var(--surface-panel)) !important;
-  border-color:color-mix(in srgb,var(--accent-primary) 42%,var(--border-subtle)) !important;
-  box-shadow:0 8px 24px color-mix(in srgb,var(--accent-primary) 14%,transparent),inset 0 1px 0 rgba(255,255,255,.30) !important;
-  transform:translateY(-3px) !important;
-}
-.ring-item.active .ring-label{display:inline-flex !important;align-items:center;justify-content:center;flex:0 0 auto;}
-.ring-item.active .ring-icon{color:var(--accent-primary);}
-.ring-item:active{transform:scale(.96) !important;}
-
-
-@media(max-width:560px){
-  .rings-dock{max-width:calc(100vw - 10px) !important;height:62px !important;padding:4px !important;gap:8px !important;}
-  .ring-item{width:50px !important;min-width:50px !important;flex-basis:50px !important;height:50px !important;}
-  .ring-item.active{width:122px !important;min-width:122px !important;flex-basis:122px !important;height:52px !important;padding-inline:16px !important;}
-}
-@media(max-width:380px){
-  .rings-dock{gap:7px !important;}
-  .ring-item{width:48px !important;min-width:48px !important;flex-basis:48px !important;height:48px !important;}
-  .ring-item.active{width:116px !important;min-width:116px !important;flex-basis:116px !important;height:50px !important;padding-inline:14px !important;}
-  .ring-label{font-size:12.5px;}
-}
-/* لا نسمح للشريط أن يلتصق بالمحتوى الأخير */
-.app-container{padding-bottom:94px !important;}
-
-/* ===== العملات: نفس مكانها في الأعلى، لكن خلفية الأيقونة تتكيف مع النهاري/الليلي ===== */
-.top-currency-link{
-  background:color-mix(in srgb,var(--surface-panel) 86%,var(--accent-primary) 14%) !important;
-  color:var(--text-primary) !important;
-  border-color:color-mix(in srgb,var(--border-subtle) 72%,var(--accent-primary) 28%) !important;
-  box-shadow:0 5px 15px color-mix(in srgb,var(--accent-primary) 8%,transparent),inset 0 1px 0 rgba(255,255,255,.22) !important;
-  backdrop-filter:blur(14px) saturate(150%) !important;
-  -webkit-backdrop-filter:blur(14px) saturate(150%) !important;
-}
-.top-currency-icon{color:var(--accent-primary) !important;}
-body.light-mode .top-currency-link{
-  background:color-mix(in srgb,var(--surface-panel) 91%,var(--accent-primary) 9%) !important;
-  border-color:color-mix(in srgb,var(--border-subtle) 82%,var(--accent-primary) 18%) !important;
-  box-shadow:0 5px 15px color-mix(in srgb,var(--accent-primary) 7%,transparent),inset 0 1px 0 rgba(255,255,255,.70) !important;
-}
-body:not(.light-mode) .top-currency-link{
-  background:color-mix(in srgb,var(--surface-panel) 82%,var(--accent-primary) 18%) !important;
-  border-color:color-mix(in srgb,var(--border-subtle) 66%,var(--accent-primary) 34%) !important;
-  box-shadow:0 6px 18px color-mix(in srgb,var(--accent-primary) 10%,transparent),inset 0 1px 0 rgba(255,255,255,.12) !important;
-}
-
-/* ===== الزجاج: هادئ وواضح بدل التلوين الثقيل ===== */
-body.ios-mode .oneui-card,
-body.ios-mode .top-info-link,
-body.ios-mode .user-auth-pill,
-body.ios-mode .top-header-tool,
-body.ios-mode .top-weather-user-link,
-body.ios-mode .habit-chip,
-body.ios-mode .dashboard-tab,
-body.ios-mode .rings-dock{
-  background:color-mix(in srgb,var(--surface-panel) 76%,transparent) !important;
-  border-color:color-mix(in srgb,var(--border-subtle) 84%,var(--accent-primary) 16%) !important;
-  box-shadow:0 10px 30px color-mix(in srgb,var(--text-primary) 8%,transparent),inset 0 1px 0 rgba(255,255,255,.18) !important;
-  backdrop-filter:blur(24px) saturate(155%) !important;
-  -webkit-backdrop-filter:blur(24px) saturate(155%) !important;
-}
-body.ios-mode.light-mode .oneui-card,
-body.ios-mode.light-mode .top-info-link,
-body.ios-mode.light-mode .user-auth-pill,
-body.ios-mode.light-mode .top-header-tool,
-body.ios-mode.light-mode .top-weather-user-link,
-body.ios-mode.light-mode .habit-chip,
-body.ios-mode.light-mode .rings-dock{
-  background:rgba(255,255,255,.70) !important;
-  border-color:rgba(255,255,255,.76) !important;
-  box-shadow:0 10px 30px rgba(45,62,90,.10),inset 0 1px 0 rgba(255,255,255,.82) !important;
-}
-body.ios-mode:not(.light-mode) .oneui-card,
-body.ios-mode:not(.light-mode) .top-info-link,
-body.ios-mode:not(.light-mode) .user-auth-pill,
-body.ios-mode:not(.light-mode) .top-header-tool,
-body.ios-mode:not(.light-mode) .top-weather-user-link,
-body.ios-mode:not(.light-mode) .habit-chip,
-body.ios-mode:not(.light-mode) .rings-dock{
-  background:rgba(20,28,40,.64) !important;
-  border-color:rgba(255,255,255,.12) !important;
-  box-shadow:0 12px 34px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.08) !important;
-}
-</style>
-
-
-<style id="lifeos-stable-bottom-nav-final">
-
-.ring-item{will-change:auto !important;}
-.ring-item.active{direction:ltr !important;justify-content:center !important;align-items:center !important;box-sizing:border-box !important;padding:0 18px !important;gap:10px !important;}
-.ring-item.active .ring-icon{order:1 !important;flex:0 0 28px !important;width:28px !important;height:28px !important;margin:0 !important;}
-.ring-item.active .ring-label{order:2 !important;display:inline-flex !important;align-items:center !important;justify-content:center !important;margin:0 !important;}
-.ring-item .ring-icon{box-sizing:border-box !important;padding:3px !important;border-radius:9px !important;}
-.ring-item .ring-icon svg{display:block !important;}
-.ring-notifications.has-notifications .ring-icon{color:var(--accent-primary) !important;}
-.ring-notifications.has-notifications::after{content:"";position:absolute;inset:3px;border-radius:15px;border:1.5px solid color-mix(in srgb,var(--accent-primary) 70%,transparent);opacity:.85;pointer-events:none;animation:ringNotifyOrbit 2.2s linear infinite;}
 @keyframes ringNotifyOrbit{0%{transform:rotate(0deg);opacity:.35}50%{opacity:1}100%{transform:rotate(360deg);opacity:.35}}
 @media(max-width:560px){.ring-item.active{padding:0 15px !important;gap:9px !important}.ring-item.active .ring-icon{flex-basis:27px !important;width:27px !important;height:27px !important;}}
 </style>
 
 
+
+<style id="lifeos-final-visual-fix">
+/* ===== LifeOS: clean unified visual layer ===== */
+:root{
+  --surface-panel:rgba(255,255,255,.72);
+  --surface-panel-strong:rgba(255,255,255,.88);
+  --surface-input:rgba(255,255,255,.58);
+  --border-subtle:rgba(35,61,86,.14);
+  --text-primary:#172433;
+  --text-secondary:#5e6e7e;
+  --text-tertiary:#8391a0;
+  --accent-primary:#3d718b;
+  --accent-secondary:#6a91a5;
+  --bg-canvas:#edf3f7;
+}
+body:not(.ios-mode){
+  background:linear-gradient(145deg,#f3f7fa 0%,#e8f0f5 52%,#f7fafc 100%) !important;
+  color:var(--text-primary) !important;
+}
+body:not(.ios-mode):not(.light-mode){
+  --surface-panel:rgba(18,34,48,.84);
+  --surface-panel-strong:rgba(21,40,56,.94);
+  --surface-input:rgba(255,255,255,.055);
+  --border-subtle:rgba(185,213,229,.15);
+  --text-primary:#f2f7fb;
+  --text-secondary:#b6c7d3;
+  --text-tertiary:#8fa5b4;
+  --accent-primary:#79c5d8;
+  --accent-secondary:#8eaec0;
+  --bg-canvas:#0b1822;
+  background:linear-gradient(145deg,#08141d 0%,#102631 55%,#0a1721 100%) !important;
+  color:var(--text-primary) !important;
+}
+/* remove the visual-style selector; one stable design only */
+#designStyleSelect,
+label[for="designStyleSelect"],
+#designStyleSelect + div{display:none !important;}
+
+/* top area */
+.top-header,.top-bar,.app-header{background:transparent !important;}
+.top-action-btn,.top-info-link,.top-currency-link,.top-weather-compact,.top-user-link{
+  background:var(--surface-panel) !important;
+  border:1px solid var(--border-subtle) !important;
+  color:var(--text-primary) !important;
+  box-shadow:0 6px 18px rgba(25,45,65,.07),inset 0 1px 0 rgba(255,255,255,.45) !important;
+  backdrop-filter:blur(18px) saturate(135%) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(135%) !important;
+}
+body:not(.light-mode) .top-action-btn,
+body:not(.light-mode) .top-info-link,
+body:not(.light-mode) .top-currency-link,
+body:not(.light-mode) .top-weather-compact,
+body:not(.light-mode) .top-user-link{
+  box-shadow:0 8px 22px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.06) !important;
+}
+
+/* cards and fields */
+.oneui-card,.knowledge-card-item,.dhikr-pro-card,.quran-verse-block,.quran-tafsir-block,.memory-card,.list-row,.dashboard-tasks-card{
+  background:var(--surface-panel) !important;
+  border:1px solid var(--border-subtle) !important;
+  border-radius:22px !important;
+  box-shadow:0 10px 28px rgba(35,61,86,.07),inset 0 1px 0 rgba(255,255,255,.42) !important;
+  color:var(--text-primary) !important;
+  backdrop-filter:blur(18px) saturate(125%) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(125%) !important;
+}
+body:not(.light-mode) .oneui-card,body:not(.light-mode) .knowledge-card-item,body:not(.light-mode) .dhikr-pro-card,body:not(.light-mode) .quran-verse-block,body:not(.light-mode) .quran-tafsir-block,body:not(.light-mode) .memory-card,body:not(.light-mode) .list-row,body:not(.light-mode) .dashboard-tasks-card{
+  box-shadow:0 12px 30px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.045) !important;
+}
+.app-input,.app-textarea,.search-input,.dashboard-tasks-input,.quran-search-input{
+  background:var(--surface-input) !important;
+  color:var(--text-primary) !important;
+  border:1px solid var(--border-subtle) !important;
+  border-radius:16px !important;
+}
+button{font-family:inherit;}
+
+/* bottom navigation: fixed, centered, no horizontal clipping */
+.rings-dock{
+  position:fixed !important;
+  left:50% !important;
+  right:auto !important;
+  bottom:max(10px,env(safe-area-inset-bottom)) !important;
+  transform:translateX(-50%) !important;
+  width:calc(100vw - 20px) !important;
+  max-width:620px !important;
+  min-height:66px !important;
+  height:auto !important;
+  padding:6px !important;
+  margin:0 !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  flex-direction:row !important;
+  direction:rtl !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:6px !important;
+  overflow:visible !important;
+  border-radius:24px !important;
+  background:color-mix(in srgb,var(--surface-panel-strong) 88%,transparent) !important;
+  border:1px solid var(--border-subtle) !important;
+  box-shadow:0 14px 34px rgba(20,35,50,.13),inset 0 1px 0 rgba(255,255,255,.52) !important;
+  backdrop-filter:blur(22px) saturate(145%) !important;
+  -webkit-backdrop-filter:blur(22px) saturate(145%) !important;
+  z-index:1000 !important;
+}
+.ring-item{
+  position:relative !important;
+  width:52px !important;
+  min-width:52px !important;
+  flex:0 0 52px !important;
+  height:52px !important;
+  padding:0 !important;
+  margin:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex-direction:row !important;
+  direction:rtl !important;
+  gap:8px !important;
+  border-radius:18px !important;
+  box-sizing:border-box !important;
+  color:var(--text-secondary) !important;
+  background:transparent !important;
+  border:1px solid transparent !important;
+  box-shadow:none !important;
+  overflow:hidden !important;
+  transition:width .22s ease,flex-basis .22s ease,background .22s ease,border-color .22s ease,box-shadow .22s ease !important;
+}
+.ring-item .ring-icon{
+  width:32px !important;height:32px !important;min-width:32px !important;flex:0 0 32px !important;
+  display:flex !important;align-items:center !important;justify-content:center !important;
+  padding:0 !important;margin:0 !important;border-radius:11px !important;
+  color:currentColor !important;background:transparent !important;
+}
+.ring-item .ring-icon svg{width:22px !important;height:22px !important;stroke:currentColor !important;}
+.ring-item .ring-label{display:none !important;margin:0 !important;padding:0 !important;white-space:nowrap !important;}
+.ring-item.active{
+  width:126px !important;min-width:126px !important;flex:0 0 126px !important;
+  padding:0 15px !important;
+  color:var(--accent-primary) !important;
+  background:color-mix(in srgb,var(--accent-primary) 10%,var(--surface-panel)) !important;
+  border-color:color-mix(in srgb,var(--accent-primary) 30%,var(--border-subtle)) !important;
+  box-shadow:0 5px 16px color-mix(in srgb,var(--accent-primary) 10%,transparent),inset 0 1px 0 rgba(255,255,255,.38) !important;
+}
+.ring-item.active .ring-label{display:inline-flex !important;align-items:center !important;justify-content:center !important;font-size:14px !important;font-weight:850 !important;}
+.ring-item.active .ring-icon{width:32px !important;min-width:32px !important;flex-basis:32px !important;}
+.ring-item.ring-home{color:var(--accent-primary) !important;}
+.ring-item.ring-home:not(.active) .ring-icon{width:38px !important;height:38px !important;min-width:38px !important;flex-basis:38px !important;border-radius:13px !important;background:color-mix(in srgb,var(--accent-primary) 12%,transparent) !important;}
+.ring-item.ring-home:not(.active) .ring-icon svg{width:25px !important;height:25px !important;}
+.ring-item.ring-home.active{width:132px !important;min-width:132px !important;flex-basis:132px !important;}
+.ring-item::before,.ring-item::after{display:none !important;content:none !important;}
+@media(max-width:520px){
+ .rings-dock{width:calc(100vw - 14px) !important;gap:3px !important;padding:5px !important;border-radius:22px !important;}
+ .ring-item{width:50px !important;min-width:50px !important;flex-basis:50px !important;height:50px !important;border-radius:17px !important;}
+ .ring-item.active{width:116px !important;min-width:116px !important;flex-basis:116px !important;padding:0 11px !important;gap:7px !important;}
+ .ring-item.ring-home.active{width:122px !important;min-width:122px !important;flex-basis:122px !important;}
+}
+
+/* remove old green adhkar treatment */
+.ring-item.ring-adhkar{color:var(--text-secondary) !important;background:transparent !important;border-color:transparent !important;box-shadow:none !important;}
+.ring-item.ring-adhkar.active{color:var(--accent-primary) !important;background:color-mix(in srgb,var(--accent-primary) 10%,var(--surface-panel)) !important;border-color:color-mix(in srgb,var(--accent-primary) 30%,var(--border-subtle)) !important;}
+
+/* typography */
+.hero-greeting-title,.section-label,.dashboard-tasks-title,.dashboard-tasks-subtitle,.adhkar-header-pro h2,.adhkar-header-pro p,.quran-tafsir-block,.quran-verse-block,.list-row{color:var(--text-primary) !important;}
+body:not(.light-mode) .hero-greeting-title,body:not(.light-mode) .section-label,body:not(.light-mode) .dashboard-tasks-title,body:not(.light-mode) .dashboard-tasks-subtitle,body:not(.light-mode) .adhkar-header-pro h2,body:not(.light-mode) .adhkar-header-pro p,body:not(.light-mode) .quran-tafsir-block,body:not(.light-mode) .quran-verse-block,body:not(.light-mode) .list-row{color:var(--text-primary) !important;}
+</style>
+
+<style id="lifeos-final-visual-lock">
+/* ===== Final visual lock: one coherent Minimal design ===== */
+body,body.ios-mode,body.ios-mode.light-mode{
+  --surface-panel:rgba(255,255,255,.74) !important;
+  --surface-panel-strong:rgba(255,255,255,.90) !important;
+  --surface-input:rgba(255,255,255,.64) !important;
+  --border-subtle:rgba(31,55,76,.13) !important;
+  --text-primary:#172532 !important;
+  --text-secondary:#617181 !important;
+  --text-tertiary:#8795a3 !important;
+  --accent-primary:#3e778e !important;
+  --accent-secondary:#7098aa !important;
+  --bg-canvas:#edf3f7 !important;
+  background:linear-gradient(145deg,#f5f8fb 0%,#eaf2f7 58%,#f8fafc 100%) !important;
+  color:var(--text-primary) !important;
+}
+body:not(.light-mode),body.ios-mode:not(.light-mode){
+  --surface-panel:rgba(17,35,48,.86) !important;
+  --surface-panel-strong:rgba(19,39,54,.95) !important;
+  --surface-input:rgba(255,255,255,.055) !important;
+  --border-subtle:rgba(181,211,228,.16) !important;
+  --text-primary:#f3f7fa !important;
+  --text-secondary:#b8c9d4 !important;
+  --text-tertiary:#91a6b4 !important;
+  --accent-primary:#78c4d8 !important;
+  --accent-secondary:#91afc0 !important;
+  --bg-canvas:#0a1721 !important;
+  background:linear-gradient(145deg,#07131c 0%,#102630 58%,#091620 100%) !important;
+  color:var(--text-primary) !important;
+}
+/* hide the obsolete style selector completely */
+.section-label:has(+ .oneui-card #designStyleSelector),
+.oneui-card:has(#designStyleSelector){display:none !important;}
+/* clean quick tabs */
+.dashboard-tabs{display:flex !important;gap:6px !important;padding:0 2px 10px !important;border-bottom:1px solid var(--border-subtle) !important;}
+.dashboard-tab{flex:1 1 0 !important;min-height:50px !important;border:1px solid transparent !important;border-radius:15px 15px 10px 10px !important;background:transparent !important;color:var(--text-secondary) !important;font-weight:850 !important;box-shadow:none !important;}
+.dashboard-tab.active{color:var(--accent-primary) !important;background:color-mix(in srgb,var(--accent-primary) 8%,transparent) !important;border-color:color-mix(in srgb,var(--accent-primary) 13%,transparent) !important;}
+/* consistent small controls */
+.tag-badge,.top-action-btn,.top-info-link,.top-currency-link,.top-weather-compact,.top-user-link{border-radius:18px !important;}
+.tag-badge{background:var(--surface-panel) !important;color:var(--text-primary) !important;border:1px solid var(--border-subtle) !important;}
+/* make all navigation icons use the same visual language */
+.ring-item .ring-icon,.ring-item.ring-home:not(.active) .ring-icon{border:0 !important;box-shadow:none !important;}
+.ring-item .ring-icon svg{fill:none !important;stroke-width:1.9 !important;stroke-linecap:round !important;stroke-linejoin:round !important;}
+/* enough bottom breathing room without moving the page layout */
+.section-view{padding-bottom:92px !important;}
+</style>
 </head>
 <body>
 
@@ -1401,7 +1342,6 @@ body.ios-mode:not(.light-mode) .rings-dock{
             <div class="oneui-card">
                 <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
                     <button onclick="openModalAction('note')" class="btn-action" style="width:auto;">＋ ملاحظة جديدة</button>
-                    <button onclick="startVoiceRecording()" class="btn-action" style="width:auto; background:var(--accent-red); padding:8px 14px; font-size:12px;">🎙️ تسجيل صوتي</button>
                 </div>
                 <div id="notesFullList"></div>
             </div>
@@ -1690,8 +1630,41 @@ body.ios-mode:not(.light-mode) .rings-dock{
                 </div>
                 <button class="tag-badge" onclick="switchNavSection('dashboard-view')">← الرئيسية</button>
             </div>
+            <div class="adhkar-tab-strip" id="adhkarTabStrip" role="tablist" aria-label="أبواب الأذكار"></div>
             <div id="adhkarSourceBadge" class="adhkar-source-badge" aria-hidden="true"></div>
             <div id="adhkarContentContainer"></div>
+            <div class="adhkar-kahf-link"><button type="button" class="tag-badge" onclick="switchNavSection('kahf-view')">📖 الانتقال إلى حفظ سورة الكهف</button></div>
+        </div>
+
+        <!-- 📖 قسم حفظ سورة الكهف -->
+        <div id="kahf-view" class="section-view">
+            <div class="kahf-header">
+                <div>
+                    <div class="section-label" style="margin:0;">القرآن الكريم</div>
+                    <h2>حفظ سورة الكهف</h2>
+                    <p>آية واحدة في كل بطاقة، مع حفظ موضعك وأدوات للاسترجاع والمراجعة المتباعدة.</p>
+                </div>
+                <button class="tag-badge" type="button" onclick="switchNavSection('adhkar-view')">الأذكار</button>
+            </div>
+            <div class="kahf-progress-card" id="kahfProgressCard"></div>
+            <div class="kahf-tools-card">
+                <div class="kahf-tools-head"><strong>أدوات الحفظ</strong><span id="kahfToolStatus">الاسترجاع النشط</span></div>
+                <div class="kahf-tools-grid">
+                    <button type="button" class="tag-badge" id="kahfHideBtn" onclick="toggleKahfHide()">👁 إخفاء الآية</button>
+                    <button type="button" class="tag-badge" onclick="repeatKahf(3)">تكرار 3</button>
+                    <button type="button" class="tag-badge" onclick="repeatKahf(5)">تكرار 5</button>
+                    <button type="button" class="tag-badge" onclick="repeatKahf(10)">تكرار 10</button>
+                    <button type="button" class="tag-badge" onclick="resetKahfRepeat()">تصفير التكرار</button>
+                </div>
+                <div class="kahf-repeat-status" id="kahfRepeatStatus">التكرار: 0</div>
+            </div>
+            <article class="kahf-ayah-card" id="kahfAyahCard"></article>
+            <div class="kahf-nav-actions">
+                <button type="button" class="btn-action kahf-prev" onclick="kahfPrevious()">السابق</button>
+                <button type="button" class="btn-action kahf-save" onclick="kahfMarkSaved()">✓ تم الحفظ</button>
+                <button type="button" class="btn-action kahf-next" onclick="kahfNext()">التالي</button>
+            </div>
+            <div class="kahf-memory-note" id="kahfMemoryNote"></div>
         </div>
 
         <!-- 🕌⏰ 15. مواقيت الصلاة المجدولة -->
@@ -1713,6 +1686,7 @@ body.ios-mode:not(.light-mode) .rings-dock{
             <div class="all-sections-grid-menu">
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('prayers-alarms-view')"><span class="section-icon-wrap" data-icon-name="prayers"></span><span>مواقيت الصلاة</span></div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('islamiyat-view')"><span class="section-icon-wrap" data-icon-name="book"></span><span>إسلاميات</span></div>
+                <div class="all-sections-grid-item" onclick="triggerNavFromModal('kahf-view')"><span class="section-icon-wrap" data-icon-name="book"></span><span>حفظ سورة الكهف</span></div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('notes-view')"><span class="section-icon-wrap" data-icon-name="note"></span><span>الملاحظات</span></div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('todos-view')"><span class="section-icon-wrap" data-icon-name="check"></span><span>المهام</span></div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('finance-view')"><span class="section-icon-wrap" data-icon-name="wallet"></span><span>المصروفات</span></div>
@@ -1889,6 +1863,9 @@ body.ios-mode:not(.light-mode) .rings-dock{
             data.settings.pinnedSections = data.settings.pinnedSections.filter(id => id !== 'calendar-view');
             if (!Array.isArray(data.lifeCards)) data.lifeCards = [];
             if (!data.adhkarCounters) data.adhkarCounters = {};
+            if (!data.kahfMemorization || typeof data.kahfMemorization !== 'object') data.kahfMemorization = {};
+            if (!Number.isInteger(data.kahfMemorization.lastSaved) || data.kahfMemorization.lastSaved < -1 || data.kahfMemorization.lastSaved > 109) data.kahfMemorization.lastSaved = -1;
+            if (!Number.isInteger(data.kahfMemorization.lastReviewAt)) data.kahfMemorization.lastReviewAt = 0;
             delete data.quranPortion; // إزالة بيانات القسم القديم من التخزين المحلي
             const defaultFeeds = {
                 weatherHourly: null,
@@ -2605,6 +2582,7 @@ body.ios-mode:not(.light-mode) .rings-dock{
 
             if (viewId === 'memories-view') renderMemoriesTimeline();
             if (viewId === 'adhkar-view') renderDhikrView();
+            if (viewId === 'kahf-view') renderKahfView();
             if (viewId === 'currency-view') calculateCurrencyConversion();
 
             window.scrollTo({ top: 0, behavior: 'auto' });
@@ -2971,6 +2949,16 @@ body.ios-mode:not(.light-mode) .rings-dock{
             {id:'morning-state', category:'أذكار الصباح', count:1, title:'أصبحنا وأصبح الملك لله', text:'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ. رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، وَأَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ.', source:'صحيح مسلم (2723)', sourceUrl:'https://dorar.net/h/SUjNATlp?osoul=1'},
             {id:'evening-state', category:'أذكار المساء', count:1, title:'أمسينا وأمسى الملك لله', text:'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذِهِ اللَّيْلَةِ وَشَرِّ مَا بَعْدَهَا. رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، وَأَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ.', source:'صحيح مسلم (2723)', sourceUrl:'https://dorar.net/h/SUjNATlp?osoul=1'},
 
+            {id:'sleep-name', category:'النوم والاستيقاظ', count:1, title:'عند النوم', text:'بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا.', source:'صحيح البخاري (6324)', sourceUrl:'https://dorar.net/h/jsYGsTXi'},
+            {id:'wake-hamd', category:'النوم والاستيقاظ', count:1, title:'عند الاستيقاظ', text:'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ.', source:'صحيح البخاري (6324)', sourceUrl:'https://dorar.net/h/jsYGsTXi'},
+            {id:'sleep-subhan', category:'النوم والاستيقاظ', count:1, title:'دعاء النوم', text:'سُبْحَانَكَ اللَّهُمَّ رَبِّي، بِكَ وَضَعْتُ جَنْبِي، وَبِكَ أَرْفَعُهُ، إِنْ أَمْسَكْتَ نَفْسِي فَاغْفِرْ لَهَا، وَإِنْ أَرْسَلْتَهَا فَاحْفَظْهَا بِمَا تَحْفَظُ بِهِ عِبَادَكَ الصَّالِحِينَ.', source:'صحيح مسلم (2714)', sourceUrl:'https://dorar.net/h/IFDZjQf1'},
+            {id:'sleep-qini', category:'النوم والاستيقاظ', count:1, title:'دعاء قبل النوم', text:'اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَجْمَعُ أَوْ تَبْعَثُ عِبَادَكَ.', source:'صحيح الترمذي (3398)', sourceUrl:'https://dorar.net/hadith/sharh/29021'},
+            {id:'sleep-baqarah', category:'النوم والاستيقاظ', count:1, title:'آخر آيتين من البقرة', text:'قراءة آخر آيتين من سورة البقرة في الليل.', source:'صحيح البخاري (5009)، صحيح مسلم (807)', sourceUrl:'https://dorar.net/hadith/sharh/40101'},
+            {id:'food-bismillah', category:'آداب الطعام', count:1, title:'التسمية عند الطعام', text:'بِسْمِ اللَّهِ. فإن نسي أن يقول في أوله فليقل: بِسْمِ اللَّهِ فِي أَوَّلِهِ وَآخِرِهِ.', source:'حسن صحيح — الترمذي (1858)', sourceUrl:'https://dorar.net/hadith/sharh/81505'},
+            {id:'toilet-ghufran', category:'الخلاء', count:1, title:'عند الخروج من الخلاء', text:'غُفْرَانَكَ.', source:'صحيح أبي داود (30)', sourceUrl:'https://dorar.net/hadith/sharh/28150'},
+            {id:'travel-nuzul', category:'السفر والنزول', count:1, title:'عند النزول في منزل', text:'أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.', source:'صحيح مسلم (2708)', sourceUrl:'https://dorar.net/h/0jZIeGUD?osoul=1'},
+            {id:'morning-afia', category:'أذكار الصباح', count:1, title:'سؤال العافية', text:'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي.', source:'صحيح أبي داود (5074)', sourceUrl:'https://dorar.net/h/po2FwJwz'},
+            {id:'evening-afia', category:'أذكار المساء', count:1, title:'سؤال العافية', text:'اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي.', source:'صحيح أبي داود (5074)', sourceUrl:'https://dorar.net/h/po2FwJwz'},
             {id:'general-tahlil', category:'ذكر عام', count:100, title:'لا إله إلا الله وحده لا شريك له', text:'لَا إِلَهَ إِلَّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.', source:'صحيح البخاري وصحيح مسلم — مائة مرة في اليوم', sourceUrl:'https://binbaz.org.sa/fatwas/12824/'},
             {id:'general-istighfar', category:'ذكر عام', count:100, title:'الاستغفار', text:'أَسْتَغْفِرُ اللهَ وَأَتُوبُ إِلَيْهِ.', source:'من الذكر والاستغفار المشروع — ابن باز', sourceUrl:'https://binbaz.org.sa/fatwas/12824/'},
             {id:'general-four', category:'ذكر عام', count:1, title:'الباقيات الصالحات', text:'سُبْحَانَ اللهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللهُ، وَاللهُ أَكْبَرُ.', source:'ابن باز — من أذكار الذكر العام', sourceUrl:'https://binbaz.org.sa/fatwas/12824/'}
@@ -3000,21 +2988,194 @@ body.ios-mode:not(.light-mode) .rings-dock{
             return {category:'ذكر عام', title:'ذكر الله في بقية اليوم', subtitle:'أذكار ثابتة لا تتطلب وقتًا محددًا.', icon:'✨'};
         }
 
+        const adhkarTabDefinitions = [
+            {id:'main', label:'الرئيسية', category:null, note:'هذا الباب يتغير تلقائيًا حسب وقت اليوم ومواقيت الصلاة.'},
+            {id:'post', label:'بعد الصلاة', category:'بعد الصلاة', note:'أذكار ثابتة دبر الصلوات، مع العدّ لكل تكرار.'},
+            {id:'morning', label:'الصباح', category:'أذكار الصباح', note:'أذكار الصباح الثابتة الموثقة في السنة.'},
+            {id:'evening', label:'المساء', category:'أذكار المساء', note:'أذكار المساء الثابتة الموثقة في السنة.'},
+            {id:'sleep', label:'النوم والاستيقاظ', category:'النوم والاستيقاظ', note:'أذكار صحيحة عند النوم والاستيقاظ.'},
+            {id:'food', label:'الطعام', category:'آداب الطعام', note:'أذكار صحيحة مرتبطة بالطعام والشراب.'},
+            {id:'toilet', label:'الخلاء', category:'الخلاء', note:'ما ثبت في دخول الخلاء والخروج منه.'},
+            {id:'travel', label:'السفر والنزول', category:'السفر والنزول', note:'أذكار صحيحة عند النزول في مكان والسفر.'}
+        ];
+        let activeAdhkarTab = 'main';
+        function renderAdhkarTabs(){
+            const strip=document.getElementById('adhkarTabStrip'); if(!strip)return;
+            strip.innerHTML=adhkarTabDefinitions.map(t=>`<button type="button" class="adhkar-tab ${t.id===activeAdhkarTab?'active':''}" role="tab" aria-selected="${t.id===activeAdhkarTab}" onclick="setAdhkarTab('${t.id}')">${t.label}</button>`).join('');
+        }
+        function setAdhkarTab(tab){
+            if(!adhkarTabDefinitions.some(t=>t.id===tab)) tab='main';
+            activeAdhkarTab=tab;
+            renderDhikrView();
+        }
+
+        const kahfAyahs = [
+            {n:"١", text:"ٱلْحَمْدُ لِلَّهِ ٱلَّذِىٓ أَنزَلَ عَلَىٰ عَبْدِهِ ٱلْكِتَـٰبَ وَلَمْ يَجْعَل لَّهُۥ عِوَجَا ۜ"},
+            {n:"٢", text:"قَيِّمًا لِّيُنذِرَ بَأْسًا شَدِيدًا مِّن لَّدُنْهُ وَيُبَشِّرَ ٱلْمُؤْمِنِينَ ٱلَّذِينَ يَعْمَلُونَ ٱلصَّـٰلِحَـٰتِ أَنَّ لَهُمْ أَجْرًا حَسَنًا"},
+            {n:"٣", text:"مَّـٰكِثِينَ فِيهِ أَبَدًا"},
+            {n:"٤", text:"وَيُنذِرَ ٱلَّذِينَ قَالُوا۟ ٱتَّخَذَ ٱللَّهُ وَلَدًا"},
+            {n:"٥", text:"مَّا لَهُم بِهِۦ مِنْ عِلْمٍ وَلَا لِـَٔابَآئِهِمْ ۚ كَبُرَتْ كَلِمَةً تَخْرُجُ مِنْ أَفْوَٰهِهِمْ ۚ إِن يَقُولُونَ إِلَّا كَذِبًا"},
+            {n:"٦", text:"فَلَعَلَّكَ بَـٰخِعٌ نَّفْسَكَ عَلَىٰٓ ءَاثَـٰرِهِمْ إِن لَّمْ يُؤْمِنُوا۟ بِهَـٰذَا ٱلْحَدِيثِ أَسَفًا"},
+            {n:"٧", text:"إِنَّا جَعَلْنَا مَا عَلَى ٱلْأَرْضِ زِينَةً لَّهَا لِنَبْلُوَهُمْ أَيُّهُمْ أَحْسَنُ عَمَلًا"},
+            {n:"٨", text:"وَإِنَّا لَجَـٰعِلُونَ مَا عَلَيْهَا صَعِيدًا جُرُزًا"},
+            {n:"٩", text:"أَمْ حَسِبْتَ أَنَّ أَصْحَـٰبَ ٱلْكَهْفِ وَٱلرَّقِيمِ كَانُوا۟ مِنْ ءَايَـٰتِنَا عَجَبًا"},
+            {n:"١٠", text:"إِذْ أَوَى ٱلْفِتْيَةُ إِلَى ٱلْكَهْفِ فَقَالُوا۟ رَبَّنَآ ءَاتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا"},
+            {n:"١١", text:"فَضَرَبْنَا عَلَىٰٓ ءَاذَانِهِمْ فِى ٱلْكَهْفِ سِنِينَ عَدَدًا"},
+            {n:"١٢", text:"ثُمَّ بَعَثْنَـٰهُمْ لِنَعْلَمَ أَىُّ ٱلْحِزْبَيْنِ أَحْصَىٰ لِمَا لَبِثُوٓا۟ أَمَدًا"},
+            {n:"١٣", text:"نَّحْنُ نَقُصُّ عَلَيْكَ نَبَأَهُم بِٱلْحَقِّ ۚ إِنَّهُمْ فِتْيَةٌ ءَامَنُوا۟ بِرَبِّهِمْ وَزِدْنَـٰهُمْ هُدًى"},
+            {n:"١٤", text:"وَرَبَطْنَا عَلَىٰ قُلُوبِهِمْ إِذْ قَامُوا۟ فَقَالُوا۟ رَبُّنَا رَبُّ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ لَن نَّدْعُوَا۟ مِن دُونِهِۦٓ إِلَـٰهًا ۖ لَّقَدْ قُلْنَآ إِذًا شَطَطًا"},
+            {n:"١٥", text:"هَـٰٓؤُلَآءِ قَوْمُنَا ٱتَّخَذُوا۟ مِن دُونِهِۦٓ ءَالِهَةً ۖ لَّوْلَا يَأْتُونَ عَلَيْهِم بِسُلْطَـٰنٍۭ بَيِّنٍ ۖ فَمَنْ أَظْلَمُ مِمَّنِ ٱفْتَرَىٰ عَلَى ٱللَّهِ كَذِبًا"},
+            {n:"١٦", text:"وَإِذِ ٱعْتَزَلْتُمُوهُمْ وَمَا يَعْبُدُونَ إِلَّا ٱللَّهَ فَأْوُۥٓا۟ إِلَى ٱلْكَهْفِ يَنشُرْ لَكُمْ رَبُّكُم مِّن رَّحْمَتِهِۦ وَيُهَيِّئْ لَكُم مِّنْ أَمْرِكُم مِّرْفَقًا"},
+            {n:"١٧", text:"وَتَرَى ٱلشَّمْسَ إِذَا طَلَعَت تَّزَٰوَرُ عَن كَهْفِهِمْ ذَاتَ ٱلْيَمِينِ وَإِذَا غَرَبَت تَّقْرِضُهُمْ ذَاتَ ٱلشِّمَالِ وَهُمْ فِى فَجْوَةٍ مِّنْهُ ۚ ذَٰلِكَ مِنْ ءَايَـٰتِ ٱللَّهِ ۗ مَن يَهْدِ ٱللَّهُ فَهُوَ ٱلْمُهْتَدِ ۖ وَمَن يُضْلِلْ فَلَن تَجِدَ لَهُۥ وَلِيًّا مُّرْشِدًا"},
+            {n:"١٨", text:"وَتَحْسَبُهُمْ أَيْقَاظًا وَهُمْ رُقُودٌ ۚ وَنُقَلِّبُهُمْ ذَاتَ ٱلْيَمِينِ وَذَاتَ ٱلشِّمَالِ ۖ وَكَلْبُهُم بَـٰسِطٌ ذِرَاعَيْهِ بِٱلْوَصِيدِ ۚ لَوِ ٱطَّلَعْتَ عَلَيْهِمْ لَوَلَّيْتَ مِنْهُمْ فِرَارًا وَلَمُلِئْتَ مِنْهُمْ رُعْبًا"},
+            {n:"١٩", text:"وَكَذَٰلِكَ بَعَثْنَـٰهُمْ لِيَتَسَآءَلُوا۟ بَيْنَهُمْ ۚ قَالَ قَآئِلٌ مِّنْهُمْ كَمْ لَبِثْتُمْ ۖ قَالُوا۟ لَبِثْنَا يَوْمًا أَوْ بَعْضَ يَوْمٍ ۚ قَالُوا۟ رَبُّكُمْ أَعْلَمُ بِمَا لَبِثْتُمْ فَٱبْعَثُوٓا۟ أَحَدَكُم بِوَرِقِكُمْ هَـٰذِهِۦٓ إِلَى ٱلْمَدِينَةِ فَلْيَنظُرْ أَيُّهَآ أَزْكَىٰ طَعَامًا فَلْيَأْتِكُم بِرِزْقٍ مِّنْهُ وَلْيَتَلَطَّفْ وَلَا يُشْعِرَنَّ بِكُمْ أَحَدًا"},
+            {n:"٢٠", text:"إِنَّهُمْ إِن يَظْهَرُوا۟ عَلَيْكُمْ يَرْجُمُوكُمْ أَوْ يُعِيدُوكُمْ فِى مِلَّتِهِمْ وَلَن تُفْلِحُوٓا۟ إِذًا أَبَدًا"},
+            {n:"٢١", text:"وَكَذَٰلِكَ أَعْثَرْنَا عَلَيْهِمْ لِيَعْلَمُوٓا۟ أَنَّ وَعْدَ ٱللَّهِ حَقٌّ وَأَنَّ ٱلسَّاعَةَ لَا رَيْبَ فِيهَآ إِذْ يَتَنَـٰزَعُونَ بَيْنَهُمْ أَمْرَهُمْ ۖ فَقَالُوا۟ ٱبْنُوا۟ عَلَيْهِم بُنْيَـٰنًا ۖ رَّبُّهُمْ أَعْلَمُ بِهِمْ ۚ قَالَ ٱلَّذِينَ غَلَبُوا۟ عَلَىٰٓ أَمْرِهِمْ لَنَتَّخِذَنَّ عَلَيْهِم مَّسْجِدًا"},
+            {n:"٢٢", text:"سَيَقُولُونَ ثَلَـٰثَةٌ رَّابِعُهُمْ كَلْبُهُمْ وَيَقُولُونَ خَمْسَةٌ سَادِسُهُمْ كَلْبُهُمْ رَجْمًۢا بِٱلْغَيْبِ ۖ وَيَقُولُونَ سَبْعَةٌ وَثَامِنُهُمْ كَلْبُهُمْ ۚ قُل رَّبِّىٓ أَعْلَمُ بِعِدَّتِهِم مَّا يَعْلَمُهُمْ إِلَّا قَلِيلٌ ۗ فَلَا تُمَارِ فِيهِمْ إِلَّا مِرَآءً ظَـٰهِرًا وَلَا تَسْتَفْتِ فِيهِم مِّنْهُمْ أَحَدًا"},
+            {n:"٢٣", text:"وَلَا تَقُولَنَّ لِشَا۟ىْءٍ إِنِّى فَاعِلٌ ذَٰلِكَ غَدًا"},
+            {n:"٢٤", text:"إِلَّآ أَن يَشَآءَ ٱللَّهُ ۚ وَٱذْكُر رَّبَّكَ إِذَا نَسِيتَ وَقُلْ عَسَىٰٓ أَن يَهْدِيَنِ رَبِّى لِأَقْرَبَ مِنْ هَـٰذَا رَشَدًا"},
+            {n:"٢٥", text:"وَلَبِثُوا۟ فِى كَهْفِهِمْ ثَلَـٰثَ مِا۟ئَةٍ سِنِينَ وَٱزْدَادُوا۟ تِسْعًا"},
+            {n:"٢٦", text:"قُلِ ٱللَّهُ أَعْلَمُ بِمَا لَبِثُوا۟ ۖ لَهُۥ غَيْبُ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ ۖ أَبْصِرْ بِهِۦ وَأَسْمِعْ ۚ مَا لَهُم مِّن دُونِهِۦ مِن وَلِىٍّ وَلَا يُشْرِكُ فِى حُكْمِهِۦٓ أَحَدًا"},
+            {n:"٢٧", text:"وَٱتْلُ مَآ أُوحِىَ إِلَيْكَ مِن كِتَابِ رَبِّكَ ۖ لَا مُبَدِّلَ لِكَلِمَـٰتِهِۦ وَلَن تَجِدَ مِن دُونِهِۦ مُلْتَحَدًا"},
+            {n:"٢٨", text:"وَٱصْبِرْ نَفْسَكَ مَعَ ٱلَّذِينَ يَدْعُونَ رَبَّهُم بِٱلْغَدَوٰةِ وَٱلْعَشِىِّ يُرِيدُونَ وَجْهَهُۥ ۖ وَلَا تَعْدُ عَيْنَاكَ عَنْهُمْ تُرِيدُ زِينَةَ ٱلْحَيَوٰةِ ٱلدُّنْيَا ۖ وَلَا تُطِعْ مَنْ أَغْفَلْنَا قَلْبَهُۥ عَن ذِكْرِنَا وَٱتَّبَعَ هَوَىٰهُ وَكَانَ أَمْرُهُۥ فُرُطًا"},
+            {n:"٢٩", text:"وَقُلِ ٱلْحَقُّ مِن رَّبِّكُمْ ۖ فَمَن شَآءَ فَلْيُؤْمِن وَمَن شَآءَ فَلْيَكْفُرْ ۚ إِنَّآ أَعْتَدْنَا لِلظَّـٰلِمِينَ نَارًا أَحَاطَ بِهِمْ سُرَادِقُهَا ۚ وَإِن يَسْتَغِيثُوا۟ يُغَاثُوا۟ بِمَآءٍ كَٱلْمُهْلِ يَشْوِى ٱلْوُجُوهَ ۚ بِئْسَ ٱلشَّرَابُ وَسَآءَتْ مُرْتَفَقًا"},
+            {n:"٣٠", text:"إِنَّ ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ إِنَّا لَا نُضِيعُ أَجْرَ مَنْ أَحْسَنَ عَمَلًا"},
+            {n:"٣١", text:"أُو۟لَـٰٓئِكَ لَهُمْ جَنَّـٰتُ عَدْنٍ تَجْرِى مِن تَحْتِهِمُ ٱلْأَنْهَـٰرُ يُحَلَّوْنَ فِيهَا مِنْ أَسَاوِرَ مِن ذَهَبٍ وَيَلْبَسُونَ ثِيَابًا خُضْرًا مِّن سُندُسٍ وَإِسْتَبْرَقٍ مُّتَّكِـِٔينَ فِيهَا عَلَى ٱلْأَرَآئِكِ ۚ نِعْمَ ٱلثَّوَابُ وَحَسُنَتْ مُرْتَفَقًا"},
+            {n:"٣٢", text:"وَٱضْرِبْ لَهُم مَّثَلًا رَّجُلَيْنِ جَعَلْنَا لِأَحَدِهِمَا جَنَّتَيْنِ مِنْ أَعْنَـٰبٍ وَحَفَفْنَـٰهُمَا بِنَخْلٍ وَجَعَلْنَا بَيْنَهُمَا زَرْعًا"},
+            {n:"٣٣", text:"كِلْتَا ٱلْجَنَّتَيْنِ ءَاتَتْ أُكُلَهَا وَلَمْ تَظْلِم مِّنْهُ شَيْـًٔا ۚ وَفَجَّرْنَا خِلَـٰلَهُمَا نَهَرًا"},
+            {n:"٣٤", text:"وَكَانَ لَهُۥ ثَمَرٌ فَقَالَ لِصَـٰحِبِهِۦ وَهُوَ يُحَاوِرُهُۥٓ أَنَا۠ أَكْثَرُ مِنكَ مَالًا وَأَعَزُّ نَفَرًا"},
+            {n:"٣٥", text:"وَدَخَلَ جَنَّتَهُۥ وَهُوَ ظَالِمٌ لِّنَفْسِهِۦ قَالَ مَآ أَظُنُّ أَن تَبِيدَ هَـٰذِهِۦٓ أَبَدًا"},
+            {n:"٣٦", text:"وَمَآ أَظُنُّ ٱلسَّاعَةَ قَآئِمَةً وَلَئِن رُّدِدتُّ إِلَىٰ رَبِّى لَأَجِدَنَّ خَيْرًا مِّنْهَا مُنقَلَبًا"},
+            {n:"٣٧", text:"قَالَ لَهُۥ صَاحِبُهُۥ وَهُوَ يُحَاوِرُهُۥٓ أَكَفَرْتَ بِٱلَّذِى خَلَقَكَ مِن تُرَابٍ ثُمَّ مِن نُّطْفَةٍ ثُمَّ سَوَّىٰكَ رَجُلًا"},
+            {n:"٣٨", text:"لَّـٰكِنَّا۠ هُوَ ٱللَّهُ رَبِّى وَلَآ أُشْرِكُ بِرَبِّىٓ أَحَدًا"},
+            {n:"٣٩", text:"وَلَوْلَآ إِذْ دَخَلْتَ جَنَّتَكَ قُلْتَ مَا شَآءَ ٱللَّهُ لَا قُوَّةَ إِلَّا بِٱللَّهِ ۚ إِن تَرَنِ أَنَا۠ أَقَلَّ مِنكَ مَالًا وَوَلَدًا"},
+            {n:"٤٠", text:"فَعَسَىٰ رَبِّىٓ أَن يُؤْتِيَنِ خَيْرًا مِّن جَنَّتِكَ وَيُرْسِلَ عَلَيْهَا حُسْبَانًا مِّنَ ٱلسَّمَآءِ فَتُصْبِحَ صَعِيدًا زَلَقًا"},
+            {n:"٤١", text:"أَوْ يُصْبِحَ مَآؤُهَا غَوْرًا فَلَن تَسْتَطِيعَ لَهُۥ طَلَبًا"},
+            {n:"٤٢", text:"وَأُحِيطَ بِثَمَرِهِۦ فَأَصْبَحَ يُقَلِّبُ كَفَّيْهِ عَلَىٰ مَآ أَنفَقَ فِيهَا وَهِىَ خَاوِيَةٌ عَلَىٰ عُرُوشِهَا وَيَقُولُ يَـٰلَيْتَنِى لَمْ أُشْرِكْ بِرَبِّىٓ أَحَدًا"},
+            {n:"٤٣", text:"وَلَمْ تَكُن لَّهُۥ فِئَةٌ يَنصُرُونَهُۥ مِن دُونِ ٱللَّهِ وَمَا كَانَ مُنتَصِرًا"},
+            {n:"٤٤", text:"هُنَالِكَ ٱلْوَلَـٰيَةُ لِلَّهِ ٱلْحَقِّ ۚ هُوَ خَيْرٌ ثَوَابًا وَخَيْرٌ عُقْبًا"},
+            {n:"٤٥", text:"وَٱضْرِبْ لَهُم مَّثَلَ ٱلْحَيَوٰةِ ٱلدُّنْيَا كَمَآءٍ أَنزَلْنَـٰهُ مِنَ ٱلسَّمَآءِ فَٱخْتَلَطَ بِهِۦ نَبَاتُ ٱلْأَرْضِ فَأَصْبَحَ هَشِيمًا تَذْرُوهُ ٱلرِّيَـٰحُ ۗ وَكَانَ ٱللَّهُ عَلَىٰ كُلِّ شَىْءٍ مُّقْتَدِرًا"},
+            {n:"٤٦", text:"ٱلْمَالُ وَٱلْبَنُونَ زِينَةُ ٱلْحَيَوٰةِ ٱلدُّنْيَا ۖ وَٱلْبَـٰقِيَـٰتُ ٱلصَّـٰلِحَـٰتُ خَيْرٌ عِندَ رَبِّكَ ثَوَابًا وَخَيْرٌ أَمَلًا"},
+            {n:"٤٧", text:"وَيَوْمَ نُسَيِّرُ ٱلْجِبَالَ وَتَرَى ٱلْأَرْضَ بَارِزَةً وَحَشَرْنَـٰهُمْ فَلَمْ نُغَادِرْ مِنْهُمْ أَحَدًا"},
+            {n:"٤٨", text:"وَعُرِضُوا۟ عَلَىٰ رَبِّكَ صَفًّا لَّقَدْ جِئْتُمُونَا كَمَا خَلَقْنَـٰكُمْ أَوَّلَ مَرَّةٍۭ ۚ بَلْ زَعَمْتُمْ أَلَّن نَّجْعَلَ لَكُم مَّوْعِدًا"},
+            {n:"٤٩", text:"وَوُضِعَ ٱلْكِتَـٰبُ فَتَرَى ٱلْمُجْرِمِينَ مُشْفِقِينَ مِمَّا فِيهِ وَيَقُولُونَ يَـٰوَيْلَتَنَا مَالِ هَـٰذَا ٱلْكِتَـٰبِ لَا يُغَادِرُ صَغِيرَةً وَلَا كَبِيرَةً إِلَّآ أَحْصَىٰهَا ۚ وَوَجَدُوا۟ مَا عَمِلُوا۟ حَاضِرًا ۗ وَلَا يَظْلِمُ رَبُّكَ أَحَدًا"},
+            {n:"٥٠", text:"وَإِذْ قُلْنَا لِلْمَلَـٰٓئِكَةِ ٱسْجُدُوا۟ لِـَٔادَمَ فَسَجَدُوٓا۟ إِلَّآ إِبْلِيسَ كَانَ مِنَ ٱلْجِنِّ فَفَسَقَ عَنْ أَمْرِ رَبِّهِۦٓ ۗ أَفَتَتَّخِذُونَهُۥ وَذُرِّيَّتَهُۥٓ أَوْلِيَآءَ مِن دُونِى وَهُمْ لَكُمْ عَدُوٌّۢ ۚ بِئْسَ لِلظَّـٰلِمِينَ بَدَلًا"},
+            {n:"٥١", text:"مَّآ أَشْهَدتُّهُمْ خَلْقَ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ وَلَا خَلْقَ أَنفُسِهِمْ وَمَا كُنتُ مُتَّخِذَ ٱلْمُضِلِّينَ عَضُدًا"},
+            {n:"٥٢", text:"وَيَوْمَ يَقُولُ نَادُوا۟ شُرَكَآءِىَ ٱلَّذِينَ زَعَمْتُمْ فَدَعَوْهُمْ فَلَمْ يَسْتَجِيبُوا۟ لَهُمْ وَجَعَلْنَا بَيْنَهُم مَّوْبِقًا"},
+            {n:"٥٣", text:"وَرَءَا ٱلْمُجْرِمُونَ ٱلنَّارَ فَظَنُّوٓا۟ أَنَّهُم مُّوَاقِعُوهَا وَلَمْ يَجِدُوا۟ عَنْهَا مَصْرِفًا"},
+            {n:"٥٤", text:"وَلَقَدْ صَرَّفْنَا فِى هَـٰذَا ٱلْقُرْءَانِ لِلنَّاسِ مِن كُلِّ مَثَلٍ ۚ وَكَانَ ٱلْإِنسَـٰنُ أَكْثَرَ شَىْءٍ جَدَلًا"},
+            {n:"٥٥", text:"وَمَا مَنَعَ ٱلنَّاسَ أَن يُؤْمِنُوٓا۟ إِذْ جَآءَهُمُ ٱلْهُدَىٰ وَيَسْتَغْفِرُوا۟ رَبَّهُمْ إِلَّآ أَن تَأْتِيَهُمْ سُنَّةُ ٱلْأَوَّلِينَ أَوْ يَأْتِيَهُمُ ٱلْعَذَابُ قُبُلًا"},
+            {n:"٥٦", text:"وَمَا نُرْسِلُ ٱلْمُرْسَلِينَ إِلَّا مُبَشِّرِينَ وَمُنذِرِينَ ۚ وَيُجَـٰدِلُ ٱلَّذِينَ كَفَرُوا۟ بِٱلْبَـٰطِلِ لِيُدْحِضُوا۟ بِهِ ٱلْحَقَّ ۖ وَٱتَّخَذُوٓا۟ ءَايَـٰتِى وَمَآ أُنذِرُوا۟ هُزُوًا"},
+            {n:"٥٧", text:"وَمَنْ أَظْلَمُ مِمَّن ذُكِّرَ بِـَٔايَـٰتِ رَبِّهِۦ فَأَعْرَضَ عَنْهَا وَنَسِىَ مَا قَدَّمَتْ يَدَاهُ ۚ إِنَّا جَعَلْنَا عَلَىٰ قُلُوبِهِمْ أَكِنَّةً أَن يَفْقَهُوهُ وَفِىٓ ءَاذَانِهِمْ وَقْرًا ۖ وَإِن تَدْعُهُمْ إِلَى ٱلْهُدَىٰ فَلَن يَهْتَدُوٓا۟ إِذًا أَبَدًا"},
+            {n:"٥٨", text:"وَرَبُّكَ ٱلْغَفُورُ ذُو ٱلرَّحْمَةِ ۖ لَوْ يُؤَاخِذُهُم بِمَا كَسَبُوا۟ لَعَجَّلَ لَهُمُ ٱلْعَذَابَ ۚ بَل لَّهُم مَّوْعِدٌ لَّن يَجِدُوا۟ مِن دُونِهِۦ مَوْئِلًا"},
+            {n:"٥٩", text:"وَتِلْكَ ٱلْقُرَىٰٓ أَهْلَكْنَـٰهُمْ لَمَّا ظَلَمُوا۟ وَجَعَلْنَا لِمَهْلِكِهِم مَّوْعِدًا"},
+            {n:"٦٠", text:"وَإِذْ قَالَ مُوسَىٰ لِفَتَىٰهُ لَآ أَبْرَحُ حَتَّىٰٓ أَبْلُغَ مَجْمَعَ ٱلْبَحْرَيْنِ أَوْ أَمْضِىَ حُقُبًا"},
+            {n:"٦١", text:"فَلَمَّا بَلَغَا مَجْمَعَ بَيْنِهِمَا نَسِيَا حُوتَهُمَا فَٱتَّخَذَ سَبِيلَهُۥ فِى ٱلْبَحْرِ سَرَبًا"},
+            {n:"٦٢", text:"فَلَمَّا جَاوَزَا قَالَ لِفَتَىٰهُ ءَاتِنَا غَدَآءَنَا لَقَدْ لَقِينَا مِن سَفَرِنَا هَـٰذَا نَصَبًا"},
+            {n:"٦٣", text:"قَالَ أَرَءَيْتَ إِذْ أَوَيْنَآ إِلَى ٱلصَّخْرَةِ فَإِنِّى نَسِيتُ ٱلْحُوتَ وَمَآ أَنسَىٰنِيهُ إِلَّا ٱلشَّيْطَـٰنُ أَنْ أَذْكُرَهُۥ ۚ وَٱتَّخَذَ سَبِيلَهُۥ فِى ٱلْبَحْرِ عَجَبًا"},
+            {n:"٦٤", text:"قَالَ ذَٰلِكَ مَا كُنَّا نَبْغِ ۚ فَٱرْتَدَّا عَلَىٰٓ ءَاثَارِهِمَا قَصَصًا"},
+            {n:"٦٥", text:"فَوَجَدَا عَبْدًا مِّنْ عِبَادِنَآ ءَاتَيْنَـٰهُ رَحْمَةً مِّنْ عِندِنَا وَعَلَّمْنَـٰهُ مِن لَّدُنَّا عِلْمًا"},
+            {n:"٦٦", text:"قَالَ لَهُۥ مُوسَىٰ هَلْ أَتَّبِعُكَ عَلَىٰٓ أَن تُعَلِّمَنِ مِمَّا عُلِّمْتَ رُشْدًا"},
+            {n:"٦٧", text:"قَالَ إِنَّكَ لَن تَسْتَطِيعَ مَعِىَ صَبْرًا"},
+            {n:"٦٨", text:"وَكَيْفَ تَصْبِرُ عَلَىٰ مَا لَمْ تُحِطْ بِهِۦ خُبْرًا"},
+            {n:"٦٩", text:"قَالَ سَتَجِدُنِىٓ إِن شَآءَ ٱللَّهُ صَابِرًا وَلَآ أَعْصِى لَكَ أَمْرًا"},
+            {n:"٧٠", text:"قَالَ فَإِنِ ٱتَّبَعْتَنِى فَلَا تَسْـَٔلْنِى عَن شَىْءٍ حَتَّىٰٓ أُحْدِثَ لَكَ مِنْهُ ذِكْرًا"},
+            {n:"٧١", text:"فَٱنطَلَقَا حَتَّىٰٓ إِذَا رَكِبَا فِى ٱلسَّفِينَةِ خَرَقَهَا ۖ قَالَ أَخَرَقْتَهَا لِتُغْرِقَ أَهْلَهَا لَقَدْ جِئْتَ شَيْـًٔا إِمْرًا"},
+            {n:"٧٢", text:"قَالَ أَلَمْ أَقُلْ إِنَّكَ لَن تَسْتَطِيعَ مَعِىَ صَبْرًا"},
+            {n:"٧٣", text:"قَالَ لَا تُؤَاخِذْنِى بِمَا نَسِيتُ وَلَا تُرْهِقْنِى مِنْ أَمْرِى عُسْرًا"},
+            {n:"٧٤", text:"فَٱنطَلَقَا حَتَّىٰٓ إِذَا لَقِيَا غُلَـٰمًا فَقَتَلَهُۥ قَالَ أَقَتَلْتَ نَفْسًا زَكِيَّةًۢ بِغَيْرِ نَفْسٍ لَّقَدْ جِئْتَ شَيْـًٔا نُّكْرًا"},
+            {n:"٧٥", text:"قَالَ أَلَمْ أَقُل لَّكَ إِنَّكَ لَن تَسْتَطِيعَ مَعِىَ صَبْرًا"},
+            {n:"٧٦", text:"قَالَ إِن سَأَلْتُكَ عَن شَىْءٍۭ بَعْدَهَا فَلَا تُصَـٰحِبْنِى ۖ قَدْ بَلَغْتَ مِن لَّدُنِّى عُذْرًا"},
+            {n:"٧٧", text:"فَٱنطَلَقَا حَتَّىٰٓ إِذَآ أَتَيَآ أَهْلَ قَرْيَةٍ ٱسْتَطْعَمَآ أَهْلَهَا فَأَبَوْا۟ أَن يُضَيِّفُوهُمَا فَوَجَدَا فِيهَا جِدَارًا يُرِيدُ أَن يَنقَضَّ فَأَقَامَهُۥ ۖ قَالَ لَوْ شِئْتَ لَتَّخَذْتَ عَلَيْهِ أَجْرًا"},
+            {n:"٧٨", text:"قَالَ هَـٰذَا فِرَاقُ بَيْنِى وَبَيْنِكَ ۚ سَأُنَبِّئُكَ بِتَأْوِيلِ مَا لَمْ تَسْتَطِع عَّلَيْهِ صَبْرًا"},
+            {n:"٧٩", text:"أَمَّا ٱلسَّفِينَةُ فَكَانَتْ لِمَسَـٰكِينَ يَعْمَلُونَ فِى ٱلْبَحْرِ فَأَرَدتُّ أَنْ أَعِيبَهَا وَكَانَ وَرَآءَهُم مَّلِكٌ يَأْخُذُ كُلَّ سَفِينَةٍ غَصْبًا"},
+            {n:"٨٠", text:"وَأَمَّا ٱلْغُلَـٰمُ فَكَانَ أَبَوَاهُ مُؤْمِنَيْنِ فَخَشِينَآ أَن يُرْهِقَهُمَا طُغْيَـٰنًا وَكُفْرًا"},
+            {n:"٨١", text:"فَأَرَدْنَآ أَن يُبْدِلَهُمَا رَبُّهُمَا خَيْرًا مِّنْهُ زَكَوٰةً وَأَقْرَبَ رُحْمًا"},
+            {n:"٨٢", text:"وَأَمَّا ٱلْجِدَارُ فَكَانَ لِغُلَـٰمَيْنِ يَتِيمَيْنِ فِى ٱلْمَدِينَةِ وَكَانَ تَحْتَهُۥ كَنزٌ لَّهُمَا وَكَانَ أَبُوهُمَا صَـٰلِحًا فَأَرَادَ رَبُّكَ أَن يَبْلُغَآ أَشُدَّهُمَا وَيَسْتَخْرِجَا كَنزَهُمَا رَحْمَةً مِّن رَّبِّكَ ۚ وَمَا فَعَلْتُهُۥ عَنْ أَمْرِى ۚ ذَٰلِكَ تَأْوِيلُ مَا لَمْ تَسْطِع عَّلَيْهِ صَبْرًا"},
+            {n:"٨٣", text:"وَيَسْـَٔلُونَكَ عَن ذِى ٱلْقَرْنَيْنِ ۖ قُلْ سَأَتْلُوا۟ عَلَيْكُم مِّنْهُ ذِكْرًا"},
+            {n:"٨٤", text:"إِنَّا مَكَّنَّا لَهُۥ فِى ٱلْأَرْضِ وَءَاتَيْنَـٰهُ مِن كُلِّ شَىْءٍ سَبَبًا"},
+            {n:"٨٥", text:"فَأَتْبَعَ سَبَبًا"},
+            {n:"٨٦", text:"حَتَّىٰٓ إِذَا بَلَغَ مَغْرِبَ ٱلشَّمْسِ وَجَدَهَا تَغْرُبُ فِى عَيْنٍ حَمِئَةٍ وَوَجَدَ عِندَهَا قَوْمًا ۗ قُلْنَا يَـٰذَا ٱلْقَرْنَيْنِ إِمَّآ أَن تُعَذِّبَ وَإِمَّآ أَن تَتَّخِذَ فِيهِمْ حُسْنًا"},
+            {n:"٨٧", text:"قَالَ أَمَّا مَن ظَلَمَ فَسَوْفَ نُعَذِّبُهُۥ ثُمَّ يُرَدُّ إِلَىٰ رَبِّهِۦ فَيُعَذِّبُهُۥ عَذَابًا نُّكْرًا"},
+            {n:"٨٨", text:"وَأَمَّا مَنْ ءَامَنَ وَعَمِلَ صَـٰلِحًا فَلَهُۥ جَزَآءً ٱلْحُسْنَىٰ ۖ وَسَنَقُولُ لَهُۥ مِنْ أَمْرِنَا يُسْرًا"},
+            {n:"٨٩", text:"ثُمَّ أَتْبَعَ سَبَبًا"},
+            {n:"٩٠", text:"حَتَّىٰٓ إِذَا بَلَغَ مَطْلِعَ ٱلشَّمْسِ وَجَدَهَا تَطْلُعُ عَلَىٰ قَوْمٍ لَّمْ نَجْعَل لَّهُم مِّن دُونِهَا سِتْرًا"},
+            {n:"٩١", text:"كَذَٰلِكَ وَقَدْ أَحَطْنَا بِمَا لَدَيْهِ خُبْرًا"},
+            {n:"٩٢", text:"ثُمَّ أَتْبَعَ سَبَبًا"},
+            {n:"٩٣", text:"حَتَّىٰٓ إِذَا بَلَغَ بَيْنَ ٱلسَّدَّيْنِ وَجَدَ مِن دُونِهِمَا قَوْمًا لَّا يَكَادُونَ يَفْقَهُونَ قَوْلًا"},
+            {n:"٩٤", text:"قَالُوا۟ يَـٰذَا ٱلْقَرْنَيْنِ إِنَّ يَأْجُوجَ وَمَأْجُوجَ مُفْسِدُونَ فِى ٱلْأَرْضِ فَهَلْ نَجْعَلُ لَكَ خَرْجًا عَلَىٰٓ أَن تَجْعَلَ بَيْنَنَا وَبَيْنَهُمْ سَدًّا"},
+            {n:"٩٥", text:"قَالَ مَا مَكَّنِّى فِيهِ رَبِّى خَيْرٌ فَأَعِينُونِى بِقُوَّةٍ أَجْعَلْ بَيْنَكُمْ وَبَيْنَهُمْ رَدْمًا"},
+            {n:"٩٦", text:"ءَاتُونِى زُبَرَ ٱلْحَدِيدِ ۖ حَتَّىٰٓ إِذَا سَاوَىٰ بَيْنَ ٱلصَّدَفَيْنِ قَالَ ٱنفُخُوا۟ ۖ حَتَّىٰٓ إِذَا جَعَلَهُۥ نَارًا قَالَ ءَاتُونِىٓ أُفْرِغْ عَلَيْهِ قِطْرًا"},
+            {n:"٩٧", text:"فَمَا ٱسْطَـٰعُوٓا۟ أَن يَظْهَرُوهُ وَمَا ٱسْتَطَـٰعُوا۟ لَهُۥ نَقْبًا"},
+            {n:"٩٨", text:"قَالَ هَـٰذَا رَحْمَةٌ مِّن رَّبِّى ۖ فَإِذَا جَآءَ وَعْدُ رَبِّى جَعَلَهُۥ دَكَّآءَ ۖ وَكَانَ وَعْدُ رَبِّى حَقًّا"},
+            {n:"٩٩", text:"وَتَرَكْنَا بَعْضَهُمْ يَوْمَئِذٍ يَمُوجُ فِى بَعْضٍ ۖ وَنُفِخَ فِى ٱلصُّورِ فَجَمَعْنَـٰهُمْ جَمْعًا"},
+            {n:"١٠٠", text:"وَعَرَضْنَا جَهَنَّمَ يَوْمَئِذٍ لِّلْكَـٰفِرِينَ عَرْضًا"},
+            {n:"١٠١", text:"ٱلَّذِينَ كَانَتْ أَعْيُنُهُمْ فِى غِطَآءٍ عَن ذِكْرِى وَكَانُوا۟ لَا يَسْتَطِيعُونَ سَمْعًا"},
+            {n:"١٠٢", text:"أَفَحَسِبَ ٱلَّذِينَ كَفَرُوٓا۟ أَن يَتَّخِذُوا۟ عِبَادِى مِن دُونِىٓ أَوْلِيَآءَ ۚ إِنَّآ أَعْتَدْنَا جَهَنَّمَ لِلْكَـٰفِرِينَ نُزُلًا"},
+            {n:"١٠٣", text:"قُلْ هَلْ نُنَبِّئُكُم بِٱلْأَخْسَرِينَ أَعْمَـٰلًا"},
+            {n:"١٠٤", text:"ٱلَّذِينَ ضَلَّ سَعْيُهُمْ فِى ٱلْحَيَوٰةِ ٱلدُّنْيَا وَهُمْ يَحْسَبُونَ أَنَّهُمْ يُحْسِنُونَ صُنْعًا"},
+            {n:"١٠٥", text:"أُو۟لَـٰٓئِكَ ٱلَّذِينَ كَفَرُوا۟ بِـَٔايَـٰتِ رَبِّهِمْ وَلِقَآئِهِۦ فَحَبِطَتْ أَعْمَـٰلُهُمْ فَلَا نُقِيمُ لَهُمْ يَوْمَ ٱلْقِيَـٰمَةِ وَزْنًا"},
+            {n:"١٠٦", text:"ذَٰلِكَ جَزَآؤُهُمْ جَهَنَّمُ بِمَا كَفَرُوا۟ وَٱتَّخَذُوٓا۟ ءَايَـٰتِى وَرُسُلِى هُزُوًا"},
+            {n:"١٠٧", text:"إِنَّ ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ كَانَتْ لَهُمْ جَنَّـٰتُ ٱلْفِرْدَوْسِ نُزُلًا"},
+            {n:"١٠٨", text:"خَـٰلِدِينَ فِيهَا لَا يَبْغُونَ عَنْهَا حِوَلًا"},
+            {n:"١٠٩", text:"قُل لَّوْ كَانَ ٱلْبَحْرُ مِدَادًا لِّكَلِمَـٰتِ رَبِّى لَنَفِدَ ٱلْبَحْرُ قَبْلَ أَن تَنفَدَ كَلِمَـٰتُ رَبِّى وَلَوْ جِئْنَا بِمِثْلِهِۦ مَدَدًا"},
+            {n:"١١٠", text:"قُلْ إِنَّمَآ أَنَا۠ بَشَرٌ مِّثْلُكُمْ يُوحَىٰٓ إِلَىَّ أَنَّمَآ إِلَـٰهُكُمْ إِلَـٰهٌ وَٰحِدٌ ۖ فَمَن كَانَ يَرْجُوا۟ لِقَآءَ رَبِّهِۦ فَلْيَعْمَلْ عَمَلًا صَـٰلِحًا وَلَا يُشْرِكْ بِعِبَادَةِ رَبِّهِۦٓ أَحَدًۢا"},
+        ];
+
+        function kahfState(){
+            if(!db.kahfMemorization || typeof db.kahfMemorization!=='object') db.kahfMemorization={lastSaved:-1,lastReviewAt:0};
+            return db.kahfMemorization;
+        }
+        function kahfCurrentIndex(){
+            const st=kahfState();
+            let idx=Number.isInteger(st.currentIndex)?st.currentIndex:(st.lastSaved+1);
+            return Math.max(0,Math.min(kahfAyahs.length-1,idx));
+        }
+        let kahfHidden=false;
+        let kahfRepeatCount=0;
+        function renderKahfView(){
+            const card=document.getElementById('kahfAyahCard'); if(!card)return;
+            const st=kahfState();
+            const idx=kahfCurrentIndex(); const ayah=kahfAyahs[idx];
+            const saved=Number.isInteger(st.lastSaved)?st.lastSaved:-1;
+            const pct=Math.round(((saved+1)/kahfAyahs.length)*100);
+            const progress=document.getElementById('kahfProgressCard');
+            if(progress) progress.innerHTML=`<div class="kahf-progress-top"><span>تقدم الحفظ</span><strong>${Math.max(0,saved+1)} / ${kahfAyahs.length} آية</strong></div><div class="kahf-progress-track"><span style="width:${pct}%"></span></div><div style="margin-top:8px;font-size:11px;color:var(--text-secondary);">${saved>=0?`آخر آية محفوظة: ${saved+1} — ستعود بعدها إلى الآية ${Math.min(saved+2,kahfAyahs.length)}.`:'لم تُحفظ آية بعد — ابدأ من الآية الأولى.'}</div>`;
+            card.innerHTML=`<div class="kahf-ayah-meta"><span>سورة الكهف</span><span>الآية ${ayah.n} من ١١٠</span></div><div class="kahf-ayah-text ${kahfHidden?'hidden':''}" id="kahfAyahText">${ayah.text} ﴿${ayah.n}﴾</div><div class="kahf-source">نص عثماني موثّق — يُنصح بمراجعة المصحف الورقي عند التثبيت النهائي.</div>`;
+            const status=document.getElementById('kahfRepeatStatus'); if(status) status.textContent=`التكرار: ${kahfRepeatCount}`;
+            const hideBtn=document.getElementById('kahfHideBtn'); if(hideBtn) hideBtn.textContent=kahfHidden?'👁 إظهار الآية':'👁 إخفاء الآية';
+            const note=document.getElementById('kahfMemoryNote'); if(note) note.textContent=saved>=0?`موضعك محفوظ حتى الآية ${saved}. عند فتح قسم الحفظ سيبدأ تلقائيًا من الآية ${Math.min(saved+1,kahfAyahs.length)}.`:'زر «تم الحفظ» يحفظ آخر آية أتقنتها، ثم يجعل الآية التالية هي نقطة البداية القادمة.';
+        }
+        function toggleKahfHide(){kahfHidden=!kahfHidden;renderKahfView();}
+        function kahfPrevious(){const st=kahfState(); st.currentIndex=Math.max(0,kahfCurrentIndex()-1); kahfHidden=false; kahfRepeatCount=0; renderKahfView();}
+        function kahfNext(){const st=kahfState(); st.currentIndex=Math.min(kahfAyahs.length-1,kahfCurrentIndex()+1); kahfHidden=false; kahfRepeatCount=0; renderKahfView();}
+        function kahfMarkSaved(){
+            const st=kahfState(); const idx=kahfCurrentIndex();
+            st.lastSaved=idx; st.currentIndex=Math.min(kahfAyahs.length-1,idx+1); st.lastReviewAt=Date.now();
+            kahfHidden=false; kahfRepeatCount=0; finalizeAction(); renderKahfView();
+            showToast(idx===kahfAyahs.length-1?'🎉 تم حفظ سورة الكهف كاملة':'✓ تم حفظ الآية التالية كنقطة تقدم');
+        }
+        function repeatKahf(target){kahfRepeatCount=Math.min(target,kahfRepeatCount+1);const status=document.getElementById('kahfRepeatStatus');if(status)status.textContent=`التكرار: ${kahfRepeatCount} / ${target}`;}
+        function resetKahfRepeat(){kahfRepeatCount=0;const status=document.getElementById('kahfRepeatStatus');if(status)status.textContent='التكرار: 0';}
+
         function renderDhikrView() {
             const container=document.getElementById('adhkarContentContainer'); if(!container)return;
+            renderAdhkarTabs();
+            const activeTab=adhkarTabDefinitions.find(t=>t.id===activeAdhkarTab)||adhkarTabDefinitions[0];
             const ctx=getCurrentDhikrContext();
             const title=document.getElementById('adhkarContextTitle'); const sub=document.getElementById('adhkarContextSubtitle');
-            if(title) title.textContent=`${ctx.icon} ${ctx.title}`;
-            if(sub) sub.textContent=ctx.subtitle;
-            const items=adhkarDatabase.filter(x=>x.category===ctx.category);
-            const occurrence=getDhikrOccurrence(ctx);
+            if(title) title.textContent=activeTab.id==='main'?`${ctx.icon} ${ctx.title}`:`🤲 ${activeTab.label}`;
+            if(sub) sub.textContent=activeTab.id==='main'?ctx.subtitle:activeTab.note;
+            const category=activeTab.id==='main'?ctx.category:activeTab.category;
+            const items=adhkarDatabase.filter(x=>x.category===category);
+            const occurrence=activeTab.id==='main'?getDhikrOccurrence(ctx):category;
             const completed=items.filter(d=>(db.adhkarCounters[getDhikrCounterKey(d.id,occurrence)] ?? d.count)===0).length;
             const totalRemaining=items.reduce((sum,d)=>sum+(db.adhkarCounters[getDhikrCounterKey(d.id,occurrence)] ?? d.count),0);
             const totalTarget=items.reduce((sum,d)=>sum+d.count,0);
             const progress=totalTarget?Math.round(((totalTarget-totalRemaining)/totalTarget)*100):0;
             const sourceBox=document.getElementById('adhkarSourceBadge');
-            if(sourceBox) sourceBox.innerHTML=`<strong>المصدر:</strong> الموسوعة الحديثية في الدرر السنية + فتاوى الشيخ ابن باز. المحتوى محفوظ داخل التطبيق ولا يحتاج جلبًا متزامنًا.`;
-            container.innerHTML=`<div class="adhkar-progress-pro"><div><strong>${completed}/${items.length} مكتملة</strong><span>${totalRemaining} تكرارًا متبقيًا</span></div><div class="adhkar-progress-track"><span style="width:${progress}%"></span></div></div>` + items.map(d=>{
+            if(sourceBox) sourceBox.innerHTML=`<strong>توثيق المحتوى:</strong> أضيفت الأبواب من أحاديث صحيحة أو حسنة موثقة في الموسوعة الحديثية بالدرر السنية، مع إبقاء النصوص ثابتة داخل التطبيق.`;
+            container.innerHTML=`<div class="adhkar-bundle-note">${activeTab.id==='main'?'الباب الرئيسي يتبدل تلقائيًا حسب الوقت، ولا يحتاج اختيارًا يدويًا.':'هذا الباب مستقل؛ يمكنك استخدامه للمراجعة في أي وقت.'}</div><div class="adhkar-progress-pro"><div><strong>${completed}/${items.length} مكتملة</strong><span>${totalRemaining} تكرارًا متبقيًا</span></div><div class="adhkar-progress-track"><span style="width:${progress}%"></span></div></div>` + items.map(d=>{
                 const key=getDhikrCounterKey(d.id,occurrence);
                 const remaining=db.adhkarCounters[key]!==undefined?db.adhkarCounters[key]:d.count;
                 const done=remaining===0;
@@ -3022,7 +3183,7 @@ body.ios-mode:not(.light-mode) .rings-dock{
                     <div class="dhikr-pro-meta"><span>${d.title}</span><span>${done?'✓ مكتمل':`متبقي: ${remaining} من ${d.count}`}</span></div>
                     <div class="dhikr-pro-text">${d.text}</div>
                     <div class="dhikr-counter-wrap"><span class="dhikr-counter-label">${done?'اكتمل':'المتبقي'}</span><div class="dhikr-counter-pill ${done?'done':''}">${done?'✓':remaining}</div><span class="dhikr-counter-total">من ${d.count}</span></div>
-                    <div class="dhikr-pro-footer"><span>${done?'اكتمل هذا الذكر اليوم':'اضغط مرة واحدة لكل تكرار'}</span></div>
+                    <div class="dhikr-pro-footer"><span>${done?'اكتمل هذا الذكر':'اضغط مرة واحدة لكل تكرار'}</span></div>
                 </article>`;
             }).join('');
         }
@@ -3634,7 +3795,6 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
             if (viewId === 'adhkar-view') return 'adhkar';
             if (viewId === 'settings-view') return 'settings';
             if (viewId === 'todos-view') return 'tasks';
-            if (viewId === 'prayers-alarms-view') return 'notifications';
             return 'sections';
         }
 
@@ -3653,39 +3813,40 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
             });
         }
 
+        /*
+         * Bottom navigation icons: Lucide-inspired inline SVGs.
+         * Source: Lucide Icons, ISC License. Kept inline so the app has no CDN dependency.
+         */
+        function lucideNavIcon(name){
+            const p={
+                home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>',
+                bookOpen:'<path d="M2.5 5.5A3.5 3.5 0 0 1 6 2h5v18H6a3.5 3.5 0 0 0-3.5 3.5z"/><path d="M21.5 5.5A3.5 3.5 0 0 0 18 2h-5v18h5a3.5 3.5 0 0 1 3.5 3.5z"/>',
+                check:'<circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/>',
+                settings:'<path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="m19.4 15 .9 1.7-1.9 1.9-1.7-.9a7.7 7.7 0 0 1-2 .8L14 20.5h-4L9.4 18.5a7.7 7.7 0 0 1-2-.8l-1.7.9-1.9-1.9.9-1.7a7.7 7.7 0 0 1-.8-2L2 12l1.9-1.1a7.7 7.7 0 0 1 .8-2l-.9-1.7 1.9-1.9 1.7.9a7.7 7.7 0 0 1 2-.8L10 3.5h4l.6 1.9a7.7 7.7 0 0 1 2 .8l1.7-.9 1.9 1.9-.9 1.7a7.7 7.7 0 0 1 .8 2L22 12l-1.9 1a7.7 7.7 0 0 1-.7 2Z"/>',
+                grid:'<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/>'
+            };
+            return `<svg viewBox="0 0 24 24" aria-hidden="true">${p[name]||p.grid}</svg>`;
+        }
+
         function renderRings() {
             const dock = document.getElementById('ringsDock');
             if (!dock) return;
             if (!dock.dataset.ready) {
                 dock.innerHTML = [
-                    `<button class="ring-item ring-home" data-nav="home" onclick="switchNavSection('dashboard-view', this)" aria-label="الرئيسية" title="الرئيسية"><span class="ring-icon">${iconSvg('home')}</span><span class="ring-label">الرئيسية</span></button>`,
-                    `<button class="ring-item ring-adhkar" data-nav="adhkar" onclick="switchNavSection('adhkar-view', this)" aria-label="الأذكار" title="الأذكار"><span class="ring-icon">${adhkarRingSvg()}</span><span class="ring-label">الأذكار</span></button>`,
-                    `<button class="ring-item ring-section" data-nav="sections" onclick="openAllSectionsModal()" aria-label="الأقسام" title="الأقسام"><span class="ring-icon">${iconSvg('grid')}</span><span class="ring-label">الأقسام</span></button>`,
-                    `<button class="ring-item ring-settings" data-nav="settings" onclick="switchNavSection('settings-view', this)" aria-label="الإعدادات" title="الإعدادات"><span class="ring-icon">${iconSvg('settings')}</span><span class="ring-label">الإعدادات</span></button>`,
-                    `<button class="ring-item ring-tasks" data-nav="tasks" onclick="switchNavSection('todos-view', this)" aria-label="المهام" title="المهام"><span class="ring-icon">${iconSvg('check')}</span><span class="ring-label">المهام</span></button>`,
-                    `<button class="ring-item ring-notifications" data-nav="notifications" onclick="switchNavSection('prayers-alarms-view', this)" aria-label="التنبيهات" title="التنبيهات"><span class="ring-icon">${iconSvg('bell')}</span><span class="ring-label">التنبيهات</span></button>`
+                    `<button class="ring-item ring-adhkar" data-nav="adhkar" onclick="switchNavSection('adhkar-view', this)" aria-label="الأذكار" title="الأذكار"><span class="ring-icon">${lucideNavIcon('bookOpen')}</span><span class="ring-label">الأذكار</span></button>`,
+                    `<button class="ring-item ring-tasks" data-nav="tasks" onclick="switchNavSection('todos-view', this)" aria-label="المهام" title="المهام"><span class="ring-icon">${lucideNavIcon('check')}</span><span class="ring-label">المهام</span></button>`,
+                    `<button class="ring-item ring-home" data-nav="home" onclick="switchNavSection('dashboard-view', this)" aria-label="الرئيسية" title="الرئيسية"><span class="ring-icon">${lucideNavIcon('home')}</span><span class="ring-label">الرئيسية</span></button>`,
+                    `<button class="ring-item ring-settings" data-nav="settings" onclick="switchNavSection('settings-view', this)" aria-label="الإعدادات" title="الإعدادات"><span class="ring-icon">${lucideNavIcon('settings')}</span><span class="ring-label">الإعدادات</span></button>`,
+                    `<button class="ring-item ring-section" data-nav="sections" onclick="openAllSectionsModal()" aria-label="الأقسام" title="الأقسام"><span class="ring-icon">${lucideNavIcon('grid')}</span><span class="ring-label">الأقسام</span></button>`
                 ].join('');
                 dock.dataset.ready = '1';
             }
-            updateNotificationRingState();
             updateBottomNavActive(document.querySelector('.section-view.active')?.id || 'dashboard-view');
-        }
-
-        function updateNotificationRingState() {
-            const dock = document.getElementById('ringsDock');
-            if (!dock) return;
-            const now = Date.now();
-            const hasNotifications = (Array.isArray(db.reminders) ? db.reminders : []).some(r => r && !r.triggered && r.targetTime && r.targetTime > now);
-            const bell = dock.querySelector('.ring-notifications');
-            if (bell && bell.dataset.notificationState !== String(hasNotifications)) {
-                bell.dataset.notificationState = String(hasNotifications);
-                bell.classList.toggle('has-notifications', hasNotifications);
-            }
         }
 
         function pulseRings() { /* التوافق مع الاستدعاءات القديمة؛ لا وميض. */ }
 
-        function updateRingCountdowns() { updateNotificationRingState(); }
+        function updateRingCountdowns() { /* لا توجد حلقة تنبيهات في الشريط السفلي الآن. */ }
 
 
         function updateUI() {
@@ -3818,6 +3979,7 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
             const activeView = document.querySelector('.section-view.active');
             if (activeView?.id === 'prayers-alarms-view') renderCombinedReminders();
             if (activeView?.id === 'adhkar-view') renderDhikrView();
+            if (activeView?.id === 'kahf-view') renderKahfView();
             if (changed) { renderRings(); finalizeAction(); }
         }, 1000);
 
@@ -3892,10 +4054,7 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
             };
             reader.readAsText(file);
         }
-
-        function startVoiceRecording() { showToast('🎙️ ميزة التسجيل الصوتي المباشر'); }
-
-        const SECTION_META = {
+const SECTION_META = {
             'islamiyat-view': ['book', 'إسلاميات'], 'notes-view': ['note', 'الملاحظات'],
             'todos-view': ['check', 'المهام'], 'finance-view': ['wallet', 'المصروفات'],
             'memories-view': ['clock', 'الذكريات'], 'purchases-view': ['cart', 'المشتريات'], 'weather-view': ['cloud', 'الطقس'],
@@ -4170,3 +4329,90 @@ body[data-design]:not(.light-mode) .modal-box *{color:inherit;}
 </html>
 
 
+
+<style id="lifeos-custom-bottom-nav-final">
+/* ===== شريط سفلي مخصص: 5 أقسام فقط، والرئيسية هي المركز ===== */
+.rings-dock{
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:center !important;
+  direction:rtl !important;
+  gap:8px !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  padding:5px !important;
+}
+.ring-item{
+  width:50px !important;
+  min-width:50px !important;
+  flex:0 0 50px !important;
+  height:50px !important;
+  padding:0 !important;
+  margin:0 !important;
+  display:inline-flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:9px !important;
+  box-sizing:border-box !important;
+  overflow:hidden !important;
+}
+.ring-item .ring-icon{
+  width:30px !important;
+  height:30px !important;
+  flex:0 0 30px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:4px !important;
+  margin:0 !important;
+  box-sizing:border-box !important;
+  border-radius:10px !important;
+  background:color-mix(in srgb,var(--accent-primary) 7%,transparent) !important;
+}
+.ring-item .ring-icon svg{width:21px !important;height:21px !important;display:block !important;}
+.ring-item.active{
+  width:118px !important;
+  min-width:118px !important;
+  flex:0 0 118px !important;
+  height:53px !important;
+  padding:0 13px !important;
+  gap:9px !important;
+  justify-content:center !important;
+  direction:rtl !important;
+  transform:translateY(-2px) !important;
+}
+.ring-item.active .ring-icon{
+  order:1 !important;
+  width:31px !important;
+  height:31px !important;
+  flex-basis:31px !important;
+  padding:4px !important;
+  margin:0 !important;
+}
+.ring-item.active .ring-label{
+  order:2 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex:0 0 auto !important;
+  margin:0 !important;
+  white-space:nowrap !important;
+}
+/* الرئيسية أهم عنصر: أكبر قليلًا بدون إفساد توازن الشريط */
+.ring-item.ring-home:not(.active){width:56px !important;min-width:56px !important;flex-basis:56px !important;height:56px !important;border-radius:20px !important;}
+.ring-item.ring-home:not(.active) .ring-icon{width:34px !important;height:34px !important;flex-basis:34px !important;padding:5px !important;border-radius:11px !important;}
+.ring-item.ring-home.active{width:128px !important;min-width:128px !important;flex-basis:128px !important;height:56px !important;border-radius:20px !important;}
+.ring-item.ring-home.active .ring-icon{width:34px !important;height:34px !important;flex-basis:34px !important;}
+@media(max-width:560px){
+  .rings-dock{gap:6px !important;max-width:calc(100vw - 10px) !important;}
+  .ring-item{width:47px !important;min-width:47px !important;flex-basis:47px !important;height:47px !important;}
+  .ring-item.active{width:108px !important;min-width:108px !important;flex-basis:108px !important;height:51px !important;padding-inline:10px !important;gap:7px !important;}
+  .ring-item .ring-icon{width:28px !important;height:28px !important;flex-basis:28px !important;}
+  .ring-item.active .ring-icon{width:29px !important;height:29px !important;flex-basis:29px !important;}
+  .ring-item.ring-home:not(.active){width:52px !important;min-width:52px !important;flex-basis:52px !important;height:52px !important;}
+  .ring-item.ring-home:not(.active) .ring-icon{width:31px !important;height:31px !important;flex-basis:31px !important;}
+  .ring-item.ring-home.active{width:116px !important;min-width:116px !important;flex-basis:116px !important;}
+}
+</style>
