@@ -791,11 +791,12 @@ public class MainActivity extends BridgeActivity {
         try {
             if (getBridge() != null && getBridge().getWebView() != null) {
                 getBridge().getWebView().evaluateJavascript(
-                        "(function(){try{return !!(window.handleSystemBackButton && window.handleSystemBackButton());}catch(e){return false;}})();",
+                        "(function(){try{return window.handleSystemBackButton ? (window.handleSystemBackButton() ? 'handled' : 'exit') : 'exit';}catch(e){return 'exit';}})();",
                         value -> {
-                            boolean handled = "true".equalsIgnoreCase(value);
-                            if (!handled) {
-                                MainActivity.super.onBackPressed();
+                            String result = value == null ? "" : value.replace("\"", "").trim();
+                            if (!"handled".equalsIgnoreCase(result)) {
+                                // عند عدم وجود صفحة سابقة نترك التطبيق في الخلفية بدل إنهائه بعنف.
+                                MainActivity.this.moveTaskToBack(true);
                             }
                         }
                 );
@@ -803,7 +804,7 @@ public class MainActivity extends BridgeActivity {
             }
         } catch (Exception ignored) {
         }
-        super.onBackPressed();
+        moveTaskToBack(true);
     }
 
 }
