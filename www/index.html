@@ -368,7 +368,38 @@
         .kahf-memory-note{background:var(--surface-inner);border:1px solid var(--border-subtle);border-radius:16px;padding:11px 13px;color:var(--text-secondary);font-size:11px;line-height:1.8;text-align:center;}
         @media(max-width:520px){.kahf-header{flex-direction:column}.kahf-ayah-text{font-size:22px;line-height:2.15}.kahf-ayah-card{min-height:250px;padding:18px 14px}.kahf-nav-actions{grid-template-columns:1fr 1.15fr 1fr;}.kahf-nav-actions .btn-action{padding-inline:8px;font-size:12px;}}
 
-        .worklog-summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0 12px}.worklog-summary-card{background:var(--surface-inner);border:1px solid var(--border-subtle);border-radius:15px;padding:11px;text-align:center;cursor:pointer}.worklog-summary-card strong{display:block;font-size:18px}.worklog-summary-card span{display:block;font-size:10px;color:var(--text-secondary);margin-top:3px}.worklog-filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}.worklog-filter-grid label{display:flex;flex-direction:column;gap:5px;font-size:11px;color:var(--text-secondary)}.worklog-row{display:flex;gap:10px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border-subtle)}.worklog-row:last-child{border-bottom:0}.worklog-time{min-width:62px;text-align:center;font-weight:900;color:var(--accent-primary)}.worklog-main{flex:1;min-width:0}.worklog-main strong{display:block;font-size:13px}.worklog-meta{font-size:10px;color:var(--text-secondary);margin-top:4px;line-height:1.7}.worklog-details{font-size:11px;color:var(--text-secondary);margin-top:5px;line-height:1.75}.worklog-delete{border:0;background:transparent;color:var(--accent-red);font-size:19px;cursor:pointer}@media(max-width:520px){.worklog-summary-grid,.worklog-filter-grid{grid-template-columns:1fr}.worklog-summary-grid{grid-template-columns:repeat(3,1fr)}}
+        /* ===== LifeOS v2.1 — نظام التركيز المتقدم ===== */
+        .focus-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;}
+        .focus-header h2{margin:4px 0 5px;font-size:25px;font-weight:950;}
+        .focus-header p{margin:0;color:var(--text-secondary);font-size:12px;line-height:1.85;}
+        .focus-card{background:var(--surface-panel);border:1px solid var(--border-subtle);border-radius:22px;padding:15px;margin-bottom:12px;box-shadow:var(--shadow-subtle);}
+        .focus-card-title{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;font-weight:900;margin-bottom:11px;}
+        .focus-method{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+        .focus-method div,.focus-science p{background:var(--surface-inner);border:1px solid var(--border-subtle);border-radius:15px;padding:12px;font-size:11px;line-height:1.8;color:var(--text-secondary);margin:0;}
+        .focus-method strong{display:block;color:var(--text-primary);margin-bottom:3px;font-size:12px;}
+        .focus-smart-start{width:100%;border:1px solid color-mix(in srgb,var(--accent-primary) 38%,var(--border-subtle));background:color-mix(in srgb,var(--accent-primary) 9%,var(--surface-panel));color:var(--text-primary);border-radius:15px;padding:12px;font:inherit;font-size:12px;font-weight:950;cursor:pointer;margin-bottom:9px;}
+        .focus-game-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px;}
+        .focus-game-btn{border:1px solid var(--border-subtle);background:var(--surface-inner);color:var(--text-primary);border-radius:15px;padding:12px;font:inherit;font-size:12px;font-weight:900;cursor:pointer;text-align:right;}
+        .focus-game-btn.active{border-color:color-mix(in srgb,var(--accent-primary) 40%,var(--border-subtle));background:color-mix(in srgb,var(--accent-primary) 10%,var(--surface-panel));}
+        .focus-game-area{min-height:250px;border:1px solid var(--border-subtle);border-radius:18px;background:var(--surface-inner);padding:15px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+        .focus-game-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:9px;}
+        .focus-metric{background:var(--surface-inner);border:1px solid var(--border-subtle);border-radius:12px;padding:9px 6px;text-align:center;}
+        .focus-metric strong{display:block;font-size:16px;font-weight:950;color:var(--text-primary);}
+        .focus-metric span{display:block;margin-top:3px;font-size:9px;color:var(--text-secondary);}
+        .focus-response-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;width:100%;margin:14px 0;}
+        .focus-response-btn{min-height:62px;border:1px solid var(--border-subtle);border-radius:14px;background:var(--surface-panel);color:var(--text-primary);font:inherit;font-weight:950;cursor:pointer;transition:transform .08s ease;}
+        .focus-response-btn:active{transform:scale(.96);}
+        .focus-target-big{font-size:42px;font-weight:950;line-height:1;margin:18px 0;letter-spacing:2px;}
+        .focus-task-rule{font-size:11px;color:var(--text-secondary);line-height:1.8;background:color-mix(in srgb,var(--accent-primary) 7%,transparent);padding:9px 11px;border-radius:12px;width:100%;}
+        .focus-test-progress{font-size:10px;color:var(--text-secondary);margin-top:7px;}
+        .focus-history{display:grid;gap:7px;}
+        .focus-history-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px;background:var(--surface-inner);border:1px solid var(--border-subtle);border-radius:14px;}
+        .focus-history-row>div{display:flex;flex-direction:column;gap:3px;font-size:11px;}
+        .focus-history-row>div:last-child{text-align:left;}
+        .focus-history-row span{font-size:9.5px;color:var(--text-secondary);}
+        @media(max-width:520px){.focus-method,.focus-game-grid{grid-template-columns:1fr}.focus-game-metrics{grid-template-columns:repeat(2,1fr)}.focus-response-grid{gap:6px}.focus-response-btn{min-height:56px;}}
+
+        @media(max-width:520px){.focus-presets{grid-template-columns:repeat(3,1fr);gap:5px}.focus-preset{padding:10px 2px;font-size:11px}.focus-actions{grid-template-columns:1fr 1fr}.focus-actions .btn-action:last-child{grid-column:1/-1}.focus-method,.focus-game-grid{grid-template-columns:1fr}.focus-game-symbols{gap:6px}.focus-timer{font-size:46px;}}
 
         .quran-ayah-badge { display: inline-block; background: var(--surface-inner); color: var(--accent-green); padding: 5px 14px; border-radius: var(--radius-pill); font-weight: 800; font-size: 13px; margin-bottom: 8px; }
         .quran-verse-block { font-family: "Amiri", "Traditional Arabic", serif; font-size: 20px; line-height: 2.2; color: var(--text-primary); text-align: justify; margin-bottom: 14px; }
@@ -1663,28 +1694,6 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             <div class="kahf-memory-note" id="kahfMemoryNote"></div>
         </div>
 
-        <!-- 🧾 سجل اليوميات والعمل -->
-        <div id="worklog-view" class="section-view">
-            <div class="section-label">تسجيل اليوميات والعمل</div>
-            <div class="oneui-card">
-                <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;">
-                    <div><strong style="font-size:16px;">فترات العمل</strong><div style="font-size:11px;color:var(--text-secondary);margin-top:3px;">كل فترة تُسجل تلقائيًا بالساعة والتاريخ وقت الإضافة.</div></div>
-                    <button class="btn-action" type="button" onclick="openWorkLogForm()">+ إضافة فترة</button>
-                </div>
-                <div id="workLogHomeSummary" class="worklog-summary-grid"></div>
-                <div id="workLogHomeList"></div>
-            </div>
-            <div class="oneui-card" id="workLogFiltersCard">
-                <div class="section-label" style="margin:0 0 9px;">تصفية النتائج</div>
-                <div class="worklog-filter-grid">
-                    <label><span>لحساب من العمل</span><select id="workLogAccountFilter" class="app-input" onchange="renderWorkLogView()"><option value="">كل الحسابات</option></select></label>
-                    <label><span>اليوم / التاريخ</span><input id="workLogDateFilter" class="app-input" type="date" onchange="renderWorkLogView()"></label>
-                </div>
-                <button type="button" class="tag-badge" onclick="clearWorkLogFilters()">إظهار الكل</button>
-            </div>
-            <div class="oneui-card"><div id="workLogResults"></div></div>
-        </div>
-
         <!-- 🕌⏰ مواقيت الصلاة المجدولة -->
         <div id="prayers-alarms-view" class="section-view">
             <div class="section-label">مواقيت الصلاة والتنبيهات المجدولة</div>
@@ -1705,7 +1714,6 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('prayers-alarms-view')"><span class="section-icon-wrap" data-icon-name="prayers"></span><span>مواقيت الصلاة</span></div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('islamiyat-view')"><span class="section-icon-wrap" data-icon-name="book"></span><span>إسلاميات</span></div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('kahf-view')"><span class="section-icon-wrap" data-icon-name="book"></span><span>حفظ سورة الكهف</span></div>
-                <div class="all-sections-grid-item" onclick="triggerNavFromModal('worklog-view')"><span class="section-icon-wrap" data-icon-name="clock"></span><span>اليوميات والعمل</span></div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('notes-view')"><span class="section-icon-wrap" data-icon-name="note"></span><span>الملاحظات</span></div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('todos-view')"><span class="section-icon-wrap" data-icon-name="check"></span><span>المهام</span></div>
                 <div class="all-sections-grid-item" onclick="triggerNavFromModal('finance-view')"><span class="section-icon-wrap" data-icon-name="wallet"></span><span>المصروفات</span></div>
@@ -1837,8 +1845,6 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
 
         let currentUser = null;
         let userDbRef = null;
-        let authStateResolved = false;
-        let hadAuthenticatedSession = false;
         let navHistory = ['dashboard-view'];
 
         // الموقع الافتراضي الآمن: جنين - الضفة الغربية.
@@ -1862,7 +1868,7 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
 
         function normalizeDB(data) {
             if (!data || typeof data !== 'object') data = {};
-            const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders', 'debts', 'sessionsLog', 'memories', 'workLogs'];
+            const lists = ['fixed_bills', 'subscriptions', 'purchases', 'vault', 'notes', 'documents', 'todos', 'expenses', 'reminders', 'debts', 'sessionsLog', 'memories'];
             lists.forEach(key => {
                 if (data[key]) {
                     if (!Array.isArray(data[key])) { data[key] = Object.values(data[key]).filter(i => i !== null); }
@@ -1878,11 +1884,10 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
                 knowledgeCards: []
             };
             data.settings = { ...defaultSettings, ...(data.settings && typeof data.settings === 'object' ? data.settings : {}) };
-            if (typeof data._ownerUid !== 'string') data._ownerUid = '';
-            if (!data._deletedRecords || typeof data._deletedRecords !== 'object') data._deletedRecords = {};
             if (!data.settings.pinnedSections) data.settings.pinnedSections = [];
             if (!Array.isArray(data.settings.pinnedSections)) data.settings.pinnedSections = [];
             if (!Array.isArray(data.knowledgeCards)) data.knowledgeCards = [];
+            data.settings.pinnedSections = data.settings.pinnedSections.filter(id => id !== 'calendar-view');
             if (!Array.isArray(data.lifeCards)) data.lifeCards = [];
             if (!data.adhkarCounters) data.adhkarCounters = {};
             if (!data.kahfMemorization || typeof data.kahfMemorization !== 'object') data.kahfMemorization = {};
@@ -1890,7 +1895,10 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             if (!Number.isInteger(data.kahfMemorization.lastReviewAt)) data.kahfMemorization.lastReviewAt = 0;
             if (!Number.isInteger(data.kahfMemorization.currentIndex) || data.kahfMemorization.currentIndex < 0 || data.kahfMemorization.currentIndex > 109) data.kahfMemorization.currentIndex = Math.max(0, data.kahfMemorization.lastSaved + 1);
             if (!data.kahfMemorization.cards || typeof data.kahfMemorization.cards !== 'object') data.kahfMemorization.cards = {};
-            if (!Array.isArray(data.focusResults)) data.focusResults = [];
+            delete data.focusResults;
+            delete data.focusSessions;
+            delete data.focusSettings;
+            delete data.quranPortion; // إزالة بيانات القسم القديم من التخزين المحلي
             const defaultFeeds = {
                 weatherHourly: null,
                 weatherForecast: null,
@@ -1911,7 +1919,15 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
         try { localRaw = localStorage.getItem('myLifeAppDB') || '{}'; } catch(e) {}
         let db;
         try { db = normalizeDB(JSON.parse(localRaw)); } catch(e) { db = normalizeDB({}); }
-        const todayStr = new Date().toISOString().split('T')[0];
+        const todayStr = (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; })();
+        let cachedAccountProfile = null;
+        try { cachedAccountProfile = JSON.parse(localStorage.getItem('lifeosCachedAccountProfile') || 'null'); } catch(e) {}
+        if (cachedAccountProfile && cachedAccountProfile.uid) {
+            const localUser = { uid: cachedAccountProfile.uid, email: cachedAccountProfile.email || '', displayName: cachedAccountProfile.displayName || '', emailVerified: !!cachedAccountProfile.emailVerified, isOfflineCached: true };
+            currentUser = localUser;
+            updateAuthProfileUI(localUser);
+        }
+
         let livePrayersList = [];
 
         function showToast(msg) {
@@ -1922,72 +1938,81 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             setTimeout(() => { el.style.display = 'none'; }, 2200);
         }
 
-        function mergePersistentDB(localData, cloudData, preferLocal=true) {
-            const local = normalizeDB(JSON.parse(JSON.stringify(localData || {})));
-            const cloud = normalizeDB(JSON.parse(JSON.stringify(cloudData || {})));
-            const merged = { ...cloud, ...local };
-            const arrays = ['fixed_bills','subscriptions','purchases','vault','notes','documents','todos','expenses','reminders','debts','sessionsLog','memories','workLogs'];
-            merged._deletedRecords = { ...(cloud._deletedRecords || {}), ...(local._deletedRecords || {}) };
-            const deleted = merged._deletedRecords;
-            arrays.forEach(key => {
-                const byId = new Map();
-                const put = item => {
-                    if (!item || typeof item !== 'object') return;
-                    const id = item.id !== undefined && item.id !== null ? String(item.id) : null;
-                    if (!id) return;
-                    if (deleted[key]?.includes?.(id)) return;
-                    byId.set(id, item);
-                };
-                if (preferLocal) {
-                    (cloud[key] || []).forEach(put);
-                    (local[key] || []).forEach(put);
-                } else {
-                    (local[key] || []).forEach(put);
-                    (cloud[key] || []).forEach(put);
-                }
-                merged[key] = Array.from(byId.values());
-            });
-            // For structured progress/settings, keep the current local state when it exists;
-            // otherwise restore the cloud state. Nothing is intentionally discarded.
-            ['settings','cachedFeeds','kahfMemorization','adhkarCounters','lifeCards','knowledgeCards','quranPortion','focusResults','focusSessions','focusSettings'].forEach(key => {
-                if (preferLocal && localData && localData[key] !== undefined) merged[key] = localData[key];
-                else if (cloudData && cloudData[key] !== undefined) merged[key] = cloudData[key];
-                else if (localData && localData[key] !== undefined) merged[key] = localData[key];
-            });
-            return normalizeDB(merged);
+        let cloudWriteInFlight = false;
+        let cloudWriteRequested = false;
+        let cloudRetryTimer = null;
+        let localMutationVersion = 0;
+        let lastCloudError = '';
+        function persistLocalDB() {
+            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); return true; }
+            catch(e) { lastCloudError = 'local_storage_failed'; return false; }
         }
-
-        function markDeleted(collection, id) {
-            if (!db._deletedRecords || typeof db._deletedRecords !== 'object') db._deletedRecords = {};
-            if (!Array.isArray(db._deletedRecords[collection])) db._deletedRecords[collection] = [];
-            const key = String(id);
-            if (!db._deletedRecords[collection].includes(key)) db._deletedRecords[collection].push(key);
-        }
-
-        let cloudSaveChain = Promise.resolve();
         function saveToCloud() {
+            localMutationVersion++;
             db._hasLocalChanges = true;
-            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
-            if (!userDbRef || !navigator.onLine || !currentUser?.uid) return;
-            const localSnapshot = JSON.parse(JSON.stringify(db));
-            delete localSnapshot._hasLocalChanges;
-            delete localSnapshot._cloudBaseline;
-            cloudSaveChain = cloudSaveChain.then(() => new Promise(resolve => {
-                userDbRef.transaction(current => {
-                    const cloud = current && typeof current === 'object' ? current : {};
-                    if (cloud._ownerUid && cloud._ownerUid !== currentUser.uid) return;
-                    return mergePersistentDB(localSnapshot, cloud, true);
-                }, (error, committed, snapshot) => {
-                    if (!error && committed && snapshot?.val()) {
-                        db = normalizeDB(snapshot.val());
-                        db._ownerUid = currentUser?.uid || db._ownerUid || '';
-                        db._hasLocalChanges = false;
-                        try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
+            persistLocalDB();
+            cloudWriteRequested = true;
+            if (!currentUser || !userDbRef || !navigator.onLine) return;
+            if (cloudWriteInFlight) return;
+            cloudWriteInFlight = true;
+            const flush = async () => {
+                try {
+                    while (cloudWriteRequested && currentUser && userDbRef && navigator.onLine) {
+                        cloudWriteRequested = false;
+                        const ref = userDbRef;
+                        const uid = currentUser.uid;
+                        const versionAtStart = localMutationVersion;
+                        const payload = JSON.parse(JSON.stringify(db));
+                        delete payload._hasLocalChanges;
+                        payload._clientSync = { revision: versionAtStart, updatedAt: Date.now(), client: 'lifeos-web' };
+                        await ref.set(payload);
+                        if (!currentUser || currentUser.uid !== uid || userDbRef !== ref) break;
+                        lastCloudError = '';
+                        if (localMutationVersion === versionAtStart && !cloudWriteRequested) {
+                            db._hasLocalChanges = false;
+                            persistLocalDB();
+                        } else {
+                            cloudWriteRequested = true;
+                        }
                     }
-                    resolve();
-                });
-            })).catch(() => {});
+                } catch (e) {
+                    lastCloudError = String(e?.code || e?.message || 'sync_failed');
+                    cloudWriteRequested = true;
+                    if (cloudRetryTimer) clearTimeout(cloudRetryTimer);
+                    cloudRetryTimer = setTimeout(() => { cloudRetryTimer = null; if (navigator.onLine) saveToCloud(); }, 5000);
+                } finally {
+                    cloudWriteInFlight = false;
+                    if (cloudWriteRequested && currentUser && userDbRef && navigator.onLine && !cloudRetryTimer) saveToCloud();
+                }
+            };
+            flush();
         }
+        function syncWhenAvailable() {
+            if (!navigator.onLine) { updateSyncStatusLabel('محفوظ على الجهاز · بانتظار الإنترنت'); return; }
+            if (currentUser && userDbRef && db?._hasLocalChanges) saveToCloud();
+            else if (currentUser && userDbRef) updateSyncStatusLabel('متصل');
+            retryPendingReminders().catch(()=>{});
+        }
+        function updateSyncStatusLabel(message) {
+            const el = document.getElementById('syncToast');
+            if (!el || !message) return;
+            el.textContent = message;
+        }
+        window.addEventListener('online', () => {
+            try {
+                const restoredUser = (typeof firebase !== 'undefined') ? firebase.auth().currentUser : null;
+                if (restoredUser && (!currentUser || currentUser.uid !== restoredUser.uid || !userDbRef)) {
+                    currentUser = restoredUser;
+                    cachedAccountProfile = { uid:restoredUser.uid, email:restoredUser.email || '', displayName:restoredUser.displayName || '', emailVerified:!!restoredUser.emailVerified };
+                    try { localStorage.setItem('lifeosCachedAccountProfile', JSON.stringify(cachedAccountProfile)); } catch(e) {}
+                    userDbRef = firebase.database().ref(`users/${restoredUser.uid}/data`);
+                }
+            } catch(e) {}
+            syncWhenAvailable(); showToast('عاد الاتصال؛ جارٍ مزامنة التغييرات');
+        });
+        window.addEventListener('offline', () => { updateSyncStatusLabel('غير متصل · البيانات محفوظة على الجهاز'); });
+        window.addEventListener('pageshow', () => { syncWhenAvailable(); retryPendingReminders().catch(()=>{}); });
+        document.addEventListener('visibilitychange', () => { if (!document.hidden) { syncWhenAvailable(); retryPendingReminders().catch(()=>{}); } });
 
         async function updateNativeStatusBar(colorHex, isDarkIcons) {
             const meta = document.getElementById('themeColorMeta');
@@ -2136,7 +2161,7 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
         // =========================================================================
         function handleUserAuthClick() {
             if (currentUser) {
-                const name = (db.settings && db.settings.displayName) ? db.settings.displayName : (currentUser.displayName || currentUser.email.split('@')[0]);
+                const name = (db.settings && db.settings.displayName) ? db.settings.displayName : (currentUser.displayName || String(currentUser.email || 'الحساب').split('@')[0]);
                 document.getElementById('profileModalName').innerText = name;
                 document.getElementById('profileModalEmail').innerText = currentUser.email;
                 document.getElementById('profileModal').classList.add('active');
@@ -2155,7 +2180,7 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
                 document.getElementById('authModal').classList.add('active');
                 return;
             }
-            const currentName = (db.settings && db.settings.displayName) ? db.settings.displayName : (currentUser.displayName || currentUser.email.split('@')[0]);
+            const currentName = (db.settings && db.settings.displayName) ? db.settings.displayName : (currentUser.displayName || String(currentUser.email || 'الحساب').split('@')[0]);
             const newName = prompt('أدخل اسمك الجديد:', currentName);
             if (newName !== null && newName.trim()) {
                 const cleanName = newName.trim();
@@ -2201,10 +2226,10 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             const settingsBtn = document.getElementById('settingsAuthBtn');
 
             if (user) {
-                const displayName = (db.settings && db.settings.displayName) ? db.settings.displayName : (user.displayName || user.email.split('@')[0]);
+                const displayName = (db.settings && db.settings.displayName) ? db.settings.displayName : (user.displayName || String(user.email || 'الحساب').split('@')[0]);
                 if (nameSpan) nameSpan.innerText = displayName;
-                if (settingsName) settingsName.innerText = displayName + (user.emailVerified ? ' (مؤكد)' : '');
-                if (settingsEmail) settingsEmail.innerText = user.email;
+                if (settingsName) settingsName.innerText = displayName + (user.isOfflineCached ? ' · محفوظ محليًا' : (user.emailVerified ? ' (مؤكد)' : ''));
+                if (settingsEmail) settingsEmail.innerText = (user.email || '') + (user.isOfflineCached || !navigator.onLine ? ' · غير متصل' : '');
                 if (settingsBtn) { settingsBtn.innerText = 'إدارة الحساب'; settingsBtn.style.color = 'var(--accent-primary)'; }
             } else {
                 if (nameSpan) nameSpan.innerText = 'تسجيل الدخول';
@@ -2219,60 +2244,53 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
                 if (!firebase.apps || !firebase.apps.length) firebase.initializeApp(firebaseConfig);
                 firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
+                        const wasSameCachedAccount = cachedAccountProfile?.uid === user.uid;
                         currentUser = user;
-                        hadAuthenticatedSession = true;
-                        authStateResolved = true;
+                        cachedAccountProfile = { uid:user.uid, email:user.email || '', displayName:user.displayName || '', emailVerified:!!user.emailVerified };
+                        try { localStorage.setItem('lifeosCachedAccountProfile', JSON.stringify(cachedAccountProfile)); } catch(e) {}
                         userDbRef = firebase.database().ref(`users/${user.uid}/data`);
                         userDbRef.off();
-                        const localBeforeLogin = normalizeDB(db);
-                        userDbRef.once('value').then(async (snapshot) => {
+                        const authRef = userDbRef;
+                        const localVersionAtFetch = localMutationVersion;
+                        authRef.once('value').then(async (snapshot) => {
+                            if (!currentUser || currentUser.uid !== user.uid || userDbRef !== authRef) return;
                             const cloudData = snapshot.val();
-                            const localBelongsToUser = !localBeforeLogin._ownerUid || localBeforeLogin._ownerUid === user.uid;
                             if (cloudData && typeof cloudData === 'object') {
-                                db = localBelongsToUser && localBeforeLogin._ownerUid === user.uid
-                                    ? mergePersistentDB(localBeforeLogin, cloudData, Boolean(localBeforeLogin._hasLocalChanges))
-                                    : normalizeDB(cloudData);
-                                db._ownerUid = user.uid;
-                                db._hasLocalChanges = false;
+                                // لا نستبدل التعديلات المحلية التي حدثت أثناء تحميل السحابة.
+                                const preserveLocalChanges = localMutationVersion !== localVersionAtFetch || (wasSameCachedAccount && !!db._hasLocalChanges);
+                                if (!preserveLocalChanges) db = normalizeDB(cloudData);
+                                else db = normalizeDB(db);
+                                db._hasLocalChanges = preserveLocalChanges;
                                 try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e) {}
-                                saveToCloud();
                                 applyThemeUI(); updateUI(); updateAuthProfileUI(user);
                                 refreshWeatherNow(false).catch(() => {});
-                                showToast('☁️ تمت استعادة بيانات حسابك دون فقدان أي سجل محفوظ');
+                                if (preserveLocalChanges) saveToCloud();
+                                showToast(preserveLocalChanges ? 'تم حفظ التعديلات المحلية ومزامنتها' : '☁️ تمت استعادة بيانات حسابك');
                             } else {
-                                if (localBelongsToUser) {
-                                    db = localBeforeLogin;
-                                } else {
-                                    db = normalizeDB({});
-                                }
-                                db._ownerUid = user.uid;
+                                // حساب جديد: انقل بيانات الجلسة الحالية إلى هذا الحساب مرة واحدة.
+                                db = normalizeDB(db); db._hasLocalChanges = false;
                                 saveToCloud();
                                 applyThemeUI(); updateUI(); updateAuthProfileUI(user);
                                 refreshWeatherNow(false).catch(() => {});
                                 showToast('☁️ تم ربط بيانات الجهاز بهذا الحساب');
                             }
-                        }).catch(() => showToast('تعذر جلب بيانات السحابة؛ لم يتم حذف بيانات الجهاز'));
+                        }).catch(() => showToast('تعذر جلب بيانات السحابة'));
                         updateAuthProfileUI(user);
-                        try {
-                            userDbRef.on('value', (liveSnapshot) => {
-                                if (!currentUser?.uid || currentUser.uid !== user.uid) return;
-                                if (db._hasLocalChanges) return;
-                                const live = liveSnapshot.val();
-                                if (!live || typeof live !== 'object') return;
-                                db = normalizeDB(live);
-                                db._ownerUid = user.uid;
-                                try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e) {}
-                                applyThemeUI(); updateUI();
-                                updateWeatherLocationUI();
-                            });
-                        } catch(e) {}
                     } else {
-                        const wasAuthenticated = hadAuthenticatedSession;
-                        currentUser = null; userDbRef = null; authStateResolved = true;
-                        // لا تمسح البيانات المحلية عند أول تشغيل للتطبيق أو عند بقاء المستخدم غير مسجل.
-                        // المسح المحلي يحدث فقط بعد جلسة دخول فعلية/تسجيل خروج متعمد، بينما تبقى نسخة الحساب في السحابة.
-                        if (wasAuthenticated) clearPrivateSessionData().catch(() => {});
-                        updateAuthProfileUI(null);
+                        // If Firebase cannot restore auth while offline, retain the last local identity and data.
+                        // An explicit logout clears the cache before reaching this callback.
+                        if (!navigator.onLine && cachedAccountProfile?.uid) {
+                            currentUser = { uid:cachedAccountProfile.uid, email:cachedAccountProfile.email || '', displayName:cachedAccountProfile.displayName || '', emailVerified:!!cachedAccountProfile.emailVerified, isOfflineCached:true };
+                            userDbRef = null;
+                            updateAuthProfileUI(currentUser);
+                            updateSyncStatusLabel('غير متصل · بيانات الحساب محفوظة على الجهاز');
+                        } else {
+                            currentUser = null; userDbRef = null;
+                            cachedAccountProfile = null;
+                            try { localStorage.removeItem('lifeosCachedAccountProfile'); } catch(e) {}
+                            clearPrivateSessionData().catch(() => {});
+                            updateAuthProfileUI(null);
+                        }
                     }
                 });
             }
@@ -2496,7 +2514,6 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             if (!note) return;
             if (!confirm(`حذف الملاحظة «${note.title || 'ملاحظة'}»؟`)) return;
             db.notes = db.notes.filter(n => n.id !== id);
-            markDeleted('notes', id);
             finalizeAction();
             showToast('🗑️ تم حذف الملاحظة');
         }
@@ -2506,7 +2523,6 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             if (!memory) return;
             if (!confirm('حذف هذا الحدث من الذكريات؟')) return;
             db.memories = db.memories.filter(m => m.id !== id);
-            markDeleted('memories', id);
             finalizeAction();
             showToast('🗑️ تم حذف الحدث');
         }
@@ -2620,7 +2636,6 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             }
 
             if (viewId === 'memories-view') renderMemoriesTimeline();
-            if (viewId === 'worklog-view') renderWorkLogView();
             if (viewId === 'adhkar-view') renderDhikrView();
             if (viewId === 'kahf-view') renderKahfView();
             if (viewId === 'currency-view') calculateCurrencyConversion();
@@ -2663,16 +2678,11 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
         };
 
         function setupBackButtonListener() {
-            const initialView = (location.hash || '').replace(/^#/, '');
-            if (initialView && document.getElementById(initialView)?.classList.contains('section-view')) navHistory = [initialView];
             // إنشاء نقطة تاريخ داخل التطبيق يمنع رجوع المتصفح/Android من الخروج مباشرة.
             try {
-                const initial = (location.hash || '').replace(/^#/, '');
-                const initialView = document.getElementById(initial)?.classList.contains('section-view') ? initial : 'dashboard-view';
-                if (!history.state || history.state.zenosView !== initialView) {
-                    history.replaceState({ zenosView: initialView }, '', '#'+initialView);
+                if (!history.state || history.state.zenosView !== 'dashboard-view') {
+                    history.replaceState({ zenosView: 'dashboard-view' }, '', '#dashboard-view');
                 }
-                navHistory = [initialView];
             } catch(e) {}
 
             const App = window.Capacitor?.Plugins?.App || window.Capacitor?.App;
@@ -2686,21 +2696,15 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
                 } catch(e) { console.warn('تعذر ربط زر الرجوع الأصلي:', e); }
             }
 
-            window.addEventListener('popstate', (event) => {
-                const stateView = event?.state?.zenosView;
-                if (stateView) {
-                    const idx = navHistory.lastIndexOf(stateView);
-                    if (idx >= 0) navHistory = navHistory.slice(0, idx + 1);
-                    else navHistory = [stateView];
-                    switchNavSection(stateView, null, false);
-                    return;
-                }
+            window.addEventListener('popstate', () => {
+                // عندما يرجع المتصفح نقرأ آخر قسم من سجل التطبيق بدلاً من مغادرة الصفحة.
                 if (Array.isArray(navHistory) && navHistory.length > 1) {
                     navHistory.pop();
-                    switchNavSection(navHistory[navHistory.length - 1] || 'dashboard-view', null, false);
+                    const previous = navHistory[navHistory.length - 1] || 'dashboard-view';
+                    switchNavSection(previous, null, false);
+                    try { history.replaceState({ zenosView: previous }, '', '#'+previous); } catch(e) {}
                 } else {
                     try { history.pushState({ zenosView: 'dashboard-view' }, '', '#dashboard-view'); } catch(e) {}
-                    navHistory = ['dashboard-view'];
                     switchNavSection('dashboard-view', null, false);
                 }
             });
@@ -2897,10 +2901,8 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
                 const loc=getWeatherLocation();
                 const url=`https://api.open-meteo.com/v1/forecast?latitude=${loc.latitude}&longitude=${loc.longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m,visibility,uv_index,dew_point_2m,shortwave_radiation&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weather_code,cloud_cover,visibility,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,is_day,shortwave_radiation&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_probability_max,weather_code,sunrise,sunset,uv_index_max&forecast_days=7&timezone=auto`;
                 const res=await fetch(url,{cache:'no-store'});
-                if(!res.ok) throw new Error(`weather_http_${res.status}`);
                 const data=await res.json();
-                if(data?.error) throw new Error(data.reason || 'weather_api_error');
-                if(data?.hourly?.time && data?.hourly?.temperature_2m){
+                if(data?.hourly){
                     db.cachedFeeds.weatherForecast=data;
                     db.cachedFeeds.weatherHourly=data.hourly;
                     db.cachedFeeds.weatherLastFetch=Date.now();
@@ -2947,9 +2949,8 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             if (now - (db.cachedFeeds.ratesLastFetch || 0) > 86400000) {
                 try {
                     const res = await fetch('https://open.er-api.com/v6/latest/ILS',{cache:'no-store'});
-                    if(!res.ok) throw new Error(`rates_http_${res.status}`);
                     const data = await res.json();
-                    if (data?.result === 'success' && data?.rates?.USD && data?.rates?.JOD) {
+                    if (data?.rates) {
                         db.cachedFeeds.rates = {
                             USD: (1 / data.rates.USD).toFixed(2),
                             JOD: (1 / data.rates.JOD).toFixed(2),
@@ -2960,7 +2961,6 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
                         finalizeAction();
                         if (topCurrency) topCurrency.innerText = `${db.cachedFeeds.rates.USD}`;
                         if (topJd) topJd.innerText = `${db.cachedFeeds.rates.JOD}`;
-                        calculateCurrencyConversion();
                     }
                 } catch(e) {}
             }
@@ -3291,37 +3291,12 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
         function repeatKahf(target){kahfRepeatCount=Math.min(target,kahfRepeatCount+1);const status=document.getElementById('kahfRepeatStatus');if(status)status.textContent=`التكرار: ${kahfRepeatCount} / ${target}`;}
         function resetKahfRepeat(){kahfRepeatCount=0;const status=document.getElementById('kahfRepeatStatus');if(status)status.textContent='التكرار: 0';}
 
-        function workLogTodayKey(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
-        function openWorkLogForm(){
-            const modal=document.getElementById('actionModal'),title=document.getElementById('modalTitle'),container=document.getElementById('modalFormContainer');
-            if(!modal||!title||!container)return;
-            const now=new Date(); const date=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`; const time=now.toLocaleTimeString('ar-EG',{hour:'2-digit',minute:'2-digit'});
-            title.textContent='🧾 إضافة فترة عمل';
-            container.innerHTML=`<div style="font-size:11px;color:var(--text-secondary);margin-bottom:8px;">الوقت: <b>${escapeHTML(time)}</b> · التاريخ: <b>${escapeHTML(date)}</b> (يُحفظان تلقائيًا)</div><input id="workLogAccount" class="app-input" placeholder="لحساب من العمل؟" required><input id="workLogPeople" class="app-input" type="number" min="0" step="1" placeholder="كم شخص؟"><input id="workLogQuantity" class="app-input" type="number" min="0" step="any" placeholder="الكمية"><textarea id="workLogDetails" class="app-input" rows="4" placeholder="تفاصيل إضافية"></textarea><button type="button" class="btn-action" onclick="saveWorkLog('${date}','${time}')">حفظ الفترة</button>`;
-            modal.style.display='flex';modal.classList.add('active');
-        }
-        function saveWorkLog(date,time){
-            const account=document.getElementById('workLogAccount')?.value.trim(); const people=Number(document.getElementById('workLogPeople')?.value||0); const quantityRaw=document.getElementById('workLogQuantity')?.value; const details=document.getElementById('workLogDetails')?.value.trim()||'';
-            if(!account)return alert('اكتب لحساب من العمل أولًا.');
-            const now=Date.now(); db.workLogs.push({id:now,account,people:Number.isFinite(people)?people:0,quantity:quantityRaw===''?0:Number(quantityRaw)||0,details,date,time,timestamp:now,createdAt:now});
-            closeModalAction(); finalizeAction(); renderWorkLogView(); showToast('🧾 تم تسجيل فترة العمل');
-        }
-        function renderWorkLogHome(){
-            const box=document.getElementById('workLogHomeSummary'),list=document.getElementById('workLogHomeList'); if(!box||!list)return;
-            const rows=(Array.isArray(db.workLogs)?db.workLogs:[]).slice().sort((a,b)=>(b.timestamp||b.id||0)-(a.timestamp||a.id||0)); const today=workLogTodayKey(); const todayRows=rows.filter(r=>r.date===today); const accounts=[...new Set(todayRows.map(r=>r.account).filter(Boolean))];
-            box.innerHTML=`<button class="worklog-summary-card" type="button" onclick="filterWorkLogByDate('${today}')"><strong>${todayRows.length}</strong><span>فترات اليوم</span></button><button class="worklog-summary-card" type="button" onclick="filterWorkLogByAll()"><strong>${rows.length}</strong><span>كل الفترات</span></button><button class="worklog-summary-card" type="button" onclick="openWorkLogForm()"><strong>+</strong><span>إضافة فترة</span></button>`;
-            list.innerHTML=accounts.length?`<div style="font-size:11px;color:var(--text-secondary);margin:3px 0 7px;">حسابات العمل اليوم</div>`+accounts.map(a=>{const n=todayRows.filter(r=>r.account===a).length;return `<button type="button" class="tag-badge" style="margin:0 5px 5px 0;" onclick="filterWorkLogByAccount(${JSON.stringify(a).replace(/</g,'&lt;')})">${escapeHTML(a)} · ${n}</button>`}).join(''):'<div style="font-size:11px;color:var(--text-secondary);padding:4px 0;">لا توجد فترات عمل مسجلة اليوم.</div>';
-        }
-        function renderWorkLogRows(rows){const box=document.getElementById('workLogResults');if(!box)return;const sorted=rows.slice().sort((a,b)=>(b.timestamp||b.id||0)-(a.timestamp||a.id||0));box.innerHTML=sorted.length?sorted.map(r=>`<div class="worklog-row"><div class="worklog-time">${escapeHTML(r.time||'--:--')}<div style="font-size:9px;color:var(--text-secondary);margin-top:3px;">${escapeHTML(r.date||'')}</div></div><div class="worklog-main"><strong>${escapeHTML(r.account||'غير محدد')}</strong><div class="worklog-meta">👥 ${Number(r.people)||0} شخص · 📦 ${Number(r.quantity)||0} كمية</div>${r.details?`<div class="worklog-details">${escapeHTML(r.details)}</div>`:''}</div><button class="worklog-delete" type="button" onclick="deleteWorkLog(${Number(r.id)})">×</button></div>`).join(''):'<div style="text-align:center;color:var(--text-secondary);font-size:11px;padding:16px;">لا توجد نتائج مطابقة.</div>';}
-        function renderWorkLogView(){
-            renderWorkLogHome(); const af=document.getElementById('workLogAccountFilter'),df=document.getElementById('workLogDateFilter'); if(!af||!df)return; const rows=Array.isArray(db.workLogs)?db.workLogs:[]; const currentA=af.value,currentD=df.value; const accounts=[...new Set(rows.map(r=>r.account).filter(Boolean))].sort(); af.innerHTML='<option value="">كل الحسابات</option>'+accounts.map(a=>`<option value="${escapeHTML(a).replace(/"/g,'&quot;')}">${escapeHTML(a)}</option>`).join(''); af.value=accounts.includes(currentA)?currentA:''; const filtered=rows.filter(r=>(!af.value||r.account===af.value)&&(!df.value||r.date===df.value)); renderWorkLogRows(filtered);
-        }
-        function filterWorkLogByAccount(account){switchNavSection('worklog-view');const af=document.getElementById('workLogAccountFilter');if(af)af.value=account;const df=document.getElementById('workLogDateFilter');if(df)df.value='';renderWorkLogView();}
-        function filterWorkLogByDate(date){switchNavSection('worklog-view');const df=document.getElementById('workLogDateFilter');if(df)df.value=date;const af=document.getElementById('workLogAccountFilter');if(af)af.value='';renderWorkLogView();}
-        function filterWorkLogByAll(){switchNavSection('worklog-view');clearWorkLogFilters();}
-        function clearWorkLogFilters(){const af=document.getElementById('workLogAccountFilter'),df=document.getElementById('workLogDateFilter');if(af)af.value='';if(df)df.value='';renderWorkLogView();}
-        function deleteWorkLog(id){if(!confirm('حذف فترة العمل هذه؟'))return;db.workLogs=db.workLogs.filter(x=>Number(x.id)!==Number(id));markDeleted('workLogs',id);finalizeAction();renderWorkLogView();}
-
+        // =========================================================
+        // 🎯 نظام التركيز — مؤقت + مقاومة مشتت + تمارين قصيرة
+        // =========================================================
+        // =========================================================
+        // 🧠 مختبر الانتباه التنفيذي — بلا مؤقت جلسة
+        // =========================================================
         function renderDhikrView() {
             const container=document.getElementById('adhkarContentContainer'); if(!container)return;
             renderAdhkarTabs();
@@ -3425,18 +3400,7 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
 
         function dismissActiveAlarm() {
             clearInterval(alarmTimer);
-            alarmTimer = null;
-            document.getElementById('activeAlarmModal')?.classList.remove('active');
-            try { navigator.vibrate?.(0); } catch(e) {}
-        }
-
-        function testPrestigeAlarm() {
-            try { getAudioContext(); playPrestigeZenBell(); showToast('🔔 تم اختبار نغمة التنبيه'); }
-            catch(e) { showToast('⚠️ تعذر تشغيل نغمة التنبيه'); }
-        }
-
-        function dismissDhikrChimeModal() {
-            document.getElementById('dhikrChimeModal')?.classList.remove('active');
+            document.getElementById('activeAlarmModal').classList.remove('active');
         }
 
         function formatTime(ms) {
@@ -3514,6 +3478,27 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             }
         }
 
+        let reminderRetryRunning = false;
+        async function retryPendingReminders() {
+            if (reminderRetryRunning || !navigator.onLine) return;
+            reminderRetryRunning = true;
+            try {
+                const now = Date.now();
+                for (const r of (Array.isArray(db.reminders) ? db.reminders : [])) {
+                    if (!r || r.cancelled || r.triggered || !r.targetTime || Number(r.targetTime) <= now) continue;
+                    if (r.notificationScheduled && r.notificationMode && r.notificationMode !== 'pending') continue;
+                    const remaining = Math.max(1, Math.ceil((Number(r.targetTime) - now) / 60000));
+                    const plugin = getNativePlugin();
+                    let ok = plugin ? await scheduleSystemNotification(r.title || r.name || 'موعد التنبيه', remaining, r.id) : await scheduleBrowserNotification(r.title || r.name || 'موعد التنبيه', remaining, r.id);
+                    if (!ok && plugin) ok = await scheduleBrowserNotification(r.title || r.name || 'موعد التنبيه', remaining, r.id);
+                    r.notificationScheduled = !!ok;
+                    r.notificationMode = ok ? (plugin ? 'native' : 'browser') : 'pending';
+                    persistLocalDB();
+                }
+                renderPrayersList();
+            } finally { reminderRetryRunning = false; }
+        }
+
         function showBrowserNotification(title, body) {
             try {
                 const notification = new Notification(getBrowserNotificationTitle(title), {
@@ -3553,7 +3538,7 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
         async function rescheduleStoredNotifications() {
             const now = Date.now();
             for (const r of (Array.isArray(db.reminders) ? db.reminders : [])) {
-                if (!r || r.triggered || !r.targetTime || r.targetTime <= now) continue;
+                if (!r || r.cancelled || r.triggered || !r.targetTime || r.targetTime <= now) continue;
                 const remaining = Math.max(1, Math.ceil((r.targetTime - now) / 60000));
                 const plugin = getNativePlugin();
                 let permissionAlreadyGranted = false;
@@ -3568,7 +3553,7 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
                     continue;
                 }
                 const scheduled = plugin
-                    ? await scheduleSystemNotification(r.title || r.name || 'موعد التنبيه', remaining, r.id, r.targetTime)
+                    ? await scheduleSystemNotification(r.title || r.name || 'موعد التنبيه', remaining, r.id)
                     : await scheduleBrowserNotification(r.title || r.name || 'موعد التنبيه', remaining, r.id);
                 r.notificationScheduled = Boolean(scheduled);
                 r.notificationMode = scheduled ? (plugin ? 'native-or-browser' : 'browser') : 'pending';
@@ -3600,7 +3585,7 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             // إضافة التنبيه إلى قاعدة البيانات أولًا حتى لا يختفي إذا تعذر نظام الإشعار.
             getAudioContext();
             const now = Date.now();
-            const reminderId = Date.now();
+            const reminderId = Date.now() * 1000 + Math.floor(Math.random() * 1000);
             const cleanTitle = String(title || '').trim();
             const numericMinutes = Math.max(1, Number(mins) || 1);
             const targetTime = now + (numericMinutes * 60 * 1000);
@@ -3650,7 +3635,7 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             renderRings();
         }
 
-        async function scheduleSystemNotification(title, minutes, reminderId, targetTime=null) {
+        async function scheduleSystemNotification(title, minutes, reminderId) {
             const plugin = getNativePlugin();
             if (!plugin) {
                 lastNotificationError = 'native_unavailable';
@@ -3658,8 +3643,7 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             }
             try {
                 if (!(await requestNotificationPermission())) return false;
-                const targetDate = targetTime ? new Date(Number(targetTime)) : new Date(Date.now() + Math.max(1, Number(minutes) || 1) * 60000);
-                if (!Number.isFinite(targetDate.getTime()) || targetDate.getTime() <= Date.now()) return false;
+                const targetDate = new Date(Date.now() + Math.max(1, Number(minutes) || 1) * 60000);
                 const numericId = Number(reminderId);
                 const safeId = Number.isFinite(numericId) ? Math.abs(Math.floor(numericId % 2147483647)) : Math.floor(Date.now() % 2147483647);
                 const notification = {
@@ -3862,7 +3846,6 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             if (!confirm('هل تريد إلغاء التنبيه نهائياً؟')) return;
             await cancelScheduledReminder(id);
             db.reminders = db.reminders.filter(r => String(r.id) !== String(id));
-            markDeleted('reminders', id);
             finalizeAction();
             renderRings();
             showToast('✖ تم إلغاء التنبيه');
@@ -3873,7 +3856,7 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             const input = document.getElementById('dashboardTodoInput');
             const title = input ? input.value.trim() : '';
             if (!title) return;
-            db.todos.push({ id: Date.now(), title, text: title, date: todayStr, done: false, createdAt: Date.now() });
+            db.todos.push({ id: (Date.now()*1000 + Math.floor(Math.random()*1000)), title, text: title, date: todayStr, done: false, createdAt: Date.now(), updatedAt: Date.now() });
             input.value = '';
             finalizeAction();
         }
@@ -3882,7 +3865,7 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             e.preventDefault();
             const input = document.getElementById('todoInputTab');
             if (!input || !input.value.trim()) return;
-            db.todos.push({ id: Date.now(), text: input.value.trim(), title: input.value.trim(), done: false, date: todayStr, createdAt: Date.now() });
+            db.todos.push({ id: (Date.now()*1000 + Math.floor(Math.random()*1000)), text: input.value.trim(), title: input.value.trim(), done: false, date: todayStr, createdAt: Date.now(), updatedAt: Date.now() });
             input.value = '';
             finalizeAction();
         }
@@ -3897,9 +3880,9 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             if (subtitle) subtitle.textContent = pending ? `${pending} مهام متبقية اليوم` : 'ممتاز، لا توجد مهام معلقة';
             container.innerHTML = tasks.length ? tasks.map(t => `
                 <div class="dashboard-task-item ${t.done ? 'done' : ''}">
-                    <input class="dashboard-task-check" type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodo(${t.id})">
+                    <input class="dashboard-task-check" type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTodo('${String(t.id)}')">
                     <span class="dashboard-task-text">${escapeHTML(t.title || t.text || 'مهمة')}</span>
-                    <button class="dashboard-task-delete" onclick="deleteTodo(${t.id})" title="حذف">×</button>
+                    <button class="dashboard-task-delete" onclick="deleteTodo('${String(t.id)}')" title="حذف">×</button>
                 </div>
             `).join('') : '<div style="text-align:center;color:var(--text-secondary);font-size:13px;padding:12px 0;">أضف أول مهمة ليومك</div>';
             if (allTasks.length > 5) { container.innerHTML += '<button class="tag-badge" style="width:100%;justify-content:center;margin-top:8px;" onclick="switchNavSection(\'todos-view\')">إظهار الكل</button>'; }
@@ -3979,7 +3962,6 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
                 bookOpen:'<path d="M2.5 5.5A3.5 3.5 0 0 1 6 2h5v18H6a3.5 3.5 0 0 0-3.5 3.5z"/><path d="M21.5 5.5A3.5 3.5 0 0 0 18 2h-5v18h5a3.5 3.5 0 0 1 3.5 3.5z"/>',
                 check:'<circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/>',
                 settings:'<path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"/><path d="m19.4 15 .9 1.7-1.9 1.9-1.7-.9a7.7 7.7 0 0 1-2 .8L14 20.5h-4L9.4 18.5a7.7 7.7 0 0 1-2-.8l-1.7.9-1.9-1.9.9-1.7a7.7 7.7 0 0 1-.8-2L2 12l1.9-1.1a7.7 7.7 0 0 1 .8-2l-.9-1.7 1.9-1.9 1.7.9a7.7 7.7 0 0 1 2-.8L10 3.5h4l.6 1.9a7.7 7.7 0 0 1 2 .8l1.7-.9 1.9 1.9-.9 1.7a7.7 7.7 0 0 1 .8 2L22 12l-1.9 1a7.7 7.7 0 0 1-.7 2Z"/>',
-                clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
                 grid:'<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/>'
             };
             return `<svg viewBox="0 0 24 24" aria-hidden="true">${p[name]||p.grid}</svg>`;
@@ -3994,8 +3976,7 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
                     `<button class="ring-item ring-tasks" data-nav="tasks" onclick="switchNavSection('todos-view', this)" aria-label="المهام" title="المهام"><span class="ring-icon">${lucideNavIcon('check')}</span><span class="ring-label">المهام</span></button>`,
                     `<button class="ring-item ring-home" data-nav="home" onclick="switchNavSection('dashboard-view', this)" aria-label="الرئيسية" title="الرئيسية"><span class="ring-icon">${lucideNavIcon('home')}</span><span class="ring-label">الرئيسية</span></button>`,
                     `<button class="ring-item ring-settings" data-nav="settings" onclick="switchNavSection('settings-view', this)" aria-label="الإعدادات" title="الإعدادات"><span class="ring-icon">${lucideNavIcon('settings')}</span><span class="ring-label">الإعدادات</span></button>`,
-                    `<button class="ring-item ring-section" data-nav="sections" onclick="openAllSectionsModal()" aria-label="الأقسام" title="الأقسام"><span class="ring-icon">${lucideNavIcon('grid')}</span><span class="ring-label">الأقسام</span></button>`,
-                    `<button class="ring-item ring-worklog" data-nav="worklog" onclick="switchNavSection('worklog-view', this)" aria-label="اليوميات والعمل" title="اليوميات والعمل"><span class="ring-icon">${lucideNavIcon('clock')}</span><span class="ring-label">اليوميات</span></button>`
+                    `<button class="ring-item ring-section" data-nav="sections" onclick="openAllSectionsModal()" aria-label="الأقسام" title="الأقسام"><span class="ring-icon">${lucideNavIcon('grid')}</span><span class="ring-label">الأقسام</span></button>`
                 ].join('');
                 dock.dataset.ready = '1';
             }
@@ -4009,7 +3990,6 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
         function updateUI() {
             renderDashboardTasks();
             renderDashboardPinnedSections();
-            renderWorkLogHome();
             renderNotesList();
             if (document.getElementById('memories-view')?.classList.contains('active')) renderMemoriesTimeline();
             renderCombinedReminders();
@@ -4030,10 +4010,10 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
                 todosAllEl.innerHTML = db.todos.map(t => `
                     <div class="list-row">
                         <label style="display:flex; align-items:center; gap:8px; cursor:pointer; flex:1;">
-                            <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})" style="accent-color:var(--accent-primary); width:18px; height:18px;">
+                            <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo('${String(t.id)}')" style="accent-color:var(--accent-primary); width:18px; height:18px;">
                             <span style="${t.done?'text-decoration:line-through; color:var(--text-secondary);':''}">${t.text || t.title}</span>
                         </label>
-                        <button onclick="confirmDeleteTodo(${t.id})" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
+                        <button onclick="confirmDeleteTodo('${String(t.id)}')" style="background:none; border:none; color:var(--accent-red); cursor:pointer;">🗑</button>
                     </div>
                 `).join('') || '<p style="color:var(--text-secondary);">لا توجد مهام محفوظة.</p>';
             }
@@ -4070,16 +4050,14 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
         }
 
         function finalizeAction() {
-            if (currentUser?.uid) db._ownerUid = currentUser.uid;
-            db._lastLocalChangeAt = Date.now();
-            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
+            persistLocalDB();
             saveToCloud();
             updateUI();
         }
 
-        function toggleTodo(id) { const t = db.todos.find(x => x.id === id); if(t) { t.done = !t.done; finalizeAction(); } }
-        function deleteTodo(id) { db.todos = db.todos.filter(x => x.id !== id); markDeleted('todos', id); finalizeAction(); }
-        function confirmDeleteTodo(id) { if(confirm('حذف هذه المهمة؟')) { db.todos = db.todos.filter(x => x.id !== id); markDeleted('todos', id); finalizeAction(); } }
+        function toggleTodo(id) { const t = db.todos.find(x => String(x.id) === String(id)); if(t) { t.done = !t.done; t.updatedAt = Date.now(); finalizeAction(); } }
+        function deleteTodo(id) { db.todos = db.todos.filter(x => String(x.id) !== String(id)); finalizeAction(); }
+        function confirmDeleteTodo(id) { if(confirm('حذف هذه المهمة؟')) { db.todos = db.todos.filter(x => String(x.id) !== String(id)); finalizeAction(); } }
 
         function renderPurchasesList() {
             const container = document.getElementById('purchasesFullList');
@@ -4104,7 +4082,6 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
         function deletePurchase(id) {
             if (!confirm('حذف هذا العنصر من المشتريات؟')) return;
             db.purchases = db.purchases.filter(x => x.id !== id);
-            markDeleted('purchases', id);
             finalizeAction();
         }
 
@@ -4124,7 +4101,6 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
             }).join('') || '<p style="color:var(--text-secondary); text-align:center;">جاري تحميل المواقيت...</p>';
         }
 
-        let lastPrayerCheckMinute = -1;
         setInterval(() => {
             const now = Date.now();
             let changed = false;
@@ -4143,11 +4119,7 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
             if (activeView?.id === 'adhkar-view') renderDhikrView();
             if (activeView?.id === 'kahf-view') renderKahfView();
             if (changed) { renderRings(); finalizeAction(); }
-            const prayerMinute = Math.floor(now/60000);
-            if (prayerMinute !== lastPrayerCheckMinute && prayerMinute % 5 === 0) {
-                lastPrayerCheckMinute = prayerMinute;
-                refreshPrayerSystemIfNeeded(false).catch(()=>{});
-            }
+            if (Math.floor(Date.now()/60000)%5===0) refreshPrayerSystemIfNeeded(false);
         }, 1000);
 
         const PRAYER_LOCATION={lat:32.4645,lng:35.2939,name:'جنين، الضفة الغربية'};
@@ -4167,34 +4139,7 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
             livePrayersList=prayers.map((p,idx)=>({id:`prayer_${idx}`,title:`🕌 ${p.name}`,targetTime:p.targetDate.getTime(),isPrayer:true}));
             renderPrayersList(); renderCombinedReminders();
         }
-        const PRAYER_NOTIFICATION_BASE_ID = 1700000000;
-        async function schedulePrayerNotifications() {
-            const plugin = getNativePlugin();
-            if (!plugin) return false;
-            try {
-                if (!(await requestNotificationPermission())) return false;
-                const prayers = Array.isArray(livePrayersList) ? livePrayersList : [];
-                if (plugin.cancel) await plugin.cancel({notifications: prayers.map((_,i)=>({id:PRAYER_NOTIFICATION_BASE_ID+i}))});
-                const now = Date.now();
-                const notifications = prayers.filter(p=>Number(p.targetTime)>now).map((p,i)=>({
-                    id: PRAYER_NOTIFICATION_BASE_ID+i,
-                    title: p.title || '🕌 وقت الصلاة',
-                    body: `حان الآن ${String(p.title || 'وقت الصلاة').replace(/^🕌\s*/, '')}`,
-                    schedule: {at:new Date(p.targetTime), allowWhileIdle:true},
-                    channelId:NATIVE_NOTIFICATION_CHANNEL_ID, sound:'marimba',
-                    extra:{lifeos:true,prayer:true,prayerId:String(p.id)}
-                }));
-                if (!notifications.length) return true;
-                await plugin.schedule({notifications});
-                return true;
-            } catch(e) { console.warn('فشل جدولة مواقيت الصلاة:',e); return false; }
-        }
-        async function refreshPrayerSystemIfNeeded(force=false){
-            const key=getPrayerDateKey(new Date());
-            if(!force&&key===prayerDayKey)return;
-            loadAccuratePrayers();
-            await schedulePrayerNotifications();
-        }
+        async function refreshPrayerSystemIfNeeded(force=false){const key=getPrayerDateKey(new Date());if(!force&&key===prayerDayKey)return;loadAccuratePrayers();try{await schedulePrayerNotifications();}catch(e){console.warn('تعذر تحديث جدولة مواقيت الصلاة',e);}}
 
         function exportData() {
             const dl = document.createElement('a');
@@ -4228,7 +4173,7 @@ const SECTION_META = {
             'todos-view': ['check', 'المهام'], 'finance-view': ['wallet', 'المصروفات'],
             'memories-view': ['clock', 'الذكريات'], 'purchases-view': ['cart', 'المشتريات'], 'weather-view': ['cloud', 'الطقس'],
             'currency-view': ['wallet', 'العملات'], 'vault-view': ['lock', 'الخزنة'], 'settings-view': ['settings', 'الإعدادات'],
-            'adhkar-view': ['book', 'الأذكار'], 'prayers-alarms-view': ['prayers', 'مواقيت الصلاة والتنبيهات'], 'kahf-view': ['book', 'حفظ سورة الكهف'], 'worklog-view': ['clock', 'اليوميات والعمل']
+            'adhkar-view': ['book', 'الأذكار'], 'prayers-alarms-view': ['prayers', 'مواقيت الصلاة والتنبيهات'], 'kahf-view': ['book', 'حفظ سورة الكهف']
         };
 
         function ensurePinState() {
@@ -4297,16 +4242,6 @@ const SECTION_META = {
 
         // كل بطاقة مقروءة تملك مؤقتها الخاص؛ لا يوجد تجديد جماعي للقسمين.
 
-        window.addEventListener('online', async () => {
-            try {
-                if (currentUser?.uid && db._hasLocalChanges) saveToCloud();
-                await rescheduleStoredNotifications();
-                await refreshPrayerSystemIfNeeded(true);
-                await syncFeeds();
-                showToast('🌐 عاد الاتصال وتم تحديث البيانات');
-            } catch(e) { console.warn('فشل تحديث النظام بعد عودة الاتصال:',e); }
-        });
-
         // =========================================================================
         // --- بدء التشغيل الفوري للنظام ---
         // =========================================================================
@@ -4340,10 +4275,8 @@ const SECTION_META = {
             }
 
             loadAccuratePrayers();
-            try { await schedulePrayerNotifications(); } catch(e) { console.warn('تعذر جدولة الصلوات عند التشغيل',e); }
             updateWeatherLocationUI();
-            await syncFeeds();
-            calculateCurrencyConversion();
+            syncFeeds();
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') { syncFeeds(); refreshPrayerSystemIfNeeded(true); }
         });
