@@ -1883,10 +1883,17 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             return data;
         }
 
+        // التخزين المحلي هو المصدر الفوري للواجهة؛ لا نمسحه بسبب انقطاع الإنترنت
+        // أو لأن Firebase لم يستطع استعادة الجلسة أثناء بدء التشغيل دون اتصال.
+        const LOCAL_DB_KEY = 'myLifeAppDB';
+        const LOCAL_OWNER_KEY = 'lifeosLocalOwnerUid';
+        const LOCAL_EMAIL_KEY = 'lifeosLocalOwnerEmail';
         let localRaw = '{}';
-        try { localRaw = localStorage.getItem('myLifeAppDB') || '{}'; } catch(e) {}
+        try { localRaw = localStorage.getItem(LOCAL_DB_KEY) || '{}'; } catch(e) {}
         let db;
         try { db = normalizeDB(JSON.parse(localRaw)); } catch(e) { db = normalizeDB({}); }
+        let localSessionUid = null;
+        try { localSessionUid = localStorage.getItem(LOCAL_OWNER_KEY); } catch(e) {}
         const todayStr = new Date().toISOString().split('T')[0];
         let livePrayersList = [];
 
@@ -1898,20 +1905,58 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
             setTimeout(() => { el.style.display = 'none'; }, 2200);
         }
 
-        function saveToCloud() {
-            db._hasLocalChanges = true;
-            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
+        function persistLocalDB() {
+            try { localStorage.setItem(LOCAL_DB_KEY, JSON.stringify(db)); } catch(e) {}
+        }
 
-            if (userDbRef && navigator.onLine) {
+        function saveToCloud() {
+            // احفظ محلياً أولاً دائماً، حتى لو لم تتوفر الشبكة أو Firebase.
+            db._hasLocalChanges = true;
+            persistLocalDB();
+
+            if (userDbRef && navigator.onLine && currentUser) {
+                const targetRef = userDbRef;
+                const ownerUid = currentUser.uid;
                 const cloudPayload = JSON.parse(JSON.stringify(db));
                 delete cloudPayload._hasLocalChanges;
 
-                userDbRef.set(cloudPayload).then(() => {
-                    db._hasLocalChanges = false;
-                    try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
-                }).catch(() => {});
+                targetRef.set(cloudPayload).then(() => {
+                    // لا نعتبر الحفظ ناجحاً إن تغيّر الحساب أثناء الطلب.
+                    if (currentUser && currentUser.uid === ownerUid && userDbRef === targetRef) {
+                        db._hasLocalChanges = false;
+                        persistLocalDB();
+                    }
+                }).catch(() => {
+                    // تبقى التغييرات المحلية محفوظة وتُعاد مزامنتها عند رجوع الاتصال.
+                });
             }
         }
+
+        let lifeosSyncInProgress = false;
+        async function syncLocalDBToCloud() {
+            if (lifeosSyncInProgress || !navigator.onLine || !currentUser || !userDbRef || !db._hasLocalChanges) return;
+            lifeosSyncInProgress = true;
+            const targetRef = userDbRef;
+            const ownerUid = currentUser.uid;
+            try {
+                const payload = JSON.parse(JSON.stringify(db));
+                delete payload._hasLocalChanges;
+                await targetRef.set(payload);
+                if (currentUser && currentUser.uid === ownerUid && userDbRef === targetRef) {
+                    db._hasLocalChanges = false;
+                    persistLocalDB();
+                    showToast('☁️ تمت مزامنة التغييرات المحفوظة');
+                }
+            } catch (e) {
+                // لا نحذف النسخة المحلية عند فشل المزامنة.
+            } finally {
+                lifeosSyncInProgress = false;
+            }
+        }
+
+        window.addEventListener('online', () => {
+            setTimeout(() => { syncLocalDBToCloud(); }, 1200);
+        });
 
         async function updateNativeStatusBar(colorHex, isDarkIcons) {
             const meta = document.getElementById('themeColorMeta');
@@ -2167,7 +2212,12 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
                 }
             } catch (e) {}
             db = normalizeDB({});
-            try { localStorage.removeItem('myLifeAppDB'); } catch (e) {}
+            try {
+                localStorage.removeItem(LOCAL_DB_KEY);
+                localStorage.removeItem(LOCAL_OWNER_KEY);
+                localStorage.removeItem(LOCAL_EMAIL_KEY);
+            } catch (e) {}
+            localSessionUid = null;
             applyThemeUI(); updateUI(); updateAuthProfileUI(null);
         }
 
@@ -2193,6 +2243,17 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
                 if (settingsName) settingsName.innerText = displayName + (user.emailVerified ? ' (مؤكد)' : '');
                 if (settingsEmail) settingsEmail.innerText = user.email;
                 if (settingsBtn) { settingsBtn.innerText = 'إدارة الحساب'; settingsBtn.style.color = 'var(--accent-primary)'; }
+            } else if (localSessionUid) {
+                // جلسة محلية محفوظة: اعرض الاسم والبيانات في وضع عدم الاتصال.
+                const cachedName = (db.settings && db.settings.displayName) || (() => {
+                    try { return (localStorage.getItem(LOCAL_EMAIL_KEY) || '').split('@')[0]; } catch(e) { return ''; }
+                })() || 'المستخدم';
+                let cachedEmail = '';
+                try { cachedEmail = localStorage.getItem(LOCAL_EMAIL_KEY) || ''; } catch(e) {}
+                if (nameSpan) nameSpan.innerText = cachedName;
+                if (settingsName) settingsName.innerText = cachedName + ' (دون اتصال)';
+                if (settingsEmail) settingsEmail.innerText = cachedEmail || 'الحساب محفوظ على هذا الجهاز';
+                if (settingsBtn) { settingsBtn.innerText = 'الحساب محفوظ محلياً'; settingsBtn.style.color = 'var(--accent-primary)'; }
             } else {
                 if (nameSpan) nameSpan.innerText = 'تسجيل الدخول';
                 if (settingsName) settingsName.innerText = 'غير مسجل الدخول';
@@ -2207,32 +2268,50 @@ body:not(.light-mode),body.ios-mode:not(.light-mode){
                 firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
                         currentUser = user;
+                        localSessionUid = user.uid;
+                        try { localStorage.setItem(LOCAL_OWNER_KEY, user.uid); if (user.email) localStorage.setItem(LOCAL_EMAIL_KEY, user.email); } catch(e) {}
                         userDbRef = firebase.database().ref(`users/${user.uid}/data`);
+                        const activeRef = userDbRef;
                         userDbRef.off();
+                        updateAuthProfileUI(user);
+                        // اعرض النسخة المحلية فوراً؛ لا تنتظر الشبكة لرسم الواجهة.
+                        applyThemeUI(); updateUI();
+                        if (!navigator.onLine) return;
                         userDbRef.once('value').then(async (snapshot) => {
+                            if (!currentUser || currentUser.uid !== user.uid || userDbRef !== activeRef) return;
                             const cloudData = snapshot.val();
                             if (cloudData && typeof cloudData === 'object') {
-                                // حساب موجود: لا نخلط بيانات الحساب مع أي بيانات محلية قديمة.
-                                db = normalizeDB(cloudData);
-                                db._hasLocalChanges = false;
-                                try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e) {}
-                                applyThemeUI(); updateUI(); updateAuthProfileUI(user);
+                                // عند وجود تغييرات محلية غير متزامنة لا نستبدلها بنسخة سحابية أقدم.
+                                if (db._hasLocalChanges && localSessionUid === user.uid) {
+                                    syncLocalDBToCloud();
+                                } else {
+                                    db = normalizeDB(cloudData);
+                                    db._hasLocalChanges = false;
+                                    persistLocalDB();
+                                    applyThemeUI(); updateUI();
+                                }
+                                updateAuthProfileUI(user);
                                 refreshWeatherNow(false).catch(() => {});
-                                showToast('☁️ تمت استعادة بيانات حسابك فقط');
+                                showToast('☁️ تمت استعادة بيانات حسابك');
                             } else {
-                                // حساب جديد: انقل بيانات الجلسة الحالية إلى هذا الحساب مرة واحدة.
-                                db = normalizeDB(db); db._hasLocalChanges = false;
+                                db = normalizeDB(db);
+                                db._hasLocalChanges = true;
                                 saveToCloud();
                                 applyThemeUI(); updateUI(); updateAuthProfileUI(user);
                                 refreshWeatherNow(false).catch(() => {});
                                 showToast('☁️ تم ربط بيانات الجهاز بهذا الحساب');
                             }
-                        }).catch(() => showToast('تعذر جلب بيانات السحابة'));
-                        updateAuthProfileUI(user);
+                        }).catch(() => {
+                            // الشبكة غير متاحة: تبقى الواجهة والبيانات المحلية كما هي.
+                            applyThemeUI(); updateUI(); updateAuthProfileUI(user);
+                        });
                     } else {
                         currentUser = null; userDbRef = null;
-                        clearPrivateSessionData().catch(() => {});
+                        // لا تمسح البيانات هنا: قد تكون Firebase بدأت دون اتصال.
+                        // الحذف يتم فقط من زر تسجيل الخروج الصريح.
                         updateAuthProfileUI(null);
+                        applyThemeUI();
+                        updateUI();
                     }
                 });
             }
@@ -3912,7 +3991,7 @@ settings:'<circle cx="12" cy="12" r="3.2"/><path d="M19.43 15a1.7 1.7 0 0 0 .34 
         }
 
         function finalizeAction() {
-            try { localStorage.setItem('myLifeAppDB', JSON.stringify(db)); } catch(e){}
+            persistLocalDB();
             saveToCloud();
             updateUI();
         }
